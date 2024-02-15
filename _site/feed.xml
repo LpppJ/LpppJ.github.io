@@ -1,0 +1,619 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-02-15T16:44:28+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>Hydejack is a boutique Jekyll theme for hackers, nerds, and academics, with a focus on personal sites that are meant to impress.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">(ModernTCN) A Modern Pure Convolution Structure for General Time Series Analysis</title><link href="http://localhost:4000/timeseries/2024-02-14-ModernTCN/" rel="alternate" type="text/html" title="(ModernTCN) A Modern Pure Convolution Structure for General Time Series Analysis" /><published>2024-02-14T00:00:00+09:00</published><updated>2024-02-15T16:37:34+09:00</updated><id>http://localhost:4000/timeseries/ModernTCN</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-02-14-ModernTCN/"><![CDATA[<h2 id="abstract">Abstract</h2>
+<ul>
+  <li>최근 Transformer-based 모델과 MLP-based 모델이 time series에서 우위에 있지만, 본 논문에서는 convolution을 time series에서 사용하는 모델 ModernTCN을 제안한다.</li>
+  <li>Time series의 5개 mainstream task (long-term and short-term forecasting, imputation, classification and anomaly detection)에서 SOTA</li>
+  <li>Convolution의 sharing params로 효율적이면서도 넓은 receptive fields를 가진다.</li>
+</ul>
+
+<h2 id="1-introduction">1. Introduction</h2>
+<ul>
+  <li>Transformer-based 모델과 MLP-based 모델이 우위에 있는 이유는 global한 efective receptive fields (ERFs)가 cross-time dependency를 파악하기 때문이다.</li>
+  <li>하지만 지금까지 convolution in time series 연구들은 그저 모델의 구조를 복잡하게 해왔고, 이와 다르게 본 논문에서는 convolution 자체를 업데이트해서 ERF를 키운다.</li>
+  <li>왜냐하면 CV에서는 이미 Transformer을 보고 convolution을 optimizing하려고 시도하고 있기 때문이다.</li>
+  <li>시계열에서 convolution을 쓴다는 것은 cross-time and cross-variable dependency를 포착하겠다는 의미이다.</li>
+</ul>
+
+<h2 id="2-related-works">2. Related Works</h2>
+<ul>
+  <li>MICN(2023), SCINet(2023) 등 최근까지도 convolution을 time series에 활용하려는 시도가 많았지만 long-term dependency가 중요한 time series에서 limited ERFs는 transformer를 이길 수가 없었다.</li>
+  <li>CNN(2017) 이후 ViTs(2020)이 등장했고, ViTs를 따라잡기 위해 다양한 modern convolution이 등장하는데, 예를 들면 conv block을 transformer와 비슷하게 하거나 (ConvNeXt, 2022), kernel size를 51 \(\times\) 51로 늘려버리기도 했다. (SLaK, 2022)</li>
+  <li>본 논문에서는 conv를 time series에 쓰기 위해 1D conv를 수정한 ModernTCN을 제안한다.</li>
+</ul>
+
+<h2 id="3-moderntcn">3. ModernTCN</h2>
+
+<h3 id="31-modernize-the-1d-convolution-block">3.1. Modernize the 1D Convolution block</h3>
+<p><img src="/assets/img/timeseries/modernTCN/fig2.jpeg" alt="사진1" /></p>
+
+<ul>
+  <li>1D conv를 Figure-2:(b)처럼 DWConv(depth-wise)와 ConvFFN(feed-forward NN)으로 re-design하였다.
+    <ul>
+      <li>DWconv는 transformer의 self-attention와 같은 역할 : learning the temporal information among tokens on a <strong>per-feature</strong> basis</li>
+      <li>ConvFFN은 transformer의 FFN과 같은 역할 : learn the new feature representation of each token <strong>independently</strong></li>
+    </ul>
+  </li>
+  <li>위 디자인은 temporal and feature information을 분리한다. 이것이 jointly mix하던 tranditional conv와의 차이점이다.</li>
+  <li>하지만 multivariate time series에서는 cross-variable information도 중요하니 추가적인 수정이 필요하긴 하다.</li>
+</ul>
+
+<h3 id="32-time-series-related-modifications">3.2. Time series related Modifications</h3>
+<ul>
+  <li>CV에서는 RGB \(\to\) D-dim embedding 하지만, 그대로 특정 t시점에서 M개 변수 \(\to\) D-dim embedding하면 안된다.
+    <ul>
+      <li>RGB차이보다 t시점에서 M개 변수 사이의 차이가 더 크고, cross-variable dependency를 반영 못하기 때문</li>
+    </ul>
+  </li>
+  <li>그래서 아래와 같은 방식으로 patchify embedding을 거친다.
+    <ul>
+      <li>1) \(X_{in} \in \mathbb R^{M\times L}\)을 \(X_{in} \in \mathbb R^{M\times 1\times L}\)로 unsqueeze</li>
+      <li>2) \(X_{in}\) 뒤에 \(P-S\)만큼 패딩 (\(P\)는 patch size, \(S\)는 stride)</li>
+      <li>3) 1D conv를 통과, 각 patch는 D차원으로 embedding</li>
+      <li>그림으로 표현하면 아래와 같다.
+<img src="/assets/img/timeseries/modernTCN/myfig1.jpeg" alt="사진2" /></li>
+      <li>예시로 이해해보자. patch size가 10이고 stride가 2이므로 총 50개의 patch를 보게 되므로 N=50
+<img src="/assets/img/timeseries/modernTCN/myfig2.png" alt="사진3" /></li>
+    </ul>
+  </li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[ICLR 2024]]></summary></entry><entry><title type="html">(FTS-Diffusion) Generative Learning for Financial Time Series with Irregular and Scale-invariant Patterns</title><link href="http://localhost:4000/timeseries/2024-02-13-FTS-Diffusion/" rel="alternate" type="text/html" title="(FTS-Diffusion) Generative Learning for Financial Time Series with Irregular and Scale-invariant Patterns" /><published>2024-02-13T00:00:00+09:00</published><updated>2024-02-15T15:37:52+09:00</updated><id>http://localhost:4000/timeseries/FTS-Diffusion</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-02-13-FTS-Diffusion/"><![CDATA[<h2 id="abstract">Abstract</h2>
+<ul>
+  <li>Financial deep learning 모델을 훈련시키기 위한 데이터가 부족한데, 그렇다고 synthetic data를 만들어내려 하니 irregular and scale-invariant patterns 때문에 어려움이 있음</li>
+  <li>패턴이 irregular하다는 말은 패턴이 발생하는 간격이 일정하지 않아서 예측하기 어렵다는 것</li>
+  <li>패턴이 scale-invariant하다는 말은 scale을 변화시켜도 형태가 유지된다는 말인데, 특정 패턴이 다양한 너비(폭)나 높이(진폭)로 나타날 수 있다는 말이다. 또한 프랙탈 구조처럼 축소해도 비슷한 패턴이 보이게 된다.</li>
+  <li>본 논문에서는 irregular and scale-invariant patterns을 학습하고 생성하는 모델 FTS-Diffusion을 제시한다.</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/fts-diff/fig1.jpeg" alt="사진1" />
+<img src="/assets/img/timeseries/fts-diff/fig2.jpeg" alt="사진2" /></p>
+
+<h2 id="1-introduction">1. Introduction</h2>
+<ul>
+  <li>FTS-Diffusion은 3가지의 modules로 구성된다.</li>
+  <li>Pattern recognition - Pattern generation - Pattern evolution</li>
+  <li>패턴을 인식하고, 패턴을 생성한 뒤, 패턴을 이어붙여서 하나의 time series를 만든다는 것이다. 기존 time series generation 모델들이 어려워하던 irregular and scale-invariant 패턴을 모델링할 수 있다.</li>
+</ul>
+
+<h2 id="2-related-work">2. Related Work</h2>
+<ul>
+  <li>본 논문에서 제시하는 모델은 time series를 생성하는 모델이다. 생성 모델은 크게 VAE 계열, GAN 계열, Diffusion 계열이 있다.</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/fts-diff/gm.jpeg" alt="사진3" /></p>
+
+<ul>
+  <li>일반적으로 좋은 생성 모델을 3가지 특성으로 정의하는데, 세 가지 모두 뛰어난 모델은 없고 상대적인 장단점이 존재한다.</li>
+  <li>Diffusion이 속도는 상대적으로 느리지만 높은 퀄리티와 다양성 측면에서 뛰어나 많은 주목 받았고, 본 논문에서도 diffusion을 사용한다.</li>
+</ul>
+
+<h2 id="3-problem-statement">3. Problem Statement</h2>
+<ul>
+  <li>시계열 \(X=\{x_1,...,x_M\}\)은 \(M\)개의 segments로 이루어지고 \(x_m=\{x_{m,1},...,x_{m,t_m}\}\) 각 segment의 길이는 \(t_m\)</li>
+  <li>conditional distribution \(f(\cdot\mid p,\alpha,\beta)\)에서 샘플링을 하는 것이고, \(p\)는 패턴, \(\alpha\)는 duration, \(\beta\)는 magnitude이다.</li>
+  <li>tuple \((p,\alpha,\beta)\)는 하나의 state이고, 패턴끼리의 dynamic across를 모델링하기 위해 Markov chain을 사용한다. 즉 transition probability \(Q(p_j,\alpha_j,\beta_j \mid p_i,\alpha_i,\beta_i)\)를 통해 time series를 생성한다.</li>
+  <li>이제 FTS-Diffusion의 각 모듈을 다시 살펴보면 아래와 같다.
+    <ul>
+      <li>Pattern recognition : 패턴 \(p\)를 인식하고 반복되는 패턴의 구조 \(\cal P\) 학습</li>
+      <li>Pattern Generation : conditional distribution \(f(\cdot\mid p,\alpha,\beta), \forall p \in \cal P\) 학습</li>
+      <li>Pattern Evolution : pattern transition probability \(Q(p_j,\alpha_j,\beta_j \mid p_i,\alpha_i,\beta_i)\) 학습</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/timeseries/fts-diff/fig3.jpeg" alt="사진4" /></p>
+
+<h2 id="4-framework">4. Framework</h2>
+
+<h3 id="1-pattern-recognition">(1) Pattern recognition</h3>
+<ul>
+  <li>전체 time series를 여러 개의 segments로 나누고 비슷한 segments끼리 묶어 K개의 clusters를 만드는 알고리즘 (Scale-Invariant Subsequence Clustering, SISC)</li>
+  <li>SISC는 각 segment의 length는, 가장 가까운 centriod와의 거리가 최소가 되는 segment length로 결정한다.</li>
+  <li>이 때 거리 metric은 일반적으로 사용하는 euclidean이 아니라 length나 magnitude에 구애받지 않는 dynamic time wraping (DTW)를 사용하였다.</li>
+  <li>centroid initialization은 처음 1개만 랜덤하게 고른 뒤 먼 segment일수록 다음 centroid가 될 확률이 높도록 하였다. (k-Center-Greedy와 비슷)</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/fts-diff/fig4.jpeg" alt="사진5" /></p>
+
+<h3 id="2-pattern-generation">(2) Pattern generation</h3>
+<ul>
+  <li>패턴에 gaussian noise를 씌우고 denoising gradient를 학습하는 DDPM의 방식을 사용하여 패턴을 생성하였다.</li>
+  <li>Diffusion으로 생성된 패턴을 (scaling) autoencoder에 통과시켜 원하는 length로 transform한다.</li>
+  <li>Objective를 아래 식으로 사용하여 diffusion 모델과 autoencoder를 같이 학습시킨다.
+\(\mathcal{L}(\theta)=\mathbb{E}_{\boldsymbol{x}_m}\left[\left\|\boldsymbol{x}_m-\hat{\boldsymbol{x}}_m\right\|_2^2\right]+\mathbb{E}_{\boldsymbol{x}_m^0, i, \epsilon}\left[\left\|\epsilon^i-\epsilon_\theta\left(\boldsymbol{x}_m^{i+1}, i, \boldsymbol{p}\right)\right\|_2^2\right]\)</li>
+</ul>
+
+<h3 id="3-pattern-generation">(3) Pattern generation</h3>
+<ul>
+  <li>Pattern evolution network \(\phi\)는 현재 state가 주어졌을 때 다음 state에 올 패턴들의 확률을 학습한다.
+\((\hat p_{m+1}, \hat \alpha_{m+1}, \hat \beta_{m+1}) = \phi(p_m, \alpha_m, \beta_m)\)</li>
+  <li>Pattern evolution objective는 아래와 같다.
+\(\mathcal{L}(\phi)=\mathbb{E}_{\boldsymbol{x}_m}\left[\ell_{C E}\left(p_{m+1}, \hat{p}_{m+1}\right)+\left\|\alpha_{m+1}-\hat{\alpha}_{m+1}\right\|_2^2+\left\|\beta_{m+1}-\hat{\beta}_{m+1}\right\|_2^2\right]\)</li>
+</ul>
+
+<h2 id="4-experiments">4. Experiments</h2>
+<ul>
+  <li>S&amp;P500, GOOG, ZC=F(옥수수 선물) 데이터를 활용하였고, 자산 가격은 non-stationary random walk를 따른다고 알려져있으므로, 통계적 특성을 가지는 수익률(return)을 사용하였다.</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/fts-diff/table1.jpeg" alt="사진6" /></p>
+
+<ul>
+  <li>위 결과는 실제 return의 분포와 synthesized 분포의 적합도를 테스트하는 KS test와 AD test 결과이다.</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/fts-diff/fig6.jpeg" alt="사진7" /></p>
+
+<ul>
+  <li>Mixed data(생성된 synthesized data + 실제 observed data)로 training을 하고 real data로 test를 했을 때에도(TMTR, TATR), mixed data의 비율이 달라졌을 때에도 예측 성능이 일정하다는 것으로부터 FTS-Diffusion으로 생성한 synthesized data가 observed data와 유사하다고 볼 수 있다.</li>
+</ul>
+
+<h2 id="5-conclusion">5. Conclusion</h2>
+<ul>
+  <li>Pattern recognition : SISC designed to identify patterns</li>
+  <li>Pattern generation : diffusion-based network to synthesize the segments of patterns</li>
+  <li>Pattern evolution : assemble generated segments with proper temporal evoution</li>
+</ul>
+
+<h2 id="implementation">Implementation</h2>
+<ul>
+  <li>under review</li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[ICLR 2024]]></summary></entry><entry><title type="html">깃 블로그 만들기 4 : 새로운 게시글 작성하기</title><link href="http://localhost:4000/gitblog/2024-02-12-%EA%B9%83%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-4-%EC%83%88%EB%A1%9C%EC%9A%B4-%EA%B2%8C%EC%8B%9C%EA%B8%80-%EC%9E%91%EC%84%B1%ED%95%98%EA%B8%B0/" rel="alternate" type="text/html" title="깃 블로그 만들기 4 : 새로운 게시글 작성하기" /><published>2024-02-12T00:00:00+09:00</published><updated>2024-02-14T22:53:59+09:00</updated><id>http://localhost:4000/gitblog/%EA%B9%83%EB%B8%94%EB%A1%9C%EA%B7%B8%20%EB%A7%8C%EB%93%A4%EA%B8%B0%204%20:%20%EC%83%88%EB%A1%9C%EC%9A%B4%20%EA%B2%8C%EC%8B%9C%EA%B8%80%20%EC%9E%91%EC%84%B1%ED%95%98%EA%B8%B0</id><content type="html" xml:base="http://localhost:4000/gitblog/2024-02-12-%EA%B9%83%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-4-%EC%83%88%EB%A1%9C%EC%9A%B4-%EA%B2%8C%EC%8B%9C%EA%B8%80-%EC%9E%91%EC%84%B1%ED%95%98%EA%B8%B0/"><![CDATA[<p>이전 게시물에서 새로운 게시물을 작성하는 방법을 간단하게 설명하였지만, 하나의 게시글 안에 다양한 다른 게시글들을 모아놓거나, 게시글들의 순서를 변경하는 등 더 자유로운 게시글 관리를 위해서는 아래의 방법을 따라하면 된다.</p>
+
+<h2 id="_configyml에서-사이드바-메뉴-추가하기">_config.yml에서 사이드바 메뉴 추가하기</h2>
+
+<p><img src="/assets/img/gitblog/gitblog3/gitblog3_1.png" alt="그림1" /></p>
+
+<p>만약 사이드바에 <code class="language-plaintext highlighter-rouge">gitblog</code>라는 카테고리를 만들고 그 안에 깃 블로그와 관련된 게시글들을 모으고 싶다면, <code class="language-plaintext highlighter-rouge">_config.yml</code> 파일의 <code class="language-plaintext highlighter-rouge">menu</code> 항목에서 <code class="language-plaintext highlighter-rouge">gitblog</code>를 추가하면 된다.</p>
+
+<h2 id="게시글을-보관할-폴더-만들기">게시글을 보관할 폴더 만들기</h2>
+
+<p><img src="/assets/img/gitblog/gitblog3/gitblog3_2.png" alt="그림2" /></p>
+
+<p>이제 <code class="language-plaintext highlighter-rouge">/username.github.io/</code>에 <code class="language-plaintext highlighter-rouge">gitblog</code>라는 폴더를 만들고 그 안에는 <code class="language-plaintext highlighter-rouge">_posts</code>라는 폴더와 <code class="language-plaintext highlighter-rouge">README.md</code>라는 파일을 위치시킨다. <code class="language-plaintext highlighter-rouge">_posts</code>은 게시글들이 보관될 위치이고, <code class="language-plaintext highlighter-rouge">README.md</code>는 <code class="language-plaintext highlighter-rouge">gitblog</code>라는 카테고리에 들어왔을 때 보여질 페이지이므로 <code class="language-plaintext highlighter-rouge">_posts</code>에 있는 게시글들을 나열하면 되겠다.</p>
+
+<h2 id="readmemd-작성하기">README.md 작성하기</h2>
+
+<p>아래처럼 <code class="language-plaintext highlighter-rouge">README.md</code>를 작성하면 되는데, 일반적으로 여러 게시글을 작성할 것이기 때문에, 아래 사진을 참고하면 된다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="n">게시글</span> <span class="n">제목</span><span class="p">]{:.</span><span class="n">heading</span><span class="p">.</span><span class="n">flip</span><span class="o">-</span><span class="n">title</span><span class="p">}</span>
+<span class="p">[</span><span class="n">게시글</span> <span class="n">제목</span><span class="p">]:</span> <span class="n">게시글</span> <span class="n">경로</span>
+</code></pre></div></div>
+
+<p><img src="/assets/img/gitblog/gitblog3/gitblog3_3.png" alt="그림3" /></p>
+
+<h2 id="게시글-작성하기">게시글 작성하기</h2>
+
+<p><img src="/assets/img/gitblog/gitblog3/gitblog3_4.png" alt="그림4" /></p>
+
+<p>위 사진처럼 <code class="language-plaintext highlighter-rouge">--- ---</code> 안에 게시글의 format을 설정하고 그 아래에 내용을 작성하게 된다. 먼저 format에서는 게시글이므로 <code class="language-plaintext highlighter-rouge">layout</code>은 post로 설정한다. 게시글의 제목은 <code class="language-plaintext highlighter-rouge">title</code>이 아니라 format 밖에서 <code class="language-plaintext highlighter-rouge">#</code>으로 적어준다. <code class="language-plaintext highlighter-rouge">related_posts</code>에서는 본 게시글 마지막에 연관 글로 보여줄 게시글을 표시할 수 있다. 비울 경우에는 임의의 게시글이 표시되므로 해당 기능을 원하지 않는다면 <code class="language-plaintext highlighter-rouge">_</code>로 설정하면 된다. <code class="language-plaintext highlighter-rouge">description</code> 이나 마지막으로 수정한 날짜를 표시하는 기능은 사용하지 않았다.</p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="gitblog" /><summary type="html"><![CDATA[이전 게시물에서 새로운 게시물을 작성하는 방법을 간단하게 설명하였지만, 하나의 게시글 안에 다양한 다른 게시글들을 모아놓거나, 게시글들의 순서를 변경하는 등 더 자유로운 게시글 관리를 위해서는 아래의 방법을 따라하면 된다.]]></summary></entry><entry><title type="html">깃블로그 만들기 5 : 블로그 테마 색 변경하기</title><link href="http://localhost:4000/gitblog/2024-02-12-%EA%B9%83%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-5-%EB%B8%94%EB%A1%9C%EA%B7%B8-%ED%85%8C%EB%A7%88-%EC%83%89-%EB%B3%80%EA%B2%BD%ED%95%98%EA%B8%B0/" rel="alternate" type="text/html" title="깃블로그 만들기 5 : 블로그 테마 색 변경하기" /><published>2024-02-12T00:00:00+09:00</published><updated>2024-02-14T22:53:59+09:00</updated><id>http://localhost:4000/gitblog/%EA%B9%83%EB%B8%94%EB%A1%9C%EA%B7%B8%20%EB%A7%8C%EB%93%A4%EA%B8%B0%205%20:%20%EB%B8%94%EB%A1%9C%EA%B7%B8%20%ED%85%8C%EB%A7%88%20%EC%83%89%20%EB%B3%80%EA%B2%BD%ED%95%98%EA%B8%B0</id><content type="html" xml:base="http://localhost:4000/gitblog/2024-02-12-%EA%B9%83%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-5-%EB%B8%94%EB%A1%9C%EA%B7%B8-%ED%85%8C%EB%A7%88-%EC%83%89-%EB%B3%80%EA%B2%BD%ED%95%98%EA%B8%B0/"><![CDATA[<ul>
+  <li>이번에는 블로그 테마는 그대로 두고 로고, 사이드바 이미지를 비롯해 전체적인 색감을 내가 원하는 디자인으로 변경한다.</li>
+</ul>
+
+<h2 id="로고-및-사이드바-이미지-변경--_configyml">로고 및 사이드바 이미지 변경 : _config.yml</h2>
+
+<ul>
+  <li>로고 이미지와 사이드바 이미지는 <code class="language-plaintext highlighter-rouge">_config.yml</code> 파일에서 변경할 수 있다. 먼저 이미지를 <code class="language-plaintext highlighter-rouge">assets</code> 폴더의 내가 원하는 위치에 저장한 뒤 <code class="language-plaintext highlighter-rouge">_config.yml</code>에서 아래처럼 생긴 부분을 수정하면 된다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># A (square) logo for your site.
+# If provided, it will be shown at the top of the sidebar.
+# It also used by the `jekyll-seo-tag` plugin.
+</span><span class="n">logo</span><span class="p">:</span>                  <span class="o">/</span><span class="n">assets</span><span class="o">/</span><span class="n">img</span><span class="o">/</span><span class="n">me</span><span class="o">/</span><span class="n">logo</span><span class="p">.</span><span class="n">jpg</span>
+</code></pre></div></div>
+
+<ul>
+  <li>사이드바 이미지를 변경하기 위해서는 역시 <code class="language-plaintext highlighter-rouge">_config.yml</code> 파일에서 <code class="language-plaintext highlighter-rouge">accent_image</code>에 저장된 사이드바 이미지의 경로를 지정해주면 된다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Sidebar image and theme color of the site.
+# accent_image:          /assets/img/sidebar-bg.jpg
+</span><span class="n">accent_image</span><span class="p">:</span>          <span class="o">/</span><span class="n">assets</span><span class="o">/</span><span class="n">img</span><span class="o">/</span><span class="n">me</span><span class="o">/</span><span class="n">sidebar</span><span class="p">.</span><span class="n">jpg</span>
+<span class="n">accent_color</span><span class="p">:</span>          <span class="nf">rgb</span><span class="p">(</span><span class="mi">79</span><span class="p">,</span><span class="mi">177</span><span class="p">,</span><span class="mi">186</span><span class="p">)</span>
+
+<span class="c1"># This is used for the `theme-color` meta tag,
+# which changes the background color of the browser UI in certain browsers.
+# Defaults to `accent_color`.
+</span><span class="n">theme_color</span><span class="p">:</span>           <span class="nf">rgb</span><span class="p">(</span><span class="mi">236</span><span class="p">,</span><span class="mi">231</span><span class="p">,</span><span class="mi">222</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/assets/img/gitblog/gitblog5/gitblog5_1.png" alt="사진1" /></p>
+
+<p>정상적으로 변경된 것을 확인할 수 있다. 하지만 상단 부분에 남아있는 청록색이 사이드바의 컬러와 어울리지 않고, 게시글 밑줄 컬러 역시 이전 테마의 청록색이 남아있다.</p>
+
+<h2 id="테마-밖-컬러-및-게시글-밑줄-컬러-변경">테마 밖 컬러 및 게시글 밑줄 컬러 변경</h2>
+
+<ul>
+  <li>아래 코드에서 <code class="language-plaintext highlighter-rouge">accent_image</code>가 사이드바 이미지였고, <code class="language-plaintext highlighter-rouge">accent_color</code>는 게시글 밑줄 컬러이다. 그리고 테마 밖(?) 컬러는 <code class="language-plaintext highlighter-rouge">theme_color</code>로 지정할 수 있다. 게시글 밑줄 컬러 <code class="language-plaintext highlighter-rouge">accent_color</code>는 적당히 어두운 회색으로, 테마 밖 컬러 <code class="language-plaintext highlighter-rouge">theme_color</code>는 사이드바와 연결되는 컬러로 지정했다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Sidebar image and theme color of the site.
+# accent_image:          /assets/img/sidebar-bg.jpg
+</span><span class="n">accent_image</span><span class="p">:</span>          <span class="o">/</span><span class="n">assets</span><span class="o">/</span><span class="n">img</span><span class="o">/</span><span class="n">me</span><span class="o">/</span><span class="n">sidebar</span><span class="p">.</span><span class="n">jpg</span>
+<span class="n">accent_color</span><span class="p">:</span>          <span class="nf">rgb</span><span class="p">(</span><span class="mi">94</span><span class="p">,</span> <span class="mi">97</span><span class="p">,</span> <span class="mi">94</span><span class="p">)</span>
+
+<span class="c1"># This is used for the `theme-color` meta tag,
+# which changes the background color of the browser UI in certain browsers.
+# Defaults to `accent_color`.
+</span><span class="n">theme_color</span><span class="p">:</span>           <span class="nf">rgb</span><span class="p">(</span><span class="mi">230</span><span class="p">,</span> <span class="mi">217</span><span class="p">,</span> <span class="mi">195</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/assets/img/gitblog/gitblog5/gitblog5_2.png" alt="사진2" /></p>
+
+<ul>
+  <li>상단에 보이는 테마 밖 컬러와 게시글 밑줄 컬러가 변경되었다.</li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="gitblog" /><summary type="html"><![CDATA[이번에는 블로그 테마는 그대로 두고 로고, 사이드바 이미지를 비롯해 전체적인 색감을 내가 원하는 디자인으로 변경한다.]]></summary></entry><entry><title type="html">(Raindrop) Graph-guided Network for Irregularly Sampled Multivariate Time Series</title><link href="http://localhost:4000/timeseries/2024-02-09-Raindrop/" rel="alternate" type="text/html" title="(Raindrop) Graph-guided Network for Irregularly Sampled Multivariate Time Series" /><published>2024-02-09T00:00:00+09:00</published><updated>2024-02-15T15:37:52+09:00</updated><id>http://localhost:4000/timeseries/Raindrop</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-02-09-Raindrop/"><![CDATA[<h2 id="abstract">Abstract</h2>
+
+<ul>
+  <li>헬스케어, 기후 등 많은 도메인에서 irregularly sample이 발생한다.</li>
+  <li>본 논문에서 제안하는 Raindrop 모델은 latent sensor graph structure를 추정하고,
+irregularity로 인한 misalign readouts를 예측하기 위해 인접한 관측치를 활용한다.</li>
+  <li>결국 하나의 다변량 시계열 데이터에 대한 classification (# timepoints) x (# sensors) → (pred cls)</li>
+</ul>
+
+<h2 id="1-introduction">1. Introduction</h2>
+
+<ul>
+  <li>Irregularity의 원인은 센서고장, 의료처방 등으로 인한 missing observations.</li>
+  <li>언뜻 생각하면 missing values를 채워넣은 뒤 irregularity가 없는 상황처럼 접근하면 될 것 같고,
+실제로도 다양한 방법으로 [imputation → optimize] 2단계 접근방법을 사용하였다.</li>
+  <li>하지만 missing이 발생했다는 사실도 하나의 정보인데, 이를 활용할 수가 없으니 정보를 최대한 활용하는 방식은 아니라는 점에서 suboptimal performance를 보여주었다.</li>
+  <li>Time series에서는 inter-sensor correlation에 많은 정보가 있다고 알려져 있기 때문에, 본 논문에서는 graph neural network로 sample-varying and time varying structure를 학습한다. (즉 dependency structure가 sample에 따라서도 다르고, 하나의 sample에 대해서도 시간에 따라 달라진다.)</li>
+  <li>모델명이 Raindrop인 이유는 관측값 측정이 마치 빗방울이 떨어지는 것과 비슷하기 때문이다. 빗방울이 표면(i.e. 지면)에 떨어질 때 빗방울이 표면의 모든 지점에 동시에 떨어지지 않고, 표면에 떨어지는 빗방울은 작은 잔물결을 만드는데 - 이처럼 각 관측치(i.e. 빗방울)는 센서(i.e. surface)에 의해서 비동시다발적으로 측정되고, 모든 관측치는 다른 센서에 영향을 주는 모습(passing message)이 빗방울이 떨어지는 모습과 비슷하다.</li>
+</ul>
+
+<h2 id="2-related-work">2. Related Work</h2>
+
+<ul>
+  <li>Abstract에서 언급한 것처럼, 직관적으로는 irregular time series를 다룰 때에 imputation을 해서 regular하게 생각하면 될 것 같은데, 그랬을 경우에는 underlying distribution을 왜곡하거나, 우리가 원하지 않는 distribution shift가 발생할 수 있기 때문에, irregular한 시계열을 그대로 활용하는 것이 일반적이다.</li>
+  <li>GRU-D, SeFT, mTAND, IP-Net, DGM가 Raindrop과 비슷한 task를 하는 모델들이라고 할 수 있다.</li>
+  <li>다만 Raindrop만의 차별점은 message passing network(edges btw sensors)를 고정된 것이 아니라, 학습 가능한 adjacency matrices로 명시하였다는 점이다.</li>
+</ul>
+
+<h2 id="3-raindrop">3. Raindrop</h2>
+
+<ul>
+  <li>\(\cal D=\{(\cal S_i, y_i) \mid i=1,...,N \}\) : 하나의 irregular time series. 이 때 \(y_i \in \{ 1,...,C\}\)는 라벨의 개수가 C개임을 의미한다. 하나의 시계열 \(\cal S_i\)는 M개의 센서로 구성되고, time stamp의 길이는 T인데 센서마다 모든 \(t\in T\)마다 측정된 것은 아니다. 예를 들어 센서가 2개이고 센서 u가 1,3,5 시점에 측정되고 센서 v가 2,4,6 시점에 측정 되었다면 \(T=\{1,2,3,4,5,6 \}\)이 된다.</li>
+  <li>결국 풀고자 하는 문제는 \(f:\cal S_i \to z_i\) 라는 함수를 학습하는 것이며, 이 때 \(z_i\)는 downstream-task를 위한 fixed-length representation이다. 본 논문에서는 classification을 수행했으므로 \(z_i \to \hat y_i\in\{1,...,C\}\)를 하겠지만, 핵심은 \(z_i\)를 만들어내는 과정이다.</li>
+  <li>
+    <p>Raindrop은 observation embedding → sensor embedding → sample embedding 이라는 3단계를 거친다.</p>
+  </li>
+  <li>
+    <p>observation embedding : 먼저 모든 t에 대해서, t 시점에 기록된 센서 u의 관측치 \(x^t_{i,u}\)을 emnbedding하고, u와 연결된 센서로 messages를 보낸다. 그러면 t 시점에 기록된 센서 u는 물론, 기록되지 않은 센서 v에 대해서도 t시점의 관측값은 embedding이 된다.</p>
+  </li>
+  <li>
+    <p>sensor embedding : 센서별로 모든 observation embeddings를 합친다. 이 때 temporal attention을 사용한다.</p>
+  </li>
+  <li>sample embedding : 모든 sensor embedding을 모아서 하나의 sample에 대한 embedding을 만든다.</li>
+</ul>
+
+<h2 id="4-experiments">4. Experiments</h2>
+
+<p><img src="/assets/img/timeseries/raindrop/table1.png" alt="그림1" /></p>
+
+<ul>
+  <li>Setting 1) Training(80%) : Validation(10%) : Test(10%)로 랜덤하게 나누고 각 Method로 classification을 했을 때의 결과이다. P19와 P12는 binary, PAM은 8-class이다.</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/raindrop/table2.png" alt="그림2" /></p>
+<ul>
+  <li>Setting 2,3) 일정 비율의 센서를 missing으로 만든다. 해당 센서들은 training 부분에 대해서는 그대로 두고, validation과 test 부분을 모두 0으로 바꾼다. setting 2는 가장 중요하다고 판단되는 센서들을 0으로 바꾸었고, setting 3는 랜덤하게 센서들을 0으로 바꾸었다.</li>
+</ul>
+
+<h2 id="5-conclusion">5. Conclusion</h2>
+
+<ul>
+  <li>Raindrop은 하나의 다변량 시계열을 하나의 그래프로 보고, 각 그래프의 sample-varying &amp; time-varying -sensor dependency를 학습했다. 그래프의 구조를 misaligned observations를 다루기 위해 활용했다는 점에서 다른 모델과 방법론적 차별점이 있다.</li>
+</ul>
+
+<h2 id="implementation">Implementation</h2>
+
+<p><img src="/assets/img/timeseries/raindrop/implementation.png" alt="그림3" /></p>
+<ul>
+  <li>P19 데이터셋에 대해서 Table1과 동일한 조건으로 모델을 실행했을 때 Table1과 유사한 성능이 나오는지 확인하였다.</li>
+</ul>
+
+<h2 id="추가">추가</h2>
+
+<ul>
+  <li>본 논문에서는 각 센서를 embedding하고, 센서들의 embedding들을 합쳐서 시계열에 대한 embedding을 얻는다. 각 시계열에 대해 센서별 embedding은 얻을 수 있지만, 특정 시점에서의 모든 센서의 상태를 표현하는 embedding은 얻을 수 없다. 각 시계열에 대해 센서별 embedding과 시점별 embedding을 모두 구할 수 있다면 더 좋은 성능을 낼 수 있을지 생각해봐야겠다.</li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[ICLR 2022]]></summary></entry><entry><title type="html">깃 블로그 만들기 3 : Hydejack 테마 사용법</title><link href="http://localhost:4000/gitblog/2024-02-09-%EA%B9%83%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-3-Hydejack-%ED%85%8C%EB%A7%88-%EC%82%AC%EC%9A%A9%EB%B2%95/" rel="alternate" type="text/html" title="깃 블로그 만들기 3 : Hydejack 테마 사용법" /><published>2024-02-09T00:00:00+09:00</published><updated>2024-02-12T21:11:58+09:00</updated><id>http://localhost:4000/gitblog/%EA%B9%83%EB%B8%94%EB%A1%9C%EA%B7%B8%20%EB%A7%8C%EB%93%A4%EA%B8%B0%203%20:%20Hydejack%20%ED%85%8C%EB%A7%88%20%EC%82%AC%EC%9A%A9%EB%B2%95</id><content type="html" xml:base="http://localhost:4000/gitblog/2024-02-09-%EA%B9%83%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-3-Hydejack-%ED%85%8C%EB%A7%88-%EC%82%AC%EC%9A%A9%EB%B2%95/"><![CDATA[<h2 id="깃-블로그-커스텀--authorsyml">깃 블로그 커스텀 : authors.yml</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">_data</code> 폴더 안에서는 <code class="language-plaintext highlighter-rouge">authors.yml</code> 파일을 수정한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">author1</code>에는 본인의 이름과 이메일을 기재한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">about</code>에는 게시물마다 아래에 표시될 본인의 소개 글을 작성한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">picture</code>에는 <code class="language-plaintext highlighter-rouge">about</code>에 보일 본인의 사진을 넣는다. 1x는 웹용, 2x는 모바일용이다.</li>
+  <li><code class="language-plaintext highlighter-rouge">social</code>에는 깃허브, 이메일, 트위터 등 연락처를 기재한다.</li>
+</ul>
+
+<h2 id="깃-블로그-커스텀--_configyml">깃 블로그 커스텀 : _config.yml</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">title</code>에서 블로그의 이름을 설정한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">description</code>과 <code class="language-plaintext highlighter-rouge">tagline</code>에는 블로그의 소개글을 작성한다.</li>
+</ul>
+
+<h2 id="새로운-게시물-작성하기">새로운 게시물 작성하기</h2>
+
+<ul>
+  <li>깃 블로그에 테마를 적용했다면 이제 게시물들을 분류할 새로운 카테고리를 만들고 카테고리 안에 게시물들을 작성할 차례이다.</li>
+  <li><code class="language-plaintext highlighter-rouge">_config.yml</code>, <code class="language-plaintext highlighter-rouge">_featured_categories</code>, 그리고 <code class="language-plaintext highlighter-rouge">*/_posts</code> 이렇게 총 3곳을 수정하여 게시물을 작성할 수 있다.</li>
+  <li>먼저 사이드바에 새로운 카테고리를 만들기 위해 <code class="language-plaintext highlighter-rouge">_config.yml</code> 파일에서 <code class="language-plaintext highlighter-rouge">menu</code> 를 수정한다. 아래처럼 <code class="language-plaintext highlighter-rouge">my_category</code> 대신 원하는 카테고리명을 만들어주면 된다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">menu</span><span class="p">:</span>
+  <span class="o">-</span> <span class="n">title</span><span class="p">:</span>             <span class="n">my_category</span>
+    <span class="n">url</span><span class="p">:</span>               <span class="o">/</span><span class="n">my_category</span><span class="o">/</span>
+  <span class="o">-</span> <span class="n">title</span><span class="p">:</span>             <span class="n">Example</span>
+    <span class="n">url</span><span class="p">:</span>               <span class="o">/</span><span class="n">example</span><span class="o">/</span>
+  <span class="o">-</span> <span class="n">title</span><span class="p">:</span>             <span class="n">Documentation</span>
+    <span class="n">url</span><span class="p">:</span>               <span class="o">/</span><span class="n">docs</span><span class="o">/</span>
+  <span class="o">-</span> <span class="n">title</span><span class="p">:</span>             <span class="n">About</span>
+    <span class="n">url</span><span class="p">:</span>               <span class="o">/</span><span class="n">about</span><span class="o">/</span>
+</code></pre></div></div>
+<ul>
+  <li>다음으로 <code class="language-plaintext highlighter-rouge">_featured_categories</code> 폴더에 <code class="language-plaintext highlighter-rouge">my_category.md</code> 파일을 만들어준다. <code class="language-plaintext highlighter-rouge">example.md</code> 파일 형식과 동일하게 작성해준다.</li>
+  <li>마지막으로 <code class="language-plaintext highlighter-rouge">example/_posts</code>처럼 <code class="language-plaintext highlighter-rouge">my_category/_posts</code> 폴더를 만들고 그 안에 게시물을 작성하면 된다.</li>
+  <li>각 게시물의 파일 이름은 <code class="language-plaintext highlighter-rouge">2024-02-09-FILENAME</code> 형식으로 게시물 작성일을 기재할 수 있다.</li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="gitblog" /><summary type="html"><![CDATA[깃 블로그 커스텀 : authors.yml]]></summary></entry><entry><title type="html">깃 블로그 만들기 2 : 테마 적용하기</title><link href="http://localhost:4000/gitblog/2024-02-08-%EA%B9%83%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-2-%ED%85%8C%EB%A7%88-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0/" rel="alternate" type="text/html" title="깃 블로그 만들기 2 : 테마 적용하기" /><published>2024-02-08T00:00:00+09:00</published><updated>2024-02-12T23:54:00+09:00</updated><id>http://localhost:4000/gitblog/%EA%B9%83%EB%B8%94%EB%A1%9C%EA%B7%B8%20%EB%A7%8C%EB%93%A4%EA%B8%B0%202%20:%20%ED%85%8C%EB%A7%88%20%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0</id><content type="html" xml:base="http://localhost:4000/gitblog/2024-02-08-%EA%B9%83%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-2-%ED%85%8C%EB%A7%88-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0/"><![CDATA[<h2 id="7-테마-다운받기">7. 테마 다운받기</h2>
+
+<ul>
+  <li>선택한 테마는 Hydejack이다.</li>
+  <li><a href="https://hydejack.com/download/">Hydejack</a></li>
+  <li>위 링크에서 Free 버전을 다운받는다. Source code(zip) 파일을 다운받으면 된다.</li>
+</ul>
+
+<h2 id="8-테마-붙여넣기">8. 테마 붙여넣기</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">/username.github.io</code> 폴더 안에 jekyll으로 생성한 홈페이지를 위한 모든 파일 및 폴더를 삭제한다.</li>
+  <li>아무것도 없는 폴더에서 jekyll의 기본 패키지를 다운받는다.
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">jekyll</span> <span class="n">new</span> <span class="p">.</span><span class="o">/</span><span class="err">​</span>
+</code></pre></div>    </div>
+  </li>
+  <li>다운받은 hydejack-starter-kit-9.1.6 안에 있는 모든 파일 및 폴더들을 <code class="language-plaintext highlighter-rouge">/username.github.io</code>로 복사 붙여넣기 한다. 이름이 겹치는 파일들은 대체(replace)한다.</li>
+</ul>
+
+<h2 id="9-로컬-서버에서-홈페이지-실행">9. 로컬 서버에서 홈페이지 실행</h2>
+
+<ul>
+  <li>먼저 <code class="language-plaintext highlighter-rouge">/username.github.io</code> 폴더 안에 있는 <code class="language-plaintext highlighter-rouge">404.html</code>, <code class="language-plaintext highlighter-rouge">about.markdown</code>, <code class="language-plaintext highlighter-rouge">index.markdown</code> 세개의 파일을 삭제한다.</li>
+  <li>이제 아래 명령어를 실행하고 Server address에 있는 http://127.0.0.1:4000 를 url에 입력하면 로컬 서버에서 홈페이지를 실행하여 테마가 잘 적용되었는지 확인할 수 있다.
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bundle</span> <span class="k">exec</span> <span class="n">jekyll</span> <span class="n">serve</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="10-로컬-변경-사항을-깃-허브-원격-저장소에-반영">10. 로컬 변경 사항을 깃 허브 원격 저장소에 반영</h2>
+
+<ul>
+  <li>이제 깃 허브에 push하면 될 것 같지만 그렇지 않다. <code class="language-plaintext highlighter-rouge">_config.yml</code> 파일을 열어보면 아래와 같은 코드들이 있다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Theme
+# ---------------------------------------------------------------------------------------
+</span>
+<span class="n">theme</span><span class="p">:</span> <span class="n">jekyll</span><span class="o">-</span><span class="n">theme</span><span class="o">-</span><span class="n">hydejack</span>
+<span class="c1"># remote_theme: hydecorp/hydejack@v9
+</span></code></pre></div></div>
+<ul>
+  <li>로컬 서버에 홈페이지를 실행할 때에는 위 처럼 <code class="language-plaintext highlighter-rouge">theme: jekyll-theme-hydejack</code>가 작성되어 있어야 하지만, 깃 허브에는 <code class="language-plaintext highlighter-rouge">remote_theme: hydecorp/hydejack@v9</code>가 push되어야 한다.</li>
+  <li>그러므로 아래 터미널에서 아래 명령어를 실행하면 theme:가 주석 처리 되고, remote_theme의 주석이 사라진다.
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sed</span> <span class="o">-</span><span class="n">i</span> <span class="sh">''</span> <span class="sh">'</span><span class="s">s/theme: jekyll-theme-hydejack/# theme: jekyll-theme-hydejack/</span><span class="sh">'</span> <span class="n">_config</span><span class="p">.</span><span class="n">yml</span>
+<span class="n">sed</span> <span class="o">-</span><span class="n">i</span> <span class="sh">''</span> <span class="sh">'</span><span class="s">s/# remote_theme: hydecorp\/hydejack@v9/remote_theme: hydecorp\/hydejack@v9/</span><span class="sh">'</span> <span class="n">_config</span><span class="p">.</span><span class="n">yml</span>
+</code></pre></div>    </div>
+  </li>
+  <li>깃 허브에 push한다.
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ga</span> <span class="p">.</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="err">“</span><span class="n">change</span> <span class="n">theme</span><span class="err">”</span>
+<span class="n">gp</span> <span class="o">--</span><span class="nb">set</span><span class="o">-</span><span class="n">upstream</span> <span class="n">origin</span> <span class="n">main</span>
+<span class="n">gp</span>
+</code></pre></div>    </div>
+  </li>
+  <li>이제 깃 블로그 주소로 연결해보면 테마가 적용된 페이지를 확인할 수 있다.</li>
+</ul>
+
+<hr />
+<p>source : <a href="https://supermemi.tistory.com/entry/나만의-블로그-만들기-Git-hub-blog-GitHubio">https://supermemi.tistory.com/entry/나만의-블로그-만들기-Git-hub-blog-GitHubio</a></p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="gitblog" /><summary type="html"><![CDATA[7. 테마 다운받기]]></summary></entry><entry><title type="html">깃 블로그 만들기 1 : jekyll로 홈페이지 만들기</title><link href="http://localhost:4000/gitblog/2024-02-07-%EA%B9%83%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-1-jekyll%EB%A1%9C-%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80-%EB%A7%8C%EB%93%A4%EA%B8%B0/" rel="alternate" type="text/html" title="깃 블로그 만들기 1 : jekyll로 홈페이지 만들기" /><published>2024-02-07T00:00:00+09:00</published><updated>2024-02-15T16:37:34+09:00</updated><id>http://localhost:4000/gitblog/%EA%B9%83%EB%B8%94%EB%A1%9C%EA%B7%B8%20%EB%A7%8C%EB%93%A4%EA%B8%B0%201%20:%20jekyll%EB%A1%9C%20%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80%20%EB%A7%8C%EB%93%A4%EA%B8%B0</id><content type="html" xml:base="http://localhost:4000/gitblog/2024-02-07-%EA%B9%83%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-1-jekyll%EB%A1%9C-%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80-%EB%A7%8C%EB%93%A4%EA%B8%B0/"><![CDATA[<h2 id="1-새로운-repository-만들기">1. 새로운 Repository 만들기</h2>
+
+<ul>
+  <li>Repository name은 username.github.io로 한다.</li>
+  <li>이 때 Public, Add a README file에 체크를 해준다.</li>
+</ul>
+
+<p><img src="/assets/img/gitblog/gitblog1/gitblog1_1.png" alt="그림1" /></p>
+
+<h2 id="2-git-clone">2. Git clone</h2>
+
+<ul>
+  <li>로컬에서 깃블로그를 관리하고자 하는 path에서 git clone을 실행한다.</li>
+  <li>터미널을 열고 해당 path로 이동한 뒤 아래 명령어를 입력한다.
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">git</span> <span class="n">clone</span> <span class="n">HTTPs주소</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="3-빈-페이지-생성">3. 빈 페이지 생성</h2>
+
+<ul>
+  <li>git clone한 경로에서 index.html 파일을 만들어 빈 페이지를 생성한다.</li>
+  <li>페이지가 생성되는지 확인하기 위함이며, 5. 에서 삭제할 예정이다.
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cd</span> <span class="n">username</span><span class="p">.</span><span class="n">github</span><span class="p">.</span><span class="n">io</span>
+<span class="n">echo</span> <span class="sh">"</span><span class="s">Empty Page</span><span class="sh">"</span> <span class="o">&gt;</span> <span class="n">index</span><span class="p">.</span><span class="n">html</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="4-로컬-변경-사항을-깃허브-원격-저장소에-반영">4. 로컬 변경 사항을 깃허브 원격 저장소에 반영</h2>
+
+<ul>
+  <li>ga는 git add, gp는 git push를 의미한다.
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ga</span> <span class="p">.</span>
+<span class="n">g</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="err">“</span><span class="n">Start</span><span class="err">”</span>
+<span class="n">gp</span> <span class="o">-</span><span class="n">u</span> <span class="n">origin</span> <span class="n">main</span>
+</code></pre></div>    </div>
+  </li>
+  <li>이제 깃 블로그 url에 접속하면 “Empty Page”라고 적힌 빈 페이지가 만들어져있다.</li>
+</ul>
+
+<h2 id="5-jekyll-설치">5. Jekyll 설치</h2>
+
+<ul>
+  <li>기본적으로 사용되는 ruby, bundler, jekyll 등이 정상적으로 설치되었다고 전제한다. 아직 설치되지 않았다면 아래 명령어를 실행한다.
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gem</span> <span class="n">install</span> <span class="n">bundler</span>
+<span class="n">gem</span> <span class="n">install</span> <span class="n">jekyll</span>
+</code></pre></div>    </div>
+  </li>
+  <li>기존의 index.html을 제거한다.
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">rm</span> <span class="o">-</span><span class="n">f</span> <span class="n">index</span><span class="p">.</span><span class="n">html</span>
+</code></pre></div>    </div>
+  </li>
+  <li>다운받은 jekyll으로 홈페이지의 틀을 생성한다. 이 때 아래 명령어를 실행하는 로컬 위치는 username.github.io이다.
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">jekyll</span> <span class="n">new</span> <span class="p">.</span><span class="o">/</span> <span class="o">--</span><span class="n">force</span>
+</code></pre></div>    </div>
+  </li>
+  <li>다운받은 것들을 실행한다.
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bundle</span> <span class="n">install</span>
+</code></pre></div>    </div>
+  </li>
+  <li>jekyll을 로컬 서버에 띄운다. 이걸 하는 이유는 내가 수정한 내용을 git hub에 commit하더라도 실제 깃 블로그에 반영되는 데에 시간이 몇 분 걸리기 때문에, 로컬 서버에 띄워서 내가 수정한 내용을 즉시 확인하기 위함이다.
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bundle</span> <span class="k">exec</span> <span class="n">jekyll</span> <span class="n">serve</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Server address에 있는 http://127.0.0.1:4000 를 url에 입력하면 jekyll으로 홈페이지가 생성된 것을 확인할 수 있다.</li>
+</ul>
+
+<h2 id="6-로컬-변경-사항을-깃-허브-원격-저장소에-반영">6. 로컬 변경 사항을 깃 허브 원격 저장소에 반영</h2>
+
+<ul>
+  <li>4.에서 했던 것처럼 깃 허브 원격 저장소에 반영해준다.
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ga</span> <span class="p">.</span>
+<span class="n">g</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="err">“</span><span class="n">jekyll</span><span class="err">”</span>
+<span class="n">gp</span>
+</code></pre></div>    </div>
+  </li>
+  <li>이제 깃 블로그 url에 접속하면 빈 페이지 대신, jekyll으로 생성한 홈페이지가 나온다.</li>
+</ul>
+
+<hr />
+<p>source : <a href="https://supermemi.tistory.com/entry/나만의-블로그-만들기-Git-hub-blog-GitHubio">https://supermemi.tistory.com/entry/나만의-블로그-만들기-Git-hub-blog-GitHubio</a></p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="gitblog" /><summary type="html"><![CDATA[1. 새로운 Repository 만들기]]></summary></entry><entry><title type="html">EM algorithm : K-Means and Gaussian Mixture model</title><link href="http://localhost:4000/presentation/2023-08-11-MLyonsei6/" rel="alternate" type="text/html" title="EM algorithm : K-Means and Gaussian Mixture model" /><published>2023-08-11T00:00:00+09:00</published><updated>2024-02-14T22:53:59+09:00</updated><id>http://localhost:4000/presentation/MLyonsei6</id><content type="html" xml:base="http://localhost:4000/presentation/2023-08-11-MLyonsei6/"><![CDATA[<blockquote>
+  <p>연세대학교 STA3142 통계적머신러닝 강의안의 일부를 바탕으로 만들어졌습니다.</p>
+</blockquote>
+
+<p><img src="/assets/img/MLyonsei/MLyonsei6/IMG_1159.JPG" alt="그림1" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1160.JPG" alt="그림2" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1161.JPG" alt="그림3" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1162.JPG" alt="그림4" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1163.JPG" alt="그림5" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1164.JPG" alt="그림6" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1165.JPG" alt="그림7" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1166.JPG" alt="그림8" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1167.JPG" alt="그림9" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1168.JPG" alt="그림10" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1169.JPG" alt="그림11" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1170.JPG" alt="그림12" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1171.JPG" alt="그림13" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1172.JPG" alt="그림14" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1173.JPG" alt="그림15" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1174.JPG" alt="그림16" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1175.JPG" alt="그림17" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1176.JPG" alt="그림18" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1177.JPG" alt="그림19" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1178.JPG" alt="그림20" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1179.JPG" alt="그림21" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1180.JPG" alt="그림22" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1181.JPG" alt="그림23" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1182.JPG" alt="그림24" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1183.JPG" alt="그림25" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1184.JPG" alt="그림26" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1185.JPG" alt="그림27" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1186.JPG" alt="그림28" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1187.JPG" alt="그림29" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1188.JPG" alt="그림30" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1189.JPG" alt="그림31" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1190.JPG" alt="그림32" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1191.JPG" alt="그림33" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1192.JPG" alt="그림34" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1193.JPG" alt="그림35" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1194.JPG" alt="그림36" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1195.JPG" alt="그림37" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1196.JPG" alt="그림38" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1197.JPG" alt="그림39" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1198.JPG" alt="그림40" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1199.JPG" alt="그림41" />
+<img src="/assets/img/MLyonsei/MLyonsei6/IMG_1200.JPG" alt="그림42" /></p>
+
+<blockquote>
+  <p>출처 : 연세대학교 STA3142 통계적머신러닝 (이기복 교수님) Lecture note</p>
+</blockquote>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="presentation" /><summary type="html"><![CDATA[연세대학교 STA3142 통계적머신러닝 강의안의 일부를 바탕으로 만들어졌습니다.]]></summary></entry><entry><title type="html">Support Vector Machine</title><link href="http://localhost:4000/presentation/2023-08-04-MLyonsei5/" rel="alternate" type="text/html" title="Support Vector Machine" /><published>2023-08-04T00:00:00+09:00</published><updated>2024-02-14T22:53:59+09:00</updated><id>http://localhost:4000/presentation/MLyonsei5</id><content type="html" xml:base="http://localhost:4000/presentation/2023-08-04-MLyonsei5/"><![CDATA[<blockquote>
+  <p>연세대학교 STA3142 통계적머신러닝 강의안의 일부를 바탕으로 만들어졌습니다.</p>
+</blockquote>
+
+<p><img src="/assets/img/MLyonsei/MLyonsei5/IMG_1094.JPG" alt="그림1" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1095.JPG" alt="그림2" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1096.JPG" alt="그림3" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1097.JPG" alt="그림4" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1098.JPG" alt="그림5" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1099.JPG" alt="그림6" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1100.JPG" alt="그림7" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1101.JPG" alt="그림8" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1102.JPG" alt="그림9" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1103.JPG" alt="그림10" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1104.JPG" alt="그림11" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1105.JPG" alt="그림12" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1106.JPG" alt="그림13" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1107.JPG" alt="그림14" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1108.JPG" alt="그림15" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1109.JPG" alt="그림16" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1110.JPG" alt="그림17" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1111.JPG" alt="그림18" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1112.JPG" alt="그림19" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1113.JPG" alt="그림20" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1114.JPG" alt="그림21" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1115.JPG" alt="그림22" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1116.JPG" alt="그림23" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1117.JPG" alt="그림24" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1118.JPG" alt="그림25" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1119.JPG" alt="그림26" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1120.JPG" alt="그림27" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1121.JPG" alt="그림28" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1122.JPG" alt="그림29" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1123.JPG" alt="그림30" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1124.JPG" alt="그림31" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1125.JPG" alt="그림32" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1126.JPG" alt="그림33" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1127.JPG" alt="그림34" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1128.JPG" alt="그림35" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1129.JPG" alt="그림36" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1130.JPG" alt="그림37" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1131.JPG" alt="그림38" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1132.JPG" alt="그림39" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1133.JPG" alt="그림40" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1134.JPG" alt="그림41" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1135.JPG" alt="그림42" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1136.JPG" alt="그림43" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1137.JPG" alt="그림44" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1138.JPG" alt="그림45" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1139.JPG" alt="그림46" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1140.JPG" alt="그림47" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1141.JPG" alt="그림48" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1142.JPG" alt="그림49" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1143.JPG" alt="그림50" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1144.JPG" alt="그림51" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1145.JPG" alt="그림52" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1146.JPG" alt="그림53" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1147.JPG" alt="그림54" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1148.JPG" alt="그림55" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1149.JPG" alt="그림56" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1150.JPG" alt="그림57" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1151.JPG" alt="그림58" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1152.JPG" alt="그림59" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1153.JPG" alt="그림60" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1154.JPG" alt="그림61" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1155.JPG" alt="그림62" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1156.JPG" alt="그림63" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1157.JPG" alt="그림64" />
+<img src="/assets/img/MLyonsei/MLyonsei5/IMG_1158.JPG" alt="그림65" /></p>
+
+<blockquote>
+  <p>출처 : 연세대학교 STA3142 통계적머신러닝 (이기복 교수님) Lecture note</p>
+</blockquote>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="presentation" /><summary type="html"><![CDATA[연세대학교 STA3142 통계적머신러닝 강의안의 일부를 바탕으로 만들어졌습니다.]]></summary></entry></feed>
