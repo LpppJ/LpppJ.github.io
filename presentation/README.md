@@ -16,9 +16,9 @@ permalink: /presentation/
  [5. Support Vector Machine]{:.heading.flip-title} \
  [6. EM algorithm : K-Means and Gaussian Mixture model]{:.heading.flip-title}
 
-[1. Machine Learning Outline]: /presentation/_posts/2023-07-07-MLyonsei1.md
-[2. Optimization methods]: /presentation/_posts/2023-07-14-MLyonsei2.md
-[3. Logistic and Softmax regression]: /presentation/_posts/2023-07-21-MLyonsei3.md
-[4. Naïve Bayes and K-nearest neighbor]: /presentation/_posts/2023-07-28-MLyonsei4.md
-[5. Support Vector Machine]: /presentation/_posts/2023-08-04-MLyonsei5.md
-[6. EM algorithm : K-Means and Gaussian Mixture model]: /presentation/_posts/2023-08-11-MLyonsei6.md
+[1. Machine Learning Outline]: /presentation/2023-07-07-MLyonsei1
+[2. Optimization methods]: /presentation/2023-07-14-MLyonsei2
+[3. Logistic and Softmax regression]: /presentation/2023-07-21-MLyonsei3
+[4. Naïve Bayes and K-nearest neighbor]: /presentation/2023-07-28-MLyonsei4
+[5. Support Vector Machine]: /presentation/2023-08-04-MLyonsei5
+[6. EM algorithm : K-Means and Gaussian Mixture model]: /presentation/2023-08-11-MLyonsei6
