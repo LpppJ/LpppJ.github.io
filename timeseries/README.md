@@ -21,4 +21,4 @@ permalink: /timeseries/
 
 [(FTS-Diffusion) Generative Learning for Financial Time Series with Irregular and Scale-invariant Patterns]: /timeseries/_posts/2024-02-13-FTS-Diffusion.md
 
-[(ModernTCN) A Modern Pure Convolution Structure for General Time Series Analysis]: /timeseries/_posts/2024-02-14-ModernTCN.md
+[(ModernTCN) A Modern Pure Convolution Structure for General Time Series Analysis]: /timeseries/2024-02-14-ModernTCN
