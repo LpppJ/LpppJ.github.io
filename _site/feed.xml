@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-02-16T14:19:04+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>Hydejack is a boutique Jekyll theme for hackers, nerds, and academics, with a focus on personal sites that are meant to impress.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">깃블로그 만들기 6 : 흔히 발생할 수 있는 에러</title><link href="http://localhost:4000/gitblog/2024-02-15-gitblog6/" rel="alternate" type="text/html" title="깃블로그 만들기 6 : 흔히 발생할 수 있는 에러" /><published>2024-02-15T00:00:00+09:00</published><updated>2024-02-16T13:24:32+09:00</updated><id>http://localhost:4000/gitblog/gitblog6</id><content type="html" xml:base="http://localhost:4000/gitblog/2024-02-15-gitblog6/"><![CDATA[<p>text</p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="gitblog" /><summary type="html"><![CDATA[text]]></summary></entry><entry><title type="html">(ModernTCN) A Modern Pure Convolution Structure for General Time Series Analysis</title><link href="http://localhost:4000/timeseries/2024-02-14-ModernTCN/" rel="alternate" type="text/html" title="(ModernTCN) A Modern Pure Convolution Structure for General Time Series Analysis" /><published>2024-02-14T00:00:00+09:00</published><updated>2024-02-15T16:47:11+09:00</updated><id>http://localhost:4000/timeseries/ModernTCN</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-02-14-ModernTCN/"><![CDATA[<h2 id="abstract">Abstract</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-02-16T14:24:19+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>Hydejack is a boutique Jekyll theme for hackers, nerds, and academics, with a focus on personal sites that are meant to impress.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">깃블로그 만들기 6 : 흔히 발생할 수 있는 에러</title><link href="http://localhost:4000/gitblog/2024-02-15-gitblog6/" rel="alternate" type="text/html" title="깃블로그 만들기 6 : 흔히 발생할 수 있는 에러" /><published>2024-02-15T00:00:00+09:00</published><updated>2024-02-16T14:19:40+09:00</updated><id>http://localhost:4000/gitblog/gitblog6</id><content type="html" xml:base="http://localhost:4000/gitblog/2024-02-15-gitblog6/"><![CDATA[<p>text</p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="gitblog" /><summary type="html"><![CDATA[text]]></summary></entry><entry><title type="html">(ModernTCN) A Modern Pure Convolution Structure for General Time Series Analysis</title><link href="http://localhost:4000/timeseries/2024-02-14-ModernTCN/" rel="alternate" type="text/html" title="(ModernTCN) A Modern Pure Convolution Structure for General Time Series Analysis" /><published>2024-02-14T00:00:00+09:00</published><updated>2024-02-15T16:47:11+09:00</updated><id>http://localhost:4000/timeseries/ModernTCN</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-02-14-ModernTCN/"><![CDATA[<h2 id="abstract">Abstract</h2>
 <ul>
   <li>최근 Transformer-based 모델과 MLP-based 모델이 time series에서 우위에 있지만, 본 논문에서는 convolution을 time series에서 사용하는 모델 ModernTCN을 제안한다.</li>
   <li>Time series의 5개 mainstream task (long-term and short-term forecasting, imputation, classification and anomaly detection)에서 SOTA</li>
@@ -404,7 +404,7 @@ irregularity로 인한 misalign readouts를 예측하기 위해 인접한 관측
   </li>
   <li>깃 허브에 push한다.
     <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ga</span> <span class="p">.</span>
-<span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="err">“</span><span class="n">change</span> <span class="n">theme</span><span class="err">”</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="err">“</span><span class="n">update</span><span class="err">”</span>
 <span class="n">gp</span> <span class="o">--</span><span class="nb">set</span><span class="o">-</span><span class="n">upstream</span> <span class="n">origin</span> <span class="n">main</span>
 <span class="n">gp</span>
 </code></pre></div>    </div>
@@ -412,7 +412,7 @@ irregularity로 인한 misalign readouts를 예측하기 위해 인접한 관측
   <li>이제 깃 블로그 주소로 연결해보면 테마가 적용된 페이지를 확인할 수 있다.</li>
 </ul>
 
-<hr />
+<h2><img src="/assets/img/gitblog/gitblog2/gitblog2_1.png" alt="그림1" /></h2>
 <p>source : <a href="https://supermemi.tistory.com/entry/나만의-블로그-만들기-Git-hub-blog-GitHubio">https://supermemi.tistory.com/entry/나만의-블로그-만들기-Git-hub-blog-GitHubio</a></p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="gitblog" /><summary type="html"><![CDATA[7. 테마 다운받기]]></summary></entry><entry><title type="html">깃 블로그 만들기 1 : jekyll로 홈페이지 만들기</title><link href="http://localhost:4000/gitblog/2024-02-07-gitblog1/" rel="alternate" type="text/html" title="깃 블로그 만들기 1 : jekyll로 홈페이지 만들기" /><published>2024-02-07T00:00:00+09:00</published><updated>2024-02-16T13:24:32+09:00</updated><id>http://localhost:4000/gitblog/gitblog1</id><content type="html" xml:base="http://localhost:4000/gitblog/2024-02-07-gitblog1/"><![CDATA[<h2 id="1-새로운-repository-만들기">1. 새로운 Repository 만들기</h2>
 
 <ul>
@@ -431,6 +431,8 @@ irregularity로 인한 misalign readouts를 예측하기 위해 인접한 관측
 </code></pre></div>    </div>
   </li>
 </ul>
+
+<p><img src="/assets/img/gitblog/gitblog1/gitblog1_2.png" alt="그림2" /></p>
 
 <h2 id="3-빈-페이지-생성">3. 빈 페이지 생성</h2>
 
@@ -452,7 +454,8 @@ irregularity로 인한 misalign readouts를 예측하기 위해 인접한 관측
 <span class="n">gp</span> <span class="o">-</span><span class="n">u</span> <span class="n">origin</span> <span class="n">main</span>
 </code></pre></div>    </div>
   </li>
-  <li>이제 깃 블로그 url에 접속하면 “Empty Page”라고 적힌 빈 페이지가 만들어져있다.</li>
+  <li>이제 깃 블로그 url에 접속하면 “Empty Page”라고 적힌 빈 페이지가 만들어져있다.
+<img src="/assets/img/gitblog/gitblog1/gitblog1_3.png" alt="그림3" /></li>
 </ul>
 
 <h2 id="5-jekyll-설치">5. Jekyll 설치</h2>
@@ -479,7 +482,8 @@ irregularity로 인한 misalign readouts를 예측하기 위해 인접한 관측
     <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bundle</span> <span class="k">exec</span> <span class="n">jekyll</span> <span class="n">serve</span>
 </code></pre></div>    </div>
   </li>
-  <li>Server address에 있는 http://127.0.0.1:4000 를 url에 입력하면 jekyll으로 홈페이지가 생성된 것을 확인할 수 있다.</li>
+  <li>Server address에 있는 http://127.0.0.1:4000 를 url에 입력하면 jekyll으로 홈페이지가 생성된 것을 확인할 수 있다.
+<img src="/assets/img/gitblog/gitblog1/gitblog1_4.png" alt="그림4" /></li>
 </ul>
 
 <h2 id="6-로컬-변경-사항을-깃-허브-원격-저장소에-반영">6. 로컬 변경 사항을 깃 허브 원격 저장소에 반영</h2>
@@ -491,7 +495,8 @@ irregularity로 인한 misalign readouts를 예측하기 위해 인접한 관측
 <span class="n">gp</span>
 </code></pre></div>    </div>
   </li>
-  <li>이제 깃 블로그 url에 접속하면 빈 페이지 대신, jekyll으로 생성한 홈페이지가 나온다.</li>
+  <li>이제 깃 블로그 url에 접속하면 빈 페이지 대신, jekyll으로 생성한 홈페이지가 나온다.
+<img src="/assets/img/gitblog/gitblog1/gitblog1_4.png" alt="그림4" /></li>
 </ul>
 
 <hr />
