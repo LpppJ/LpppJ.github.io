@@ -1,5 +1,59 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-02-16T14:24:19+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>Hydejack is a boutique Jekyll theme for hackers, nerds, and academics, with a focus on personal sites that are meant to impress.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">깃블로그 만들기 6 : 흔히 발생할 수 있는 에러</title><link href="http://localhost:4000/gitblog/2024-02-15-gitblog6/" rel="alternate" type="text/html" title="깃블로그 만들기 6 : 흔히 발생할 수 있는 에러" /><published>2024-02-15T00:00:00+09:00</published><updated>2024-02-16T14:19:40+09:00</updated><id>http://localhost:4000/gitblog/gitblog6</id><content type="html" xml:base="http://localhost:4000/gitblog/2024-02-15-gitblog6/"><![CDATA[<p>text</p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="gitblog" /><summary type="html"><![CDATA[text]]></summary></entry><entry><title type="html">(ModernTCN) A Modern Pure Convolution Structure for General Time Series Analysis</title><link href="http://localhost:4000/timeseries/2024-02-14-ModernTCN/" rel="alternate" type="text/html" title="(ModernTCN) A Modern Pure Convolution Structure for General Time Series Analysis" /><published>2024-02-14T00:00:00+09:00</published><updated>2024-02-15T16:47:11+09:00</updated><id>http://localhost:4000/timeseries/ModernTCN</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-02-14-ModernTCN/"><![CDATA[<h2 id="abstract">Abstract</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-02-16T15:16:37+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>Hydejack is a boutique Jekyll theme for hackers, nerds, and academics, with a focus on personal sites that are meant to impress.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">깃블로그 만들기 6 : 흔히 발생할 수 있는 에러</title><link href="http://localhost:4000/gitblog/2024-02-15-gitblog6/" rel="alternate" type="text/html" title="깃블로그 만들기 6 : 흔히 발생할 수 있는 에러" /><published>2024-02-15T00:00:00+09:00</published><updated>2024-02-16T14:19:40+09:00</updated><id>http://localhost:4000/gitblog/gitblog6</id><content type="html" xml:base="http://localhost:4000/gitblog/2024-02-15-gitblog6/"><![CDATA[<ul>
+  <li>이번에는 Hydejack 테마를 사용하면서 내가 자주 했던 실수들을 살펴보겠다. 처음에는 에러의 이유를 몰라서 gitblog repository를 몇 번이나 삭제하고 다시 만들면서 시간을 많이 썼는데, 앞으로는 그러지 않기 위해 남긴다.</li>
+</ul>
+
+<h2 id="git-commit-push할-때-_configyml의-theme-수정">git commit, push할 때 _config.yml의 theme 수정</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">깃 블로그 만들기 2 : 테마 적용하기</code> 10. 에서 git에 commit, push하기 전에 <code class="language-plaintext highlighter-rouge">_config.yml</code>파일에 수정을 해야 한다고 말했다. 무슨 말이냐면 내가 로컬에서 깃블로그를 수정하고 <code class="language-plaintext highlighter-rouge">bundle exec jekyll serve</code>로 서버에서 확인을 한 뒤 이제 push를 통해 반영하기 위해서는 터미널에 아래처럼 입력해야 한다는 것이다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sed</span> <span class="o">-</span><span class="n">i</span> <span class="sh">''</span> <span class="sh">'</span><span class="s">s/theme: jekyll-theme-hydejack/# theme: jekyll-theme-hydejack/</span><span class="sh">'</span> <span class="n">_config</span><span class="p">.</span><span class="n">yml</span>
+<span class="n">sed</span> <span class="o">-</span><span class="n">i</span> <span class="sh">''</span> <span class="sh">'</span><span class="s">s/# remote_theme: hydecorp\/hydejack@v9/remote_theme: hydecorp\/hydejack@v9/</span><span class="sh">'</span> <span class="n">_config</span><span class="p">.</span><span class="n">yml</span>
+
+<span class="n">ga</span> <span class="p">.</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="err">“</span><span class="n">update</span><span class="err">”</span>
+<span class="n">gp</span> <span class="o">--</span><span class="nb">set</span><span class="o">-</span><span class="n">upstream</span> <span class="n">origin</span> <span class="n">main</span>
+<span class="n">gp</span>
+
+<span class="n">sed</span> <span class="o">-</span><span class="n">i</span> <span class="sh">''</span> <span class="sh">'</span><span class="s">s/^# theme: jekyll-theme-hydejack/theme: jekyll-theme-hydejack/</span><span class="sh">'</span> <span class="n">_config</span><span class="p">.</span><span class="n">yml</span>
+<span class="n">sed</span> <span class="o">-</span><span class="n">i</span> <span class="sh">''</span> <span class="sh">'</span><span class="s">s/^remote_theme: hydecorp\/hydejack@v9/# remote_theme: hydecorp\/hydejack@v9/</span><span class="sh">'</span> <span class="n">_config</span><span class="p">.</span><span class="n">yml</span>
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">ga .</code>는 <code class="language-plaintext highlighter-rouge">git add .</code>, <code class="language-plaintext highlighter-rouge">gp</code>는 <code class="language-plaintext highlighter-rouge">git push</code>를 의미한다.</li>
+  <li>위 2줄은 <code class="language-plaintext highlighter-rouge">_config.yml</code>파일에서 <code class="language-plaintext highlighter-rouge">theme: jekyll-theme-hydejack</code> (이하 <code class="language-plaintext highlighter-rouge">theme</code>) 부분을 주석 처리하고 <code class="language-plaintext highlighter-rouge">remote_theme: hydecorp/hydejack@v9</code> (이하 <code class="language-plaintext highlighter-rouge">remote_theme</code>)부분의 주석 처리를 해제하는 명령어이다.</li>
+  <li>
+    <p>중앙 4줄은 변경 사항들을 git에 push하는 명령어이고, 아래 2줄은 원래대로 <code class="language-plaintext highlighter-rouge">_config.yml</code>파일에서 <code class="language-plaintext highlighter-rouge">theme</code> 부분의 주석을 해제하고 <code class="language-plaintext highlighter-rouge">remote_theme</code> 부분을 주석 처리하는 명령어이다.</p>
+  </li>
+  <li>그러면 <code class="language-plaintext highlighter-rouge">theme</code> 부분이 주석 처리되고, <code class="language-plaintext highlighter-rouge">remote_theme</code> 부분이 주석 해제된 채로 (즉 git push하는 상태) 터미널에 <code class="language-plaintext highlighter-rouge">bundle exec jekyll serve</code>를 입력하면 어떻게 될까? 아래처럼 에러가 발생하여 서버에 페이지를 띄울 수가 없다.</li>
+</ul>
+
+<p><img src="/assets/img/gitblog/gitblog6/gitblog6_1.png" alt="사진1" /></p>
+
+<ul>
+  <li>그러면 반대로 <code class="language-plaintext highlighter-rouge">theme</code> 부분이 주석 해제되고, <code class="language-plaintext highlighter-rouge">remote_theme</code> 부분이 주석 처리된 채로 (즉 로컬 서버에 띄울 수 있는 상태)에서 git push를 하면 어떻게 될까? 아래처럼 github에 에러가 발생한다.</li>
+</ul>
+
+<p><img src="/assets/img/gitblog/gitblog6/gitblog6_2.png" alt="사진2" /></p>
+
+<ul>
+  <li>어떤 에러인지 들어가보면 아래 사진처럼 <code class="language-plaintext highlighter-rouge">Build with Jekyll</code>에 에러가 발생했고, 자세히 보면 테마를 찾을 수 없다고 한다.</li>
+</ul>
+
+<p><img src="/assets/img/gitblog/gitblog6/gitblog6_3.png" alt="사진3" />
+<img src="/assets/img/gitblog/gitblog6/gitblog6_4.png" alt="사진4" /></p>
+
+<h2 id="게시글-파일-이름-에러">게시글 파일 이름 에러</h2>
+
+<p><img src="/assets/img/gitblog/gitblog3/gitblog3_3.png" alt="사진5" /></p>
+
+<ul>
+  <li>나는 원래 위 사진처럼 게시글 파일 이름을 <code class="language-plaintext highlighter-rouge">2024-02-12-깃블로그 만들기 4 : 새로운 게시글 작성하기.md </code>처럼 작성일자와 제목으로 관리해왔다. 이렇게 블로그에 표시될 게시글 제목과 게시글 파일 이름을 동일하게 하면 내가 로컬에서 관리하기 쉽기 때문이다. 하지만 역시 git push 했을 때 페이지가 정상적으로 뜨지 않는 에러가 발생했다. 통상적으로 파일 이름에 한글과 띄워쓰기를 쓰지 않는다는 점에서 혹시나 하는 마음에 아래 사진처럼 게시글 파일 이름을 모두 변경하였더니, 정상적으로 페이지가 떴다.</li>
+</ul>
+
+<p><img src="/assets/img/gitblog/gitblog6/gitblog6_5.png" alt="사진6" /></p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="gitblog" /><summary type="html"><![CDATA[이번에는 Hydejack 테마를 사용하면서 내가 자주 했던 실수들을 살펴보겠다. 처음에는 에러의 이유를 몰라서 gitblog repository를 몇 번이나 삭제하고 다시 만들면서 시간을 많이 썼는데, 앞으로는 그러지 않기 위해 남긴다.]]></summary></entry><entry><title type="html">(ModernTCN) A Modern Pure Convolution Structure for General Time Series Analysis</title><link href="http://localhost:4000/timeseries/2024-02-14-ModernTCN/" rel="alternate" type="text/html" title="(ModernTCN) A Modern Pure Convolution Structure for General Time Series Analysis" /><published>2024-02-14T00:00:00+09:00</published><updated>2024-02-15T16:47:11+09:00</updated><id>http://localhost:4000/timeseries/ModernTCN</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-02-14-ModernTCN/"><![CDATA[<h2 id="abstract">Abstract</h2>
 <ul>
   <li>최근 Transformer-based 모델과 MLP-based 모델이 time series에서 우위에 있지만, 본 논문에서는 convolution을 time series에서 사용하는 모델 ModernTCN을 제안한다.</li>
   <li>Time series의 5개 mainstream task (long-term and short-term forecasting, imputation, classification and anomaly detection)에서 SOTA</li>
@@ -228,13 +282,21 @@
 
 <h2 id="readmemd-작성하기">README.md 작성하기</h2>
 
-<p>아래처럼 <code class="language-plaintext highlighter-rouge">README.md</code>를 작성하면 되는데, 일반적으로 여러 게시글을 작성할 것이기 때문에, 아래 사진을 참고하면 된다.</p>
+<ul>
+  <li>아래처럼 <code class="language-plaintext highlighter-rouge">README.md</code>를 작성하면 되는데, 일반적으로 여러 게시글을 작성할 것이기 때문에, 아래 사진을 참고하면 된다.</li>
+</ul>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="n">게시글</span> <span class="n">제목</span><span class="p">]{:.</span><span class="n">heading</span><span class="p">.</span><span class="n">flip</span><span class="o">-</span><span class="n">title</span><span class="p">}</span>
 <span class="p">[</span><span class="n">게시글</span> <span class="n">제목</span><span class="p">]:</span> <span class="n">게시글</span> <span class="n">경로</span>
 </code></pre></div></div>
 
 <p><img src="/assets/img/gitblog/gitblog3/gitblog3_3.png" alt="그림3" /></p>
+
+<ul>
+  <li>추가 : 만약 이렇게 했을 때 안되면 아래 사진처럼 경로에 <code class="language-plaintext highlighter-rouge">/_posts</code>를 삭제하고, 뒤에 <code class="language-plaintext highlighter-rouge">.md</code>를 삭제해보는 것이 방법이 될 수 있다. 나의 경우에는 bundle을 업데이트했더니 404 에러가 떠서, 아래 사진처럼 바꿔주었더니 다시 페이지가 작동되었다. (정확한 업데이트 내용은 모른다.)</li>
+</ul>
+
+<p><img src="/assets/img/gitblog/gitblog3/gitblog3_7.png" alt="그림7" /></p>
 
 <h2 id="게시글-작성하기">게시글 작성하기</h2>
 
@@ -354,7 +416,7 @@ irregularity로 인한 misalign readouts를 예측하기 위해 인접한 관측
   <li>다음으로 <code class="language-plaintext highlighter-rouge">_featured_categories</code> 폴더에 <code class="language-plaintext highlighter-rouge">my_category.md</code> 파일을 만들어준다. <code class="language-plaintext highlighter-rouge">example.md</code> 파일 형식과 동일하게 작성해준다.</li>
   <li>마지막으로 <code class="language-plaintext highlighter-rouge">example/_posts</code>처럼 <code class="language-plaintext highlighter-rouge">my_category/_posts</code> 폴더를 만들고 그 안에 게시물을 작성하면 된다.</li>
   <li>각 게시물의 파일 이름은 <code class="language-plaintext highlighter-rouge">2024-02-09-FILENAME</code> 형식으로 게시물 작성일을 기재할 수 있다.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="gitblog" /><summary type="html"><![CDATA[깃 블로그 커스텀 : authors.yml]]></summary></entry><entry><title type="html">깃 블로그 만들기 2 : 테마 적용하기</title><link href="http://localhost:4000/gitblog/2024-02-08-gitblog2/" rel="alternate" type="text/html" title="깃 블로그 만들기 2 : 테마 적용하기" /><published>2024-02-08T00:00:00+09:00</published><updated>2024-02-16T13:24:32+09:00</updated><id>http://localhost:4000/gitblog/gitblog2</id><content type="html" xml:base="http://localhost:4000/gitblog/2024-02-08-gitblog2/"><![CDATA[<h2 id="7-테마-다운받기">7. 테마 다운받기</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="gitblog" /><summary type="html"><![CDATA[깃 블로그 커스텀 : authors.yml]]></summary></entry><entry><title type="html">깃 블로그 만들기 2 : 테마 적용하기</title><link href="http://localhost:4000/gitblog/2024-02-08-gitblog2/" rel="alternate" type="text/html" title="깃 블로그 만들기 2 : 테마 적용하기" /><published>2024-02-08T00:00:00+09:00</published><updated>2024-02-16T14:29:40+09:00</updated><id>http://localhost:4000/gitblog/gitblog2</id><content type="html" xml:base="http://localhost:4000/gitblog/2024-02-08-gitblog2/"><![CDATA[<h2 id="7-테마-다운받기">7. 테마 다운받기</h2>
 
 <ul>
   <li>선택한 테마는 Hydejack이다.</li>
@@ -413,7 +475,7 @@ irregularity로 인한 misalign readouts를 예측하기 위해 인접한 관측
 </ul>
 
 <h2><img src="/assets/img/gitblog/gitblog2/gitblog2_1.png" alt="그림1" /></h2>
-<p>source : <a href="https://supermemi.tistory.com/entry/나만의-블로그-만들기-Git-hub-blog-GitHubio">https://supermemi.tistory.com/entry/나만의-블로그-만들기-Git-hub-blog-GitHubio</a></p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="gitblog" /><summary type="html"><![CDATA[7. 테마 다운받기]]></summary></entry><entry><title type="html">깃 블로그 만들기 1 : jekyll로 홈페이지 만들기</title><link href="http://localhost:4000/gitblog/2024-02-07-gitblog1/" rel="alternate" type="text/html" title="깃 블로그 만들기 1 : jekyll로 홈페이지 만들기" /><published>2024-02-07T00:00:00+09:00</published><updated>2024-02-16T13:24:32+09:00</updated><id>http://localhost:4000/gitblog/gitblog1</id><content type="html" xml:base="http://localhost:4000/gitblog/2024-02-07-gitblog1/"><![CDATA[<h2 id="1-새로운-repository-만들기">1. 새로운 Repository 만들기</h2>
+<p>source : <a href="https://supermemi.tistory.com/entry/나만의-블로그-만들기-Git-hub-blog-GitHubio">https://supermemi.tistory.com/entry/나만의-블로그-만들기-Git-hub-blog-GitHubio</a></p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="gitblog" /><summary type="html"><![CDATA[7. 테마 다운받기]]></summary></entry><entry><title type="html">깃 블로그 만들기 1 : jekyll로 홈페이지 만들기</title><link href="http://localhost:4000/gitblog/2024-02-07-gitblog1/" rel="alternate" type="text/html" title="깃 블로그 만들기 1 : jekyll로 홈페이지 만들기" /><published>2024-02-07T00:00:00+09:00</published><updated>2024-02-16T14:29:40+09:00</updated><id>http://localhost:4000/gitblog/gitblog1</id><content type="html" xml:base="http://localhost:4000/gitblog/2024-02-07-gitblog1/"><![CDATA[<h2 id="1-새로운-repository-만들기">1. 새로운 Repository 만들기</h2>
 
 <ul>
   <li>Repository name은 username.github.io로 한다.</li>
