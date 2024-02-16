@@ -61,7 +61,7 @@ hide_last_modified: true
 
 
 ## 4. Experiments
-- ![사진4](/assets/img/timeseries/modernTCN/fig3.jpeg)
+![사진4](/assets/img/timeseries/modernTCN/fig3.jpeg)
 - Time series의 5가지 mainstream analysis task에서 performance, efficiency 측면에서 SOTA를 달성했다.
 
 ## 5. Model Analysis
