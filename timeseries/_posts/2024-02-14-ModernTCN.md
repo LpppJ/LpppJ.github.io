@@ -47,5 +47,5 @@ hide_last_modified: true
   - 3) 1D conv를 통과, 각 patch는 D차원으로 embedding
   - 그림으로 표현하면 아래와 같다.
     ![사진2](/assets/img/timeseries/modernTCN/myfig1.jpeg)
-  - 예시로 이해해보자. patch size가 10이고 stride가 2이므로 총 50개의 patch를 보게 되므로 N=50
+  - 예시로 이해해보자. patch size가 10이고 stride가 2이므로 총 50개의 patch를 보게 되므로 N=50이 된다. 
     ![사진3](/assets/img/timeseries/modernTCN/myfig2.png)
