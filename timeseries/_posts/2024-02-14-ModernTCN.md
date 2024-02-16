@@ -49,3 +49,25 @@ hide_last_modified: true
     ![사진2](/assets/img/timeseries/modernTCN/myfig1.jpeg)
   - 예시로 이해해보자. patch size가 10이고 stride가 2이므로 총 50개의 patch를 보게 되므로 N=50이 된다. 
     ![사진3](/assets/img/timeseries/modernTCN/myfig2.png)
+- DWConv는 feature와 variable 모두에 대해 independent하게, 그리고 kernel을 크게 해서 ERFs를 넓게 가져가 temporal information을 포착하도록 했다.
+- ConvFFN은 information across feature and variable을 섞는 역할을 해야 하는데, 연산의 효율을 위해 jointly하게 학습하기보다는 두 개의 ConvFFN으로 decople했다.
+  - ConvFFN 1 : learning the new feature representations per variable
+  - ConvFFN 2 : learning the cross-variable dependency per feature
+
+### 3.3 Overall Structure
+- $$\mathbf{Z}=\operatorname{Backbone}(\mathbf X_{emb})$$, Backbone($$\cdot$$)은 ModernTCN을 쌓아서 만든 구조이다.
+- 즉 다음과 같이 표현할 수 있다.
+- $$\mathbf{Z}_{i+1}=\operatorname{Block}\left(\mathbf{Z}_i\right)+\mathbf{Z}_i$$ , 즉 $$\mathbf{Z}_i= \begin{cases}\mathbf{X}_{e m b} & , i=1 \\ \operatorname{Block}\left(\mathbf{Z}_{i-1}\right)+\mathbf{Z}_{i-1} & , i>1\end{cases}$$, 이 때 Blcok($$\cdot$$)은 ModernTCN block이다.
+
+
+## 4. Experiments
+- ![사진4](/assets/img/timeseries/modernTCN/fig3.png)
+- Time series의 5가지 mainstream analysis task에서 performance, efficiency 측면에서 SOTA를 달성했다.
+
+## 5. Model Analysis
+- Performance, efficiency 측면에서 ModernTCN은 SOTA를 달성했다.
+- Conv-based time series model TimesNet(2023)도 ModernTCN만큼 성능이 좋은데, 그 이유가 두 모델 모두 CV 분야에서 convolution을 사용하는 아이디어에서 영감을 얻었기 때문이다.
+- 다만, TimesNet은 conv를 사용하기 위해 1D time series를 2D 공간으로 보낸거고, ModernTCN은 conv 자체를 1D time series에 사용할 수 있도록 modernize했기 때문에 training speed가 빠르다.
+ 
+## 6. Conclusion and Future Work
+- 본 논문의 contribution은 단순히 conv-based model로 transformer-based 모델보다 좋은 성능을 냈다 정도가 아니라, 다시 한 번 time series에 다양한 conv-based models가 등장할 수 있음을 의미한다는 것이다.
