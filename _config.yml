@@ -25,7 +25,7 @@ title:                 LpppJ
 # A short description (~150 chars) of the page used for the meta description tag.
 # Can use markdown, but no more than one paragraph (enforced by `>`)
 description:           >
-  This is blog about machine learning, deep learning, especially diffusion and transformer based models
+  This is blog about machine learning, deep learning, artificial intelligence.
 
 # A shorter description for the sidebar.
 tagline:               DataScience and AI
