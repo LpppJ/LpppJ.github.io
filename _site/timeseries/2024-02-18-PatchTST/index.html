@@ -47,7 +47,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="(PatchTST) A TIME SERIES IS WORTH 64 WORDS: LONG-TERM FORECASTING WITH TRANSFORMERS" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-02-18T18:57:41+09:00","datePublished":"2024-02-18T00:00:00+09:00","description":"ICLR 2023","headline":"(PatchTST) A TIME SERIES IS WORTH 64 WORDS: LONG-TERM FORECASTING WITH TRANSFORMERS","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/timeseries/2024-02-18-PatchTST/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/timeseries/2024-02-18-PatchTST/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-02-18T18:59:38+09:00","datePublished":"2024-02-18T00:00:00+09:00","description":"ICLR 2023","headline":"(PatchTST) A TIME SERIES IS WORTH 64 WORDS: LONG-TERM FORECASTING WITH TRANSFORMERS","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/timeseries/2024-02-18-PatchTST/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/timeseries/2024-02-18-PatchTST/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -110,7 +110,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2024-02-18T18:57:45+09:00',
+    INDEX_KEY: 'index--2024-02-18T21:18:17+09:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -302,7 +302,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 <h3 id="31-model-structure">3.1. Model Structure</h3>
 <ul>
-  <li>\((\boldsymbol x_1, ..., \boldsymbol x_L)\) 를 보고 \((\boldsymbol x_{L+1}, ..., \boldsymbol x_{L+T})\)를 예측하는 문제이고, PatchTST는 transformer의 encoder를 핵심으로 한다.
+  <li>\((\boldsymbol{x_{1}}, ..., \boldsymbol x_L)\) 를 보고 \((\boldsymbol x_{L+1}, ..., \boldsymbol x_{L+T})\)를 예측하는 문제이고, PatchTST는 transformer의 encoder를 핵심으로 한다.
 <img src="/assets/img/timeseries/PatchTST/fig1.jpeg" alt="사진1" /></li>
   <li><strong>Forward Process</strong> : 시계열에 있는 M개의 변수가 있고 길이가 L이라고 할 때, \(i\)번째 series는 \(\boldsymbol{x}_{1:L}^{(i)}=(x_{1}^{(i)}, ... , x_{L}^{(i)})\)이다.</li>
   <li>M개의 \(\boldsymbol{x}^{(i)} \in \mathbb R^{1 \times L}\) 가 각각 transformer backbone으로 들어가고 (channel-independence) 각각의 transformer는 \(\boldsymbol{\hat x}^{(i)} =(\hat x_{L+1}^{(i)}, ..., \hat x_{L+T}^{(i)})\in \mathbb R^{1 \times L}\)를 output으로 한다.</li>
