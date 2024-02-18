@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://lpppj.github.io/sitemap.xml
