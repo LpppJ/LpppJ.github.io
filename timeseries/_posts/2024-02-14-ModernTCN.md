@@ -66,7 +66,7 @@ hide_last_modified: true
 
 ## 5. Model Analysis
 - Performance, efficiency 측면에서 ModernTCN은 SOTA를 달성했다.
-- Conv-based time series model TimesNet(2023)도 ModernTCN만큼 성능이 좋은데, 그 이유가 두 모델 모두 CV 분야에서 convolution을 사용하는 아이디어에서 영감을 얻었기 때문이다.
+- MLP-based time series model TimesNet(2023)도 ModernTCN만큼 성능이 좋은데, 그 이유가 두 모델 모두 CV 분야에서 convolution을 사용하는 아이디어에서 영감을 얻었기 때문이다.
 - 다만, TimesNet은 conv를 사용하기 위해 1D time series를 2D 공간으로 보낸거고, ModernTCN은 conv 자체를 1D time series에 사용할 수 있도록 modernize했기 때문에 training speed가 빠르다.
  
 ## 6. Conclusion and Future Work

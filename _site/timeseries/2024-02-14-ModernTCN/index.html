@@ -110,7 +110,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2024-02-22T18:56:43+09:00',
+    INDEX_KEY: 'index--2024-02-23T02:34:01+09:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -327,7 +327,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 <h2 id="5-model-analysis">5. Model Analysis</h2>
 <ul>
   <li>Performance, efficiency 측면에서 ModernTCN은 SOTA를 달성했다.</li>
-  <li>Conv-based time series model TimesNet(2023)도 ModernTCN만큼 성능이 좋은데, 그 이유가 두 모델 모두 CV 분야에서 convolution을 사용하는 아이디어에서 영감을 얻었기 때문이다.</li>
+  <li>MLP-based time series model TimesNet(2023)도 ModernTCN만큼 성능이 좋은데, 그 이유가 두 모델 모두 CV 분야에서 convolution을 사용하는 아이디어에서 영감을 얻었기 때문이다.</li>
   <li>다만, TimesNet은 conv를 사용하기 위해 1D time series를 2D 공간으로 보낸거고, ModernTCN은 conv 자체를 1D time series에 사용할 수 있도록 modernize했기 때문에 training speed가 빠르다.</li>
 </ul>
 
