@@ -52,10 +52,12 @@ menu:
     url:               /timeseries/
   - title:             Gitblog
     url:               /gitblog/
+  - title:             Project
+    url:               /project/
   - title:             Presentation
     url:               /presentation/
   # - title:             Example
-  #   url:               /example/
+  #   url:               /example/ 
   # - title:             Documentation
   #   url:               /docs/
   # - title:             About
