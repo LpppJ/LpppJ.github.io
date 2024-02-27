@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en"><!--
+ __  __                __                                     __
+/\ \/\ \              /\ \             __                    /\ \
+\ \ \_\ \   __  __    \_\ \      __   /\_\      __       ___ \ \ \/'\
+ \ \  _  \ /\ \/\ \   /'_` \   /'__`\ \/\ \   /'__`\    /'___\\ \ , <
+  \ \ \ \ \\ \ \_\ \ /\ \L\ \ /\  __/  \ \ \ /\ \L\.\_ /\ \__/ \ \ \\`\
+   \ \_\ \_\\/`____ \\ \___,_\\ \____\ _\ \ \\ \__/.\_\\ \____\ \ \_\ \_\
+    \/_/\/_/ `/___/> \\/__,_ / \/____//\ \_\ \\/__/\/_/ \/____/  \/_/\/_/
+                /\___/                \ \____/
+                \/__/                  \/___/
+
+Powered by Hydejack v9.1.6 <https://hydejack.com/>
+-->
+
+
+
+
+
+
+
+<head>
+  
+
+
+
+
+
+
+  
+    
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>iTransformer : Inverted Transformers are Effective for Time Series Forecasting | LpppJ</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="iTransformer : Inverted Transformers are Effective for Time Series Forecasting" />
+<meta name="author" content="GW Jeong" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="ICLR 2024" />
+<meta property="og:description" content="ICLR 2024" />
+<link rel="canonical" href="http://localhost:4000/timeseries/2024-02-23-iTransformer/" />
+<meta property="og:url" content="http://localhost:4000/timeseries/2024-02-23-iTransformer/" />
+<meta property="og:site_name" content="LpppJ" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-02-23T00:00:00+09:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="iTransformer : Inverted Transformers are Effective for Time Series Forecasting" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-02-27T10:49:02+09:00","datePublished":"2024-02-23T00:00:00+09:00","description":"ICLR 2024","headline":"iTransformer : Inverted Transformers are Effective for Time Series Forecasting","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/timeseries/2024-02-23-iTransformer/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/timeseries/2024-02-23-iTransformer/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  
+
+
+
+  <meta name="theme-color" content="rgb(230, 217, 195)">
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="LpppJ">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<meta name="application-name" content="LpppJ">
+
+<meta name="generator" content="Hydejack v9.1.6" />
+
+
+<link rel="alternate" href="http://localhost:4000/timeseries/2024-02-23-iTransformer/" hreflang="en">
+
+<link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="LpppJ" />
+
+
+<link rel="shortcut icon"    href="/assets/icons/favicon.ico">
+<link rel="apple-touch-icon" href="/assets/icons/icon-192x192.png">
+
+<link rel="manifest" href="/assets/site.webmanifest">
+
+<link rel="dns-prefetch" href="https://fonts.googleapis.com"><link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+
+
+<link rel="preload" href="/assets/img/swipe.svg" as="image" id="_hrefSwipeSVG">
+
+
+
+
+
+
+<script>!function(r,c){"use strict";function a(e,t,n,o){e.addEventListener?e.addEventListener(t,n,o):e.attachEvent?e.attachEvent("on"+t,n):e["on"+t]=n}r.loadJS=function(e,t){var n=c.createElement("script"),e=(n.src=e,t&&a(n,"load",t,{once:!0}),c.scripts[0]);return e.parentNode.insertBefore(n,e),n},r._loaded=!1,r.loadJSDeferred=function(e,t){var n=c.createElement("script");function o(){r._loaded=!0,t&&a(n,"load",t,{once:!0});var e=c.scripts[0];e.parentNode.insertBefore(n,e)}return n.src=e,r._loaded?o():a(r,"load",o,{once:!0}),n},r.setRel=r.setRelStylesheet=function(e){a(c.getElementById(e),"load",function(){this.rel="stylesheet"},{once:!0})}}(window,document);
+!function(a){"use strict";var b=function(b,c,d){function e(a){return h.body?a():void setTimeout(function(){e(a)})}function f(){i.addEventListener&&i.removeEventListener("load",f),i.media=d||"all"}var g,h=a.document,i=h.createElement("link");if(c)g=c;else{var j=(h.body||h.getElementsByTagName("head")[0]).childNodes;g=j[j.length-1]}var k=h.styleSheets;i.rel="stylesheet",i.href=b,i.media="only x",e(function(){g.parentNode.insertBefore(i,c?g:g.nextSibling)});var l=function(a){for(var b=i.href,c=k.length;c--;)if(k[c].href===b)return a();setTimeout(function(){l(a)})};return i.addEventListener&&i.addEventListener("load",f),i.onloadcssdefined=l,l(f),i};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
+!function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(b){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
+!function(w) {
+  w._baseURL = '/';
+  w._publicPath = '/assets/js/';
+  w._noPushState = false;
+  w._noDrawer = false;
+  w._noNavbar = false;
+  w._noToc = false;
+  w._noSearch = false;
+  w._search = {
+    DATA_URL: '/assets/sitedata.json?no-cache',
+    STORAGE_KEY: 'mini-search/',
+    INDEX_KEY: 'index--2024-02-27T10:49:02+09:00',
+  };
+  w._clapButton = true;
+}(window);</script>
+
+
+<script async src="/assets/bower_components/MathJax/es5/tex-mml-chtml.js" id="_MathJax"></script>
+
+
+<!--[if gt IE 8]><!---->
+
+  
+
+
+
+
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css" id="_iconsPreload">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:700%7CNoto+Sans:400,400i,700,700i&display=swap" id="_fontsPreload">
+
+
+
+  <style id="_pageStyle">
+
+html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5);--accent-color-highlight: rgba(94, 97, 94, 0.1);--accent-color-darkened: #4b4e4b;--theme-color: rgb(230, 217, 195)}
+</style>
+
+
+<!--<![endif]-->
+
+
+
+
+</head>
+
+<body class="no-break-layout">
+  
+
+
+<hy-push-state
+  id="_pushState"
+  replace-selector="#_main"
+  link-selector="a[href]:not([href^='/assets/']):not(.external):not(.no-push-state)"
+  script-selector="script"
+  duration="500"
+  hashchange
+>
+  
+  
+  <div id="_navbar" class="navbar fixed-top">
+  <div class="content">
+    <span class="sr-only">Jump to:</span>
+    <div class="nav-btn-bar">
+      <a id="_menu" class="nav-btn no-hover" href="#_drawer--opened">
+        <span class="sr-only">Navigation</span>
+        <span class="icon-menu"></span>
+      </a>
+      <div class="nav-span"></div>
+    </div>
+  </div>
+</div>
+<hr class="sr-only" hidden />
+
+  <main
+  id="_main"
+  class="content layout-post"
+  role="main"
+>
+  <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+    <li><a href="/">home</a></li>
+    
+      <li>
+        
+          <span>/</span>
+          
+          
+          <a href="/timeseries/">timeseries</a>
+        
+      </li>
+    
+      <li>
+        
+          <span>/</span>
+          <span>2024-02-23-iTransformer</span>
+        
+      </li>
+    
+  
+</ul></nav>
+  
+
+
+
+
+
+
+
+
+
+
+<article id="post-timeseries-iTransformer" class="page post mb6" role="article">
+  <header>
+    <h1 class="post-title flip-project-title">
+      
+        iTransformer : Inverted Transformers are Effective for Time Series Forecasting
+      
+    </h1>
+
+    <div class="post-date">
+      
+      <span class="ellipsis mr1">
+        <time datetime="2024-02-23T00:00:00+09:00">23 Feb 2024</time> in <span>Timeseries</span> 
+      </span>
+      
+        
+          
+          
+          
+            
+            
+            <span class="ellipsis" data-tippy-content="Last modified at: 27 Feb 2024">
+              <span class="sr-only">Last modified at:</span>
+              <span class="icon-history"></span>
+              <time datetime="2024-02-27T10:49:02+09:00">2024-02-27</time>
+            </span>
+          
+        
+      
+    </div>
+
+    
+    
+
+    
+
+
+
+  
+    <p class="note-sm" >
+      <a href="https://arxiv.org/abs/2310.06625">ICLR 2024</a>
+
+    </p>
+  
+
+
+  </header>
+
+  
+    <h2 id="abstract">Abstract</h2>
+<ul>
+  <li>Transformer-based TS : larger lookback \(\to\) performance degradation &amp; computation explosion.</li>
+  <li>iTransformer : attention과 feed-forward network(FFN)를 inverted dimension에서 적용
+<img src="/assets/img/timeseries/iTransformer/fig2'.jpeg" alt="사진1" class="lead" width="00" height="100" /></li>
+  <li>각 time point가 token이 되는 것이 아니라 각 series(variate)가 token이 된다.</li>
+  <li>Inverted dimension만 다르고 이외의 Transformer의 components는 수정 없이 그대로 사용한다.</li>
+</ul>
+
+<h2 id="1-introduction">1. introduction</h2>
+<ul>
+  <li>Transformer가 다른 fields에서는 linear model보다 성능이 좋은데, multivariate ts forecasting에서는 not sutable하다. <br />
+(특히 time points 사이에 semantic 관계보다 nmerical 관계가 강한 경우에는 그냥 simple linear layer의 성능이 더 좋았다.)</li>
+  <li>그 이유는 한 시점에 기록된 서로 다른 변수들의 값들이 하나의 token으로 기록되기 때문이다. 논문에서는 아래처럼 표현하고 있다. <br />
+(= embed multiple variates of the same timestamp into indistinguishable channels…) <br />
+(= the points of the same time step that represent different physical meanings recorded by inconsistent mesurements are embedded into one token …)</li>
+  <li>이러한 single time step의 token 형태는 receptive field가 너무 좁아서 유용한 정보를 얻어내기가 어렵다.</li>
+  <li>
+    <p>또한 시계열은 데이터의 순서가 중요한데, transformer는 permutation-invariant attention mechanism이라서 temporal dimension을 잘 잡지 못한다.</p>
+  </li>
+  <li>그래서 iTransformer는 각각의 variate를 독립적으로 token으로 embedding해서 receptive field를 늘려준다.(Patching의 extreme case)</li>
+  <li>그러면 token은 series의 global representation을 통합해서 variate-centric하다.</li>
+  <li>FFN은 개별 변수에 대해 인코딩된 lookback series를 보고 예측할 수 있을 정도의 generalizable representation을 학습할 수 있다.</li>
+  <li>본 논문의 contribution은 아래와 같다.
+    <ul>
+      <li>Transformer가 비효과적인 것이 아니라 아직 underexplored라서 잘못 사용되었으니 component를 개선한다.</li>
+      <li>독립적인 개별 시계열을 token으로 간주하여 self-attention으로 multivariate correlations를 파악하고, FFN으로 forecasting을 위한 series-global representation을 학습한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="2-related-work">2. Related Work</h2>
+<ul>
+  <li>TCN-based, RNN-base forecasters를 지나서 Transformer가 시퀀스 모델링과 확장 가능성으로 좋은 성능을 보여주며 많은 variant가 나왔다.</li>
+  <li>Transformer의 variant는 component를 수정하는지, architecture를 수정하는지에 따라 4가지로 구분된다.
+<img src="/assets/img/timeseries/iTransformer/fig3.jpeg" alt="사진2" />
+    <ul>
+      <li>1) Temporal dependency 모델링을 위한 attention module 수정 (Component adaptation)</li>
+      <li>2) Linear model이 떠오르면서, transformer에서도 component나 architecture를 바꾸지 않고 Stationarization, Channel independence, Patching 등을 통해 효율적으로 성능 향상</li>
+      <li>3) Transformer의 component와 architecture를 모두 수정하여 multivariate의 cross-time and cross-variate dependency를 파악</li>
+      <li>4) iTransformer는 Transformer의 component는 그대로 가져오지만 inverted하게 가져온다. (architecture만 바뀜)</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="3-itransformer">3. ITransformer</h2>
+<ul>
+  <li>현실 시나리오에서는 각각의 variate마다 발생 시점과 기록 시점의 delay 정도가 다를 수 있기 때문에 시점 \(t\)에서 모든 variates가 관측되지 않을 수도 있다. 뿐만 아니라 각각의 variate마다 통계적 분포 자체가 다를 수도 있다.</li>
+</ul>
+
+<h3 id="31-structure-overview">3.1. Structure Overview</h3>
+<ul>
+  <li><img src="/assets/img/timeseries/iTransformer/fig4.png" alt="사진3" /></li>
+  <li>iTransformer는 Transformer의 encoder-only architecture (including the embedding, projection, and Transformer blocks)</li>
+  <li><strong>Embedding the whole series as the token</strong> : 한 시점에서 많은 변수들을 하나의 token으로 간주하면 attention map을 학습하기 어렵다는 것은 patching으로 respective field를 늘리는 방식들이 좋은 성능을 낸다는 것으로부터 알 수 있다. 그러므로 each time series가 token이 되어 해당 변수의 properties를 다루고, self-attention으로 mutual interactions를, feed-forward networks로 series representations를 처리한다.</li>
+  <li>iTransformer가 예측하는 future series \(\hat{\mathbf{Y}}_{:, n}\) based on \(\mathbf{X}_{:, n}\)의 formula :
+<img src="/assets/img/timeseries/iTransformer/formula1.png" alt="사진4" />
+    <ul>
+      <li>\(\mathbf{H}=\left\{\mathbf{h}_1, \cdots, \mathbf{h}_N\right\} \in \mathbb{R}^{N \times D}\)은 \(D\)차원의 embedded tokens \(N\)개이고 \(h\)의 아래첨자는 layer index이다.</li>
+      <li>Embedding \(\mathbb{R}^T \mapsto \mathbb{R}^D\)과 Projection \(\mathbb{R}^D \mapsto \mathbb{R}^S\)는 MLP가 한다.</li>
+      <li>Inverted dimension으로 sequence의 순서가 FFN에 저장되므로 position embedding이 더이상 필요하지 않다.</li>
+    </ul>
+  </li>
+  <li><strong>iTransformers</strong> : Attention에 multivariate correlation 외에는 requirements가 없어서 variates가 많아질 때 효율적이다. 또한 training과 inference에서 token의 개수가 다를 수 있어서 variates의 개수에 대해 유연한 모델이다.</li>
+</ul>
+
+<h3 id="32-inverted-transformer-components">3.2. Inverted Transformer Components</h3>
+<ul>
+  <li><strong>Layer normalization</strong> : Layer normalization은 훈련할 때 convergence speed and stability를 위한 것이다. 기존 Transformer에서는 한 시점에서 multivariate representation을 normalize했었는데, non-causal이나 앞서 언급한 delay를 고려하면 interaction noise의 원인이 될 수 있다. 그러므로 개별 variate를 normalize한다. 그러면 measurements(=variates, sensor, series)끼리의 불일치성도 해소된다.
+\(\text { LayerNorm }(\mathbf{H})=\left\{\left.\frac{\mathbf{h}_n-\operatorname{Mean}\left(\mathbf{h}_n\right)}{\sqrt{\operatorname{Var}\left(\mathbf{h}_n\right)}} \right\rvert\, n=1, \cdots, N\right\}\)</li>
+  <li><strong>Feed-Forward network</strong> : 각각의 variate token을 FFN에 태우면 universal approximation therem(Hornik, 1991)에 의해 시계열의 복잡한 representation을 추출할 수 있다. 이러한 inverted blocks를 쌓으면 observed를 encoding하고 future series를 decoding하는 과정을 <a href="/timeseries/2024-02-16-DLinear">MLP</a>처럼 할 수 있다. (MLP 방식은 시계열의 amplitude, periodicity, frequency spectrums까지 학습할 수 있고, time point self-attention보다도 좋은 성능을 낼 수 있다.)</li>
+  <li><strong>Self-attention</strong> : Inverted dimenstion으로 self-attention을 계산하면 \(Q, K, V \in \mathbf R^{N \times d_k}\)를 linear projection으로 구한다. 사전에 feature-dimension으로 normalize를 해놓았으니 pre-Softmax score \(\mathbf{A}_{i, j}=\left(\mathbf{Q} \mathbf{K}^{\top} / \sqrt{d_k}\right)_{i, j} \propto \mathbf{q}_i^{\top} \mathbf{k}_j\)는 variate-wisecorrelation을 의미하고, whole score map \(\mathbf{A} \in \mathbb{R}^{N \times N}\)는 multivariate correlations btw paired variate tokens가 된다.</li>
+</ul>
+
+<h2 id="4-experiments">4. Experiments</h2>
+
+<h3 id="41-forecasting-results">4.1. Forecasting Results</h3>
+<ul>
+  <li>7개의 데이터셋 사용(ECL, ETT, Exchange, Traffic, Weather, Solar-Energy, PEMS), 10개의 forecasting models과 비교
+    <ul>
+      <li>Transformer-based : Autoformer, FEDformer, Stationary, Crossformer, PatchTST</li>
+      <li>Linear-based : DLinear, TiDE, RLinear</li>
+      <li>TCN-based : SCINet, TimesNet
+<img src="/assets/img/timeseries/iTransformer/table1.png" alt="사진5" /></li>
+    </ul>
+  </li>
+  <li>SOTA였던 PatchTST는 변동이 심한 PEM 데이터를 처리하기 어렵고, 명시적으로 multivariate correlation을 파악하는 Crossformer보다 iTransformer의 성능이 뛰어나다.</li>
+</ul>
+
+<h3 id="42-itransformer-generality">4.2. ITransformer Generality</h3>
+<ul>
+  <li><strong>Performance promotion</strong>
+<img src="/assets/img/timeseries/iTransformer/table2.png" alt="사진6" />
+    <ul>
+      <li>Transformer-based models에 inverted framework를 적용하여 성능을 비교한 결과 일관되게 성능이 향상되었다.</li>
+    </ul>
+  </li>
+  <li><strong>Variate generalization</strong>
+<img src="/assets/img/timeseries/iTransformer/fig5.png" alt="사진7" />
+    <ul>
+      <li>데이터의 20%만으로 training을 하더라도 100%로 training을 했을 때에 비해서 성능에 큰 차이가 없다는 것은 iTransformer가 효율적으로 훈련할 수 있는 모델임을 의미한다. 즉 unseen variates에 대해 generalization capability가 뛰어나다. 그 이유는 1) 각 variate를 token으로 embedding하니 variate의 개수에 제한이 없어지기 때문이고, 2) FFN이 각 token에 identically하게 적용되어 어떤 time series에서든 존재하는 본질적인 패턴을 학습할 수 있기 때문이다.</li>
+    </ul>
+  </li>
+  <li><strong>Increasing lookback length</strong>
+<img src="/assets/img/timeseries/iTransformer/fig6.png" alt="사진8" />
+    <ul>
+      <li>Transformer-based models는 look-back window가 길어져도 성능 향상으로 이어지지 않았지만, inverted framework는 look-back window가 길어지면 성능이 향상된다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="43-model-analysis">4.3. Model Analysis</h3>
+<ul>
+  <li><strong>Ablation Study</strong>
+<img src="/assets/img/timeseries/iTransformer/table3.png" alt="사진9" />
+    <ul>
+      <li>Time series의 multivariate correlation(Variate)와 series representation(Temporal)을 학습하기 위해 Attention을 FFN으로 바꿔도 보고 아예 안써보기도 하면서 iTransformer가 가장 좋은 성능을 낸다는 것을 확인하였다.</li>
+    </ul>
+  </li>
+  <li><strong>Analysis of multivariate Representations and Correlations</strong>
+<img src="/assets/img/timeseries/iTransformer/fig7.png" alt="사진10" />
+    <ul>
+      <li>The centered kernel alignment (CKA)는 높을수록 similar representation을 의미하는데, inverted frameworks가 유의미하게 높다.</li>
+      <li>또한 얕은 layer의 attention map은 input series와 상관관계가 높고, 깊은 layer의 attention map은 future series와 상관관계가 높다는 점에서 interpretable attention이다.</li>
+    </ul>
+  </li>
+  <li><strong>Efficient training strategy</strong>
+<img src="/assets/img/timeseries/iTransformer/fig8.png" alt="사진11" />
+    <ul>
+      <li>각 배치에서 변수의 일부만 사용하여 훈련하더라도 MSE가 안정적이고, sample ratio가 낮아짐에 따라 memory가 적게 사용되므로 효율적인 모델이라 할 수 있다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="5-conclusion-and-future-work">5. Conclusion and Future work</h2>
+<ul>
+  <li>iTransformer는 각 series를 variate token으로 보고 multivariate correlation을 파악하기 위해 attention과 FFN을 사용하였다.</li>
+  <li>실험 결과를 통해 기존 Transformer-based time series forecasters보다 뛰어날 뿐만 아니라 interpretable한 성능을 보여주었다.</li>
+</ul>
+
+  
+</article>
+
+
+
+  <hr class="dingbat related mb6" />
+
+
+
+
+
+
+  
+     
+
+
+  <aside class="about related mt4 mb4" role="complementary">
+    
+    
+
+<div class="author mt4">
+  
+
+  
+    
+
+
+<img
+  
+    src="https://via.placeholder.com/128x128"
+    srcset="/assets/img/me/me.JPG 1x,/assets/img/me/me.JPG 2x"
+    
+  
+  alt="GW Jeong"
+  class="avatar"
+  
+  width="120"
+  height="120"
+  loading="lazy"
+/>
+
+  
+
+  
+  
+  <h2  class="page-title hr-bottom">
+    About
+  </h2>
+
+  <p>Bachelor’s degree in Applied Statistics. Yonsei Univ. (2018~2024) <br />
+DataScienceLab 8th 학회장 (2022~2023) <br />
+Master’s degree in Statitstics. Yonsei Univ. (2024~)</p>
+
+
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+
+  </aside>
+
+
+  
+
+  
+  
+
+  
+    
+
+
+  
+
+  
+  
+
+  
+    
+
+  
+
+
+  
+<footer class="content" role="contentinfo">
+  <hr/>
+  
+    <p><small class="copyright">© Geonwoo Jeong.
+</small></p>
+  
+  
+    <p><small>Powered by <a class="external" href="https://hydejack.com/">Hydejack</a> v<span id="_version">9.1.6</span></small></p>
+  <hr class="sr-only"/>
+</footer>
+
+
+</main>
+
+  <hy-drawer
+  id="_drawer"
+  class=""
+  side="left"
+  threshold="10"
+  noscroll
+  
+>
+  <header id="_sidebar" class="sidebar" role="banner">
+    
+
+
+
+
+<div class="sidebar-bg sidebar-overlay" style="background-color:rgb(230, 217, 195);background-image:url(/assets/img/me/sidebar.jpg)"></div>
+
+    <div class="sidebar-sticky">
+  <div class="sidebar-about">
+    
+      <a class="no-hover" href="/" tabindex="-1">
+        <img src="/assets/img/me/logo.jpg" class="avatar" alt="LpppJ" width="120" height="120" loading="lazy" />
+      </a>
+    
+    <a class="sidebar-title" href="/"><h2 class="h1">LpppJ</h2></a>
+    
+    
+      <p class="">
+        DataScience and AI
+
+      </p>
+    
+  </div>
+
+  <nav class="sidebar-nav heading" role="navigation">
+    <span class="sr-only">Navigation:</span>
+<ul>
+  
+    
+      
+      <li>
+        <a
+          id="_drawer--opened"
+          href="/timeseries/"
+          class="sidebar-nav-item "
+          
+        >
+          TimeSeries
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/gitblog/"
+          class="sidebar-nav-item "
+          
+        >
+          Gitblog
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/project/"
+          class="sidebar-nav-item "
+          
+        >
+          Project
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/presentation/"
+          class="sidebar-nav-item "
+          
+        >
+          Presentation
+        </a>
+      </li>
+    
+  
+</ul>
+
+  </nav>
+
+  
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+  </header>
+</hy-drawer>
+<hr class="sr-only" hidden />
+
+</hy-push-state>
+
+
+  <!--[if gt IE 10]><!---->
+  <script nomodule>!function(){var t,n=document.createElement("script");!("noModule"in n)&&"onbeforeload"in n&&(t=!1,document.addEventListener("beforeload",function(e){if(e.target===n)t=!0;else if(!e.target.hasAttribute("nomodule")||!t)return;e.preventDefault()},!0),n.type="module",n.src=".",document.head.appendChild(n),n.remove())}();
+</script>
+  <script src="/assets/js/hydejack-9.1.6.js" type="module"></script>
+  <script src="/assets/js/LEGACY-hydejack-9.1.6.js" nomodule defer></script>
+  
+
+  
+
+<!--<![endif]-->
+  <!-- <script>
+  document.querySelector('hy-push-state').setAttribute('prefetch', '');
+
+  document.querySelectorAll('.sidebar a[href^="/"]').forEach(function (el) { 
+    el.addEventListener('click', function (e) {
+      if (el.pathname === window.location.pathname) {
+        e.preventDefault();
+        e.stopPropagation();
+        document.querySelector('hy-drawer').close();
+      }
+    });
+  });
+</script> -->
+
+<!--
+Code for integrating CloudFlare's email protection with Hydejack's single page app loading.
+-->
+<script>
+  document.getElementById('_pushState').addEventListener('hy-push-state-after', function (e) {
+    function e(e){
+      (console.error?console.error:console.log).call(console,e)
+    }
+
+    function t(e){
+      return l.innerHTML='<a href="'+e.replace(/"/g,"&quot;")+'"></a>',l.childNodes[0].getAttribute("href")
+    }
+
+    function r(e,t){
+      var r=e.substr(t,2);return parseInt(r,16)
+    }
+
+    function n(e,n){
+      for(var o="",c=r(e,n),a=n+2;a<e.length;a+=2){
+        var l=r(e,a)^c;
+        o+=String.fromCharCode(l)
+      }
+      return t(o)
+    }
+
+    var o="/cdn-cgi/l/email-protection#",
+        c=".__cf_email__",
+        a="data-cfemail",
+        l=document.createElement("div");
+
+    !function(){
+      for(var t=document.getElementsByTagName("a"),r=0;r<t.length;r++)
+        try{
+          var c=t[r],a=c.href.indexOf(o);
+          a>-1&&(c.href="mailto:"+n(c.href,a+o.length))
+        }catch(t){
+          e(t)
+        }
+    }(),
+    function(){
+      for(var t=document.querySelectorAll(c),r=0;r<t.length;r++)
+        try{
+          var o=t[r],l=n(o.getAttribute(a),0),i=document.createTextNode(l);
+          o.parentNode.replaceChild(i,o)
+        }catch(t){
+          e(t)
+        }
+    }()
+  });
+</script>
+
+
+
+
+
+<div hidden>
+  
+  <h2 class="sr-only">Templates (for web app):</h2>
+
+  <template id="_animation-template">
+  <div class="animation-main fixed-top">
+    <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+</ul></nav>
+    <div class="content">
+      <div class="page"></div>
+    </div>
+  </div>
+</template>
+
+  <template id="_loading-template">
+  <div class="loading nav-btn fr">
+    <span class="sr-only">Loading…</span>
+    <span class="icon-cog"></span>
+  </div>
+</template>
+
+  <template id="_error-template">
+  <div class="page">
+    <h1 class="page-title">Error</h1>
+    
+    
+    <p class="lead">
+      Sorry, an error occurred while loading <a class="this-link" href=""></a>.
+
+    </p>
+  </div>
+</template>
+
+  <template id="_permalink-template">
+  <a href="#" class="permalink">
+    <span class="sr-only">Permalink</span>
+    <span class="content-hash"></span>
+  </a>
+</template>
+
+</div>
+
+
+</body>
+</html>
