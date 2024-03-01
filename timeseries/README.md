@@ -14,7 +14,8 @@ permalink: /timeseries/
 [(DLinear) Are Transformer Effective for Time Series Forecastig?]{:.heading.flip-title} \
 [(PatchTST) A Time Series is Worth 64 Words: Long-Term Forecasting With Transformers]{:.heading.flip-title} \
 [(FITS) Modeling Time Series with 10k Parameters]{:.heading.flip-title} \
-[(iTransformer) Inverted Transformers are Effective for Time Series Forecasting]{:.heading.flip-title}
+[(iTransformer) Inverted Transformers are Effective for Time Series Forecasting]{:.heading.flip-title} \
+[(GAFormer) Enhancing Timeseries Transformers Through Group-Aware Embeddings]{:.heading.flip-title}
 
 
 
@@ -25,3 +26,4 @@ permalink: /timeseries/
 [(PatchTST) A Time Series is Worth 64 Words: Long-Term Forecasting With Transformers]: /timeseries/2024-02-18-PatchTST
 [(FITS) Modeling Time Series with 10k Parameters]: /timeseries/2024-02-22-FITS
 [(iTransformer) Inverted Transformers are Effective for Time Series Forecasting]: /timeseries/2024-02-23-iTransformer
+[(GAFormer) Enhancing Timeseries Transformers Through Group-Aware Embeddings]: /timeseries/2024-03-01-GAFormer

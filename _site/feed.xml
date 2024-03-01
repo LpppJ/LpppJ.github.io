@@ -1,5 +1,56 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-02-27T10:49:02+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">iTransformer : Inverted Transformers are Effective for Time Series Forecasting</title><link href="http://localhost:4000/timeseries/2024-02-23-iTransformer/" rel="alternate" type="text/html" title="iTransformer : Inverted Transformers are Effective for Time Series Forecasting" /><published>2024-02-23T00:00:00+09:00</published><updated>2024-02-27T10:49:02+09:00</updated><id>http://localhost:4000/timeseries/iTransformer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-02-23-iTransformer/"><![CDATA[<h2 id="abstract">Abstract</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-03-01T20:04:29+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">(GAFormer) Enhancing Timeseries Transformers Through Group-Aware Embeddings</title><link href="http://localhost:4000/timeseries/2024-03-01-GAFormer/" rel="alternate" type="text/html" title="(GAFormer) Enhancing Timeseries Transformers Through Group-Aware Embeddings" /><published>2024-03-01T00:00:00+09:00</published><updated>2024-03-01T20:04:25+09:00</updated><id>http://localhost:4000/timeseries/GAFormer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-01-GAFormer/"><![CDATA[<h2 id="abstract">Abstract</h2>
+<ul>
+  <li>Multivariate TS의 복잡한 inter-channel relationship과 dynamic shifts로 인해 Robust and generalizable representation을 학습하기 어렵다.</li>
+  <li>본 논문에서 제시하는 GAFormer는 set of group tokens를 학습하고 instance-specific group embedding layer를 만든다.</li>
+</ul>
+
+<h2 id="1-introduction">1. Introduction</h2>
+<ul>
+  <li>Multivariate TS의 temporal dynamics(temporal structure) of each channel, 그리고 relationship across channels(channel-wise structure)는 TS의 representation을 만드는 요소</li>
+  <li>TS는 <strong>no predetermined ordering</strong>, 그리고 <strong>instance-specific relationships across channels and time</strong>으로 인해 position embedding을 그대로 사용하기에 적절하지 않다.</li>
+  <li>본 논문에서 제시하는 GAFormer는 channel structure와 temporal structure를 통합하여 token에 ‘group embedding’한다.</li>
+</ul>
+
+<h2 id="2-method">2. Method</h2>
+<ul>
+  <li>Instance-specific group embeddings : grouping across different tokens, either channel-wise (spatially) or time-wise (temporally)
+    <h3 id="21-group-embeddings">2.1. Group Embeddings</h3>
+  </li>
+  <li>Sequence of tokens : \(X=\left[\mathbf{x}_1, \ldots, \mathbf{x}_N\right] \in \mathbb{R}^{N \times D}\)
+    <ul>
+      <li>\(N\) : the total # of tokens in a seq</li>
+      <li>\(D\) : token dim</li>
+    </ul>
+  </li>
+  <li>Linear weight matrix : \(W \in \mathbb{R}^{D \times K}\) project each token down to a space of \(K\) dim
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">operation</code> \(\operatorname{Encoder}(X) W \in \mathbb{R}^{N \times K}\)</li>
+    </ul>
+  </li>
+  <li>그 다음 softmax : sparsify the coefficients that assign group tokens to input tokens (group awareness)
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">operation</code> \(\mathbb{S}(\operatorname{Encoder}(X) W)\)
+        <ul>
+          <li>where \(\mathbb{S}\) represents the softmax (along \((D)\) dim)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>각 tokens를 K차원으로 줄였기 때문에,  \(\mathbf{G} \in \mathbb{R}^{N \times D}\)을 곱해줄 수 있다.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">operation</code> \(\operatorname{GE}(X)=\mathbb{S}(\operatorname{Encoder}(X) W) \cdot G\)</li>
+    </ul>
+  </li>
+  <li>이제 \(X\)에 더해준다
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">operation</code> \(X \leftarrow X+\operatorname{GE}(X)\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="22-gaformer-a-group-aware-spatiotemporal-transformer">2.2. GAFormer: A Group-Aware SpatioTemporal Transformer</h3>
+<p>-</p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2024](https://openreview.net/forum?id=c56TWtYp0W)]]></summary></entry><entry><title type="html">iTransformer : Inverted Transformers are Effective for Time Series Forecasting</title><link href="http://localhost:4000/timeseries/2024-02-23-iTransformer/" rel="alternate" type="text/html" title="iTransformer : Inverted Transformers are Effective for Time Series Forecasting" /><published>2024-02-23T00:00:00+09:00</published><updated>2024-02-27T10:49:11+09:00</updated><id>http://localhost:4000/timeseries/iTransformer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-02-23-iTransformer/"><![CDATA[<h2 id="abstract">Abstract</h2>
 <ul>
   <li>Transformer-based TS : larger lookback \(\to\) performance degradation &amp; computation explosion.</li>
   <li>iTransformer : attention과 feed-forward network(FFN)를 inverted dimension에서 적용
@@ -11,7 +62,7 @@
 <h2 id="1-introduction">1. introduction</h2>
 <ul>
   <li>Transformer가 다른 fields에서는 linear model보다 성능이 좋은데, multivariate ts forecasting에서는 not sutable하다. <br />
-(특히 time points 사이에 semantic 관계보다 nmerical 관계가 강한 경우에는 그냥 simple linear layer의 성능이 더 좋았다.)</li>
+(특히 time points 사이에 semantic 관계보다 numerical 관계가 강한 경우에는 그냥 simple linear layer의 성능이 더 좋았다.)</li>
   <li>그 이유는 한 시점에 기록된 서로 다른 변수들의 값들이 하나의 token으로 기록되기 때문이다. 논문에서는 아래처럼 표현하고 있다. <br />
 (= embed multiple variates of the same timestamp into indistinguishable channels…) <br />
 (= the points of the same time step that represent different physical meanings recorded by inconsistent mesurements are embedded into one token …)</li>
@@ -491,7 +542,7 @@
 <ul>
   <li>PatchTST의 key components 2가지는 : Patching과 Channel-independence이다.</li>
   <li>PatchTST는 longer look-back windows의 benefit을 가질 수 있으면서 local semantic information을 파악할 수 있다.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2023](https://arxiv.org/abs/2211.14730)]]></summary></entry><entry><title type="html">(DLinear) Are Transformer Effective for Time Series Forecasting?</title><link href="http://localhost:4000/timeseries/2024-02-16-DLinear/" rel="alternate" type="text/html" title="(DLinear) Are Transformer Effective for Time Series Forecasting?" /><published>2024-02-16T00:00:00+09:00</published><updated>2024-02-23T02:34:43+09:00</updated><id>http://localhost:4000/timeseries/%08DLinear</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-02-16-DLinear/"><![CDATA[<h2 id="abstract">Abstract</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2023](https://arxiv.org/abs/2211.14730)]]></summary></entry><entry><title type="html">(DLinear) Are Transformer Effective for Time Series Forecasting?</title><link href="http://localhost:4000/timeseries/2024-02-16-DLinear/" rel="alternate" type="text/html" title="(DLinear) Are Transformer Effective for Time Series Forecasting?" /><published>2024-02-16T00:00:00+09:00</published><updated>2024-03-01T17:26:18+09:00</updated><id>http://localhost:4000/timeseries/DLinear</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-02-16-DLinear/"><![CDATA[<h2 id="abstract">Abstract</h2>
 <ul>
   <li>Transformer-based solutions는 긴 시퀀스 속에 있는 semantic correlations를 잘 추출하기 때문에 long-term time series forecasting(LTSF)에 쓰인다.</li>
   <li>하지만 이러한 permutation-invariant self-attention의 특성상 temporal information loss가 불가피하다.</li>
@@ -828,40 +879,4 @@
 <h2 id="implementation">Implementation</h2>
 <ul>
   <li>under review</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[ICLR 2024]]></summary></entry><entry><title type="html">깃 블로그 만들기 4 : 새로운 게시글 작성하기</title><link href="http://localhost:4000/gitblog/2024-02-12-gitblog4/" rel="alternate" type="text/html" title="깃 블로그 만들기 4 : 새로운 게시글 작성하기" /><published>2024-02-12T00:00:00+09:00</published><updated>2024-02-16T15:16:48+09:00</updated><id>http://localhost:4000/gitblog/gitblog4</id><content type="html" xml:base="http://localhost:4000/gitblog/2024-02-12-gitblog4/"><![CDATA[<p>이전 게시물에서 새로운 게시물을 작성하는 방법을 간단하게 설명하였지만, 하나의 게시글 안에 다양한 다른 게시글들을 모아놓거나, 게시글들의 순서를 변경하는 등 더 자유로운 게시글 관리를 위해서는 아래의 방법을 따라하면 된다.</p>
-
-<h2 id="_configyml에서-사이드바-메뉴-추가하기">_config.yml에서 사이드바 메뉴 추가하기</h2>
-
-<p><img src="/assets/img/gitblog/gitblog3/gitblog3_1.png" alt="그림1" /></p>
-
-<p>만약 사이드바에 <code class="language-plaintext highlighter-rouge">gitblog</code>라는 카테고리를 만들고 그 안에 깃 블로그와 관련된 게시글들을 모으고 싶다면, <code class="language-plaintext highlighter-rouge">_config.yml</code> 파일의 <code class="language-plaintext highlighter-rouge">menu</code> 항목에서 <code class="language-plaintext highlighter-rouge">gitblog</code>를 추가하면 된다.</p>
-
-<h2 id="게시글을-보관할-폴더-만들기">게시글을 보관할 폴더 만들기</h2>
-
-<p><img src="/assets/img/gitblog/gitblog3/gitblog3_2.png" alt="그림2" /></p>
-
-<p>이제 <code class="language-plaintext highlighter-rouge">/username.github.io/</code>에 <code class="language-plaintext highlighter-rouge">gitblog</code>라는 폴더를 만들고 그 안에는 <code class="language-plaintext highlighter-rouge">_posts</code>라는 폴더와 <code class="language-plaintext highlighter-rouge">README.md</code>라는 파일을 위치시킨다. <code class="language-plaintext highlighter-rouge">_posts</code>은 게시글들이 보관될 위치이고, <code class="language-plaintext highlighter-rouge">README.md</code>는 <code class="language-plaintext highlighter-rouge">gitblog</code>라는 카테고리에 들어왔을 때 보여질 페이지이므로 <code class="language-plaintext highlighter-rouge">_posts</code>에 있는 게시글들을 나열하면 되겠다.</p>
-
-<h2 id="readmemd-작성하기">README.md 작성하기</h2>
-
-<ul>
-  <li>아래처럼 <code class="language-plaintext highlighter-rouge">README.md</code>를 작성하면 되는데, 일반적으로 여러 게시글을 작성할 것이기 때문에, 아래 사진을 참고하면 된다.</li>
-</ul>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="n">게시글</span> <span class="n">제목</span><span class="p">]{:.</span><span class="n">heading</span><span class="p">.</span><span class="n">flip</span><span class="o">-</span><span class="n">title</span><span class="p">}</span>
-<span class="p">[</span><span class="n">게시글</span> <span class="n">제목</span><span class="p">]:</span> <span class="n">게시글</span> <span class="n">경로</span>
-</code></pre></div></div>
-
-<p><img src="/assets/img/gitblog/gitblog3/gitblog3_3.png" alt="그림3" /></p>
-
-<ul>
-  <li>추가 : 만약 이렇게 했을 때 안되면 아래 사진처럼 경로에 <code class="language-plaintext highlighter-rouge">/_posts</code>를 삭제하고, 뒤에 <code class="language-plaintext highlighter-rouge">.md</code>를 삭제해보는 것이 방법이 될 수 있다. 나의 경우에는 bundle을 업데이트했더니 404 에러가 떠서, 아래 사진처럼 바꿔주었더니 다시 페이지가 작동되었다. (정확한 업데이트 내용은 모른다.)</li>
-</ul>
-
-<p><img src="/assets/img/gitblog/gitblog3/gitblog3_7.png" alt="그림7" /></p>
-
-<h2 id="게시글-작성하기">게시글 작성하기</h2>
-
-<p><img src="/assets/img/gitblog/gitblog3/gitblog3_4.png" alt="그림4" /></p>
-
-<p>위 사진처럼 <code class="language-plaintext highlighter-rouge">--- ---</code> 안에 게시글의 format을 설정하고 그 아래에 내용을 작성하게 된다. 먼저 format에서는 게시글이므로 <code class="language-plaintext highlighter-rouge">layout</code>은 post로 설정한다. 게시글의 제목은 <code class="language-plaintext highlighter-rouge">title</code>이 아니라 format 밖에서 <code class="language-plaintext highlighter-rouge">#</code>으로 적어준다. <code class="language-plaintext highlighter-rouge">related_posts</code>에서는 본 게시글 마지막에 연관 글로 보여줄 게시글을 표시할 수 있다. 비울 경우에는 임의의 게시글이 표시되므로 해당 기능을 원하지 않는다면 <code class="language-plaintext highlighter-rouge">_</code>로 설정하면 된다. <code class="language-plaintext highlighter-rouge">description</code> 이나 마지막으로 수정한 날짜를 표시하는 기능은 사용하지 않았다.</p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="gitblog" /><summary type="html"><![CDATA[이전 게시물에서 새로운 게시물을 작성하는 방법을 간단하게 설명하였지만, 하나의 게시글 안에 다양한 다른 게시글들을 모아놓거나, 게시글들의 순서를 변경하는 등 더 자유로운 게시글 관리를 위해서는 아래의 방법을 따라하면 된다.]]></summary></entry></feed>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[ICLR 2024]]></summary></entry></feed>

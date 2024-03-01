@@ -20,7 +20,7 @@ hide_last_modified: false
 
 ## 1. introduction
 - Transformer가 다른 fields에서는 linear model보다 성능이 좋은데, multivariate ts forecasting에서는 not sutable하다. \
-  (특히 time points 사이에 semantic 관계보다 nmerical 관계가 강한 경우에는 그냥 simple linear layer의 성능이 더 좋았다.)
+  (특히 time points 사이에 semantic 관계보다 numerical 관계가 강한 경우에는 그냥 simple linear layer의 성능이 더 좋았다.)
 - 그 이유는 한 시점에 기록된 서로 다른 변수들의 값들이 하나의 token으로 기록되기 때문이다. 논문에서는 아래처럼 표현하고 있다. \
   (= embed multiple variates of the same timestamp into indistinguishable channels...) \
   (= the points of the same time step that represent different physical meanings recorded by inconsistent mesurements are embedded into one token ...)
