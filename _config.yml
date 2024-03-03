@@ -50,6 +50,8 @@ author:
 menu:
   - title:             TimeSeries
     url:               /timeseries/
+  - title:             Statistics
+    url:               /stat/
   - title:             Gitblog
     url:               /gitblog/
   - title:             Project

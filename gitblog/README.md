@@ -4,7 +4,9 @@ title: Gitblog
 description: >
   about gitblog...
 hide_description: true
-sitemap: false
+sitemap:
+    changefreq: daily
+    priority: 1.0
 permalink: /gitblog/
 ---
 

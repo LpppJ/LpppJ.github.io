@@ -108,7 +108,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2024-03-01T22:30:34+09:00',
+    INDEX_KEY: 'index--2024-03-03T18:53:28+09:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -203,6 +203,18 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
           
         >
           TimeSeries
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/stat/"
+          class="sidebar-nav-item "
+          
+        >
+          Statistics
         </a>
       </li>
     
@@ -337,6 +349,139 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 
   
+
+  
+
+
+
+
+
+<article id="post-timeseries-SimMTM" class="page post mb6" role="article">
+  <header>
+    <h1 class="post-title flip-project-title">
+      <a href="/timeseries/2024-03-03-SimMTM/" class="flip-title">
+        (SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling
+      </a>
+    </h1>
+
+    <div class="post-date">
+      
+      <span class="ellipsis mr1">
+        <time datetime="2024-03-03T00:00:00+09:00">03 Mar 2024</time> in <span>Timeseries</span> 
+      </span>
+      
+        
+          
+          
+          
+        
+      
+    </div>
+
+    
+    
+
+    
+
+
+
+  
+    <p class="note-sm" >
+      <a href="https://arxiv.org/abs/2302.00861">NeurIPS 2023</a>
+
+    </p>
+  
+
+
+  </header>
+
+  
+    <h2 id="abstract">Abstract</h2>
+<p>-</p>
+
+
+    
+    
+    <footer>
+      <p class="read-more">
+        Continue reading <a class="heading flip-title" href="/timeseries/2024-03-03-SimMTM/">(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling</a>
+
+      </p>
+    </footer>
+  
+</article>
+
+
+  
+
+
+
+
+
+<article id="post-stat-vi" class="page post mb6" role="article">
+  <header>
+    <h1 class="post-title flip-project-title">
+      <a href="/stat/2024-03-02-vi/" class="flip-title">
+        Variational Inference
+      </a>
+    </h1>
+
+    <div class="post-date">
+      
+      <span class="ellipsis mr1">
+        <time datetime="2024-03-02T00:00:00+09:00">02 Mar 2024</time> in <span>Stat</span> 
+      </span>
+      
+    </div>
+
+    
+    
+
+    
+
+
+
+  <div class="hr pb0"></div>
+
+
+  </header>
+
+  
+    <h2 id="1-probabilistic-ml-model">1. Probabilistic ML Model</h2>
+<ul>
+  <li>\(x\) : set of observed variables <br />
+\(y\) : set of hidden / latent variables <br />
+\(\theta\) : model parameters</li>
+  <li>Discriminative probabilistic ML model
+    <ul>
+      <li>\(p(Y \mid X)\) : 데이터 \(X\)가 주어졌을 때 결과 \(y\) 예측하기 (Classification, Regression, …)</li>
+      <li>Training Stage
+        <ul>
+          <li>\(\theta\) 에 대한 Bayesian Inference : \(p\left(\theta \mid X_{t r}, Y_{t r}\right)=\frac{p\left(Y_{t r} \mid X_{t r}, \theta\right) p(\theta)}{\int p\left(Y_{t r} \mid X_{t r}, \theta\right) p(\theta) d \theta}\)</li>
+        </ul>
+      </li>
+      <li>Testing Stage
+        <ul>
+          <li>Training Stage에서 얻은 \(\theta\)로 새로운 데이터 \(x\) 예측 : \(p\left(Y \mid X, X_{t r}, Y_{t r}\right)=\int p(Y \mid X, \theta) p\left(\theta \mid X_{t r}, Y_{t r}\right) d \theta\)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Generative probabilistic ML model</li>
+</ul>
+
+
+    
+    
+    <footer>
+      <p class="read-more">
+        Continue reading <a class="heading flip-title" href="/stat/2024-03-02-vi/">Variational Inference</a>
+
+      </p>
+    </footer>
+  
+</article>
+
 
   
 
@@ -849,127 +994,6 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
     <footer>
       <p class="read-more">
         Continue reading <a class="heading flip-title" href="/gitblog/2024-02-15-gitblog6/">깃블로그 만들기 6 : 흔히 발생할 수 있는 에러</a>
-
-      </p>
-    </footer>
-  
-</article>
-
-
-  
-
-
-
-
-
-<article id="post-timeseries-ModernTCN" class="page post mb6" role="article">
-  <header>
-    <h1 class="post-title flip-project-title">
-      <a href="/timeseries/2024-02-14-ModernTCN/" class="flip-title">
-        (ModernTCN) A Modern Pure Convolution Structure for General Time Series Analysis
-      </a>
-    </h1>
-
-    <div class="post-date">
-      
-      <span class="ellipsis mr1">
-        <time datetime="2024-02-14T00:00:00+09:00">14 Feb 2024</time> in <span>Timeseries</span> 
-      </span>
-      
-    </div>
-
-    
-    
-
-    
-
-
-
-  
-    <p class="note-sm" >
-      ICLR 2024
-
-    </p>
-  
-
-
-  </header>
-
-  
-    <h2 id="abstract">Abstract</h2>
-<ul>
-  <li>최근 Transformer-based 모델과 MLP-based 모델이 time series에서 우위에 있지만, 본 논문에서는 convolution을 time series에서 사용하는 모델 ModernTCN을 제안한다.</li>
-  <li>Time series의 5개 mainstream task (long-term and short-term forecasting, imputation, classification and anomaly detection)에서 SOTA</li>
-  <li>Convolution의 sharing params로 효율적이면서도 넓은 receptive fields를 가진다.</li>
-</ul>
-
-
-    
-    
-    <footer>
-      <p class="read-more">
-        Continue reading <a class="heading flip-title" href="/timeseries/2024-02-14-ModernTCN/">(ModernTCN) A Modern Pure Convolution Structure for General Time Series Analysis</a>
-
-      </p>
-    </footer>
-  
-</article>
-
-
-  
-
-
-
-
-
-<article id="post-timeseries-FTS-Diffusion" class="page post mb6" role="article">
-  <header>
-    <h1 class="post-title flip-project-title">
-      <a href="/timeseries/2024-02-13-FTS-Diffusion/" class="flip-title">
-        (FTS-Diffusion) Generative Learning for Financial Time Series with Irregular and Scale-invariant Patterns
-      </a>
-    </h1>
-
-    <div class="post-date">
-      
-      <span class="ellipsis mr1">
-        <time datetime="2024-02-13T00:00:00+09:00">13 Feb 2024</time> in <span>Timeseries</span> 
-      </span>
-      
-    </div>
-
-    
-    
-
-    
-
-
-
-  
-    <p class="note-sm" >
-      ICLR 2024
-
-    </p>
-  
-
-
-  </header>
-
-  
-    <h2 id="abstract">Abstract</h2>
-<ul>
-  <li>Financial deep learning 모델을 훈련시키기 위한 데이터가 부족한데, 그렇다고 synthetic data를 만들어내려 하니 irregular and scale-invariant patterns 때문에 어려움이 있음</li>
-  <li>패턴이 irregular하다는 말은 패턴이 발생하는 간격이 일정하지 않아서 예측하기 어렵다는 것</li>
-  <li>패턴이 scale-invariant하다는 말은 scale을 변화시켜도 형태가 유지된다는 말인데, 특정 패턴이 다양한 너비(폭)나 높이(진폭)로 나타날 수 있다는 말이다. 또한 프랙탈 구조처럼 축소해도 비슷한 패턴이 보이게 된다.</li>
-  <li>본 논문에서는 irregular and scale-invariant patterns을 학습하고 생성하는 모델 FTS-Diffusion을 제시한다.</li>
-</ul>
-
-
-    
-    
-    <footer>
-      <p class="read-more">
-        Continue reading <a class="heading flip-title" href="/timeseries/2024-02-13-FTS-Diffusion/">(FTS-Diffusion) Generative Learning for Financial Time Series with Irregular and Scale-invariant Patterns</a>
 
       </p>
     </footer>

@@ -4,17 +4,49 @@
         xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
     <url>
+        <loc>http://localhost:4000/timeseries/2024-03-03-SimMTM/</loc>
+        
+        <lastmod>2024-03-03T00:00:00+09:00</lastmod>
+        
+
+        
+        <changefreq>daily</changefreq>
+        
+
+        
+        <priority>1.0</priority>
+        
+
+    </url>
+    
+    <url>
+        <loc>http://localhost:4000/stat/2024-03-02-vi/</loc>
+        
+        <lastmod>2024-03-02T00:00:00+09:00</lastmod>
+        
+
+        
+        <changefreq>daily</changefreq>
+        
+
+        
+        <priority>1.0</priority>
+        
+
+    </url>
+    
+    <url>
         <loc>http://localhost:4000/timeseries/2024-03-01-GAFormer/</loc>
         
         <lastmod>2024-03-01T00:00:00+09:00</lastmod>
         
 
         
-        <changefreq>weekly</changefreq>
+        <changefreq>daily</changefreq>
         
 
         
-        <priority>0.5</priority>
+        <priority>1.0</priority>
         
 
     </url>
@@ -58,11 +90,11 @@
         
 
         
-        <changefreq>weekly</changefreq>
+        <changefreq>daily</changefreq>
         
 
         
-        <priority>0.5</priority>
+        <priority>1.0</priority>
         
 
     </url>
@@ -74,11 +106,11 @@
         
 
         
-        <changefreq>weekly</changefreq>
+        <changefreq>daily</changefreq>
         
 
         
-        <priority>0.5</priority>
+        <priority>1.0</priority>
         
 
     </url>
@@ -122,11 +154,11 @@
         
 
         
-        <changefreq>weekly</changefreq>
+        <changefreq>daily</changefreq>
         
 
         
-        <priority>0.5</priority>
+        <priority>1.0</priority>
         
 
     </url>
@@ -154,11 +186,11 @@
         
 
         
-        <changefreq>weekly</changefreq>
+        <changefreq>daily</changefreq>
         
 
         
-        <priority>0.5</priority>
+        <priority>1.0</priority>
         
 
     </url>
@@ -202,11 +234,11 @@
         
 
         
-        <changefreq>weekly</changefreq>
+        <changefreq>daily</changefreq>
         
 
         
-        <priority>0.5</priority>
+        <priority>1.0</priority>
         
 
     </url>
@@ -346,11 +378,11 @@
         
 
         
-        <changefreq>weekly</changefreq>
+        <changefreq>daily</changefreq>
         
 
         
-        <priority>0.5</priority>
+        <priority>1.0</priority>
         
 
     </url>
