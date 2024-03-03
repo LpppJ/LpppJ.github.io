@@ -8,7 +8,7 @@ description: >
 sitemap:
     changefreq: daily
     priority: 1.0
-hide_last_modified: false
+hide_last_modified: true
 ---
 
 # iTransformer : Inverted Transformers are Effective for Time Series Forecasting
