@@ -5,7 +5,9 @@ related_posts:
 title: 
 description: >
   [ICLR 2024](https://arxiv.org/abs/2310.06625)
-sitemap: true
+sitemap:
+    changefreq: daily
+    priority: 1.0
 hide_last_modified: false
 ---
 

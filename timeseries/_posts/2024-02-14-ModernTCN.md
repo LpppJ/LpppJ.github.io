@@ -5,7 +5,9 @@ related_posts:
 title: 
 description: >
   ICLR 2024
-sitemap: false
+sitemap:
+    changefreq: daily
+    priority: 1.0
 hide_last_modified: true
 ---
 
