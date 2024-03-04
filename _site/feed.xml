@@ -1,6 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-03-03T19:02:10+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling</title><link href="http://localhost:4000/timeseries/2024-03-03-SimMTM/" rel="alternate" type="text/html" title="(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling" /><published>2024-03-03T00:00:00+09:00</published><updated>2024-03-03T18:54:12+09:00</updated><id>http://localhost:4000/timeseries/SimMTM</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-03-SimMTM/"><![CDATA[<h2 id="abstract">Abstract</h2>
-<p>-</p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[NeurIPS 2023](https://arxiv.org/abs/2302.00861)]]></summary></entry><entry><title type="html">Variational Inference</title><link href="http://localhost:4000/stat/2024-03-02-vi/" rel="alternate" type="text/html" title="Variational Inference" /><published>2024-03-02T00:00:00+09:00</published><updated>2024-03-03T18:54:12+09:00</updated><id>http://localhost:4000/stat/vi</id><content type="html" xml:base="http://localhost:4000/stat/2024-03-02-vi/"><![CDATA[<h2 id="1-probabilistic-ml-model">1. Probabilistic ML Model</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-03-04T16:31:59+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">Mcmc</title><link href="http://localhost:4000/stat/2024-03-04-mcmc/" rel="alternate" type="text/html" title="Mcmc" /><published>2024-03-04T00:00:00+09:00</published><updated>2024-03-04T15:06:29+09:00</updated><id>http://localhost:4000/stat/mcmc</id><content type="html" xml:base="http://localhost:4000/stat/2024-03-04-mcmc/"><![CDATA[]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling</title><link href="http://localhost:4000/timeseries/2024-03-03-SimMTM/" rel="alternate" type="text/html" title="(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling" /><published>2024-03-03T00:00:00+09:00</published><updated>2024-03-03T19:13:25+09:00</updated><id>http://localhost:4000/timeseries/SimMTM</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-03-SimMTM/"><![CDATA[<h2 id="abstract">Abstract</h2>
+<p>-</p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[NeurIPS 2023](https://arxiv.org/abs/2302.00861)]]></summary></entry><entry><title type="html">Advanced Variational Inference(VI), Variational Autoencoder(VAE)</title><link href="http://localhost:4000/stat/2024-03-02-vi/" rel="alternate" type="text/html" title="Advanced Variational Inference(VI), Variational Autoencoder(VAE)" /><published>2024-03-02T00:00:00+09:00</published><updated>2024-03-03T18:54:12+09:00</updated><id>http://localhost:4000/stat/vi</id><content type="html" xml:base="http://localhost:4000/stat/2024-03-02-vi/"><![CDATA[<ul>
+  <li>Paper : <a href="https://arxiv.org/abs/1601.00670">Variational Inference : A Review for Statisticians</a></li>
+  <li>Paper : <a href="https://arxiv.org/pdf/1711.05597.pdf">Advances in Variational Inference</a></li>
+  <li>Paper : <a href="https://arxiv.org/abs/1312.6114">Auto-Encoding Variational Bayes</a></li>
+</ul>
+
+<h2 id="1-probabilistic-ml-model">1. Probabilistic ML Model</h2>
 <ul>
   <li>\(x\) : set of observed variables <br />
 \(y\) : set of hidden / latent variables <br />
@@ -8,16 +14,6 @@
   <li>Discriminative probabilistic ML model
     <ul>
       <li>\(p(Y \mid X)\) : 데이터 \(X\)가 주어졌을 때 결과 \(y\) 예측하기 (Classification, Regression, …)</li>
-      <li>Training Stage
-        <ul>
-          <li>\(\theta\) 에 대한 Bayesian Inference : \(p\left(\theta \mid X_{t r}, Y_{t r}\right)=\frac{p\left(Y_{t r} \mid X_{t r}, \theta\right) p(\theta)}{\int p\left(Y_{t r} \mid X_{t r}, \theta\right) p(\theta) d \theta}\)</li>
-        </ul>
-      </li>
-      <li>Testing Stage
-        <ul>
-          <li>Training Stage에서 얻은 \(\theta\)로 새로운 데이터 \(x\) 예측 : \(p\left(Y \mid X, X_{t r}, Y_{t r}\right)=\int p(Y \mid X, \theta) p\left(\theta \mid X_{t r}, Y_{t r}\right) d \theta\)</li>
-        </ul>
-      </li>
     </ul>
   </li>
   <li>
@@ -34,6 +30,8 @@ Generative model은 분포 \(p(X), p(X,Y)\)를 학습하여 posterior \(p(Y\mid 
     <ul>
       <li>Variational Inference (optimization)</li>
       <li>Markov chain Monte Carlo (sampling)</li>
+      <li>MCMC는 분포를 근사하기 위해 sampling으로 inference하는 것이고, VI는 분포를 근사하기 위해 optimization 문제로 바꾼 것이다.</li>
+      <li>일반적으로 VI는 빠르고, MCMC는 정확하다.(상대적으로 그렇다는 것)</li>
     </ul>
   </li>
 </ul>
@@ -61,7 +59,10 @@ Maximum likelihood fit: \(\theta \leftarrow \operatorname{argmax}_\theta \frac{1
   &amp; = \mathcal{L}_{i}\left(p, q_{i}\right)
   \end{aligned}\)</li>
   <li>위 식에서 \(E_{z \sim q_i(z)}\left[\log p\left(x_i, z\right)\right]\)은 \(q_i(z)\)가 \(p(x_i, z)\)의 density가 높은 곳에서 높은 density를 가질 때 커지고, \(H\left(q_i\right)\)는 \(q_i(z)\)가 고르게 퍼져있을 때 커진다.</li>
-  <li>위 전개식에서 부등식 앞뒤 식의 차이가 \(D_{\mathrm{KL}}\left(q_i\left(z_i\right) \| p\left(z \mid x_i\right)\right)\)가 되고, 그러므로 \(\mathcal{L}_{i}\left(p, q_{i}\right)\)를 maximize한다는 것은 \(D_{\mathrm{KL}}\left(q_i\left(z_i\right) \| p\left(z \mid x_i\right)\right)\)를 minimize한다는 것과 같다. (아래 전개식 참고)
+  <li>
+    <p>위 전개식에서 부등식 앞뒤 식의 차이가 \(D_{\mathrm{KL}}\left(q_i\left(z_i\right) \| p\left(z \mid x_i\right)\right)\)가 되고, 그러므로 \(\mathcal{L}_{i}\left(p, q_{i}\right)\)를 maximize한다는 것은 \(D_{\mathrm{KL}}\left(q_i\left(z_i\right) \| p\left(z \mid x_i\right)\right)\)를 minimize한다는 것과 같다. (아래 전개식 참고)</p>
+
+    <p><br />
 \(\begin{aligned}
   D_{\mathrm{KL}}\left(q_i\left(x_i\right) \| p\left(z \mid x_i\right)\right) &amp; =E_{z \sim q_i(z)}\left[\log \frac{q_i(z)}{p\left(z \mid x_i\right)}\right]=E_{z \sim q_i(z)}\left[\log \frac{q_i(z) p\left(x_i\right)}{p\left(x_i, z\right)}\right] \\
   &amp; =-E_{z \sim q_i(z)}\left[\log p\left(x_i \mid z\right)+\log p(z)\right]+E_{z \sim q_i(z)}\left[\log q_i(z)\right]+E_{z \sim q_i(z)}\left[\log p\left(x_i\right)\right] \\
@@ -71,7 +72,8 @@ Maximum likelihood fit: \(\theta \leftarrow \operatorname{argmax}_\theta \frac{1
   \end{aligned}\)
 \(\begin{aligned}
   &amp;\log p\left(x_i\right)=D_{\mathrm{KL}}\left(q_i(z) \| p\left(z \mid x_i\right)\right)+\mathcal{L}_i\left(p, q_i\right)
-  \end{aligned}\)</li>
+  \end{aligned}\)</p>
+  </li>
   <li>\(\log p\left(x_i\right)\)가 고정되어 있다면, \(\mathcal{L}_i\left(p, q_i\right)\)를 maximize할 때 \(D_{\mathrm{KL}}\left(q_i(z) \| p\left(z \mid x_i\right)\right)\)가 minimize된다. <br />
 (\(\mathcal{L}_i\left(p, q_i\right)\)은 ELBO이고, \(D_{\mathrm{KL}}\left(q_i(z) \| p\left(z \mid x_i\right)\right)\)은 variational distribution)</li>
   <li>이 때 학습되는 parameters는 아래와 같다.
@@ -87,11 +89,80 @@ Maximum likelihood fit: \(\theta \leftarrow \operatorname{argmax}_\theta \frac{1
 <ul>
   <li>\(\mid \theta \mid +\left(\mid \mu_i\mid +\mid \sigma_i\mid \right) \times N\)개의 parameters는 데이터 개수가 늘어날수록 커진다는 단점이 있다.</li>
   <li>Amortized Variational Inference는 \(q_i(z)\)가 아니라 \(q_\phi(z \mid x)=\mathcal{N}\left(\mu_\phi(x), \sigma_\phi(x)\right)\)가 \(p(x \mid z)\)와 비슷해지도록 학습한다.
-<img src="/assets/img/stat/vi/fig2.jpeg" alt="그림2" /></li>
+<img src="/assets/img/stat/vi/fig2.png" alt="그림2" /></li>
   <li>Basic Variational Inference는 sampled \(z\)로 \(\hat x\)를 만들어내는 것인데, Amortized Variational Inference는 \(x\)가 input으로 들어가면 latent vector \(z\)의 분포가 결정되고 그 분포에서 \(z\)를 sampling해서 \(\hat x\)를 만들어내기 때문에, autoencoder의 아이디어와 같다. 즉 VAE는 Amortized Variational Inference의 예시 중 하나이다.</li>
   <li>\(x\)가 input으로 들어가서 \(z\)의 분포가 결정되는 네트워크(\(\phi\))를 encoder, inference network가 되고, \(z\)로 \(\hat x\)을 만드는 네트워크(\(\theta\))를 decoder, generative network가 된다.</li>
   <li>\(p_\theta(x_i \mid z)\)를 Gaussian으로 가정한다는 것은, log를 씌웠을 때 exp 안에 있는 L2 term만 남기 때문에 \(\hat x\)과 \(x\)를 비교할 때 euclidean distance를 사용한다는 의미이다.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[1. Probabilistic ML Model \(x\) : set of observed variables \(y\) : set of hidden / latent variables \(\theta\) : model parameters Discriminative probabilistic ML model \(p(Y \mid X)\) : 데이터 \(X\)가 주어졌을 때 결과 \(y\) 예측하기 (Classification, Regression, …) Training Stage \(\theta\) 에 대한 Bayesian Inference : \(p\left(\theta \mid X_{t r}, Y_{t r}\right)=\frac{p\left(Y_{t r} \mid X_{t r}, \theta\right) p(\theta)}{\int p\left(Y_{t r} \mid X_{t r}, \theta\right) p(\theta) d \theta}\) Testing Stage Training Stage에서 얻은 \(\theta\)로 새로운 데이터 \(x\) 예측 : \(p\left(Y \mid X, X_{t r}, Y_{t r}\right)=\int p(Y \mid X, \theta) p\left(\theta \mid X_{t r}, Y_{t r}\right) d \theta\) Generative probabilistic ML model]]></summary></entry><entry><title type="html">(GAFormer) Enhancing Timeseries Transformers Through Group-Aware Embeddings</title><link href="http://localhost:4000/timeseries/2024-03-01-GAFormer/" rel="alternate" type="text/html" title="(GAFormer) Enhancing Timeseries Transformers Through Group-Aware Embeddings" /><published>2024-03-01T00:00:00+09:00</published><updated>2024-03-03T18:54:12+09:00</updated><id>http://localhost:4000/timeseries/GAFormer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-01-GAFormer/"><![CDATA[<h2 id="abstract">Abstract</h2>
+  <li>이외에도 많은 variants of VI가 있지만 Amortized VI만 소개하는 이유는 VAE와 관련이 있기 때문이다.</li>
+</ul>
+
+<h1 id="22-mean-field-variational-inference">2.2. Mean-field Variational Inference</h1>
+<ul>
+  <li>Assumption : all latent variables are mutually independent (i.e. \(q(\mathbf{z})=\prod_{j=1}^m q_j\left(z_j\right) .\))</li>
+  <li>Mean-field 가정을 하면 true posterior의 variables가 highly dependent인 경우에 approximation의 정확도가 다소 떨어지는 단점이 있지만, fully factorized distribution으로 계산이 간단해진다.</li>
+  <li>ELBO를 maximize하는 \(q(z_i)\)들을 각각 찾고 다 곱해서 \(q(z)=q(z_1) \times ... \times q(z_M)\)을 계산하기 때문이다</li>
+  <li>Mean-filed 가정을 하면 아까 봤던 식이 아래와 같이 전개된다.
+\(\begin{aligned}
+\mathrm{ELBO} &amp; =E_{q(z)}[\log p(x, z)-\log q(z)] \\
+&amp; =E_{\prod_i q_i}\left[\log p(x, z)-\log \prod_i q_i\right] \ (\because \text{Mean-field assumption})\\
+&amp; =\int \prod_i q_i\left\{\log p(x, z)-\log \prod_i q_i\right\} d z \ (\text{The definition of Expectation})\\
+\\
+&amp; =\int \prod_i q_i\left\{\log p(x, z)-\sum_i \log q_i\right\} d z \ (\text{Property of logarithm}) \\
+&amp; =\int q_j\left\{\int \log p(x, z) \prod_{i \neq j} q_i d z_i\right\} d z_j-\int \prod_i q_i \sum_i \log q_i d z \ (\text{j번째 적분만 바깥으로 뺀 것})\\
+&amp; =\int q_j\left\{\int \log p(x, z) \prod_{i \neq j} q_i d z_i\right\} d z_j-\int \prod_i q_i \log q_1 d z+\ldots \int \prod_i q_i \log q_M d z \\
+&amp; =\int q_j\left\{\int \log p(x, z) \prod_{i \neq j} q_i d z_i\right\} d z_j-\int \prod_i q_i \log q_j d z+\text{(Constant)} \\
+&amp; =\int q_j\left\{\int \log p(x, z) \prod_{i \neq j} q_i d z_i\right\} d z_j-\int q_j \log q_j d z_j+\text{(Constant)} \ (q_j\text{와 무관한 항들은 constant}) \\
+&amp; =\int q_j E_{i \neq j}[\log p(x, z)] d z_j-\int q_j \log q_j d z_j+\text{(Constant)} \\
+\\
+&amp; =\int q_j \log \widetilde{p}\left(x, z_j\right) d z_j-\int q_j \log q_j d z_j+\text{(Constant)} \\
+&amp; =\int q_j \log \frac{\widetilde{p}\left(x, z_j\right)}{q_j} d z_j+\text{(Constant)} \\
+&amp; =-\mathrm{KL}\left[q_j \| \widetilde{p}\left(x, z_j\right)\right]+\text{(Constant)}
+\end{aligned}\)</li>
+  <li>위 결과로부터 \(q_j\)가 \(\tilde p(x,z_j)\)와 비슷해져야 한다는 것을 알 수 있다. 그러므로 \(q_j\)를 전개하고 normalization하면 아래와 같다. <br />
+\(\begin{aligned}
+q_j &amp; =\widetilde{p}\left(x, z_j\right) \\
+\log q_j &amp; =\log \widetilde{p}\left(x, z_j\right) \\
+\log q_j &amp; \propto E_{i \neq j}[\log p(x, z)] \\
+q_j &amp; \propto \exp \left(E_{i \neq j}[\log p(x, z)]\right) \\
+q_j &amp; =\frac{\exp \left(E_{i \neq j}[\log p(x, z)]\right)}{\int \exp \left(E_{i \neq j}[\log p(x, z)]\right) d z_j}
+\end{aligned}\)</li>
+  <li>optimal \(q^*_j\)를 알기 위해서 \(i\ne j\)에 대해 \(log\ p(x,z)\)의 expectation을 계산한다.</li>
+</ul>
+
+<h2 id="3-variational-autoencoder">3. Variational Autoencoder</h2>
+<ul>
+  <li>VAE는 2개의 neural network로 구성된다. 을 사용한다. (2개의 NN)
+    <ul>
+      <li>1) top-down generative model(=decoder) : mapping from the latent variable \(z\) to the data \(x\)</li>
+      <li>2) bottom-up inference model(=encoder) : approximates the posterior \(p(z \mid x)\) (using amortized mean-field variational distribution)
+<img src="/assets/img/stat/vi/fig3.png" alt="그림3" /></li>
+    </ul>
+  </li>
+  <li>위 그림에서 나와있듯이 encoder를 거치면 deterministic하게 latent variable이 output으로 나오는 것이 아니다. output은 mean vector와 std dev vector이고, 이렇게 결정된 gaussian 분포에서 sampling을 통해 latent variable을 만든다. (VAE가 generative model인 이유이다.)</li>
+  <li>Reparameterization trick : \(N(mean, std)\)에서 sampling하지 않고 \(N(0,1)\)에서 생성한 뒤 std를 곱하고 mean을 더해줌으로써 미분이 가능하도록 (backpropagation이 가능하도록) 한다.</li>
+  <li>latent variable이 decoder를 거치면 input과 유사한(ideally) 새로운 데이터가 생성된다.</li>
+  <li>
+    <p>VAE의 loss는 다음과 같다.</p>
+
+    <p>\(\arg \min _{\theta, \phi} \sum_i-\mathbb{E}_{q_\phi\left(z \mid x_i\right)}\left[\log \left(p\left(x_i \mid g_\theta(z)\right)\right)\right] \oplus K L\left(q_\phi\left(z \mid x_i\right) \| p(z)\right)\)</p>
+    <ul>
+      <li>학습 parameters는 encoder의 \(\phi\)와 decoder의 \(\theta\)이다.</li>
+      <li>Reconstruction Error \(-\mathbb{E}_{q_\phi\left(z \mid x_i\right)}\left[\log \left(p\left(x_i \mid g_\theta(z)\right)\right)\right]\)
+        <ul>
+          <li>\(x\)가 주어졌을 때 encoder \(q_\phi\)를 지나 \(z\)생성 : \(q_\phi(z \mid x)\)</li>
+          <li>그 \(z\)가 decoder \(g_\theta\)를 지나 \(x\) 생성 : \(g_\theta(z)\)</li>
+          <li>이렇게 생성한 \(\hat x\)에 대한 \(x\)의 negative log-likelihood</li>
+        </ul>
+      </li>
+      <li>Regularization Error \(K L\left(q_\phi\left(z \mid x_i\right) \| p(z)\right)\)
+        <ul>
+          <li>\(x\)가 주어졌을 때 encoder \(q_\phi\)를 지나 \(z\)생성 : \(q_\phi(z \mid x)\)</li>
+          <li>그 \(z\)와 gaussian의 KL-divergence</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[Paper : Variational Inference : A Review for Statisticians Paper : Advances in Variational Inference Paper : Auto-Encoding Variational Bayes]]></summary></entry><entry><title type="html">(GAFormer) Enhancing Timeseries Transformers Through Group-Aware Embeddings</title><link href="http://localhost:4000/timeseries/2024-03-01-GAFormer/" rel="alternate" type="text/html" title="(GAFormer) Enhancing Timeseries Transformers Through Group-Aware Embeddings" /><published>2024-03-01T00:00:00+09:00</published><updated>2024-03-03T19:02:43+09:00</updated><id>http://localhost:4000/timeseries/GAFormer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-01-GAFormer/"><![CDATA[<h2 id="abstract">Abstract</h2>
 <ul>
   <li>Multivariate TS의 복잡한 inter-channel relationship과 dynamic shifts로 인해 Robust and generalizable representation을 학습하기 어렵다.</li>
   <li>본 논문에서 제시하는 GAFormer는 set of group tokens를 학습하고 instance-specific group embedding layer를 만든다.</li>
@@ -191,7 +262,7 @@ Maximum likelihood fit: \(\theta \leftarrow \operatorname{argmax}_\theta \frac{1
 <ul>
   <li>본 논문에서는 TS의 group-level structure를 다루는 새로운 프레임워크를 제안하였다.</li>
   <li>Group embedding은 group token across channel and temporal dimension을 학습해서 representation space로 보낸다.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2024](https://openreview.net/forum?id=c56TWtYp0W)]]></summary></entry><entry><title type="html">iTransformer : Inverted Transformers are Effective for Time Series Forecasting</title><link href="http://localhost:4000/timeseries/2024-02-23-iTransformer/" rel="alternate" type="text/html" title="iTransformer : Inverted Transformers are Effective for Time Series Forecasting" /><published>2024-02-23T00:00:00+09:00</published><updated>2024-03-03T18:59:39+09:00</updated><id>http://localhost:4000/timeseries/iTransformer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-02-23-iTransformer/"><![CDATA[<h2 id="abstract">Abstract</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2024](https://openreview.net/forum?id=c56TWtYp0W)]]></summary></entry><entry><title type="html">iTransformer : Inverted Transformers are Effective for Time Series Forecasting</title><link href="http://localhost:4000/timeseries/2024-02-23-iTransformer/" rel="alternate" type="text/html" title="iTransformer : Inverted Transformers are Effective for Time Series Forecasting" /><published>2024-02-23T00:00:00+09:00</published><updated>2024-03-03T19:13:25+09:00</updated><id>http://localhost:4000/timeseries/iTransformer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-02-23-iTransformer/"><![CDATA[<h2 id="abstract">Abstract</h2>
 <ul>
   <li>Transformer-based TS : larger lookback \(\to\) performance degradation &amp; computation explosion.</li>
   <li>iTransformer : attention과 feed-forward network(FFN)를 inverted dimension에서 적용
@@ -773,62 +844,4 @@ Maximum likelihood fit: \(\theta \leftarrow \operatorname{argmax}_\theta \frac{1
 <h2 id="추가">추가</h2>
 <ul>
   <li>본 논문이 발표되기 전에 transformer-based time series models가 많이 나왔다. Informer, Autoformer, Pyraformer, Fedformer 등이다. 본 논문은 이러한 solutions을 반박하면서 conv를 제안하였다. 이제 본 논문을 반박하면서 다시 transformer를 제시하는 PatchTST를 읽어보러 가자.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[AAAI 2022](https://arxiv.org/abs/2205.13504)]]></summary></entry><entry><title type="html">깃블로그 만들기 6 : 흔히 발생할 수 있는 에러</title><link href="http://localhost:4000/gitblog/2024-02-15-gitblog6/" rel="alternate" type="text/html" title="깃블로그 만들기 6 : 흔히 발생할 수 있는 에러" /><published>2024-02-15T00:00:00+09:00</published><updated>2024-03-03T18:54:12+09:00</updated><id>http://localhost:4000/gitblog/gitblog6</id><content type="html" xml:base="http://localhost:4000/gitblog/2024-02-15-gitblog6/"><![CDATA[<ul>
-  <li>이번에는 Hydejack 테마를 사용하면서 내가 자주 했던 실수들을 살펴보겠다. 처음에는 에러의 이유를 몰라서 gitblog repository를 몇 번이나 삭제하고 다시 만들면서 시간을 많이 썼는데, 앞으로는 그러지 않기 위해 남긴다.</li>
-</ul>
-
-<h2 id="1-git-commit-push할-때-_configyml의-theme-수정">1. git commit, push할 때 _config.yml의 theme 수정</h2>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">깃 블로그 만들기 2 : 테마 적용하기</code> 10. 에서 git에 commit, push하기 전에 <code class="language-plaintext highlighter-rouge">_config.yml</code>파일에 수정을 해야 한다고 말했다. 무슨 말이냐면 내가 로컬에서 깃블로그를 수정하고 <code class="language-plaintext highlighter-rouge">bundle exec jekyll serve</code>로 서버에서 확인을 한 뒤 이제 push를 통해 반영하기 위해서는 터미널에 아래처럼 입력해야 한다는 것이다.</li>
-</ul>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sed</span> <span class="o">-</span><span class="n">i</span> <span class="sh">''</span> <span class="sh">'</span><span class="s">s/theme: jekyll-theme-hydejack/# theme: jekyll-theme-hydejack/</span><span class="sh">'</span> <span class="n">_config</span><span class="p">.</span><span class="n">yml</span>
-<span class="n">sed</span> <span class="o">-</span><span class="n">i</span> <span class="sh">''</span> <span class="sh">'</span><span class="s">s/# remote_theme: hydecorp\/hydejack@v9/remote_theme: hydecorp\/hydejack@v9/</span><span class="sh">'</span> <span class="n">_config</span><span class="p">.</span><span class="n">yml</span>
-
-<span class="n">ga</span> <span class="p">.</span>
-<span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="err">“</span><span class="n">update</span><span class="err">”</span>
-<span class="n">gp</span> <span class="o">--</span><span class="nb">set</span><span class="o">-</span><span class="n">upstream</span> <span class="n">origin</span> <span class="n">main</span>
-<span class="n">gp</span>
-
-<span class="n">sed</span> <span class="o">-</span><span class="n">i</span> <span class="sh">''</span> <span class="sh">'</span><span class="s">s/^# theme: jekyll-theme-hydejack/theme: jekyll-theme-hydejack/</span><span class="sh">'</span> <span class="n">_config</span><span class="p">.</span><span class="n">yml</span>
-<span class="n">sed</span> <span class="o">-</span><span class="n">i</span> <span class="sh">''</span> <span class="sh">'</span><span class="s">s/^remote_theme: hydecorp\/hydejack@v9/# remote_theme: hydecorp\/hydejack@v9/</span><span class="sh">'</span> <span class="n">_config</span><span class="p">.</span><span class="n">yml</span>
-</code></pre></div></div>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">ga .</code>는 <code class="language-plaintext highlighter-rouge">git add .</code>, <code class="language-plaintext highlighter-rouge">gp</code>는 <code class="language-plaintext highlighter-rouge">git push</code>를 의미한다.</li>
-  <li>위 2줄은 <code class="language-plaintext highlighter-rouge">_config.yml</code>파일에서 <code class="language-plaintext highlighter-rouge">theme: jekyll-theme-hydejack</code> (이하 <code class="language-plaintext highlighter-rouge">theme</code>) 부분을 주석 처리하고 <code class="language-plaintext highlighter-rouge">remote_theme: hydecorp/hydejack@v9</code> (이하 <code class="language-plaintext highlighter-rouge">remote_theme</code>)부분의 주석 처리를 해제하는 명령어이다.</li>
-  <li>
-    <p>중앙 4줄은 변경 사항들을 git에 push하는 명령어이고, 아래 2줄은 원래대로 <code class="language-plaintext highlighter-rouge">_config.yml</code>파일에서 <code class="language-plaintext highlighter-rouge">theme</code> 부분의 주석을 해제하고 <code class="language-plaintext highlighter-rouge">remote_theme</code> 부분을 주석 처리하는 명령어이다.</p>
-  </li>
-  <li>그러면 <code class="language-plaintext highlighter-rouge">theme</code> 부분이 주석 처리되고, <code class="language-plaintext highlighter-rouge">remote_theme</code> 부분이 주석 해제된 채로 (즉 git push하는 상태) 터미널에 <code class="language-plaintext highlighter-rouge">bundle exec jekyll serve</code>를 입력하면 어떻게 될까? 아래처럼 에러가 발생하여 서버에 페이지를 띄울 수가 없다.</li>
-</ul>
-
-<p><img src="/assets/img/gitblog/gitblog6/gitblog6_1.png" alt="사진1" /></p>
-
-<ul>
-  <li>그러면 반대로 <code class="language-plaintext highlighter-rouge">theme</code> 부분이 주석 해제되고, <code class="language-plaintext highlighter-rouge">remote_theme</code> 부분이 주석 처리된 채로 (즉 로컬 서버에 띄울 수 있는 상태)에서 git push를 하면 어떻게 될까? 아래처럼 github에 에러가 발생한다.</li>
-</ul>
-
-<p><img src="/assets/img/gitblog/gitblog6/gitblog6_2.png" alt="사진2" /></p>
-
-<ul>
-  <li>어떤 에러인지 들어가보면 아래 사진처럼 <code class="language-plaintext highlighter-rouge">Build with Jekyll</code>에 에러가 발생했고, 자세히 보면 테마를 찾을 수 없다고 한다.</li>
-</ul>
-
-<p><img src="/assets/img/gitblog/gitblog6/gitblog6_3.png" alt="사진3" />
-<img src="/assets/img/gitblog/gitblog6/gitblog6_4.png" alt="사진4" /></p>
-
-<ul>
-  <li>그러므로 이러한 에러가 발생한다면 <code class="language-plaintext highlighter-rouge">_config.yml</code> 파일을 확인해보자.</li>
-</ul>
-
-<h2 id="2-게시글-파일-이름-에러">2. 게시글 파일 이름 에러</h2>
-
-<p><img src="/assets/img/gitblog/gitblog3/gitblog3_3.png" alt="사진5" /></p>
-
-<ul>
-  <li>나는 원래 위 사진처럼 게시글 파일 이름을 <code class="language-plaintext highlighter-rouge">2024-02-12-깃블로그 만들기 4 : 새로운 게시글 작성하기.md </code>처럼 작성일자와 제목으로 관리해왔다. 이렇게 블로그에 표시될 게시글 제목과 게시글 파일 이름을 동일하게 하면 내가 로컬에서 관리하기 쉽기 때문이다. 하지만 역시 git push 했을 때 페이지가 정상적으로 뜨지 않는 에러가 발생했다. 통상적으로 파일 이름에 한글과 띄워쓰기를 쓰지 않는다는 점에서 혹시나 하는 마음에 아래 사진처럼 게시글 파일 이름을 모두 변경하였더니, 정상적으로 페이지가 떴다.</li>
-</ul>
-
-<p><img src="/assets/img/gitblog/gitblog6/gitblog6_5.png" alt="사진6" /></p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="gitblog" /><summary type="html"><![CDATA[이번에는 Hydejack 테마를 사용하면서 내가 자주 했던 실수들을 살펴보겠다. 처음에는 에러의 이유를 몰라서 gitblog repository를 몇 번이나 삭제하고 다시 만들면서 시간을 많이 썼는데, 앞으로는 그러지 않기 위해 남긴다.]]></summary></entry></feed>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[AAAI 2022](https://arxiv.org/abs/2205.13504)]]></summary></entry></feed>

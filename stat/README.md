@@ -10,6 +10,6 @@ sitemap:
 permalink: /stat/
 ---
 
-[Variational Inference]{:.heading.flip-title}
+[Advanced Variational Inference(VI), Variational Autoencoder(VAE)]{:.heading.flip-title}
 
-[Variational Inference]: /stat/2024-03-02-vi
+[Advanced Variational Inference(VI), Variational Autoencoder(VAE)]: /stat/2024-03-02-vi
