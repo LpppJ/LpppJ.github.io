@@ -1,6 +1,33 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-03-04T16:31:59+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">Mcmc</title><link href="http://localhost:4000/stat/2024-03-04-mcmc/" rel="alternate" type="text/html" title="Mcmc" /><published>2024-03-04T00:00:00+09:00</published><updated>2024-03-04T15:06:29+09:00</updated><id>http://localhost:4000/stat/mcmc</id><content type="html" xml:base="http://localhost:4000/stat/2024-03-04-mcmc/"><![CDATA[]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling</title><link href="http://localhost:4000/timeseries/2024-03-03-SimMTM/" rel="alternate" type="text/html" title="(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling" /><published>2024-03-03T00:00:00+09:00</published><updated>2024-03-03T19:13:25+09:00</updated><id>http://localhost:4000/timeseries/SimMTM</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-03-SimMTM/"><![CDATA[<h2 id="abstract">Abstract</h2>
-<p>-</p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[NeurIPS 2023](https://arxiv.org/abs/2302.00861)]]></summary></entry><entry><title type="html">Advanced Variational Inference(VI), Variational Autoencoder(VAE)</title><link href="http://localhost:4000/stat/2024-03-02-vi/" rel="alternate" type="text/html" title="Advanced Variational Inference(VI), Variational Autoencoder(VAE)" /><published>2024-03-02T00:00:00+09:00</published><updated>2024-03-03T18:54:12+09:00</updated><id>http://localhost:4000/stat/vi</id><content type="html" xml:base="http://localhost:4000/stat/2024-03-02-vi/"><![CDATA[<ul>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-03-04T16:34:13+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">1. Probabilistic ML Model</title><link href="http://localhost:4000/stat/2024-03-04-mcmc/" rel="alternate" type="text/html" title="1. Probabilistic ML Model" /><published>2024-03-04T00:00:00+09:00</published><updated>2024-03-04T16:32:13+09:00</updated><id>http://localhost:4000/stat/mcmc</id><content type="html" xml:base="http://localhost:4000/stat/2024-03-04-mcmc/"><![CDATA[<ul>
+  <li>\(x\) : set of observed variables <br />
+\(y\) : set of hidden / latent variables <br />
+\(\theta\) : model parameters</li>
+  <li>Discriminative probabilistic ML model
+    <ul>
+      <li>\(p(Y \mid X)\) : 데이터 \(X\)가 주어졌을 때 결과 \(y\) 예측하기 (Classification, Regression, …)</li>
+    </ul>
+  </li>
+  <li>
+    <p>Generative probabilistic ML model</p>
+
+    <ul>
+      <li>Bayes Theorem : \(p(Y \mid X)=\frac{p(X, Y)}{p(X)}=\frac{p(X \mid Y) p(Y)}{p(X)}=\frac{p(X \mid Y) p(Y)}{\int p(X \mid Y) p(Y) d Y}\)
+<img src="/assets/img/stat/vi/fig1.png" alt="그림1" /></li>
+    </ul>
+  </li>
+  <li>Discriminative model은 클래스(y) 사이의 차이를 의미하는 decision boundary를 학습하고, (\(p(Y\mid X)\))
+Generative model은 분포 \(p(X), p(X,Y)\)를 학습하여 posterior \(p(Y\mid X)\)를 추정한다.</li>
+  <li>\(Y\)의 차원이 높아질수록 분모에 있는 \(Y\)에 대한 적분이 어려워지기 때문에(intractable), 아래 두 가지 방법으로 \(p(Y\mid X)\)를 추정한다.
+    <ul>
+      <li>Variational Inference (optimization)</li>
+      <li>Markov chain Monte Carlo (sampling)</li>
+      <li>MCMC는 분포를 근사하기 위해 sampling으로 inference하는 것이고, VI는 분포를 근사하기 위해 optimization 문제로 바꾼 것이다.</li>
+      <li>일반적으로 VI는 빠르고, MCMC는 정확하다.(상대적으로 그렇다는 것)</li>
+    </ul>
+  </li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[\(x\) : set of observed variables \(y\) : set of hidden / latent variables \(\theta\) : model parameters Discriminative probabilistic ML model \(p(Y \mid X)\) : 데이터 \(X\)가 주어졌을 때 결과 \(y\) 예측하기 (Classification, Regression, …) Generative probabilistic ML model]]></summary></entry><entry><title type="html">(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling</title><link href="http://localhost:4000/timeseries/2024-03-03-SimMTM/" rel="alternate" type="text/html" title="(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling" /><published>2024-03-03T00:00:00+09:00</published><updated>2024-03-03T19:13:25+09:00</updated><id>http://localhost:4000/timeseries/SimMTM</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-03-SimMTM/"><![CDATA[<h2 id="abstract">Abstract</h2>
+<p>-</p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[NeurIPS 2023](https://arxiv.org/abs/2302.00861)]]></summary></entry><entry><title type="html">Advanced Variational Inference(VI), Variational Autoencoder(VAE)</title><link href="http://localhost:4000/stat/2024-03-02-vi/" rel="alternate" type="text/html" title="Advanced Variational Inference(VI), Variational Autoencoder(VAE)" /><published>2024-03-02T00:00:00+09:00</published><updated>2024-03-04T16:32:13+09:00</updated><id>http://localhost:4000/stat/vi</id><content type="html" xml:base="http://localhost:4000/stat/2024-03-02-vi/"><![CDATA[<ul>
   <li>Paper : <a href="https://arxiv.org/abs/1601.00670">Variational Inference : A Review for Statisticians</a></li>
   <li>Paper : <a href="https://arxiv.org/pdf/1711.05597.pdf">Advances in Variational Inference</a></li>
   <li>Paper : <a href="https://arxiv.org/abs/1312.6114">Auto-Encoding Variational Bayes</a></li>
@@ -88,15 +115,18 @@ Maximum likelihood fit: \(\theta \leftarrow \operatorname{argmax}_\theta \frac{1
 <h2 id="21-amortized-variational-inference">2.1. Amortized Variational Inference</h2>
 <ul>
   <li>\(\mid \theta \mid +\left(\mid \mu_i\mid +\mid \sigma_i\mid \right) \times N\)개의 parameters는 데이터 개수가 늘어날수록 커진다는 단점이 있다.</li>
-  <li>Amortized Variational Inference는 \(q_i(z)\)가 아니라 \(q_\phi(z \mid x)=\mathcal{N}\left(\mu_\phi(x), \sigma_\phi(x)\right)\)가 \(p(x \mid z)\)와 비슷해지도록 학습한다.
-<img src="/assets/img/stat/vi/fig2.png" alt="그림2" /></li>
+  <li>
+    <p>Amortized Variational Inference는 \(q_i(z)\)가 아니라 \(q_\phi(z \mid x)=\mathcal{N}\left(\mu_\phi(x), \sigma_\phi(x)\right)\)가 \(p(x \mid z)\)와 비슷해지도록 학습한다.</p>
+
+    <p><img src="/assets/img/stat/vi/fig2.png" alt="그림2" /></p>
+  </li>
   <li>Basic Variational Inference는 sampled \(z\)로 \(\hat x\)를 만들어내는 것인데, Amortized Variational Inference는 \(x\)가 input으로 들어가면 latent vector \(z\)의 분포가 결정되고 그 분포에서 \(z\)를 sampling해서 \(\hat x\)를 만들어내기 때문에, autoencoder의 아이디어와 같다. 즉 VAE는 Amortized Variational Inference의 예시 중 하나이다.</li>
   <li>\(x\)가 input으로 들어가서 \(z\)의 분포가 결정되는 네트워크(\(\phi\))를 encoder, inference network가 되고, \(z\)로 \(\hat x\)을 만드는 네트워크(\(\theta\))를 decoder, generative network가 된다.</li>
   <li>\(p_\theta(x_i \mid z)\)를 Gaussian으로 가정한다는 것은, log를 씌웠을 때 exp 안에 있는 L2 term만 남기 때문에 \(\hat x\)과 \(x\)를 비교할 때 euclidean distance를 사용한다는 의미이다.</li>
   <li>이외에도 많은 variants of VI가 있지만 Amortized VI만 소개하는 이유는 VAE와 관련이 있기 때문이다.</li>
 </ul>
 
-<h1 id="22-mean-field-variational-inference">2.2. Mean-field Variational Inference</h1>
+<h2 id="22-mean-field-variational-inference">2.2. Mean-field Variational Inference</h2>
 <ul>
   <li>Assumption : all latent variables are mutually independent (i.e. \(q(\mathbf{z})=\prod_{j=1}^m q_j\left(z_j\right) .\))</li>
   <li>Mean-field 가정을 하면 true posterior의 variables가 highly dependent인 경우에 approximation의 정확도가 다소 떨어지는 단점이 있지만, fully factorized distribution으로 계산이 간단해진다.</li>
