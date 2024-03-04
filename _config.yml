@@ -52,8 +52,6 @@ menu:
     url:               /timeseries/
   - title:             Statistics
     url:               /stat/
-  - title:             Gitblog
-    url:               /gitblog/
   - title:             Project
     url:               /project/
   - title:             Presentation
