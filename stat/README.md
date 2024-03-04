@@ -13,5 +13,5 @@ permalink: /stat/
 [Advanced Variational Inference(VI), Variational Autoencoder(VAE)]{:.heading.flip-title} \
 [MCMC with Implementation : Metropolis Hastings algorithm]{:.heading.flip-title}
 
-[Advanced Variational Inference(VI), Variational Autoencoder(VAE)]: /stat/2024-03-02-vi \
+[Advanced Variational Inference(VI), Variational Autoencoder(VAE)]: /stat/2024-03-02-vi
 [MCMC with Implementation : Metropolis Hastings algorithm]: /stat/2024-03-04-mcmc

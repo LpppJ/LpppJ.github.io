@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-03-04T20:41:38+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">MCMC with Implementation : Metropolis Hastings algorithm</title><link href="http://localhost:4000/stat/2024-03-04-mcmc/" rel="alternate" type="text/html" title="MCMC with Implementation : Metropolis Hastings algorithm" /><published>2024-03-04T00:00:00+09:00</published><updated>2024-03-04T16:34:37+09:00</updated><id>http://localhost:4000/stat/mcmc</id><content type="html" xml:base="http://localhost:4000/stat/2024-03-04-mcmc/"><![CDATA[<h2 id="1-probabilistic-ml-model">1. Probabilistic ML Model</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-03-04T20:45:36+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">MCMC with Implementation : Metropolis Hastings algorithm</title><link href="http://localhost:4000/stat/2024-03-04-mcmc/" rel="alternate" type="text/html" title="MCMC with Implementation : Metropolis Hastings algorithm" /><published>2024-03-04T00:00:00+09:00</published><updated>2024-03-04T20:43:53+09:00</updated><id>http://localhost:4000/stat/mcmc</id><content type="html" xml:base="http://localhost:4000/stat/2024-03-04-mcmc/"><![CDATA[<h2 id="1-probabilistic-ml-model">1. Probabilistic ML Model</h2>
 <ul>
   <li>\(x\) : set of observed variables <br />
 \(y\) : set of hidden / latent variables <br />
@@ -73,7 +73,9 @@ i.e. \(\pi_j=\lim _{n \rightarrow \infty} \frac{1}{n} \sum_{t=1}^n I\left(X_t=j\
     <ul>
       <li>Step1. Proposal density \(q(x' \mid x)\)를 선택한다.</li>
       <li>Step2. 적당한 initial state \(X_0 = x_0\)를 정한다.</li>
-      <li>Step3. \(X' \sim q(x' \mid X_t)\)와 \(U \sim Unif(0,1)\)을 생성한다.</li>
+      <li>
+        <p>Step3. \(X' \sim q(x' \mid X_t)\)와 \(U \sim Unif(0,1)\)을 생성한다.</p>
+      </li>
       <li>Step4. \(U&lt;\frac{f\left(X^{\prime}\right) q\left(X_t \mid X^{\prime}\right)}{f\left(X_t\right) q\left(X^{\prime} \mid X_t\right)}, \text { then } X_{t+1}=X^{\prime} . \text { Else } X_{t+1}=X_t\)</li>
       <li>Step5. \(t = t + 1\), Go to Step3</li>
     </ul>
@@ -144,7 +146,8 @@ i.e. \(\pi_j=\lim _{n \rightarrow \infty} \frac{1}{n} \sum_{t=1}^n I\left(X_t=j\
   </span><span class="n">proposal</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rmvnorm</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current</span><span class="p">,</span><span class="w">
                          </span><span class="n">sigma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">rho</span><span class="p">,</span><span class="w"> </span><span class="n">rho</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sigma</span><span class="o">^</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">))</span><span class="w">
 
-  </span><span class="c1"># Accept probability                       </span><span class="w">
+  </span><span class="c1"># Accept probability</span><span class="w">
+  </span><span class="c1"># Note: Proposal function이 normal(symmetric)이므로 q항이 약분된다.                       </span><span class="w">
   </span><span class="n">a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">g</span><span class="p">(</span><span class="n">proposal</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="n">proposal</span><span class="p">[</span><span class="m">2</span><span class="p">])</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">g</span><span class="p">(</span><span class="n">current</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="n">current</span><span class="p">[</span><span class="m">2</span><span class="p">])</span><span class="w">
     
   </span><span class="c1"># Accept or Reject</span><span class="w">
