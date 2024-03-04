@@ -1,9 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-03-04T16:34:13+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">1. Probabilistic ML Model</title><link href="http://localhost:4000/stat/2024-03-04-mcmc/" rel="alternate" type="text/html" title="1. Probabilistic ML Model" /><published>2024-03-04T00:00:00+09:00</published><updated>2024-03-04T16:32:13+09:00</updated><id>http://localhost:4000/stat/mcmc</id><content type="html" xml:base="http://localhost:4000/stat/2024-03-04-mcmc/"><![CDATA[<ul>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-03-04T20:41:38+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">MCMC with Implementation : Metropolis Hastings algorithm</title><link href="http://localhost:4000/stat/2024-03-04-mcmc/" rel="alternate" type="text/html" title="MCMC with Implementation : Metropolis Hastings algorithm" /><published>2024-03-04T00:00:00+09:00</published><updated>2024-03-04T16:34:37+09:00</updated><id>http://localhost:4000/stat/mcmc</id><content type="html" xml:base="http://localhost:4000/stat/2024-03-04-mcmc/"><![CDATA[<h2 id="1-probabilistic-ml-model">1. Probabilistic ML Model</h2>
+<ul>
   <li>\(x\) : set of observed variables <br />
 \(y\) : set of hidden / latent variables <br />
 \(\theta\) : model parameters</li>
-  <li>Discriminative probabilistic ML model
+  <li>
+    <p>Discriminative probabilistic ML model</p>
+
     <ul>
       <li>\(p(Y \mid X)\) : 데이터 \(X\)가 주어졌을 때 결과 \(y\) 예측하기 (Classification, Regression, …)</li>
     </ul>
@@ -26,8 +29,186 @@ Generative model은 분포 \(p(X), p(X,Y)\)를 학습하여 posterior \(p(Y\mid 
       <li>일반적으로 VI는 빠르고, MCMC는 정확하다.(상대적으로 그렇다는 것)</li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[\(x\) : set of observed variables \(y\) : set of hidden / latent variables \(\theta\) : model parameters Discriminative probabilistic ML model \(p(Y \mid X)\) : 데이터 \(X\)가 주어졌을 때 결과 \(y\) 예측하기 (Classification, Regression, …) Generative probabilistic ML model]]></summary></entry><entry><title type="html">(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling</title><link href="http://localhost:4000/timeseries/2024-03-03-SimMTM/" rel="alternate" type="text/html" title="(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling" /><published>2024-03-03T00:00:00+09:00</published><updated>2024-03-03T19:13:25+09:00</updated><id>http://localhost:4000/timeseries/SimMTM</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-03-SimMTM/"><![CDATA[<h2 id="abstract">Abstract</h2>
-<p>-</p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[NeurIPS 2023](https://arxiv.org/abs/2302.00861)]]></summary></entry><entry><title type="html">Advanced Variational Inference(VI), Variational Autoencoder(VAE)</title><link href="http://localhost:4000/stat/2024-03-02-vi/" rel="alternate" type="text/html" title="Advanced Variational Inference(VI), Variational Autoencoder(VAE)" /><published>2024-03-02T00:00:00+09:00</published><updated>2024-03-04T16:32:13+09:00</updated><id>http://localhost:4000/stat/vi</id><content type="html" xml:base="http://localhost:4000/stat/2024-03-02-vi/"><![CDATA[<ul>
+</ul>
+
+<h2 id="2-markov-chain-monte-carlo">2. Markov Chain Monte Carlo</h2>
+<h3 id="21-the-properties-of-mc">2.1. The properties of MC</h3>
+<ul>
+  <li><strong>Markov Chain</strong> : \(\operatorname{Pr}\left\{X_{t+1}=j_{t+1} \mid X_t=j_t, X_{t-1}=j_{t-1}, \cdots, X_0=j_0\right\} = \operatorname{Pr}\left\{X_{t+1}=j_{t+1} \mid X_t=j_t\right\}\)</li>
+  <li><strong>Transition probability</strong> : \(\mathbf{P}=\left(\left(p_{i j}\right)\right) ; \quad \operatorname{Pr}\left\{X_t=j \mid X_0=i\right\}=\left(\mathbf{P}^t\right)_{i j}\) <br />
+where \(p_{i j}=\operatorname{Pr}\left\{X_{t+1}=j \mid X_t=i\right\}\)
+<img src="/assets/img/stat/mcmc/fig1.jpeg" alt="그림2" /></li>
+  <li><strong>Irreducible</strong> : \(\left(\mathbf{P}^t\right)_{i j}=\operatorname{Pr}\left\{X_t=j \mid X_0=i\right\}&gt;0$ for some $t&gt;0, and all $i$ and $j$ in $\Omega$.\)
+    <ul>
+      <li>현재 state가 무엇이든, 모든 state에 언젠가는 도달할 수 있어야 한다.</li>
+      <li>Markov Chain이 irreducible하면 unique한 stationary probabilities를 가진다. <br />
+i.e. \(\pi_j=\lim _{n \rightarrow \infty} \frac{1}{n} \sum_{t=1}^n I\left(X_t=j\right) \text { w.p.1 for all initial states}\)</li>
+      <li>Indicator의 expectation은 probability이므로 \(\pi_j=\lim _{n \rightarrow \infty} \frac{1}{n} \sum_{t=1}^n \operatorname{Pr}\left\{X_t=j \mid X_0=i\right\}, \text { for all initial states}\)</li>
+    </ul>
+  </li>
+  <li><strong>Aperiodic</strong> : \(\operatorname{Pr}\left\{X_t=j \mid X_0=j\right\}&gt;0 \text { and } \operatorname{Pr}\left\{X_{t+1}=j \mid X_0=j\right\}&gt;0\)
+    <ul>
+      <li>주기가 없다는 것을 수학적으로 표현하면 위와 같다. Irreducible한 Markov Chain이 하나 이상의 self-loop를 가진다면 aperiodic하다.</li>
+    </ul>
+  </li>
+  <li><strong>Time-reversible</strong> : \(\pi_i p_{i j}=\pi_j p_{j i}, \quad \forall i \neq j\)
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">i에 도달하고 i에서 j가 될 확률</code>과 <code class="language-plaintext highlighter-rouge">j에 도달하고 j에서 i가 될 확률</code>이 같다는 의미</li>
+    </ul>
+  </li>
+  <li>많은 경우의 Markov Chains는 irreducible, aperiodic, time-reversible하다.</li>
+  <li>결국 하고자 하는 것은 \(E[h(X)]=\sum_{j=1}^N h(j) \pi_j\)를 \(\frac{1}{n} \sum_{t=1}^n h\left(X_t\right)\)로 추정하는 것이다.</li>
+</ul>
+
+<h3 id="22-metropolis-hastings-algorithm">2.2. Metropolis-Hastings algorithm</h3>
+<ul>
+  <li>Goal : (MCMC를 왜 할까?)
+    <ul>
+      <li>\(X \sim F\) with density f를 sampling하고 싶은데 independent sampling이 불가능하기 때문에 최대한 independent한 samples를 만드는 것</li>
+    </ul>
+  </li>
+  <li>\(F\)로부터 직접 sampling하기 어려운 경우에, sampling이 쉬운 proposal density \(q(x' \mid x)\)에서 propose</li>
+  <li>\(q(x' \mid x)\)에서의 proposed sample은 \(\alpha=\min \left(\frac{f\left(x^{\prime}\right) q\left(x \mid x^{\prime}\right)}{f(x) q\left(x^{\prime} \mid x\right)}, 1\right)\)확률로 sample에 추가, 아니면 stay \(x\)</li>
+  <li>정리하면
+    <ul>
+      <li>Step1. Proposal density \(q(x' \mid x)\)를 선택한다.</li>
+      <li>Step2. 적당한 initial state \(X_0 = x_0\)를 정한다.</li>
+      <li>Step3. \(X' \sim q(x' \mid X_t)\)와 \(U \sim Unif(0,1)\)을 생성한다.</li>
+      <li>Step4. \(U&lt;\frac{f\left(X^{\prime}\right) q\left(X_t \mid X^{\prime}\right)}{f\left(X_t\right) q\left(X^{\prime} \mid X_t\right)}, \text { then } X_{t+1}=X^{\prime} . \text { Else } X_{t+1}=X_t\)</li>
+      <li>Step5. \(t = t + 1\), Go to Step3</li>
+    </ul>
+  </li>
+  <li>이 때 proposal density가 symmetric density이면 \(\frac{q\left(X_t \mid X^{\prime}\right)}{q\left(X^{\prime} \mid X_t\right)}=1\)이 되어 계산할 필요가 없어진다.</li>
+  <li><img src="/assets/img/stat/mcmc/fig2.png" alt="그림3" /></li>
+  <li>예를 들어, MCMC로 생성한 samples의 trace plot이 위와 같다면 target distribution은 \((-2,2)\)에서 높은 density를 갖는다는 것을 알 수 있고, initial state와 무관하게 빠르게 수렴하는 것을 볼 수 있다.</li>
+</ul>
+
+<h2 id="3-r-implementation--mh-algorithm">3. R Implementation : MH-algorithm</h2>
+<ul>
+  <li>예시를 통해 MH-algorithm을 구현해본다.
+    <ul>
+      <li>Target density : \(g(x)=\exp \left(-(x+1)^2-y^2\right)+\exp \left(-150\left(x^2-y\right)^2-150\left(x-y^2\right)^2\right)\)
+        <ul>
+          <li>복잡한 un-normalized density이므로 직접 sampling하기가 어렵기 때문에 MH-algorithm으로 sampling한다.</li>
+        </ul>
+      </li>
+      <li>Proposal distribution : \(\left(\begin{array}{l} x_{new} \\ y_{new} \end{array}\right) \sim N\left(\left(\begin{array}{l} x_{now} \\ y_{now} \end{array}\right), \sigma^2\left(\begin{array}{ll} 1 &amp; \rho \\ \rho &amp; 1 \end{array}\right)\right)\) where \(\sigma^2 &gt; 0, \rho \in (-1,1)\)’</li>
+    </ul>
+  </li>
+  <li>먼저 target density를 visualization해서 파악한다.</li>
+  <li>
+    <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">g</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nf">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">y</span><span class="o">^</span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">exp</span><span class="p">(</span><span class="m">-150</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="m">2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">150</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">y</span><span class="o">^</span><span class="m">2</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="p">)}</span><span class="w">
+
+</span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">seq</span><span class="p">(</span><span class="m">-3</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">length.out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span><span class="p">);</span><span class="n">y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">seq</span><span class="p">(</span><span class="m">-2</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">length.out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span><span class="p">)</span><span class="w">
+</span><span class="n">z</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">outer</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="p">)</span><span class="w">
+</span><span class="n">par</span><span class="p">(</span><span class="n">mfrow</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">))</span><span class="w">
+</span><span class="n">contour</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"X"</span><span class="p">,</span><span class="w"> </span><span class="n">ylab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Y"</span><span class="p">,</span><span class="w">
+        </span><span class="n">main</span><span class="o">=</span><span class="s2">"The contour plot of density g"</span><span class="p">)</span><span class="w">
+</span></code></pre></div>    </div>
+    <p><img src="/assets/img/stat/mcmc/fig3.png" alt="그림4" /></p>
+    <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">par</span><span class="p">(</span><span class="n">mfrow</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">))</span><span class="w">
+</span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">seq</span><span class="p">(</span><span class="m">-3</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">length.out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span><span class="p">);</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">seq</span><span class="p">(</span><span class="m">-2</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">length.out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span><span class="p">)</span><span class="w">
+</span><span class="n">z</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">outer</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="p">)</span><span class="w">
+</span><span class="n">res1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">persp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">theta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">30</span><span class="p">,</span><span class="w"> </span><span class="n">phi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">,</span><span class="w">
+              </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"green"</span><span class="p">,</span><span class="w"> </span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"X"</span><span class="p">,</span><span class="w"> </span><span class="n">ylab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Y"</span><span class="p">,</span><span class="w"> </span><span class="n">zlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Z"</span><span class="p">,</span><span class="w">
+              </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"The density plot of g"</span><span class="p">)</span><span class="w">
+</span><span class="n">res2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">persp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">theta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">70</span><span class="p">,</span><span class="w"> </span><span class="n">phi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">,</span><span class="w">
+              </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"green"</span><span class="p">,</span><span class="w"> </span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"X"</span><span class="p">,</span><span class="w"> </span><span class="n">ylab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Y"</span><span class="p">,</span><span class="w"> </span><span class="n">zlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Z"</span><span class="p">,</span><span class="w">
+              </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"The density plot of g"</span><span class="p">)</span><span class="w">
+</span></code></pre></div>    </div>
+    <p><img src="/assets/img/stat/mcmc/fig4.png" alt="그림5" /></p>
+  </li>
+  <li>MH-algorithm을 함수로 작성한다.
+    <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">MCMC.MH</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">init</span><span class="p">,</span><span class="w"> </span><span class="n">sigma</span><span class="p">,</span><span class="w"> </span><span class="n">rho</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  
+</span><span class="c1">############################################################</span><span class="w">
+</span><span class="c1"># n : sample size</span><span class="w">
+</span><span class="c1"># init : starting value (initialization)</span><span class="w">
+</span><span class="c1"># sigma, rho : parameters for covariance matrix of proposal distribution</span><span class="w">
+</span><span class="c1">############################################################</span><span class="w">
+
+</span><span class="c1"># sample space for x, y</span><span class="w">
+</span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="kc">NA</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">);</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="kc">NA</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># initialization</span><span class="w">
+</span><span class="n">x</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">init</span><span class="p">[</span><span class="m">1</span><span class="p">];</span><span class="w"> </span><span class="n">y</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">init</span><span class="p">[</span><span class="m">2</span><span class="p">]</span><span class="w">
+  
+</span><span class="c1"># run the loop until sample space is full</span><span class="w">
+</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">2</span><span class="o">:</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+
+  </span><span class="c1"># 현재값(=current, =now)이 new x, new y의 분포를 결정한다. (Markov chain의 property)</span><span class="w">
+  </span><span class="n">current</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="m">-1</span><span class="p">],</span><span class="w"> </span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="m">-1</span><span class="p">])</span><span class="w">
+
+  </span><span class="c1"># Proposed sample</span><span class="w">
+  </span><span class="n">proposal</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rmvnorm</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current</span><span class="p">,</span><span class="w">
+                         </span><span class="n">sigma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">rho</span><span class="p">,</span><span class="w"> </span><span class="n">rho</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sigma</span><span class="o">^</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">))</span><span class="w">
+
+  </span><span class="c1"># Accept probability                       </span><span class="w">
+  </span><span class="n">a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">g</span><span class="p">(</span><span class="n">proposal</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="n">proposal</span><span class="p">[</span><span class="m">2</span><span class="p">])</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">g</span><span class="p">(</span><span class="n">current</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="n">current</span><span class="p">[</span><span class="m">2</span><span class="p">])</span><span class="w">
+    
+  </span><span class="c1"># Accept or Reject</span><span class="w">
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">runif</span><span class="p">(</span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">proposal</span><span class="p">[</span><span class="m">1</span><span class="p">];</span><span class="w"> </span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">proposal</span><span class="p">[</span><span class="m">2</span><span class="p">]}</span><span class="w">
+  </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">current</span><span class="p">[</span><span class="m">1</span><span class="p">];</span><span class="w"> </span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">current</span><span class="p">[</span><span class="m">2</span><span class="p">]}}</span><span class="w">
+
+</span><span class="c1"># when sample space is full, we will return  </span><span class="w">
+</span><span class="nf">return</span><span class="p">(</span><span class="nf">list</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="p">))}</span><span class="w">
+</span></code></pre></div>    </div>
+  </li>
+  <li>이제 MCMC를 실행하고 결과를 본다.
+    <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">n</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1e6</span><span class="w">
+</span><span class="n">samples.1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">MCMC.MH</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">-10</span><span class="p">,</span><span class="w"> </span><span class="m">-10</span><span class="p">),</span><span class="w"> </span><span class="n">sigma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.1</span><span class="p">,</span><span class="w"> </span><span class="n">rho</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">samples.1</span><span class="o">$</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">samples.1</span><span class="o">$</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Scatter plot of x and y"</span><span class="p">,</span><span class="w"> </span><span class="n">pch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">cex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.1</span><span class="p">)</span><span class="w">
+</span></code></pre></div>    </div>
+    <p><img src="/assets/img/stat/mcmc/fig5.png" alt="그림6" /></p>
+    <ul>
+      <li>생성된 samples가 점점 target density가 높은 방향으로 움직인다.</li>
+    </ul>
+  </li>
+  <li>Density plot가 target density와 비슷한지, trace plot으로 chain이 잘 수렴하는지, acf plot으로 얼마나 dependent한지 눈으로 확인할 수 있다.
+    <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># density plot</span><span class="w">
+</span><span class="n">par</span><span class="p">(</span><span class="n">mfrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">))</span><span class="w">
+</span><span class="n">hist</span><span class="p">(</span><span class="n">samples.1</span><span class="o">$</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Histogram of x"</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">breaks</span><span class="o">=</span><span class="m">100</span><span class="p">)</span><span class="w">
+</span><span class="n">hist</span><span class="p">(</span><span class="n">samples.1</span><span class="o">$</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Histogram of y"</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">breaks</span><span class="o">=</span><span class="m">100</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># trace plot</span><span class="w">
+</span><span class="n">ts.plot</span><span class="p">(</span><span class="n">samples.1</span><span class="o">$</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Trace plot of x"</span><span class="p">)</span><span class="w">
+</span><span class="n">ts.plot</span><span class="p">(</span><span class="n">samples.1</span><span class="o">$</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Trace plot of y"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># acf plot</span><span class="w">
+</span><span class="n">acf</span><span class="p">(</span><span class="n">samples.1</span><span class="o">$</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Autocorrelation of x"</span><span class="p">)</span><span class="w">
+</span><span class="n">acf</span><span class="p">(</span><span class="n">samples.1</span><span class="o">$</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Autocorrelation of y"</span><span class="p">)</span><span class="w">
+</span></code></pre></div>    </div>
+    <p><img src="/assets/img/stat/mcmc/fig6.jpg" alt="그림7" /></p>
+  </li>
+  <li>Tuning :
+    <ul>
+      <li>initial point가 (-10, 10)이므로 x와 y가 모두 커져야 target density가 높은 방향으로 움직인다.
+        <ul>
+          <li>\(rho&gt;0\)으로 설정</li>
+        </ul>
+      </li>
+      <li>initial point가 target density가 높은 곳과 멀리 떨어져있다
+        <ul>
+          <li>\(sigma &gt;&gt; 0.1\)으로 설정</li>
+        </ul>
+      </li>
+      <li>결과는 아래와 같다.
+        <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">samples.4</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">MCMC.MH</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">-10</span><span class="p">,</span><span class="w"> </span><span class="m">-10</span><span class="p">),</span><span class="w"> </span><span class="n">sigma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="n">rho</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="p">)</span><span class="w">
+</span><span class="n">par</span><span class="p">(</span><span class="n">mfrow</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">))</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">samples.4</span><span class="o">$</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">samples.4</span><span class="o">$</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Scatter plot of x and y"</span><span class="p">,</span><span class="w"> </span><span class="n">pch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">cex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.1</span><span class="p">)</span><span class="w">
+</span><span class="c1"># 얼마나 빠르게 수렴하는지 보기 위해 첫 10개 sample을 색칠을 해주었다.</span><span class="w">
+</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">){</span><span class="n">points</span><span class="p">(</span><span class="n">samples.4</span><span class="o">$</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">samples.4</span><span class="o">$</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">pch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">cex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)}</span><span class="w">
+</span></code></pre></div>        </div>
+        <p><img src="/assets/img/stat/mcmc/fig7.png" alt="그림8" /></p>
+      </li>
+      <li>Scatter plot으로부터 수렴이 훨씬 빠르게 되었음을 확인할 수 있다. sigma로 보폭을, rho로 방향을 적절하게 설정했기 때문이다.
+<img src="/assets/img/stat/mcmc/fig8.jpeg" alt="그림9" /></li>
+      <li>Acf plot이 유의미하게 낮아졌다. sigma가 커짐에 따라 현재값으로부터 멀리 떨어진 new sample이 proposed되었기 때문이다.</li>
+    </ul>
+  </li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[1. Probabilistic ML Model \(x\) : set of observed variables \(y\) : set of hidden / latent variables \(\theta\) : model parameters Discriminative probabilistic ML model \(p(Y \mid X)\) : 데이터 \(X\)가 주어졌을 때 결과 \(y\) 예측하기 (Classification, Regression, …) Generative probabilistic ML model]]></summary></entry><entry><title type="html">(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling</title><link href="http://localhost:4000/timeseries/2024-03-03-SimMTM/" rel="alternate" type="text/html" title="(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling" /><published>2024-03-03T00:00:00+09:00</published><updated>2024-03-03T19:13:25+09:00</updated><id>http://localhost:4000/timeseries/SimMTM</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-03-SimMTM/"><![CDATA[<h2 id="abstract">Abstract</h2>
+<p>-</p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[NeurIPS 2023](https://arxiv.org/abs/2302.00861)]]></summary></entry><entry><title type="html">Advanced Variational Inference(VI), Variational Autoencoder(VAE)</title><link href="http://localhost:4000/stat/2024-03-02-vi/" rel="alternate" type="text/html" title="Advanced Variational Inference(VI), Variational Autoencoder(VAE)" /><published>2024-03-02T00:00:00+09:00</published><updated>2024-03-04T16:34:37+09:00</updated><id>http://localhost:4000/stat/vi</id><content type="html" xml:base="http://localhost:4000/stat/2024-03-02-vi/"><![CDATA[<ul>
   <li>Paper : <a href="https://arxiv.org/abs/1601.00670">Variational Inference : A Review for Statisticians</a></li>
   <li>Paper : <a href="https://arxiv.org/pdf/1711.05597.pdf">Advances in Variational Inference</a></li>
   <li>Paper : <a href="https://arxiv.org/abs/1312.6114">Auto-Encoding Variational Bayes</a></li>
