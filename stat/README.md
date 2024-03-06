@@ -11,7 +11,9 @@ permalink: /stat/
 ---
 
 [Advanced Variational Inference(VI), Variational Autoencoder(VAE)]{:.heading.flip-title} \
-[MCMC with Implementation : Metropolis Hastings algorithm]{:.heading.flip-title}
+[MCMC with Implementation (1) : Metropolis Hastings algorithm]{:.heading.flip-title} \
+[MCMC with Implementation (2) : Gibbs Sampling]{:.heading.flip-title}
 
 [Advanced Variational Inference(VI), Variational Autoencoder(VAE)]: /stat/2024-03-02-vi
-[MCMC with Implementation : Metropolis Hastings algorithm]: /stat/2024-03-04-mcmc
+[MCMC with Implementation (1) : Metropolis Hastings algorithm]: /stat/2024-03-04-mcmc
+[MCMC with Implementation (2) : Gibbs Sampling]: /stat/2024-03-06-gibbs
