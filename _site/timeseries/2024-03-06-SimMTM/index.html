@@ -37,15 +37,15 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
 <meta property="og:locale" content="en" />
 <meta name="description" content="NeurIPS 2023" />
 <meta property="og:description" content="NeurIPS 2023" />
-<link rel="canonical" href="http://localhost:4000/timeseries/2024-03-03-SimMTM/" />
-<meta property="og:url" content="http://localhost:4000/timeseries/2024-03-03-SimMTM/" />
+<link rel="canonical" href="http://localhost:4000/timeseries/2024-03-06-SimMTM/" />
+<meta property="og:url" content="http://localhost:4000/timeseries/2024-03-06-SimMTM/" />
 <meta property="og:site_name" content="LpppJ" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-03-03T00:00:00+09:00" />
+<meta property="article:published_time" content="2024-03-06T00:00:00+09:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-03-03T19:13:25+09:00","datePublished":"2024-03-03T00:00:00+09:00","description":"NeurIPS 2023","headline":"(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/timeseries/2024-03-03-SimMTM/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/timeseries/2024-03-03-SimMTM/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-03-06T17:10:45+09:00","datePublished":"2024-03-06T00:00:00+09:00","description":"NeurIPS 2023","headline":"(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/timeseries/2024-03-06-SimMTM/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/timeseries/2024-03-06-SimMTM/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -73,7 +73,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
 <meta name="generator" content="Hydejack v9.1.6" />
 
 
-<link rel="alternate" href="http://localhost:4000/timeseries/2024-03-03-SimMTM/" hreflang="en">
+<link rel="alternate" href="http://localhost:4000/timeseries/2024-03-06-SimMTM/" hreflang="en">
 
 <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="LpppJ" />
 
@@ -108,7 +108,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2024-03-04T20:55:02+09:00',
+    INDEX_KEY: 'index--2024-03-06T17:10:46+09:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -193,7 +193,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
       <li>
         
           <span>/</span>
-          <span>2024-03-03-SimMTM</span>
+          <span>2024-03-06-SimMTM</span>
         
       </li>
     
@@ -221,7 +221,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
     <div class="post-date">
       
       <span class="ellipsis mr1">
-        <time datetime="2024-03-03T00:00:00+09:00">03 Mar 2024</time> in <span>Timeseries</span> 
+        <time datetime="2024-03-06T00:00:00+09:00">06 Mar 2024</time> in <span>Timeseries</span> 
       </span>
       
     </div>
@@ -245,7 +245,192 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
   
     <h2 id="abstract">Abstract</h2>
-<p>-</p>
+<ul>
+  <li>Labeling 비용 줄이고 다양한 task를 하기 위해 self-supervised pre-training 방식이 사용된다.
+    <ul>
+      <li>Contrastive learning : positive and negative pairs를 통해 representation space 최적화</li>
+      <li>Masked modeling : unmasked part를 보고 masked content를 reconstruct</li>
+    </ul>
+  </li>
+  <li>하지만 시계열에서는 randomly masking하면 temporal variations(trend, periodicity, peak valley …)가 망가져서 reconstruction task가 너무 어려워진다.</li>
+  <li>그래서 본 논문에서 제시하는 SimMTM은 한 개가 아니라 여러 개의 masked series를 assembling해서 reconstruction한다.</li>
+</ul>
+
+<h2 id="1-intnroduction">1. Intnroduction</h2>
+<ul>
+  <li>Self-supervised pre-training(SSL) : 대량의 unlabeled 데이터로 pretext knowledge를 학습하고, 다양한 downstream task에 맞게 개선 (Linear probing / Fine tuning)</li>
+  <li>pre-training 방법 중 하나인 Masked modeling을 시계열에 적용
+    <ul>
+      <li>Masked modeling : 데이터의 일부를 masking하고 unmasked part를 보고 masked part를 reconstruct하는 방식을 학습</li>
+    </ul>
+  </li>
+  <li>이미지나 자연어는 불필요한 정보도 많이 있지만(이미지의 빈 공간, 수식어 등), 시계열에는 temporal variations(trend, periodicity, peak vally…)가 있어서 단순하게 일부를 masking하면 시계열의 본질적인 부분이 변형되거나 망가질 수 있다.</li>
+  <li>그래서 multiple masking series로 original data를 reconstruction하면 개별 maksing series에서는 temporal variations가 변형될 수 있지만 각 maksing series는 서로서로 complement하기 때문에 multiple masking series를 봤을 때에는 본질적인 부분이 사라지지 않는다.
+<img src="/assets/img/timeseries/SimMTM/fig1.jpeg" alt="사진1" /></li>
+  <li>요약하자면 SimMTM은 neighborhood aggregation design for reconstruction이라고 할 수 있고,
+    <ul>
+      <li>풀어서 설명하자면 SimMTM은 masked part를 reconstruct하기 위해서 series-wise representation의 simailarity가 높은 point-wise representations을 aggregate한다고 할 수 있다.</li>
+    </ul>
+
+    <h2 id="2-related-work">2. Related Work</h2>
+    <h3 id="21-self-supervised-pre-training">2.1. Self-supervised Pre-training</h3>
+    <ul>
+      <li>Self-supervised Pre-training(SSL)
+        <ul>
+          <li>Contrastive leaning : positive pairs는 가깝게, negative pairs는 멀게 representation하도록 학습</li>
+          <li>Masked modeling
+            <ul>
+              <li>TST : learns to predict removed time points based on the remaining time points</li>
+              <li>PatchTST : predict masked subseries-level patches to capture the local semantic information</li>
+              <li>Ti-MAE : mask modeling as an auxiliary task to boost the forecasting and classification performances</li>
+            </ul>
+          </li>
+          <li>하지만 directly masking time series 방식은 본질적인 temporal variations를 망가지게 할 수 있으니, multiple randomly masked series로 recunstruct한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="3-simmtm">3. SimMTM</h2>
+<ul>
+  <li>모델은 크게 2개의 단계로 구성
+    <ul>
+      <li>multiple time series의 series-wise representation space에서의 similarities를 학습</li>
+      <li>학습된 similarities를 바탕으로 point-wise representations를 aggregate</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="31-overall-architecture">3.1. Overall Architecture</h3>
+<ul>
+  <li>모델은 4개의 modules로 구성
+    <ul>
+      <li>Masking</li>
+      <li>Representation learning</li>
+      <li>Series-wise similarity learning</li>
+      <li>Point-wise aggregation
+<img src="/assets/img/timeseries/SimMTM/fig2.png" alt="사진2" /></li>
+    </ul>
+  </li>
+  <li><strong>Masking</strong>
+    <ul>
+      <li>\(\left\{\mathbf{x}_i\right\}_{i=1}^N\) : a mini-batch of \(N\) time series samples, <br />
+where \(\mathbf{x}_i \in \mathbb{R}^{L \times C}\) contains \(L\) time points and \(C\) observed variates</li>
+      <li>\(\left\{\overline{\mathbf{x}}_i^j\right\}_{j=1}^M=\operatorname{Mask}_{r}\left(\mathbf{x}_i\right)\) <br />
+where \(r \in[0,1]\) denotes the masked portion,
+\(M\) is a hyperparameter for the number of masked time series</li>
+      <li>
+        <p>\(\overline{\mathbf{x}}_i^j \in \mathbb{R}^{L \times C}\) : the \(j\)-th masked time series of \(\mathbf{x}_i\)</p>
+      </li>
+      <li>All the \((N(M+1))\) input series in a set as \(\mathcal{X}=\bigcup_{i=1}^N\left(\left\{\mathbf{x}_i\right\} \cup\left\{\overline{\mathbf{x}}_i^j\right\}_{j=1}^M\right)\).
+        <ul>
+          <li>\(N\)은 mini-batch에 있는 시계열 데이터 sample의 개수,</li>
+          <li>\(M\)은 multiple masked time series의 개수</li>
+          <li>\(1\)은 masking 하지 않은 원본 시계열을 의미한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Representation learning</strong>
+    <ul>
+      <li>Encoder : Transformer and ResNet (to obtain the point-wise representations \(\mathcal{Z}\))
+        <ul>
+          <li>\(\mathcal{Z}=\bigcup_{i=1}^N\left(\left\{\mathbf{z}_i\right\} \cup\left\{\overline{\mathbf{z}}_i^j\right\}_{j=1}^M\right)=\operatorname{Enocder}(\mathcal{X})\) <br />
+where \(\mathbf{z}_i, \overline{\mathbf{z}}_i^j \in \mathbb{R}^{L \times d_{\text {model }}}\)</li>
+          <li>Detail : input 시계열마다 separately하게 통과 : \(\bigcup_{i=1}^N\left(\operatorname{Encoder}\left(\mathbf{x}_i\right) \cup\left\{\text { Encoder }\left(\overline{\mathbf{x}}_i^j\right)\right\}_{j=1}^M\right)\)</li>
+        </ul>
+      </li>
+      <li>Projector : MLP layer along the temporal dim (to obtain the series-wise representations \(\mathcal{S}\))
+        <ul>
+          <li>\(\mathcal{S}=\bigcup_{i=1}^N\left(\left\{\mathbf{s}_i\right\} \cup\left\{\overline{\mathbf{s}}_i^j\right\}_{j=1}^M\right)=\operatorname{Projector}(\mathcal{Z})\) <br />
+where \(\mathbf{s}_i, \overline{\mathbf{s}}_i^j \in \mathbb{R}^{1 \times d_{\text {model }}}\)</li>
+        </ul>
+      </li>
+      <li>Note : \(\mathbf{z}_i, \overline{\mathbf{z}}_i^j \in \mathbb{R}^{L \times d_{\text {model }}}, \mathbf{s}_i, \overline{\mathbf{s}}_i^j \in \mathbb{R}^{1 \times d_{\text {model }}}\)
+<img src="/assets/img/timeseries/SimMTM/myfig1.jpeg" alt="사진3" /></li>
+    </ul>
+  </li>
+  <li><strong>Series-wise similarity learning</strong>
+    <ul>
+      <li>Multiple masked time series를 단순하게 averaging하면 over-smoothing problem이 있기 때문에, similarities among series-wise representation로 weighted aggregation한다.</li>
+      <li>
+\[\mathbf{R}=\operatorname{Sim}(\mathcal{S}) \in \mathbb{R}^{D \times D}, D=N(M+1), \quad \mathbf{R}_{\mathbf{u}, \mathbf{v}}=\frac{\mathbf{u v}^{\top}}{\|\mathbf{u}\|\|\mathbf{v}\|}, \mathbf{u}, \mathbf{v} \in \mathcal{S}\]
+        <ul>
+          <li>\(\mathbf{R}=\operatorname{Sim}(\mathcal{S}) \in \mathbb{R}^{D \times D}\)은 \(N(M+1)\)개의 input 각각에 대해 series-wise representation space에서의 similarities가 된다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Point-wise aggregation</strong>
+    <ul>
+      <li>The aggregation process는 다음과 같다 : \(\widehat{\mathbf{z}}_i=\sum_{\mathbf{s}^{\prime} \in \mathcal{S} \backslash\left\{\mathbf{s}_i\right\}} \frac{\exp \left(\mathbf{R}_{\mathbf{s}_i, \mathbf{s}^{\prime}} / \tau\right)}{\sum_{\mathbf{s}^{\prime \prime} \in \mathcal{S} \backslash\left\{\mathbf{s}_i\right\}} \exp \left(\mathbf{R}_{\mathbf{s}_i, \mathbf{s}^{\prime \prime}} / \tau\right)} \mathbf{z}^{\prime}\)
+        <ul>
+          <li>where \(\mathbf{z}^{\prime}=\text { Projector }\left(\mathbf{s}^{\prime}\right)\), \(\tau\) denotes the temperature hyperparameter of softmax normalization for series-wise similarities</li>
+          <li>의미적으로는 \(\mathbf{x}_i\)를 reconstruction하기 위해서 \(\mathbf{x}_i\)에 대한 M개의 masked series \(\left\{\overline{\mathbf{x}}_i^j\right\}_{j=1}^M\) 뿐만 아니라, similarities가 높은 다른 series(samples)도 참고하겠다는 것으로, 시계열의 structure를 더 잘 학습하도록 의도했다.</li>
+        </ul>
+      </li>
+      <li>그리고 마지막으로 Decoder를 통과시키면 reconstruction 값을 얻는다 : \(\left\{\widehat{\mathbf{x}}_i\right\}_{i=1}^N=\operatorname{Decoder}\left(\left\{\widehat{\mathbf{z}}_i\right\}_{i=1}^N\right)\)
+        <ul>
+          <li>\(\operatorname{Decoder}\)는 simple MLP layer (along the channel dim)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="32-self-supervised-pre-training">3.2. Self-supervised Pre-training</h3>
+<ul>
+  <li>SimMTM의 reconstruction loss는 \(\mathcal{L}_{\text {reconstruction }}=\sum_{i=1}^N\left\|\mathbf{x}_i-\widehat{\mathbf{x}}_i\right\|_2^2\)이다.</li>
+  <li>The series-wise representation space에 constraints가 없으면 trivial aggregation이 발생할 수 있기 때문에, 한 series에 대한 multiple masked series끼리는 positive pair, 서로 다른 series에 대해서는 negative pair로 가정하고 (neighborhood assumption) contrastive하게 학습할 수 있도록 loss를 추가해주었다. : \(\mathcal{L}_{\text {constraint }}=-\sum_{\mathbf{s} \in \mathcal{S}}\left(\sum_{\mathbf{s}^{\prime} \in \mathcal{S}^{+}} \log \frac{\exp \left(\mathbf{R}_{\mathbf{s}, \mathbf{s}^{\prime}} / \tau\right)}{\sum_{\mathbf{s}^{\prime \prime} \in \mathcal{S} \backslash\{\mathbf{s}\}} \exp \left(\mathbf{R}_{\mathbf{s}, \mathbf{s}^{\prime \prime}} / \tau\right)}\right)\)</li>
+  <li>SimMTM의 overall optimization loss는 다음과 같다 : \(\min _{\Theta} \mathcal{L}_{\text {reconstruction }}+\lambda \mathcal{L}_{\text {constraint }}\)
+    <ul>
+      <li>\(\mathcal{L}_{\text {constraint }}\)이 trivial aggregation이 발생하는 것에 대한 regularization 역할을 한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="4-experiments">4. Experiments</h2>
+<p><img src="/assets/img/timeseries/SimMTM/table1.jpeg" alt="사진4" /></p>
+<ul>
+  <li>Low-level downstream task인 forecasting, high-level downstream task인 classification을 수행하였다.</li>
+  <li>비교한 SOTA 모델들
+    <ul>
+      <li>contrastive learning methd : TF-C, CoST, TS2Vec, LaST</li>
+      <li>masked modeling method : <strong>Ti-MAE</strong>, TST, TF-C
+<img src="/assets/img/timeseries/SimMTM/fig3.png" alt="사진5" /></li>
+      <li>(x-axis) 왼쪽에 있을수록 MSE가 낮고, (y-axis) 위쪽에 있을수록 Accuracy가 높다.</li>
+    </ul>
+  </li>
+  <li><img src="/assets/img/timeseries/SimMTM/table2.png" alt="사진6" /></li>
+  <li><img src="/assets/img/timeseries/SimMTM/table3.png" alt="사진7" /></li>
+  <li><img src="/assets/img/timeseries/SimMTM/table4.png" alt="사진8" />
+    <ul>
+      <li>SimMTM은 학습 데이터와 테스트 데이터가 다른 cross-domain setting에서도 forecasting과 classification 모두 다른 모델보다 뛰어나기 때문에 좋은 baseline 모델이라 할 수 있다.</li>
+    </ul>
+  </li>
+  <li><img src="/assets/img/timeseries/SimMTM/fig4.png" alt="사진9" />
+    <ul>
+      <li>\(\min _{\Theta} \mathcal{L}_{\text {reconstruction }}+\lambda \mathcal{L}_{\text {constraint }}\) 둘 항 모두 loss term에 있을 때에 성능이 더 좋았다.</li>
+    </ul>
+  </li>
+  <li><img src="/assets/img/timeseries/SimMTM/fig5.png" alt="사진10" />
+    <ul>
+      <li>(left) SimMTM은 학습의 effectiveness가 다른 모델보다 높다. 즉 적은 데이터만으로도 valuable knowledge를 잘 파악한다.</li>
+      <li>(right) SimMTM에서 masked ratio가 높을수록 많은 multiple masked series를 만들 때 성능이 높다는 직관과 부합하는 결과이다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="5-conclusion">5. Conclusion</h2>
+<ul>
+  <li>SimMTM은 new masked modeling 방법을 제시
+    <ul>
+      <li>reconstructs the original series from its multiple neighbor masked series</li>
+      <li>aggregates the point-wise representations based on the series-wise similarities</li>
+    </ul>
+  </li>
+</ul>
 
   
 </article>

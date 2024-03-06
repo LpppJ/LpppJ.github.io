@@ -30,4 +30,4 @@ permalink: /timeseries/
 [(FITS) Modeling Time Series with 10k Parameters]: /timeseries/2024-02-22-FITS
 [(iTransformer) Inverted Transformers are Effective for Time Series Forecasting]: /timeseries/2024-02-23-iTransformer
 [(GAFormer) Enhancing Timeseries Transformers Through Group-Aware Embeddings]: /timeseries/2024-03-01-GAFormer
-[(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling]: /timeseries/2024-03-03-SimMTM
+[(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling]: /timeseries/2024-03-06-SimMTM

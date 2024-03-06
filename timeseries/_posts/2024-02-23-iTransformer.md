@@ -11,7 +11,7 @@ sitemap:
 hide_last_modified: true
 ---
 
-# iTransformer : Inverted Transformers are Effective for Time Series Forecasting
+# (iTransformer) Inverted Transformers are Effective for Time Series Forecasting
 
 ## Abstract
 - Transformer-based TS : larger lookback $$\to$$ performance degradation & computation explosion.
