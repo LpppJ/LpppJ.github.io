@@ -108,7 +108,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2024-03-06T19:08:28+09:00',
+    INDEX_KEY: 'index--2024-03-12T20:29:02+09:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -235,7 +235,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
   
     <p class="note-sm" >
-      ICLR 2024
+      <a href="https://openreview.net/forum?id=vpJMJerXHU">ICLR 2024</a>
 
     </p>
   
@@ -253,7 +253,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 <h2 id="1-introduction">1. Introduction</h2>
 <ul>
-  <li>Transformer-based 모델과 MLP-based 모델이 우위에 있는 이유는 global한 efective receptive fields (ERFs)가 cross-time dependency를 파악하기 때문이다.</li>
+  <li>Transformer-based 모델과 MLP-based 모델이 우위에 있는 이유는 global한 effective receptive fields (ERFs)가 cross-time dependency를 파악하기 때문이다.</li>
   <li>하지만 지금까지 convolution in time series 연구들은 그저 모델의 구조를 복잡하게 해왔고, 이와 다르게 본 논문에서는 convolution 자체를 업데이트해서 ERF를 키운다.</li>
   <li>왜냐하면 CV에서는 이미 Transformer을 보고 convolution을 optimizing하려고 시도하고 있기 때문이다.</li>
   <li>시계열에서 convolution을 쓴다는 것은 cross-time and cross-variable dependency를 포착하겠다는 의미이다.</li>

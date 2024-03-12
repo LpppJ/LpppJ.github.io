@@ -4,7 +4,7 @@ related_posts:
   _
 title: 
 description: >
-  ICLR 2024
+  [ICLR 2024](https://openreview.net/forum?id=vpJMJerXHU)
 sitemap:
     changefreq: daily
     priority: 1.0
@@ -19,7 +19,7 @@ hide_last_modified: true
 - Convolution의 sharing params로 효율적이면서도 넓은 receptive fields를 가진다.
 
 ## 1. Introduction
-- Transformer-based 모델과 MLP-based 모델이 우위에 있는 이유는 global한 efective receptive fields (ERFs)가 cross-time dependency를 파악하기 때문이다.
+- Transformer-based 모델과 MLP-based 모델이 우위에 있는 이유는 global한 effective receptive fields (ERFs)가 cross-time dependency를 파악하기 때문이다.
 - 하지만 지금까지 convolution in time series 연구들은 그저 모델의 구조를 복잡하게 해왔고, 이와 다르게 본 논문에서는 convolution 자체를 업데이트해서 ERF를 키운다.
 - 왜냐하면 CV에서는 이미 Transformer을 보고 convolution을 optimizing하려고 시도하고 있기 때문이다.
 - 시계열에서 convolution을 쓴다는 것은 cross-time and cross-variable dependency를 포착하겠다는 의미이다.

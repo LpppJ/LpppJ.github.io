@@ -18,8 +18,9 @@ permalink: /timeseries/
 [(FITS) Modeling Time Series with 10k Parameters]{:.heading.flip-title} \
 [(iTransformer) Inverted Transformers are Effective for Time Series Forecasting]{:.heading.flip-title} \
 [(GAFormer) Enhancing Timeseries Transformers Through Group-Aware Embeddings]{:.heading.flip-title} \
-[(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling]{:.heading.flip-title}
-
+[(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling]{:.heading.flip-title} \
+[(TS2Vec) Towards Universal Representation of Time Series]{:.heading.flip-title}
+<!-- [(SoftCLT) Soft Contrastive Learning for Time Series]{:.heading.flip-title} -->
 
 
 [(Raindrop) Graph-guided Network for Irregularly Sampled Multivariate Time Series]: /timeseries/2024-02-09-Raindrop
@@ -31,3 +32,5 @@ permalink: /timeseries/
 [(iTransformer) Inverted Transformers are Effective for Time Series Forecasting]: /timeseries/2024-02-23-iTransformer
 [(GAFormer) Enhancing Timeseries Transformers Through Group-Aware Embeddings]: /timeseries/2024-03-01-GAFormer
 [(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling]: /timeseries/2024-03-06-SimMTM
+[(TS2Vec) Towards Universal Representation of Time Series]: /timeseries/2024-03-12-ts2vec
+<!-- [(SoftCLT) Soft Contrastive Learning for Time Series]: /timeseries/2024-03-08-softCLT -->

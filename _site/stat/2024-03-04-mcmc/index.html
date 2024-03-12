@@ -45,7 +45,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="MCMC with Implementation (1) : Metropolis Hastings algorithm" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-03-06T17:11:13+09:00","datePublished":"2024-03-04T00:00:00+09:00","description":"This is blog about machine learning, deep learning, artificial intelligence.","headline":"MCMC with Implementation (1) : Metropolis Hastings algorithm","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/stat/2024-03-04-mcmc/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/stat/2024-03-04-mcmc/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-03-07T15:13:15+09:00","datePublished":"2024-03-04T00:00:00+09:00","description":"This is blog about machine learning, deep learning, artificial intelligence.","headline":"MCMC with Implementation (1) : Metropolis Hastings algorithm","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/stat/2024-03-04-mcmc/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/stat/2024-03-04-mcmc/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -108,7 +108,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2024-03-06T19:08:28+09:00',
+    INDEX_KEY: 'index--2024-03-12T20:29:02+09:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -278,7 +278,7 @@ Generative model은 분포 \(p(X), p(X,Y)\)를 학습하여 posterior \(p(Y\mid 
   <li><strong>Transition probability</strong> : \(\mathbf{P}=\left(\left(p_{i j}\right)\right) ; \quad \operatorname{Pr}\left\{X_t=j \mid X_0=i\right\}=\left(\mathbf{P}^t\right)_{i j}\) <br />
 where \(p_{i j}=\operatorname{Pr}\left\{X_{t+1}=j \mid X_t=i\right\}\)
 <img src="/assets/img/stat/mcmc/fig1.jpeg" alt="그림2" /></li>
-  <li><strong>Irreducible</strong> : \(\left(\mathbf{P}^t\right)_{i j}=\operatorname{Pr}\left\{X_t=j \mid X_0=i\right\}&gt;0$ for some $t&gt;0, and all $i$ and $j$ in $\Omega$.\)
+  <li><strong>Irreducible</strong> : \(\left(\mathbf{P}^t\right)_{i j}=\operatorname{Pr}\left\{X_t=j \mid X_0=i\right\}&gt;0\) for some \(t&gt;0, and all $i$ and $j$ in $\Omega$.\)
     <ul>
       <li>현재 state가 무엇이든, 모든 state에 언젠가는 도달할 수 있어야 한다.</li>
       <li>Markov Chain이 irreducible하면 unique한 stationary probabilities를 가진다. <br />
