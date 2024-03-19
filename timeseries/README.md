@@ -32,7 +32,11 @@ permalink: /timeseries/
 \
 [(SoftCLT) Soft Contrastive Learning for Time Series (ICLR 2024)]{:.heading.flip-title} \
 \
-[(Survey paper) Time Series Forecasting With Deep Learning A Survey (Philos Trans R Soc A. 2020)]{:.heading.flip-title}
+[(Survey paper) Time Series Forecasting With Deep Learning A Survey (Philos Trans R Soc A. 2020)]{:.heading.flip-title} \
+\
+[(Survey paper) Transformers in Time Series: A Survey (IJCAI 2023)]{:.heading.flip-title} \
+\
+[(Crossformer) Transformer Utilizing Cross-Dimension Dependency for Multivariate Time Series Forecasting (ICLR 2023)]{:.heading.flip-title}
 
 
 [(Raindrop) Graph-guided Network for Irregularly Sampled Multivariate Time Series (ICLR 2022)]: /timeseries/2024-02-09-Raindrop
@@ -47,3 +51,5 @@ permalink: /timeseries/
 [(TS2Vec) Towards Universal Representation of Time Series (AAAI 2022)]: /timeseries/2024-03-12-ts2vec
 [(SoftCLT) Soft Contrastive Learning for Time Series (ICLR 2024)]: /timeseries/2024-03-13-softCLT
 [(Survey paper) Time Series Forecasting With Deep Learning A Survey (Philos Trans R Soc A. 2020)]: /timeseries/2024-03-19-TSwDLsurvey
+[(Survey paper) Transformers in Time Series: A Survey (IJCAI 2023)]: /timeseries/2024-03-19-TFinTSsurvey
+[(Crossformer) Transformer Utilizing Cross-Dimension Dependency for Multivariate Time Series Forecasting (ICLR 2023)]: /timeseries/2024-03-19-crossformer

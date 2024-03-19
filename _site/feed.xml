@@ -1,5 +1,180 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-03-19T13:04:31+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">(Survey paper) Time Series Forecasting With Deep Learning A Survey (Philos Trans R Soc A. 2020)</title><link href="http://localhost:4000/timeseries/2024-03-19-TSwDLsurvey/" rel="alternate" type="text/html" title="(Survey paper) Time Series Forecasting With Deep Learning A Survey (Philos Trans R Soc A. 2020)" /><published>2024-03-19T00:00:00+09:00</published><updated>2024-03-19T13:04:28+09:00</updated><id>http://localhost:4000/timeseries/TSwDLsurvey</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-19-TSwDLsurvey/"><![CDATA[<h2 id="1-introduction">1. Introduction</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-03-19T21:27:19+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">(Crossformer) Transformer Utilizing Cross-Dimension Dependency for Multivariate Time Series Forecasting (ICLR 2023)</title><link href="http://localhost:4000/timeseries/2024-03-19-crossformer/" rel="alternate" type="text/html" title="(Crossformer) Transformer Utilizing Cross-Dimension Dependency for Multivariate Time Series Forecasting (ICLR 2023)" /><published>2024-03-19T00:00:00+09:00</published><updated>2024-03-19T21:27:14+09:00</updated><id>http://localhost:4000/timeseries/crossformer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-19-crossformer/"><![CDATA[<h2 id="abstract">Abstract</h2>
+
+<ul>
+  <li>Transformer-based models
+    <ul>
+      <li>focus on modeling the temporal dependency (cross-time dependency)</li>
+      <li>yet often omit the dependency among different variables (cross- dimension dependency)</li>
+    </ul>
+  </li>
+  <li>Crossformer는
+    <ul>
+      <li>Dimension-Segment-Wise (DSW) : MTS \(\to\) 2d vector array로 만들고</li>
+      <li>Two-Stage Attention (TSA) : 2개의 attention을 거치는데 각각 cross-time and cross-dimension dependency를 학습한다.</li>
+      <li>Hierarchical Encoder-Decoder (HED) : 그리고 서로 다른 scales의 정보를 사용해서 coarse, fine한 정보 모두 활용하여 forecasting한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="1-introduction">1. Introduction</h2>
+
+<ul>
+  <li>MTS에서는 cross-time dependency 뿐만 아니라 cross-dimension dependency도 중요한데, Transformer에서 cross-dim dependency를 반영하는 방법은 embedding 뿐이다.</li>
+  <li>본 논문에서는 cross-dim dependency를 explicitly하게 사용한다.</li>
+  <li>Dimension-Segment-Wise (DSW) : the series(e.g. UTS)는 segments로 나뉘고, 각 segment는 feature vector가 된다. (series는 2d vector array가 된다.)</li>
+  <li>Two-Stage Attention (TSA): 2d vector array로부터 cross-time and cross-dimension dependency 학습</li>
+  <li>Hierarchical Encoder-Decoder (HED) : 각 layer에서 서로 다른 scale에 대한 dependency를 학습하게 된다.</li>
+</ul>
+
+<h2 id="2-related-works">2. Related Works</h2>
+
+<ul>
+  <li><strong>Multivariate Time Series Forecasting</strong>
+    <ul>
+      <li>Statistical models : Vector auto-regressive(VAR), Vector auto-regressive moving average (VARMA)</li>
+      <li>Neural models : TCN, DeepAR, LSTnet(CNN+RNN), MTGNN, …</li>
+    </ul>
+  </li>
+  <li><strong>Transformer-based model</strong> : LogTrans, Informer, Autoformer, Pyraformer, FEDformer, Preformer, …</li>
+  <li><strong>Vision Transformers</strong> : Transformer를 vision에서 사용할 때 썼던 patching 방식</li>
+</ul>
+
+<h2 id="3-methodology">3. Methodology</h2>
+
+<ul>
+  <li>\(\mathbf{x}_{1: T} \in \mathbb{R}^{T \times D}\)를 보고 \(\mathbf{x}_{T+1: T+\tau} \in \mathbb{R}^{\tau \times D}\)​ 예측하는 문제
+    <ul>
+      <li>\(\tau, T\) is the number of time steps in the future and past, respectively</li>
+      <li>\(D&gt;1\) is the number of dimensions</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="31-dimension-segment-wise-embedding">3.1. Dimension-Segment-wise Embedding</h3>
+<p><img src="/assets/img/timeseries/crossformer/fig1.png" alt="사진1" /></p>
+<ul>
+  <li>t시점의 모든 dimension의 data point \(\mathbf{x}_t \in \mathbb{R}^D\)를 \(\mathbf{h}_t \in \mathbb{R}^{d_{\text {model }}}\)로 embedding한다.</li>
+  <li>
+\[\begin{aligned}
+\mathbf{x}_{1: T} &amp; =\left\{\mathbf{x}_{i, d}^{(s)} \left\lvert\, 1 \leq i \leq \frac{T}{L_{\text {seg }}}\right., 1 \leq d \leq D\right\} \\
+\mathbf{x}_{i, d}^{(s)} &amp; =\left\{x_{t, d} \mid(i-1) \times L_{\text {seg }}&lt;t \leq i \times L_{\text {seg }}\right\} \\ \mathbf{h}_{i, d}&amp;=\mathbf{E} \mathbf{x}_{i, d}^{(s)}+\mathbf{E}_{i, d}^{(p o s)} \end{aligned}\]
+    <ul>
+      <li>\(\mathbf{x}_{i, d}^{(s)} \in \mathbb{R}^{L_{\text {seg }}}\)  is the \(i\)-th segment in dimension \(d\) with length \(L_{\text {seg }}\)</li>
+      <li>\(\mathbf{E} \in \mathbb{R}^{d_{\text {model }} \times L_{\text {seg }}}\) : the learnable projection matrix</li>
+      <li>\(\mathbf{E}_{i, d}^{(\text {pos })} \in \mathbb{R}^{d_{\text {model }}}\) : the learnable position embedding for position $(i, d)$.</li>
+    </ul>
+  </li>
+  <li>
+\[\mathbf{H}=\left\{\mathbf{h}_{i, d} \mid, 1 \leq i \leq \frac{T}{L_{\text {seg }}}, 1 \leq d \leq D\right\}\]
+    <ul>
+      <li>where each \(\mathbf{h}_{i, d}\) represents a univariate time series segment.</li>
+    </ul>
+  </li>
+  <li>수식으로 표현하다보니 어려운데 아래 그림과 같고, \(\mathbf{H}\)는 오른쪽처럼 생겼다.
+<img src="/assets/img/timeseries/crossformer/myfig1.jpeg" alt="사진2" /></li>
+</ul>
+
+<h3 id="32-two-stage-attention-layer">3.2. Two-Stage Attention Layer</h3>
+<ul>
+  <li>이미지가 아니라 시계열이다보니 height와 width가 서로 바뀌면 의미가 달라지기 때문에 flatten시키면 안되고 바로 \(\mathbf{H}\)에 self-attention을 적용한다.</li>
+  <li><strong>Cross-Time Stage</strong>
+    <ul>
+      <li>\(\mathbf{Z}_{i, \text { : }}\) : the vectors of all dimensions at time step \(i\)</li>
+      <li>\(\mathbf{Z}_{:, d}\) the vectors of all time steps in dimension \(d\)
+<img src="/assets/img/timeseries/crossformer/myfig2.jpeg" alt="사진3" /></li>
+      <li>
+\[\begin{aligned} \hat{\mathbf{Z}}_{:, d}^{\text {time }}=\text { LayerNorm }\left(\mathbf{Z}_{:, d}+\operatorname{MSA}^{\text {time }}\left(\mathbf{Z}_{:, d}, \mathbf{Z}_{:, d}, \mathbf{Z}_{:, d}\right)\right) \\ \mathbf{Z}^{\text {time }}=\text { LayerNorm }\left(\hat{\mathbf{Z}}^{\text {time }}+\operatorname{MLP}\left(\hat{\mathbf{Z}}^{\text {time }}\right)\right) \end{aligned}\]
+      </li>
+      <li>\(\mathbf{Z}^{time}\)이 다음 stage인 Cross-Dimension Stage의 input이 된다.</li>
+    </ul>
+  </li>
+  <li><strong>Cross-Dimension Stage</strong>
+    <ul>
+      <li>\(\begin{aligned} \mathbf{B}_{i,:} &amp; =\mathrm{MSA}_1^{\operatorname{dim}}\left(\mathbf{R}_{i,:}, \mathbf{Z}_{i,:}^{\text {time }}, \mathbf{Z}_{i,:}^{\text {time }}\right), 1 \leq i \leq L \\ \overline{\mathbf{Z}}_{i,:}^{\text {dim }} &amp; =\mathrm{MSA}_2^{\text {dim }}\left(\mathbf{Z}_{i,:}^{\text {time }}, \mathbf{B}_{i,:}, \mathbf{B}_{i,:}\right), 1 \leq i \leq L \\ \hat{\mathbf{Z}}^{\text {dim }} &amp; =\text { LayerNorm }\left(\mathbf{Z}^{\text {time }}+\overline{\mathbf{Z}}^{\text {dim }}\right) \\ \mathbf{Z}^{\text {dim }} &amp; =\text { LayerNorm }\left(\hat{\mathbf{Z}}^{\text {dim }}+\operatorname{MLP}\left(\hat{\mathbf{Z}}^{\text {dim }}\right)\right) \end{aligned}\)
+<img src="/assets/img/timeseries/crossformer/fig2.png" alt="사진4" /></li>
+      <li>\(D\)가 클 때에는 router mechanism을 사용하여 fixed number \(c &lt;&lt; D\) vectors에 정보를 모았다가 다시 뿌려준다.</li>
+      <li>\(\mathbf{R} \in \mathbb{R}^{L \times c \times d_{\text {model }}}\) : the learnable vector array serving as routers</li>
+      <li>\(\mathbf{B} \in \mathbb{R}^{L \times c \times d_{\text {model }}}\) : the aggregated messages from all dimensions</li>
+      <li>\(\overline{\mathbf{Z}}^{\text {dim }}\) : output of the router mechanism.</li>
+      <li>All time steps \((1 \leq i \leq L)\) share the same \(\mathbf{M S A}_1^{\text {dim }}, \mathbf{M S A}_2^{\text {dim }}\)</li>
+      <li>\(\hat{\mathbf{Z}}^{\text {dim }}, \mathbf{Z}^{\text {dim }}\) : output of skip connection and MLP respectively</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="33-hierarchical-encoder-decoder">3.3. Hierarchical Encoder-Decoder</h3>
+<p><img src="/assets/img/timeseries/crossformer/fig3.png" alt="사진5" /></p>
+<ul>
+  <li>Upper layer일수록 coarser scale을 사용한 정보를 얻고, 서로 다른 scale로 얻은 정보들로 예측한 값들은 final result에서 더해진다.</li>
+  <li><strong>Encoder</strong> : upper layer일수록 coarser scale을 사용한다는 말은 인접한 두 vector(segment)를 merge한다는 것과 같다.</li>
+  <li>\(\mathbf{Z}^{e n c, l}=\operatorname{Encoder}\left(\mathbf{Z}^{e n c, l-1}\right)\)의 연산은 아래와 같다.
+\(\begin{aligned} &amp; \begin{cases}l=1: &amp; \hat{\mathbf{Z}}^{e n c, l}=\mathbf{H} \\ l&gt;1: &amp; \hat{\mathbf{Z}}_{i, d}^{e n c, l}=\mathbf{M}\left[\mathbf{Z}_{2 i-1, d}^{e n c, l-1} \cdot \mathbf{Z}_{2 i, d}^{e n c, l-1}\right], 1 \leq i \leq \frac{L_{l-1}}{2}, 1 \leq d \leq D\end{cases} \\&amp; \mathbf{Z}^{\text {enc,l}}=\operatorname{TSA}\left(\hat{\mathbf{Z}}^{\text {enc,l}}\right) \end{aligned}\)
+    <ul>
+      <li>
+        <p>\(\mathbf{H}\) denotes the 2D array obtained by DSW embedding</p>
+      </li>
+      <li>
+        <p>\(\mathbf{Z}^{e n c, l}\) denotes the output of the \(l\)-th encoder layer</p>
+      </li>
+      <li>\(\mathbf{M} \in \mathbb{R}^{d_{\text {model }} \times 2 d_{\text {model }}}\) denotes a learnable matrix for segment merging</li>
+      <li>\([\cdot]\) denotes the concatenation operation</li>
+      <li>\(L_{l-1}\) denotes the number of segments in each dimension in layer \(l-1\)</li>
+      <li>\(\hat{\mathbf{Z}}^{e n c, l}\) denotes the array after segment merging in the \(i\)-th layer</li>
+      <li>\(\mathbf{Z}^{\text {enc }, 0}, \mathbf{Z}^{\text {enc }, 1}, \ldots, \mathbf{Z}^{\text {enc }, N},\left(\mathbf{Z}^{\text {enc }, 0}=\mathbf{H}\right)\) is used to represent the \(N+1\) outputs of the encoder</li>
+    </ul>
+  </li>
+  <li><strong>Decoder</strong> : Emcoder에서 얻은 \(N+1\)개의 feature array가 있으면, \(N+1\)개의 layers로 예측한다.
+    <ul>
+      <li>decoder의 process : \(\mathbf{Z}^{\text {dec, } l}=\operatorname{Decoder}\left(\mathbf{Z}^{\text {dec, },-1}, \mathbf{Z}^{\text {enc, },}\right)\)
+\(\begin{aligned} &amp; \left\{\begin{array}{lll} l=0: &amp; \tilde{\mathbf{Z}}^{\text {dec }, l}=\operatorname{TSA}\left(\mathbf{E}^{(d e c)}\right) \\ l&gt;0: &amp; \tilde{\mathbf{Z}}^{\text {dec, }, l}=\operatorname{TSA}\left(\mathbf{Z}^{\text {dec, },-1}\right) \end{array}\right. \\ &amp; \overline{\mathbf{Z}}_{:, d}^{\text {dec, }, l}=\operatorname{MSA}\left(\tilde{\mathbf{Z}}_{:, d}^{\text {dec, }, l}, \mathbf{Z}_{:, d}^{e n c, l}, \mathbf{Z}_{:, d}^{e n c, l}\right), 1 \leq d \leq D \\ &amp; \hat{\mathbf{Z}}^{\text {dec, } l}=\text { LayerNorm }\left(\tilde{\mathbf{Z}}^{\text {dec, }, l}+\overline{\mathbf{Z}}^{\text {dec, } l}\right) \\ &amp; \mathbf{Z}^{\text {dec,l}}=\text { LayerNorm }\left(\hat{\mathbf{Z}}^{\text {dec, }, l} \operatorname{MLP}\left(\hat{\mathbf{Z}}^{\text {dec,l}}\right)\right) \\ &amp; \end{aligned}\)</li>
+      <li>\(\mathbf{E}^{(\text {dec })} \in \mathbb{R}^{\frac{\tau}{L_{s e g}} \times D \times d_{\text {model }}}\) denotes the learnable position embedding for decoder</li>
+      <li>\(\tilde{\mathbf{Z}}^{\text {dec,l } l}\) is the output of TSA</li>
+      <li>The MSA layer takes \(\tilde{\mathbf{Z}}_{:, d}^{d e c,l }\) as query and \(\mathbf{Z}_{:, d}^{e n c, l}\) as the key and value to build the connection between encoder and decoder</li>
+      <li>The output of MSA is denoted as \(\overline{\mathbf{Z}}_{:, d}^{\text {dec, },} . \hat{\mathbf{Z}}^{\text {dec,l}, ~} \mathbf{Z}^{\text {dec, }, l}\) denote the output of skip connection and MLP respectively.</li>
+      <li>\(\mathbf{Z}^{\text {dec, 0},}, \mathbf{Z}^{e n c, 1}, \ldots, \mathbf{Z}^{\text {dec, } N}\) : is used to represent decoder output</li>
+      <li><strong>Linear projection</strong> : 각 layer에서는 linear projection으로 prediction을 만들고, 각 layer의 prediction을 다 더하면 최종 prediction이 된다.
+\(\begin{gathered} \text { for } l=0, \ldots, N: \mathbf{x}_{i, d}^{(s), l}=\mathbf{W}^l \mathbf{Z}_{i, d}^{\text {dec,l }} \quad \mathbf{x}_{T+1: T+\tau}^{\text {pred, } l}=\left\{\mathbf{x}_{i, d}^{(s), l} \left\lvert\, 1 \leq i \leq \frac{\tau}{L_{\text {seg }}}\right., 1 \leq d \leq D\right\} \\ \mathbf{x}_{T+1: T+\tau}^{\text {pred }}=\sum_{l=0}^N \mathbf{x}_{T+1: T+\tau}^{\text {pred, }}\end{gathered}\)
+        <ul>
+          <li>\(\mathbf{W}^l \in \mathbb{R}^{L_{\text {seg }} \times d_{\text {model }}}\) : learnable matrix to project a vector to a ts segment</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="4-experiments">4. Experiments</h2>
+<h3 id="41-protocols">4.1. Protocols</h3>
+<ul>
+  <li>Dataset : 1) ETTh1 (Electricity Transformer Temperature-hourly), 2) ETTm1 (Electricity Transformer Temperature-minutely), 3) WTH (Weather), 4) ECL (Electricity Consuming Load), 5) ILI (Influenza-Like Illness), 6) Traffic</li>
+  <li>Baselines : 1) LSTMa (Bah- danau et al., 2015), 2) LSTnet (Lai et al., 2018), 3) MTGNN (Wu et al., 2020), and recent Transformer-based models for MTS forecasting: 4) Transformer (Vaswani et al., 2017), 5) In- former (Zhou et al., 2021), 6) Autoformer (Wu et al., 2021a), 7) Pyraformer (Liu et al., 2021a) and 8) FEDformer (Zhou et al., 2022)
+    <h3 id="42-main-results">4.2. Main Results</h3>
+    <p><img src="/assets/img/timeseries/crossformer/table1.png" alt="사진6" /></p>
+    <h3 id="43-ablation-study">4.3. Ablation Study</h3>
+    <p><img src="/assets/img/timeseries/crossformer/table2.png" alt="사진7" /></p>
+    <h3 id="44-effect-of-hyper-parameters">4.4. Effect of Hyper-parameters</h3>
+    <p><img src="/assets/img/timeseries/crossformer/fig4.png" alt="사진8" /></p>
+    <h3 id="45-computational-efficiency-analysis">4.5. Computational Efficiency Analysis</h3>
+    <p><img src="/assets/img/timeseries/crossformer/table3.png" alt="사진9" /></p>
+  </li>
+</ul>
+
+<h3 id="5-conclusion">5. Conclusion</h3>
+<ul>
+  <li>Crossformer : Transformer-based model utilizing cross-dimension dependency for MTS forecasting</li>
+  <li><strong>Dimension-Segment-Wise (DSW)</strong> embedding embeds the input data into a 2D vector array to preserve the information of both time and dimension</li>
+  <li><strong>The Two-Stage-Attention (TSA)</strong> layer is devised to capture the cross-time and cross- dimension dependency of the embedded array</li>
+  <li>Using DSW embedding and TSA layer, a <strong>Hierarchical Encoder-Decoder (HED)</strong> is devised to utilize the information at different scales</li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2023](https://openreview.net/forum?id=vSVLM2j9eie)]]></summary></entry><entry><title type="html">(Survey paper) Transformers in Time Series: A Survey (IJCAI 2023)</title><link href="http://localhost:4000/timeseries/2024-03-19-TFinTSsurvey/" rel="alternate" type="text/html" title="(Survey paper) Transformers in Time Series: A Survey (IJCAI 2023)" /><published>2024-03-19T00:00:00+09:00</published><updated>2024-03-19T21:27:19+09:00</updated><id>http://localhost:4000/timeseries/TFinTSsurvey</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-19-TFinTSsurvey/"><![CDATA[<h2 id="abstract">Abstract</h2>
+<ul>
+  <li>Transformer는 long-range dependencies and interactions를 학습할 수 있다.</li>
+  <li>본 논문에서는 Network structure 관점에서 Transformer를 TS forecasting에 사용하기 위해 어떤 adaptaion and modification을 했는지 알아보고</li>
+  <li>Application 관점에서 forecasting, anomaly detection, and classification을 포함한 task에 대해 얼마나 잘 작동하는지 알아본다.</li>
+  <li>마지막으로 future direction을 제시한다.</li>
+</ul>
+
+<h2 id="1-introduction">1. Introduction</h2>
+<p>-</p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[IJCAI 2023](https://arxiv.org/pdf/2202.07125.pdf)]]></summary></entry><entry><title type="html">(Survey paper) Time Series Forecasting With Deep Learning A Survey (Philos Trans R Soc A. 2020)</title><link href="http://localhost:4000/timeseries/2024-03-19-TSwDLsurvey/" rel="alternate" type="text/html" title="(Survey paper) Time Series Forecasting With Deep Learning A Survey (Philos Trans R Soc A. 2020)" /><published>2024-03-19T00:00:00+09:00</published><updated>2024-03-19T13:15:52+09:00</updated><id>http://localhost:4000/timeseries/TSwDLsurvey</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-19-TSwDLsurvey/"><![CDATA[<h2 id="1-introduction">1. Introduction</h2>
 <ul>
   <li>Time series forecasting
     <ul>
@@ -123,7 +298,7 @@
 <ul>
   <li>2020년에 발표된 survey 논문이지만 최근 Long-term Time Series Forecasting(LTSF)에 활용되는 모델에 대한 내용을 잘 정리한 논문이다.</li>
   <li>본 논문 이후 현재까지 최신 연구들을 이해한 상태로 읽는다면 최신 연구들의 motivation을 이해하는 데에 도움이 되는 논문이다.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Philos Trans R Soc A. 2020](https://arxiv.org/pdf/2004.13408.pdf)]]></summary></entry><entry><title type="html">(SoftCLT) Soft Contrastive Learning for Time Series (ICLR 2024)</title><link href="http://localhost:4000/timeseries/2024-03-13-softCLT/" rel="alternate" type="text/html" title="(SoftCLT) Soft Contrastive Learning for Time Series (ICLR 2024)" /><published>2024-03-13T00:00:00+09:00</published><updated>2024-03-18T20:38:56+09:00</updated><id>http://localhost:4000/timeseries/softCLT</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-13-softCLT/"><![CDATA[<h2 id="abstract">Abstract</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Philos Trans R Soc A. 2020](https://arxiv.org/pdf/2004.13408.pdf)]]></summary></entry><entry><title type="html">(SoftCLT) Soft Contrastive Learning for Time Series (ICLR 2024)</title><link href="http://localhost:4000/timeseries/2024-03-13-softCLT/" rel="alternate" type="text/html" title="(SoftCLT) Soft Contrastive Learning for Time Series (ICLR 2024)" /><published>2024-03-13T00:00:00+09:00</published><updated>2024-03-19T13:15:52+09:00</updated><id>http://localhost:4000/timeseries/softCLT</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-13-softCLT/"><![CDATA[<h2 id="abstract">Abstract</h2>
 <ul>
   <li>TS instance만으로 contrasting하거나, 하나의 TS의 adjacent timestamps만으로 contrasting하면 TS의 inherent correlation을 제대로 반영하지 못한다.</li>
   <li><strong>SoftCLT</strong> : instance-wise &amp; temporal Contrastive loss를 사용하여, 0 또는 1이 아닌 0 ~ 1 사이의 값으로 assign
@@ -257,7 +432,7 @@
 <h2 id="5-conclusion">5. Conclusion</h2>
 <ul>
   <li>SoftCLT : soft assignments based on the instance-wise and temporal relationships on the data space</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2024](https://arxiv.org/abs/2312.16424)]]></summary></entry><entry><title type="html">(TS2Vec) Towards Universal Representation of Time Series (AAAI 2022)</title><link href="http://localhost:4000/timeseries/2024-03-12-ts2vec/" rel="alternate" type="text/html" title="(TS2Vec) Towards Universal Representation of Time Series (AAAI 2022)" /><published>2024-03-12T00:00:00+09:00</published><updated>2024-03-12T20:29:48+09:00</updated><id>http://localhost:4000/timeseries/ts2vec</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-12-ts2vec/"><![CDATA[<h2 id="abstract">Abstract</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2024](https://arxiv.org/abs/2312.16424)]]></summary></entry><entry><title type="html">(TS2Vec) Towards Universal Representation of Time Series (AAAI 2022)</title><link href="http://localhost:4000/timeseries/2024-03-12-ts2vec/" rel="alternate" type="text/html" title="(TS2Vec) Towards Universal Representation of Time Series (AAAI 2022)" /><published>2024-03-12T00:00:00+09:00</published><updated>2024-03-19T13:15:52+09:00</updated><id>http://localhost:4000/timeseries/ts2vec</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-12-ts2vec/"><![CDATA[<h2 id="abstract">Abstract</h2>
 <ul>
   <li>본 논문에서 풀고자 하는 문제는 unsupervised TS representation(TS \(\to\) vector)</li>
   <li>TS를 arbitrary semantic level에서 representation하는 방법을 학습하는 framework</li>
@@ -389,7 +564,189 @@
     </ul>
   </li>
   <li>Ablation study를 통해 모델의 components가 모두 필요함을 보여주었다.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[AAAI 2022](https://arxiv.org/abs/2106.10466)]]></summary></entry><entry><title type="html">(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling (NeurIPS 2023)</title><link href="http://localhost:4000/timeseries/2024-03-06-SimMTM/" rel="alternate" type="text/html" title="(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling (NeurIPS 2023)" /><published>2024-03-06T00:00:00+09:00</published><updated>2024-03-07T15:14:12+09:00</updated><id>http://localhost:4000/timeseries/SimMTM</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-06-SimMTM/"><![CDATA[<h2 id="abstract">Abstract</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[AAAI 2022](https://arxiv.org/abs/2106.10466)]]></summary></entry><entry><title type="html">MCMC with Implementation (2) : Gibbs Sampling</title><link href="http://localhost:4000/stat/2024-03-06-gibbs/" rel="alternate" type="text/html" title="MCMC with Implementation (2) : Gibbs Sampling" /><published>2024-03-06T00:00:00+09:00</published><updated>2024-03-06T19:08:49+09:00</updated><id>http://localhost:4000/stat/gibbs</id><content type="html" xml:base="http://localhost:4000/stat/2024-03-06-gibbs/"><![CDATA[<h2 id="1-introduction">1. Introduction</h2>
+<ul>
+  <li>만약 sampling하고자 하는 parameter의 full conditional distribution을 알 수 있다면 Gibbs sampler를 사용할 수 있다.</li>
+  <li>Gibbs sampler는 MH-algorithm의 special case라고 할 수 있다.
+    <ul>
+      <li>Acceptance rate = 1이 되어 accept/reject 과정이 없다.</li>
+    </ul>
+  </li>
+  <li><strong>Full conditional distribution</strong> : 만약 model parameters가 \(\mathbf{\theta}=\left(\theta_1, \cdots, \theta_k\right)\)이라면, full conditional distribution은 \(\pi\left(\theta_i \mid \theta_1, \cdots, \theta_{i-1}, \theta_{i+1}, \cdots, \theta_k, \mathbf{X}\right)\)이다. 즉 다른 parameters는 모두 given일 때 관심있는 parameter의 분포를 의미한다.</li>
+  <li>정확히는 full conditional distribution이 모두 closed-form이어야 한다. 즉 k개의 conditional distributions가 standard한 분포(Normal, Gamma, …)를 따른다.</li>
+  <li>그러므로 Gibss sampling 방식은 k개의 parameters로 이루어지는 확률변수 \(\mathbf{\theta}\)를 sampling을 할 때 k개 parameters를 한 번에 sampling하는 것이 아니라, 하나씩 sampling한 다음 k개를 모아서 하나의 sample로 만든다.
+    <ul>
+      <li>
+        <ol>
+          <li>Choose starting values \(\mathbf{\theta}=\left(\theta_1^{(1)}, \cdots, \theta_k^{(1)}\right)\)</li>
+        </ol>
+      </li>
+      <li>
+        <ol>
+          <li>For \(i=2, \cdots, T\) sample <br />
+\(\begin{aligned}
+&amp; \theta_1^{(i)} \mid \theta_2^{(i-1)}, \cdots, \theta_k^{(i-1)}, \mathbf{X} \\
+&amp; \theta_2^{(i)} \mid \theta_1^{(i)}, \theta_3^{(i-1)}, \cdots, \theta_k^{(i-1)}, \mathbf{X} \\
+&amp; \theta_k^{(i)} \mid \theta_1^{(i)}, \cdots, \theta_{k-1}^{(i)}, \mathbf{X}
+\end{aligned}\)</li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+  <li>주의할 점은 \(\theta_2^{(i)}\)를 sampling할 때에는 아직 sampling하지 않은 \(\theta_3^{(i)}\)부터 \(\theta_k^{(i)}\)까지는 이전 시점의 값을 사용하지만, 이미 sampling을 한 \(\theta_1^{(i)}\)은 sampling한 값을 사용한다는 점이다.</li>
+</ul>
+
+<h2 id="2-full-conditional-distribution-for-gibb-sampler">2. Full conditional distribution for Gibb Sampler</h2>
+<ul>
+  <li>다음과 같은 간단한 Bayse rule을 보자. \(P(A \mid B)=\frac{P(A, B)}{P(B)}=\frac{P(A, B)}{P(A)} \times \frac{P(A)}{P(B)}=P(B \mid A) \times \frac{P(A)}{P(B)}\)
+    <ul>
+      <li>A를 sampling할 parameters, B를 주어진 데이터라고 하면 \(P(B \mid A)\)는 likelihood이고, \(P(A)\)는 prior가 된다. 그리고 \(P(B)\)는 주어진 상수가 되어 고려하지 않아도 된다. 왜냐하면 결국 A가 바뀔 때 posterior \(P(A \mid B)\)의 대소관계가 궁금하기 때문이다.</li>
+      <li>그러므로 \(\text{posterior} \propto \text{likelihood} \times \text{prior}\) 관계가 성립한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="3-r-implementation-of-gibb-sampler">3. R Implementation of Gibb Sampler</h2>
+
+<h3 id="31-ex1--bayesian-linear-regression">3.1. Ex.1 : Bayesian Linear Regression</h3>
+<p>\(\begin{gathered}
+Y_i=\beta_0+\beta_1 X_{1, i}+\beta_2 X_{2, i}+\beta_3 X_{1, i} X_{2, i}+\epsilon_i  \\
+\text{where } \epsilon_i \sim N\left(0, \sigma^2\right) \text{independently for } i=1, \cdots, 300,000 \\
+\text{We will use independent priors as} \\
+\beta_j \sim N(0,10) \text { for } j=0,1,2,3 \\
+\sigma^2 \sim \operatorname{IG}(0.01,0.01)
+\end{gathered}\)</p>
+<ul>
+  <li>위 모형에서 임의의 parameters로 데이터를 생성하고, Gibbs sampler가 생성한 parameters samples와 임의로 정한 parameters를 비교한다.</li>
+  <li><strong>Simulation the dataset</strong>
+    <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># the size of dataset</span><span class="w">
+</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300000</span><span class="w">
+
+</span><span class="c1"># Simulating (X_1,1, ..., X_1,n) and (X_2,1, ..., X_2,n) ~ N(0,1)</span><span class="w">
+</span><span class="n">X</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mvrnorm</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">mu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="n">Sigma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">diag</span><span class="p">(</span><span class="m">2</span><span class="p">))</span><span class="w">
+  
+</span><span class="c1"># Setting the true parameters (beta)</span><span class="w">
+</span><span class="n">beta.true</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">-1</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Simulating (Y_1, ..., Y_n) using the design matrix for above model</span><span class="w">
+</span><span class="n">X_design</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cbind</span><span class="p">(</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">X</span><span class="p">[,</span><span class="m">1</span><span class="p">]</span><span class="o">*</span><span class="n">X</span><span class="p">[,</span><span class="m">2</span><span class="p">]</span><span class="w"> </span><span class="p">)</span><span class="w">
+</span><span class="n">Y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">X_design</span><span class="w"> </span><span class="o">%*%</span><span class="w"> </span><span class="n">beta.true</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+</span></code></pre></div>    </div>
+  </li>
+  <li><strong>Calculation the full conditional distribution</strong>
+    <ul>
+      <li>For \(\beta\), the kernel of posterior for Gibbs sampler is following :
+\(\begin{aligned}
+&amp; P\left(\beta \mid Y, X, \sigma^2\right) \propto L\left(Y, X \mid \beta, \sigma^2\right) P(\beta) \\
+&amp; \propto\left(\frac{1}{\sqrt{2 \pi}}\right)^n\left(\frac{1}{\operatorname{det}\left(\sigma^2 I\right)}\right)^{\frac{1}{2}} \exp \left(-\frac{(Y-X \beta)^{\top}(Y-X \beta)}{2 \sigma^2}\right)\left(\frac{1}{\sqrt{2 \pi}}\right)^p\left(\frac{1}{\operatorname{det}(10 I)}\right)^{\frac{1}{2}} \exp \left(-\frac{\beta^{\top} \beta}{20}\right) \\
+&amp; \propto \exp \left(-\frac{(Y-X \beta)^{\top}(Y-X \beta)}{2 \sigma^2}-\frac{\beta^{\top} \beta}{20}\right) \\
+&amp; =\exp \left(-\frac{1}{2 \sigma^2} Y^{\top} Y+\frac{1}{2 \sigma^2} Y^{\top} X \beta+\frac{1}{2 \sigma^2} \beta^{\top} X Y-\frac{\beta^{\top} X^{\top} X \beta}{2 \sigma^2}-\frac{\beta^{\top} \beta}{20}\right) \\
+&amp; =\exp \left(-\frac{1}{2}\left(\beta^{\top}\left(\frac{X^{\top} X}{\sigma^2}+\frac{I}{10}\right) \beta-\beta^{\top}\left(\frac{X^{\top} Y}{\sigma^2}\right)-\left(\frac{Y^{\top} X}{\sigma^2}\right) \beta+\frac{Y^{\top} Y}{6^2}\right)\right) \\
+&amp; \therefore V_\beta=\left[\frac{X^{\top} X}{\sigma^2}+\frac{I}{10}\right]^{-1}, \quad m_\beta=V_\beta \frac{X^{\top} Y}{\sigma^2} \\
+&amp; \beta \sim N\left(m_\beta, V_\beta\right) \\
+\end{aligned}\)</li>
+    </ul>
+  </li>
+  <li>For \(\sigma^2\), the kernel of posterior for Gibbs sampler is following :
+\(\begin{aligned}
+P\left(\sigma^2 \mid, \beta\right) &amp; \propto L\left(Y, X \mid \beta, \sigma^2\right) P\left(\sigma^2\right) \\
+&amp; \propto\left(\frac{1}{\sigma \sqrt{2 \pi}}\right)^n \exp \left(-\frac{(Y-X \beta)^{\top}(Y-X \beta)}{2 \sigma^2}\right) \frac{\beta^\alpha}{\Gamma(\alpha)}\left(\frac{1}{\sigma^2}\right)^{\alpha+1} \exp \left(-\frac{\beta}{\sigma^2}\right) \\
+&amp; \propto\left(\frac{1}{\sigma^2}\right)^{\frac{n}{2}+\alpha+1} \exp \left(-\frac{\beta+\frac{1}{2}(Y-X \beta)^{\top}(Y-X \beta)}{\sigma^2}\right) \\
+&amp; \\
+&amp; \therefore \alpha_{\sigma^2}=\frac{n}{2}+\alpha, \quad \beta_{\sigma^2}=\beta+\frac{1}{2}(Y-X \beta)^{\top}(Y-X \beta) \\
+&amp; \sigma^2 \sim I G\left(\alpha_{\sigma^2}, \beta_{\sigma^2}\right)
+\end{aligned}\)
+    <ul>
+      <li>위 결과를 바탕으로 sampling하는 R 코드를 작성한다.</li>
+    </ul>
+
+    <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># the number of variates</span><span class="w">
+</span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ncol</span><span class="p">(</span><span class="n">X_design</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># The prior parameters</span><span class="w">
+</span><span class="n">m.beta</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0</span><span class="p">;</span><span class="w"> </span><span class="n">v.beta</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="n">a.s2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.01</span><span class="p">;</span><span class="w"> </span><span class="n">b.s2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.01</span><span class="w">
+  
+</span><span class="c1"># 각각의 parameters를 1000개씩 sampling한다.</span><span class="w">
+</span><span class="n">B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="w">
+
+</span><span class="c1"># sample space with initialization for each parameters</span><span class="w">
+</span><span class="n">beta.samps</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">matrix</span><span class="p">(</span><span class="kc">NA</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">B</span><span class="p">)</span><span class="w">
+</span><span class="n">s2.samps</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">matrix</span><span class="p">(</span><span class="kc">NA</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">B</span><span class="p">)</span><span class="w">
+</span><span class="n">beta.samps</span><span class="p">[,</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="n">p</span><span class="p">)</span><span class="w">
+</span><span class="n">s2.samps</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="w">
+
+</span><span class="c1"># Gibbs sampler</span><span class="w">
+</span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">2</span><span class="o">:</span><span class="n">B</span><span class="p">){</span><span class="w">
+    
+  </span><span class="c1">## beta[i] | s2[i-1]</span><span class="w">
+  </span><span class="n">V</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">solve</span><span class="p">(</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">X_design</span><span class="p">)</span><span class="w"> </span><span class="o">%*%</span><span class="w"> </span><span class="n">X_design</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">s2.samps</span><span class="p">[</span><span class="n">i</span><span class="m">-1</span><span class="p">]</span><span class="o">+</span><span class="w"> </span><span class="n">diag</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">v.beta</span><span class="w"> </span><span class="p">)</span><span class="w">
+  </span><span class="n">m</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">V</span><span class="w"> </span><span class="o">%*%</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">X_design</span><span class="p">)</span><span class="w"> </span><span class="o">%*%</span><span class="w"> </span><span class="n">Y</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">s2.samps</span><span class="p">[</span><span class="n">i</span><span class="m">-1</span><span class="p">]</span><span class="w"> </span><span class="p">)</span><span class="w">
+  </span><span class="n">beta.samps</span><span class="p">[,</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rmvnorm</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">sigma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">V</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"svd"</span><span class="p">)</span><span class="w">
+    
+  </span><span class="c1"># s2[i] | beta[i]</span><span class="w">
+  </span><span class="n">a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">n</span><span class="o">/</span><span class="m">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">a.s2</span><span class="w">
+  </span><span class="n">b</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">b.s2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="w"> </span><span class="n">Y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">X_design</span><span class="w"> </span><span class="o">%*%</span><span class="w"> </span><span class="n">beta.samps</span><span class="p">[,</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">%*%</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">Y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">X_design</span><span class="w"> </span><span class="o">%*%</span><span class="w"> </span><span class="n">beta.samps</span><span class="p">[,</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">2</span><span class="w">
+  </span><span class="n">s2.samps</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rinvgamma</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">shape</span><span class="o">=</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">scale</span><span class="o">=</span><span class="n">b</span><span class="p">)</span><span class="w">
+  </span><span class="n">s2.samps</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">s2.samps</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+  </span><span class="c1"># burn-in</span><span class="w">
+  </span><span class="n">beta.samps</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">beta.samps</span><span class="p">[,</span><span class="m">51</span><span class="o">:</span><span class="n">B</span><span class="p">]</span><span class="w">
+  </span><span class="n">s2.samps</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">s2.samps</span><span class="p">[</span><span class="m">51</span><span class="o">:</span><span class="n">B</span><span class="p">]</span><span class="w">
+</span></code></pre></div>    </div>
+  </li>
+  <li><strong>Checking the Samples</strong>
+    <ul>
+      <li>density plot, trace plot 등 다양한 tools를 활용하여 결과를 확인해야 하지만, posterior mean(samples의 평균)만 확인한다. 상당히 정확하게 sampling 되었다는 것을 알 수 있다.</li>
+    </ul>
+
+    <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># posterior mean</span><span class="w">
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"posterior mean of beta0:"</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">beta.samps</span><span class="p">[</span><span class="m">1</span><span class="p">,]),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"posterior mean of beta1:"</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">beta.samps</span><span class="p">[</span><span class="m">2</span><span class="p">,]),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"posterior mean of beta2:"</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">beta.samps</span><span class="p">[</span><span class="m">3</span><span class="p">,]),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"posterior mean of beta3:"</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">beta.samps</span><span class="p">[</span><span class="m">4</span><span class="p">,]),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"posterior mean of sigma2:"</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">s2.samps</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w">
+
+</span><span class="c1">##### result #####</span><span class="w">
+</span><span class="c1">## posterior mean of beta0: 0.4976068</span><span class="w">
+</span><span class="c1">##  posterior mean of beta1: 0.9989775</span><span class="w">
+</span><span class="c1">##  posterior mean of beta2: 2.00346</span><span class="w">
+</span><span class="c1">##  posterior mean of beta3: -1.00101</span><span class="w">
+</span><span class="c1">##  posterior mean of sigma2: 0.9986912</span><span class="w">
+</span></code></pre></div>    </div>
+    <ul>
+      <li>Gibbs Sampler는 proposed sample이 항상 accept된다는 점에서 MH-algorithm의 speecial case라고 할 수 있다. samples의 unique value의 개수와 B=1000의 비율을 출력한다.</li>
+    </ul>
+
+    <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># acceptance ratio</span><span class="w">
+</span><span class="c1"># (Because I used Gibbs sampler, samples was always accepted !)</span><span class="w">
+</span><span class="n">cat</span><span class="p">(</span><span class="s2">"Acceptance ratio of beta0 :"</span><span class="p">,</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">unique</span><span class="p">(</span><span class="n">beta.samps</span><span class="p">[</span><span class="m">1</span><span class="p">,]))</span><span class="o">/</span><span class="n">B</span><span class="w"> </span><span class="p">,</span><span class="s2">"\n"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Acceptance ratio of beta1 :"</span><span class="p">,</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">unique</span><span class="p">(</span><span class="n">beta.samps</span><span class="p">[</span><span class="m">2</span><span class="p">,]))</span><span class="o">/</span><span class="n">B</span><span class="w"> </span><span class="p">,</span><span class="s2">"\n"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Acceptance ratio of beta2 :"</span><span class="p">,</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">unique</span><span class="p">(</span><span class="n">beta.samps</span><span class="p">[</span><span class="m">3</span><span class="p">,]))</span><span class="o">/</span><span class="n">B</span><span class="w"> </span><span class="p">,</span><span class="s2">"\n"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Acceptance ratio of beta3 :"</span><span class="p">,</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">unique</span><span class="p">(</span><span class="n">beta.samps</span><span class="p">[</span><span class="m">4</span><span class="p">,]))</span><span class="o">/</span><span class="n">B</span><span class="w"> </span><span class="p">,</span><span class="s2">"\n"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Acceptance ratio of sigma2 :"</span><span class="p">,</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">unique</span><span class="p">(</span><span class="n">s2.samps</span><span class="p">))</span><span class="o">/</span><span class="n">B</span><span class="w"> </span><span class="p">)</span><span class="w">
+  
+</span><span class="c1">##### result #####</span><span class="w">
+</span><span class="c1">## Acceptance ratio of beta0 : 0.95</span><span class="w">
+</span><span class="c1">##  Acceptance ratio of beta1 : 0.95</span><span class="w">
+</span><span class="c1">##  Acceptance ratio of beta2 : 0.95</span><span class="w">
+</span><span class="c1">##  Acceptance ratio of beta3 : 0.95</span><span class="w">
+</span><span class="c1">##  Acceptance ratio of sigma2 : 0.95</span><span class="w">
+</span></code></pre></div>    </div>
+    <ul>
+      <li>앞서 burn-in으로 각 parameters에서 50개의 samples를 버린 것을 감안하면 sample가 항상 accept되었음을 알 수 있다. (acceptance probabilties = 1)
+        <ul>
+          <li>Acceptance probabilies는 각 proposed sample이 accept될 확률이고</li>
+          <li>Acceptance ratio는 전체 sampling 횟수 중에서 accept된 비율을 의미한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="32-ex2--truncated-exponential-distribution">3.2. Ex.2 : Truncated Exponential distribution</h3>
+<ul>
+  <li>to be continued…</li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[1. Introduction 만약 sampling하고자 하는 parameter의 full conditional distribution을 알 수 있다면 Gibbs sampler를 사용할 수 있다. Gibbs sampler는 MH-algorithm의 special case라고 할 수 있다. Acceptance rate = 1이 되어 accept/reject 과정이 없다. Full conditional distribution : 만약 model parameters가 \(\mathbf{\theta}=\left(\theta_1, \cdots, \theta_k\right)\)이라면, full conditional distribution은 \(\pi\left(\theta_i \mid \theta_1, \cdots, \theta_{i-1}, \theta_{i+1}, \cdots, \theta_k, \mathbf{X}\right)\)이다. 즉 다른 parameters는 모두 given일 때 관심있는 parameter의 분포를 의미한다. 정확히는 full conditional distribution이 모두 closed-form이어야 한다. 즉 k개의 conditional distributions가 standard한 분포(Normal, Gamma, …)를 따른다. 그러므로 Gibss sampling 방식은 k개의 parameters로 이루어지는 확률변수 \(\mathbf{\theta}\)를 sampling을 할 때 k개 parameters를 한 번에 sampling하는 것이 아니라, 하나씩 sampling한 다음 k개를 모아서 하나의 sample로 만든다. Choose starting values \(\mathbf{\theta}=\left(\theta_1^{(1)}, \cdots, \theta_k^{(1)}\right)\) For \(i=2, \cdots, T\) sample \(\begin{aligned} &amp; \theta_1^{(i)} \mid \theta_2^{(i-1)}, \cdots, \theta_k^{(i-1)}, \mathbf{X} \\ &amp; \theta_2^{(i)} \mid \theta_1^{(i)}, \theta_3^{(i-1)}, \cdots, \theta_k^{(i-1)}, \mathbf{X} \\ &amp; \theta_k^{(i)} \mid \theta_1^{(i)}, \cdots, \theta_{k-1}^{(i)}, \mathbf{X} \end{aligned}\) 주의할 점은 \(\theta_2^{(i)}\)를 sampling할 때에는 아직 sampling하지 않은 \(\theta_3^{(i)}\)부터 \(\theta_k^{(i)}\)까지는 이전 시점의 값을 사용하지만, 이미 sampling을 한 \(\theta_1^{(i)}\)은 sampling한 값을 사용한다는 점이다.]]></summary></entry><entry><title type="html">(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling (NeurIPS 2023)</title><link href="http://localhost:4000/timeseries/2024-03-06-SimMTM/" rel="alternate" type="text/html" title="(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling (NeurIPS 2023)" /><published>2024-03-06T00:00:00+09:00</published><updated>2024-03-19T13:15:52+09:00</updated><id>http://localhost:4000/timeseries/SimMTM</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-06-SimMTM/"><![CDATA[<h2 id="abstract">Abstract</h2>
 <ul>
   <li>Labeling 비용을 줄이고 다양한 downstream tasks의 성능을 위해 self-supervised pre-training 방식이 사용된다.
     <ul>
@@ -575,189 +932,7 @@ where \(\mathbf{s}_i, \overline{\mathbf{s}}_i^j \in \mathbb{R}^{1 \times d_{\tex
       <li>aggregates the point-wise representations based on the series-wise similarities</li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[NeurIPS 2023](https://arxiv.org/abs/2302.00861)]]></summary></entry><entry><title type="html">MCMC with Implementation (2) : Gibbs Sampling</title><link href="http://localhost:4000/stat/2024-03-06-gibbs/" rel="alternate" type="text/html" title="MCMC with Implementation (2) : Gibbs Sampling" /><published>2024-03-06T00:00:00+09:00</published><updated>2024-03-06T19:08:49+09:00</updated><id>http://localhost:4000/stat/gibbs</id><content type="html" xml:base="http://localhost:4000/stat/2024-03-06-gibbs/"><![CDATA[<h2 id="1-introduction">1. Introduction</h2>
-<ul>
-  <li>만약 sampling하고자 하는 parameter의 full conditional distribution을 알 수 있다면 Gibbs sampler를 사용할 수 있다.</li>
-  <li>Gibbs sampler는 MH-algorithm의 special case라고 할 수 있다.
-    <ul>
-      <li>Acceptance rate = 1이 되어 accept/reject 과정이 없다.</li>
-    </ul>
-  </li>
-  <li><strong>Full conditional distribution</strong> : 만약 model parameters가 \(\mathbf{\theta}=\left(\theta_1, \cdots, \theta_k\right)\)이라면, full conditional distribution은 \(\pi\left(\theta_i \mid \theta_1, \cdots, \theta_{i-1}, \theta_{i+1}, \cdots, \theta_k, \mathbf{X}\right)\)이다. 즉 다른 parameters는 모두 given일 때 관심있는 parameter의 분포를 의미한다.</li>
-  <li>정확히는 full conditional distribution이 모두 closed-form이어야 한다. 즉 k개의 conditional distributions가 standard한 분포(Normal, Gamma, …)를 따른다.</li>
-  <li>그러므로 Gibss sampling 방식은 k개의 parameters로 이루어지는 확률변수 \(\mathbf{\theta}\)를 sampling을 할 때 k개 parameters를 한 번에 sampling하는 것이 아니라, 하나씩 sampling한 다음 k개를 모아서 하나의 sample로 만든다.
-    <ul>
-      <li>
-        <ol>
-          <li>Choose starting values \(\mathbf{\theta}=\left(\theta_1^{(1)}, \cdots, \theta_k^{(1)}\right)\)</li>
-        </ol>
-      </li>
-      <li>
-        <ol>
-          <li>For \(i=2, \cdots, T\) sample <br />
-\(\begin{aligned}
-&amp; \theta_1^{(i)} \mid \theta_2^{(i-1)}, \cdots, \theta_k^{(i-1)}, \mathbf{X} \\
-&amp; \theta_2^{(i)} \mid \theta_1^{(i)}, \theta_3^{(i-1)}, \cdots, \theta_k^{(i-1)}, \mathbf{X} \\
-&amp; \theta_k^{(i)} \mid \theta_1^{(i)}, \cdots, \theta_{k-1}^{(i)}, \mathbf{X}
-\end{aligned}\)</li>
-        </ol>
-      </li>
-    </ul>
-  </li>
-  <li>주의할 점은 \(\theta_2^{(i)}\)를 sampling할 때에는 아직 sampling하지 않은 \(\theta_3^{(i)}\)부터 \(\theta_k^{(i)}\)까지는 이전 시점의 값을 사용하지만, 이미 sampling을 한 \(\theta_1^{(i)}\)은 sampling한 값을 사용한다는 점이다.</li>
-</ul>
-
-<h2 id="2-full-conditional-distribution-for-gibb-sampler">2. Full conditional distribution for Gibb Sampler</h2>
-<ul>
-  <li>다음과 같은 간단한 Bayse rule을 보자. \(P(A \mid B)=\frac{P(A, B)}{P(B)}=\frac{P(A, B)}{P(A)} \times \frac{P(A)}{P(B)}=P(B \mid A) \times \frac{P(A)}{P(B)}\)
-    <ul>
-      <li>A를 sampling할 parameters, B를 주어진 데이터라고 하면 \(P(B \mid A)\)는 likelihood이고, \(P(A)\)는 prior가 된다. 그리고 \(P(B)\)는 주어진 상수가 되어 고려하지 않아도 된다. 왜냐하면 결국 A가 바뀔 때 posterior \(P(A \mid B)\)의 대소관계가 궁금하기 때문이다.</li>
-      <li>그러므로 \(\text{posterior} \propto \text{likelihood} \times \text{prior}\) 관계가 성립한다.</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="3-r-implementation-of-gibb-sampler">3. R Implementation of Gibb Sampler</h2>
-
-<h3 id="31-ex1--bayesian-linear-regression">3.1. Ex.1 : Bayesian Linear Regression</h3>
-<p>\(\begin{gathered}
-Y_i=\beta_0+\beta_1 X_{1, i}+\beta_2 X_{2, i}+\beta_3 X_{1, i} X_{2, i}+\epsilon_i  \\
-\text{where } \epsilon_i \sim N\left(0, \sigma^2\right) \text{independently for } i=1, \cdots, 300,000 \\
-\text{We will use independent priors as} \\
-\beta_j \sim N(0,10) \text { for } j=0,1,2,3 \\
-\sigma^2 \sim \operatorname{IG}(0.01,0.01)
-\end{gathered}\)</p>
-<ul>
-  <li>위 모형에서 임의의 parameters로 데이터를 생성하고, Gibbs sampler가 생성한 parameters samples와 임의로 정한 parameters를 비교한다.</li>
-  <li><strong>Simulation the dataset</strong>
-    <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># the size of dataset</span><span class="w">
-</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300000</span><span class="w">
-
-</span><span class="c1"># Simulating (X_1,1, ..., X_1,n) and (X_2,1, ..., X_2,n) ~ N(0,1)</span><span class="w">
-</span><span class="n">X</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mvrnorm</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">mu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="n">Sigma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">diag</span><span class="p">(</span><span class="m">2</span><span class="p">))</span><span class="w">
-  
-</span><span class="c1"># Setting the true parameters (beta)</span><span class="w">
-</span><span class="n">beta.true</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">-1</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># Simulating (Y_1, ..., Y_n) using the design matrix for above model</span><span class="w">
-</span><span class="n">X_design</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cbind</span><span class="p">(</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">X</span><span class="p">[,</span><span class="m">1</span><span class="p">]</span><span class="o">*</span><span class="n">X</span><span class="p">[,</span><span class="m">2</span><span class="p">]</span><span class="w"> </span><span class="p">)</span><span class="w">
-</span><span class="n">Y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">X_design</span><span class="w"> </span><span class="o">%*%</span><span class="w"> </span><span class="n">beta.true</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
-</span></code></pre></div>    </div>
-  </li>
-  <li><strong>Calculation the full conditional distribution</strong>
-    <ul>
-      <li>For \(\beta\), the kernel of posterior for Gibbs sampler is following :
-\(\begin{aligned}
-&amp; P\left(\beta \mid Y, X, \sigma^2\right) \propto L\left(Y, X \mid \beta, \sigma^2\right) P(\beta) \\
-&amp; \propto\left(\frac{1}{\sqrt{2 \pi}}\right)^n\left(\frac{1}{\operatorname{det}\left(\sigma^2 I\right)}\right)^{\frac{1}{2}} \exp \left(-\frac{(Y-X \beta)^{\top}(Y-X \beta)}{2 \sigma^2}\right)\left(\frac{1}{\sqrt{2 \pi}}\right)^p\left(\frac{1}{\operatorname{det}(10 I)}\right)^{\frac{1}{2}} \exp \left(-\frac{\beta^{\top} \beta}{20}\right) \\
-&amp; \propto \exp \left(-\frac{(Y-X \beta)^{\top}(Y-X \beta)}{2 \sigma^2}-\frac{\beta^{\top} \beta}{20}\right) \\
-&amp; =\exp \left(-\frac{1}{2 \sigma^2} Y^{\top} Y+\frac{1}{2 \sigma^2} Y^{\top} X \beta+\frac{1}{2 \sigma^2} \beta^{\top} X Y-\frac{\beta^{\top} X^{\top} X \beta}{2 \sigma^2}-\frac{\beta^{\top} \beta}{20}\right) \\
-&amp; =\exp \left(-\frac{1}{2}\left(\beta^{\top}\left(\frac{X^{\top} X}{\sigma^2}+\frac{I}{10}\right) \beta-\beta^{\top}\left(\frac{X^{\top} Y}{\sigma^2}\right)-\left(\frac{Y^{\top} X}{\sigma^2}\right) \beta+\frac{Y^{\top} Y}{6^2}\right)\right) \\
-&amp; \therefore V_\beta=\left[\frac{X^{\top} X}{\sigma^2}+\frac{I}{10}\right]^{-1}, \quad m_\beta=V_\beta \frac{X^{\top} Y}{\sigma^2} \\
-&amp; \beta \sim N\left(m_\beta, V_\beta\right) \\
-\end{aligned}\)</li>
-    </ul>
-  </li>
-  <li>For \(\sigma^2\), the kernel of posterior for Gibbs sampler is following :
-\(\begin{aligned}
-P\left(\sigma^2 \mid, \beta\right) &amp; \propto L\left(Y, X \mid \beta, \sigma^2\right) P\left(\sigma^2\right) \\
-&amp; \propto\left(\frac{1}{\sigma \sqrt{2 \pi}}\right)^n \exp \left(-\frac{(Y-X \beta)^{\top}(Y-X \beta)}{2 \sigma^2}\right) \frac{\beta^\alpha}{\Gamma(\alpha)}\left(\frac{1}{\sigma^2}\right)^{\alpha+1} \exp \left(-\frac{\beta}{\sigma^2}\right) \\
-&amp; \propto\left(\frac{1}{\sigma^2}\right)^{\frac{n}{2}+\alpha+1} \exp \left(-\frac{\beta+\frac{1}{2}(Y-X \beta)^{\top}(Y-X \beta)}{\sigma^2}\right) \\
-&amp; \\
-&amp; \therefore \alpha_{\sigma^2}=\frac{n}{2}+\alpha, \quad \beta_{\sigma^2}=\beta+\frac{1}{2}(Y-X \beta)^{\top}(Y-X \beta) \\
-&amp; \sigma^2 \sim I G\left(\alpha_{\sigma^2}, \beta_{\sigma^2}\right)
-\end{aligned}\)
-    <ul>
-      <li>위 결과를 바탕으로 sampling하는 R 코드를 작성한다.</li>
-    </ul>
-
-    <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># the number of variates</span><span class="w">
-</span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ncol</span><span class="p">(</span><span class="n">X_design</span><span class="p">)</span><span class="w">
-
-</span><span class="c1"># The prior parameters</span><span class="w">
-</span><span class="n">m.beta</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0</span><span class="p">;</span><span class="w"> </span><span class="n">v.beta</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="n">a.s2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.01</span><span class="p">;</span><span class="w"> </span><span class="n">b.s2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.01</span><span class="w">
-  
-</span><span class="c1"># 각각의 parameters를 1000개씩 sampling한다.</span><span class="w">
-</span><span class="n">B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="w">
-
-</span><span class="c1"># sample space with initialization for each parameters</span><span class="w">
-</span><span class="n">beta.samps</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">matrix</span><span class="p">(</span><span class="kc">NA</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">B</span><span class="p">)</span><span class="w">
-</span><span class="n">s2.samps</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">matrix</span><span class="p">(</span><span class="kc">NA</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">B</span><span class="p">)</span><span class="w">
-</span><span class="n">beta.samps</span><span class="p">[,</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="n">p</span><span class="p">)</span><span class="w">
-</span><span class="n">s2.samps</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="w">
-
-</span><span class="c1"># Gibbs sampler</span><span class="w">
-</span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">2</span><span class="o">:</span><span class="n">B</span><span class="p">){</span><span class="w">
-    
-  </span><span class="c1">## beta[i] | s2[i-1]</span><span class="w">
-  </span><span class="n">V</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">solve</span><span class="p">(</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">X_design</span><span class="p">)</span><span class="w"> </span><span class="o">%*%</span><span class="w"> </span><span class="n">X_design</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">s2.samps</span><span class="p">[</span><span class="n">i</span><span class="m">-1</span><span class="p">]</span><span class="o">+</span><span class="w"> </span><span class="n">diag</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">v.beta</span><span class="w"> </span><span class="p">)</span><span class="w">
-  </span><span class="n">m</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">V</span><span class="w"> </span><span class="o">%*%</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">X_design</span><span class="p">)</span><span class="w"> </span><span class="o">%*%</span><span class="w"> </span><span class="n">Y</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">s2.samps</span><span class="p">[</span><span class="n">i</span><span class="m">-1</span><span class="p">]</span><span class="w"> </span><span class="p">)</span><span class="w">
-  </span><span class="n">beta.samps</span><span class="p">[,</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rmvnorm</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">sigma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">V</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"svd"</span><span class="p">)</span><span class="w">
-    
-  </span><span class="c1"># s2[i] | beta[i]</span><span class="w">
-  </span><span class="n">a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">n</span><span class="o">/</span><span class="m">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">a.s2</span><span class="w">
-  </span><span class="n">b</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">b.s2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="w"> </span><span class="n">Y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">X_design</span><span class="w"> </span><span class="o">%*%</span><span class="w"> </span><span class="n">beta.samps</span><span class="p">[,</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">%*%</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">Y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">X_design</span><span class="w"> </span><span class="o">%*%</span><span class="w"> </span><span class="n">beta.samps</span><span class="p">[,</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">2</span><span class="w">
-  </span><span class="n">s2.samps</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rinvgamma</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">shape</span><span class="o">=</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">scale</span><span class="o">=</span><span class="n">b</span><span class="p">)</span><span class="w">
-  </span><span class="n">s2.samps</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">s2.samps</span><span class="p">)</span><span class="w">
-</span><span class="p">}</span><span class="w">
-  </span><span class="c1"># burn-in</span><span class="w">
-  </span><span class="n">beta.samps</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">beta.samps</span><span class="p">[,</span><span class="m">51</span><span class="o">:</span><span class="n">B</span><span class="p">]</span><span class="w">
-  </span><span class="n">s2.samps</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">s2.samps</span><span class="p">[</span><span class="m">51</span><span class="o">:</span><span class="n">B</span><span class="p">]</span><span class="w">
-</span></code></pre></div>    </div>
-  </li>
-  <li><strong>Checking the Samples</strong>
-    <ul>
-      <li>density plot, trace plot 등 다양한 tools를 활용하여 결과를 확인해야 하지만, posterior mean(samples의 평균)만 확인한다. 상당히 정확하게 sampling 되었다는 것을 알 수 있다.</li>
-    </ul>
-
-    <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># posterior mean</span><span class="w">
-</span><span class="n">cat</span><span class="p">(</span><span class="s2">"posterior mean of beta0:"</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">beta.samps</span><span class="p">[</span><span class="m">1</span><span class="p">,]),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"posterior mean of beta1:"</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">beta.samps</span><span class="p">[</span><span class="m">2</span><span class="p">,]),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"posterior mean of beta2:"</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">beta.samps</span><span class="p">[</span><span class="m">3</span><span class="p">,]),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"posterior mean of beta3:"</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">beta.samps</span><span class="p">[</span><span class="m">4</span><span class="p">,]),</span><span class="w"> </span><span class="s2">"\n"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"posterior mean of sigma2:"</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">s2.samps</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w">
-
-</span><span class="c1">##### result #####</span><span class="w">
-</span><span class="c1">## posterior mean of beta0: 0.4976068</span><span class="w">
-</span><span class="c1">##  posterior mean of beta1: 0.9989775</span><span class="w">
-</span><span class="c1">##  posterior mean of beta2: 2.00346</span><span class="w">
-</span><span class="c1">##  posterior mean of beta3: -1.00101</span><span class="w">
-</span><span class="c1">##  posterior mean of sigma2: 0.9986912</span><span class="w">
-</span></code></pre></div>    </div>
-    <ul>
-      <li>Gibbs Sampler는 proposed sample이 항상 accept된다는 점에서 MH-algorithm의 speecial case라고 할 수 있다. samples의 unique value의 개수와 B=1000의 비율을 출력한다.</li>
-    </ul>
-
-    <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># acceptance ratio</span><span class="w">
-</span><span class="c1"># (Because I used Gibbs sampler, samples was always accepted !)</span><span class="w">
-</span><span class="n">cat</span><span class="p">(</span><span class="s2">"Acceptance ratio of beta0 :"</span><span class="p">,</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">unique</span><span class="p">(</span><span class="n">beta.samps</span><span class="p">[</span><span class="m">1</span><span class="p">,]))</span><span class="o">/</span><span class="n">B</span><span class="w"> </span><span class="p">,</span><span class="s2">"\n"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"Acceptance ratio of beta1 :"</span><span class="p">,</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">unique</span><span class="p">(</span><span class="n">beta.samps</span><span class="p">[</span><span class="m">2</span><span class="p">,]))</span><span class="o">/</span><span class="n">B</span><span class="w"> </span><span class="p">,</span><span class="s2">"\n"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"Acceptance ratio of beta2 :"</span><span class="p">,</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">unique</span><span class="p">(</span><span class="n">beta.samps</span><span class="p">[</span><span class="m">3</span><span class="p">,]))</span><span class="o">/</span><span class="n">B</span><span class="w"> </span><span class="p">,</span><span class="s2">"\n"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"Acceptance ratio of beta3 :"</span><span class="p">,</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">unique</span><span class="p">(</span><span class="n">beta.samps</span><span class="p">[</span><span class="m">4</span><span class="p">,]))</span><span class="o">/</span><span class="n">B</span><span class="w"> </span><span class="p">,</span><span class="s2">"\n"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"Acceptance ratio of sigma2 :"</span><span class="p">,</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">unique</span><span class="p">(</span><span class="n">s2.samps</span><span class="p">))</span><span class="o">/</span><span class="n">B</span><span class="w"> </span><span class="p">)</span><span class="w">
-  
-</span><span class="c1">##### result #####</span><span class="w">
-</span><span class="c1">## Acceptance ratio of beta0 : 0.95</span><span class="w">
-</span><span class="c1">##  Acceptance ratio of beta1 : 0.95</span><span class="w">
-</span><span class="c1">##  Acceptance ratio of beta2 : 0.95</span><span class="w">
-</span><span class="c1">##  Acceptance ratio of beta3 : 0.95</span><span class="w">
-</span><span class="c1">##  Acceptance ratio of sigma2 : 0.95</span><span class="w">
-</span></code></pre></div>    </div>
-    <ul>
-      <li>앞서 burn-in으로 각 parameters에서 50개의 samples를 버린 것을 감안하면 sample가 항상 accept되었음을 알 수 있다. (acceptance probabilties = 1)
-        <ul>
-          <li>Acceptance probabilies는 각 proposed sample이 accept될 확률이고</li>
-          <li>Acceptance ratio는 전체 sampling 횟수 중에서 accept된 비율을 의미한다.</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="32-ex2--truncated-exponential-distribution">3.2. Ex.2 : Truncated Exponential distribution</h3>
-<ul>
-  <li>to be continued…</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[1. Introduction 만약 sampling하고자 하는 parameter의 full conditional distribution을 알 수 있다면 Gibbs sampler를 사용할 수 있다. Gibbs sampler는 MH-algorithm의 special case라고 할 수 있다. Acceptance rate = 1이 되어 accept/reject 과정이 없다. Full conditional distribution : 만약 model parameters가 \(\mathbf{\theta}=\left(\theta_1, \cdots, \theta_k\right)\)이라면, full conditional distribution은 \(\pi\left(\theta_i \mid \theta_1, \cdots, \theta_{i-1}, \theta_{i+1}, \cdots, \theta_k, \mathbf{X}\right)\)이다. 즉 다른 parameters는 모두 given일 때 관심있는 parameter의 분포를 의미한다. 정확히는 full conditional distribution이 모두 closed-form이어야 한다. 즉 k개의 conditional distributions가 standard한 분포(Normal, Gamma, …)를 따른다. 그러므로 Gibss sampling 방식은 k개의 parameters로 이루어지는 확률변수 \(\mathbf{\theta}\)를 sampling을 할 때 k개 parameters를 한 번에 sampling하는 것이 아니라, 하나씩 sampling한 다음 k개를 모아서 하나의 sample로 만든다. Choose starting values \(\mathbf{\theta}=\left(\theta_1^{(1)}, \cdots, \theta_k^{(1)}\right)\) For \(i=2, \cdots, T\) sample \(\begin{aligned} &amp; \theta_1^{(i)} \mid \theta_2^{(i-1)}, \cdots, \theta_k^{(i-1)}, \mathbf{X} \\ &amp; \theta_2^{(i)} \mid \theta_1^{(i)}, \theta_3^{(i-1)}, \cdots, \theta_k^{(i-1)}, \mathbf{X} \\ &amp; \theta_k^{(i)} \mid \theta_1^{(i)}, \cdots, \theta_{k-1}^{(i)}, \mathbf{X} \end{aligned}\) 주의할 점은 \(\theta_2^{(i)}\)를 sampling할 때에는 아직 sampling하지 않은 \(\theta_3^{(i)}\)부터 \(\theta_k^{(i)}\)까지는 이전 시점의 값을 사용하지만, 이미 sampling을 한 \(\theta_1^{(i)}\)은 sampling한 값을 사용한다는 점이다.]]></summary></entry><entry><title type="html">MCMC with Implementation (1) : Metropolis Hastings algorithm</title><link href="http://localhost:4000/stat/2024-03-04-mcmc/" rel="alternate" type="text/html" title="MCMC with Implementation (1) : Metropolis Hastings algorithm" /><published>2024-03-04T00:00:00+09:00</published><updated>2024-03-07T15:13:15+09:00</updated><id>http://localhost:4000/stat/mcmc</id><content type="html" xml:base="http://localhost:4000/stat/2024-03-04-mcmc/"><![CDATA[<h2 id="1-probabilistic-ml-model">1. Probabilistic ML Model</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[NeurIPS 2023](https://arxiv.org/abs/2302.00861)]]></summary></entry><entry><title type="html">MCMC with Implementation (1) : Metropolis Hastings algorithm</title><link href="http://localhost:4000/stat/2024-03-04-mcmc/" rel="alternate" type="text/html" title="MCMC with Implementation (1) : Metropolis Hastings algorithm" /><published>2024-03-04T00:00:00+09:00</published><updated>2024-03-07T15:13:15+09:00</updated><id>http://localhost:4000/stat/mcmc</id><content type="html" xml:base="http://localhost:4000/stat/2024-03-04-mcmc/"><![CDATA[<h2 id="1-probabilistic-ml-model">1. Probabilistic ML Model</h2>
 <ul>
   <li>\(x\) : set of observed variables <br />
 \(y\) : set of hidden / latent variables <br />
@@ -1135,7 +1310,7 @@ q_j &amp; =\frac{\exp \left(E_{i \neq j}[\log p(x, z)]\right)}{\int \exp \left(E
       </li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[Paper : Variational Inference : A Review for Statisticians Paper : Advances in Variational Inference Paper : Auto-Encoding Variational Bayes]]></summary></entry><entry><title type="html">(GAFormer) Enhancing Timeseries Transformers Through Group-Aware Embeddings (ICLR 2024)</title><link href="http://localhost:4000/timeseries/2024-03-01-GAFormer/" rel="alternate" type="text/html" title="(GAFormer) Enhancing Timeseries Transformers Through Group-Aware Embeddings (ICLR 2024)" /><published>2024-03-01T00:00:00+09:00</published><updated>2024-03-03T19:02:43+09:00</updated><id>http://localhost:4000/timeseries/GAFormer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-01-GAFormer/"><![CDATA[<h2 id="abstract">Abstract</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[Paper : Variational Inference : A Review for Statisticians Paper : Advances in Variational Inference Paper : Auto-Encoding Variational Bayes]]></summary></entry><entry><title type="html">(GAFormer) Enhancing Timeseries Transformers Through Group-Aware Embeddings (ICLR 2024)</title><link href="http://localhost:4000/timeseries/2024-03-01-GAFormer/" rel="alternate" type="text/html" title="(GAFormer) Enhancing Timeseries Transformers Through Group-Aware Embeddings (ICLR 2024)" /><published>2024-03-01T00:00:00+09:00</published><updated>2024-03-19T13:15:52+09:00</updated><id>http://localhost:4000/timeseries/GAFormer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-01-GAFormer/"><![CDATA[<h2 id="abstract">Abstract</h2>
 <ul>
   <li>Multivariate TS의 복잡한 inter-channel relationship과 dynamic shifts로 인해 Robust and generalizable representation을 학습하기 어렵다.</li>
   <li>본 논문에서 제시하는 GAFormer는 set of group tokens를 학습하고 instance-specific group embedding layer를 만든다.</li>
@@ -1235,243 +1410,4 @@ q_j &amp; =\frac{\exp \left(E_{i \neq j}[\log p(x, z)]\right)}{\int \exp \left(E
 <ul>
   <li>본 논문에서는 TS의 group-level structure를 다루는 새로운 프레임워크를 제안하였다.</li>
   <li>Group embedding은 group token across channel and temporal dimension을 학습해서 representation space로 보낸다.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2024](https://openreview.net/forum?id=c56TWtYp0W)]]></summary></entry><entry><title type="html">(iTransformer) Inverted Transformers are Effective for Time Series Forecasting (ICLR 2024)</title><link href="http://localhost:4000/timeseries/2024-02-23-iTransformer/" rel="alternate" type="text/html" title="(iTransformer) Inverted Transformers are Effective for Time Series Forecasting (ICLR 2024)" /><published>2024-02-23T00:00:00+09:00</published><updated>2024-03-06T17:11:13+09:00</updated><id>http://localhost:4000/timeseries/iTransformer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-02-23-iTransformer/"><![CDATA[<h2 id="abstract">Abstract</h2>
-<ul>
-  <li>Transformer-based TS : larger lookback \(\to\) performance degradation &amp; computation explosion.</li>
-  <li>iTransformer : attention과 feed-forward network(FFN)를 inverted dimension에서 적용
-<img src="/assets/img/timeseries/iTransformer/fig2'.jpeg" alt="사진1" class="lead" width="00" height="100" /></li>
-  <li>각 time point가 token이 되는 것이 아니라 각 series(variate)가 token이 된다.</li>
-  <li>Inverted dimension만 다르고 이외의 Transformer의 components는 수정 없이 그대로 사용한다.</li>
-</ul>
-
-<h2 id="1-introduction">1. introduction</h2>
-<ul>
-  <li>Transformer가 다른 fields에서는 linear model보다 성능이 좋은데, multivariate ts forecasting에서는 not sutable하다. <br />
-(특히 time points 사이에 semantic 관계보다 numerical 관계가 강한 경우에는 그냥 simple linear layer의 성능이 더 좋았다.)</li>
-  <li>그 이유는 한 시점에 기록된 서로 다른 변수들의 값들이 하나의 token으로 기록되기 때문이다. 논문에서는 아래처럼 표현하고 있다. <br />
-(= embed multiple variates of the same timestamp into indistinguishable channels…) <br />
-(= the points of the same time step that represent different physical meanings recorded by inconsistent mesurements are embedded into one token …)</li>
-  <li>이러한 single time step의 token 형태는 receptive field가 너무 좁아서 유용한 정보를 얻어내기가 어렵다.</li>
-  <li>
-    <p>또한 시계열은 데이터의 순서가 중요한데, transformer는 permutation-invariant attention mechanism이라서 temporal dimension을 잘 잡지 못한다.</p>
-  </li>
-  <li>그래서 iTransformer는 각각의 variate를 독립적으로 token으로 embedding해서 receptive field를 늘려준다.(Patching의 extreme case)</li>
-  <li>그러면 token은 series의 global representation을 통합해서 variate-centric하다.</li>
-  <li>FFN은 개별 변수에 대해 인코딩된 lookback series를 보고 예측할 수 있을 정도의 generalizable representation을 학습할 수 있다.</li>
-  <li>본 논문의 contribution은 아래와 같다.
-    <ul>
-      <li>Transformer가 비효과적인 것이 아니라 아직 underexplored라서 잘못 사용되었으니 component를 개선한다.</li>
-      <li>독립적인 개별 시계열을 token으로 간주하여 self-attention으로 multivariate correlations를 파악하고, FFN으로 forecasting을 위한 series-global representation을 학습한다.</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="2-related-work">2. Related Work</h2>
-<ul>
-  <li>TCN-based, RNN-base forecasters를 지나서 Transformer가 시퀀스 모델링과 확장 가능성으로 좋은 성능을 보여주며 많은 variant가 나왔다.</li>
-  <li>Transformer의 variant는 component를 수정하는지, architecture를 수정하는지에 따라 4가지로 구분된다.
-<img src="/assets/img/timeseries/iTransformer/fig3.jpeg" alt="사진2" />
-    <ul>
-      <li>1) Temporal dependency 모델링을 위한 attention module 수정 (Component adaptation)</li>
-      <li>2) Linear model이 떠오르면서, transformer에서도 component나 architecture를 바꾸지 않고 Stationarization, Channel independence, Patching 등을 통해 효율적으로 성능 향상</li>
-      <li>3) Transformer의 component와 architecture를 모두 수정하여 multivariate의 cross-time and cross-variate dependency를 파악</li>
-      <li>4) iTransformer는 Transformer의 component는 그대로 가져오지만 inverted하게 가져온다. (architecture만 바뀜)</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="3-itransformer">3. ITransformer</h2>
-<ul>
-  <li>현실 시나리오에서는 각각의 variate마다 발생 시점과 기록 시점의 delay 정도가 다를 수 있기 때문에 시점 \(t\)에서 모든 variates가 관측되지 않을 수도 있다. 뿐만 아니라 각각의 variate마다 통계적 분포 자체가 다를 수도 있다.</li>
-</ul>
-
-<h3 id="31-structure-overview">3.1. Structure Overview</h3>
-<ul>
-  <li><img src="/assets/img/timeseries/iTransformer/fig4.png" alt="사진3" /></li>
-  <li>iTransformer는 Transformer의 encoder-only architecture (including the embedding, projection, and Transformer blocks)</li>
-  <li><strong>Embedding the whole series as the token</strong> : 한 시점에서 많은 변수들을 하나의 token으로 간주하면 attention map을 학습하기 어렵다는 것은 patching으로 respective field를 늘리는 방식들이 좋은 성능을 낸다는 것으로부터 알 수 있다. 그러므로 each time series가 token이 되어 해당 변수의 properties를 다루고, self-attention으로 mutual interactions를, feed-forward networks로 series representations를 처리한다.</li>
-  <li>iTransformer가 예측하는 future series \(\hat{\mathbf{Y}}_{:, n}\) based on \(\mathbf{X}_{:, n}\)의 formula :
-<img src="/assets/img/timeseries/iTransformer/formula1.png" alt="사진4" />
-    <ul>
-      <li>\(\mathbf{H}=\left\{\mathbf{h}_1, \cdots, \mathbf{h}_N\right\} \in \mathbb{R}^{N \times D}\)은 \(D\)차원의 embedded tokens \(N\)개이고 \(h\)의 아래첨자는 layer index이다.</li>
-      <li>Embedding \(\mathbb{R}^T \mapsto \mathbb{R}^D\)과 Projection \(\mathbb{R}^D \mapsto \mathbb{R}^S\)는 MLP가 한다.</li>
-      <li>Inverted dimension으로 sequence의 순서가 FFN에 저장되므로 position embedding이 더이상 필요하지 않다.</li>
-    </ul>
-  </li>
-  <li><strong>iTransformers</strong> : Attention에 multivariate correlation 외에는 requirements가 없어서 variates가 많아질 때 효율적이다. 또한 training과 inference에서 token의 개수가 다를 수 있어서 variates의 개수에 대해 유연한 모델이다.</li>
-</ul>
-
-<h3 id="32-inverted-transformer-components">3.2. Inverted Transformer Components</h3>
-<ul>
-  <li><strong>Layer normalization</strong> : Layer normalization은 훈련할 때 convergence speed and stability를 위한 것이다. 기존 Transformer에서는 한 시점에서 multivariate representation을 normalize했었는데, non-causal이나 앞서 언급한 delay를 고려하면 interaction noise의 원인이 될 수 있다. 그러므로 개별 variate를 normalize한다. 그러면 measurements(=variates, sensor, series)끼리의 불일치성도 해소된다.
-\(\text { LayerNorm }(\mathbf{H})=\left\{\left.\frac{\mathbf{h}_n-\operatorname{Mean}\left(\mathbf{h}_n\right)}{\sqrt{\operatorname{Var}\left(\mathbf{h}_n\right)}} \right\rvert\, n=1, \cdots, N\right\}\)</li>
-  <li><strong>Feed-Forward network</strong> : 각각의 variate token을 FFN에 태우면 universal approximation therem(Hornik, 1991)에 의해 시계열의 복잡한 representation을 추출할 수 있다. 이러한 inverted blocks를 쌓으면 observed를 encoding하고 future series를 decoding하는 과정을 <a href="/timeseries/2024-02-16-DLinear">MLP</a>처럼 할 수 있다. (MLP 방식은 시계열의 amplitude, periodicity, frequency spectrums까지 학습할 수 있고, time point self-attention보다도 좋은 성능을 낼 수 있다.)</li>
-  <li><strong>Self-attention</strong> : Inverted dimenstion으로 self-attention을 계산하면 \(Q, K, V \in \mathbf R^{N \times d_k}\)를 linear projection으로 구한다. 사전에 feature-dimension으로 normalize를 해놓았으니 pre-Softmax score \(\mathbf{A}_{i, j}=\left(\mathbf{Q} \mathbf{K}^{\top} / \sqrt{d_k}\right)_{i, j} \propto \mathbf{q}_i^{\top} \mathbf{k}_j\)는 variate-wisecorrelation을 의미하고, whole score map \(\mathbf{A} \in \mathbb{R}^{N \times N}\)는 multivariate correlations btw paired variate tokens가 된다.</li>
-</ul>
-
-<h2 id="4-experiments">4. Experiments</h2>
-
-<h3 id="41-forecasting-results">4.1. Forecasting Results</h3>
-<ul>
-  <li>7개의 데이터셋 사용(ECL, ETT, Exchange, Traffic, Weather, Solar-Energy, PEMS), 10개의 forecasting models과 비교
-    <ul>
-      <li>Transformer-based : Autoformer, FEDformer, Stationary, Crossformer, PatchTST</li>
-      <li>Linear-based : DLinear, TiDE, RLinear</li>
-      <li>TCN-based : SCINet, TimesNet
-<img src="/assets/img/timeseries/iTransformer/table1.png" alt="사진5" /></li>
-    </ul>
-  </li>
-  <li>SOTA였던 PatchTST는 변동이 심한 PEM 데이터를 처리하기 어렵고, 명시적으로 multivariate correlation을 파악하는 Crossformer보다 iTransformer의 성능이 뛰어나다.</li>
-</ul>
-
-<h3 id="42-itransformer-generality">4.2. ITransformer Generality</h3>
-<ul>
-  <li><strong>Performance promotion</strong>
-<img src="/assets/img/timeseries/iTransformer/table2.png" alt="사진6" />
-    <ul>
-      <li>Transformer-based models에 inverted framework를 적용하여 성능을 비교한 결과 일관되게 성능이 향상되었다.</li>
-    </ul>
-  </li>
-  <li><strong>Variate generalization</strong>
-<img src="/assets/img/timeseries/iTransformer/fig5.png" alt="사진7" />
-    <ul>
-      <li>데이터의 20%만으로 training을 하더라도 100%로 training을 했을 때에 비해서 성능에 큰 차이가 없다는 것은 iTransformer가 효율적으로 훈련할 수 있는 모델임을 의미한다. 즉 unseen variates에 대해 generalization capability가 뛰어나다. 그 이유는 1) 각 variate를 token으로 embedding하니 variate의 개수에 제한이 없어지기 때문이고, 2) FFN이 각 token에 identically하게 적용되어 어떤 time series에서든 존재하는 본질적인 패턴을 학습할 수 있기 때문이다.</li>
-    </ul>
-  </li>
-  <li><strong>Increasing lookback length</strong>
-<img src="/assets/img/timeseries/iTransformer/fig6.png" alt="사진8" />
-    <ul>
-      <li>Transformer-based models는 look-back window가 길어져도 성능 향상으로 이어지지 않았지만, inverted framework는 look-back window가 길어지면 성능이 향상된다.</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="43-model-analysis">4.3. Model Analysis</h3>
-<ul>
-  <li><strong>Ablation Study</strong>
-<img src="/assets/img/timeseries/iTransformer/table3.png" alt="사진9" />
-    <ul>
-      <li>Time series의 multivariate correlation(Variate)와 series representation(Temporal)을 학습하기 위해 Attention을 FFN으로 바꿔도 보고 아예 안써보기도 하면서 iTransformer가 가장 좋은 성능을 낸다는 것을 확인하였다.</li>
-    </ul>
-  </li>
-  <li><strong>Analysis of multivariate Representations and Correlations</strong>
-<img src="/assets/img/timeseries/iTransformer/fig7.png" alt="사진10" />
-    <ul>
-      <li>The centered kernel alignment (CKA)는 높을수록 similar representation을 의미하는데, inverted frameworks가 유의미하게 높다.</li>
-      <li>또한 얕은 layer의 attention map은 input series와 상관관계가 높고, 깊은 layer의 attention map은 future series와 상관관계가 높다는 점에서 interpretable attention이다.</li>
-    </ul>
-  </li>
-  <li><strong>Efficient training strategy</strong>
-<img src="/assets/img/timeseries/iTransformer/fig8.png" alt="사진11" />
-    <ul>
-      <li>각 배치에서 변수의 일부만 사용하여 훈련하더라도 MSE가 안정적이고, sample ratio가 낮아짐에 따라 memory가 적게 사용되므로 효율적인 모델이라 할 수 있다.</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="5-conclusion-and-future-work">5. Conclusion and Future work</h2>
-<ul>
-  <li>iTransformer는 각 series를 variate token으로 보고 multivariate correlation을 파악하기 위해 attention과 FFN을 사용하였다.</li>
-  <li>실험 결과를 통해 기존 Transformer-based time series forecasters보다 뛰어날 뿐만 아니라 interpretable한 성능을 보여주었다.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2024](https://arxiv.org/abs/2310.06625)]]></summary></entry><entry><title type="html">FITS: Modeling Time Series with 10k Parameters (ICLR 2023)</title><link href="http://localhost:4000/timeseries/2024-02-22-FITS/" rel="alternate" type="text/html" title="FITS: Modeling Time Series with 10k Parameters (ICLR 2023)" /><published>2024-02-22T00:00:00+09:00</published><updated>2024-03-03T18:59:39+09:00</updated><id>http://localhost:4000/timeseries/FITS</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-02-22-FITS/"><![CDATA[<h2 id="abstract">Abstract</h2>
-
-<ul>
-  <li>FITS(Frequency Interpolation Time Series)라는 lightweight yet powerful model 제안</li>
-  <li>Raw time domain이 아니라 complex frequency domain에서 interpolation</li>
-  <li>10k개의 parameters만 사용</li>
-</ul>
-
-<h2 id="1-introduction">1. Introduction</h2>
-
-<ul>
-  <li>Time series domain에서는 시계열의 complexity와 dynamism 때문에 sparse and scattered하다.</li>
-  <li>Frequency domain에서 time series를 representation하면 compact and efficient하다.</li>
-  <li>Forecasting : simply extending the given look-back window with frequency interpolation</li>
-  <li>Reconstruction : recover the original segment by interpolating the frequency representation of its downsampled counterpart</li>
-  <li>FITS의 핵심은 <strong>complex-valued linear layer</strong> : amplitude scaling과 phase shift를 학습하여 complex domain에서 interpolation을 가능하게 한다.</li>
-  <li>FITS의 <strong>low-pass filter</strong>를 통해 핵심적인 정보는 보존하면서 압축적인 정보를 representation한다.</li>
-</ul>
-
-<h2 id="2-related-work-and-motivation">2. Related Work and Motivation</h2>
-
-<h3 id="21-frequency-aware-time-series-analysis-models">2.1. Frequency-Aware Time Series Analysis Models</h3>
-
-<ul>
-  <li>Frequency domain에서 시계열의 pattern을 잡으려는 시도 (FNet(2022), FEDFormer(2022), FiLM(2022), …)</li>
-  <li>시계열의 periodicity(주기성)을 잡는 것도 중요 (DLinear(2023), TimesNet(2023))</li>
-  <li>하지만 여전히 데이터 전처리를 포함하는 feature engineering에 의존하는 면이 있다.</li>
-</ul>
-
-<h3 id="22-divide-and-conquer-the-frequency-components">2.2. Divide and Conquer the Frequency Components</h3>
-
-<ul>
-  <li>Time series를 signal로 이해한다면 ?
-    <ul>
-      <li>시계열을 linear combination of sinusoidal components로 쪼갤 수 있다. (정보 손실 없이 !)</li>
-      <li>그러면 sinusoidal waves에 phase bias만 추가해주면 예측값이 되니까 매우 간단해진다.</li>
-    </ul>
-  </li>
-  <li>하지만 time domain에서 sinusoidal component를 예측하는 일은 어려우니 frequency domain에서 한다면 정보 손실도 없고 compact하다.</li>
-</ul>
-
-<h2 id="3-method">3. Method</h2>
-
-<h3 id="31-preliminary--fft-and-complex-frequency-domain">3.1. Preliminary : FFT and Complex Frequency Domain</h3>
-
-<ul>
-  <li><strong>FFT(Fast Fourier Transform)</strong> : DFT(Discrete Fourier Transform)을 빠르게 계산, DFT는 discrete-time signals을 time domain에서 frequency domain으로 보내는 방법이다. (\(N\)개의 real numbers \(\to\) \(\frac{N}{2}+1\)개의 complex numbers)</li>
-  <li><strong>Complex Frequency Domain</strong> : complex frequency는 signal의 representation인데, 각각의 frequency에 있는 complex number가 amplitude(magnitude or strength)와 phase(temporal shift or delay)를 파악한다.</li>
-  <li>Complex number : \(X(f) = \mid X(f)\mid e^{j \theta (f)}\)
-    <ul>
-      <li>\(X(f)\) : frequency에서 component의 complex number</li>
-      <li>\(\mid X(f)\mid\). : component의 amplitude</li>
-      <li>\(e^{j \theta(f)}\) : component의 phase</li>
-      <li>\(X(f)\)는 length가 amplitude이고 angle이 phase인 벡터로 visualize된다.</li>
-      <li>다시 표현하면 \(X(f)=\mid X(f)\mid (\cos \theta(f)+j \sin \theta(f))\)</li>
-      <li><img src="/assets/img/timeseries/FITS/fig1.png" alt="사진1" /></li>
-    </ul>
-  </li>
-  <li><strong>Time Shift and Phase Shift</strong> : Time shift는 phase shift와 같다. 즉 unit complex exponential element를 곱하는 것과 같다. 예를 들어 만약 \(\tau\)만큼 time shift했다면(\(x(t-\tau)\)), Fourier transform은 \(X_\tau (f)=e^{-j 2 \pi f \tau } X(f)=\mid X(f)\mid e^{j(\theta(f)-2 \pi f \tau)}=[\cos (-2 \pi f \tau)+j \sin (-2 \pi f \tau)] X(f)\)이 된다. Amplitude는 변하지 않았고 phase만 \(\theta_\tau(f)=\theta(f)-2 \pi f \tau\)만큼 변했다. (time shift에 대해 linear)</li>
-  <li>결론적으로, amplitude scaling과 phase shifting은 multiplication of complex numbers와 같다. (fig1)</li>
-</ul>
-
-<h3 id="32-fits-pipeline">3.2. FITS Pipeline</h3>
-
-<ul>
-  <li>Time series가 길수록 higher frequency resolution이 되기 때문에, 시계열의 frequency representation을 interpolate한다는 말은 = 시계열을 extend한다는 말과 같다. (시계열이 길어지면 더 작은 간격의 주파수로 변환될 수 있다는 걸 반대로 생각하면 된다.)</li>
-  <li><img src="/assets/img/timeseries/FITS/fig2.png" alt="사진2" /></li>
-  <li>FITS의 low-pass filter(LPF)는 말 그대로 낮은 주파수만 pass시키고 high-frequency components는 제거한다. 시계열의 essential한 정보, coarse한 정보는 남기고 fine한 정보는 제거하여 모델을 가볍게 만든다. (주기가 큰 파동만 남고 주기가 작아서 노이즈에 가까운 파동은 제거한다.)</li>
-  <li><strong>Forecasting</strong> : 모델은 frequency interpolation을 통해 look-back window를 늘릴 수 있고(논문에서는 <code class="language-plaintext highlighter-rouge">extending</code>, <code class="language-plaintext highlighter-rouge">generate</code>, <code class="language-plaintext highlighter-rouge">reconstruct</code>로 표현하고 있다.) forecasting results가 된다.</li>
-  <li><strong>Reconstruction</strong> : 우리는 원본 시계열을 downsampling했다가 reconstruction하게 되는데, downsampling된 segment를 원래 형태로 되돌릴 때 FITS가 사용된다. (frequency interpolation)</li>
-</ul>
-
-<h3 id="33-key-mechanisms-of-fits">3.3. Key Mechanisms of FITS</h3>
-
-<ul>
-  <li><strong>Complex Frequency Linear Interpolation</strong> : 모델의 output의 length를 조절해주기 위해서 interpolation rate를 일정하게 만들어준다. 원본 시계열의 절반 길이가 되는 frequency domain에서 interpolation을 하는데 output의 길이를 \(L_o\)로 맞춰주기 위해서는 \(\eta_{f r e q}=\frac{L_o / 2}{L_i / 2}=\frac{L_o}{L_i}=\eta\)가 되어야 한다.</li>
-  <li><strong>Low Pass Filter(LPF)</strong> : 아래 그림처럼 frequency domain에서 high-frequency component에 해당하는 75%를 버리더라도 원래 시계열의 structure와 periodicity를 잘 보존한다. 왜냐하면 high-frequency component는 주기가 매우 짧은 성분들이라 노이즈에 가깝고 애초에 모델이 학습할 수 있는 영역 밖이라고 할 수 있기 때문이다.</li>
-  <li><img src="/assets/img/timeseries/FITS/fig3.png" alt="사진3" /></li>
-  <li><strong>Weight Sharing</strong> : 한 데이터셋 내에서 channels는 base frequency가 비슷하고 그러면 sharing weights로 효율적으로 multivariate task를 수행할 수 있다. 만약 채널마다 base frequency가 다르더라도 채널들을 클러스터링 해서 클러스터마다 개별적으로 학습하면 된다.</li>
-</ul>
-
-<h2 id="4-experiments-for-forecasting">4. Experiments for Forecasting</h2>
-
-<h3 id="41-forecasting-as-frequency-interpolation">4.1. Forecasting as Frequency Interpolation</h3>
-
-<ul>
-  <li>일반적으로 look-back window의 길이 \(L\)이 forecasting horizon의 길이 \(H\)보다 기니까 단순하게 interpolation하기보다는 interpolation rate를 \(\eta_{\text {Fore }}=1+\frac{H}{L}\)로 한다.</li>
-  <li><img src="/assets/img/timeseries/FITS/table12.png" alt="사진4" /></li>
-</ul>
-
-<h2 id="5-experiments-for-anomaly-detection">5. Experiments for Anomaly Detection</h2>
-
-<ul>
-  <li><img src="/assets/img/timeseries/FITS/table6.png" alt="사진5" /></li>
-</ul>
-
-<h2 id="6-conclusion">6. Conclusion</h2>
-
-<ul>
-  <li>Frequency interpolation으로 10k개의 parameters만으로 SOTA의 성능을 냈다.</li>
-  <li>Future work : frequency domain에서의 large-scale complex-valued NN (ex. Complex-valued Transformer)</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2023](https://arxiv.org/abs/2307.03756)]]></summary></entry></feed>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2024](https://openreview.net/forum?id=c56TWtYp0W)]]></summary></entry></feed>
