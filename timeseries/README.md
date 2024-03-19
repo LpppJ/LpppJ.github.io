@@ -10,37 +10,40 @@ sitemap:
 permalink: /timeseries/
 ---
 
-[(Raindrop) Graph-guided Network for Irregularly Sampled Multivariate Time Series]{:.heading.flip-title} \
+[(Raindrop) Graph-guided Network for Irregularly Sampled Multivariate Time Series (ICLR 2022)]{:.heading.flip-title} \
 \
-[(FTS-Diffusion) Generative Learning for Financial Time Series with Irregular and Scale-invariant Patterns]{:.heading.flip-title} \
+[(FTS-Diffusion) Generative Learning for Financial Time Series with Irregular and Scale-invariant Patterns (ICLR 2024)]{:.heading.flip-title} \
 \
-[(ModernTCN) A Modern Pure Convolution Structure for General Time Series Analysis]{:.heading.flip-title} \
+[(ModernTCN) A Modern Pure Convolution Structure for General Time Series Analysis (ICLR 2024)]{:.heading.flip-title} \
 \
-[(DLinear) Are Transformer Effective for Time Series Forecastig?]{:.heading.flip-title} \
+[(DLinear) Are Transformer Effective for Time Series Forecastig? (AAAI 2022)]{:.heading.flip-title} \
 \
-[(PatchTST) A Time Series is Worth 64 Words: Long-Term Forecasting With Transformers]{:.heading.flip-title} \
+[(PatchTST) A Time Series is Worth 64 Words: Long-Term Forecasting With Transformers (ICLR 2023)]{:.heading.flip-title} \
 \
-[(FITS) Modeling Time Series with 10k Parameters]{:.heading.flip-title} \
+[(FITS) Modeling Time Series with 10k Parameters (ICLR 2023)]{:.heading.flip-title} \
 \
-[(iTransformer) Inverted Transformers are Effective for Time Series Forecasting]{:.heading.flip-title} \
+[(iTransformer) Inverted Transformers are Effective for Time Series Forecasting (ICLR 2024)]{:.heading.flip-title} \
 \
-[(GAFormer) Enhancing Timeseries Transformers Through Group-Aware Embeddings]{:.heading.flip-title} \
+[(GAFormer) Enhancing Timeseries Transformers Through Group-Aware Embeddings (ICLR 2024)]{:.heading.flip-title} \
 \
-[(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling]{:.heading.flip-title} \
+[(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling (NeurIPS 2023)]{:.heading.flip-title} \
 \
-[(TS2Vec) Towards Universal Representation of Time Series]{:.heading.flip-title} \
+[(TS2Vec) Towards Universal Representation of Time Series (AAAI 2022)]{:.heading.flip-title} \
 \
-[(SoftCLT) Soft Contrastive Learning for Time Series]{:.heading.flip-title}
+[(SoftCLT) Soft Contrastive Learning for Time Series (ICLR 2024)]{:.heading.flip-title} \
+\
+[(Survey paper) Time Series Forecasting With Deep Learning A Survey (Philos Trans R Soc A. 2020)]{:.heading.flip-title}
 
 
-[(Raindrop) Graph-guided Network for Irregularly Sampled Multivariate Time Series]: /timeseries/2024-02-09-Raindrop
-[(FTS-Diffusion) Generative Learning for Financial Time Series with Irregular and Scale-invariant Patterns]: /timeseries/2024-02-13-FTS-Diffusion
-[(ModernTCN) A Modern Pure Convolution Structure for General Time Series Analysis]: /timeseries/2024-02-14-ModernTCN
-[(DLinear) Are Transformer Effective for Time Series Forecastig?]: /timeseries/2024-02-16-DLinear
-[(PatchTST) A Time Series is Worth 64 Words: Long-Term Forecasting With Transformers]: /timeseries/2024-02-18-PatchTST
-[(FITS) Modeling Time Series with 10k Parameters]: /timeseries/2024-02-22-FITS
-[(iTransformer) Inverted Transformers are Effective for Time Series Forecasting]: /timeseries/2024-02-23-iTransformer
-[(GAFormer) Enhancing Timeseries Transformers Through Group-Aware Embeddings]: /timeseries/2024-03-01-GAFormer
-[(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling]: /timeseries/2024-03-06-SimMTM
-[(TS2Vec) Towards Universal Representation of Time Series]: /timeseries/2024-03-12-ts2vec
-[(SoftCLT) Soft Contrastive Learning for Time Series]: /timeseries/2024-03-13-softCLT
+[(Raindrop) Graph-guided Network for Irregularly Sampled Multivariate Time Series (ICLR 2022)]: /timeseries/2024-02-09-Raindrop
+[(FTS-Diffusion) Generative Learning for Financial Time Series with Irregular and Scale-invariant Patterns (ICLR 2024)]: /timeseries/2024-02-13-FTS-Diffusion
+[(ModernTCN) A Modern Pure Convolution Structure for General Time Series Analysis (ICLR 2024)]: /timeseries/2024-02-14-ModernTCN
+[(DLinear) Are Transformer Effective for Time Series Forecastig? (AAAI 2022)]: /timeseries/2024-02-16-DLinear
+[(PatchTST) A Time Series is Worth 64 Words: Long-Term Forecasting With Transformers (ICLR 2023)]: /timeseries/2024-02-18-PatchTST
+[(FITS) Modeling Time Series with 10k Parameters (ICLR 2023)]: /timeseries/2024-02-22-FITS
+[(iTransformer) Inverted Transformers are Effective for Time Series Forecasting (ICLR 2024)]: /timeseries/2024-02-23-iTransformer
+[(GAFormer) Enhancing Timeseries Transformers Through Group-Aware Embeddings (ICLR 2024)]: /timeseries/2024-03-01-GAFormer
+[(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling (NeurIPS 2023)]: /timeseries/2024-03-06-SimMTM
+[(TS2Vec) Towards Universal Representation of Time Series (AAAI 2022)]: /timeseries/2024-03-12-ts2vec
+[(SoftCLT) Soft Contrastive Learning for Time Series (ICLR 2024)]: /timeseries/2024-03-13-softCLT
+[(Survey paper) Time Series Forecasting With Deep Learning A Survey (Philos Trans R Soc A. 2020)]: /timeseries/2024-03-19-TSwDLsurvey
