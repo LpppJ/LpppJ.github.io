@@ -20,4 +20,15 @@ hide_last_modified: true
 - 마지막으로 future direction을 제시한다.
 
 ## 1. Introduction
-- 
+- Transformer : ability for long-range dependencies and interactions in sequential data
+- Time series : How to effectively model long-range and short-range temporal dependency and capture seasonality simultaneously ?
+- Network modification 관점 : low-level(i.e. module)부터 high-level(i.e. architecture)
+- Application 관점 : summarize Transformer for forecasting, anomaly detection, and classification
+
+## 2. Preliminaries of the Transformer
+### 2.1. Vanilla Transformer
+- Encoder : a multi- head self-attention module and a position-wise feed-forward network
+- Decoder : cross-attention models between the multi-head self-attention module and the position-wise feed-forward network
+### 2.2. Input Encoding and Positional Encoding
+- No recurrence, instead positional encoding
+- $$PE(t)_i= \begin{cases}\sin \left(\omega_i t\right) & i \% 2=0 \\ \cos \left(\omega_i t\right) & i \% 2=1\end{cases}$$, $$\omega_i$$ is the hand-crafted frequency for each dim
