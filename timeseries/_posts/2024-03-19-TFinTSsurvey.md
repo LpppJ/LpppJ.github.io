@@ -93,6 +93,8 @@ hide_last_modified: true
 
 ## 5. Applications of Time Series Transformers
 
+![사진9](/assets/img/timeseries/TFinTSsurvey/fig2.jpeg)
+
 ### 5.1. Transformers in Forecasting
 
 - **Module-level variants** : main architectures는 비슷한데, minor changes

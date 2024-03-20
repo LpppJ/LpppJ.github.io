@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-03-20T17:11:41+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-03-20T17:34:48+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
 </subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">(Crossformer) Transformer Utilizing Cross-Dimension Dependency for Multivariate Time Series Forecasting (ICLR 2023)</title><link href="http://localhost:4000/timeseries/2024-03-19-crossformer/" rel="alternate" type="text/html" title="(Crossformer) Transformer Utilizing Cross-Dimension Dependency for Multivariate Time Series Forecasting (ICLR 2023)" /><published>2024-03-19T00:00:00+09:00</published><updated>2024-03-19T21:34:48+09:00</updated><id>http://localhost:4000/timeseries/crossformer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-19-crossformer/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
@@ -165,7 +165,7 @@
   <li><strong>Dimension-Segment-Wise (DSW)</strong> embedding embeds the input data into a 2D vector array to preserve the information of both time and dimension</li>
   <li><strong>The Two-Stage-Attention (TSA)</strong> layer is devised to capture the cross-time and cross- dimension dependency of the embedded array</li>
   <li>Using DSW embedding and TSA layer, a <strong>Hierarchical Encoder-Decoder (HED)</strong> is devised to utilize the information at different scales</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2023](https://openreview.net/forum?id=vSVLM2j9eie)]]></summary></entry><entry><title type="html">(Survey paper) Transformers in Time Series: A Survey (IJCAI 2023)</title><link href="http://localhost:4000/timeseries/2024-03-19-TFinTSsurvey/" rel="alternate" type="text/html" title="(Survey paper) Transformers in Time Series: A Survey (IJCAI 2023)" /><published>2024-03-19T00:00:00+09:00</published><updated>2024-03-20T10:57:05+09:00</updated><id>http://localhost:4000/timeseries/TFinTSsurvey</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-19-TFinTSsurvey/"><![CDATA[<h2 id="abstract">Abstract</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2023](https://openreview.net/forum?id=vSVLM2j9eie)]]></summary></entry><entry><title type="html">(Survey paper) Transformers in Time Series: A Survey (IJCAI 2023)</title><link href="http://localhost:4000/timeseries/2024-03-19-TFinTSsurvey/" rel="alternate" type="text/html" title="(Survey paper) Transformers in Time Series: A Survey (IJCAI 2023)" /><published>2024-03-19T00:00:00+09:00</published><updated>2024-03-20T17:18:03+09:00</updated><id>http://localhost:4000/timeseries/TFinTSsurvey</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-19-TFinTSsurvey/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>Transformer는 long-range dependencies and interactions를 학습할 수 있다.</li>
@@ -291,6 +291,8 @@
 </ul>
 
 <h2 id="5-applications-of-time-series-transformers">5. Applications of Time Series Transformers</h2>
+
+<p><img src="/assets/img/timeseries/TFinTSsurvey/fig2.jpeg" alt="사진9" /></p>
 
 <h3 id="51-transformers-in-forecasting">5.1. Transformers in Forecasting</h3>
 
