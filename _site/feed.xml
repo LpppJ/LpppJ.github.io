@@ -1,171 +1,341 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-03-20T17:34:48+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">(Crossformer) Transformer Utilizing Cross-Dimension Dependency for Multivariate Time Series Forecasting (ICLR 2023)</title><link href="http://localhost:4000/timeseries/2024-03-19-crossformer/" rel="alternate" type="text/html" title="(Crossformer) Transformer Utilizing Cross-Dimension Dependency for Multivariate Time Series Forecasting (ICLR 2023)" /><published>2024-03-19T00:00:00+09:00</published><updated>2024-03-19T21:34:48+09:00</updated><id>http://localhost:4000/timeseries/crossformer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-19-crossformer/"><![CDATA[<h2 id="abstract">Abstract</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-03-25T19:42:30+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">(Survey paper) Self-Supervised Learning for Time Series Analysis: Taxonomy, Progress, and Prospects (Arxiv 2023)</title><link href="http://localhost:4000/timeseries/2024-03-25-SSL4TS/" rel="alternate" type="text/html" title="(Survey paper) Self-Supervised Learning for Time Series Analysis: Taxonomy, Progress, and Prospects (Arxiv 2023)" /><published>2024-03-25T00:00:00+09:00</published><updated>2024-03-25T19:42:23+09:00</updated><id>http://localhost:4000/timeseries/SSL4TS</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-25-SSL4TS/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
-  <li>Transformer-based models
+  <li>Self-supervised learning (SSL) : for reducing the dependence of labeled data</li>
+  <li>will review SOTA SSL for TS</li>
+  <li>will provide taxonomy of SSL for TS : generative-based, contrastive-based, adversarial-based
     <ul>
-      <li>focus on modeling the temporal dependency (cross-time dependency)</li>
-      <li>yet often omit the dependency among different variables (cross- dimension dependency)</li>
-    </ul>
-  </li>
-  <li>Crossformer는
-    <ul>
-      <li>Dimension-Segment-Wise (DSW) : MTS \(\to\) 2d vector array로 만들고</li>
-      <li>Two-Stage Attention (TSA) : 2개의 attention을 거치는데 각각 cross-time and cross-dimension dependency를 학습한다.</li>
-      <li>Hierarchical Encoder-Decoder (HED) : 그리고 서로 다른 scales의 정보를 사용해서 coarse, fine한 정보 모두 활용하여 forecasting한다.</li>
+      <li>intuitions, main frameworks, (dis)advantages</li>
     </ul>
   </li>
 </ul>
 
 <h2 id="1-introduction">1. Introduction</h2>
-
 <ul>
-  <li>MTS에서는 cross-time dependency 뿐만 아니라 cross-dimension dependency도 중요한데, Transformer에서 cross-dim dependency를 반영하는 방법은 embedding 뿐이다.</li>
-  <li>본 논문에서는 cross-dim dependency를 explicitly하게 사용한다.</li>
-  <li>Dimension-Segment-Wise (DSW) : the series(e.g. UTS)는 segments로 나뉘고, 각 segment는 feature vector가 된다. (series는 2d vector array가 된다.)</li>
-  <li>Two-Stage Attention (TSA): 2d vector array로부터 cross-time and cross-dimension dependency 학습</li>
-  <li>Hierarchical Encoder-Decoder (HED) : 각 layer에서 서로 다른 scale에 대한 dependency를 학습하게 된다.</li>
-</ul>
-
-<h2 id="2-related-works">2. Related Works</h2>
-
-<ul>
-  <li><strong>Multivariate Time Series Forecasting</strong>
+  <li>To extract useful and informative features, (=hidden patterns and features of the data)
     <ul>
-      <li>Statistical models : Vector auto-regressive(VAR), Vector auto-regressive moving average (VARMA)</li>
-      <li>Neural models : TCN, DeepAR, LSTnet(CNN+RNN), MTGNN, …</li>
+      <li>SSL utilizes pretext tasks to derive supervision signals from unlabeled data (=creating valuable representation for downstream tasks)</li>
     </ul>
   </li>
-  <li><strong>Transformer-based model</strong> : LogTrans, Informer, Autoformer, Pyraformer, FEDformer, Preformer, …</li>
-  <li><strong>Vision Transformers</strong> : Transformer를 vision에서 사용할 때 썼던 patching 방식</li>
-</ul>
-
-<h2 id="3-methodology">3. Methodology</h2>
-
-<ul>
-  <li>\(\mathbf{x}_{1: T} \in \mathbb{R}^{T \times D}\)를 보고 \(\mathbf{x}_{T+1: T+\tau} \in \mathbb{R}^{\tau \times D}\)​ 예측하는 문제
+  <li>Challenges:
     <ul>
-      <li>\(\tau, T\) is the number of time steps in the future and past, respectively</li>
-      <li>\(D&gt;1\) is the number of dimensions</li>
+      <li>대부분의 pre-text tasks(이미지, 언어, …) designed 모델들은 TS의 unique properties(seasonality, trend, frequency, …)를 고려하기 위한 것이 아니다.</li>
+      <li>SSL을 위해 data augmentation할 때 rotation이나 crop과 같은 방식은 TS의 temporal dependency를 학습하기 어렵게 만든다.</li>
+      <li>MTS에서 몇몇의 dimension(=channel, variate)에만 유용한 정보가 있는 경우에는 이를 고려해야 한다.</li>
+    </ul>
+  </li>
+  <li>SSL for TS:
+    <ul>
+      <li>Generative-based : autoregressive-based forecasting / auto-encoder-based reconstruction / diffusion-based generation</li>
+      <li>Contrastive-based : sampling contrast / prediction contrast / augmentation contrast / prototype contrast / expert knowledge contrast</li>
+      <li>Adversarial-based : generation and imputation and auxiliary representation enhancement
+<img src="/assets/img/timeseries/SSL4TS/fig1.png" alt="사진1" />
+<img src="/assets/img/timeseries/SSL4TS/fig5.png" alt="사진5" /></li>
     </ul>
   </li>
 </ul>
 
-<h3 id="31-dimension-segment-wise-embedding">3.1. Dimension-Segment-wise Embedding</h3>
-<p><img src="/assets/img/timeseries/crossformer/fig1.png" alt="사진1" /></p>
+<h2 id="2-related-surveys">2. Related Surveys</h2>
+
+<h3 id="21-definition-of-time-series-data">2.1. Definition of time series data</h3>
 <ul>
-  <li>t시점의 모든 dimension의 data point \(\mathbf{x}_t \in \mathbb{R}^D\)를 \(\mathbf{h}_t \in \mathbb{R}^{d_{\text {model }}}\)로 embedding한다.</li>
-  <li>
-\[\begin{aligned}
-\mathbf{x}_{1: T} &amp; =\left\{\mathbf{x}_{i, d}^{(s)} \left\lvert\, 1 \leq i \leq \frac{T}{L_{\text {seg }}}\right., 1 \leq d \leq D\right\} \\
-\mathbf{x}_{i, d}^{(s)} &amp; =\left\{x_{t, d} \mid(i-1) \times L_{\text {seg }}&lt;t \leq i \times L_{\text {seg }}\right\} \\ \mathbf{h}_{i, d}&amp;=\mathbf{E} \mathbf{x}_{i, d}^{(s)}+\mathbf{E}_{i, d}^{(p o s)} \end{aligned}\]
-    <ul>
-      <li>\(\mathbf{x}_{i, d}^{(s)} \in \mathbb{R}^{L_{\text {seg }}}\)  is the \(i\)-th segment in dimension \(d\) with length \(L_{\text {seg }}\)</li>
-      <li>\(\mathbf{E} \in \mathbb{R}^{d_{\text {model }} \times L_{\text {seg }}}\) : the learnable projection matrix</li>
-      <li>\(\mathbf{E}_{i, d}^{(\text {pos })} \in \mathbb{R}^{d_{\text {model }}}\) : the learnable position embedding for position $(i, d)$.</li>
-    </ul>
-  </li>
-  <li>
-\[\mathbf{H}=\left\{\mathbf{h}_{i, d} \mid, 1 \leq i \leq \frac{T}{L_{\text {seg }}}, 1 \leq d \leq D\right\}\]
-    <ul>
-      <li>where each \(\mathbf{h}_{i, d}\) represents a univariate time series segment.</li>
-    </ul>
-  </li>
-  <li>수식으로 표현하다보니 어려운데 아래 그림과 같고, \(\mathbf{H}\)는 오른쪽처럼 생겼다.
-<img src="/assets/img/timeseries/crossformer/myfig1.jpeg" alt="사진2" /></li>
+  <li>Univariate TS : \(X=\left(x_0, x_1, x_2, \ldots, x_t\right)\) where \(x_i\) is  the point at timestamp \(i\)​</li>
+  <li>Multivariate TS : \(\mathbf{X}=\left[X_0, X_1, X_2, \ldots, X_p\right]\), where \(p\) is the number of variables</li>
+  <li>Multiple multivariate TS : \(\mathcal{X}=\left\{\mathbf{X}_0, \mathbf{X}_1, \mathbf{X}_2, \ldots, \mathbf{X}_n\right\}\), where \(n\) is the number of multivariate TS</li>
 </ul>
 
-<h3 id="32-two-stage-attention-layer">3.2. Two-Stage Attention Layer</h3>
+<h3 id="22-surveys-on-ssl">2.2. Surveys on SSL</h3>
 <ul>
-  <li>이미지가 아니라 시계열이다보니 height와 width가 서로 바뀌면 의미가 달라지기 때문에 flatten시키면 안되고 바로 \(\mathbf{H}\)에 self-attention을 적용한다.</li>
-  <li><strong>Cross-Time Stage</strong>
+  <li>pretext tasks 의 핵심은 pseudo-supervision signals을 만드는 것</li>
+  <li>Basic intuition : pull positive samples closer and push negative samples away
     <ul>
-      <li>\(\mathbf{Z}_{i, \text { : }}\) : the vectors of all dimensions at time step \(i\)</li>
-      <li>\(\mathbf{Z}_{:, d}\) the vectors of all time steps in dimension \(d\)
-<img src="/assets/img/timeseries/crossformer/myfig2.jpeg" alt="사진3" /></li>
-      <li>
-\[\begin{aligned} \hat{\mathbf{Z}}_{:, d}^{\text {time }}=\text { LayerNorm }\left(\mathbf{Z}_{:, d}+\operatorname{MSA}^{\text {time }}\left(\mathbf{Z}_{:, d}, \mathbf{Z}_{:, d}, \mathbf{Z}_{:, d}\right)\right) \\ \mathbf{Z}^{\text {time }}=\text { LayerNorm }\left(\hat{\mathbf{Z}}^{\text {time }}+\operatorname{MLP}\left(\hat{\mathbf{Z}}^{\text {time }}\right)\right) \end{aligned}\]
-      </li>
-      <li>\(\mathbf{Z}^{time}\)이 다음 stage인 Cross-Dimension Stage의 input이 된다.</li>
-    </ul>
-  </li>
-  <li><strong>Cross-Dimension Stage</strong>
-    <ul>
-      <li>\(\begin{aligned} \mathbf{B}_{i,:} &amp; =\mathrm{MSA}_1^{\operatorname{dim}}\left(\mathbf{R}_{i,:}, \mathbf{Z}_{i,:}^{\text {time }}, \mathbf{Z}_{i,:}^{\text {time }}\right), 1 \leq i \leq L \\ \overline{\mathbf{Z}}_{i,:}^{\text {dim }} &amp; =\mathrm{MSA}_2^{\text {dim }}\left(\mathbf{Z}_{i,:}^{\text {time }}, \mathbf{B}_{i,:}, \mathbf{B}_{i,:}\right), 1 \leq i \leq L \\ \hat{\mathbf{Z}}^{\text {dim }} &amp; =\text { LayerNorm }\left(\mathbf{Z}^{\text {time }}+\overline{\mathbf{Z}}^{\text {dim }}\right) \\ \mathbf{Z}^{\text {dim }} &amp; =\text { LayerNorm }\left(\hat{\mathbf{Z}}^{\text {dim }}+\operatorname{MLP}\left(\hat{\mathbf{Z}}^{\text {dim }}\right)\right) \end{aligned}\)
-<img src="/assets/img/timeseries/crossformer/fig2.png" alt="사진4" /></li>
-      <li>\(D\)가 클 때에는 router mechanism을 사용하여 fixed number \(c &lt;&lt; D\) vectors에 정보를 모았다가 다시 뿌려준다.</li>
-      <li>\(\mathbf{R} \in \mathbb{R}^{L \times c \times d_{\text {model }}}\) : the learnable vector array serving as routers</li>
-      <li>\(\mathbf{B} \in \mathbb{R}^{L \times c \times d_{\text {model }}}\) : the aggregated messages from all dimensions</li>
-      <li>\(\overline{\mathbf{Z}}^{\text {dim }}\) : output of the router mechanism.</li>
-      <li>All time steps \((1 \leq i \leq L)\) share the same \(\mathbf{M S A}_1^{\text {dim }}, \mathbf{M S A}_2^{\text {dim }}\)</li>
-      <li>\(\hat{\mathbf{Z}}^{\text {dim }}, \mathbf{Z}^{\text {dim }}\) : output of skip connection and MLP respectively</li>
+      <li>positive and negative samples : multisensory signals / data augmentation(noise injection, …) / local-global consistency / temporal consistency</li>
+      <li>pretext task : Context prediction / Instance discrimination / Instance generation</li>
+      <li>model architecture</li>
+      <li>training loss : contrastive loss functions generally include scoring functions (cosine similarity), energy-based margin functions (pair loss and triplet loss), probabilistic NCE-based functions, and mutual information based functions</li>
     </ul>
   </li>
 </ul>
 
-<h3 id="33-hierarchical-encoder-decoder">3.3. Hierarchical Encoder-Decoder</h3>
-<p><img src="/assets/img/timeseries/crossformer/fig3.png" alt="사진5" /></p>
+<p><img src="/assets/img/timeseries/SSL4TS/table3.png" alt="사진7" /></p>
+
+<h2 id="3-generative-based-models">3. Generative-based Models</h2>
 <ul>
-  <li>Upper layer일수록 coarser scale을 사용한 정보를 얻고, 서로 다른 scale로 얻은 정보들로 예측한 값들은 final result에서 더해진다.</li>
-  <li><strong>Encoder</strong> : upper layer일수록 coarser scale을 사용한다는 말은 인접한 두 vector(segment)를 merge한다는 것과 같다.</li>
-  <li>\(\mathbf{Z}^{e n c, l}=\operatorname{Encoder}\left(\mathbf{Z}^{e n c, l-1}\right)\)의 연산은 아래와 같다.
-\(\begin{aligned} &amp; \begin{cases}l=1: &amp; \hat{\mathbf{Z}}^{e n c, l}=\mathbf{H} \\ l&gt;1: &amp; \hat{\mathbf{Z}}_{i, d}^{e n c, l}=\mathbf{M}\left[\mathbf{Z}_{2 i-1, d}^{e n c, l-1} \cdot \mathbf{Z}_{2 i, d}^{e n c, l-1}\right], 1 \leq i \leq \frac{L_{l-1}}{2}, 1 \leq d \leq D\end{cases} \\&amp; \mathbf{Z}^{\text {enc,l}}=\operatorname{TSA}\left(\hat{\mathbf{Z}}^{\text {enc,l}}\right) \end{aligned}\)
+  <li>pretext task : to generate the expected data based on a given view of the data
+<img src="/assets/img/timeseries/SSL4TS/fig2.png" alt="사진2" /></li>
+</ul>
+
+<h3 id="31-autoregressive-based-forecasting">3.1. Autoregressive-based forecasting</h3>
+<ul>
+  <li>Forecasting : \(\hat{x}_{[t+1: t+K]}=f\left(x_{[1: t]}\right)\)</li>
+  <li>Loss : \(\mathcal{L}=\frac{1}{K} \sum_{k=1}^K\left(\hat{x}_{[t+k]}-x_{[t+k]}\right)^2\)​</li>
+  <li>RNN-based
     <ul>
-      <li>
-        <p>\(\mathbf{H}\) denotes the 2D array obtained by DSW embedding</p>
-      </li>
-      <li>
-        <p>\(\mathbf{Z}^{e n c, l}\) denotes the output of the \(l\)-th encoder layer</p>
-      </li>
-      <li>\(\mathbf{M} \in \mathbb{R}^{d_{\text {model }} \times 2 d_{\text {model }}}\) denotes a learnable matrix for segment merging</li>
-      <li>\([\cdot]\) denotes the concatenation operation</li>
-      <li>\(L_{l-1}\) denotes the number of segments in each dimension in layer \(l-1\)</li>
-      <li>\(\hat{\mathbf{Z}}^{e n c, l}\) denotes the array after segment merging in the \(i\)-th layer</li>
-      <li>\(\mathbf{Z}^{\text {enc }, 0}, \mathbf{Z}^{\text {enc }, 1}, \ldots, \mathbf{Z}^{\text {enc }, N},\left(\mathbf{Z}^{\text {enc }, 0}=\mathbf{H}\right)\) is used to represent the \(N+1\) outputs of the encoder</li>
+      <li>Adv : Long-term dependencies / Adaptable to varying lengths / Global context information extraction</li>
+      <li>Dis-adv : Vanishing or exploding gradients / Computational efficiency</li>
+      <li>ex : <a href="https://proceedings.neurips.cc/paper/2020/file/97e401a02082021fd24957f852e0e475-Paper.pdf">THOC</a> : Temporal Self-supervision(TSS), which takes the L-layer dilated RNN with skip-connection structure \(\to\)​ different resolutions at the same time</li>
     </ul>
   </li>
-  <li><strong>Decoder</strong> : Emcoder에서 얻은 \(N+1\)개의 feature array가 있으면, \(N+1\)개의 layers로 예측한다.
+  <li>CNN-based
     <ul>
-      <li>decoder의 process : \(\mathbf{Z}^{\text {dec, } l}=\operatorname{Decoder}\left(\mathbf{Z}^{\text {dec, },-1}, \mathbf{Z}^{\text {enc, },}\right)\)
-\(\begin{aligned} &amp; \left\{\begin{array}{lll} l=0: &amp; \tilde{\mathbf{Z}}^{\text {dec }, l}=\operatorname{TSA}\left(\mathbf{E}^{(d e c)}\right) \\ l&gt;0: &amp; \tilde{\mathbf{Z}}^{\text {dec, }, l}=\operatorname{TSA}\left(\mathbf{Z}^{\text {dec, },-1}\right) \end{array}\right. \\ &amp; \overline{\mathbf{Z}}_{:, d}^{\text {dec, }, l}=\operatorname{MSA}\left(\tilde{\mathbf{Z}}_{:, d}^{\text {dec, }, l}, \mathbf{Z}_{:, d}^{e n c, l}, \mathbf{Z}_{:, d}^{e n c, l}\right), 1 \leq d \leq D \\ &amp; \hat{\mathbf{Z}}^{\text {dec, } l}=\text { LayerNorm }\left(\tilde{\mathbf{Z}}^{\text {dec, }, l}+\overline{\mathbf{Z}}^{\text {dec, } l}\right) \\ &amp; \mathbf{Z}^{\text {dec,l}}=\text { LayerNorm }\left(\hat{\mathbf{Z}}^{\text {dec, }, l} \operatorname{MLP}\left(\hat{\mathbf{Z}}^{\text {dec,l}}\right)\right) \\ &amp; \end{aligned}\)</li>
-      <li>\(\mathbf{E}^{(\text {dec })} \in \mathbb{R}^{\frac{\tau}{L_{s e g}} \times D \times d_{\text {model }}}\) denotes the learnable position embedding for decoder</li>
-      <li>\(\tilde{\mathbf{Z}}^{\text {dec,l } l}\) is the output of TSA</li>
-      <li>The MSA layer takes \(\tilde{\mathbf{Z}}_{:, d}^{d e c,l }\) as query and \(\mathbf{Z}_{:, d}^{e n c, l}\) as the key and value to build the connection between encoder and decoder</li>
-      <li>The output of MSA is denoted as \(\overline{\mathbf{Z}}_{:, d}^{\text {dec, },} . \hat{\mathbf{Z}}^{\text {dec,l}, ~} \mathbf{Z}^{\text {dec, }, l}\) denote the output of skip connection and MLP respectively.</li>
-      <li>\(\mathbf{Z}^{\text {dec, 0},}, \mathbf{Z}^{e n c, 1}, \ldots, \mathbf{Z}^{\text {dec, } N}\) : is used to represent decoder output</li>
-      <li><strong>Linear projection</strong> : 각 layer에서는 linear projection으로 prediction을 만들고, 각 layer의 prediction을 다 더하면 최종 prediction이 된다.
-\(\begin{gathered} \text { for } l=0, \ldots, N: \mathbf{x}_{i, d}^{(s), l}=\mathbf{W}^l \mathbf{Z}_{i, d}^{\text {dec,l }} \quad \mathbf{x}_{T+1: T+\tau}^{\text {pred, } l}=\left\{\mathbf{x}_{i, d}^{(s), l} \left\lvert\, 1 \leq i \leq \frac{\tau}{L_{\text {seg }}}\right., 1 \leq d \leq D\right\} \\ \mathbf{x}_{T+1: T+\tau}^{\text {pred }}=\sum_{l=0}^N \mathbf{x}_{T+1: T+\tau}^{\text {pred, }}\end{gathered}\)
+      <li>Adv : Local pattern extraction / Computational efficiency</li>
+      <li>Dis-adv : Long-termdependencies / Information loss</li>
+    </ul>
+  </li>
+  <li>GNN-based
+    <ul>
+      <li>Adv : Adaptability to graph structures / Dynamic relationship capture</li>
+      <li>Dis-adv : Computational and storage complexity</li>
+      <li>ex : <a href="https://arxiv.org/pdf/2106.06947.pdf">GDN</a> : the correlation among variables</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="32-autoencoder-based-reconstruction">3.2. Autoencoder-based reconstruction</h3>
+<ul>
+  <li>basic autoencoder (BAE)
+    <ul>
+      <li>Encoder \(x \to z\) , Decoder \(z \to \hat {x}\)  / Loss : \(\mathcal{L}=\|x-\tilde{x}\|_2\)</li>
+      <li>E(), D() 같이 train, D() 제거하고 E()를 feature extractor로 사용</li>
+      <li>ex. <a href="https://arxiv.org/pdf/1706.08838.pdf">TimeNet</a>, <a href="https://www.nature.com/articles/s41598-019-55320-6">PT-LSTM-SAE</a>, <a href="https://arxiv.org/pdf/1810.10107.pdf">Autowarp</a></li>
+    </ul>
+  </li>
+  <li>Denoising autoencoder (DAE)
+    <ul>
+      <li>\(x_n=\mathcal{T}(x), \quad Z=E\left(x_n\right), \quad \tilde{x}=D(z)\), \(\quad \mathcal{T}\): add noise  / Loss : \(\mathcal{L}=\|x-\tilde{x}\|_2\)</li>
+    </ul>
+  </li>
+  <li>Mask autoencoder (MAE)
+    <ul>
+      <li>Intuition : pre-training할 때에 input의 일부를 mask하고 un-mask part 보고 예측</li>
+      <li>form : \(\begin{gathered}x_m=\mathcal{M}(x), \quad z=E\left(x_m\right), \quad \tilde{x}=D(z),\ \mathcal{L}=\mathcal{M}\left(\|x-\tilde{x}\|_2\right),\end{gathered}\)</li>
+      <li>TS에서는 time-step-wise masking은 interpolation 해버리기 때문에, segment-wise masking or variable-wise masking</li>
+      <li>ex. <a href="https://dl.acm.org/doi/pdf/10.1145/3534678.3539329">TARNet</a> : 중요한 역할을 하는 data를 선정하고, 해당 데이터를 masking 하여 reconstruction</li>
+    </ul>
+  </li>
+  <li>Variational autoencoder (VAE)
+    <ul>
+      <li>Encoder \(x \to P(z\mid x)\), instead of explicit representation \(z\), Decoder는 sampling from \(P(z \mid x)\)​</li>
+      <li>\(P(z \mid x)=E(x), \quad z=\mathcal{S}(P(z \mid x)), \quad \tilde{x}=D(z)\) / Loss : \(\mathcal{L}=\|x-\tilde{x}\|_2+\operatorname{KL}(\mathcal{N}(\mu, \delta), \mathcal{N}(0, I))\)</li>
+      <li>ex. <a href="https://dl.acm.org/doi/10.1145/3447548.3467075">InterFusion</a>, <a href="https://arxiv.org/pdf/2101.10318.pdf">mTANs</a>, <a href="https://arxiv.org/pdf/2107.11350.pdf">HetVAE</a>(extract seasonal and trend via VAE)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="33-diffusion-based-generation">3.3. Diffusion-based generation</h3>
+<ul>
+  <li>reverse transition kernel을 NN으로 approximate</li>
+  <li>Denoising diffusion probabilistic models <a href="https://arxiv.org/pdf/2006.11239.pdf">DDPM</a>,
+    <ul>
+      <li>\(p_\theta\left(\boldsymbol{x}_{\boldsymbol{t}-\mathbf{1}} \mid \boldsymbol{x}_{\boldsymbol{t}}\right)=$ $\mathcal{N}\left(\boldsymbol{x}_{t-1} ; \mu_\theta\left(\boldsymbol{x}_t, t\right), \sum_\theta\left(\boldsymbol{x}_t, t\right)\right)\) 일 때,</li>
+      <li>Jensen’s inequality에 의해, training loss는 \(\begin{array}{r}\mathbf{K L}\left(q\left(\boldsymbol{x}_1, \boldsymbol{x}_2, \ldots, \boldsymbol{x}_T\right) \| p_\theta\left(\boldsymbol{x}_0, \boldsymbol{x}_1, \ldots, \boldsymbol{x}_T\right)\right) \geq \mathbf{E}\left[-\log p_\theta\left(\boldsymbol{x}_0\right)\right]+\text { const. }\end{array}\)</li>
+    </ul>
+  </li>
+  <li>Score matching diffusion models <a href="https://arxiv.org/pdf/1907.05600.pdf">score matching</a>
+    <ul>
+      <li>per- turb data with a sequence of Gaussian noise \(\to\) estimating the score function for all the noisy data</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="4-contrastive-based-methods">4. Contrastive-based Methods</h2>
+<ul>
+  <li>positive는 가깝게, negative는 멀게 representation하도록 학습 \(\to\) positive / negative 정하는 룰이 중요함
+<img src="/assets/img/timeseries/SSL4TS/fig3.png" alt="사진3" /></li>
+  <li><strong>Sampling contrast</strong>
+    <ul>
+      <li>가정 : 시점이 가까울수록 유사도가 높을 것</li>
+      <li>하지만 실제로 꼭 그런 것은 아니다. contextual information으로 pos / neg 정하기가 쉽지 않다</li>
+      <li>ex. <a href="https://arxiv.org/pdf/2106.00750.pdf">TNC</a> : augmented Dickey-Fuller (ADF) statistical test 해서 neg samples를 unknown으로 취급, weights 할당, <a href="https://arxiv.org/pdf/2004.11362.pdf">Supervised contrastive learning</a></li>
+    </ul>
+  </li>
+  <li><strong>Prediction contrast</strong>
+    <ul>
+      <li>maximally preserve the mutual information of the context and the target</li>
+      <li>Ex. <a href="https://arxiv.org/pdf/1807.03748.pdf">Contrastive predictive coding (CPC)</a> : Context와 target의 mutual information을 최대한 유지한 채로 prediction</li>
+      <li>variants : <a href="https://arxiv.org/pdf/2202.03944.pdf">LNT</a>, <a href="https://arxiv.org/pdf/2106.14112.pdf">TS-TCC</a> <a href="https://arxiv.org/pdf/2208.06616.pdf">CA-TCC</a> (TS data augmentation techniques)</li>
+    </ul>
+  </li>
+  <li><strong>Augmentation contrast</strong>
+    <ul>
+      <li>different views of an input sample 생성 (같은 sample의 view끼리는 positive) \(\to\) similarity <a href="https://arxiv.org/pdf/2002.05709.pdf">SimCLR</a></li>
+      <li>variants : <a href="https://arxiv.org/pdf/2106.10466.pdf">TS2Vec</a> (week augmentation e.g. jitter-and-scale), <a href="https://arxiv.org/pdf/2202.01575.pdf">CoST</a>, <a href="https://arxiv.org/pdf/2206.08496.pdf">TF-C</a> (frequency domain), <a href="https://arxiv.org/pdf/2306.10347.pdf">DCdetector</a>, <a href="https://pdf.sciencedirectassets.com/271505/1-s2.0-S0950705122X00075/1-s2.0-S0950705122002726/main.pdf?X-Amz-Security-Token=IQoJb3JpZ2luX2VjEHAaCXVzLWVhc3QtMSJIMEYCIQDgmFUeLriQDh4DVodXqV0y990PZCUCjyqFZw5tbaaWOQIhAJJXI3FfJlWxRX7ERxHJD52xqRrpOHF7bO5s8CcvR%2BObKrwFCIn%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQBRoMMDU5MDAzNTQ2ODY1Igz9LqUqaUEhwALsmIAqkAVKSauBGYOJAgLt97GY2VGTuMQnRA7AgMmTvZNbQR13nb0eSyB3AddrtMNpzfTApqlafitG63sIURfGc04jk0%2BqiLp73hS3BmM6J9f3LNclZKHKiIQ%2BfUjQppBf9%2BSzb2GYgwcFIWgWQCR5PtN2siu0UfPOBUAUFniH5sww3WHYgzisgA4woX%2F%2B1lpEeSZAfoqOLu%2BD70QDpxoC0KgT%2FXhLrNhBehAy%2FZqTdVfSNmO8PnYW%2BbOc6HJ8zuTY5RATpiy9V7EMrdnYFYXvqu%2F1qW2x%2FtdeEZ0RfWCu524fQvnPpB8zVmySXJH4TXT4LA7QJE%2B1QwAHRqUatsaSoMpckzyqhP4LGwWneO%2Fq9RiEEqDkaOCpaL5F%2F%2B5i1tibhhFGI9ACzd814laQtq%2BIcvidp9986C1DHHJjTFHEXHUgMObbcOMXVA8xcpjCf5yFKcLC42BCHss82InfazC%2BJ8X4if%2BIhr7C%2B4MnowAGueEbmt5yQhoYboaD1tk%2FKKIohIhI2hghsk%2Fj%2BwhkWCn5KyLfoONkWJmJW1CXLDORF38jJLFEREaAQr3LRwExugVvijVdQLlWMyzPoCNRSLI5zkotkTprBsrs6iaJrS7hLn3mxOjCh9mZyJI2yV6%2Brr7jzg5XQ6VHiYlrkcfYuw9OFK5jv5OsoGoi4E46toRGV7X2p9jKlrg7T4m61BP5khSxzLJq61nOGlO%2Bx3zUvUT3dMyvkGMkKtaSk1%2FKXT4RovxkHp%2Bmpc3QUR7j6hzf5z0n9IIsv8FzAtzg58kKHg9OBQmHtCehUyLOErVo7P9Qxj5SIP7umI%2F%2Fe9p%2BK%2BGGZKNKv4LyjUqeB7XdlwPp2x2ysLv4d4o%2BIPtvkyjLqxhNu6sOYmb6VjCX1oSwBjqwAfzu66rFmDL30GLaRAVAW1ntG5mkCnwKEF3lFukhkQUOfwCxm7RM9jOJeG4%2Bmi3EJkTk7YzUpDz3XnUhEC9%2BvejsHkC1qETTJrb0bcqMFFW3EaZrZZYvZ4zodutAKA%2BUzMn5Df82EqEjSmeySV18YkkkKDNTM0usR%2FHaNfviRepwNslRryoSwTWiPWMwiV9tIIbZaIFpcs6nZlQB%2BGqMP1tw1rZAozE5PSe1E%2Btz1kLS&amp;X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Date=20240325T090224Z&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Expires=300&amp;X-Amz-Credential=ASIAQ3PHCVTYQXRPBKFN%2F20240325%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Signature=2f8baa651eec4fdd10cde55f49d1477a95f8710aa9c8758546ef1df59d330c78&amp;hash=4538839e76c3c485eb651626f2c825dd66a6195b3060bbed9553996335a29682&amp;host=68042c943591013ac2b2430a89b270f6af2c76d8dfd086a07176afe7c76c2c61&amp;pii=S0950705122002726&amp;tid=spdf-baf2cd37-88cd-4f95-a9ab-f50f1a42eb98&amp;sid=fc89350759b08043e82bbad-52465f639e79gxrqa&amp;type=client&amp;tsoh=d3d3LnNjaWVuY2VkaXJlY3QuY29t&amp;ua=0f11585559020c5807&amp;rr=869db8c7e9f3a7c3&amp;cc=kr">TimeCLR</a></li>
+    </ul>
+  </li>
+  <li><strong>Prototype contrast</strong>
+    <ul>
+      <li>minimize the distance btw samples and prototype(=virtual sequences, centor, …)
+but maximize the distance btw prototype(=virtual sequences, centor, …)</li>
+    </ul>
+  </li>
+  <li><strong>Expert knowledge contrast</strong>
+    <ul>
+      <li>incorporates expert prior knowledge or information into deep neural networks to guide model training</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="5-adversarial-based-methods">5. Adversarial-based Methods</h2>
+<ul>
+  <li>pre-text tasks를 GAN으로 푼다. (generator \(\mathcal{G}\) and a discriminator \(\mathcal{D}\))</li>
+  <li>Learning objective : \(\mathcal{L}=\mathbb{E}_{x \sim \mathcal{P}_{\text {data }}(x)}[\log \mathcal{D}(x)]+\mathbb{E}_{z \sim \mathcal{P}_{\mathbf{z}}(z)}[\log (1-\mathcal{D}(\mathcal{G}(\mathbf{z})))]\)
+<img src="/assets/img/timeseries/SSL4TS/fig4.png" alt="사진4" /></li>
+  <li><strong>Time series generation and imputation</strong>
+    <ul>
+      <li>Complete time series generation : <a href="https://papers.nips.cc/paper_files/paper/2019/file/c9efe5f26cd17ba6216bbe2a7d26d490-Paper.pdf">TimeGAN</a> (autoregressive GAN), <a href="https://arxiv.org/pdf/2202.02691.pdf">TTS-GAN</a> (Transformer treating TS as image)</li>
+      <li>time series imputation : pass</li>
+    </ul>
+  </li>
+  <li><strong>Auxiliary representation enhancement</strong>
+    <ul>
+      <li>pass</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="6-applications-and-datasets">6. Applications and Datasets</h2>
+<p><img src="/assets/img/timeseries/SSL4TS/table2.png" alt="사진6" /></p>
+
+<h2 id="7-discussion-and-future-directions">7. Discussion and Future Directions</h2>
+<h3 id="71-selection-and-combination-of-data-augmentation">7.1. <strong>Selection and combination of data augmentation</strong></h3>
+<ul>
+  <li>augmentation methods :  jitter, scaling, rotation, permutation, and warping, …</li>
+  <li>permutation + rotation + time warping &gt; single method
+    <h3 id="72-inductive-bias-for-time-series-ssl">7.2. <strong>Inductive bias for time series SSL</strong></h3>
+  </li>
+  <li>특히 데이터가 충분하지 않을 수록 합리적인 inductive bias는 필요할 수 있음
+    <h3 id="73-ssl-for-irregular-and-sparse-time-series">7.3. <strong>SSL for irregular and sparse time series</strong>=</h3>
+  </li>
+  <li>Irregular and sparse time series를 interpolation해서 쓰려고 하다보면 undesirable noise가 낄 수도 있으니 그대로 SSL로 활용</li>
+</ul>
+
+<h2 id="8-conclusion">8. Conclusion</h2>
+<p>Pass</p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Arxiv 2023](https://arxiv.org/pdf/2306.10125.pdf)]]></summary></entry><entry><title type="html">(Survey paper) Time Series Forecasting With Deep Learning A Survey (Philos Trans R Soc A. 2020)</title><link href="http://localhost:4000/timeseries/2024-03-19-TSwDLsurvey/" rel="alternate" type="text/html" title="(Survey paper) Time Series Forecasting With Deep Learning A Survey (Philos Trans R Soc A. 2020)" /><published>2024-03-19T00:00:00+09:00</published><updated>2024-03-19T13:15:52+09:00</updated><id>http://localhost:4000/timeseries/TSwDLsurvey</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-19-TSwDLsurvey/"><![CDATA[<h2 id="1-introduction">1. Introduction</h2>
+<ul>
+  <li>Time series forecasting
+    <ul>
+      <li>traditional methods : parametric models informed by domain expertise (ex. autoregressive(AR))</li>
+      <li>machine learning : learn temporal dynamics in a puerly data-driven manner</li>
+      <li>deep learning : learn complex data representation
         <ul>
-          <li>\(\mathbf{W}^l \in \mathbb{R}^{L_{\text {seg }} \times d_{\text {model }}}\) : learnable matrix to project a vector to a ts segment</li>
+          <li>CNN, RNN, Attention-based mechanism</li>
+        </ul>
+      </li>
+      <li>hybrid model : Quantitative TS model + deep learning model</li>
+    </ul>
+  </li>
+  <li>Time series forecasting의 application
+    <ul>
+      <li>interpretability and counterfactual prediction</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="2-deep-learning-architectures-for-tsf">2. Deep Learning Architectures for TSF</h2>
+<ul>
+  <li>One-step-ahead forecasting : \(\hat{y}_{i, t+1}=f\left(y_{i, t-k: t}, \boldsymbol{x}_{i, t-k: t}, \boldsymbol{s}_i\right)\)
+    <ul>
+      <li>\(\hat{y}_{i, t+1}\) : model forecast</li>
+      <li>\(y_{i, t-k: t}=\left\{y_{i, t-k}, \ldots, y_{i, t}\right\}, \boldsymbol{x}_{i, t-k: t}=\left\{\boldsymbol{x}_{i, t-k}, \ldots, \boldsymbol{x}_{i, t}\right\}\) : observation over look-back window</li>
+      <li>\(f(\cdot)\) : the prediction function learntby the model
+        <h3 id="2a-basic-building-blocks">2.(a) Basic building blocks</h3>
+      </li>
+    </ul>
+  </li>
+  <li>Encoder : \(\boldsymbol{z}_t=g_{\mathrm{enc}}\left(y_{t-k: t}, \boldsymbol{x}_{t-k: t}, \boldsymbol{s}\right)\)</li>
+  <li>Decoder : \(f\left(y_{t-k: t}, \boldsymbol{x}_{t-k: t}, \boldsymbol{s}\right)=g_{\mathrm{dec}}\left(\boldsymbol{z}_t\right)\)
+    <ul>
+      <li>Encoder에서 observations를 latent vector로 representation</li>
+      <li>(1) Convolution Neural Networks : \(\begin{aligned} \boldsymbol{h}_t^{l+1} &amp; =A((\boldsymbol{W} * \boldsymbol{h})(l, t)) \\ (\boldsymbol{W} * \boldsymbol{h})(l, t) &amp; =\sum_{\tau=0}^k \boldsymbol{W}(l, \tau) \boldsymbol{h}_{t-\tau}^l \end{aligned}\)
+        <ul>
+          <li>Convolution과 pooling을 반복하는 구조. TS에서는 과거의 값만 보도록 설계</li>
+          <li>\(\boldsymbol{h}_t^l \in \mathbb{R}^{\mathcal{H}_{i n}}\) : intermediate state at layer \(l\) at time \(t\)</li>
+          <li>
+            <p>\(*\) : convolution operator</p>
+          </li>
+          <li>\(\boldsymbol{W}(l, \tau) \in$ $\mathbb{R}^{\mathcal{H}_{\text {out }} \times \mathcal{H}_{\text {in }}}\) : fixed filter weight at layer \(l\)</li>
+          <li>\(A(.)\) : activation function</li>
+        </ul>
+      </li>
+      <li>Dilated Convolution : \((\boldsymbol{W} * \boldsymbol{h})\left(l, t, d_l\right)=\sum_{\tau=0}^{\left\lfloor k / d_l\right\rfloor} \boldsymbol{W}(l, \tau) \boldsymbol{h}_{t-d_l \tau}^l\)
+        <ul>
+          <li>\(d_l\) : layer-specific dilation rate</li>
+          <li>(WaveNet) \(d_l = 2^l\) at layer \(l\) (fig1.(a))
+<img src="/assets/img/timeseries/TSwDLsurvey/fig1.png" alt="사진1" /></li>
+        </ul>
+      </li>
+      <li>(2) Recurrent Neural Networks
+        <ul>
+          <li>Memory state를 통해 과거 정보를 기억하는 sequential data에 적합한 구조</li>
+          <li>
+            <p>Gradient vanishing으로 인한 long-range dependency \(\to\) LSTM</p>
+          </li>
+          <li>
+            <p>Memory update funciton : \(\boldsymbol{z}_t=\nu\left(\boldsymbol{z}_{t-1}, y_t, \boldsymbol{x}_t, \boldsymbol{s}\right)\)</p>
+          </li>
+          <li>Network : \(\begin{aligned} y_{t+1} &amp; =\gamma_y\left(\boldsymbol{W}_y \boldsymbol{z}_t+\boldsymbol{b}_y\right) \\ \boldsymbol{z}_t &amp; =\gamma_z\left(\boldsymbol{W}_{z_1} \boldsymbol{z}_{t-1}+\boldsymbol{W}_{z_2} y_t+\boldsymbol{W}_{z_3} \boldsymbol{x}_t+\boldsymbol{W}_{z_4} \boldsymbol{s}+\boldsymbol{b}_z\right) \end{aligned}\)
+            <ul>
+              <li>\(W_{.}, \boldsymbol{b}\) : the linear weights and bias</li>
+              <li>\(\gamma_y(.), \gamma_z(.)\) : network activation functions</li>
+            </ul>
+          </li>
+          <li>Long Short Term Memory(LSTM)
+<img src="/assets/img/timeseries/TSwDLsurvey/fig2.png" alt="사진2" /></li>
+        </ul>
+      </li>
+      <li>(3) Attention mechanisms
+        <ul>
+          <li>form : \(\boldsymbol{h}_t=\sum_{\tau=0}^k \alpha\left(\boldsymbol{\kappa}_t, \boldsymbol{q}_\tau\right) \boldsymbol{v}_{t-\tau}\)
+            <ul>
+              <li>key \(\boldsymbol{\kappa}_t\), query \(\boldsymbol{q}_\tau\) and value \(\boldsymbol{v}_{t-\tau}\) are intermediate features produced at different time steps by lower levels of the network</li>
+              <li>\(\alpha\left(\boldsymbol{\kappa}_t, \boldsymbol{q}_\tau\right) \in[0,1]\) is the attention weight for \(t-\tau\) generated at time \(t\)</li>
+              <li>\(\boldsymbol{h}_t\) is the context vector output of the attention layer
+                <h3 id="2b-multi-horizon-forecasting-models">2.(b) Multi-horizon Forecasting Models</h3>
+              </li>
+            </ul>
+          </li>
         </ul>
       </li>
     </ul>
   </li>
+  <li>단순히 다음 한 시점에 대한 예측이 아닌 미래 여러 시점에 대한 예측</li>
+  <li>(1) Iterative Methods : Autoregressive forecasting. 각 time step에서의 작은 오차가 누적된다는 단점이 있다.</li>
+  <li>(2) Direct Methods : Encoder의 정보를 활용해서 한 번에 target time steps를 예측</li>
 </ul>
 
-<h2 id="4-experiments">4. Experiments</h2>
-<h3 id="41-protocols">4.1. Protocols</h3>
+<h2 id="3-incorporating-domain-knowledge-with-hybrid-models">3. Incorporating Domain Knowledge with Hybrid Models</h2>
 <ul>
-  <li>Dataset : 1) ETTh1 (Electricity Transformer Temperature-hourly), 2) ETTm1 (Electricity Transformer Temperature-minutely), 3) WTH (Weather), 4) ECL (Electricity Consuming Load), 5) ILI (Influenza-Like Illness), 6) Traffic</li>
-  <li>Baselines : 1) LSTMa (Bah- danau et al., 2015), 2) LSTnet (Lai et al., 2018), 3) MTGNN (Wu et al., 2020), and recent Transformer-based models for MTS forecasting: 4) Transformer (Vaswani et al., 2017), 5) In- former (Zhou et al., 2021), 6) Autoformer (Wu et al., 2021a), 7) Pyraformer (Liu et al., 2021a) and 8) FEDformer (Zhou et al., 2022)
-    <h3 id="42-main-results">4.2. Main Results</h3>
-    <p><img src="/assets/img/timeseries/crossformer/table1.png" alt="사진6" /></p>
-    <h3 id="43-ablation-study">4.3. Ablation Study</h3>
-    <p><img src="/assets/img/timeseries/crossformer/table2.png" alt="사진7" /></p>
-    <h3 id="44-effect-of-hyper-parameters">4.4. Effect of Hyper-parameters</h3>
-    <p><img src="/assets/img/timeseries/crossformer/fig4.png" alt="사진8" /></p>
-    <h3 id="45-computational-efficiency-analysis">4.5. Computational Efficiency Analysis</h3>
-    <p><img src="/assets/img/timeseries/crossformer/table3.png" alt="사진9" /></p>
+  <li>Machine learning의 underperformance의 이유는 1) flexibility로 인한 overfitting, 2) pre-processed input에 대한 sensitivity</li>
+  <li>Hybrid models
+    <ul>
+      <li>combine well-studied quantitative time series models together with deep learning</li>
+      <li>use domain knowledge \(\to\) hypothesis space를 줄여준다</li>
+      <li>(a) Non-probabilistic Hybrid models : forecasting equations를 modify</li>
+      <li>(b) Probabilistic Hybrid models : predictive distribution으로 parameters 생성</li>
+    </ul>
   </li>
 </ul>
 
-<h3 id="5-conclusion">5. Conclusion</h3>
+<h2 id="4-facilitating-decision-support-using-deep-neural-networks">4. Facilitating Decision Support Using Deep Neural Networks</h2>
 <ul>
-  <li>Crossformer : Transformer-based model utilizing cross-dimension dependency for MTS forecasting</li>
-  <li><strong>Dimension-Segment-Wise (DSW)</strong> embedding embeds the input data into a 2D vector array to preserve the information of both time and dimension</li>
-  <li><strong>The Two-Stage-Attention (TSA)</strong> layer is devised to capture the cross-time and cross- dimension dependency of the embedded array</li>
-  <li>Using DSW embedding and TSA layer, a <strong>Hierarchical Encoder-Decoder (HED)</strong> is devised to utilize the information at different scales</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2023](https://openreview.net/forum?id=vSVLM2j9eie)]]></summary></entry><entry><title type="html">(Survey paper) Transformers in Time Series: A Survey (IJCAI 2023)</title><link href="http://localhost:4000/timeseries/2024-03-19-TFinTSsurvey/" rel="alternate" type="text/html" title="(Survey paper) Transformers in Time Series: A Survey (IJCAI 2023)" /><published>2024-03-19T00:00:00+09:00</published><updated>2024-03-20T17:18:03+09:00</updated><id>http://localhost:4000/timeseries/TFinTSsurvey</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-19-TFinTSsurvey/"><![CDATA[<h2 id="abstract">Abstract</h2>
+  <li>연구하는 입장에서는 model의 성능(MSE, Accuracy, …)가 중요하지만, user는 future action에 대한 guide의 지표</li>
+  <li>그러므로 Local Interpretable Model-Agnostic Explanations (LIME), Shapley additive explanations (SHAP)과 같은 post-hoc 분석, Attention weights를 통한 inherent interpretability를 이해할 필요가 있다.</li>
+  <li>그러면 counterfactual forecast(determining what would have happened if a different set of circumstances had occurred) 가능</li>
+</ul>
+
+<h2 id="5-conclusions-and-future-directions">5. Conclusions and Future Directions</h2>
+<ul>
+  <li>Survey the main architectures used for TS forecasting</li>
+  <li>Hybrid DL models : combine statistical and deep learning components</li>
+  <li>Limitation : irregular TS나 hierarchical structure에 대한 고민은 하기 이전</li>
+</ul>
+
+<h2 id="추가">추가</h2>
+<ul>
+  <li>2020년에 발표된 survey 논문이지만 최근 Long-term Time Series Forecasting(LTSF)에 활용되는 모델에 대한 내용을 잘 정리한 논문이다.</li>
+  <li>본 논문 이후 현재까지 최신 연구들을 이해한 상태로 읽는다면 최신 연구들의 motivation을 이해하는 데에 도움이 되는 논문이다.</li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Philos Trans R Soc A. 2020](https://arxiv.org/pdf/2004.13408.pdf)]]></summary></entry><entry><title type="html">(Survey paper) Transformers in Time Series: A Survey (IJCAI 2023)</title><link href="http://localhost:4000/timeseries/2024-03-19-TFinTSsurvey/" rel="alternate" type="text/html" title="(Survey paper) Transformers in Time Series: A Survey (IJCAI 2023)" /><published>2024-03-19T00:00:00+09:00</published><updated>2024-03-20T17:35:16+09:00</updated><id>http://localhost:4000/timeseries/TFinTSsurvey</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-19-TFinTSsurvey/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>Transformer는 long-range dependencies and interactions를 학습할 수 있다.</li>
@@ -434,131 +604,173 @@
   <li>new taxonomy consisting of network design and application</li>
   <li>strengths and limitations of representative methods by experimental evaluation</li>
   <li>highlight future research directions.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[IJCAI 2023](https://arxiv.org/pdf/2202.07125.pdf)]]></summary></entry><entry><title type="html">(Survey paper) Time Series Forecasting With Deep Learning A Survey (Philos Trans R Soc A. 2020)</title><link href="http://localhost:4000/timeseries/2024-03-19-TSwDLsurvey/" rel="alternate" type="text/html" title="(Survey paper) Time Series Forecasting With Deep Learning A Survey (Philos Trans R Soc A. 2020)" /><published>2024-03-19T00:00:00+09:00</published><updated>2024-03-19T13:15:52+09:00</updated><id>http://localhost:4000/timeseries/TSwDLsurvey</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-19-TSwDLsurvey/"><![CDATA[<h2 id="1-introduction">1. Introduction</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[IJCAI 2023](https://arxiv.org/pdf/2202.07125.pdf)]]></summary></entry><entry><title type="html">(Crossformer) Transformer Utilizing Cross-Dimension Dependency for Multivariate Time Series Forecasting (ICLR 2023)</title><link href="http://localhost:4000/timeseries/2024-03-19-crossformer/" rel="alternate" type="text/html" title="(Crossformer) Transformer Utilizing Cross-Dimension Dependency for Multivariate Time Series Forecasting (ICLR 2023)" /><published>2024-03-19T00:00:00+09:00</published><updated>2024-03-19T21:34:48+09:00</updated><id>http://localhost:4000/timeseries/crossformer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-19-crossformer/"><![CDATA[<h2 id="abstract">Abstract</h2>
+
 <ul>
-  <li>Time series forecasting
+  <li>Transformer-based models
     <ul>
-      <li>traditional methods : parametric models informed by domain expertise (ex. autoregressive(AR))</li>
-      <li>machine learning : learn temporal dynamics in a puerly data-driven manner</li>
-      <li>deep learning : learn complex data representation
-        <ul>
-          <li>CNN, RNN, Attention-based mechanism</li>
-        </ul>
-      </li>
-      <li>hybrid model : Quantitative TS model + deep learning model</li>
+      <li>focus on modeling the temporal dependency (cross-time dependency)</li>
+      <li>yet often omit the dependency among different variables (cross- dimension dependency)</li>
     </ul>
   </li>
-  <li>Time series forecasting의 application
+  <li>Crossformer는
     <ul>
-      <li>interpretability and counterfactual prediction</li>
+      <li>Dimension-Segment-Wise (DSW) : MTS \(\to\) 2d vector array로 만들고</li>
+      <li>Two-Stage Attention (TSA) : 2개의 attention을 거치는데 각각 cross-time and cross-dimension dependency를 학습한다.</li>
+      <li>Hierarchical Encoder-Decoder (HED) : 그리고 서로 다른 scales의 정보를 사용해서 coarse, fine한 정보 모두 활용하여 forecasting한다.</li>
     </ul>
   </li>
 </ul>
 
-<h2 id="2-deep-learning-architectures-for-tsf">2. Deep Learning Architectures for TSF</h2>
+<h2 id="1-introduction">1. Introduction</h2>
+
 <ul>
-  <li>One-step-ahead forecasting : \(\hat{y}_{i, t+1}=f\left(y_{i, t-k: t}, \boldsymbol{x}_{i, t-k: t}, \boldsymbol{s}_i\right)\)
-    <ul>
-      <li>\(\hat{y}_{i, t+1}\) : model forecast</li>
-      <li>\(y_{i, t-k: t}=\left\{y_{i, t-k}, \ldots, y_{i, t}\right\}, \boldsymbol{x}_{i, t-k: t}=\left\{\boldsymbol{x}_{i, t-k}, \ldots, \boldsymbol{x}_{i, t}\right\}\) : observation over look-back window</li>
-      <li>\(f(\cdot)\) : the prediction function learntby the model
-        <h3 id="2a-basic-building-blocks">2.(a) Basic building blocks</h3>
-      </li>
-    </ul>
-  </li>
-  <li>Encoder : \(\boldsymbol{z}_t=g_{\mathrm{enc}}\left(y_{t-k: t}, \boldsymbol{x}_{t-k: t}, \boldsymbol{s}\right)\)</li>
-  <li>Decoder : \(f\left(y_{t-k: t}, \boldsymbol{x}_{t-k: t}, \boldsymbol{s}\right)=g_{\mathrm{dec}}\left(\boldsymbol{z}_t\right)\)
-    <ul>
-      <li>Encoder에서 observations를 latent vector로 representation</li>
-      <li>(1) Convolution Neural Networks : \(\begin{aligned} \boldsymbol{h}_t^{l+1} &amp; =A((\boldsymbol{W} * \boldsymbol{h})(l, t)) \\ (\boldsymbol{W} * \boldsymbol{h})(l, t) &amp; =\sum_{\tau=0}^k \boldsymbol{W}(l, \tau) \boldsymbol{h}_{t-\tau}^l \end{aligned}\)
-        <ul>
-          <li>Convolution과 pooling을 반복하는 구조. TS에서는 과거의 값만 보도록 설계</li>
-          <li>\(\boldsymbol{h}_t^l \in \mathbb{R}^{\mathcal{H}_{i n}}\) : intermediate state at layer \(l\) at time \(t\)</li>
-          <li>
-            <p>\(*\) : convolution operator</p>
-          </li>
-          <li>\(\boldsymbol{W}(l, \tau) \in$ $\mathbb{R}^{\mathcal{H}_{\text {out }} \times \mathcal{H}_{\text {in }}}\) : fixed filter weight at layer \(l\)</li>
-          <li>\(A(.)\) : activation function</li>
-        </ul>
-      </li>
-      <li>Dilated Convolution : \((\boldsymbol{W} * \boldsymbol{h})\left(l, t, d_l\right)=\sum_{\tau=0}^{\left\lfloor k / d_l\right\rfloor} \boldsymbol{W}(l, \tau) \boldsymbol{h}_{t-d_l \tau}^l\)
-        <ul>
-          <li>\(d_l\) : layer-specific dilation rate</li>
-          <li>(WaveNet) \(d_l = 2^l\) at layer \(l\) (fig1.(a))
-<img src="/assets/img/timeseries/TSwDLsurvey/fig1.png" alt="사진1" /></li>
-        </ul>
-      </li>
-      <li>(2) Recurrent Neural Networks
-        <ul>
-          <li>Memory state를 통해 과거 정보를 기억하는 sequential data에 적합한 구조</li>
-          <li>
-            <p>Gradient vanishing으로 인한 long-range dependency \(\to\) LSTM</p>
-          </li>
-          <li>
-            <p>Memory update funciton : \(\boldsymbol{z}_t=\nu\left(\boldsymbol{z}_{t-1}, y_t, \boldsymbol{x}_t, \boldsymbol{s}\right)\)</p>
-          </li>
-          <li>Network : \(\begin{aligned} y_{t+1} &amp; =\gamma_y\left(\boldsymbol{W}_y \boldsymbol{z}_t+\boldsymbol{b}_y\right) \\ \boldsymbol{z}_t &amp; =\gamma_z\left(\boldsymbol{W}_{z_1} \boldsymbol{z}_{t-1}+\boldsymbol{W}_{z_2} y_t+\boldsymbol{W}_{z_3} \boldsymbol{x}_t+\boldsymbol{W}_{z_4} \boldsymbol{s}+\boldsymbol{b}_z\right) \end{aligned}\)
-            <ul>
-              <li>\(W_{.}, \boldsymbol{b}\) : the linear weights and bias</li>
-              <li>\(\gamma_y(.), \gamma_z(.)\) : network activation functions</li>
-            </ul>
-          </li>
-          <li>Long Short Term Memory(LSTM)
-<img src="/assets/img/timeseries/TSwDLsurvey/fig2.png" alt="사진2" /></li>
-        </ul>
-      </li>
-      <li>(3) Attention mechanisms
-        <ul>
-          <li>form : \(\boldsymbol{h}_t=\sum_{\tau=0}^k \alpha\left(\boldsymbol{\kappa}_t, \boldsymbol{q}_\tau\right) \boldsymbol{v}_{t-\tau}\)
-            <ul>
-              <li>key \(\boldsymbol{\kappa}_t\), query \(\boldsymbol{q}_\tau\) and value \(\boldsymbol{v}_{t-\tau}\) are intermediate features produced at different time steps by lower levels of the network</li>
-              <li>\(\alpha\left(\boldsymbol{\kappa}_t, \boldsymbol{q}_\tau\right) \in[0,1]\) is the attention weight for \(t-\tau\) generated at time \(t\)</li>
-              <li>\(\boldsymbol{h}_t\) is the context vector output of the attention layer
-                <h3 id="2b-multi-horizon-forecasting-models">2.(b) Multi-horizon Forecasting Models</h3>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>단순히 다음 한 시점에 대한 예측이 아닌 미래 여러 시점에 대한 예측</li>
-  <li>(1) Iterative Methods : Autoregressive forecasting. 각 time step에서의 작은 오차가 누적된다는 단점이 있다.</li>
-  <li>(2) Direct Methods : Encoder의 정보를 활용해서 한 번에 target time steps를 예측</li>
+  <li>MTS에서는 cross-time dependency 뿐만 아니라 cross-dimension dependency도 중요한데, Transformer에서 cross-dim dependency를 반영하는 방법은 embedding 뿐이다.</li>
+  <li>본 논문에서는 cross-dim dependency를 explicitly하게 사용한다.</li>
+  <li>Dimension-Segment-Wise (DSW) : the series(e.g. UTS)는 segments로 나뉘고, 각 segment는 feature vector가 된다. (series는 2d vector array가 된다.)</li>
+  <li>Two-Stage Attention (TSA): 2d vector array로부터 cross-time and cross-dimension dependency 학습</li>
+  <li>Hierarchical Encoder-Decoder (HED) : 각 layer에서 서로 다른 scale에 대한 dependency를 학습하게 된다.</li>
 </ul>
 
-<h2 id="3-incorporating-domain-knowledge-with-hybrid-models">3. Incorporating Domain Knowledge with Hybrid Models</h2>
+<h2 id="2-related-works">2. Related Works</h2>
+
 <ul>
-  <li>Machine learning의 underperformance의 이유는 1) flexibility로 인한 overfitting, 2) pre-processed input에 대한 sensitivity</li>
-  <li>Hybrid models
+  <li><strong>Multivariate Time Series Forecasting</strong>
     <ul>
-      <li>combine well-studied quantitative time series models together with deep learning</li>
-      <li>use domain knowledge \(\to\) hypothesis space를 줄여준다</li>
-      <li>(a) Non-probabilistic Hybrid models : forecasting equations를 modify</li>
-      <li>(b) Probabilistic Hybrid models : predictive distribution으로 parameters 생성</li>
+      <li>Statistical models : Vector auto-regressive(VAR), Vector auto-regressive moving average (VARMA)</li>
+      <li>Neural models : TCN, DeepAR, LSTnet(CNN+RNN), MTGNN, …</li>
+    </ul>
+  </li>
+  <li><strong>Transformer-based model</strong> : LogTrans, Informer, Autoformer, Pyraformer, FEDformer, Preformer, …</li>
+  <li><strong>Vision Transformers</strong> : Transformer를 vision에서 사용할 때 썼던 patching 방식</li>
+</ul>
+
+<h2 id="3-methodology">3. Methodology</h2>
+
+<ul>
+  <li>\(\mathbf{x}_{1: T} \in \mathbb{R}^{T \times D}\)를 보고 \(\mathbf{x}_{T+1: T+\tau} \in \mathbb{R}^{\tau \times D}\)​ 예측하는 문제
+    <ul>
+      <li>\(\tau, T\) is the number of time steps in the future and past, respectively</li>
+      <li>\(D&gt;1\) is the number of dimensions</li>
     </ul>
   </li>
 </ul>
 
-<h2 id="4-facilitating-decision-support-using-deep-neural-networks">4. Facilitating Decision Support Using Deep Neural Networks</h2>
+<h3 id="31-dimension-segment-wise-embedding">3.1. Dimension-Segment-wise Embedding</h3>
+<p><img src="/assets/img/timeseries/crossformer/fig1.png" alt="사진1" /></p>
 <ul>
-  <li>연구하는 입장에서는 model의 성능(MSE, Accuracy, …)가 중요하지만, user는 future action에 대한 guide의 지표</li>
-  <li>그러므로 Local Interpretable Model-Agnostic Explanations (LIME), Shapley additive explanations (SHAP)과 같은 post-hoc 분석, Attention weights를 통한 inherent interpretability를 이해할 필요가 있다.</li>
-  <li>그러면 counterfactual forecast(determining what would have happened if a different set of circumstances had occurred) 가능</li>
+  <li>t시점의 모든 dimension의 data point \(\mathbf{x}_t \in \mathbb{R}^D\)를 \(\mathbf{h}_t \in \mathbb{R}^{d_{\text {model }}}\)로 embedding한다.</li>
+  <li>
+\[\begin{aligned}
+\mathbf{x}_{1: T} &amp; =\left\{\mathbf{x}_{i, d}^{(s)} \left\lvert\, 1 \leq i \leq \frac{T}{L_{\text {seg }}}\right., 1 \leq d \leq D\right\} \\
+\mathbf{x}_{i, d}^{(s)} &amp; =\left\{x_{t, d} \mid(i-1) \times L_{\text {seg }}&lt;t \leq i \times L_{\text {seg }}\right\} \\ \mathbf{h}_{i, d}&amp;=\mathbf{E} \mathbf{x}_{i, d}^{(s)}+\mathbf{E}_{i, d}^{(p o s)} \end{aligned}\]
+    <ul>
+      <li>\(\mathbf{x}_{i, d}^{(s)} \in \mathbb{R}^{L_{\text {seg }}}\)  is the \(i\)-th segment in dimension \(d\) with length \(L_{\text {seg }}\)</li>
+      <li>\(\mathbf{E} \in \mathbb{R}^{d_{\text {model }} \times L_{\text {seg }}}\) : the learnable projection matrix</li>
+      <li>\(\mathbf{E}_{i, d}^{(\text {pos })} \in \mathbb{R}^{d_{\text {model }}}\) : the learnable position embedding for position $(i, d)$.</li>
+    </ul>
+  </li>
+  <li>
+\[\mathbf{H}=\left\{\mathbf{h}_{i, d} \mid, 1 \leq i \leq \frac{T}{L_{\text {seg }}}, 1 \leq d \leq D\right\}\]
+    <ul>
+      <li>where each \(\mathbf{h}_{i, d}\) represents a univariate time series segment.</li>
+    </ul>
+  </li>
+  <li>수식으로 표현하다보니 어려운데 아래 그림과 같고, \(\mathbf{H}\)는 오른쪽처럼 생겼다.
+<img src="/assets/img/timeseries/crossformer/myfig1.jpeg" alt="사진2" /></li>
 </ul>
 
-<h2 id="5-conclusions-and-future-directions">5. Conclusions and Future Directions</h2>
+<h3 id="32-two-stage-attention-layer">3.2. Two-Stage Attention Layer</h3>
 <ul>
-  <li>Survey the main architectures used for TS forecasting</li>
-  <li>Hybrid DL models : combine statistical and deep learning components</li>
-  <li>Limitation : irregular TS나 hierarchical structure에 대한 고민은 하기 이전</li>
+  <li>이미지가 아니라 시계열이다보니 height와 width가 서로 바뀌면 의미가 달라지기 때문에 flatten시키면 안되고 바로 \(\mathbf{H}\)에 self-attention을 적용한다.</li>
+  <li><strong>Cross-Time Stage</strong>
+    <ul>
+      <li>\(\mathbf{Z}_{i, \text { : }}\) : the vectors of all dimensions at time step \(i\)</li>
+      <li>\(\mathbf{Z}_{:, d}\) the vectors of all time steps in dimension \(d\)
+<img src="/assets/img/timeseries/crossformer/myfig2.jpeg" alt="사진3" /></li>
+      <li>
+\[\begin{aligned} \hat{\mathbf{Z}}_{:, d}^{\text {time }}=\text { LayerNorm }\left(\mathbf{Z}_{:, d}+\operatorname{MSA}^{\text {time }}\left(\mathbf{Z}_{:, d}, \mathbf{Z}_{:, d}, \mathbf{Z}_{:, d}\right)\right) \\ \mathbf{Z}^{\text {time }}=\text { LayerNorm }\left(\hat{\mathbf{Z}}^{\text {time }}+\operatorname{MLP}\left(\hat{\mathbf{Z}}^{\text {time }}\right)\right) \end{aligned}\]
+      </li>
+      <li>\(\mathbf{Z}^{time}\)이 다음 stage인 Cross-Dimension Stage의 input이 된다.</li>
+    </ul>
+  </li>
+  <li><strong>Cross-Dimension Stage</strong>
+    <ul>
+      <li>\(\begin{aligned} \mathbf{B}_{i,:} &amp; =\mathrm{MSA}_1^{\operatorname{dim}}\left(\mathbf{R}_{i,:}, \mathbf{Z}_{i,:}^{\text {time }}, \mathbf{Z}_{i,:}^{\text {time }}\right), 1 \leq i \leq L \\ \overline{\mathbf{Z}}_{i,:}^{\text {dim }} &amp; =\mathrm{MSA}_2^{\text {dim }}\left(\mathbf{Z}_{i,:}^{\text {time }}, \mathbf{B}_{i,:}, \mathbf{B}_{i,:}\right), 1 \leq i \leq L \\ \hat{\mathbf{Z}}^{\text {dim }} &amp; =\text { LayerNorm }\left(\mathbf{Z}^{\text {time }}+\overline{\mathbf{Z}}^{\text {dim }}\right) \\ \mathbf{Z}^{\text {dim }} &amp; =\text { LayerNorm }\left(\hat{\mathbf{Z}}^{\text {dim }}+\operatorname{MLP}\left(\hat{\mathbf{Z}}^{\text {dim }}\right)\right) \end{aligned}\)
+<img src="/assets/img/timeseries/crossformer/fig2.png" alt="사진4" /></li>
+      <li>\(D\)가 클 때에는 router mechanism을 사용하여 fixed number \(c &lt;&lt; D\) vectors에 정보를 모았다가 다시 뿌려준다.</li>
+      <li>\(\mathbf{R} \in \mathbb{R}^{L \times c \times d_{\text {model }}}\) : the learnable vector array serving as routers</li>
+      <li>\(\mathbf{B} \in \mathbb{R}^{L \times c \times d_{\text {model }}}\) : the aggregated messages from all dimensions</li>
+      <li>\(\overline{\mathbf{Z}}^{\text {dim }}\) : output of the router mechanism.</li>
+      <li>All time steps \((1 \leq i \leq L)\) share the same \(\mathbf{M S A}_1^{\text {dim }}, \mathbf{M S A}_2^{\text {dim }}\)</li>
+      <li>\(\hat{\mathbf{Z}}^{\text {dim }}, \mathbf{Z}^{\text {dim }}\) : output of skip connection and MLP respectively</li>
+    </ul>
+  </li>
 </ul>
 
-<h2 id="추가">추가</h2>
+<h3 id="33-hierarchical-encoder-decoder">3.3. Hierarchical Encoder-Decoder</h3>
+<p><img src="/assets/img/timeseries/crossformer/fig3.png" alt="사진5" /></p>
 <ul>
-  <li>2020년에 발표된 survey 논문이지만 최근 Long-term Time Series Forecasting(LTSF)에 활용되는 모델에 대한 내용을 잘 정리한 논문이다.</li>
-  <li>본 논문 이후 현재까지 최신 연구들을 이해한 상태로 읽는다면 최신 연구들의 motivation을 이해하는 데에 도움이 되는 논문이다.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Philos Trans R Soc A. 2020](https://arxiv.org/pdf/2004.13408.pdf)]]></summary></entry><entry><title type="html">(SoftCLT) Soft Contrastive Learning for Time Series (ICLR 2024)</title><link href="http://localhost:4000/timeseries/2024-03-13-softCLT/" rel="alternate" type="text/html" title="(SoftCLT) Soft Contrastive Learning for Time Series (ICLR 2024)" /><published>2024-03-13T00:00:00+09:00</published><updated>2024-03-19T13:15:52+09:00</updated><id>http://localhost:4000/timeseries/softCLT</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-13-softCLT/"><![CDATA[<h2 id="abstract">Abstract</h2>
+  <li>Upper layer일수록 coarser scale을 사용한 정보를 얻고, 서로 다른 scale로 얻은 정보들로 예측한 값들은 final result에서 더해진다.</li>
+  <li><strong>Encoder</strong> : upper layer일수록 coarser scale을 사용한다는 말은 인접한 두 vector(segment)를 merge한다는 것과 같다.</li>
+  <li>\(\mathbf{Z}^{e n c, l}=\operatorname{Encoder}\left(\mathbf{Z}^{e n c, l-1}\right)\)의 연산은 아래와 같다.
+\(\begin{aligned} &amp; \begin{cases}l=1: &amp; \hat{\mathbf{Z}}^{e n c, l}=\mathbf{H} \\ l&gt;1: &amp; \hat{\mathbf{Z}}_{i, d}^{e n c, l}=\mathbf{M}\left[\mathbf{Z}_{2 i-1, d}^{e n c, l-1} \cdot \mathbf{Z}_{2 i, d}^{e n c, l-1}\right], 1 \leq i \leq \frac{L_{l-1}}{2}, 1 \leq d \leq D\end{cases} \\&amp; \mathbf{Z}^{\text {enc,l}}=\operatorname{TSA}\left(\hat{\mathbf{Z}}^{\text {enc,l}}\right) \end{aligned}\)
+    <ul>
+      <li>
+        <p>\(\mathbf{H}\) denotes the 2D array obtained by DSW embedding</p>
+      </li>
+      <li>
+        <p>\(\mathbf{Z}^{e n c, l}\) denotes the output of the \(l\)-th encoder layer</p>
+      </li>
+      <li>\(\mathbf{M} \in \mathbb{R}^{d_{\text {model }} \times 2 d_{\text {model }}}\) denotes a learnable matrix for segment merging</li>
+      <li>\([\cdot]\) denotes the concatenation operation</li>
+      <li>\(L_{l-1}\) denotes the number of segments in each dimension in layer \(l-1\)</li>
+      <li>\(\hat{\mathbf{Z}}^{e n c, l}\) denotes the array after segment merging in the \(i\)-th layer</li>
+      <li>\(\mathbf{Z}^{\text {enc }, 0}, \mathbf{Z}^{\text {enc }, 1}, \ldots, \mathbf{Z}^{\text {enc }, N},\left(\mathbf{Z}^{\text {enc }, 0}=\mathbf{H}\right)\) is used to represent the \(N+1\) outputs of the encoder</li>
+    </ul>
+  </li>
+  <li><strong>Decoder</strong> : Emcoder에서 얻은 \(N+1\)개의 feature array가 있으면, \(N+1\)개의 layers로 예측한다.
+    <ul>
+      <li>decoder의 process : \(\mathbf{Z}^{\text {dec, } l}=\operatorname{Decoder}\left(\mathbf{Z}^{\text {dec, },-1}, \mathbf{Z}^{\text {enc, },}\right)\)
+\(\begin{aligned} &amp; \left\{\begin{array}{lll} l=0: &amp; \tilde{\mathbf{Z}}^{\text {dec }, l}=\operatorname{TSA}\left(\mathbf{E}^{(d e c)}\right) \\ l&gt;0: &amp; \tilde{\mathbf{Z}}^{\text {dec, }, l}=\operatorname{TSA}\left(\mathbf{Z}^{\text {dec, },-1}\right) \end{array}\right. \\ &amp; \overline{\mathbf{Z}}_{:, d}^{\text {dec, }, l}=\operatorname{MSA}\left(\tilde{\mathbf{Z}}_{:, d}^{\text {dec, }, l}, \mathbf{Z}_{:, d}^{e n c, l}, \mathbf{Z}_{:, d}^{e n c, l}\right), 1 \leq d \leq D \\ &amp; \hat{\mathbf{Z}}^{\text {dec, } l}=\text { LayerNorm }\left(\tilde{\mathbf{Z}}^{\text {dec, }, l}+\overline{\mathbf{Z}}^{\text {dec, } l}\right) \\ &amp; \mathbf{Z}^{\text {dec,l}}=\text { LayerNorm }\left(\hat{\mathbf{Z}}^{\text {dec, }, l} \operatorname{MLP}\left(\hat{\mathbf{Z}}^{\text {dec,l}}\right)\right) \\ &amp; \end{aligned}\)</li>
+      <li>\(\mathbf{E}^{(\text {dec })} \in \mathbb{R}^{\frac{\tau}{L_{s e g}} \times D \times d_{\text {model }}}\) denotes the learnable position embedding for decoder</li>
+      <li>\(\tilde{\mathbf{Z}}^{\text {dec,l } l}\) is the output of TSA</li>
+      <li>The MSA layer takes \(\tilde{\mathbf{Z}}_{:, d}^{d e c,l }\) as query and \(\mathbf{Z}_{:, d}^{e n c, l}\) as the key and value to build the connection between encoder and decoder</li>
+      <li>The output of MSA is denoted as \(\overline{\mathbf{Z}}_{:, d}^{\text {dec, },} . \hat{\mathbf{Z}}^{\text {dec,l}, ~} \mathbf{Z}^{\text {dec, }, l}\) denote the output of skip connection and MLP respectively.</li>
+      <li>\(\mathbf{Z}^{\text {dec, 0},}, \mathbf{Z}^{e n c, 1}, \ldots, \mathbf{Z}^{\text {dec, } N}\) : is used to represent decoder output</li>
+      <li><strong>Linear projection</strong> : 각 layer에서는 linear projection으로 prediction을 만들고, 각 layer의 prediction을 다 더하면 최종 prediction이 된다.
+\(\begin{gathered} \text { for } l=0, \ldots, N: \mathbf{x}_{i, d}^{(s), l}=\mathbf{W}^l \mathbf{Z}_{i, d}^{\text {dec,l }} \quad \mathbf{x}_{T+1: T+\tau}^{\text {pred, } l}=\left\{\mathbf{x}_{i, d}^{(s), l} \left\lvert\, 1 \leq i \leq \frac{\tau}{L_{\text {seg }}}\right., 1 \leq d \leq D\right\} \\ \mathbf{x}_{T+1: T+\tau}^{\text {pred }}=\sum_{l=0}^N \mathbf{x}_{T+1: T+\tau}^{\text {pred, }}\end{gathered}\)
+        <ul>
+          <li>\(\mathbf{W}^l \in \mathbb{R}^{L_{\text {seg }} \times d_{\text {model }}}\) : learnable matrix to project a vector to a ts segment</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="4-experiments">4. Experiments</h2>
+<h3 id="41-protocols">4.1. Protocols</h3>
+<ul>
+  <li>Dataset : 1) ETTh1 (Electricity Transformer Temperature-hourly), 2) ETTm1 (Electricity Transformer Temperature-minutely), 3) WTH (Weather), 4) ECL (Electricity Consuming Load), 5) ILI (Influenza-Like Illness), 6) Traffic</li>
+  <li>Baselines : 1) LSTMa (Bah- danau et al., 2015), 2) LSTnet (Lai et al., 2018), 3) MTGNN (Wu et al., 2020), and recent Transformer-based models for MTS forecasting: 4) Transformer (Vaswani et al., 2017), 5) In- former (Zhou et al., 2021), 6) Autoformer (Wu et al., 2021a), 7) Pyraformer (Liu et al., 2021a) and 8) FEDformer (Zhou et al., 2022)
+    <h3 id="42-main-results">4.2. Main Results</h3>
+    <p><img src="/assets/img/timeseries/crossformer/table1.png" alt="사진6" /></p>
+    <h3 id="43-ablation-study">4.3. Ablation Study</h3>
+    <p><img src="/assets/img/timeseries/crossformer/table2.png" alt="사진7" /></p>
+    <h3 id="44-effect-of-hyper-parameters">4.4. Effect of Hyper-parameters</h3>
+    <p><img src="/assets/img/timeseries/crossformer/fig4.png" alt="사진8" /></p>
+    <h3 id="45-computational-efficiency-analysis">4.5. Computational Efficiency Analysis</h3>
+    <p><img src="/assets/img/timeseries/crossformer/table3.png" alt="사진9" /></p>
+  </li>
+</ul>
+
+<h3 id="5-conclusion">5. Conclusion</h3>
+<ul>
+  <li>Crossformer : Transformer-based model utilizing cross-dimension dependency for MTS forecasting</li>
+  <li><strong>Dimension-Segment-Wise (DSW)</strong> embedding embeds the input data into a 2D vector array to preserve the information of both time and dimension</li>
+  <li><strong>The Two-Stage-Attention (TSA)</strong> layer is devised to capture the cross-time and cross- dimension dependency of the embedded array</li>
+  <li>Using DSW embedding and TSA layer, a <strong>Hierarchical Encoder-Decoder (HED)</strong> is devised to utilize the information at different scales</li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2023](https://openreview.net/forum?id=vSVLM2j9eie)]]></summary></entry><entry><title type="html">(SoftCLT) Soft Contrastive Learning for Time Series (ICLR 2024)</title><link href="http://localhost:4000/timeseries/2024-03-13-softCLT/" rel="alternate" type="text/html" title="(SoftCLT) Soft Contrastive Learning for Time Series (ICLR 2024)" /><published>2024-03-13T00:00:00+09:00</published><updated>2024-03-19T13:15:52+09:00</updated><id>http://localhost:4000/timeseries/softCLT</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-13-softCLT/"><![CDATA[<h2 id="abstract">Abstract</h2>
 <ul>
   <li>TS instance만으로 contrasting하거나, 하나의 TS의 adjacent timestamps만으로 contrasting하면 TS의 inherent correlation을 제대로 반영하지 못한다.</li>
   <li><strong>SoftCLT</strong> : instance-wise &amp; temporal Contrastive loss를 사용하여, 0 또는 1이 아닌 0 ~ 1 사이의 값으로 assign
@@ -1570,104 +1782,4 @@ q_j &amp; =\frac{\exp \left(E_{i \neq j}[\log p(x, z)]\right)}{\int \exp \left(E
       </li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[Paper : Variational Inference : A Review for Statisticians Paper : Advances in Variational Inference Paper : Auto-Encoding Variational Bayes]]></summary></entry><entry><title type="html">(GAFormer) Enhancing Timeseries Transformers Through Group-Aware Embeddings (ICLR 2024)</title><link href="http://localhost:4000/timeseries/2024-03-01-GAFormer/" rel="alternate" type="text/html" title="(GAFormer) Enhancing Timeseries Transformers Through Group-Aware Embeddings (ICLR 2024)" /><published>2024-03-01T00:00:00+09:00</published><updated>2024-03-19T13:15:52+09:00</updated><id>http://localhost:4000/timeseries/GAFormer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-01-GAFormer/"><![CDATA[<h2 id="abstract">Abstract</h2>
-<ul>
-  <li>Multivariate TS의 복잡한 inter-channel relationship과 dynamic shifts로 인해 Robust and generalizable representation을 학습하기 어렵다.</li>
-  <li>본 논문에서 제시하는 GAFormer는 set of group tokens를 학습하고 instance-specific group embedding layer를 만든다.</li>
-</ul>
-
-<h2 id="1-introduction">1. Introduction</h2>
-<ul>
-  <li>Multivariate TS의 temporal dynamics(temporal structure) of each channel, 그리고 relationship across channels(channel-wise structure)는 TS의 representation을 만드는 요소</li>
-  <li>TS는 <strong>no predetermined ordering</strong>, 그리고 <strong>instance-specific relationships across channels and time</strong>으로 인해 position embedding을 그대로 사용하기에 적절하지 않다.</li>
-  <li>본 논문에서 제시하는 GAFormer는 channel structure와 temporal structure를 통합하여 token에 ‘group embedding’한다.</li>
-</ul>
-
-<h2 id="2-method">2. Method</h2>
-<ul>
-  <li>Instance-specific group embeddings : grouping across different tokens, either channel-wise (spatially) or time-wise (temporally)
-    <h3 id="21-group-embeddings">2.1. Group Embeddings</h3>
-  </li>
-  <li>Sequence of tokens : \(X=\left[\mathbf{x}_1, \ldots, \mathbf{x}_N\right] \in \mathbb{R}^{N \times D}\) (시계열의 채널, 길이와 다름)
-    <ul>
-      <li>\(N\) : the total # of tokens in a seq</li>
-      <li>\(D\) : token dim</li>
-    </ul>
-  </li>
-  <li>Linear weight matrix : \(W \in \mathbb{R}^{D \times K}\) project each token down to a space of \(K\) dim
-    <ul>
-      <li><code class="language-plaintext highlighter-rouge">operation</code> \(\operatorname{Encoder}(X) W \in \mathbb{R}^{N \times K}\)</li>
-    </ul>
-  </li>
-  <li>그 다음 softmax : sparsify the coefficients that assign group tokens to input tokens (group awareness)
-    <ul>
-      <li><code class="language-plaintext highlighter-rouge">operation</code> \(\mathbb{S}(\operatorname{Encoder}(X) W)\)
-        <ul>
-          <li>where \(\mathbb{S}\) represents the softmax (along \((D)\) dim)</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>각 tokens를 K차원으로 줄였기 때문에,  \(\mathbf{G} \in \mathbb{R}^{N \times D}\)을 곱해줄 수 있다.
-    <ul>
-      <li><code class="language-plaintext highlighter-rouge">operation</code> \(\operatorname{GE}(X)=\mathbb{S}(\operatorname{Encoder}(X) W) \cdot G\)</li>
-    </ul>
-  </li>
-  <li>이제 \(X\)에 더해준다
-    <ul>
-      <li><code class="language-plaintext highlighter-rouge">operation</code> \(X \leftarrow X+\operatorname{GE}(X)\)</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="22-gaformer-a-group-aware-spatiotemporal-transformer">2.2. GAFormer: A Group-Aware SpatioTemporal Transformer</h3>
-<ul>
-  <li><strong>Tokenization Layer</strong> : 시계열 \(X \in \mathbb{R}^{C \times T}\)를 P개의 패치로 잘라서 tensor \(X \in \mathbb{R}^{C \times P \times L}\)를 만든다. 그리고 <code class="language-plaintext highlighter-rouge">Token</code>이라는 encoder를 통과시키면 \(Z=\operatorname{Token}(X) \in \mathbb{R}^{C \times P \times D}\)가 된다. 이 때 channel-wise separation이 유지되고 각 channel에서의 temporal semantics는 알아낼 수 있다.</li>
-  <li><strong>Spatial (Channel-Wise) Group Awareness</strong> : <code class="language-plaintext highlighter-rouge">Trans-S</code>(Transformer encoder)와 <code class="language-plaintext highlighter-rouge">SGE</code>(spatial group embedding)으로 channel-wise group embedding을 학습한다. <br />
-<img src="/assets/img/timeseries/GAFormer/fig2.jpeg" alt="사진2" />
-(\(Z^{\prime}=\operatorname{Trans}-\mathrm{S}\left(Z_S+\operatorname{SGE}\left(Z_S\right)\right)\)) Group embedding을 하지 않고 fixed positional embedding을 하면 두 시계열에 같은 사건이 발생했는데도 발생 시점이 다르다는 이유로 두 시계열의 structure를 다르게 학습하는데, group embedding을 하면 사건이 발생한 인접 시점들에 대해 embedding을 하기 때문에 같은 structure로 학습할 수 있다.
-<img src="/assets/img/timeseries/GAFormer/fig1.jpeg" alt="사진1" /></li>
-  <li><strong>Temporal Group Awareness</strong> : 먼저 dimension reduction layer \(H\)를 통과시켜 \(D\)차원 token을 \(D'\)차원 token으로 압축할 수 있다. 그리고 Spatial Group Awareness layer와 유사하게 학습한다. <br />
-(\(Z^{\text {final}}=\operatorname{Trans}-\mathrm{T}\left(Z_T+\operatorname{TGE}\left(Z_T\right)\right)\)) 이렇게 학습된 \(Z^{\text {final}}\)은 linear classifier로 들어간다.</li>
-</ul>
-
-<h2 id="3-results">3. Results</h2>
-<h3 id="31-an-intuitive-example--noisy-many-body-systems">3.1. An Intuitive example : Noisy many-body systems</h3>
-<ul>
-  <li>본 논문에서는 multivariate TS를 생성하기 위해 상호 작용하는 입자들로 구성된 many-body system의 궤적을 기반으로 한 실험 결과를 제시한다.</li>
-  <li>시스템의 총 에너지를 분류하여, 고에너지 시스템인지 저에너지 시스템인지를 결정하는 것인데, 실험의 복잡성을 증가시키기 위해 상호 작용하지 않는 무관한 body들이 시스템을 오염시키는 상황을 가정했다.</li>
-  <li>3가지의 embedding 방식을 실험했다.
-    <ul>
-      <li>1) learnable positional embedding</li>
-      <li>2) parameter-free sin-cos positional embedding</li>
-      <li>3) Group embedding</li>
-    </ul>
-  </li>
-  <li>3가지의 setting을 실험했다.
-    <ul>
-      <li>1) Stable : the relative position of object(channels) never shifts</li>
-      <li>2) Shuffle : the observed objects could be in any position and are randomized similarly</li>
-      <li>3) Biased : the observed objects have different position that are randomly sampled from non-overapping set</li>
-    </ul>
-  </li>
-  <li>실험 결과 Group embedding은 channel mismatch와 distribution shifts가 있을 때 다른 embedding보다 robust했다.
-<img src="/assets/img/timeseries/GAFormer/fig3.jpeg" alt="사진3" />
-    <h3 id="32-time-series-classification-tasks">3.2. Time series Classification tasks</h3>
-  </li>
-  <li>table1, table2 : TGE(temporal dimension embedding)에 Group embedding을 했을 때 classification 성능이 향상된다.
-<img src="/assets/img/timeseries/GAFormer/table1.jpeg" alt="사진3" />
-<img src="/assets/img/timeseries/GAFormer/table2.jpeg" alt="사진4" />
-    <h3 id="33-classification-and-regression-tasks-on-neural-recordings">3.3. Classification and Regression tasks on Neural Recordings</h3>
-    <p><img src="/assets/img/timeseries/GAFormer/table3.jpeg" alt="사진5" /></p>
-    <h3 id="34-ablation-studies">3.4. Ablation Studies</h3>
-  </li>
-  <li>table4 :  temporal group embedding 또는 spatial group embedding 둘 중 하나만 적용하거나 둘 다 적용한 결과 둘 다 성능 향상에 필요하다.
-<img src="/assets/img/timeseries/GAFormer/table4.jpeg" alt="사진6" /></li>
-</ul>
-
-<h2 id="4-related-work">4. Related Work</h2>
-<h2 id="5-discussion">5. Discussion</h2>
-<ul>
-  <li>본 논문에서는 TS의 group-level structure를 다루는 새로운 프레임워크를 제안하였다.</li>
-  <li>Group embedding은 group token across channel and temporal dimension을 학습해서 representation space로 보낸다.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2024](https://openreview.net/forum?id=c56TWtYp0W)]]></summary></entry></feed>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[Paper : Variational Inference : A Review for Statisticians Paper : Advances in Variational Inference Paper : Auto-Encoding Variational Bayes]]></summary></entry></feed>
