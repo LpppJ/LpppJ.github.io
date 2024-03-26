@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-03-25T19:42:30+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">(Survey paper) Self-Supervised Learning for Time Series Analysis: Taxonomy, Progress, and Prospects (Arxiv 2023)</title><link href="http://localhost:4000/timeseries/2024-03-25-SSL4TS/" rel="alternate" type="text/html" title="(Survey paper) Self-Supervised Learning for Time Series Analysis: Taxonomy, Progress, and Prospects (Arxiv 2023)" /><published>2024-03-25T00:00:00+09:00</published><updated>2024-03-25T19:42:23+09:00</updated><id>http://localhost:4000/timeseries/SSL4TS</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-25-SSL4TS/"><![CDATA[<h2 id="abstract">Abstract</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-03-26T14:13:25+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">(Survey paper) Self-Supervised Learning for Time Series Analysis: Taxonomy, Progress, and Prospects (Arxiv 2023)</title><link href="http://localhost:4000/timeseries/2024-03-25-SSL4TS/" rel="alternate" type="text/html" title="(Survey paper) Self-Supervised Learning for Time Series Analysis: Taxonomy, Progress, and Prospects (Arxiv 2023)" /><published>2024-03-25T00:00:00+09:00</published><updated>2024-03-25T19:43:09+09:00</updated><id>http://localhost:4000/timeseries/SSL4TS</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-25-SSL4TS/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>Self-supervised learning (SSL) : for reducing the dependence of labeled data</li>
@@ -966,6 +966,9 @@ but maximize the distance btw prototype(=virtual sequences, centor, …)</li>
     </ul>
   </li>
 </ul>
+
+<p class="figcaption"><img src="/assets/img/timeseries/ts2vec/dilatedconv1.png" alt="사진11" />
+source : <a href="https://arxiv.org/pdf/1609.03499v2.pdf">WAVENET: A GENERATIVE MODEL FOR RAW AUDIO</a></p>
 
 <h3 id="23-contextual-consistency">2.3. Contextual Consistency</h3>
 <ul>
