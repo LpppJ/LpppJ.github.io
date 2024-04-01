@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en"><!--
+ __  __                __                                     __
+/\ \/\ \              /\ \             __                    /\ \
+\ \ \_\ \   __  __    \_\ \      __   /\_\      __       ___ \ \ \/'\
+ \ \  _  \ /\ \/\ \   /'_` \   /'__`\ \/\ \   /'__`\    /'___\\ \ , <
+  \ \ \ \ \\ \ \_\ \ /\ \L\ \ /\  __/  \ \ \ /\ \L\.\_ /\ \__/ \ \ \\`\
+   \ \_\ \_\\/`____ \\ \___,_\\ \____\ _\ \ \\ \__/.\_\\ \____\ \ \_\ \_\
+    \/_/\/_/ `/___/> \\/__,_ / \/____//\ \_\ \\/__/\/_/ \/____/  \/_/\/_/
+                /\___/                \ \____/
+                \/__/                  \/___/
+
+Powered by Hydejack v9.1.6 <https://hydejack.com/>
+-->
+
+
+
+
+
+
+
+<head>
+  
+
+
+
+
+
+
+  
+    
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>(Time-LLM) Time Series Forecasting by Reprogramming Large Language Models | LpppJ</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="(Time-LLM) Time Series Forecasting by Reprogramming Large Language Models" />
+<meta name="author" content="GW Jeong" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="ICLR 2024" />
+<meta property="og:description" content="ICLR 2024" />
+<link rel="canonical" href="http://localhost:4000/timeseries/2024-04-01-TimeLLM/" />
+<meta property="og:url" content="http://localhost:4000/timeseries/2024-04-01-TimeLLM/" />
+<meta property="og:site_name" content="LpppJ" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-04-01T00:00:00+09:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="(Time-LLM) Time Series Forecasting by Reprogramming Large Language Models" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-04-01T15:19:58+09:00","datePublished":"2024-04-01T00:00:00+09:00","description":"ICLR 2024","headline":"(Time-LLM) Time Series Forecasting by Reprogramming Large Language Models","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/timeseries/2024-04-01-TimeLLM/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/timeseries/2024-04-01-TimeLLM/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  
+
+
+
+  <meta name="theme-color" content="rgb(230, 217, 195)">
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="LpppJ">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<meta name="application-name" content="LpppJ">
+
+<meta name="generator" content="Hydejack v9.1.6" />
+
+
+<link rel="alternate" href="http://localhost:4000/timeseries/2024-04-01-TimeLLM/" hreflang="en">
+
+<link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="LpppJ" />
+
+
+<link rel="shortcut icon"    href="/assets/icons/favicon.ico">
+<link rel="apple-touch-icon" href="/assets/icons/icon-192x192.png">
+
+<link rel="manifest" href="/assets/site.webmanifest">
+
+<link rel="dns-prefetch" href="https://fonts.googleapis.com"><link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+
+
+<link rel="preload" href="/assets/img/swipe.svg" as="image" id="_hrefSwipeSVG">
+
+
+
+
+
+
+<script>!function(r,c){"use strict";function a(e,t,n,o){e.addEventListener?e.addEventListener(t,n,o):e.attachEvent?e.attachEvent("on"+t,n):e["on"+t]=n}r.loadJS=function(e,t){var n=c.createElement("script"),e=(n.src=e,t&&a(n,"load",t,{once:!0}),c.scripts[0]);return e.parentNode.insertBefore(n,e),n},r._loaded=!1,r.loadJSDeferred=function(e,t){var n=c.createElement("script");function o(){r._loaded=!0,t&&a(n,"load",t,{once:!0});var e=c.scripts[0];e.parentNode.insertBefore(n,e)}return n.src=e,r._loaded?o():a(r,"load",o,{once:!0}),n},r.setRel=r.setRelStylesheet=function(e){a(c.getElementById(e),"load",function(){this.rel="stylesheet"},{once:!0})}}(window,document);
+!function(a){"use strict";var b=function(b,c,d){function e(a){return h.body?a():void setTimeout(function(){e(a)})}function f(){i.addEventListener&&i.removeEventListener("load",f),i.media=d||"all"}var g,h=a.document,i=h.createElement("link");if(c)g=c;else{var j=(h.body||h.getElementsByTagName("head")[0]).childNodes;g=j[j.length-1]}var k=h.styleSheets;i.rel="stylesheet",i.href=b,i.media="only x",e(function(){g.parentNode.insertBefore(i,c?g:g.nextSibling)});var l=function(a){for(var b=i.href,c=k.length;c--;)if(k[c].href===b)return a();setTimeout(function(){l(a)})};return i.addEventListener&&i.addEventListener("load",f),i.onloadcssdefined=l,l(f),i};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
+!function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(b){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
+!function(w) {
+  w._baseURL = '/';
+  w._publicPath = '/assets/js/';
+  w._noPushState = false;
+  w._noDrawer = false;
+  w._noNavbar = false;
+  w._noToc = false;
+  w._noSearch = false;
+  w._search = {
+    DATA_URL: '/assets/sitedata.json?no-cache',
+    STORAGE_KEY: 'mini-search/',
+    INDEX_KEY: 'index--2024-04-01T15:20:01+09:00',
+  };
+  w._clapButton = true;
+}(window);</script>
+
+
+<script async src="/assets/bower_components/MathJax/es5/tex-mml-chtml.js" id="_MathJax"></script>
+
+
+<!--[if gt IE 8]><!---->
+
+  
+
+
+
+
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css" id="_iconsPreload">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:700%7CNoto+Sans:400,400i,700,700i&display=swap" id="_fontsPreload">
+
+
+
+  <style id="_pageStyle">
+
+html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5);--accent-color-highlight: rgba(94, 97, 94, 0.1);--accent-color-darkened: #4b4e4b;--theme-color: rgb(230, 217, 195)}
+</style>
+
+
+<!--<![endif]-->
+
+
+
+
+</head>
+
+<body class="no-break-layout">
+  
+
+
+<hy-push-state
+  id="_pushState"
+  replace-selector="#_main"
+  link-selector="a[href]:not([href^='/assets/']):not(.external):not(.no-push-state)"
+  script-selector="script"
+  duration="500"
+  hashchange
+>
+  
+  
+  <div id="_navbar" class="navbar fixed-top">
+  <div class="content">
+    <span class="sr-only">Jump to:</span>
+    <div class="nav-btn-bar">
+      <a id="_menu" class="nav-btn no-hover" href="#_drawer--opened">
+        <span class="sr-only">Navigation</span>
+        <span class="icon-menu"></span>
+      </a>
+      <div class="nav-span"></div>
+    </div>
+  </div>
+</div>
+<hr class="sr-only" hidden />
+
+  <main
+  id="_main"
+  class="content layout-post"
+  role="main"
+>
+  <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+    <li><a href="/">home</a></li>
+    
+      <li>
+        
+          <span>/</span>
+          
+          
+          <a href="/timeseries/">timeseries</a>
+        
+      </li>
+    
+      <li>
+        
+          <span>/</span>
+          <span>2024-04-01-TimeLLM</span>
+        
+      </li>
+    
+  
+</ul></nav>
+  
+
+
+
+
+
+
+
+
+
+
+<article id="post-timeseries-TimeLLM" class="page post mb6" role="article">
+  <header>
+    <h1 class="post-title flip-project-title">
+      
+        (Time-LLM) Time Series Forecasting by Reprogramming Large Language Models
+      
+    </h1>
+
+    <div class="post-date">
+      
+      <span class="ellipsis mr1">
+        <time datetime="2024-04-01T00:00:00+09:00">01 Apr 2024</time> in <span>Timeseries</span> 
+      </span>
+      
+    </div>
+
+    
+    
+
+    
+
+
+
+  
+    <p class="note-sm" >
+      <a href="https://arxiv.org/pdf/2310.01728.pdf">ICLR 2024</a>
+
+    </p>
+  
+
+
+  </header>
+
+  
+    <h2 id="abstract">Abstract</h2>
+
+<ul>
+  <li>CV, NLP는 single large model (또는 pre-trained foundation model)이 거의 모든 tasks에서 성능이 좋음</li>
+  <li>반면 TS는 <strong>dat sparsity</strong> 때문에 tasks마다 모델 디자인이 다름</li>
+  <li>본 논문에서는 TS와 NLP의 modality gap을 align하기 위해 Time-LLM을 제안</li>
+  <li><strong>Prompt-as-Prefix</strong>(PaP, reprogramming the input TS) \(\to\) frozen LLM \(\to\) forecasting</li>
+</ul>
+
+<h2 id="1-introduction">1. Introduction</h2>
+<ul>
+  <li>LLM을 forecasting model로 발전시키기 위해 필요한 것들
+    <ul>
+      <li><strong>Generalizability</strong> : Capability for few-shot and zero-shot transfer learning, w/o pre-task retraining</li>
+      <li><strong>Data efficiency</strong> : Performance new tasks with only a few examples(limited data)</li>
+      <li><strong>Reasoning</strong> : Sophisticated reasoning \(\to\) learned higher-level concepts \(\to\) highly precise forecasting</li>
+      <li><strong>Multimodal knowledge</strong> :  Diverse knowledge across modalities \(\to\) synergistic forecasting that fuses different data types</li>
+      <li><strong>Easy optimization</strong> : Once on massive computing \(\to\) can be applied to forecasting tasks (without learning from scratch)</li>
+    </ul>
+  </li>
+  <li><strong>Align the modalities of TS &amp; NLP</strong> : Why challenging ?
+    <ul>
+      <li>첫째로 NLP는 discrete tokens, TS는 본질적으로 continuous</li>
+      <li>둘째로 TS reasoning 지식이 LLM pre-training 안에 없다.</li>
+    </ul>
+  </li>
+  <li>So, <strong>Time-LLM</strong>
+    <ul>
+      <li>Core idea : TS input을 LLM이 활용하기 쉬운 <strong>text prototype</strong>으로 reprogramming하는 framework (backbone model은 그대로)</li>
+      <li><strong>Prompt-as-Prefix (PaP)</strong> : 1) enrich the input TS with additional context and 2) providing task instructions in the modality of NLP</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="2-related-work">2. Related Work</h2>
+<p><img src="/assets/img/timeseries/TimeLLM/fig1.jpeg" alt="사진1" /></p>
+<ul>
+  <li>TS models는 task-specific \(\to\) ex. ARIMA는 UTS를, LSTM은 seq를, TCN과 Transformer는 longer temporal dependencies를 위해 디자인 \(\to\) versatility and generalizability 부족</li>
+  <li>In-modality Adaptation : Pre-training (representation learning) \(\to\)​ fine-tuning (for downstream tasks) ! But <strong>TS data sparsity.</strong>..</li>
+  <li>Cross-modality Adaptation (multimodal fine tuning) : Voice2Series(2021)은 TS를 acoustic model에 맞게 editing했고 LLM4TS는 first supervised pre-training on time series, then task-specific fine-tuning</li>
+  <li>Time-LLM은 1) input TS를 수정하지도 않고, 2) backbone LLM을 fine tuning하지도 않는다. LLM이 잠재력을 발휘할 수 있도록 TS를 reprogramming</li>
+</ul>
+
+<h2 id="3-methodology">3. Methodology</h2>
+<ul>
+  <li>Goal : <strong>Reprogram an embedding-visible language foundation model for general time series forecasting</strong> without requiring any fine-tuning of the backbone model.</li>
+  <li>\(f(\ \mathbf{X} \in \mathbb{R}^{N \times T}\ )= \hat{\mathbf{Y}} \in \mathbb{R}^{N \times H}\), \(f\)는 input TS를 이해하고 예측.
+Loss : \(\frac{1}{H} \sum_{h=1}^H\left\|\hat{\mathbf{Y}}_h-\mathbf{Y}_h\right\|_F^2\)​
+<img src="/assets/img/timeseries/TimeLLM/fig2.jpeg" alt="사진2" /></li>
+  <li>3-main components
+    <ul>
+      <li>(1) input transformation</li>
+      <li>(2) a pre-trained and frozen LLM</li>
+      <li>(3) output projection</li>
+    </ul>
+  </li>
+  <li>Step 1) Channel independence : MTS \(\to\)​ N개의 UTS
+Step 2) Normalization, Patching, Embedding prior
+Step 3) Augment the LLM’s Ts reasoning ability
+Step 4) Project to the final forecast \(\hat{\mathbf{Y}}^{i}\)</li>
+  <li>Efficiency
+    <ul>
+      <li>only the parameters of the <strong>lightweight input transformation and output projection</strong> are updated. (backbone LLM is frozen)</li>
+      <li>directly optimizing \(\to\) <strong>small set of TS and a few training epochs</strong></li>
+      <li>for reduce memory footprint, <strong>off-the-shelf techniques (e.g., quantization)</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="31-model-structure">3.1. Model Structure</h3>
+<ul>
+  <li><strong>Input Embedding</strong>
+    <ul>
+      <li>step 1) RevIN \(\mathbf X^{(i)}\)</li>
+      <li>step 2) Patching with length \(L_p\)
+        <ul>
+          <li>Total number of input patches : \(P=\left\lfloor\frac{\left(T-L_p\right)}{S}\right\rfloor+2\)</li>
+          <li>Underlying motivations :
+            <ul>
+              <li>Better preserving local semantic information by aggregating local information into each patch</li>
+              <li>Serving as tokenization to form a compact sequence of input tokens, reducing computational burdens.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>step 3) Embedding w/ simple linear layer
+        <ul>
+          <li>\(\mathbf{X}_P^{(i)} \in \mathbb{R}^{P \times L_p} \to \mathbf{\hat X}_P^{(i)} \in \mathbb{R}^{P \times d_m}\)​</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Patch Reprogramming</strong>
+<img src="/assets/img/timeseries/TimeLLM/fig3.png" alt="사진3" />
+    <ul>
+      <li>Goal : to align the modalities of TS and natural language (TS 직접적인 수정 없이)</li>
+      <li>How : pre-trained word embedding \(\mathbf E \in \mathbb R^{V \times D}\) in backbone.
+        <ul>
+          <li>But! no prior knowledge indicating which source token are directly relevant.</li>
+          <li>So, simply leveraging small collection of text prototypes by linearly probing \(\mathbf E\), denoted as \(\mathbf E' \in \mathbb R^{V' \times D}, V^{\prime} \ll V\)</li>
+          <li>: efficient &amp; allows for the adaptive selection of relevant source information</li>
+        </ul>
+      </li>
+      <li>Multi-head cross-attention
+        <ul>
+          <li>query matrices \(\mathbf{Q}_k^{(i)}=\hat{\mathbf{X}}_P^{(i)} \mathbf{W}_k^Q\)
+key matrices \(\mathbf{K}_k^{(i)}=\mathbf{E}^{\prime} \mathbf{W}_k^K\)
+value matrices \(\mathbf{V}_k^{(i)}=\mathbf{E}^{\prime} \mathbf{W}_k^V\)
+where \(\mathbf{W}_k^Q \in \mathbb{R}^{d_m \times d}\) and \(\mathbf{W}_k^K, \mathbf{W}_k^V \in \mathbb{R}^{D \times d}\)
+\(D\) is the hidden dimension of the backbone model, and \(d=\left\lfloor\frac{d_m}{K}\right\rfloor\)</li>
+          <li>i-layer : \(\mathbf{Z}_k^{(i)}=\operatorname{ATTENTION}\left(\mathbf{Q}_k^{(i)}, \mathbf{K}_k^{(i)}, \mathbf{V}_k^{(i)}\right)=\operatorname{SOFTmax}\left(\frac{\mathbf{Q}_k^{(i)} \mathbf{K}_k^{(i) \top}}{\sqrt{d_k}}\right) \mathbf{V}_k^{(i)}\)</li>
+          <li>By aggregating each \(\mathbf{Z}_k^{(i)} \in \mathbb{R}^{P \times d}\) in every head, \(\mathbf{Z}^{(i)} \in \mathbb{R}^{P \times d_m}\),
+then linearly projected \(\to \mathbf{O}^{(i)} \in \mathbb{R}^{P \times D}\)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Patch-as-Prefix</strong> (constraints…)
+    <ul>
+      <li>natural language로 표현된 TS를 예측</li>
+      <li>Constraints :
+        <ul>
+          <li>LLM은 <strong>high-precision numerals</strong> 연산에 sensitivity 떨어지기ㅗ</li>
+          <li>LLM별로 서로 다른 후처리가 필요 ex.  0.61이 [’ 0 ‘, ‘, ‘, 6 ‘, ‘ 1 ‘] 또는 [’ 0 ‘, ‘, ‘, ‘61’]로 표시</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Prompt-as-Prefix</strong> (avoid constraints !)
+    <ul>
+      <li>(1) Dataset context : input TS의 essential background information을 LLM에 제공
+(2) Task instruction : task에 따른 patch embedding 가이드를 LLM에 제공
+(3) Input statistics : Enrich the input TS with additional statistics (trends, lags, …)</li>
+    </ul>
+  </li>
+  <li><strong>Output Projection</strong>
+    <ul>
+      <li>Prefixal part 버리고 output representation 얻어서 flatten하고 linear projection  \(\to \hat{\mathbf{Y}}^{(i)}\)
+        <h2 id="4-main-results">4. Main Results</h2>
+        <h3 id="41-42-longshort-term-forecasting">4.1, 4.2. Long/Short-term Forecasting</h3>
+        <p><img src="/assets/img/timeseries/TimeLLM/table12.png" alt="사진4" /></p>
+        <h3 id="43-few-shot-forecasting">4.3. Few-shot Forecasting</h3>
+        <p><img src="/assets/img/timeseries/TimeLLM/table3.png" alt="사진5" />
+<img src="/assets/img/timeseries/TimeLLM/table4.png" alt="사진6" /></p>
+        <h3 id="44-zero-shot-forecasting">4.4. Zero-shot Forecasting</h3>
+        <p><img src="/assets/img/timeseries/TimeLLM/table5.png" alt="사진7" /></p>
+        <h3 id="45-model-analysis">4.5. Model Analysis</h3>
+        <p><img src="/assets/img/timeseries/TimeLLM/table67.png" alt="사진8" /></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="5-conclusion-and-future-work">5. Conclusion and Future work</h2>
+<ul>
+  <li>TS를 test prototype으로 reprogramming해서 frozen LLM 통과</li>
+  <li>Prompt-as-Prefix로 guidance를 LLM에 제공</li>
+  <li>TS forecasting을 language task로 casting</li>
+</ul>
+
+  
+</article>
+
+
+
+  <hr class="dingbat related mb6" />
+
+
+
+
+
+
+  
+     
+
+
+  <aside class="about related mt4 mb4" role="complementary">
+    
+    
+
+<div class="author mt4">
+  
+
+  
+    
+
+
+<img
+  
+    src="https://via.placeholder.com/128x128"
+    srcset="/assets/img/me/me.JPG 1x,/assets/img/me/me.JPG 2x"
+    
+  
+  alt="GW Jeong"
+  class="avatar"
+  
+  width="120"
+  height="120"
+  loading="lazy"
+/>
+
+  
+
+  
+  
+  <h2  class="page-title hr-bottom">
+    About
+  </h2>
+
+  <p>Bachelor’s degree in Applied Statistics. Yonsei Univ. (2018~2024) <br />
+DataScienceLab 8th 학회장 (2022~2023) <br />
+Master’s degree in Statitstics. Yonsei Univ. (2024~)</p>
+
+
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+
+  </aside>
+
+
+  
+
+  
+  
+
+  
+    
+
+
+  
+
+  
+  
+
+  
+    
+
+  
+
+
+  
+<footer class="content" role="contentinfo">
+  <hr/>
+  
+    <p><small class="copyright">© Geonwoo Jeong.
+</small></p>
+  
+  
+    <p><small>Powered by <a class="external" href="https://hydejack.com/">Hydejack</a> v<span id="_version">9.1.6</span></small></p>
+  <hr class="sr-only"/>
+</footer>
+
+
+</main>
+
+  <hy-drawer
+  id="_drawer"
+  class=""
+  side="left"
+  threshold="10"
+  noscroll
+  
+>
+  <header id="_sidebar" class="sidebar" role="banner">
+    
+
+
+
+
+<div class="sidebar-bg sidebar-overlay" style="background-color:rgb(230, 217, 195);background-image:url(/assets/img/me/sidebar.jpg)"></div>
+
+    <div class="sidebar-sticky">
+  <div class="sidebar-about">
+    
+      <a class="no-hover" href="/" tabindex="-1">
+        <img src="/assets/img/me/logo.jpg" class="avatar" alt="LpppJ" width="120" height="120" loading="lazy" />
+      </a>
+    
+    <a class="sidebar-title" href="/"><h2 class="h1">LpppJ</h2></a>
+    
+    
+      <p class="">
+        DataScience and AI
+
+      </p>
+    
+  </div>
+
+  <nav class="sidebar-nav heading" role="navigation">
+    <span class="sr-only">Navigation:</span>
+<ul>
+  
+    
+      
+      <li>
+        <a
+          id="_drawer--opened"
+          href="/timeseries/"
+          class="sidebar-nav-item "
+          
+        >
+          TimeSeries
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/stat/"
+          class="sidebar-nav-item "
+          
+        >
+          Statistics
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/project/"
+          class="sidebar-nav-item "
+          
+        >
+          Project
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/presentation/"
+          class="sidebar-nav-item "
+          
+        >
+          Presentation
+        </a>
+      </li>
+    
+  
+</ul>
+
+  </nav>
+
+  
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+  </header>
+</hy-drawer>
+<hr class="sr-only" hidden />
+
+</hy-push-state>
+
+
+  <!--[if gt IE 10]><!---->
+  <script nomodule>!function(){var t,n=document.createElement("script");!("noModule"in n)&&"onbeforeload"in n&&(t=!1,document.addEventListener("beforeload",function(e){if(e.target===n)t=!0;else if(!e.target.hasAttribute("nomodule")||!t)return;e.preventDefault()},!0),n.type="module",n.src=".",document.head.appendChild(n),n.remove())}();
+</script>
+  <script src="/assets/js/hydejack-9.1.6.js" type="module"></script>
+  <script src="/assets/js/LEGACY-hydejack-9.1.6.js" nomodule defer></script>
+  
+
+  
+
+<!--<![endif]-->
+  <!-- <script>
+  document.querySelector('hy-push-state').setAttribute('prefetch', '');
+
+  document.querySelectorAll('.sidebar a[href^="/"]').forEach(function (el) { 
+    el.addEventListener('click', function (e) {
+      if (el.pathname === window.location.pathname) {
+        e.preventDefault();
+        e.stopPropagation();
+        document.querySelector('hy-drawer').close();
+      }
+    });
+  });
+</script> -->
+
+<!--
+Code for integrating CloudFlare's email protection with Hydejack's single page app loading.
+-->
+<script>
+  document.getElementById('_pushState').addEventListener('hy-push-state-after', function (e) {
+    function e(e){
+      (console.error?console.error:console.log).call(console,e)
+    }
+
+    function t(e){
+      return l.innerHTML='<a href="'+e.replace(/"/g,"&quot;")+'"></a>',l.childNodes[0].getAttribute("href")
+    }
+
+    function r(e,t){
+      var r=e.substr(t,2);return parseInt(r,16)
+    }
+
+    function n(e,n){
+      for(var o="",c=r(e,n),a=n+2;a<e.length;a+=2){
+        var l=r(e,a)^c;
+        o+=String.fromCharCode(l)
+      }
+      return t(o)
+    }
+
+    var o="/cdn-cgi/l/email-protection#",
+        c=".__cf_email__",
+        a="data-cfemail",
+        l=document.createElement("div");
+
+    !function(){
+      for(var t=document.getElementsByTagName("a"),r=0;r<t.length;r++)
+        try{
+          var c=t[r],a=c.href.indexOf(o);
+          a>-1&&(c.href="mailto:"+n(c.href,a+o.length))
+        }catch(t){
+          e(t)
+        }
+    }(),
+    function(){
+      for(var t=document.querySelectorAll(c),r=0;r<t.length;r++)
+        try{
+          var o=t[r],l=n(o.getAttribute(a),0),i=document.createTextNode(l);
+          o.parentNode.replaceChild(i,o)
+        }catch(t){
+          e(t)
+        }
+    }()
+  });
+</script>
+
+
+
+
+
+<div hidden>
+  
+  <h2 class="sr-only">Templates (for web app):</h2>
+
+  <template id="_animation-template">
+  <div class="animation-main fixed-top">
+    <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+</ul></nav>
+    <div class="content">
+      <div class="page"></div>
+    </div>
+  </div>
+</template>
+
+  <template id="_loading-template">
+  <div class="loading nav-btn fr">
+    <span class="sr-only">Loading…</span>
+    <span class="icon-cog"></span>
+  </div>
+</template>
+
+  <template id="_error-template">
+  <div class="page">
+    <h1 class="page-title">Error</h1>
+    
+    
+    <p class="lead">
+      Sorry, an error occurred while loading <a class="this-link" href=""></a>.
+
+    </p>
+  </div>
+</template>
+
+  <template id="_permalink-template">
+  <a href="#" class="permalink">
+    <span class="sr-only">Permalink</span>
+    <span class="content-hash"></span>
+  </a>
+</template>
+
+</div>
+
+
+</body>
+</html>
