@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-04-01T15:20:01+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">(Time-LLM) Time Series Forecasting by Reprogramming Large Language Models</title><link href="http://localhost:4000/timeseries/2024-04-01-TimeLLM/" rel="alternate" type="text/html" title="(Time-LLM) Time Series Forecasting by Reprogramming Large Language Models" /><published>2024-04-01T00:00:00+09:00</published><updated>2024-04-01T15:19:58+09:00</updated><id>http://localhost:4000/timeseries/TimeLLM</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-04-01-TimeLLM/"><![CDATA[<h2 id="abstract">Abstract</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-04-02T17:41:58+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">(Time-LLM) Time Series Forecasting by Reprogramming Large Language Models</title><link href="http://localhost:4000/timeseries/2024-04-01-TimeLLM/" rel="alternate" type="text/html" title="(Time-LLM) Time Series Forecasting by Reprogramming Large Language Models" /><published>2024-04-01T00:00:00+09:00</published><updated>2024-04-01T15:20:37+09:00</updated><id>http://localhost:4000/timeseries/TimeLLM</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-04-01-TimeLLM/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>CV, NLP는 single large model (또는 pre-trained foundation model)이 거의 모든 tasks에서 성능이 좋음</li>
@@ -55,9 +55,9 @@ Loss : \(\frac{1}{H} \sum_{h=1}^H\left\|\hat{\mathbf{Y}}_h-\mathbf{Y}_h\right\|_
       <li>(3) output projection</li>
     </ul>
   </li>
-  <li>Step 1) Channel independence : MTS \(\to\)​ N개의 UTS
-Step 2) Normalization, Patching, Embedding prior
-Step 3) Augment the LLM’s Ts reasoning ability
+  <li>Step 1) Channel independence : MTS \(\to\)​ N개의 UTS <br />
+Step 2) Normalization, Patching, Embedding prior <br />
+Step 3) Augment the LLM’s Ts reasoning ability <br />
 Step 4) Project to the final forecast \(\hat{\mathbf{Y}}^{i}\)</li>
   <li>Efficiency
     <ul>
@@ -121,7 +121,7 @@ then linearly projected \(\to \mathbf{O}^{(i)} \in \mathbb{R}^{P \times D}\)</li
       <li>natural language로 표현된 TS를 예측</li>
       <li>Constraints :
         <ul>
-          <li>LLM은 <strong>high-precision numerals</strong> 연산에 sensitivity 떨어지기ㅗ</li>
+          <li>LLM은 <strong>high-precision numerals</strong> 연산에 sensitivity 떨어지고</li>
           <li>LLM별로 서로 다른 후처리가 필요 ex.  0.61이 [’ 0 ‘, ‘, ‘, 6 ‘, ‘ 1 ‘] 또는 [’ 0 ‘, ‘, ‘, ‘61’]로 표시</li>
         </ul>
       </li>
@@ -136,21 +136,21 @@ then linearly projected \(\to \mathbf{O}^{(i)} \in \mathbb{R}^{P \times D}\)</li
   </li>
   <li><strong>Output Projection</strong>
     <ul>
-      <li>Prefixal part 버리고 output representation 얻어서 flatten하고 linear projection  \(\to \hat{\mathbf{Y}}^{(i)}\)
-        <h2 id="4-main-results">4. Main Results</h2>
-        <h3 id="41-42-longshort-term-forecasting">4.1, 4.2. Long/Short-term Forecasting</h3>
-        <p><img src="/assets/img/timeseries/TimeLLM/table12.png" alt="사진4" /></p>
-        <h3 id="43-few-shot-forecasting">4.3. Few-shot Forecasting</h3>
-        <p><img src="/assets/img/timeseries/TimeLLM/table3.png" alt="사진5" />
-<img src="/assets/img/timeseries/TimeLLM/table4.png" alt="사진6" /></p>
-        <h3 id="44-zero-shot-forecasting">4.4. Zero-shot Forecasting</h3>
-        <p><img src="/assets/img/timeseries/TimeLLM/table5.png" alt="사진7" /></p>
-        <h3 id="45-model-analysis">4.5. Model Analysis</h3>
-        <p><img src="/assets/img/timeseries/TimeLLM/table67.png" alt="사진8" /></p>
-      </li>
+      <li>Prefixal part 버리고 output representation 얻어서 flatten하고 linear projection  \(\to \hat{\mathbf{Y}}^{(i)}\)</li>
     </ul>
   </li>
 </ul>
+
+<h2 id="4-main-results">4. Main Results</h2>
+<h3 id="41-42-longshort-term-forecasting">4.1, 4.2. Long/Short-term Forecasting</h3>
+<p><img src="/assets/img/timeseries/TimeLLM/table12.png" alt="사진4" /></p>
+<h3 id="43-few-shot-forecasting">4.3. Few-shot Forecasting</h3>
+<p><img src="/assets/img/timeseries/TimeLLM/table3.png" alt="사진5" />
+<img src="/assets/img/timeseries/TimeLLM/table4.png" alt="사진6" /></p>
+<h3 id="44-zero-shot-forecasting">4.4. Zero-shot Forecasting</h3>
+<p><img src="/assets/img/timeseries/TimeLLM/table5.png" alt="사진7" /></p>
+<h3 id="45-model-analysis">4.5. Model Analysis</h3>
+<p><img src="/assets/img/timeseries/TimeLLM/table67.png" alt="사진8" /></p>
 
 <h2 id="5-conclusion-and-future-work">5. Conclusion and Future work</h2>
 <ul>
@@ -981,13 +981,16 @@ but maximize the distance btw prototype(=virtual sequences, centor, …)</li>
 <ul>
   <li>instance-wise contrastive loss : inter-sample relationship 학습. Distance btw TS on data space</li>
   <li>temporal contrastive loss : intra-temporal relationship 학습. 하나의 TS에서 서로 다른 timestamps의 차이
-<img src="/assets/img/timeseries/softclt/fig1.png" alt="사진2" />
-    <h3 id="31-problem-definition">3.1. Problem Definition</h3>
-  </li>
+<img src="/assets/img/timeseries/softclt/fig1.png" alt="사진2" /></li>
+</ul>
+
+<h3 id="31-problem-definition">3.1. Problem Definition</h3>
+<ul>
   <li>하나의 batch에는 N개의 TS : \(\mathcal{X}=\left\{x_1, \ldots, x_N\right\}\)가 있고
     <ul>
       <li>\(f_\theta = x_i \in \mathbb{R}^{T \times D} \to r_i=\left[r_{i, 1}, \ldots, r_{i, T}\right]^{\top} \in \mathbb{R}^{T \times M}\)를 학습</li>
-      <li>\(D\)는 input feature dim, \(M\)은 embedded feature dim
+      <li>\(D\)는 input feature dim, \(M\)은 embedded feature dim</li>
+      <li>
         <h3 id="32-soft-instance-wise-contrastive-learning">3.2. Soft Instance-wise Contrastive learning</h3>
       </li>
     </ul>
@@ -1005,7 +1008,8 @@ but maximize the distance btw prototype(=virtual sequences, centor, …)</li>
   <li>Soft instance-wise contrastive loss for \(x_i\), at \(t\)는 \(\ell_I^{(i, t)}=-\log p_I((i, i+N), t)-\sum_{j=1, j \neq\{i, i+N\}}^{2 N} w_I(i, j \bmod N) \cdot \log p_I((i, j), t)\)
     <ul>
       <li>첫째 term은 positive pair에 대한 loss, 둘째 term은 나머지에 대한 loss인데 \(w_I\left(i, i^{\prime}\right)\)로 weighted.</li>
-      <li>\(\forall w_I\left(i, i^{\prime}\right)=0\)이면 hard instance-wise contrastive loss이므로 일반화 버전이다.
+      <li>\(\forall w_I\left(i, i^{\prime}\right)=0\)이면 hard instance-wise contrastive loss이므로 일반화 버전이다.</li>
+      <li>
         <h3 id="33-soft-temporal-contrastive-learning">3.3. Soft Temporal Contrastive learning</h3>
       </li>
     </ul>
@@ -1036,22 +1040,27 @@ but maximize the distance btw prototype(=virtual sequences, centor, …)</li>
   <li>(1) Classification with UTS, MTS (2) Semi-supervised classification (3) Transfer learning in in-domain and cross-domain (4) Anomaly detection
     <h3 id="41-classification">4.1. Classification</h3>
     <p><img src="/assets/img/timeseries/softclt/fig23.png" alt="사진4" /></p>
-    <h3 id="42-semi-supervised-classification">4.2. Semi-supervised classification</h3>
-    <p><img src="/assets/img/timeseries/softclt/table3.png" alt="사진5" /></p>
-    <h3 id="43-transfer-learning">4.3. Transfer learning</h3>
-    <p><img src="/assets/img/timeseries/softclt/table4.png" alt="사진6" /></p>
-    <h3 id="44-anomaly-detection">4.4. Anomaly detection</h3>
-    <p><img src="/assets/img/timeseries/softclt/table5.png" alt="사진7" /></p>
-    <h3 id="45-ablation-study">4.5. Ablation study</h3>
-    <p><img src="/assets/img/timeseries/softclt/table6.png" alt="사진8" /></p>
-    <ul>
-      <li>(a) : soft assignment를 instance-wise와 temporal에 모두 적용했을 때 성능이 가장 좋다.</li>
-      <li>(b) : \(W_T\)를 계산하는 방법들에 따른 비교. sigmoid를 사용하는 근거가 된다.</li>
-      <li>(c) : \(\alpha=0.5\) 정도로 해서 같은 TS의 similarity of the pairs를 적절히 크게 할 때 성능이 좋다.</li>
-      <li>(d) : Distance function에 따른 성능 비교. DTW와 TAM의 성능이 같지만 더 일반적인 DTW 사용했다.
-        <h3 id="46-analysis">4.6. Analysis</h3>
-      </li>
-    </ul>
+  </li>
+</ul>
+
+<h3 id="42-semi-supervised-classification">4.2. Semi-supervised classification</h3>
+<p><img src="/assets/img/timeseries/softclt/table3.png" alt="사진5" /></p>
+
+<h3 id="43-transfer-learning">4.3. Transfer learning</h3>
+<p><img src="/assets/img/timeseries/softclt/table4.png" alt="사진6" /></p>
+
+<h3 id="44-anomaly-detection">4.4. Anomaly detection</h3>
+<p><img src="/assets/img/timeseries/softclt/table5.png" alt="사진7" /></p>
+
+<h3 id="45-ablation-study">4.5. Ablation study</h3>
+<p><img src="/assets/img/timeseries/softclt/table6.png" alt="사진8" /></p>
+
+<ul>
+  <li>(a) : soft assignment를 instance-wise와 temporal에 모두 적용했을 때 성능이 가장 좋다.</li>
+  <li>(b) : \(W_T\)를 계산하는 방법들에 따른 비교. sigmoid를 사용하는 근거가 된다.</li>
+  <li>(c) : \(\alpha=0.5\) 정도로 해서 같은 TS의 similarity of the pairs를 적절히 크게 할 때 성능이 좋다.</li>
+  <li>(d) : Distance function에 따른 성능 비교. DTW와 TAM의 성능이 같지만 더 일반적인 DTW 사용했다.
+    <h3 id="46-analysis">4.6. Analysis</h3>
   </li>
   <li><code class="language-plaintext highlighter-rouge">Comparison with soft CL methods in computer vision</code> : 앞서 언급했듯이 embedding space에서 similarity를 계산하는 vision domain과 다르게, TS는 data space에서 계산하면 성능이 더 좋다.</li>
   <li><code class="language-plaintext highlighter-rouge">Robustness to seasonality</code> : Seasonality in TS는 extract하기 어렵지도 않고 고려 안해도 성능이 좋아서 직접적으로 고려하지 않았다.</li>

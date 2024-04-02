@@ -45,7 +45,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="(Time-LLM) Time Series Forecasting by Reprogramming Large Language Models" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-04-01T15:19:58+09:00","datePublished":"2024-04-01T00:00:00+09:00","description":"ICLR 2024","headline":"(Time-LLM) Time Series Forecasting by Reprogramming Large Language Models","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/timeseries/2024-04-01-TimeLLM/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/timeseries/2024-04-01-TimeLLM/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-04-01T15:20:37+09:00","datePublished":"2024-04-01T00:00:00+09:00","description":"ICLR 2024","headline":"(Time-LLM) Time Series Forecasting by Reprogramming Large Language Models","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/timeseries/2024-04-01-TimeLLM/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/timeseries/2024-04-01-TimeLLM/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -108,7 +108,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2024-04-01T15:20:01+09:00',
+    INDEX_KEY: 'index--2024-04-02T17:41:58+09:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -300,9 +300,9 @@ Loss : \(\frac{1}{H} \sum_{h=1}^H\left\|\hat{\mathbf{Y}}_h-\mathbf{Y}_h\right\|_
       <li>(3) output projection</li>
     </ul>
   </li>
-  <li>Step 1) Channel independence : MTS \(\to\)​ N개의 UTS
-Step 2) Normalization, Patching, Embedding prior
-Step 3) Augment the LLM’s Ts reasoning ability
+  <li>Step 1) Channel independence : MTS \(\to\)​ N개의 UTS <br />
+Step 2) Normalization, Patching, Embedding prior <br />
+Step 3) Augment the LLM’s Ts reasoning ability <br />
 Step 4) Project to the final forecast \(\hat{\mathbf{Y}}^{i}\)</li>
   <li>Efficiency
     <ul>
@@ -366,7 +366,7 @@ then linearly projected \(\to \mathbf{O}^{(i)} \in \mathbb{R}^{P \times D}\)</li
       <li>natural language로 표현된 TS를 예측</li>
       <li>Constraints :
         <ul>
-          <li>LLM은 <strong>high-precision numerals</strong> 연산에 sensitivity 떨어지기ㅗ</li>
+          <li>LLM은 <strong>high-precision numerals</strong> 연산에 sensitivity 떨어지고</li>
           <li>LLM별로 서로 다른 후처리가 필요 ex.  0.61이 [’ 0 ‘, ‘, ‘, 6 ‘, ‘ 1 ‘] 또는 [’ 0 ‘, ‘, ‘, ‘61’]로 표시</li>
         </ul>
       </li>
@@ -381,21 +381,21 @@ then linearly projected \(\to \mathbf{O}^{(i)} \in \mathbb{R}^{P \times D}\)</li
   </li>
   <li><strong>Output Projection</strong>
     <ul>
-      <li>Prefixal part 버리고 output representation 얻어서 flatten하고 linear projection  \(\to \hat{\mathbf{Y}}^{(i)}\)
-        <h2 id="4-main-results">4. Main Results</h2>
-        <h3 id="41-42-longshort-term-forecasting">4.1, 4.2. Long/Short-term Forecasting</h3>
-        <p><img src="/assets/img/timeseries/TimeLLM/table12.png" alt="사진4" /></p>
-        <h3 id="43-few-shot-forecasting">4.3. Few-shot Forecasting</h3>
-        <p><img src="/assets/img/timeseries/TimeLLM/table3.png" alt="사진5" />
-<img src="/assets/img/timeseries/TimeLLM/table4.png" alt="사진6" /></p>
-        <h3 id="44-zero-shot-forecasting">4.4. Zero-shot Forecasting</h3>
-        <p><img src="/assets/img/timeseries/TimeLLM/table5.png" alt="사진7" /></p>
-        <h3 id="45-model-analysis">4.5. Model Analysis</h3>
-        <p><img src="/assets/img/timeseries/TimeLLM/table67.png" alt="사진8" /></p>
-      </li>
+      <li>Prefixal part 버리고 output representation 얻어서 flatten하고 linear projection  \(\to \hat{\mathbf{Y}}^{(i)}\)</li>
     </ul>
   </li>
 </ul>
+
+<h2 id="4-main-results">4. Main Results</h2>
+<h3 id="41-42-longshort-term-forecasting">4.1, 4.2. Long/Short-term Forecasting</h3>
+<p><img src="/assets/img/timeseries/TimeLLM/table12.png" alt="사진4" /></p>
+<h3 id="43-few-shot-forecasting">4.3. Few-shot Forecasting</h3>
+<p><img src="/assets/img/timeseries/TimeLLM/table3.png" alt="사진5" />
+<img src="/assets/img/timeseries/TimeLLM/table4.png" alt="사진6" /></p>
+<h3 id="44-zero-shot-forecasting">4.4. Zero-shot Forecasting</h3>
+<p><img src="/assets/img/timeseries/TimeLLM/table5.png" alt="사진7" /></p>
+<h3 id="45-model-analysis">4.5. Model Analysis</h3>
+<p><img src="/assets/img/timeseries/TimeLLM/table67.png" alt="사진8" /></p>
 
 <h2 id="5-conclusion-and-future-work">5. Conclusion and Future work</h2>
 <ul>
