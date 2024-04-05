@@ -16,7 +16,7 @@ permalink: /timeseries/
 \
 [(ModernTCN) A Modern Pure Convolution Structure for General Time Series Analysis (ICLR 2024)]{:.heading.flip-title} \
 \
-[(DLinear) Are Transformer Effective for Time Series Forecastig? (AAAI 2022)]{:.heading.flip-title} \
+[(DLinear) Are Transformer Effective for Time Series Forecasting? (AAAI 2022)]{:.heading.flip-title} \
 \
 [(PatchTST) A Time Series is Worth 64 Words: Long-Term Forecasting With Transformers (ICLR 2023)]{:.heading.flip-title} \
 \
@@ -40,12 +40,24 @@ permalink: /timeseries/
 \
 [(Survey paper) Self-Supervised Learning for Time Series Analysis: Taxonomy, Progress, and Prospects (Arxiv 2023)]{:.heading.flip-title} \
 \
-[(Time-LLM) Time Series Forecasting by Reprogramming Large Language Models (ICLR 2024)]{:.heading.flip-title}
+[(Time-LLM) Time Series Forecasting by Reprogramming Large Language Models (ICLR 2024)]{:.heading.flip-title} \
+\
+[Revisiting Long-term Time Series Forecasting: An Investigation on Linear Mapping]{:.heading.flip-title}
+
+
+
+
+
+
+
+
+
+
 
 [(Raindrop) Graph-guided Network for Irregularly Sampled Multivariate Time Series (ICLR 2022)]: /timeseries/2024-02-09-Raindrop
 [(FTS-Diffusion) Generative Learning for Financial Time Series with Irregular and Scale-invariant Patterns (ICLR 2024)]: /timeseries/2024-02-13-FTS-Diffusion
 [(ModernTCN) A Modern Pure Convolution Structure for General Time Series Analysis (ICLR 2024)]: /timeseries/2024-02-14-ModernTCN
-[(DLinear) Are Transformer Effective for Time Series Forecastig? (AAAI 2022)]: /timeseries/2024-02-16-DLinear
+[(DLinear) Are Transformer Effective for Time Series Forecasting? (AAAI 2022)]: /timeseries/2024-02-16-DLinear
 [(PatchTST) A Time Series is Worth 64 Words: Long-Term Forecasting With Transformers (ICLR 2023)]: /timeseries/2024-02-18-PatchTST
 [(FITS) Modeling Time Series with 10k Parameters (ICLR 2023)]: /timeseries/2024-02-22-FITS
 [(iTransformer) Inverted Transformers are Effective for Time Series Forecasting (ICLR 2024)]: /timeseries/2024-02-23-iTransformer
@@ -58,3 +70,4 @@ permalink: /timeseries/
 [(Crossformer) Transformer Utilizing Cross-Dimension Dependency for Multivariate Time Series Forecasting (ICLR 2023)]: /timeseries/2024-03-19-crossformer
 [(Survey paper) Self-Supervised Learning for Time Series Analysis: Taxonomy, Progress, and Prospects (Arxiv 2023)]: /timeseries/2024-03-25-SSL4TS
 [(Time-LLM) Time Series Forecasting by Reprogramming Large Language Models (ICLR 2024)]: /timeseries/2024-04-01-TimeLLM
+[Revisiting Long-term Time Series Forecasting: An Investigation on Linear Mapping]: /timeseries/2024-04-04-RTSF

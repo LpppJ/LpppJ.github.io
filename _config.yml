@@ -52,6 +52,8 @@ menu:
     url:               /timeseries/
   - title:             Statistics
     url:               /stat/
+  # - title:             Pytorch
+  #   url:               /pytorch/
   - title:             Project
     url:               /project/
   - title:             Presentation
