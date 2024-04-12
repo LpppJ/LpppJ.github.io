@@ -42,7 +42,9 @@ permalink: /timeseries/
 \
 [(Time-LLM) Time Series Forecasting by Reprogramming Large Language Models (ICLR 2024)]{:.heading.flip-title} \
 \
-[Revisiting Long-term Time Series Forecasting: An Investigation on Linear Mapping]{:.heading.flip-title}
+[Revisiting Long-term Time Series Forecasting: An Investigation on Linear Mapping]{:.heading.flip-title} \
+\
+[(Dish-TS) A General Paradigm for Alleviating Distribution Shift in Time Series Forecasting (AAAI 2023)]{:.heading.flip-title}
 
 
 
@@ -71,3 +73,4 @@ permalink: /timeseries/
 [(Survey paper) Self-Supervised Learning for Time Series Analysis: Taxonomy, Progress, and Prospects (Arxiv 2023)]: /timeseries/2024-03-25-SSL4TS
 [(Time-LLM) Time Series Forecasting by Reprogramming Large Language Models (ICLR 2024)]: /timeseries/2024-04-01-TimeLLM
 [Revisiting Long-term Time Series Forecasting: An Investigation on Linear Mapping]: /timeseries/2024-04-04-RTSF
+[(Dish-TS) A General Paradigm for Alleviating Distribution Shift in Time Series Forecasting (AAAI 2023)]: /timeseries/2024-04-12-Dish-TS
