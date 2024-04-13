@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en"><!--
+ __  __                __                                     __
+/\ \/\ \              /\ \             __                    /\ \
+\ \ \_\ \   __  __    \_\ \      __   /\_\      __       ___ \ \ \/'\
+ \ \  _  \ /\ \/\ \   /'_` \   /'__`\ \/\ \   /'__`\    /'___\\ \ , <
+  \ \ \ \ \\ \ \_\ \ /\ \L\ \ /\  __/  \ \ \ /\ \L\.\_ /\ \__/ \ \ \\`\
+   \ \_\ \_\\/`____ \\ \___,_\\ \____\ _\ \ \\ \__/.\_\\ \____\ \ \_\ \_\
+    \/_/\/_/ `/___/> \\/__,_ / \/____//\ \_\ \\/__/\/_/ \/____/  \/_/\/_/
+                /\___/                \ \____/
+                \/__/                  \/___/
+
+Powered by Hydejack v9.1.6 <https://hydejack.com/>
+-->
+
+
+
+
+
+
+
+<head>
+  
+
+
+
+
+
+
+  
+    
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>MGF(Moment Generating Function) and Characteristic Function에 대해서 | LpppJ</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="MGF(Moment Generating Function) and Characteristic Function에 대해서" />
+<meta name="author" content="GW Jeong" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="This is blog about machine learning, deep learning, artificial intelligence." />
+<meta property="og:description" content="This is blog about machine learning, deep learning, artificial intelligence." />
+<link rel="canonical" href="http://localhost:4000/stat/2024-04-12-MGF/" />
+<meta property="og:url" content="http://localhost:4000/stat/2024-04-12-MGF/" />
+<meta property="og:site_name" content="LpppJ" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-04-12T00:00:00+09:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="MGF(Moment Generating Function) and Characteristic Function에 대해서" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-04-13T15:39:38+09:00","datePublished":"2024-04-12T00:00:00+09:00","description":"This is blog about machine learning, deep learning, artificial intelligence.","headline":"MGF(Moment Generating Function) and Characteristic Function에 대해서","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/stat/2024-04-12-MGF/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/stat/2024-04-12-MGF/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  
+
+
+
+  <meta name="theme-color" content="rgb(230, 217, 195)">
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="LpppJ">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<meta name="application-name" content="LpppJ">
+
+<meta name="generator" content="Hydejack v9.1.6" />
+
+
+<link rel="alternate" href="http://localhost:4000/stat/2024-04-12-MGF/" hreflang="en">
+
+<link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="LpppJ" />
+
+
+<link rel="shortcut icon"    href="/assets/icons/favicon.ico">
+<link rel="apple-touch-icon" href="/assets/icons/icon-192x192.png">
+
+<link rel="manifest" href="/assets/site.webmanifest">
+
+<link rel="dns-prefetch" href="https://fonts.googleapis.com"><link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+
+
+<link rel="preload" href="/assets/img/swipe.svg" as="image" id="_hrefSwipeSVG">
+
+
+
+
+
+
+<script>!function(r,c){"use strict";function a(e,t,n,o){e.addEventListener?e.addEventListener(t,n,o):e.attachEvent?e.attachEvent("on"+t,n):e["on"+t]=n}r.loadJS=function(e,t){var n=c.createElement("script"),e=(n.src=e,t&&a(n,"load",t,{once:!0}),c.scripts[0]);return e.parentNode.insertBefore(n,e),n},r._loaded=!1,r.loadJSDeferred=function(e,t){var n=c.createElement("script");function o(){r._loaded=!0,t&&a(n,"load",t,{once:!0});var e=c.scripts[0];e.parentNode.insertBefore(n,e)}return n.src=e,r._loaded?o():a(r,"load",o,{once:!0}),n},r.setRel=r.setRelStylesheet=function(e){a(c.getElementById(e),"load",function(){this.rel="stylesheet"},{once:!0})}}(window,document);
+!function(a){"use strict";var b=function(b,c,d){function e(a){return h.body?a():void setTimeout(function(){e(a)})}function f(){i.addEventListener&&i.removeEventListener("load",f),i.media=d||"all"}var g,h=a.document,i=h.createElement("link");if(c)g=c;else{var j=(h.body||h.getElementsByTagName("head")[0]).childNodes;g=j[j.length-1]}var k=h.styleSheets;i.rel="stylesheet",i.href=b,i.media="only x",e(function(){g.parentNode.insertBefore(i,c?g:g.nextSibling)});var l=function(a){for(var b=i.href,c=k.length;c--;)if(k[c].href===b)return a();setTimeout(function(){l(a)})};return i.addEventListener&&i.addEventListener("load",f),i.onloadcssdefined=l,l(f),i};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
+!function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(b){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
+!function(w) {
+  w._baseURL = '/';
+  w._publicPath = '/assets/js/';
+  w._noPushState = false;
+  w._noDrawer = false;
+  w._noNavbar = false;
+  w._noToc = false;
+  w._noSearch = false;
+  w._search = {
+    DATA_URL: '/assets/sitedata.json?no-cache',
+    STORAGE_KEY: 'mini-search/',
+    INDEX_KEY: 'index--2024-04-13T15:39:39+09:00',
+  };
+  w._clapButton = true;
+}(window);</script>
+
+
+<script async src="/assets/bower_components/MathJax/es5/tex-mml-chtml.js" id="_MathJax"></script>
+
+
+<!--[if gt IE 8]><!---->
+
+  
+
+
+
+
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css" id="_iconsPreload">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:700%7CNoto+Sans:400,400i,700,700i&display=swap" id="_fontsPreload">
+
+
+
+  <style id="_pageStyle">
+
+html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5);--accent-color-highlight: rgba(94, 97, 94, 0.1);--accent-color-darkened: #4b4e4b;--theme-color: rgb(230, 217, 195)}
+</style>
+
+
+<!--<![endif]-->
+
+
+
+
+</head>
+
+<body class="no-break-layout">
+  
+
+
+<hy-push-state
+  id="_pushState"
+  replace-selector="#_main"
+  link-selector="a[href]:not([href^='/assets/']):not(.external):not(.no-push-state)"
+  script-selector="script"
+  duration="500"
+  hashchange
+>
+  
+  
+  <div id="_navbar" class="navbar fixed-top">
+  <div class="content">
+    <span class="sr-only">Jump to:</span>
+    <div class="nav-btn-bar">
+      <a id="_menu" class="nav-btn no-hover" href="#_drawer--opened">
+        <span class="sr-only">Navigation</span>
+        <span class="icon-menu"></span>
+      </a>
+      <div class="nav-span"></div>
+    </div>
+  </div>
+</div>
+<hr class="sr-only" hidden />
+
+  <main
+  id="_main"
+  class="content layout-post"
+  role="main"
+>
+  <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+    <li><a href="/">home</a></li>
+    
+      <li>
+        
+          <span>/</span>
+          
+          
+          <a href="/stat/">stat</a>
+        
+      </li>
+    
+      <li>
+        
+          <span>/</span>
+          <span>2024-04-12-MGF</span>
+        
+      </li>
+    
+  
+</ul></nav>
+  
+
+
+
+
+
+
+
+
+
+
+<article id="post-stat-MGF" class="page post mb6" role="article">
+  <header>
+    <h1 class="post-title flip-project-title">
+      
+        MGF(Moment Generating Function) and Characteristic Function에 대해서
+      
+    </h1>
+
+    <div class="post-date">
+      
+      <span class="ellipsis mr1">
+        <time datetime="2024-04-12T00:00:00+09:00">12 Apr 2024</time> in <span>Stat</span> 
+      </span>
+      
+    </div>
+
+    
+    
+
+    
+
+
+
+  <div class="hr pb0"></div>
+
+
+  </header>
+
+  
+    <h2 id="moments">Moments</h2>
+
+<ul>
+  <li>Definition
+    <ul>
+      <li>For each integer \(n\), the \(n\)th moment of \(X\) is \(\mu_n=\mathbb{E}\left[X^n\right]\).</li>
+      <li>The \(n\)th central moment of \(X\) is \(\mu_n^{\prime}=\mathbb{E}\left[(X-\mu)^n\right]\) where \(\mu=\mu_1^{\prime}=\mathbb{E}[X]\)</li>
+    </ul>
+  </li>
+  <li><u>확률변수의 moments는 tail probability와 밀접한 연관이 있다.</u>
+    <ul>
+      <li>
+        <p>Let \(X\) is non-negative random variable</p>
+
+        <p>: \(\begin{aligned}\mathbb{E}[X]&amp;=\mathbb{E}\left[\int_0^{\infty} \mathbb{1}(t&lt;X) d t\right]\\&amp;=\int_0^{\infty} \mathbb{E}[\mathbb{1}(t&lt;X)] d t\\&amp;=\int_0^{\infty} P(t&lt;X) d t\\&amp;=\int_0^{\infty}\left[1-F_X(x)\right] d x \end{aligned}\)</p>
+      </li>
+      <li>
+        <p>위 결과를 확장하면 아래와 같다.</p>
+
+        <p>: \(\begin{aligned} \mathbb{E}\left[\mid X\mid ^p\right] &amp; =\int_0^{\infty}\left[1-F_{\mid X\mid ^p}(y)\right] d y \\ P\left(\mid X\mid ^p&gt;y\right) &amp; =P\left(\mid X\mid &gt;y^{\frac{1}{p}}\right) \\ &amp; =1-F_{\mid X\mid }\left(y^{\frac{1}{p}}\right) \\ \text{Let } y&amp;=x^p, \text{then } \frac{d y}{d x}=p x^{p-1} \\ \mathbb{E}\left[\mid X\mid ^p\right] &amp; =\int_0^{\infty}\left[1-F_{\mid X\mid }(x)\right] p x^{p-1} d x \\ &amp; =\int_0^{\infty} p x^{p-1} P(\mid X\mid &gt;x) d x \end{aligned}\)</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="moment-generating-function">Moment Generating Function</h2>
+
+<ul>
+  <li>
+    <p>Definition : \(M_X(t)=\mathbb{E}\left[e^{t X}\right]\)</p>
+  </li>
+  <li>
+    <p>MGF가 왜 중요할까 ?</p>
+
+    <ul>
+      <li><u>첫째, 확률변수 X의 MGF는 X의 모든 moments를 생성한다.</u></li>
+      <li><u>둘째, 확률변수 X의 MGF는 X의 분포를 uniquely 결정한다.</u></li>
+      <li><u>셋째, MGF의 수렴은 분포수렴(convergence in distribution)을 의미한다.</u></li>
+      <li><u>넷째, MGF로 probability tail bound를 구한다. (Hoeffding's inequality)</u></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="첫째-확률변수-x의-mgf는-x의-모든-moments를-생성한다">첫째, 확률변수 X의 MGF는 X의 모든 moments를 생성한다.</h3>
+
+<ul>
+  <li>
+    <p>Step1) MGF가 존재한다고 가정했다면 \(\mathbb{E}\left[e^{\mid t X\mid }\right] \leq \mathbb{E}\left[e^{t X}\right]+\mathbb{E}\left[e^{-t X}\right]&lt;\infty \quad \text { for all }\mid t\mid &lt;\epsilon\)​</p>
+  </li>
+  <li>
+    <p>c.f. <strong>(Dominated Convergence Theorem)</strong>. If \(\left\{f_n: \mathbb{R} \mapsto \mathbb{R}\right\}\) is a sequence of measurable functions which converge pointwise almost everywhere to \(f\), and if there exists an integrable function \(g\) (that is \(\left.\int_{-\infty}^{\infty}\mid g(x)\mid  d x&lt;\infty\right)\) such that \(\mid f_n(x)\mid  \leq\mid g(x)\mid\) for all \(n\) and for all \(x\), then \(f\) is integrable and</p>
+
+    <ul>
+      <li>\(\int_{-\infty}^{\infty} f(x) d x=\int_{-\infty}^{\infty} \lim _{n \rightarrow \infty} f_n(x) d x=\lim _{n \rightarrow \infty} \int_{-\infty}^{\infty} f_n(x) d x\)​​</li>
+      <li>즉 \(\mid f_n(x)\mid\)의 bound 역할을 하는 \(\mid g(x)\mid\)가 \(\int_{-\infty}^{\infty}\mid g(x)\mid  d x&lt;\infty\)이면 \(\int_{-\infty}^{\infty} \lim _{n \rightarrow \infty} f_n(x) d x\)의 \(\int\)와 \(\lim\)의 위치를 바꿀 수 있다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>Step2) DCT에 의해 X의 MGF는 아래와 같다.</p>
+
+    <ul>
+      <li>MGF</li>
+    </ul>
+
+    <p>: \(\begin{aligned}\int_{-\infty}^{\infty} e^{t x} f_X(x) d x &amp; =\lim _{n \rightarrow \infty} \int_{-\infty}^{\infty} \sum_{j=0}^n t^j \frac{x^j}{j !} f_X(x) d x \\ &amp; =\lim _{n \rightarrow \infty} \sum_{j=0}^n \frac{t^j}{j !} \underbrace{\int_{-\infty}^{\infty} x^j f_X(x) d x}_{=\mu_j} \\ &amp; =\sum_{j=0}^{\infty} \frac{t^j \mu_j}{j !} \end{aligned}\)</p>
+
+    <ul>
+      <li>moment</li>
+    </ul>
+
+    <p>: \(\begin{aligned} M_X^{(m)}(t) &amp; =\frac{d^m}{d t^m}\left(\sum_{k=0}^{\infty} \frac{t^k \mu_k}{k !}\right) \\ &amp; =\sum_{k=0}^{\infty} \frac{\mu_k}{k !} \frac{d^m\left(t^k\right)}{d t^m} \\ &amp; =\sum_{k=m}^{\infty} \mu_k \frac{t^{k-m}}{(k-m) !} \\ &amp; =\sum_{j=0}^{\infty} \mu_{m+j} \frac{t^j}{j !} \quad(j \equiv k-m) \end{aligned}\)</p>
+    <ul>
+      <li>Thus, \(M_X^{(m)}(0)=\mathbb{E}\left[X^m\right] \text { by noting } 0^0=1,0^j=0 \text { for } j \geq 1\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="둘째-확률변수-x의-mgf는-x의-분포를-uniquely-결정한다">둘째, 확률변수 X의 MGF는 X의 분포를 uniquely 결정한다.</h3>
+
+<ul>
+  <li>
+    <p>확률변수 X와 Y의 분포가 같다면 \(\to\) MGF가 같다는 것을 보이는 것은 쉽다.</p>
+  </li>
+  <li>
+    <p>반대로 두 확률변수 X와 Y의 MGF가 같으면 같은 분포를 따름은 아래와 같이 증명한다.</p>
+  </li>
+  <li>
+    <p>Suppose that \(X\) and \(Y\) have the same MGF for all \(t\) : \(\sum_{x=0}^n e^{t x} f_X(x)=\sum_{y=0}^n e^{t y} f_Y(y)\)
+  Let \(s=e^t\) and \(c_i=f_X(i)-f_Y(i)\) for \(i=0,1, \ldots, n\)</p>
+  </li>
+</ul>
+
+<p>: \(\begin{aligned} \sum_{x=0}^n e^{t x} f_X(x)-\sum_{y=0}^n e^{t y} f_Y(y)=0 \\ \Rightarrow \sum_{x=0}^n s^x f_X(x)-\sum_{y=0}^n s^y f_Y(y)=0 \\ \Rightarrow \sum_{x=0}^n s^x f_X(x)-\sum_{x=0}^n s^x f_Y(x)=0 \\ \Rightarrow \sum_{x=0}^n s^x\left[f_X(x)-f_Y(x)\right]=0 \\ \Rightarrow \sum_{x=0}^n s^x c_x=0 \quad \forall s&gt;0 \end{aligned}\)</p>
+
+<ul>
+  <li>
+    <p>The above is simply a polynomial in \(\mathrm{s}\) with coefficients \(c_0, c_1, \ldots, c_n\). The only way it can be zero for all values of \(\mathrm{s}\) is if \(c_0=c_1=\cdots=c_n=0\)</p>
+  </li>
+  <li>
+    <p>Therefore, \(0=c_i=f_X(i)-f_Y(i)\) for \(i=0,1, \ldots, n\), which means \(f_X(i)=f_Y(i)\) for \(i=0,1, \ldots, n\).</p>
+  </li>
+</ul>
+
+<h3 id="셋째-mgf의-수렴은-분포수렴convergence-in-distribution을-의미한다">셋째, MGF의 수렴은 분포수렴(convergence in distribution)을 의미한다.</h3>
+
+<ul>
+  <li>즉 \(\lim _{n \rightarrow \infty} M_{X_n}(t)=M_X(t)\)이면 \(\lim _{n \rightarrow \infty} F_{X_n}(x)=F_X(x)\)이다.</li>
+  <li><strong>(Portmanteau lemma)</strong> For random vector \(Y_n\) and \(Y\) with \(Y_n \sim P_n\) and \(Y \sim P\), the following are equivalent :
+    <ul>
+      <li>\(Y_n \xrightarrow{d} Y\);</li>
+      <li>\(P\left(Y_n \leq t\right) \rightarrow P(Y \leq t)\) for all continuous points \(t\) of \(t \mapsto P(Y \leq t)\);</li>
+      <li>\(\mathbb{E}\left[g\left(Y_n\right)\right] \rightarrow \mathbb{E}[g(Y)]\) for all bounded, continuous \(g: \mathbb{R}^d \rightarrow \mathbb{R}\)​;</li>
+      <li>(Skip the proof)</li>
+      <li>그러므로 아래 (Lévy’s continuity theorem)가 성립한다.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>(Lévy’s continuity theorem)</strong> Let \(X_n\) and \(X\) be random vectors in \(\mathbb{R}^d\). Then \(X_n \xrightarrow{d} X\) if and only if \(\lim _{n \rightarrow \infty} \mathbb{E}\left[e^{i t^{\top} X_n}\right]=\mathbb{E}\left[e^{i t^{\top} X}\right]\) for every \(t \in \mathbb{R}^d\)</p>
+  </li>
+  <li>위의 high-dimension에서의 증명은 (Cramér–Wold device)를 통해 1-dimension에서도 성립된다.</li>
+  <li><strong>(Cramér-Wold device)</strong> If \(t^{\top} X_n \xrightarrow{d} t^{\top} X\) for all \(t \in \mathbb{R}^d\), then \(X_n \xrightarrow{d} X\)</li>
+</ul>
+
+<h3 id="넷째-mgf로-probability-tail-bound를-구한다-hoeffdings-inequality">넷째, MGF로 probability tail bound를 구한다. (Hoeffding’s inequality)</h3>
+<ul>
+  <li>pass</li>
+</ul>
+
+<h2 id="characteristic-function">Characteristic Function</h2>
+
+<ul>
+  <li>Definitnion : \(\phi_X(t)=\mathbb{E}[\exp (i t X)]=\mathbb{E}[\cos (t X)+i \sin (t X)], \quad t \in \mathbb{R},\)
+    <ul>
+      <li>where \(i=\sqrt{-1}\) is the imaginary unit (note Euler’s formula: \(e^{i x}=\cos (x)+i \sin (x)\)​)</li>
+    </ul>
+  </li>
+  <li>
+    <p>characteristic function은 언제 사용할까</p>
+
+    <ul>
+      <li>MGF가 존재하지 않는 분포(ex. Cauchy)에 대한 특성을 파악할 때</li>
+      <li>Lévy’s continuity theorem 증명할 때</li>
+    </ul>
+  </li>
+  <li>
+    <p>Element properties:</p>
+
+    <ul>
+      <li>
+        <p>If \(Y=a X+b, \phi_Y(t)=e^{i b t} \phi_X(a t)\).</p>
+      </li>
+      <li>
+        <p>If \(X\) and \(Y\) are independent, then \(\phi_{X+Y}(t)=\phi_X(t) \phi_Y(t)\)​</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>아래 4가지 properties를 하나씩 증명한다.</p>
+
+    <ul>
+      <li>
+        <p>첫째, \(\phi_X(0)=1\) and \(\mid \phi_X(t)\mid \leq 1\) for all \(t \in \mathbb{R}\)​</p>
+      </li>
+      <li>둘째, \(\phi_X(t)\) is uniformly continuous on  \(\mathbb{R}\)​​
+        <ul>
+          <li>즉 \(h \to 0\)에 따라 \(\psi(h) \rightarrow 0\) s.t.  \(\mid \phi_X(t+h)-\phi_X(t)\mid \leq \psi(h)\)</li>
+        </ul>
+      </li>
+      <li>
+        <p>셋째, The characteristic function of a symmetric random variable, that is  \(X \stackrel{d}{=}-X\), is real-valued</p>
+      </li>
+      <li>넷째, MGF처럼 두 확률변수의 characteristic function이 같으면 같은 분포를 따른다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="첫째-phi_x01-and-mid-phi_xtmid-leq-1-for-all-t-in-mathbbr">첫째, \(\phi_X(0)=1\) and \(\mid \phi_X(t)\mid \leq 1\) for all \(t \in \mathbb{R}\)</h3>
+
+<ul>
+  <li>\(\mid e^{i t x}\mid =\sqrt{\cos ^2(t x)+\sin ^2(t x)}=1\) for all \(t\) and \(x\). Therefore \(\mid \phi_X(t)\mid =\mid \mathbb{E}\left[e^{i t X}\right]\mid  \leq \mathbb{E}\left[\mid e^{i t X}\mid \right]=1\)</li>
+</ul>
+
+<h3 id="둘째-phi_xt-is-uniformly-continuous-on--mathbbr">둘째, \(\phi_X(t)\) is uniformly continuous on  \(\mathbb{R}\)</h3>
+
+<ul>
+  <li>\(\mid \underbrace{\mathbb{E}\left[e^{i(t+h) X}\right]}_{=\phi_X(t+h)}-\underbrace{\mathbb{E}\left[e^{i t X}\right]}_{=\phi_X(t)}\mid =\mid \mathbb{E}\left[e^{i t X}\left(e^{i h X}-1\right)\right]\mid  \leq \mathbb{E}\left[\mid e^{i h X}-1\mid \right]\) 이고</li>
+  <li>Let \(g_X(h)=\mid e^{i h X}-1\mid , \text{ Then } g_X(h) \rightarrow 0 \text{ as } h \to 0\) 이므로</li>
+</ul>
+
+<p>: \(\begin{aligned} g_X(h) &amp; =\mid e^{i h X}-1\mid  \\ &amp; =\mid \{\cos (h X)-1\}+i \sin (h X)\mid  \\ &amp; =\sqrt{\{\cos (h X)-1\}^2+\sin ^2(h X)} \\ &amp; =\sqrt{2-2 \cos (h X)} \leq 2 \end{aligned}\)</p>
+
+<ul>
+  <li>\(g_X(h)\)가 uniformly bounded by 2이므로 DCT에 의해 \(\mathbb E[g_X(h)] \rightarrow 0 \text{ as } h \to 0\)</li>
+</ul>
+
+<h3 id="셋째-x-stackreld-x-characteristic-function-of-x는-real-valued">셋째, \(X \stackrel{d}{=}-X\), characteristic function of \(X\)는 real-valued</h3>
+
+<ul>
+  <li>
+    <p>: \(\begin{aligned} \mathbb{E}\left[e^{i t X}\right] &amp; =\mathbb{E}[\cos (t X)]+i \mathbb{E}[\sin (t X)] \stackrel{(\mathrm{i})}{=} \mathbb{E}[\cos (t X)]+i \mathbb{E}[\sin (-t X)] \\ &amp; \stackrel{(\mathrm{ii})}{=} \mathbb{E}[\cos (t X)]-i \mathbb{E}[\sin (t X)] \end{aligned}\).</p>
+  </li>
+  <li>
+    <p>(i)는 \(X \stackrel{d}{=}-X\) 때문이고, (ii)는 sin의 성질 \(\sin (-x)=-\sin (x)\) 때문이다.</p>
+  </li>
+</ul>
+
+<h3 id="넷째-mgf처럼-두-확률변수의-characteristic-function이-같으면-같은-분포를-따른다">넷째, MGF처럼 두 확률변수의 characteristic function이 같으면 같은 분포를 따른다.</h3>
+
+<ul>
+  <li>두 확률변수가 characteristic function이 같으면 같은 분포를 따름만 증명한다.</li>
+  <li>본 증명에는 다양한 기법이 사용되는데 그 중 몇 가지를 소개한다. 아래와 같다.
+    <ul>
+      <li>Convolution : \(X\)와 \(Y\)가 독립이면 \(Z=X+Y\)의 density function은 \(f_Z(z)=\int_{-\infty}^{\infty} f_X(x) f_Y(z-x) d x\)​</li>
+      <li>Characteristic function of \(Z \sim N(0, \sigma^2)\) : \(\mathbb{E}\left[e^{i t Z}\right]=e^{-\frac{\sigma^2 t^2}{2}} \text { for all } t \in \mathbb{R}\)​</li>
+      <li>Fubini’s theorem : \(\int_{X \times Y}\mid f(x, y)\mid  d(x, y)&lt;\infty\) 이면 \(\int\)의 순서를 바꿀 수 있다.</li>
+    </ul>
+  </li>
+  <li>\(X+Z\)와 \(Y+Z\)가 같은 분포를 따른다는 것을 증명하고 Slutsky’s theorem으로  \(X\)와 \(Y\)가 같은 분포를 따름을 증명한다.</li>
+  <li>\(\begin{aligned}
+f_{X+Z}(t) &amp; =\int_{-\infty}^{\infty} f_Z(w) f_X(t-w) d w \\
+&amp; =\int_{-\infty}^{\infty} f_Z(-w) f_X(t-w) d w \quad \text { since } f_Z(-w)=f_Z(w) \\
+&amp; =\int_{-\infty}^{\infty} f_Z(w) f_X(t+w) d w \quad \text { by the change of variables }(-w \rightarrow w) \\
+&amp; =\frac{1}{\sqrt{2 \pi} \sigma} \int_{-\infty}^{\infty} e^{-\frac{w^2}{2 \sigma^2}} f_X(t+w) d w \\
+&amp; =\frac{1}{\sqrt{2 \pi} \sigma} \int_{-\infty}^{\infty} \mathbb{E}_Z\left[e^{i w Z \sigma^{-2}}\right] f_X(t+w) d w \\ &amp; \text {by Characteristic function of } Z \sim N(0, \sigma^2) \text { and } Z \sigma^{-2} \sim N\left(0, \sigma^{-2}\right) \\
+&amp; =\frac{1}{\sqrt{2 \pi} \sigma} \mathbb{E}_Z\left[\int_{-\infty}^{\infty} e^{i w Z \sigma^{-2}} f_X(t+w) d w\right] \quad \text { by Fubini's theorem } \\
+&amp; =\frac{1}{\sqrt{2 \pi} \sigma} \mathbb{E}_Z\left[e^{-i t Z \sigma^{-2}} \int_{-\infty}^{\infty} e^{i(t+w) Z \sigma^{-2}} f_X(t+w) d w\right] \\
+&amp; =\frac{1}{\sqrt{2 \pi} \sigma} \mathbb{E}_Z\left[e^{-i t Z \sigma^{-2}} \int_{-\infty}^{\infty} e^{i w Z \sigma^{-2}} f_X(w) d w\right] \\ &amp;\text { by the change of variables }(t+w \rightarrow w) \\ &amp; =\frac{1}{\sqrt{2 \pi} \sigma} \mathbb{E}_Z\left[e^{-i t Z \sigma^{-2}} \phi_X\left(Z \sigma^{-2}\right)\right] = \frac{1}{\sqrt{2 \pi} \sigma} \mathbb{E}_Z\left[e^{-i t Z \sigma^{-2}} \phi_Y\left(Z \sigma^{-2}\right)\right] \\ &amp;( \because \phi_X = \phi_Y ) \\ &amp;=f_{Y+Z}(t)
+\end{aligned}\)​</li>
+  <li>By Slutsky’s theorem, \(X\)와 \(Y\)는 같은 분포를 따른다.</li>
+</ul>
+
+  
+</article>
+
+
+
+  <hr class="dingbat related mb6" />
+
+
+
+
+
+
+  
+     
+
+
+  <aside class="about related mt4 mb4" role="complementary">
+    
+    
+
+<div class="author mt4">
+  
+
+  
+    
+
+
+<img
+  
+    src="https://via.placeholder.com/128x128"
+    srcset="/assets/img/me/me.JPG 1x,/assets/img/me/me.JPG 2x"
+    
+  
+  alt="GW Jeong"
+  class="avatar"
+  
+  width="120"
+  height="120"
+  loading="lazy"
+/>
+
+  
+
+  
+  
+  <h2  class="page-title hr-bottom">
+    About
+  </h2>
+
+  <p>Bachelor’s degree in Applied Statistics. Yonsei Univ. (2018~2024) <br />
+DataScienceLab 8th 학회장 (2022~2023) <br />
+Master’s degree in Statitstics. Yonsei Univ. (2024~)</p>
+
+
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+
+  </aside>
+
+
+  
+
+  
+  
+
+  
+    
+
+
+  
+
+  
+  
+
+  
+    
+
+  
+
+
+  
+<footer class="content" role="contentinfo">
+  <hr/>
+  
+    <p><small class="copyright">© Geonwoo Jeong.
+</small></p>
+  
+  
+    <p><small>Powered by <a class="external" href="https://hydejack.com/">Hydejack</a> v<span id="_version">9.1.6</span></small></p>
+  <hr class="sr-only"/>
+</footer>
+
+
+</main>
+
+  <hy-drawer
+  id="_drawer"
+  class=""
+  side="left"
+  threshold="10"
+  noscroll
+  
+>
+  <header id="_sidebar" class="sidebar" role="banner">
+    
+
+
+
+
+<div class="sidebar-bg sidebar-overlay" style="background-color:rgb(230, 217, 195);background-image:url(/assets/img/me/sidebar.jpg)"></div>
+
+    <div class="sidebar-sticky">
+  <div class="sidebar-about">
+    
+      <a class="no-hover" href="/" tabindex="-1">
+        <img src="/assets/img/me/logo.jpg" class="avatar" alt="LpppJ" width="120" height="120" loading="lazy" />
+      </a>
+    
+    <a class="sidebar-title" href="/"><h2 class="h1">LpppJ</h2></a>
+    
+    
+      <p class="">
+        DataScience and AI
+
+      </p>
+    
+  </div>
+
+  <nav class="sidebar-nav heading" role="navigation">
+    <span class="sr-only">Navigation:</span>
+<ul>
+  
+    
+      
+      <li>
+        <a
+          id="_drawer--opened"
+          href="/timeseries/"
+          class="sidebar-nav-item "
+          
+        >
+          TimeSeries
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/stat/"
+          class="sidebar-nav-item "
+          
+        >
+          Statistics
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/project/"
+          class="sidebar-nav-item "
+          
+        >
+          Project
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/presentation/"
+          class="sidebar-nav-item "
+          
+        >
+          Presentation
+        </a>
+      </li>
+    
+  
+</ul>
+
+  </nav>
+
+  
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+  </header>
+</hy-drawer>
+<hr class="sr-only" hidden />
+
+</hy-push-state>
+
+
+  <!--[if gt IE 10]><!---->
+  <script nomodule>!function(){var t,n=document.createElement("script");!("noModule"in n)&&"onbeforeload"in n&&(t=!1,document.addEventListener("beforeload",function(e){if(e.target===n)t=!0;else if(!e.target.hasAttribute("nomodule")||!t)return;e.preventDefault()},!0),n.type="module",n.src=".",document.head.appendChild(n),n.remove())}();
+</script>
+  <script src="/assets/js/hydejack-9.1.6.js" type="module"></script>
+  <script src="/assets/js/LEGACY-hydejack-9.1.6.js" nomodule defer></script>
+  
+
+  
+
+<!--<![endif]-->
+  <!-- <script>
+  document.querySelector('hy-push-state').setAttribute('prefetch', '');
+
+  document.querySelectorAll('.sidebar a[href^="/"]').forEach(function (el) { 
+    el.addEventListener('click', function (e) {
+      if (el.pathname === window.location.pathname) {
+        e.preventDefault();
+        e.stopPropagation();
+        document.querySelector('hy-drawer').close();
+      }
+    });
+  });
+</script> -->
+
+<!--
+Code for integrating CloudFlare's email protection with Hydejack's single page app loading.
+-->
+<script>
+  document.getElementById('_pushState').addEventListener('hy-push-state-after', function (e) {
+    function e(e){
+      (console.error?console.error:console.log).call(console,e)
+    }
+
+    function t(e){
+      return l.innerHTML='<a href="'+e.replace(/"/g,"&quot;")+'"></a>',l.childNodes[0].getAttribute("href")
+    }
+
+    function r(e,t){
+      var r=e.substr(t,2);return parseInt(r,16)
+    }
+
+    function n(e,n){
+      for(var o="",c=r(e,n),a=n+2;a<e.length;a+=2){
+        var l=r(e,a)^c;
+        o+=String.fromCharCode(l)
+      }
+      return t(o)
+    }
+
+    var o="/cdn-cgi/l/email-protection#",
+        c=".__cf_email__",
+        a="data-cfemail",
+        l=document.createElement("div");
+
+    !function(){
+      for(var t=document.getElementsByTagName("a"),r=0;r<t.length;r++)
+        try{
+          var c=t[r],a=c.href.indexOf(o);
+          a>-1&&(c.href="mailto:"+n(c.href,a+o.length))
+        }catch(t){
+          e(t)
+        }
+    }(),
+    function(){
+      for(var t=document.querySelectorAll(c),r=0;r<t.length;r++)
+        try{
+          var o=t[r],l=n(o.getAttribute(a),0),i=document.createTextNode(l);
+          o.parentNode.replaceChild(i,o)
+        }catch(t){
+          e(t)
+        }
+    }()
+  });
+</script>
+
+
+
+
+
+<div hidden>
+  
+  <h2 class="sr-only">Templates (for web app):</h2>
+
+  <template id="_animation-template">
+  <div class="animation-main fixed-top">
+    <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+</ul></nav>
+    <div class="content">
+      <div class="page"></div>
+    </div>
+  </div>
+</template>
+
+  <template id="_loading-template">
+  <div class="loading nav-btn fr">
+    <span class="sr-only">Loading…</span>
+    <span class="icon-cog"></span>
+  </div>
+</template>
+
+  <template id="_error-template">
+  <div class="page">
+    <h1 class="page-title">Error</h1>
+    
+    
+    <p class="lead">
+      Sorry, an error occurred while loading <a class="this-link" href=""></a>.
+
+    </p>
+  </div>
+</template>
+
+  <template id="_permalink-template">
+  <a href="#" class="permalink">
+    <span class="sr-only">Permalink</span>
+    <span class="content-hash"></span>
+  </a>
+</template>
+
+</div>
+
+
+</body>
+</html>

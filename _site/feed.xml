@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-04-12T19:25:52+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">(Dish-TS) A General Paradigm for Alleviating Distribution Shift in Time Series Forecasting (AAAI 2023)</title><link href="http://localhost:4000/timeseries/2024-04-12-Dish-TS/" rel="alternate" type="text/html" title="(Dish-TS) A General Paradigm for Alleviating Distribution Shift in Time Series Forecasting (AAAI 2023)" /><published>2024-04-12T00:00:00+09:00</published><updated>2024-04-12T19:25:51+09:00</updated><id>http://localhost:4000/timeseries/Dish-TS</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-04-12-Dish-TS/"><![CDATA[<h2 id="abstract">Abstract</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-04-13T15:39:39+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">(Dish-TS) A General Paradigm for Alleviating Distribution Shift in Time Series Forecasting (AAAI 2023)</title><link href="http://localhost:4000/timeseries/2024-04-12-Dish-TS/" rel="alternate" type="text/html" title="(Dish-TS) A General Paradigm for Alleviating Distribution Shift in Time Series Forecasting (AAAI 2023)" /><published>2024-04-12T00:00:00+09:00</published><updated>2024-04-12T19:26:03+09:00</updated><id>http://localhost:4000/timeseries/Dish-TS</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-04-12-Dish-TS/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>Distribution shift in TS : series distribution changes over time</li>
@@ -198,7 +198,236 @@
       <li>prior knowledge-induced training strategy, for effectiveness</li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[AAAI 2023](https://arxiv.org/pdf/2302.14829.pdf)]]></summary></entry><entry><title type="html">Revisiting Long-term Time Series Forecasting: An Investigation on Linear Mapping</title><link href="http://localhost:4000/timeseries/2024-04-04-RTSF/" rel="alternate" type="text/html" title="Revisiting Long-term Time Series Forecasting: An Investigation on Linear Mapping" /><published>2024-04-04T00:00:00+09:00</published><updated>2024-04-05T09:40:54+09:00</updated><id>http://localhost:4000/timeseries/RTSF</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-04-04-RTSF/"><![CDATA[<ul>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[AAAI 2023](https://arxiv.org/pdf/2302.14829.pdf)]]></summary></entry><entry><title type="html">MGF(Moment Generating Function) and Characteristic Function에 대해서</title><link href="http://localhost:4000/stat/2024-04-12-MGF/" rel="alternate" type="text/html" title="MGF(Moment Generating Function) and Characteristic Function에 대해서" /><published>2024-04-12T00:00:00+09:00</published><updated>2024-04-13T15:39:38+09:00</updated><id>http://localhost:4000/stat/MGF</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-12-MGF/"><![CDATA[<h2 id="moments">Moments</h2>
+
+<ul>
+  <li>Definition
+    <ul>
+      <li>For each integer \(n\), the \(n\)th moment of \(X\) is \(\mu_n=\mathbb{E}\left[X^n\right]\).</li>
+      <li>The \(n\)th central moment of \(X\) is \(\mu_n^{\prime}=\mathbb{E}\left[(X-\mu)^n\right]\) where \(\mu=\mu_1^{\prime}=\mathbb{E}[X]\)</li>
+    </ul>
+  </li>
+  <li><u>확률변수의 moments는 tail probability와 밀접한 연관이 있다.</u>
+    <ul>
+      <li>
+        <p>Let \(X\) is non-negative random variable</p>
+
+        <p>: \(\begin{aligned}\mathbb{E}[X]&amp;=\mathbb{E}\left[\int_0^{\infty} \mathbb{1}(t&lt;X) d t\right]\\&amp;=\int_0^{\infty} \mathbb{E}[\mathbb{1}(t&lt;X)] d t\\&amp;=\int_0^{\infty} P(t&lt;X) d t\\&amp;=\int_0^{\infty}\left[1-F_X(x)\right] d x \end{aligned}\)</p>
+      </li>
+      <li>
+        <p>위 결과를 확장하면 아래와 같다.</p>
+
+        <p>: \(\begin{aligned} \mathbb{E}\left[\mid X\mid ^p\right] &amp; =\int_0^{\infty}\left[1-F_{\mid X\mid ^p}(y)\right] d y \\ P\left(\mid X\mid ^p&gt;y\right) &amp; =P\left(\mid X\mid &gt;y^{\frac{1}{p}}\right) \\ &amp; =1-F_{\mid X\mid }\left(y^{\frac{1}{p}}\right) \\ \text{Let } y&amp;=x^p, \text{then } \frac{d y}{d x}=p x^{p-1} \\ \mathbb{E}\left[\mid X\mid ^p\right] &amp; =\int_0^{\infty}\left[1-F_{\mid X\mid }(x)\right] p x^{p-1} d x \\ &amp; =\int_0^{\infty} p x^{p-1} P(\mid X\mid &gt;x) d x \end{aligned}\)</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="moment-generating-function">Moment Generating Function</h2>
+
+<ul>
+  <li>
+    <p>Definition : \(M_X(t)=\mathbb{E}\left[e^{t X}\right]\)</p>
+  </li>
+  <li>
+    <p>MGF가 왜 중요할까 ?</p>
+
+    <ul>
+      <li><u>첫째, 확률변수 X의 MGF는 X의 모든 moments를 생성한다.</u></li>
+      <li><u>둘째, 확률변수 X의 MGF는 X의 분포를 uniquely 결정한다.</u></li>
+      <li><u>셋째, MGF의 수렴은 분포수렴(convergence in distribution)을 의미한다.</u></li>
+      <li><u>넷째, MGF로 probability tail bound를 구한다. (Hoeffding's inequality)</u></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="첫째-확률변수-x의-mgf는-x의-모든-moments를-생성한다">첫째, 확률변수 X의 MGF는 X의 모든 moments를 생성한다.</h3>
+
+<ul>
+  <li>
+    <p>Step1) MGF가 존재한다고 가정했다면 \(\mathbb{E}\left[e^{\mid t X\mid }\right] \leq \mathbb{E}\left[e^{t X}\right]+\mathbb{E}\left[e^{-t X}\right]&lt;\infty \quad \text { for all }\mid t\mid &lt;\epsilon\)​</p>
+  </li>
+  <li>
+    <p>c.f. <strong>(Dominated Convergence Theorem)</strong>. If \(\left\{f_n: \mathbb{R} \mapsto \mathbb{R}\right\}\) is a sequence of measurable functions which converge pointwise almost everywhere to \(f\), and if there exists an integrable function \(g\) (that is \(\left.\int_{-\infty}^{\infty}\mid g(x)\mid  d x&lt;\infty\right)\) such that \(\mid f_n(x)\mid  \leq\mid g(x)\mid\) for all \(n\) and for all \(x\), then \(f\) is integrable and</p>
+
+    <ul>
+      <li>\(\int_{-\infty}^{\infty} f(x) d x=\int_{-\infty}^{\infty} \lim _{n \rightarrow \infty} f_n(x) d x=\lim _{n \rightarrow \infty} \int_{-\infty}^{\infty} f_n(x) d x\)​​</li>
+      <li>즉 \(\mid f_n(x)\mid\)의 bound 역할을 하는 \(\mid g(x)\mid\)가 \(\int_{-\infty}^{\infty}\mid g(x)\mid  d x&lt;\infty\)이면 \(\int_{-\infty}^{\infty} \lim _{n \rightarrow \infty} f_n(x) d x\)의 \(\int\)와 \(\lim\)의 위치를 바꿀 수 있다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>Step2) DCT에 의해 X의 MGF는 아래와 같다.</p>
+
+    <ul>
+      <li>MGF</li>
+    </ul>
+
+    <p>: \(\begin{aligned}\int_{-\infty}^{\infty} e^{t x} f_X(x) d x &amp; =\lim _{n \rightarrow \infty} \int_{-\infty}^{\infty} \sum_{j=0}^n t^j \frac{x^j}{j !} f_X(x) d x \\ &amp; =\lim _{n \rightarrow \infty} \sum_{j=0}^n \frac{t^j}{j !} \underbrace{\int_{-\infty}^{\infty} x^j f_X(x) d x}_{=\mu_j} \\ &amp; =\sum_{j=0}^{\infty} \frac{t^j \mu_j}{j !} \end{aligned}\)</p>
+
+    <ul>
+      <li>moment</li>
+    </ul>
+
+    <p>: \(\begin{aligned} M_X^{(m)}(t) &amp; =\frac{d^m}{d t^m}\left(\sum_{k=0}^{\infty} \frac{t^k \mu_k}{k !}\right) \\ &amp; =\sum_{k=0}^{\infty} \frac{\mu_k}{k !} \frac{d^m\left(t^k\right)}{d t^m} \\ &amp; =\sum_{k=m}^{\infty} \mu_k \frac{t^{k-m}}{(k-m) !} \\ &amp; =\sum_{j=0}^{\infty} \mu_{m+j} \frac{t^j}{j !} \quad(j \equiv k-m) \end{aligned}\)</p>
+    <ul>
+      <li>Thus, \(M_X^{(m)}(0)=\mathbb{E}\left[X^m\right] \text { by noting } 0^0=1,0^j=0 \text { for } j \geq 1\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="둘째-확률변수-x의-mgf는-x의-분포를-uniquely-결정한다">둘째, 확률변수 X의 MGF는 X의 분포를 uniquely 결정한다.</h3>
+
+<ul>
+  <li>
+    <p>확률변수 X와 Y의 분포가 같다면 \(\to\) MGF가 같다는 것을 보이는 것은 쉽다.</p>
+  </li>
+  <li>
+    <p>반대로 두 확률변수 X와 Y의 MGF가 같으면 같은 분포를 따름은 아래와 같이 증명한다.</p>
+  </li>
+  <li>
+    <p>Suppose that \(X\) and \(Y\) have the same MGF for all \(t\) : \(\sum_{x=0}^n e^{t x} f_X(x)=\sum_{y=0}^n e^{t y} f_Y(y)\)
+  Let \(s=e^t\) and \(c_i=f_X(i)-f_Y(i)\) for \(i=0,1, \ldots, n\)</p>
+  </li>
+</ul>
+
+<p>: \(\begin{aligned} \sum_{x=0}^n e^{t x} f_X(x)-\sum_{y=0}^n e^{t y} f_Y(y)=0 \\ \Rightarrow \sum_{x=0}^n s^x f_X(x)-\sum_{y=0}^n s^y f_Y(y)=0 \\ \Rightarrow \sum_{x=0}^n s^x f_X(x)-\sum_{x=0}^n s^x f_Y(x)=0 \\ \Rightarrow \sum_{x=0}^n s^x\left[f_X(x)-f_Y(x)\right]=0 \\ \Rightarrow \sum_{x=0}^n s^x c_x=0 \quad \forall s&gt;0 \end{aligned}\)</p>
+
+<ul>
+  <li>
+    <p>The above is simply a polynomial in \(\mathrm{s}\) with coefficients \(c_0, c_1, \ldots, c_n\). The only way it can be zero for all values of \(\mathrm{s}\) is if \(c_0=c_1=\cdots=c_n=0\)</p>
+  </li>
+  <li>
+    <p>Therefore, \(0=c_i=f_X(i)-f_Y(i)\) for \(i=0,1, \ldots, n\), which means \(f_X(i)=f_Y(i)\) for \(i=0,1, \ldots, n\).</p>
+  </li>
+</ul>
+
+<h3 id="셋째-mgf의-수렴은-분포수렴convergence-in-distribution을-의미한다">셋째, MGF의 수렴은 분포수렴(convergence in distribution)을 의미한다.</h3>
+
+<ul>
+  <li>즉 \(\lim _{n \rightarrow \infty} M_{X_n}(t)=M_X(t)\)이면 \(\lim _{n \rightarrow \infty} F_{X_n}(x)=F_X(x)\)이다.</li>
+  <li><strong>(Portmanteau lemma)</strong> For random vector \(Y_n\) and \(Y\) with \(Y_n \sim P_n\) and \(Y \sim P\), the following are equivalent :
+    <ul>
+      <li>\(Y_n \xrightarrow{d} Y\);</li>
+      <li>\(P\left(Y_n \leq t\right) \rightarrow P(Y \leq t)\) for all continuous points \(t\) of \(t \mapsto P(Y \leq t)\);</li>
+      <li>\(\mathbb{E}\left[g\left(Y_n\right)\right] \rightarrow \mathbb{E}[g(Y)]\) for all bounded, continuous \(g: \mathbb{R}^d \rightarrow \mathbb{R}\)​;</li>
+      <li>(Skip the proof)</li>
+      <li>그러므로 아래 (Lévy’s continuity theorem)가 성립한다.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>(Lévy’s continuity theorem)</strong> Let \(X_n\) and \(X\) be random vectors in \(\mathbb{R}^d\). Then \(X_n \xrightarrow{d} X\) if and only if \(\lim _{n \rightarrow \infty} \mathbb{E}\left[e^{i t^{\top} X_n}\right]=\mathbb{E}\left[e^{i t^{\top} X}\right]\) for every \(t \in \mathbb{R}^d\)</p>
+  </li>
+  <li>위의 high-dimension에서의 증명은 (Cramér–Wold device)를 통해 1-dimension에서도 성립된다.</li>
+  <li><strong>(Cramér-Wold device)</strong> If \(t^{\top} X_n \xrightarrow{d} t^{\top} X\) for all \(t \in \mathbb{R}^d\), then \(X_n \xrightarrow{d} X\)</li>
+</ul>
+
+<h3 id="넷째-mgf로-probability-tail-bound를-구한다-hoeffdings-inequality">넷째, MGF로 probability tail bound를 구한다. (Hoeffding’s inequality)</h3>
+<ul>
+  <li>pass</li>
+</ul>
+
+<h2 id="characteristic-function">Characteristic Function</h2>
+
+<ul>
+  <li>Definitnion : \(\phi_X(t)=\mathbb{E}[\exp (i t X)]=\mathbb{E}[\cos (t X)+i \sin (t X)], \quad t \in \mathbb{R},\)
+    <ul>
+      <li>where \(i=\sqrt{-1}\) is the imaginary unit (note Euler’s formula: \(e^{i x}=\cos (x)+i \sin (x)\)​)</li>
+    </ul>
+  </li>
+  <li>
+    <p>characteristic function은 언제 사용할까</p>
+
+    <ul>
+      <li>MGF가 존재하지 않는 분포(ex. Cauchy)에 대한 특성을 파악할 때</li>
+      <li>Lévy’s continuity theorem 증명할 때</li>
+    </ul>
+  </li>
+  <li>
+    <p>Element properties:</p>
+
+    <ul>
+      <li>
+        <p>If \(Y=a X+b, \phi_Y(t)=e^{i b t} \phi_X(a t)\).</p>
+      </li>
+      <li>
+        <p>If \(X\) and \(Y\) are independent, then \(\phi_{X+Y}(t)=\phi_X(t) \phi_Y(t)\)​</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>아래 4가지 properties를 하나씩 증명한다.</p>
+
+    <ul>
+      <li>
+        <p>첫째, \(\phi_X(0)=1\) and \(\mid \phi_X(t)\mid \leq 1\) for all \(t \in \mathbb{R}\)​</p>
+      </li>
+      <li>둘째, \(\phi_X(t)\) is uniformly continuous on  \(\mathbb{R}\)​​
+        <ul>
+          <li>즉 \(h \to 0\)에 따라 \(\psi(h) \rightarrow 0\) s.t.  \(\mid \phi_X(t+h)-\phi_X(t)\mid \leq \psi(h)\)</li>
+        </ul>
+      </li>
+      <li>
+        <p>셋째, The characteristic function of a symmetric random variable, that is  \(X \stackrel{d}{=}-X\), is real-valued</p>
+      </li>
+      <li>넷째, MGF처럼 두 확률변수의 characteristic function이 같으면 같은 분포를 따른다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="첫째-phi_x01-and-mid-phi_xtmid-leq-1-for-all-t-in-mathbbr">첫째, \(\phi_X(0)=1\) and \(\mid \phi_X(t)\mid \leq 1\) for all \(t \in \mathbb{R}\)</h3>
+
+<ul>
+  <li>\(\mid e^{i t x}\mid =\sqrt{\cos ^2(t x)+\sin ^2(t x)}=1\) for all \(t\) and \(x\). Therefore \(\mid \phi_X(t)\mid =\mid \mathbb{E}\left[e^{i t X}\right]\mid  \leq \mathbb{E}\left[\mid e^{i t X}\mid \right]=1\)</li>
+</ul>
+
+<h3 id="둘째-phi_xt-is-uniformly-continuous-on--mathbbr">둘째, \(\phi_X(t)\) is uniformly continuous on  \(\mathbb{R}\)</h3>
+
+<ul>
+  <li>\(\mid \underbrace{\mathbb{E}\left[e^{i(t+h) X}\right]}_{=\phi_X(t+h)}-\underbrace{\mathbb{E}\left[e^{i t X}\right]}_{=\phi_X(t)}\mid =\mid \mathbb{E}\left[e^{i t X}\left(e^{i h X}-1\right)\right]\mid  \leq \mathbb{E}\left[\mid e^{i h X}-1\mid \right]\) 이고</li>
+  <li>Let \(g_X(h)=\mid e^{i h X}-1\mid , \text{ Then } g_X(h) \rightarrow 0 \text{ as } h \to 0\) 이므로</li>
+</ul>
+
+<p>: \(\begin{aligned} g_X(h) &amp; =\mid e^{i h X}-1\mid  \\ &amp; =\mid \{\cos (h X)-1\}+i \sin (h X)\mid  \\ &amp; =\sqrt{\{\cos (h X)-1\}^2+\sin ^2(h X)} \\ &amp; =\sqrt{2-2 \cos (h X)} \leq 2 \end{aligned}\)</p>
+
+<ul>
+  <li>\(g_X(h)\)가 uniformly bounded by 2이므로 DCT에 의해 \(\mathbb E[g_X(h)] \rightarrow 0 \text{ as } h \to 0\)</li>
+</ul>
+
+<h3 id="셋째-x-stackreld-x-characteristic-function-of-x는-real-valued">셋째, \(X \stackrel{d}{=}-X\), characteristic function of \(X\)는 real-valued</h3>
+
+<ul>
+  <li>
+    <p>: \(\begin{aligned} \mathbb{E}\left[e^{i t X}\right] &amp; =\mathbb{E}[\cos (t X)]+i \mathbb{E}[\sin (t X)] \stackrel{(\mathrm{i})}{=} \mathbb{E}[\cos (t X)]+i \mathbb{E}[\sin (-t X)] \\ &amp; \stackrel{(\mathrm{ii})}{=} \mathbb{E}[\cos (t X)]-i \mathbb{E}[\sin (t X)] \end{aligned}\).</p>
+  </li>
+  <li>
+    <p>(i)는 \(X \stackrel{d}{=}-X\) 때문이고, (ii)는 sin의 성질 \(\sin (-x)=-\sin (x)\) 때문이다.</p>
+  </li>
+</ul>
+
+<h3 id="넷째-mgf처럼-두-확률변수의-characteristic-function이-같으면-같은-분포를-따른다">넷째, MGF처럼 두 확률변수의 characteristic function이 같으면 같은 분포를 따른다.</h3>
+
+<ul>
+  <li>두 확률변수가 characteristic function이 같으면 같은 분포를 따름만 증명한다.</li>
+  <li>본 증명에는 다양한 기법이 사용되는데 그 중 몇 가지를 소개한다. 아래와 같다.
+    <ul>
+      <li>Convolution : \(X\)와 \(Y\)가 독립이면 \(Z=X+Y\)의 density function은 \(f_Z(z)=\int_{-\infty}^{\infty} f_X(x) f_Y(z-x) d x\)​</li>
+      <li>Characteristic function of \(Z \sim N(0, \sigma^2)\) : \(\mathbb{E}\left[e^{i t Z}\right]=e^{-\frac{\sigma^2 t^2}{2}} \text { for all } t \in \mathbb{R}\)​</li>
+      <li>Fubini’s theorem : \(\int_{X \times Y}\mid f(x, y)\mid  d(x, y)&lt;\infty\) 이면 \(\int\)의 순서를 바꿀 수 있다.</li>
+    </ul>
+  </li>
+  <li>\(X+Z\)와 \(Y+Z\)가 같은 분포를 따른다는 것을 증명하고 Slutsky’s theorem으로  \(X\)와 \(Y\)가 같은 분포를 따름을 증명한다.</li>
+  <li>\(\begin{aligned}
+f_{X+Z}(t) &amp; =\int_{-\infty}^{\infty} f_Z(w) f_X(t-w) d w \\
+&amp; =\int_{-\infty}^{\infty} f_Z(-w) f_X(t-w) d w \quad \text { since } f_Z(-w)=f_Z(w) \\
+&amp; =\int_{-\infty}^{\infty} f_Z(w) f_X(t+w) d w \quad \text { by the change of variables }(-w \rightarrow w) \\
+&amp; =\frac{1}{\sqrt{2 \pi} \sigma} \int_{-\infty}^{\infty} e^{-\frac{w^2}{2 \sigma^2}} f_X(t+w) d w \\
+&amp; =\frac{1}{\sqrt{2 \pi} \sigma} \int_{-\infty}^{\infty} \mathbb{E}_Z\left[e^{i w Z \sigma^{-2}}\right] f_X(t+w) d w \\ &amp; \text {by Characteristic function of } Z \sim N(0, \sigma^2) \text { and } Z \sigma^{-2} \sim N\left(0, \sigma^{-2}\right) \\
+&amp; =\frac{1}{\sqrt{2 \pi} \sigma} \mathbb{E}_Z\left[\int_{-\infty}^{\infty} e^{i w Z \sigma^{-2}} f_X(t+w) d w\right] \quad \text { by Fubini's theorem } \\
+&amp; =\frac{1}{\sqrt{2 \pi} \sigma} \mathbb{E}_Z\left[e^{-i t Z \sigma^{-2}} \int_{-\infty}^{\infty} e^{i(t+w) Z \sigma^{-2}} f_X(t+w) d w\right] \\
+&amp; =\frac{1}{\sqrt{2 \pi} \sigma} \mathbb{E}_Z\left[e^{-i t Z \sigma^{-2}} \int_{-\infty}^{\infty} e^{i w Z \sigma^{-2}} f_X(w) d w\right] \\ &amp;\text { by the change of variables }(t+w \rightarrow w) \\ &amp; =\frac{1}{\sqrt{2 \pi} \sigma} \mathbb{E}_Z\left[e^{-i t Z \sigma^{-2}} \phi_X\left(Z \sigma^{-2}\right)\right] = \frac{1}{\sqrt{2 \pi} \sigma} \mathbb{E}_Z\left[e^{-i t Z \sigma^{-2}} \phi_Y\left(Z \sigma^{-2}\right)\right] \\ &amp;( \because \phi_X = \phi_Y ) \\ &amp;=f_{Y+Z}(t)
+\end{aligned}\)​</li>
+  <li>By Slutsky’s theorem, \(X\)와 \(Y\)는 같은 분포를 따른다.</li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[Moments]]></summary></entry><entry><title type="html">Revisiting Long-term Time Series Forecasting: An Investigation on Linear Mapping</title><link href="http://localhost:4000/timeseries/2024-04-04-RTSF/" rel="alternate" type="text/html" title="Revisiting Long-term Time Series Forecasting: An Investigation on Linear Mapping" /><published>2024-04-04T00:00:00+09:00</published><updated>2024-04-05T09:40:54+09:00</updated><id>http://localhost:4000/timeseries/RTSF</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-04-04-RTSF/"><![CDATA[<ul>
   <li>이전에 review했던 <a href="https://arxiv.org/abs/2205.13504">DLinear</a> paper에서는 ‘Time series의 properties가 무엇인지’, 그리고 ‘왜 Transformer-based model이 완벽할 수 없는지’에 집중했다면, 본 논문은 ‘왜 linear mapping이 단순한데도 성능이 좋은지’에 집중한다.</li>
 </ul>
 
@@ -1594,190 +1823,4 @@ source : <a href="https://arxiv.org/pdf/1609.03499v2.pdf">WAVENET: A GENERATIVE 
     </ul>
   </li>
   <li>Ablation study를 통해 모델의 components가 모두 필요함을 보여주었다.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[AAAI 2022](https://arxiv.org/abs/2106.10466)]]></summary></entry><entry><title type="html">(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling (NeurIPS 2023)</title><link href="http://localhost:4000/timeseries/2024-03-06-SimMTM/" rel="alternate" type="text/html" title="(SimMTM) A Simple Pre-Training Framework for Masked Time-Series Modeling (NeurIPS 2023)" /><published>2024-03-06T00:00:00+09:00</published><updated>2024-03-19T13:15:52+09:00</updated><id>http://localhost:4000/timeseries/SimMTM</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-06-SimMTM/"><![CDATA[<h2 id="abstract">Abstract</h2>
-<ul>
-  <li>Labeling 비용을 줄이고 다양한 downstream tasks의 성능을 위해 self-supervised pre-training 방식이 사용된다.
-    <ul>
-      <li>Contrastive learning : positive and negative pairs를 통해 representation space 최적화</li>
-      <li>Masked modeling : unmasked part를 보고 masked content를 reconstruct</li>
-    </ul>
-  </li>
-  <li>하지만 시계열에서는 randomly masking하면 temporal variations(trend, periodicity, peak valley …)가 망가져서 reconstruction task가 너무 어려워진다.</li>
-  <li>그래서 본 논문에서 제시하는 SimMTM은 한 개가 아니라 여러 개의 masked series를 assembling해서 reconstruction한다.</li>
-</ul>
-
-<h2 id="1-intnroduction">1. Intnroduction</h2>
-<ul>
-  <li>Self-supervised pre-training(SSL) : 대량의 unlabeled 데이터로 pretext knowledge를 학습하고, 다양한 downstream task에 맞게 개선 (Linear probing / Fine tuning)</li>
-  <li>pre-training 방법 중 하나인 Masked modeling을 시계열에 적용
-    <ul>
-      <li>Masked modeling : 데이터의 일부를 masking하고 unmasked part를 보고 masked part를 reconstruct하는 방식을 학습</li>
-    </ul>
-  </li>
-  <li>이미지나 자연어는 불필요한 정보도 많이 있지만(이미지의 빈 공간, 수식어 등), 시계열에는 temporal variations(trend, periodicity, peak vally…)가 있어서 단순하게 일부를 masking하면 시계열의 본질적인 부분이 변형되거나 망가질 수 있다.</li>
-  <li>그래서 multiple masking series로 original data를 reconstruction하면 개별 maksing series에서는 temporal variations가 변형될 수 있지만 각 maksing series는 서로서로 complement하기 때문에 multiple masking series를 봤을 때에는 본질적인 부분이 사라지지 않는다.
-<img src="/assets/img/timeseries/SimMTM/fig1.jpeg" alt="사진1" /></li>
-  <li>요약하자면 SimMTM은 neighborhood aggregation design for reconstruction이라고 할 수 있고,
-    <ul>
-      <li>풀어서 설명하자면 SimMTM은 masked part를 reconstruct하기 위해서 series-wise representation의 simailarity가 높은 point-wise representations을 aggregate한다고 할 수 있다.</li>
-    </ul>
-
-    <h2 id="2-related-work">2. Related Work</h2>
-    <h3 id="21-self-supervised-pre-training">2.1. Self-supervised Pre-training</h3>
-    <ul>
-      <li>Self-supervised Pre-training(SSL)
-        <ul>
-          <li>Contrastive leaning : positive pairs는 가깝게, negative pairs는 멀게 representation하도록 학습</li>
-          <li>Masked modeling
-            <ul>
-              <li>TST : learns to predict removed time points based on the remaining time points</li>
-              <li>PatchTST : predict masked subseries-level patches to capture the local semantic information</li>
-              <li>Ti-MAE : mask modeling as an auxiliary task to boost the forecasting and classification performances</li>
-            </ul>
-          </li>
-          <li>하지만 directly masking time series 방식은 본질적인 temporal variations를 망가지게 할 수 있으니, multiple randomly masked series로 recunstruct한다.</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="3-simmtm">3. SimMTM</h2>
-<ul>
-  <li>모델은 크게 2개의 단계로 구성
-    <ul>
-      <li>multiple time series의 series-wise representation space에서의 similarities를 학습</li>
-      <li>학습된 similarities를 바탕으로 point-wise representations를 aggregate</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="31-overall-architecture">3.1. Overall Architecture</h3>
-<ul>
-  <li>모델은 4개의 modules로 구성
-    <ul>
-      <li>Masking</li>
-      <li>Representation learning</li>
-      <li>Series-wise similarity learning</li>
-      <li>Point-wise aggregation
-<img src="/assets/img/timeseries/SimMTM/fig2.png" alt="사진2" /></li>
-    </ul>
-  </li>
-  <li><strong>Masking</strong>
-    <ul>
-      <li>\(\left\{\mathbf{x}_i\right\}_{i=1}^N\) : a mini-batch of \(N\) time series samples, <br />
-where \(\mathbf{x}_i \in \mathbb{R}^{L \times C}\) contains \(L\) time points and \(C\) observed variates</li>
-      <li>\(\left\{\overline{\mathbf{x}}_i^j\right\}_{j=1}^M=\operatorname{Mask}_{r}\left(\mathbf{x}_i\right)\) <br />
-where \(r \in[0,1]\) denotes the masked portion,
-\(M\) is a hyperparameter for the number of masked time series</li>
-      <li>
-        <p>\(\overline{\mathbf{x}}_i^j \in \mathbb{R}^{L \times C}\) : the \(j\)-th masked time series of \(\mathbf{x}_i\)</p>
-      </li>
-      <li>All the \((N(M+1))\) input series in a set as \(\mathcal{X}=\bigcup_{i=1}^N\left(\left\{\mathbf{x}_i\right\} \cup\left\{\overline{\mathbf{x}}_i^j\right\}_{j=1}^M\right)\).
-        <ul>
-          <li>\(N\)은 mini-batch에 있는 시계열 데이터 sample의 개수,</li>
-          <li>\(M\)은 multiple masked time series의 개수</li>
-          <li>\(1\)은 masking 하지 않은 원본 시계열을 의미한다.</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li><strong>Representation learning</strong>
-    <ul>
-      <li>Encoder : Transformer and ResNet (to obtain the point-wise representations \(\mathcal{Z}\))
-        <ul>
-          <li>\(\mathcal{Z}=\bigcup_{i=1}^N\left(\left\{\mathbf{z}_i\right\} \cup\left\{\overline{\mathbf{z}}_i^j\right\}_{j=1}^M\right)=\operatorname{Enocder}(\mathcal{X})\) <br />
-where \(\mathbf{z}_i, \overline{\mathbf{z}}_i^j \in \mathbb{R}^{L \times d_{\text {model }}}\)</li>
-          <li>Detail : input 시계열마다 separately하게 통과 : \(\bigcup_{i=1}^N\left(\operatorname{Encoder}\left(\mathbf{x}_i\right) \cup\left\{\text { Encoder }\left(\overline{\mathbf{x}}_i^j\right)\right\}_{j=1}^M\right)\)</li>
-        </ul>
-      </li>
-      <li>Projector : MLP layer along the temporal dim (to obtain the series-wise representations \(\mathcal{S}\))
-        <ul>
-          <li>\(\mathcal{S}=\bigcup_{i=1}^N\left(\left\{\mathbf{s}_i\right\} \cup\left\{\overline{\mathbf{s}}_i^j\right\}_{j=1}^M\right)=\operatorname{Projector}(\mathcal{Z})\) <br />
-where \(\mathbf{s}_i, \overline{\mathbf{s}}_i^j \in \mathbb{R}^{1 \times d_{\text {model }}}\)</li>
-        </ul>
-      </li>
-      <li>Note : \(\mathbf{z}_i, \overline{\mathbf{z}}_i^j \in \mathbb{R}^{L \times d_{\text {model }}}, \mathbf{s}_i, \overline{\mathbf{s}}_i^j \in \mathbb{R}^{1 \times d_{\text {model }}}\)
-<img src="/assets/img/timeseries/SimMTM/myfig1.jpeg" alt="사진3" /></li>
-    </ul>
-  </li>
-  <li><strong>Series-wise similarity learning</strong>
-    <ul>
-      <li>Multiple masked time series를 단순하게 averaging하면 over-smoothing problem이 있기 때문에, similarities among series-wise representation로 weighted aggregation한다.</li>
-      <li>
-\[\mathbf{R}=\operatorname{Sim}(\mathcal{S}) \in \mathbb{R}^{D \times D}, D=N(M+1), \quad \mathbf{R}_{\mathbf{u}, \mathbf{v}}=\frac{\mathbf{u v}^{\top}}{\|\mathbf{u}\|\|\mathbf{v}\|}, \mathbf{u}, \mathbf{v} \in \mathcal{S}\]
-        <ul>
-          <li>\(\mathbf{R}=\operatorname{Sim}(\mathcal{S}) \in \mathbb{R}^{D \times D}\)은 \(N(M+1)\)개의 input 각각에 대해 series-wise representation space에서의 similarities가 된다.</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li><strong>Point-wise aggregation</strong>
-    <ul>
-      <li>The aggregation process는 다음과 같다 : \(\widehat{\mathbf{z}}_i=\sum_{\mathbf{s}^{\prime} \in \mathcal{S} \backslash\left\{\mathbf{s}_i\right\}} \frac{\exp \left(\mathbf{R}_{\mathbf{s}_i, \mathbf{s}^{\prime}} / \tau\right)}{\sum_{\mathbf{s}^{\prime \prime} \in \mathcal{S} \backslash\left\{\mathbf{s}_i\right\}} \exp \left(\mathbf{R}_{\mathbf{s}_i, \mathbf{s}^{\prime \prime}} / \tau\right)} \mathbf{z}^{\prime}\)
-        <ul>
-          <li>where \(\mathbf{z}^{\prime}=\text { Projector }\left(\mathbf{s}^{\prime}\right)\), \(\tau\) denotes the temperature hyperparameter of softmax normalization for series-wise similarities</li>
-          <li>의미적으로는 \(\mathbf{x}_i\)를 reconstruction하기 위해서 \(\mathbf{x}_i\)에 대한 M개의 masked series \(\left\{\overline{\mathbf{x}}_i^j\right\}_{j=1}^M\) 뿐만 아니라, similarities가 높은 다른 series(samples)도 참고하겠다는 것으로, 시계열의 structure를 더 잘 학습하도록 의도했다.</li>
-        </ul>
-      </li>
-      <li>그리고 마지막으로 Decoder를 통과시키면 reconstruction 값을 얻는다 : \(\left\{\widehat{\mathbf{x}}_i\right\}_{i=1}^N=\operatorname{Decoder}\left(\left\{\widehat{\mathbf{z}}_i\right\}_{i=1}^N\right)\)
-        <ul>
-          <li>\(\operatorname{Decoder}\)는 simple MLP layer (along the channel dim)</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="32-self-supervised-pre-training">3.2. Self-supervised Pre-training</h3>
-<ul>
-  <li>SimMTM의 reconstruction loss는 \(\mathcal{L}_{\text {reconstruction }}=\sum_{i=1}^N\left\|\mathbf{x}_i-\widehat{\mathbf{x}}_i\right\|_2^2\)이다.</li>
-  <li>The series-wise representation space에 constraints가 없으면 trivial aggregation이 발생할 수 있기 때문에, 한 series에 대한 multiple masked series끼리는 positive pair, 서로 다른 series에 대해서는 negative pair로 가정하고 (neighborhood assumption) contrastive하게 학습할 수 있도록 loss를 추가해주었다. : \(\mathcal{L}_{\text {constraint }}=-\sum_{\mathbf{s} \in \mathcal{S}}\left(\sum_{\mathbf{s}^{\prime} \in \mathcal{S}^{+}} \log \frac{\exp \left(\mathbf{R}_{\mathbf{s}, \mathbf{s}^{\prime}} / \tau\right)}{\sum_{\mathbf{s}^{\prime \prime} \in \mathcal{S} \backslash\{\mathbf{s}\}} \exp \left(\mathbf{R}_{\mathbf{s}, \mathbf{s}^{\prime \prime}} / \tau\right)}\right)\)</li>
-  <li>SimMTM의 overall optimization loss는 다음과 같다 : \(\min _{\Theta} \mathcal{L}_{\text {reconstruction }}+\lambda \mathcal{L}_{\text {constraint }}\)
-    <ul>
-      <li>\(\mathcal{L}_{\text {constraint }}\)이 trivial aggregation이 발생하는 것에 대한 regularization 역할을 한다.</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="4-experiments">4. Experiments</h2>
-<p><img src="/assets/img/timeseries/SimMTM/table1.jpeg" alt="사진4" /></p>
-<ul>
-  <li>Low-level downstream task인 forecasting, high-level downstream task인 classification을 수행하였다.</li>
-  <li>비교한 SOTA 모델들
-    <ul>
-      <li>contrastive learning methd : TF-C, CoST, TS2Vec, LaST</li>
-      <li>masked modeling method : <strong>Ti-MAE</strong>, TST, TF-C
-<img src="/assets/img/timeseries/SimMTM/fig3.png" alt="사진5" /></li>
-      <li>(x-axis) 왼쪽에 있을수록 MSE가 낮고, (y-axis) 위쪽에 있을수록 Accuracy가 높다.</li>
-    </ul>
-  </li>
-  <li><img src="/assets/img/timeseries/SimMTM/table2.png" alt="사진6" /></li>
-  <li><img src="/assets/img/timeseries/SimMTM/table3.png" alt="사진7" /></li>
-  <li><img src="/assets/img/timeseries/SimMTM/table4.png" alt="사진8" />
-    <ul>
-      <li>SimMTM은 학습 데이터와 테스트 데이터가 다른 cross-domain setting에서도 forecasting과 classification 모두 다른 모델보다 뛰어나기 때문에 좋은 baseline 모델이라 할 수 있다.</li>
-    </ul>
-  </li>
-  <li><img src="/assets/img/timeseries/SimMTM/fig4.png" alt="사진9" />
-    <ul>
-      <li>\(\min _{\Theta} \mathcal{L}_{\text {reconstruction }}+\lambda \mathcal{L}_{\text {constraint }}\) 두 항 모두 loss term에 있을 때에 성능이 더 좋았다.</li>
-    </ul>
-  </li>
-  <li><img src="/assets/img/timeseries/SimMTM/fig5.png" alt="사진10" />
-    <ul>
-      <li>(left) SimMTM은 학습의 effectiveness가 다른 모델보다 높다. 즉 적은 데이터만으로도 valuable knowledge를 잘 파악한다.</li>
-      <li>(right) SimMTM에서 masked ratio가 높을수록 많은 multiple masked series를 만들 때 성능이 높다는 직관과 부합하는 결과이다.</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="5-conclusion">5. Conclusion</h2>
-<ul>
-  <li>SimMTM은 new masked modeling 방법을 제시
-    <ul>
-      <li>reconstructs the original series from its multiple neighbor masked series</li>
-      <li>aggregates the point-wise representations based on the series-wise similarities</li>
-    </ul>
-  </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[NeurIPS 2023](https://arxiv.org/abs/2302.00861)]]></summary></entry></feed>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[AAAI 2022](https://arxiv.org/abs/2106.10466)]]></summary></entry></feed>
