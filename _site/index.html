@@ -108,7 +108,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2024-04-14T14:26:44+09:00',
+    INDEX_KEY: 'index--2024-04-15T00:13:41+09:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -344,6 +344,65 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 
 
+<article id="post-stat-lawtotal" class="page post mb6" role="article">
+  <header>
+    <h1 class="post-title flip-project-title">
+      <a href="/stat/2024-04-14-lawtotal/" class="flip-title">
+        The Law of Total Probability / Total Expectation / Total Variance / Total Covariance (Gumbel-Max trick, …)
+      </a>
+    </h1>
+
+    <div class="post-date">
+      
+      <span class="ellipsis mr1">
+        <time datetime="2024-04-14T00:00:00+09:00">14 Apr 2024</time> in <span>Stat</span> 
+      </span>
+      
+    </div>
+
+    
+    
+
+    
+
+
+
+  <div class="hr pb0"></div>
+
+
+  </header>
+
+  
+    <ul>
+  <li>The Law of Total Probability
+\(P(A)=\sum P\left(A \mid B_n\right) P\left(B_n\right)\)</li>
+  <li>The Law of Total Expectation
+\(\mathrm{E}(X)=\mathrm{E}(\mathrm{E}(X \mid Y))\)</li>
+  <li>The Law of Total Variance
+\(\operatorname{Var}(Y)=\mathrm{E}[\operatorname{Var}(Y \mid X)]+\operatorname{Var}(\mathrm{E}[Y \mid X])\)</li>
+  <li>The Law of Total Covariance
+\(\operatorname{cov}(X, Y)=\mathrm{E}(\operatorname{cov}(X, Y \mid Z))+\operatorname{cov}(\mathrm{E}(X \mid Z), \mathrm{E}(Y \mid Z))\)</li>
+</ul>
+
+
+    
+    
+    <footer>
+      <p class="read-more">
+        Continue reading <a class="heading flip-title" href="/stat/2024-04-14-lawtotal/">The Law of Total Probability / Total Expectation / Total Variance / Total Covariance (Gumbel-Max trick, …)</a>
+
+      </p>
+    </footer>
+  
+</article>
+
+
+  
+
+
+
+
+
 <article id="post-stat-dTV" class="page post mb6" role="article">
   <header>
     <h1 class="post-title flip-project-title">
@@ -377,7 +436,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
   <li>통계학에서 Convergence in distribution은 중요한 성질이다. 우리는 Sample size n이 커질수록 확률변수 또는 estimator가 어떤 분포에 가까워지는지 궁금하기 때문이다.</li>
   <li>그러므로 Convergence in distribution을 imply하는 성질도 중요하다. Convergence in distribution을 보일 수 있는 방법들 중 하나가 되기 때문이다.</li>
   <li>Total variation distance는 두 분포 사이의 distance metric 중 하나이다. Total variation distance가 작으면 두 분포가 가깝다는 의미이다.</li>
-  <li>본 게시글에서 Total variation distance에 대해서 알아보고 <strong>Total variation distance가 0으로 수렴</strong>하면 한 분포가 다른 분포로 근사한다, 즉 Convergence in distribution한다는 것을 보인다.</li>
+  <li>본 게시글에서는 Total variation distance에 대해서 알아보고 <strong>Total variation distance가 0으로 수렴</strong>하면 한 분포가 다른 분포로 근사한다, 즉 Convergence in distribution한다는 것을 보인다.</li>
 </ul>
 
 
@@ -842,70 +901,6 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
     <footer>
       <p class="read-more">
         Continue reading <a class="heading flip-title" href="/timeseries/2024-03-19-TFinTSsurvey/">(Survey paper) Transformers in Time Series: A Survey (IJCAI 2023)</a>
-
-      </p>
-    </footer>
-  
-</article>
-
-
-  
-
-
-
-
-
-<article id="post-timeseries-softCLT" class="page post mb6" role="article">
-  <header>
-    <h1 class="post-title flip-project-title">
-      <a href="/timeseries/2024-03-13-softCLT/" class="flip-title">
-        (SoftCLT) Soft Contrastive Learning for Time Series (ICLR 2024)
-      </a>
-    </h1>
-
-    <div class="post-date">
-      
-      <span class="ellipsis mr1">
-        <time datetime="2024-03-13T00:00:00+09:00">13 Mar 2024</time> in <span>Timeseries</span> 
-      </span>
-      
-    </div>
-
-    
-    
-
-    
-
-
-
-  
-    <p class="note-sm" >
-      <a href="https://arxiv.org/abs/2312.16424">ICLR 2024</a>
-
-    </p>
-  
-
-
-  </header>
-
-  
-    <h2 id="abstract">Abstract</h2>
-<ul>
-  <li>TS instance만으로 contrasting하거나, 하나의 TS의 adjacent timestamps만으로 contrasting하면 TS의 inherent correlation을 제대로 반영하지 못한다.</li>
-  <li><strong>SoftCLT</strong> : instance-wise &amp; temporal Contrastive loss를 사용하여, 0 또는 1이 아닌 0 ~ 1 사이의 값으로 assign
-    <ul>
-      <li>Instance-wise contrastive loss : Data space에서 두 시계열의 distance</li>
-      <li>Temporal contrastive loss : 서로 다른 시점에 대한 loss</li>
-    </ul>
-  </li>
-</ul>
-
-
-    
-    
-    <footer>
-      <p class="read-more">
-        Continue reading <a class="heading flip-title" href="/timeseries/2024-03-13-softCLT/">(SoftCLT) Soft Contrastive Learning for Time Series (ICLR 2024)</a>
 
       </p>
     </footer>
