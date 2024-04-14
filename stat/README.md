@@ -16,9 +16,12 @@ permalink: /stat/
 \
 [MCMC with Implementation (2) : Gibbs Sampling]{:.heading.flip-title} \
 \
-[MGF(Moment Generating Function) and Characteristic Function에 대해서]{:.heading.flip-title}
+[MGF(Moment Generating Function) and Characteristic Function에 대해서]{:.heading.flip-title} \
+\
+[Total variation distance and Convergence in distribution]{:.heading.flip-title}
 
 [Advanced Variational Inference(VI), Variational Autoencoder(VAE)]: /stat/2024-03-02-vi
 [MCMC with Implementation (1) : Metropolis Hastings algorithm]: /stat/2024-03-04-mcmc
 [MCMC with Implementation (2) : Gibbs Sampling]: /stat/2024-03-06-gibbs
 [MGF(Moment Generating Function) and Characteristic Function에 대해서]: /stat/2024-04-12-MGF
+[Total variation distance and Convergence in distribution]: /stat/2024-04-14-dTV
