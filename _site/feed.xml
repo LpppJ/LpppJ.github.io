@@ -1,5 +1,125 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-04-15T00:13:41+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">The Law of Total Probability / Total Expectation / Total Variance / Total Covariance (Gumbel-Max trick, …)</title><link href="http://localhost:4000/stat/2024-04-14-lawtotal/" rel="alternate" type="text/html" title="The Law of Total Probability / Total Expectation / Total Variance / Total Covariance (Gumbel-Max trick, …)" /><published>2024-04-14T00:00:00+09:00</published><updated>2024-04-15T00:13:36+09:00</updated><id>http://localhost:4000/stat/lawtotal</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-14-lawtotal/"><![CDATA[<ul>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-04-16T13:10:08+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">Semi-Supervised Mean Estimation (Variance Reduction Technique)</title><link href="http://localhost:4000/stat/2024-04-16-SSmean/" rel="alternate" type="text/html" title="Semi-Supervised Mean Estimation (Variance Reduction Technique)" /><published>2024-04-16T00:00:00+09:00</published><updated>2024-04-16T13:10:04+09:00</updated><id>http://localhost:4000/stat/SSmean</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-16-SSmean/"><![CDATA[<ul>
+  <li>일반적으로 \(\left\{X_i\right\}_{i=1}^n\)으로 \(\mathbb{E}[X]\)를 estimate할 때 sample mean \(\hat \theta = \bar{X}=\frac{1}{n} \sum_{i=1}^n X_i\)을 사용한다.</li>
+  <li>하지만 실제로는 소량의 labeled data \(\left\{X_i\right\}_{i=1}^n\)와 대량의 unlabeled data \(\left\{Y_i\right\}_{i=1}^N\), \(n&lt;&lt;N\)이 존재한다.</li>
+  <li>Motivation : 대량의 unlabeled data를 사용하여 \(\bar{X}=\frac{1}{n} \sum_{i=1}^n X_i\)보다 좋은 (분산이 작은) unbiased estimator를 찾자.</li>
+  <li><strong>Consider an estimator</strong> \(\widehat{\theta}=\frac{1}{n} \sum_{i=1}^n\left\{X_i-f\left(Y_i\right)\right\}+\frac{1}{N} \sum_{i=1}^N f\left(Y_i\right)\)​
+    <ul>
+      <li>\(f(Y)\)는  \(Y\)​로 만들 수 있는 estimator라고 생각하면 된다.</li>
+      <li>지금은 \(f(Y)\)가 없는 부분이 unbiased이므로 \(f(Y)\)도 unbiased estimator이어야 한다.</li>
+      <li>참고로 \(f(Y)=\mathbb E[X \mid Y]\)인 경우가 strong assumption이긴 하지만 optimal choice이다.</li>
+    </ul>
+  </li>
+  <li>Unbiased ? (proof)</li>
+</ul>
+
+<p>: \(\begin{aligned} \mathbb{E}[\hat{\theta}] &amp; =\mathbb{E}\left[\frac{1}{n} \sum_{i=1}^n\left(X_i-f\left(Y_i\right)\right)\right]+\mathbb{E}\left[\frac{1}{N} \sum_{i=1}^N f\left(Y_i\right)\right] \\ &amp; =\frac{1}{n} \sum_{i=1}^n \mathbb{E}\left[X_i-f\left(Y_i\right)\right]+\frac{1}{N} \sum_{i=1}^N \mathbb{E}\left[f\left(Y_i\right)\right] \\ &amp; =\mathbb{E}[X]-\mathbb{E}[f(Y)]+\mathbb{E}[f(Y)] \quad\left(\text { when } Y_i^{\prime} \text { s are iid) }\right. \\ &amp; =\mathbb{E}[X]\end{aligned}\)</p>
+
+<ul>
+  <li>Improves the variance ? (proof)</li>
+</ul>
+
+<p>: \(\begin{aligned} \hat{\theta} &amp; =\frac{1}{n} \sum_{i=1}^n\left(X_i-f\left(Y_i\right)\right)+\frac{1}{N} \sum_{i=1}^N f\left(Y_i\right) \\ &amp; =\frac{1}{n} \sum_{i=1}^n X_i-\left(\frac{1}{n}-\frac{1}{N}\right) \sum_{=1}^n f\left(Y_i\right)+\frac{1}{N} \sum_{i=n+1}^N f\left(Y_i\right) \\ \operatorname{Var}(\hat{\theta}) &amp; =\operatorname{Var}\left(\frac{1}{n} \sum_{i=1}^n X_i\right)+\operatorname{Var}\left(-\left(\frac{1}{n}-\frac{1}{N}\right) \sum_{i=1}^n f\left(Y_i\right)\right) \\ &amp; \quad -2 \operatorname{Cov}\left(\frac{1}{n} \sum_{i=1}^n X_i,\left(\frac{1}{n}-\frac{1}{N}\right) \sum_{i=1}^n f\left(Y_i\right)\right)+\operatorname{Var}\left(\frac{1}{N} \sum_{i=1}^N f\left(Y_i\right)\right) \\ &amp; =\frac{1}{n} \operatorname{Var}(X)+\left(\frac{1}{n}-\frac{1}{N}\right)^2 \cdot n \operatorname{Var}(f(Y)) \\ &amp; \quad -2 \frac{1}{n}\left(\frac{1}{n}-\frac{1}{N}\right) n \operatorname{Cov}(X, f(Y))+\frac{N-n}{N^2} \operatorname{Var}(f(Y)) \\ &amp; =\frac{1}{n} \operatorname{Var}(X)+\left(\frac{1}{n}-\frac{2}{N}+\frac{n}{N^2}-\frac{N-n}{N^2}\right) \operatorname{Var}(f(Y))-2\left(\frac{1}{n}-\frac{1}{N}\right) \operatorname{Cov}\left(X, f(Y)\right) \\ &amp; =\frac{1}{n} \operatorname{Var}(X)+\left(\frac{1}{n}-\frac{2}{N}+\frac{1}{N}\right) \operatorname{Var}(f(Y))-2\left(\frac{1}{n}-\frac{1}{N}\right) \operatorname{Cov}\left(X, f(Y)\right) \\ &amp; =\frac{1}{n}\left[\operatorname{Var}(X)+\frac{N-n}{N}(\operatorname{Var}(f(Y))-2 \operatorname{Cov}(X, f(Y)))\right]\end{aligned}\)</p>
+
+<ul>
+  <li>
+    <p>이 때 \(\operatorname{Var}[\bar{X}]=\operatorname{Var}[X] / n\) 이므로 \(\frac{1}{n}\left[\operatorname{Var}[X]+\frac{N-n}{N}\{\operatorname{Var}[f(Y)]-2 \operatorname{Cov}[X, f(Y)]\}\right]&lt;\frac{\operatorname{Var}[X]}{n}\)이면,</p>
+
+    <ul>
+      <li>즉 \(\operatorname{Var}[f(Y)]&lt;2 \operatorname{Cov}[X, f(Y)]\)이면 \(\hat \theta = \bar X\)보다 improve 된다.</li>
+    </ul>
+  </li>
+  <li>\(f(Y)=\mathbb{E}[X \mid Y]\)을 가정했으므로 \(\begin{aligned}\operatorname{Var}[\widehat{\theta}]=\frac{1}{n}\left[\operatorname{Var}(X)+\frac{N-n}{N}(\operatorname{Var}(f(Y))-2 \operatorname{Cov}(X, f(Y)))\right]\end{aligned}\)이고,
+    <ul>
+      <li>Covariance 부분만 보면
+        <ul>
+          <li>\(\begin{aligned}
+\operatorname{Cov}(X, \mathbb{E}[X \mid Y]) &amp; =\mathbb{E}[(X-\mathbb{E}[X])(\mathbb{E}[X \mid Y]-\mathbb{E}[X])]\\&amp;=\mathbb{E}\left[(\mathbb{E}[X \mid Y]-\mathbb{E}[X])^2\right] \\
+&amp; =\operatorname{Var}[\mathbb{E}(X \mid Y)]
+\end{aligned}\)이므로 대입하면</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>\(\begin{aligned}
+\operatorname{Var}[\widehat{\theta}] &amp; =\frac{1}{n}\{\underbrace{\operatorname{Var}[X]}_{=\operatorname{Var}[\mathbb{E}(X \mid Y)]+\mathbb{E}[\operatorname{Var}(X \mid Y)]}+\frac{N-n}{N} \operatorname{Var}(\mathbb{E}[X \mid Y])-2 \frac{N-n}{N} \underbrace{\operatorname{Cov}(X, \mathbb{E}[X \mid Y])}_{=\operatorname{Var}[\mathbb{E}(X \mid Y)]}\} \\
+&amp; =\frac{1}{n} \mathbb{E}[\operatorname{Var}(X \mid Y)]+\frac{1}{N} \operatorname{Var}[\mathbb{E}(X \mid Y)] \\
+&amp; \leq \frac{1}{n} \mathbb{E}[\operatorname{Var}(X \mid Y)]+\frac{1}{n} \operatorname{Var}[\mathbb{E}(X \mid Y)]=\operatorname{Var}[\bar{X}],
+\end{aligned}\)이다.</p>
+  </li>
+  <li>\(n &lt;&lt; N\)이므로 \(\hat \theta=\bar X\)의 분산이 작아졌다.</li>
+  <li>이 방법의 본질은 \(X\)와 \(Y\)의 dependency이다.
+    <ul>
+      <li>만약 \(X\)와 \(Y\)가 independent이면 \(Y\)가 \(\mathbb E[X]\)에 대한 정보를 가지고 있지 않으므로 improvement가 없다.</li>
+      <li>즉 본질적으로 Antithetic variable for Variance reduction과 같다.
+        <ul>
+          <li>(sample의 개수가 같더라도 iid가 아닌 negatively correlated sampling을 함으로써 estimator의 분산을 줄이는 방법)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[일반적으로 \(\left\{X_i\right\}_{i=1}^n\)으로 \(\mathbb{E}[X]\)를 estimate할 때 sample mean \(\hat \theta = \bar{X}=\frac{1}{n} \sum_{i=1}^n X_i\)을 사용한다. 하지만 실제로는 소량의 labeled data \(\left\{X_i\right\}_{i=1}^n\)와 대량의 unlabeled data \(\left\{Y_i\right\}_{i=1}^N\), \(n&lt;&lt;N\)이 존재한다. Motivation : 대량의 unlabeled data를 사용하여 \(\bar{X}=\frac{1}{n} \sum_{i=1}^n X_i\)보다 좋은 (분산이 작은) unbiased estimator를 찾자. Consider an estimator \(\widehat{\theta}=\frac{1}{n} \sum_{i=1}^n\left\{X_i-f\left(Y_i\right)\right\}+\frac{1}{N} \sum_{i=1}^N f\left(Y_i\right)\)​ \(f(Y)\)는 \(Y\)​로 만들 수 있는 estimator라고 생각하면 된다. 지금은 \(f(Y)\)가 없는 부분이 unbiased이므로 \(f(Y)\)도 unbiased estimator이어야 한다. 참고로 \(f(Y)=\mathbb E[X \mid Y]\)인 경우가 strong assumption이긴 하지만 optimal choice이다.]]></summary></entry><entry><title type="html">Total variation distance and Convergence in distribution</title><link href="http://localhost:4000/stat/2024-04-14-dTV/" rel="alternate" type="text/html" title="Total variation distance and Convergence in distribution" /><published>2024-04-14T00:00:00+09:00</published><updated>2024-04-14T14:37:24+09:00</updated><id>http://localhost:4000/stat/dTV</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-14-dTV/"><![CDATA[<ul>
+  <li>통계학에서 Convergence in distribution은 중요한 성질이다. 우리는 Sample size n이 커질수록 확률변수 또는 estimator가 어떤 분포에 가까워지는지 궁금하기 때문이다.</li>
+  <li>그러므로 Convergence in distribution을 imply하는 성질도 중요하다. Convergence in distribution을 보일 수 있는 방법들 중 하나가 되기 때문이다.</li>
+  <li>Total variation distance는 두 분포 사이의 distance metric 중 하나이다. Total variation distance가 작으면 두 분포가 가깝다는 의미이다.</li>
+  <li>본 게시글에서는 Total variation distance에 대해서 알아보고 <strong>Total variation distance가 0으로 수렴</strong>하면 한 분포가 다른 분포로 근사한다, 즉 Convergence in distribution한다는 것을 보인다.</li>
+</ul>
+
+<h2 id="total-variation-distanced_tv">Total variation distance(\(d_{TV}\))</h2>
+
+<ul>
+  <li><a href="https://en.wikipedia.org/wiki/Total_variation_distance_of_probability_measures">Wikipedia</a>에 따르면 Total variation distance의 정의는 아래와 같다.
+    <ul>
+      <li>Consider a measurable space \((\Omega, \mathcal{F})\) and probability measures \(P\) and \(Q\) defined on \((\Omega, \mathcal{F})\). The total variation distance between \(P\) and \(Q\) is defined as: \(\delta(P, Q)=\sup _{A \in \mathcal{F}}\mid P(A)-Q(A)\mid\)​</li>
+    </ul>
+  </li>
+  <li>\(d_{TV}\)​는 half of the L1 distance btw/ the probability functions이다.
+    <ul>
+      <li><img src="/assets/img/stat/dTV/fig1.png" alt="그림1" /></li>
+      <li>Geometric 의미는 두 분포의 차이에 해당하는 회색 영역의 넓이를 2로 나눈 값이다.</li>
+      <li>discrete : \(\delta(P, Q)=\frac{1}{2} \sum_x\mid P(x)-Q(x)\mid\)</li>
+      <li>continuous : \(\delta(P, Q)=\frac{1}{2} \int\mid p(x)-q(x)\mid  \mathrm{d} x\)​</li>
+      <li>\(\frac{1}{2}\)를 곱해주는 이유는 \(0 \le d_{TV} \le 1\)으로 만들어주기 위함인데, 아래 사진처럼 \(d_{TV}\)가 매우 큰 경우에 두 분포의 차이의 넓이가 2에 가까워지기 때문에 \(\frac{1}{2}\)를 곱한다.</li>
+      <li><img src="/assets/img/stat/dTV/fig2.png" alt="그림2" /></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="convergence-in-total-variation-distance">Convergence in Total variation distance</h2>
+
+<ul>
+  <li>Convergence in Total variation distance는 Convergence in distribution보다 강력한 성질이다.</li>
+  <li>
+    <p><strong>즉 두 분포의 Total variation distance가 0으로 수렴하면, 두 분포는 Convergence in distribution이다.</strong></p>
+
+    <p>: \(\begin{aligned}\text{When }\delta(P, Q)&amp;=\sup _{A \in \mathcal{F}}\mid P(A)-Q(A)\mid  \\ \lim _{n \rightarrow \infty} \delta\left(P_n, Q\right)&amp;=0 \\ \lim _{n \rightarrow \infty}\mid P_n(A)-Q(A)\mid &amp;=0 \quad \forall A \in \mathcal{F} \\ \lim _{n \rightarrow \infty}\mid F_n(x)-F(x)\mid &amp;=0 \end{aligned}\)</p>
+  </li>
+  <li>
+    <p>하지만 역은 성립하지 않는다. Convergence in distribution이라고 해서 Total variation distance가 0으로 수렴하는 것은 아니다.</p>
+
+    <ul>
+      <li>Counterexample : \(f_n \sim \frac{2}{\pi} \cos ^2(n x) \mathbf{1}_{[0, \pi]}(x) d x\)</li>
+    </ul>
+
+    <p>: \(\begin{aligned}F_n(x)&amp;=\int_0^x f_n(t)dt \\ &amp;=\int_0^x\frac{2}{\pi} \cos ^2(nt) \mathbf{1}_{[0, \pi]}(x)dt \\ &amp; = \frac{2}{\pi}\mathbf{1}_{[0, \pi]}(x) \int_0^x \cos ^2(nt)dt \\ &amp;= \frac{2}{\pi}\mathbf{1}_{[0, \pi]}(x) \frac{sin(2nx)+2nx}{4n} \\  \lim_{n \to \infty} F_n(x) &amp;=\frac{2}{\pi}\mathbf{1}_{[0, \pi]}(x) \frac{x}{2} \\ &amp;=\frac{x}{\pi},\quad 0 \le x \le \pi \end{aligned}\)</p>
+
+    <ul>
+      <li>즉 \(\lim_{n \to \infty} F_n = F_{\infty}\)는 \(Unif(0, \pi)\)의 CDF가 되므로 Convergence in distribution이다.</li>
+      <li>하지만 \(\lim_{n \to \infty}d_{TV}(F_n, F_{\infty}) \nrightarrow 0\)이다.</li>
+    </ul>
+
+    <p>: \(\begin{aligned} d_{TV}\left(F_n, F_{\infty}\right) &amp; =\frac{1}{2} \int_0^\pi\mid f_n(x)-f_{\infty}(x)\mid  d x \\ &amp; =\frac{1}{2} \int_0^\pi\mid \frac{2}{\pi} \cos ^2(n x)-\frac{1}{\pi}\mid  d x \\ &amp; =\frac{1}{\pi} \int_0^\pi\mid \cos ^2(n x)-\frac{1}{2}\mid  d x \\ &amp; &gt;0 \quad \text{strictly positive} \end{aligned}\)</p>
+
+    <ul>
+      <li><img src="/assets/img/stat/dTV/fig3.png" alt="그림3" /></li>
+      <li>\(cos^2(nx)\)는 0과 1사이에서의 주기 함수이고, \(n\)이 커져도 주기가 짧아질 뿐이다.</li>
+      <li>그러므로 \(\mid \cos ^2(n x)-\frac{1}{2}\mid\)는 n과 관계없이 strictly positive이다. 즉 Total variation distance가 0으로 수렴하지 않는다.</li>
+      <li>만약 \(f_n, f_{\infty}\)​가 continuous random variable의 density이고 unimodal한 경우에는 Convergence in distribution과 Total variation distance이 0으로 수렴하는 것은 if and only if(필요충분)이다. (skip the proof)</li>
+      <li><a href="https://hal.science/hal-00821911/document">Reference : Ivan Nourdin, Guillaume Poly, Convergence in law implies convergence in total variation for polynomials in independent Gaussian, Gamma or Beta random variables</a></li>
+    </ul>
+  </li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[통계학에서 Convergence in distribution은 중요한 성질이다. 우리는 Sample size n이 커질수록 확률변수 또는 estimator가 어떤 분포에 가까워지는지 궁금하기 때문이다. 그러므로 Convergence in distribution을 imply하는 성질도 중요하다. Convergence in distribution을 보일 수 있는 방법들 중 하나가 되기 때문이다. Total variation distance는 두 분포 사이의 distance metric 중 하나이다. Total variation distance가 작으면 두 분포가 가깝다는 의미이다. 본 게시글에서는 Total variation distance에 대해서 알아보고 Total variation distance가 0으로 수렴하면 한 분포가 다른 분포로 근사한다, 즉 Convergence in distribution한다는 것을 보인다.]]></summary></entry><entry><title type="html">The Law of Total Probability / Total Expectation / Total Variance (Gumbel-Max trick, …)</title><link href="http://localhost:4000/stat/2024-04-14-lawtotal/" rel="alternate" type="text/html" title="The Law of Total Probability / Total Expectation / Total Variance (Gumbel-Max trick, …)" /><published>2024-04-14T00:00:00+09:00</published><updated>2024-04-15T09:39:45+09:00</updated><id>http://localhost:4000/stat/lawtotal</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-14-lawtotal/"><![CDATA[<ul>
   <li>The Law of Total Probability
 \(P(A)=\sum P\left(A \mid B_n\right) P\left(B_n\right)\)</li>
   <li>The Law of Total Expectation
@@ -113,7 +233,7 @@
   \mathbb{E}[\operatorname{Var}(X \mid Y)] &amp; =n\left(\mathbb{E}[Y]-\mathbb{E}\left[Y^2\right]\right)\\&amp;=n\left(\frac{\alpha}{\alpha+\beta}-\frac{\alpha \beta}{(\alpha+\beta)^2(\alpha+\beta+1)}-\frac{\alpha^2}{(\alpha+\beta)^2}\right) \\ &amp; =n \frac{\alpha \beta}{(\alpha+\beta)(\alpha+\beta+1)} \\ \operatorname{Var}[\mathbb{E}(X \mid Y)]&amp;=\operatorname{Var}[n P]=n^2 \frac{\alpha \beta}{(\alpha+\beta)^2(\alpha+\beta+1)} \\ \therefore \operatorname{Var}[X]&amp;=n \frac{\alpha \beta(\alpha+\beta+n)}{(\alpha+\beta)^2(\alpha+\beta+1)}
   \end{aligned}\)​</p>
 
-<h2 id="the-law-of-total-variance-1">The Law of Total Variance</h2>
+<h2 id="the-law-of-total-covariance">The Law of Total Covariance</h2>
 
 <ul>
   <li>
@@ -122,67 +242,7 @@
   <li>
     <p>\(\begin{aligned}\operatorname{Cov}\left(X_i, X_j\right) &amp;\leq \sqrt{\operatorname{Var}\left(X_i\right) \operatorname{Var}\left(X_j\right)} \leq \operatorname{Var}\left(X_i\right) / 2+\operatorname{Var}\left(X_j\right) / 2 \\ &amp;\text{by }x y \leq x^2 / 2+y^2 / 2 \end{aligned}\).</p>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[The Law of Total Probability \(P(A)=\sum P\left(A \mid B_n\right) P\left(B_n\right)\) The Law of Total Expectation \(\mathrm{E}(X)=\mathrm{E}(\mathrm{E}(X \mid Y))\) The Law of Total Variance \(\operatorname{Var}(Y)=\mathrm{E}[\operatorname{Var}(Y \mid X)]+\operatorname{Var}(\mathrm{E}[Y \mid X])\) The Law of Total Covariance \(\operatorname{cov}(X, Y)=\mathrm{E}(\operatorname{cov}(X, Y \mid Z))+\operatorname{cov}(\mathrm{E}(X \mid Z), \mathrm{E}(Y \mid Z))\)]]></summary></entry><entry><title type="html">Total variation distance and Convergence in distribution</title><link href="http://localhost:4000/stat/2024-04-14-dTV/" rel="alternate" type="text/html" title="Total variation distance and Convergence in distribution" /><published>2024-04-14T00:00:00+09:00</published><updated>2024-04-14T14:37:24+09:00</updated><id>http://localhost:4000/stat/dTV</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-14-dTV/"><![CDATA[<ul>
-  <li>통계학에서 Convergence in distribution은 중요한 성질이다. 우리는 Sample size n이 커질수록 확률변수 또는 estimator가 어떤 분포에 가까워지는지 궁금하기 때문이다.</li>
-  <li>그러므로 Convergence in distribution을 imply하는 성질도 중요하다. Convergence in distribution을 보일 수 있는 방법들 중 하나가 되기 때문이다.</li>
-  <li>Total variation distance는 두 분포 사이의 distance metric 중 하나이다. Total variation distance가 작으면 두 분포가 가깝다는 의미이다.</li>
-  <li>본 게시글에서는 Total variation distance에 대해서 알아보고 <strong>Total variation distance가 0으로 수렴</strong>하면 한 분포가 다른 분포로 근사한다, 즉 Convergence in distribution한다는 것을 보인다.</li>
-</ul>
-
-<h2 id="total-variation-distanced_tv">Total variation distance(\(d_{TV}\))</h2>
-
-<ul>
-  <li><a href="https://en.wikipedia.org/wiki/Total_variation_distance_of_probability_measures">Wikipedia</a>에 따르면 Total variation distance의 정의는 아래와 같다.
-    <ul>
-      <li>Consider a measurable space \((\Omega, \mathcal{F})\) and probability measures \(P\) and \(Q\) defined on \((\Omega, \mathcal{F})\). The total variation distance between \(P\) and \(Q\) is defined as: \(\delta(P, Q)=\sup _{A \in \mathcal{F}}\mid P(A)-Q(A)\mid\)​</li>
-    </ul>
-  </li>
-  <li>\(d_{TV}\)​는 half of the L1 distance btw/ the probability functions이다.
-    <ul>
-      <li><img src="/assets/img/stat/dTV/fig1.png" alt="그림1" /></li>
-      <li>Geometric 의미는 두 분포의 차이에 해당하는 회색 영역의 넓이를 2로 나눈 값이다.</li>
-      <li>discrete : \(\delta(P, Q)=\frac{1}{2} \sum_x\mid P(x)-Q(x)\mid\)</li>
-      <li>continuous : \(\delta(P, Q)=\frac{1}{2} \int\mid p(x)-q(x)\mid  \mathrm{d} x\)​</li>
-      <li>\(\frac{1}{2}\)를 곱해주는 이유는 \(0 \le d_{TV} \le 1\)으로 만들어주기 위함인데, 아래 사진처럼 \(d_{TV}\)가 매우 큰 경우에 두 분포의 차이의 넓이가 2에 가까워지기 때문에 \(\frac{1}{2}\)를 곱한다.</li>
-      <li><img src="/assets/img/stat/dTV/fig2.png" alt="그림2" /></li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="convergence-in-total-variation-distance">Convergence in Total variation distance</h2>
-
-<ul>
-  <li>Convergence in Total variation distance는 Convergence in distribution보다 강력한 성질이다.</li>
-  <li>
-    <p><strong>즉 두 분포의 Total variation distance가 0으로 수렴하면, 두 분포는 Convergence in distribution이다.</strong></p>
-
-    <p>: \(\begin{aligned}\text{When }\delta(P, Q)&amp;=\sup _{A \in \mathcal{F}}\mid P(A)-Q(A)\mid  \\ \lim _{n \rightarrow \infty} \delta\left(P_n, Q\right)&amp;=0 \\ \lim _{n \rightarrow \infty}\mid P_n(A)-Q(A)\mid &amp;=0 \quad \forall A \in \mathcal{F} \\ \lim _{n \rightarrow \infty}\mid F_n(x)-F(x)\mid &amp;=0 \end{aligned}\)</p>
-  </li>
-  <li>
-    <p>하지만 역은 성립하지 않는다. Convergence in distribution이라고 해서 Total variation distance가 0으로 수렴하는 것은 아니다.</p>
-
-    <ul>
-      <li>Counterexample : \(f_n \sim \frac{2}{\pi} \cos ^2(n x) \mathbf{1}_{[0, \pi]}(x) d x\)</li>
-    </ul>
-
-    <p>: \(\begin{aligned}F_n(x)&amp;=\int_0^x f_n(t)dt \\ &amp;=\int_0^x\frac{2}{\pi} \cos ^2(nt) \mathbf{1}_{[0, \pi]}(x)dt \\ &amp; = \frac{2}{\pi}\mathbf{1}_{[0, \pi]}(x) \int_0^x \cos ^2(nt)dt \\ &amp;= \frac{2}{\pi}\mathbf{1}_{[0, \pi]}(x) \frac{sin(2nx)+2nx}{4n} \\  \lim_{n \to \infty} F_n(x) &amp;=\frac{2}{\pi}\mathbf{1}_{[0, \pi]}(x) \frac{x}{2} \\ &amp;=\frac{x}{\pi},\quad 0 \le x \le \pi \end{aligned}\)</p>
-
-    <ul>
-      <li>즉 \(\lim_{n \to \infty} F_n = F_{\infty}\)는 \(Unif(0, \pi)\)의 CDF가 되므로 Convergence in distribution이다.</li>
-      <li>하지만 \(\lim_{n \to \infty}d_{TV}(F_n, F_{\infty}) \nrightarrow 0\)이다.</li>
-    </ul>
-
-    <p>: \(\begin{aligned} d_{TV}\left(F_n, F_{\infty}\right) &amp; =\frac{1}{2} \int_0^\pi\mid f_n(x)-f_{\infty}(x)\mid  d x \\ &amp; =\frac{1}{2} \int_0^\pi\mid \frac{2}{\pi} \cos ^2(n x)-\frac{1}{\pi}\mid  d x \\ &amp; =\frac{1}{\pi} \int_0^\pi\mid \cos ^2(n x)-\frac{1}{2}\mid  d x \\ &amp; &gt;0 \quad \text{strictly positive} \end{aligned}\)</p>
-
-    <ul>
-      <li><img src="/assets/img/stat/dTV/fig3.png" alt="그림3" /></li>
-      <li>\(cos^2(nx)\)는 0과 1사이에서의 주기 함수이고, \(n\)이 커져도 주기가 짧아질 뿐이다.</li>
-      <li>그러므로 \(\mid \cos ^2(n x)-\frac{1}{2}\mid\)는 n과 관계없이 strictly positive이다. 즉 Total variation distance가 0으로 수렴하지 않는다.</li>
-      <li>만약 \(f_n, f_{\infty}\)​가 continuous random variable의 density이고 unimodal한 경우에는 Convergence in distribution과 Total variation distance이 0으로 수렴하는 것은 if and only if(필요충분)이다. (skip the proof)</li>
-      <li><a href="https://hal.science/hal-00821911/document">Reference : Ivan Nourdin, Guillaume Poly, Convergence in law implies convergence in total variation for polynomials in independent Gaussian, Gamma or Beta random variables</a></li>
-    </ul>
-  </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[통계학에서 Convergence in distribution은 중요한 성질이다. 우리는 Sample size n이 커질수록 확률변수 또는 estimator가 어떤 분포에 가까워지는지 궁금하기 때문이다. 그러므로 Convergence in distribution을 imply하는 성질도 중요하다. Convergence in distribution을 보일 수 있는 방법들 중 하나가 되기 때문이다. Total variation distance는 두 분포 사이의 distance metric 중 하나이다. Total variation distance가 작으면 두 분포가 가깝다는 의미이다. 본 게시글에서는 Total variation distance에 대해서 알아보고 Total variation distance가 0으로 수렴하면 한 분포가 다른 분포로 근사한다, 즉 Convergence in distribution한다는 것을 보인다.]]></summary></entry><entry><title type="html">(Dish-TS) A General Paradigm for Alleviating Distribution Shift in Time Series Forecasting (AAAI 2023)</title><link href="http://localhost:4000/timeseries/2024-04-12-Dish-TS/" rel="alternate" type="text/html" title="(Dish-TS) A General Paradigm for Alleviating Distribution Shift in Time Series Forecasting (AAAI 2023)" /><published>2024-04-12T00:00:00+09:00</published><updated>2024-04-12T19:26:03+09:00</updated><id>http://localhost:4000/timeseries/Dish-TS</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-04-12-Dish-TS/"><![CDATA[<h2 id="abstract">Abstract</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[The Law of Total Probability \(P(A)=\sum P\left(A \mid B_n\right) P\left(B_n\right)\) The Law of Total Expectation \(\mathrm{E}(X)=\mathrm{E}(\mathrm{E}(X \mid Y))\) The Law of Total Variance \(\operatorname{Var}(Y)=\mathrm{E}[\operatorname{Var}(Y \mid X)]+\operatorname{Var}(\mathrm{E}[Y \mid X])\) The Law of Total Covariance \(\operatorname{cov}(X, Y)=\mathrm{E}(\operatorname{cov}(X, Y \mid Z))+\operatorname{cov}(\mathrm{E}(X \mid Z), \mathrm{E}(Y \mid Z))\)]]></summary></entry><entry><title type="html">(Dish-TS) A General Paradigm for Alleviating Distribution Shift in Time Series Forecasting (AAAI 2023)</title><link href="http://localhost:4000/timeseries/2024-04-12-Dish-TS/" rel="alternate" type="text/html" title="(Dish-TS) A General Paradigm for Alleviating Distribution Shift in Time Series Forecasting (AAAI 2023)" /><published>2024-04-12T00:00:00+09:00</published><updated>2024-04-12T19:26:03+09:00</updated><id>http://localhost:4000/timeseries/Dish-TS</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-04-12-Dish-TS/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>Distribution shift in TS : series distribution changes over time</li>
@@ -1562,170 +1622,4 @@ but maximize the distance btw prototype(=virtual sequences, centor, …)</li>
   <li>new taxonomy consisting of network design and application</li>
   <li>strengths and limitations of representative methods by experimental evaluation</li>
   <li>highlight future research directions.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[IJCAI 2023](https://arxiv.org/pdf/2202.07125.pdf)]]></summary></entry><entry><title type="html">(Crossformer) Transformer Utilizing Cross-Dimension Dependency for Multivariate Time Series Forecasting (ICLR 2023)</title><link href="http://localhost:4000/timeseries/2024-03-19-crossformer/" rel="alternate" type="text/html" title="(Crossformer) Transformer Utilizing Cross-Dimension Dependency for Multivariate Time Series Forecasting (ICLR 2023)" /><published>2024-03-19T00:00:00+09:00</published><updated>2024-03-19T21:34:48+09:00</updated><id>http://localhost:4000/timeseries/crossformer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-19-crossformer/"><![CDATA[<h2 id="abstract">Abstract</h2>
-
-<ul>
-  <li>Transformer-based models
-    <ul>
-      <li>focus on modeling the temporal dependency (cross-time dependency)</li>
-      <li>yet often omit the dependency among different variables (cross- dimension dependency)</li>
-    </ul>
-  </li>
-  <li>Crossformer는
-    <ul>
-      <li>Dimension-Segment-Wise (DSW) : MTS \(\to\) 2d vector array로 만들고</li>
-      <li>Two-Stage Attention (TSA) : 2개의 attention을 거치는데 각각 cross-time and cross-dimension dependency를 학습한다.</li>
-      <li>Hierarchical Encoder-Decoder (HED) : 그리고 서로 다른 scales의 정보를 사용해서 coarse, fine한 정보 모두 활용하여 forecasting한다.</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="1-introduction">1. Introduction</h2>
-
-<ul>
-  <li>MTS에서는 cross-time dependency 뿐만 아니라 cross-dimension dependency도 중요한데, Transformer에서 cross-dim dependency를 반영하는 방법은 embedding 뿐이다.</li>
-  <li>본 논문에서는 cross-dim dependency를 explicitly하게 사용한다.</li>
-  <li>Dimension-Segment-Wise (DSW) : the series(e.g. UTS)는 segments로 나뉘고, 각 segment는 feature vector가 된다. (series는 2d vector array가 된다.)</li>
-  <li>Two-Stage Attention (TSA): 2d vector array로부터 cross-time and cross-dimension dependency 학습</li>
-  <li>Hierarchical Encoder-Decoder (HED) : 각 layer에서 서로 다른 scale에 대한 dependency를 학습하게 된다.</li>
-</ul>
-
-<h2 id="2-related-works">2. Related Works</h2>
-
-<ul>
-  <li><strong>Multivariate Time Series Forecasting</strong>
-    <ul>
-      <li>Statistical models : Vector auto-regressive(VAR), Vector auto-regressive moving average (VARMA)</li>
-      <li>Neural models : TCN, DeepAR, LSTnet(CNN+RNN), MTGNN, …</li>
-    </ul>
-  </li>
-  <li><strong>Transformer-based model</strong> : LogTrans, Informer, Autoformer, Pyraformer, FEDformer, Preformer, …</li>
-  <li><strong>Vision Transformers</strong> : Transformer를 vision에서 사용할 때 썼던 patching 방식</li>
-</ul>
-
-<h2 id="3-methodology">3. Methodology</h2>
-
-<ul>
-  <li>\(\mathbf{x}_{1: T} \in \mathbb{R}^{T \times D}\)를 보고 \(\mathbf{x}_{T+1: T+\tau} \in \mathbb{R}^{\tau \times D}\)​ 예측하는 문제
-    <ul>
-      <li>\(\tau, T\) is the number of time steps in the future and past, respectively</li>
-      <li>\(D&gt;1\) is the number of dimensions</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="31-dimension-segment-wise-embedding">3.1. Dimension-Segment-wise Embedding</h3>
-<p><img src="/assets/img/timeseries/crossformer/fig1.png" alt="사진1" /></p>
-<ul>
-  <li>t시점의 모든 dimension의 data point \(\mathbf{x}_t \in \mathbb{R}^D\)를 \(\mathbf{h}_t \in \mathbb{R}^{d_{\text {model }}}\)로 embedding한다.</li>
-  <li>
-\[\begin{aligned}
-\mathbf{x}_{1: T} &amp; =\left\{\mathbf{x}_{i, d}^{(s)} \left\lvert\, 1 \leq i \leq \frac{T}{L_{\text {seg }}}\right., 1 \leq d \leq D\right\} \\
-\mathbf{x}_{i, d}^{(s)} &amp; =\left\{x_{t, d} \mid(i-1) \times L_{\text {seg }}&lt;t \leq i \times L_{\text {seg }}\right\} \\ \mathbf{h}_{i, d}&amp;=\mathbf{E} \mathbf{x}_{i, d}^{(s)}+\mathbf{E}_{i, d}^{(p o s)} \end{aligned}\]
-    <ul>
-      <li>\(\mathbf{x}_{i, d}^{(s)} \in \mathbb{R}^{L_{\text {seg }}}\)  is the \(i\)-th segment in dimension \(d\) with length \(L_{\text {seg }}\)</li>
-      <li>\(\mathbf{E} \in \mathbb{R}^{d_{\text {model }} \times L_{\text {seg }}}\) : the learnable projection matrix</li>
-      <li>\(\mathbf{E}_{i, d}^{(\text {pos })} \in \mathbb{R}^{d_{\text {model }}}\) : the learnable position embedding for position $(i, d)$.</li>
-    </ul>
-  </li>
-  <li>
-\[\mathbf{H}=\left\{\mathbf{h}_{i, d} \mid, 1 \leq i \leq \frac{T}{L_{\text {seg }}}, 1 \leq d \leq D\right\}\]
-    <ul>
-      <li>where each \(\mathbf{h}_{i, d}\) represents a univariate time series segment.</li>
-    </ul>
-  </li>
-  <li>수식으로 표현하다보니 어려운데 아래 그림과 같고, \(\mathbf{H}\)는 오른쪽처럼 생겼다.
-<img src="/assets/img/timeseries/crossformer/myfig1.jpeg" alt="사진2" /></li>
-</ul>
-
-<h3 id="32-two-stage-attention-layer">3.2. Two-Stage Attention Layer</h3>
-<ul>
-  <li>이미지가 아니라 시계열이다보니 height와 width가 서로 바뀌면 의미가 달라지기 때문에 flatten시키면 안되고 바로 \(\mathbf{H}\)에 self-attention을 적용한다.</li>
-  <li><strong>Cross-Time Stage</strong>
-    <ul>
-      <li>\(\mathbf{Z}_{i, \text { : }}\) : the vectors of all dimensions at time step \(i\)</li>
-      <li>\(\mathbf{Z}_{:, d}\) the vectors of all time steps in dimension \(d\)
-<img src="/assets/img/timeseries/crossformer/myfig2.jpeg" alt="사진3" /></li>
-      <li>
-\[\begin{aligned} \hat{\mathbf{Z}}_{:, d}^{\text {time }}=\text { LayerNorm }\left(\mathbf{Z}_{:, d}+\operatorname{MSA}^{\text {time }}\left(\mathbf{Z}_{:, d}, \mathbf{Z}_{:, d}, \mathbf{Z}_{:, d}\right)\right) \\ \mathbf{Z}^{\text {time }}=\text { LayerNorm }\left(\hat{\mathbf{Z}}^{\text {time }}+\operatorname{MLP}\left(\hat{\mathbf{Z}}^{\text {time }}\right)\right) \end{aligned}\]
-      </li>
-      <li>\(\mathbf{Z}^{time}\)이 다음 stage인 Cross-Dimension Stage의 input이 된다.</li>
-    </ul>
-  </li>
-  <li><strong>Cross-Dimension Stage</strong>
-    <ul>
-      <li>\(\begin{aligned} \mathbf{B}_{i,:} &amp; =\mathrm{MSA}_1^{\operatorname{dim}}\left(\mathbf{R}_{i,:}, \mathbf{Z}_{i,:}^{\text {time }}, \mathbf{Z}_{i,:}^{\text {time }}\right), 1 \leq i \leq L \\ \overline{\mathbf{Z}}_{i,:}^{\text {dim }} &amp; =\mathrm{MSA}_2^{\text {dim }}\left(\mathbf{Z}_{i,:}^{\text {time }}, \mathbf{B}_{i,:}, \mathbf{B}_{i,:}\right), 1 \leq i \leq L \\ \hat{\mathbf{Z}}^{\text {dim }} &amp; =\text { LayerNorm }\left(\mathbf{Z}^{\text {time }}+\overline{\mathbf{Z}}^{\text {dim }}\right) \\ \mathbf{Z}^{\text {dim }} &amp; =\text { LayerNorm }\left(\hat{\mathbf{Z}}^{\text {dim }}+\operatorname{MLP}\left(\hat{\mathbf{Z}}^{\text {dim }}\right)\right) \end{aligned}\)
-<img src="/assets/img/timeseries/crossformer/fig2.png" alt="사진4" /></li>
-      <li>\(D\)가 클 때에는 router mechanism을 사용하여 fixed number \(c &lt;&lt; D\) vectors에 정보를 모았다가 다시 뿌려준다.</li>
-      <li>\(\mathbf{R} \in \mathbb{R}^{L \times c \times d_{\text {model }}}\) : the learnable vector array serving as routers</li>
-      <li>\(\mathbf{B} \in \mathbb{R}^{L \times c \times d_{\text {model }}}\) : the aggregated messages from all dimensions</li>
-      <li>\(\overline{\mathbf{Z}}^{\text {dim }}\) : output of the router mechanism.</li>
-      <li>All time steps \((1 \leq i \leq L)\) share the same \(\mathbf{M S A}_1^{\text {dim }}, \mathbf{M S A}_2^{\text {dim }}\)</li>
-      <li>\(\hat{\mathbf{Z}}^{\text {dim }}, \mathbf{Z}^{\text {dim }}\) : output of skip connection and MLP respectively</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="33-hierarchical-encoder-decoder">3.3. Hierarchical Encoder-Decoder</h3>
-<p><img src="/assets/img/timeseries/crossformer/fig3.png" alt="사진5" /></p>
-<ul>
-  <li>Upper layer일수록 coarser scale을 사용한 정보를 얻고, 서로 다른 scale로 얻은 정보들로 예측한 값들은 final result에서 더해진다.</li>
-  <li><strong>Encoder</strong> : upper layer일수록 coarser scale을 사용한다는 말은 인접한 두 vector(segment)를 merge한다는 것과 같다.</li>
-  <li>\(\mathbf{Z}^{e n c, l}=\operatorname{Encoder}\left(\mathbf{Z}^{e n c, l-1}\right)\)의 연산은 아래와 같다.
-\(\begin{aligned} &amp; \begin{cases}l=1: &amp; \hat{\mathbf{Z}}^{e n c, l}=\mathbf{H} \\ l&gt;1: &amp; \hat{\mathbf{Z}}_{i, d}^{e n c, l}=\mathbf{M}\left[\mathbf{Z}_{2 i-1, d}^{e n c, l-1} \cdot \mathbf{Z}_{2 i, d}^{e n c, l-1}\right], 1 \leq i \leq \frac{L_{l-1}}{2}, 1 \leq d \leq D\end{cases} \\&amp; \mathbf{Z}^{\text {enc,l}}=\operatorname{TSA}\left(\hat{\mathbf{Z}}^{\text {enc,l}}\right) \end{aligned}\)
-    <ul>
-      <li>
-        <p>\(\mathbf{H}\) denotes the 2D array obtained by DSW embedding</p>
-      </li>
-      <li>
-        <p>\(\mathbf{Z}^{e n c, l}\) denotes the output of the \(l\)-th encoder layer</p>
-      </li>
-      <li>\(\mathbf{M} \in \mathbb{R}^{d_{\text {model }} \times 2 d_{\text {model }}}\) denotes a learnable matrix for segment merging</li>
-      <li>\([\cdot]\) denotes the concatenation operation</li>
-      <li>\(L_{l-1}\) denotes the number of segments in each dimension in layer \(l-1\)</li>
-      <li>\(\hat{\mathbf{Z}}^{e n c, l}\) denotes the array after segment merging in the \(i\)-th layer</li>
-      <li>\(\mathbf{Z}^{\text {enc }, 0}, \mathbf{Z}^{\text {enc }, 1}, \ldots, \mathbf{Z}^{\text {enc }, N},\left(\mathbf{Z}^{\text {enc }, 0}=\mathbf{H}\right)\) is used to represent the \(N+1\) outputs of the encoder</li>
-    </ul>
-  </li>
-  <li><strong>Decoder</strong> : Emcoder에서 얻은 \(N+1\)개의 feature array가 있으면, \(N+1\)개의 layers로 예측한다.
-    <ul>
-      <li>decoder의 process : \(\mathbf{Z}^{\text {dec, } l}=\operatorname{Decoder}\left(\mathbf{Z}^{\text {dec, },-1}, \mathbf{Z}^{\text {enc, },}\right)\)
-\(\begin{aligned} &amp; \left\{\begin{array}{lll} l=0: &amp; \tilde{\mathbf{Z}}^{\text {dec }, l}=\operatorname{TSA}\left(\mathbf{E}^{(d e c)}\right) \\ l&gt;0: &amp; \tilde{\mathbf{Z}}^{\text {dec, }, l}=\operatorname{TSA}\left(\mathbf{Z}^{\text {dec, },-1}\right) \end{array}\right. \\ &amp; \overline{\mathbf{Z}}_{:, d}^{\text {dec, }, l}=\operatorname{MSA}\left(\tilde{\mathbf{Z}}_{:, d}^{\text {dec, }, l}, \mathbf{Z}_{:, d}^{e n c, l}, \mathbf{Z}_{:, d}^{e n c, l}\right), 1 \leq d \leq D \\ &amp; \hat{\mathbf{Z}}^{\text {dec, } l}=\text { LayerNorm }\left(\tilde{\mathbf{Z}}^{\text {dec, }, l}+\overline{\mathbf{Z}}^{\text {dec, } l}\right) \\ &amp; \mathbf{Z}^{\text {dec,l}}=\text { LayerNorm }\left(\hat{\mathbf{Z}}^{\text {dec, }, l} \operatorname{MLP}\left(\hat{\mathbf{Z}}^{\text {dec,l}}\right)\right) \\ &amp; \end{aligned}\)</li>
-      <li>\(\mathbf{E}^{(\text {dec })} \in \mathbb{R}^{\frac{\tau}{L_{s e g}} \times D \times d_{\text {model }}}\) denotes the learnable position embedding for decoder</li>
-      <li>\(\tilde{\mathbf{Z}}^{\text {dec,l } l}\) is the output of TSA</li>
-      <li>The MSA layer takes \(\tilde{\mathbf{Z}}_{:, d}^{d e c,l }\) as query and \(\mathbf{Z}_{:, d}^{e n c, l}\) as the key and value to build the connection between encoder and decoder</li>
-      <li>The output of MSA is denoted as \(\overline{\mathbf{Z}}_{:, d}^{\text {dec, },} . \hat{\mathbf{Z}}^{\text {dec,l}, ~} \mathbf{Z}^{\text {dec, }, l}\) denote the output of skip connection and MLP respectively.</li>
-      <li>\(\mathbf{Z}^{\text {dec, 0},}, \mathbf{Z}^{e n c, 1}, \ldots, \mathbf{Z}^{\text {dec, } N}\) : is used to represent decoder output</li>
-      <li><strong>Linear projection</strong> : 각 layer에서는 linear projection으로 prediction을 만들고, 각 layer의 prediction을 다 더하면 최종 prediction이 된다.
-\(\begin{gathered} \text { for } l=0, \ldots, N: \mathbf{x}_{i, d}^{(s), l}=\mathbf{W}^l \mathbf{Z}_{i, d}^{\text {dec,l }} \quad \mathbf{x}_{T+1: T+\tau}^{\text {pred, } l}=\left\{\mathbf{x}_{i, d}^{(s), l} \left\lvert\, 1 \leq i \leq \frac{\tau}{L_{\text {seg }}}\right., 1 \leq d \leq D\right\} \\ \mathbf{x}_{T+1: T+\tau}^{\text {pred }}=\sum_{l=0}^N \mathbf{x}_{T+1: T+\tau}^{\text {pred, }}\end{gathered}\)
-        <ul>
-          <li>\(\mathbf{W}^l \in \mathbb{R}^{L_{\text {seg }} \times d_{\text {model }}}\) : learnable matrix to project a vector to a ts segment</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="4-experiments">4. Experiments</h2>
-<h3 id="41-protocols">4.1. Protocols</h3>
-<ul>
-  <li>Dataset : 1) ETTh1 (Electricity Transformer Temperature-hourly), 2) ETTm1 (Electricity Transformer Temperature-minutely), 3) WTH (Weather), 4) ECL (Electricity Consuming Load), 5) ILI (Influenza-Like Illness), 6) Traffic</li>
-  <li>Baselines : 1) LSTMa (Bah- danau et al., 2015), 2) LSTnet (Lai et al., 2018), 3) MTGNN (Wu et al., 2020), and recent Transformer-based models for MTS forecasting: 4) Transformer (Vaswani et al., 2017), 5) In- former (Zhou et al., 2021), 6) Autoformer (Wu et al., 2021a), 7) Pyraformer (Liu et al., 2021a) and 8) FEDformer (Zhou et al., 2022)
-    <h3 id="42-main-results">4.2. Main Results</h3>
-    <p><img src="/assets/img/timeseries/crossformer/table1.png" alt="사진6" /></p>
-    <h3 id="43-ablation-study">4.3. Ablation Study</h3>
-    <p><img src="/assets/img/timeseries/crossformer/table2.png" alt="사진7" /></p>
-    <h3 id="44-effect-of-hyper-parameters">4.4. Effect of Hyper-parameters</h3>
-    <p><img src="/assets/img/timeseries/crossformer/fig4.png" alt="사진8" /></p>
-    <h3 id="45-computational-efficiency-analysis">4.5. Computational Efficiency Analysis</h3>
-    <p><img src="/assets/img/timeseries/crossformer/table3.png" alt="사진9" /></p>
-  </li>
-</ul>
-
-<h3 id="5-conclusion">5. Conclusion</h3>
-<ul>
-  <li>Crossformer : Transformer-based model utilizing cross-dimension dependency for MTS forecasting</li>
-  <li><strong>Dimension-Segment-Wise (DSW)</strong> embedding embeds the input data into a 2D vector array to preserve the information of both time and dimension</li>
-  <li><strong>The Two-Stage-Attention (TSA)</strong> layer is devised to capture the cross-time and cross- dimension dependency of the embedded array</li>
-  <li>Using DSW embedding and TSA layer, a <strong>Hierarchical Encoder-Decoder (HED)</strong> is devised to utilize the information at different scales</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2023](https://openreview.net/forum?id=vSVLM2j9eie)]]></summary></entry></feed>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[IJCAI 2023](https://arxiv.org/pdf/2202.07125.pdf)]]></summary></entry></feed>

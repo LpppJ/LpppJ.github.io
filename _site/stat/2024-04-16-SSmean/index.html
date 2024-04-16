@@ -30,22 +30,22 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
   
     
 <!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>(GAFormer) Enhancing Timeseries Transformers Through Group-Aware Embeddings (ICLR 2024) | LpppJ</title>
+<title>Semi-Supervised Mean Estimation (Variance Reduction Technique) | LpppJ</title>
 <meta name="generator" content="Jekyll v4.3.3" />
-<meta property="og:title" content="(GAFormer) Enhancing Timeseries Transformers Through Group-Aware Embeddings (ICLR 2024)" />
+<meta property="og:title" content="Semi-Supervised Mean Estimation (Variance Reduction Technique)" />
 <meta name="author" content="GW Jeong" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="ICLR 2024" />
-<meta property="og:description" content="ICLR 2024" />
-<link rel="canonical" href="http://localhost:4000/timeseries/2024-03-01-GAFormer/" />
-<meta property="og:url" content="http://localhost:4000/timeseries/2024-03-01-GAFormer/" />
+<meta name="description" content="This is blog about machine learning, deep learning, artificial intelligence." />
+<meta property="og:description" content="This is blog about machine learning, deep learning, artificial intelligence." />
+<link rel="canonical" href="http://localhost:4000/stat/2024-04-16-SSmean/" />
+<meta property="og:url" content="http://localhost:4000/stat/2024-04-16-SSmean/" />
 <meta property="og:site_name" content="LpppJ" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-03-01T00:00:00+09:00" />
+<meta property="article:published_time" content="2024-04-16T00:00:00+09:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="(GAFormer) Enhancing Timeseries Transformers Through Group-Aware Embeddings (ICLR 2024)" />
+<meta property="twitter:title" content="Semi-Supervised Mean Estimation (Variance Reduction Technique)" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-03-19T13:15:52+09:00","datePublished":"2024-03-01T00:00:00+09:00","description":"ICLR 2024","headline":"(GAFormer) Enhancing Timeseries Transformers Through Group-Aware Embeddings (ICLR 2024)","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/timeseries/2024-03-01-GAFormer/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/timeseries/2024-03-01-GAFormer/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-04-16T13:10:04+09:00","datePublished":"2024-04-16T00:00:00+09:00","description":"This is blog about machine learning, deep learning, artificial intelligence.","headline":"Semi-Supervised Mean Estimation (Variance Reduction Technique)","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/stat/2024-04-16-SSmean/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/stat/2024-04-16-SSmean/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -73,7 +73,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
 <meta name="generator" content="Hydejack v9.1.6" />
 
 
-<link rel="alternate" href="http://localhost:4000/timeseries/2024-03-01-GAFormer/" hreflang="en">
+<link rel="alternate" href="http://localhost:4000/stat/2024-04-16-SSmean/" hreflang="en">
 
 <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="LpppJ" />
 
@@ -186,14 +186,14 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
           <span>/</span>
           
           
-          <a href="/timeseries/">timeseries</a>
+          <a href="/stat/">stat</a>
         
       </li>
     
       <li>
         
           <span>/</span>
-          <span>2024-03-01-GAFormer</span>
+          <span>2024-04-16-SSmean</span>
         
       </li>
     
@@ -210,18 +210,18 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 
 
-<article id="post-timeseries-GAFormer" class="page post mb6" role="article">
+<article id="post-stat-SSmean" class="page post mb6" role="article">
   <header>
     <h1 class="post-title flip-project-title">
       
-        (GAFormer) Enhancing Timeseries Transformers Through Group-Aware Embeddings (ICLR 2024)
+        Semi-Supervised Mean Estimation (Variance Reduction Technique)
       
     </h1>
 
     <div class="post-date">
       
       <span class="ellipsis mr1">
-        <time datetime="2024-03-01T00:00:00+09:00">01 Mar 2024</time> in <span>Timeseries</span> 
+        <time datetime="2024-04-16T00:00:00+09:00">16 Apr 2024</time> in <span>Stat</span> 
       </span>
       
     </div>
@@ -233,117 +233,72 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 
 
-  
-    <p class="note-sm" >
-      <a href="https://openreview.net/forum?id=c56TWtYp0W">ICLR 2024</a>
-
-    </p>
-  
+  <div class="hr pb0"></div>
 
 
   </header>
 
   
-    <h2 id="abstract">Abstract</h2>
-<ul>
-  <li>Multivariate TS의 복잡한 inter-channel relationship과 dynamic shifts로 인해 Robust and generalizable representation을 학습하기 어렵다.</li>
-  <li>본 논문에서 제시하는 GAFormer는 set of group tokens를 학습하고 instance-specific group embedding layer를 만든다.</li>
-</ul>
-
-<h2 id="1-introduction">1. Introduction</h2>
-<ul>
-  <li>Multivariate TS의 temporal dynamics(temporal structure) of each channel, 그리고 relationship across channels(channel-wise structure)는 TS의 representation을 만드는 요소</li>
-  <li>TS는 <strong>no predetermined ordering</strong>, 그리고 <strong>instance-specific relationships across channels and time</strong>으로 인해 position embedding을 그대로 사용하기에 적절하지 않다.</li>
-  <li>본 논문에서 제시하는 GAFormer는 channel structure와 temporal structure를 통합하여 token에 ‘group embedding’한다.</li>
-</ul>
-
-<h2 id="2-method">2. Method</h2>
-<ul>
-  <li>Instance-specific group embeddings : grouping across different tokens, either channel-wise (spatially) or time-wise (temporally)
-    <h3 id="21-group-embeddings">2.1. Group Embeddings</h3>
-  </li>
-  <li>Sequence of tokens : \(X=\left[\mathbf{x}_1, \ldots, \mathbf{x}_N\right] \in \mathbb{R}^{N \times D}\) (시계열의 채널, 길이와 다름)
     <ul>
-      <li>\(N\) : the total # of tokens in a seq</li>
-      <li>\(D\) : token dim</li>
+  <li>일반적으로 \(\left\{X_i\right\}_{i=1}^n\)으로 \(\mathbb{E}[X]\)를 estimate할 때 sample mean \(\hat \theta = \bar{X}=\frac{1}{n} \sum_{i=1}^n X_i\)을 사용한다.</li>
+  <li>하지만 실제로는 소량의 labeled data \(\left\{X_i\right\}_{i=1}^n\)와 대량의 unlabeled data \(\left\{Y_i\right\}_{i=1}^N\), \(n&lt;&lt;N\)이 존재한다.</li>
+  <li>Motivation : 대량의 unlabeled data를 사용하여 \(\bar{X}=\frac{1}{n} \sum_{i=1}^n X_i\)보다 좋은 (분산이 작은) unbiased estimator를 찾자.</li>
+  <li><strong>Consider an estimator</strong> \(\widehat{\theta}=\frac{1}{n} \sum_{i=1}^n\left\{X_i-f\left(Y_i\right)\right\}+\frac{1}{N} \sum_{i=1}^N f\left(Y_i\right)\)​
+    <ul>
+      <li>\(f(Y)\)는  \(Y\)​로 만들 수 있는 estimator라고 생각하면 된다.</li>
+      <li>지금은 \(f(Y)\)가 없는 부분이 unbiased이므로 \(f(Y)\)도 unbiased estimator이어야 한다.</li>
+      <li>참고로 \(f(Y)=\mathbb E[X \mid Y]\)인 경우가 strong assumption이긴 하지만 optimal choice이다.</li>
     </ul>
   </li>
-  <li>Linear weight matrix : \(W \in \mathbb{R}^{D \times K}\) project each token down to a space of \(K\) dim
+  <li>Unbiased ? (proof)</li>
+</ul>
+
+<p>: \(\begin{aligned} \mathbb{E}[\hat{\theta}] &amp; =\mathbb{E}\left[\frac{1}{n} \sum_{i=1}^n\left(X_i-f\left(Y_i\right)\right)\right]+\mathbb{E}\left[\frac{1}{N} \sum_{i=1}^N f\left(Y_i\right)\right] \\ &amp; =\frac{1}{n} \sum_{i=1}^n \mathbb{E}\left[X_i-f\left(Y_i\right)\right]+\frac{1}{N} \sum_{i=1}^N \mathbb{E}\left[f\left(Y_i\right)\right] \\ &amp; =\mathbb{E}[X]-\mathbb{E}[f(Y)]+\mathbb{E}[f(Y)] \quad\left(\text { when } Y_i^{\prime} \text { s are iid) }\right. \\ &amp; =\mathbb{E}[X]\end{aligned}\)</p>
+
+<ul>
+  <li>Improves the variance ? (proof)</li>
+</ul>
+
+<p>: \(\begin{aligned} \hat{\theta} &amp; =\frac{1}{n} \sum_{i=1}^n\left(X_i-f\left(Y_i\right)\right)+\frac{1}{N} \sum_{i=1}^N f\left(Y_i\right) \\ &amp; =\frac{1}{n} \sum_{i=1}^n X_i-\left(\frac{1}{n}-\frac{1}{N}\right) \sum_{=1}^n f\left(Y_i\right)+\frac{1}{N} \sum_{i=n+1}^N f\left(Y_i\right) \\ \operatorname{Var}(\hat{\theta}) &amp; =\operatorname{Var}\left(\frac{1}{n} \sum_{i=1}^n X_i\right)+\operatorname{Var}\left(-\left(\frac{1}{n}-\frac{1}{N}\right) \sum_{i=1}^n f\left(Y_i\right)\right) \\ &amp; \quad -2 \operatorname{Cov}\left(\frac{1}{n} \sum_{i=1}^n X_i,\left(\frac{1}{n}-\frac{1}{N}\right) \sum_{i=1}^n f\left(Y_i\right)\right)+\operatorname{Var}\left(\frac{1}{N} \sum_{i=1}^N f\left(Y_i\right)\right) \\ &amp; =\frac{1}{n} \operatorname{Var}(X)+\left(\frac{1}{n}-\frac{1}{N}\right)^2 \cdot n \operatorname{Var}(f(Y)) \\ &amp; \quad -2 \frac{1}{n}\left(\frac{1}{n}-\frac{1}{N}\right) n \operatorname{Cov}(X, f(Y))+\frac{N-n}{N^2} \operatorname{Var}(f(Y)) \\ &amp; =\frac{1}{n} \operatorname{Var}(X)+\left(\frac{1}{n}-\frac{2}{N}+\frac{n}{N^2}-\frac{N-n}{N^2}\right) \operatorname{Var}(f(Y))-2\left(\frac{1}{n}-\frac{1}{N}\right) \operatorname{Cov}\left(X, f(Y)\right) \\ &amp; =\frac{1}{n} \operatorname{Var}(X)+\left(\frac{1}{n}-\frac{2}{N}+\frac{1}{N}\right) \operatorname{Var}(f(Y))-2\left(\frac{1}{n}-\frac{1}{N}\right) \operatorname{Cov}\left(X, f(Y)\right) \\ &amp; =\frac{1}{n}\left[\operatorname{Var}(X)+\frac{N-n}{N}(\operatorname{Var}(f(Y))-2 \operatorname{Cov}(X, f(Y)))\right]\end{aligned}\)</p>
+
+<ul>
+  <li>
+    <p>이 때 \(\operatorname{Var}[\bar{X}]=\operatorname{Var}[X] / n\) 이므로 \(\frac{1}{n}\left[\operatorname{Var}[X]+\frac{N-n}{N}\{\operatorname{Var}[f(Y)]-2 \operatorname{Cov}[X, f(Y)]\}\right]&lt;\frac{\operatorname{Var}[X]}{n}\)이면,</p>
+
     <ul>
-      <li><code class="language-plaintext highlighter-rouge">operation</code> \(\operatorname{Encoder}(X) W \in \mathbb{R}^{N \times K}\)</li>
+      <li>즉 \(\operatorname{Var}[f(Y)]&lt;2 \operatorname{Cov}[X, f(Y)]\)이면 \(\hat \theta = \bar X\)보다 improve 된다.</li>
     </ul>
   </li>
-  <li>그 다음 softmax : sparsify the coefficients that assign group tokens to input tokens (group awareness)
+  <li>\(f(Y)=\mathbb{E}[X \mid Y]\)을 가정했으므로 \(\begin{aligned}\operatorname{Var}[\widehat{\theta}]=\frac{1}{n}\left[\operatorname{Var}(X)+\frac{N-n}{N}(\operatorname{Var}(f(Y))-2 \operatorname{Cov}(X, f(Y)))\right]\end{aligned}\)이고,
     <ul>
-      <li><code class="language-plaintext highlighter-rouge">operation</code> \(\mathbb{S}(\operatorname{Encoder}(X) W)\)
+      <li>Covariance 부분만 보면
         <ul>
-          <li>where \(\mathbb{S}\) represents the softmax (along \((D)\) dim)</li>
+          <li>\(\begin{aligned}
+\operatorname{Cov}(X, \mathbb{E}[X \mid Y]) &amp; =\mathbb{E}[(X-\mathbb{E}[X])(\mathbb{E}[X \mid Y]-\mathbb{E}[X])]\\&amp;=\mathbb{E}\left[(\mathbb{E}[X \mid Y]-\mathbb{E}[X])^2\right] \\
+&amp; =\operatorname{Var}[\mathbb{E}(X \mid Y)]
+\end{aligned}\)이므로 대입하면</li>
         </ul>
       </li>
     </ul>
   </li>
-  <li>각 tokens를 K차원으로 줄였기 때문에,  \(\mathbf{G} \in \mathbb{R}^{N \times D}\)을 곱해줄 수 있다.
+  <li>
+    <p>\(\begin{aligned}
+\operatorname{Var}[\widehat{\theta}] &amp; =\frac{1}{n}\{\underbrace{\operatorname{Var}[X]}_{=\operatorname{Var}[\mathbb{E}(X \mid Y)]+\mathbb{E}[\operatorname{Var}(X \mid Y)]}+\frac{N-n}{N} \operatorname{Var}(\mathbb{E}[X \mid Y])-2 \frac{N-n}{N} \underbrace{\operatorname{Cov}(X, \mathbb{E}[X \mid Y])}_{=\operatorname{Var}[\mathbb{E}(X \mid Y)]}\} \\
+&amp; =\frac{1}{n} \mathbb{E}[\operatorname{Var}(X \mid Y)]+\frac{1}{N} \operatorname{Var}[\mathbb{E}(X \mid Y)] \\
+&amp; \leq \frac{1}{n} \mathbb{E}[\operatorname{Var}(X \mid Y)]+\frac{1}{n} \operatorname{Var}[\mathbb{E}(X \mid Y)]=\operatorname{Var}[\bar{X}],
+\end{aligned}\)이다.</p>
+  </li>
+  <li>\(n &lt;&lt; N\)이므로 \(\hat \theta=\bar X\)의 분산이 작아졌다.</li>
+  <li>이 방법의 본질은 \(X\)와 \(Y\)의 dependency이다.
     <ul>
-      <li><code class="language-plaintext highlighter-rouge">operation</code> \(\operatorname{GE}(X)=\mathbb{S}(\operatorname{Encoder}(X) W) \cdot G\)</li>
+      <li>만약 \(X\)와 \(Y\)가 independent이면 \(Y\)가 \(\mathbb E[X]\)에 대한 정보를 가지고 있지 않으므로 improvement가 없다.</li>
+      <li>즉 본질적으로 Antithetic variable for Variance reduction과 같다.
+        <ul>
+          <li>(sample의 개수가 같더라도 iid가 아닌 negatively correlated sampling을 함으로써 estimator의 분산을 줄이는 방법)</li>
+        </ul>
+      </li>
     </ul>
   </li>
-  <li>이제 \(X\)에 더해준다
-    <ul>
-      <li><code class="language-plaintext highlighter-rouge">operation</code> \(X \leftarrow X+\operatorname{GE}(X)\)</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="22-gaformer-a-group-aware-spatiotemporal-transformer">2.2. GAFormer: A Group-Aware SpatioTemporal Transformer</h3>
-<ul>
-  <li><strong>Tokenization Layer</strong> : 시계열 \(X \in \mathbb{R}^{C \times T}\)를 P개의 패치로 잘라서 tensor \(X \in \mathbb{R}^{C \times P \times L}\)를 만든다. 그리고 <code class="language-plaintext highlighter-rouge">Token</code>이라는 encoder를 통과시키면 \(Z=\operatorname{Token}(X) \in \mathbb{R}^{C \times P \times D}\)가 된다. 이 때 channel-wise separation이 유지되고 각 channel에서의 temporal semantics는 알아낼 수 있다.</li>
-  <li><strong>Spatial (Channel-Wise) Group Awareness</strong> : <code class="language-plaintext highlighter-rouge">Trans-S</code>(Transformer encoder)와 <code class="language-plaintext highlighter-rouge">SGE</code>(spatial group embedding)으로 channel-wise group embedding을 학습한다. <br />
-<img src="/assets/img/timeseries/GAFormer/fig2.jpeg" alt="사진2" />
-(\(Z^{\prime}=\operatorname{Trans}-\mathrm{S}\left(Z_S+\operatorname{SGE}\left(Z_S\right)\right)\)) Group embedding을 하지 않고 fixed positional embedding을 하면 두 시계열에 같은 사건이 발생했는데도 발생 시점이 다르다는 이유로 두 시계열의 structure를 다르게 학습하는데, group embedding을 하면 사건이 발생한 인접 시점들에 대해 embedding을 하기 때문에 같은 structure로 학습할 수 있다.
-<img src="/assets/img/timeseries/GAFormer/fig1.jpeg" alt="사진1" /></li>
-  <li><strong>Temporal Group Awareness</strong> : 먼저 dimension reduction layer \(H\)를 통과시켜 \(D\)차원 token을 \(D'\)차원 token으로 압축할 수 있다. 그리고 Spatial Group Awareness layer와 유사하게 학습한다. <br />
-(\(Z^{\text {final}}=\operatorname{Trans}-\mathrm{T}\left(Z_T+\operatorname{TGE}\left(Z_T\right)\right)\)) 이렇게 학습된 \(Z^{\text {final}}\)은 linear classifier로 들어간다.</li>
-</ul>
-
-<h2 id="3-results">3. Results</h2>
-<h3 id="31-an-intuitive-example--noisy-many-body-systems">3.1. An Intuitive example : Noisy many-body systems</h3>
-<ul>
-  <li>본 논문에서는 multivariate TS를 생성하기 위해 상호 작용하는 입자들로 구성된 many-body system의 궤적을 기반으로 한 실험 결과를 제시한다.</li>
-  <li>시스템의 총 에너지를 분류하여, 고에너지 시스템인지 저에너지 시스템인지를 결정하는 것인데, 실험의 복잡성을 증가시키기 위해 상호 작용하지 않는 무관한 body들이 시스템을 오염시키는 상황을 가정했다.</li>
-  <li>3가지의 embedding 방식을 실험했다.
-    <ul>
-      <li>1) learnable positional embedding</li>
-      <li>2) parameter-free sin-cos positional embedding</li>
-      <li>3) Group embedding</li>
-    </ul>
-  </li>
-  <li>3가지의 setting을 실험했다.
-    <ul>
-      <li>1) Stable : the relative position of object(channels) never shifts</li>
-      <li>2) Shuffle : the observed objects could be in any position and are randomized similarly</li>
-      <li>3) Biased : the observed objects have different position that are randomly sampled from non-overapping set</li>
-    </ul>
-  </li>
-  <li>실험 결과 Group embedding은 channel mismatch와 distribution shifts가 있을 때 다른 embedding보다 robust했다.
-<img src="/assets/img/timeseries/GAFormer/fig3.jpeg" alt="사진3" />
-    <h3 id="32-time-series-classification-tasks">3.2. Time series Classification tasks</h3>
-  </li>
-  <li>table1, table2 : TGE(temporal dimension embedding)에 Group embedding을 했을 때 classification 성능이 향상된다.
-<img src="/assets/img/timeseries/GAFormer/table1.jpeg" alt="사진3" />
-<img src="/assets/img/timeseries/GAFormer/table2.jpeg" alt="사진4" />
-    <h3 id="33-classification-and-regression-tasks-on-neural-recordings">3.3. Classification and Regression tasks on Neural Recordings</h3>
-    <p><img src="/assets/img/timeseries/GAFormer/table3.jpeg" alt="사진5" /></p>
-    <h3 id="34-ablation-studies">3.4. Ablation Studies</h3>
-  </li>
-  <li>table4 :  temporal group embedding 또는 spatial group embedding 둘 중 하나만 적용하거나 둘 다 적용한 결과 둘 다 성능 향상에 필요하다.
-<img src="/assets/img/timeseries/GAFormer/table4.jpeg" alt="사진6" /></li>
-</ul>
-
-<h2 id="4-related-work">4. Related Work</h2>
-<h2 id="5-discussion">5. Discussion</h2>
-<ul>
-  <li>본 논문에서는 TS의 group-level structure를 다루는 새로운 프레임워크를 제안하였다.</li>
-  <li>Group embedding은 group token across channel and temporal dimension을 학습해서 representation space로 보낸다.</li>
 </ul>
 
   
