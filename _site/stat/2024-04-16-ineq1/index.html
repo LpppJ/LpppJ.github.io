@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en"><!--
+ __  __                __                                     __
+/\ \/\ \              /\ \             __                    /\ \
+\ \ \_\ \   __  __    \_\ \      __   /\_\      __       ___ \ \ \/'\
+ \ \  _  \ /\ \/\ \   /'_` \   /'__`\ \/\ \   /'__`\    /'___\\ \ , <
+  \ \ \ \ \\ \ \_\ \ /\ \L\ \ /\  __/  \ \ \ /\ \L\.\_ /\ \__/ \ \ \\`\
+   \ \_\ \_\\/`____ \\ \___,_\\ \____\ _\ \ \\ \__/.\_\\ \____\ \ \_\ \_\
+    \/_/\/_/ `/___/> \\/__,_ / \/____//\ \_\ \\/__/\/_/ \/____/  \/_/\/_/
+                /\___/                \ \____/
+                \/__/                  \/___/
+
+Powered by Hydejack v9.1.6 <https://hydejack.com/>
+-->
+
+
+
+
+
+
+
+<head>
+  
+
+
+
+
+
+
+  
+    
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Inequalities for 1. Expectation and 2.Variance | LpppJ</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Inequalities for 1. Expectation and 2.Variance" />
+<meta name="author" content="GW Jeong" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="This is blog about machine learning, deep learning, artificial intelligence." />
+<meta property="og:description" content="This is blog about machine learning, deep learning, artificial intelligence." />
+<link rel="canonical" href="http://localhost:4000/stat/2024-04-16-ineq1/" />
+<meta property="og:url" content="http://localhost:4000/stat/2024-04-16-ineq1/" />
+<meta property="og:site_name" content="LpppJ" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-04-16T00:00:00+09:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Inequalities for 1. Expectation and 2.Variance" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-04-16T17:49:26+09:00","datePublished":"2024-04-16T00:00:00+09:00","description":"This is blog about machine learning, deep learning, artificial intelligence.","headline":"Inequalities for 1. Expectation and 2.Variance","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/stat/2024-04-16-ineq1/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/stat/2024-04-16-ineq1/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  
+
+
+
+  <meta name="theme-color" content="rgb(230, 217, 195)">
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="LpppJ">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<meta name="application-name" content="LpppJ">
+
+<meta name="generator" content="Hydejack v9.1.6" />
+
+
+<link rel="alternate" href="http://localhost:4000/stat/2024-04-16-ineq1/" hreflang="en">
+
+<link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="LpppJ" />
+
+
+<link rel="shortcut icon"    href="/assets/icons/favicon.ico">
+<link rel="apple-touch-icon" href="/assets/icons/icon-192x192.png">
+
+<link rel="manifest" href="/assets/site.webmanifest">
+
+<link rel="dns-prefetch" href="https://fonts.googleapis.com"><link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+
+
+<link rel="preload" href="/assets/img/swipe.svg" as="image" id="_hrefSwipeSVG">
+
+
+
+
+
+
+<script>!function(r,c){"use strict";function a(e,t,n,o){e.addEventListener?e.addEventListener(t,n,o):e.attachEvent?e.attachEvent("on"+t,n):e["on"+t]=n}r.loadJS=function(e,t){var n=c.createElement("script"),e=(n.src=e,t&&a(n,"load",t,{once:!0}),c.scripts[0]);return e.parentNode.insertBefore(n,e),n},r._loaded=!1,r.loadJSDeferred=function(e,t){var n=c.createElement("script");function o(){r._loaded=!0,t&&a(n,"load",t,{once:!0});var e=c.scripts[0];e.parentNode.insertBefore(n,e)}return n.src=e,r._loaded?o():a(r,"load",o,{once:!0}),n},r.setRel=r.setRelStylesheet=function(e){a(c.getElementById(e),"load",function(){this.rel="stylesheet"},{once:!0})}}(window,document);
+!function(a){"use strict";var b=function(b,c,d){function e(a){return h.body?a():void setTimeout(function(){e(a)})}function f(){i.addEventListener&&i.removeEventListener("load",f),i.media=d||"all"}var g,h=a.document,i=h.createElement("link");if(c)g=c;else{var j=(h.body||h.getElementsByTagName("head")[0]).childNodes;g=j[j.length-1]}var k=h.styleSheets;i.rel="stylesheet",i.href=b,i.media="only x",e(function(){g.parentNode.insertBefore(i,c?g:g.nextSibling)});var l=function(a){for(var b=i.href,c=k.length;c--;)if(k[c].href===b)return a();setTimeout(function(){l(a)})};return i.addEventListener&&i.addEventListener("load",f),i.onloadcssdefined=l,l(f),i};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
+!function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(b){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
+!function(w) {
+  w._baseURL = '/';
+  w._publicPath = '/assets/js/';
+  w._noPushState = false;
+  w._noDrawer = false;
+  w._noNavbar = false;
+  w._noToc = false;
+  w._noSearch = false;
+  w._search = {
+    DATA_URL: '/assets/sitedata.json?no-cache',
+    STORAGE_KEY: 'mini-search/',
+    INDEX_KEY: 'index--2024-04-16T17:49:28+09:00',
+  };
+  w._clapButton = true;
+}(window);</script>
+
+
+<script async src="/assets/bower_components/MathJax/es5/tex-mml-chtml.js" id="_MathJax"></script>
+
+
+<!--[if gt IE 8]><!---->
+
+  
+
+
+
+
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css" id="_iconsPreload">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:700%7CNoto+Sans:400,400i,700,700i&display=swap" id="_fontsPreload">
+
+
+
+  <style id="_pageStyle">
+
+html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5);--accent-color-highlight: rgba(94, 97, 94, 0.1);--accent-color-darkened: #4b4e4b;--theme-color: rgb(230, 217, 195)}
+</style>
+
+
+<!--<![endif]-->
+
+
+
+
+</head>
+
+<body class="no-break-layout">
+  
+
+
+<hy-push-state
+  id="_pushState"
+  replace-selector="#_main"
+  link-selector="a[href]:not([href^='/assets/']):not(.external):not(.no-push-state)"
+  script-selector="script"
+  duration="500"
+  hashchange
+>
+  
+  
+  <div id="_navbar" class="navbar fixed-top">
+  <div class="content">
+    <span class="sr-only">Jump to:</span>
+    <div class="nav-btn-bar">
+      <a id="_menu" class="nav-btn no-hover" href="#_drawer--opened">
+        <span class="sr-only">Navigation</span>
+        <span class="icon-menu"></span>
+      </a>
+      <div class="nav-span"></div>
+    </div>
+  </div>
+</div>
+<hr class="sr-only" hidden />
+
+  <main
+  id="_main"
+  class="content layout-post"
+  role="main"
+>
+  <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+    <li><a href="/">home</a></li>
+    
+      <li>
+        
+          <span>/</span>
+          
+          
+          <a href="/stat/">stat</a>
+        
+      </li>
+    
+      <li>
+        
+          <span>/</span>
+          <span>2024-04-16-ineq1</span>
+        
+      </li>
+    
+  
+</ul></nav>
+  
+
+
+
+
+
+
+
+
+
+
+<article id="post-stat-ineq1" class="page post mb6" role="article">
+  <header>
+    <h1 class="post-title flip-project-title">
+      
+        Inequalities for 1. Expectation and 2.Variance
+      
+    </h1>
+
+    <div class="post-date">
+      
+      <span class="ellipsis mr1">
+        <time datetime="2024-04-16T00:00:00+09:00">16 Apr 2024</time> in <span>Stat</span> 
+      </span>
+      
+    </div>
+
+    
+    
+
+    
+
+
+
+  <div class="hr pb0"></div>
+
+
+  </header>
+
+  
+    <h2 id="1-inequalities-for-expectation">1. Inequalities for Expectation</h2>
+
+<h2 id="11-jensens-inequality">1.1. Jensen’s Inequality</h2>
+
+<ul>
+  <li>Suppose \(g\) is a convex function such that \(\lambda g(x)+(1-\lambda) g(y) \geq g(\lambda x+(1-\lambda) y)\) for all \(\lambda \in(0,1)\) and \(x, y \in \mathbb{R}\).</li>
+  <li>Then \(\mathbb{E}[g(X)] \geq g(\mathbb{E}[X]),\) provided that both expectations exist, i.e., \(\mathbb{E}{\left\vert X \right\vert}&lt;\infty\) and \(\mathbb{E}{\left\vert g(X) \right\vert}&lt;\infty\).</li>
+</ul>
+
+<h3 id="proof">Proof</h3>
+
+<ul>
+  <li>Assumption : \(g^{\prime \prime}(x)\ge0 \ \forall x\)</li>
+  <li>Using Taylor series about \(\mu = \mathbb E[X]\) of order 2</li>
+  <li>\(g(x)=g(\mu)+g^{\prime}(\mu)(x-\mu)+\frac{g^{\prime \prime}(\zeta)}{2}(x-\mu)^2 \text { where } \zeta \text { is between } x \text { and } \mu\)이고</li>
+  <li>\(g(x) \geq g(\mu)+g^{\prime}(\mu)(x-\mu)\quad (\because g^{\prime \prime}(x)\ge0 \ \forall x)\). 양변에 expectation을 취하면</li>
+  <li>\(\mathbb E[g(x)] \geq g(\mu)\)이 된다.</li>
+</ul>
+
+<p><img src="/assets/img/stat/ineq1/fig1.png" alt="그림1" /></p>
+
+<h3 id="examples--amge-gm-ge-hm">Examples : \(AM\ge GM \ge HM\)</h3>
+
+<ul>
+  <li>
+    <p>\(\begin{aligned} \text { Arithmetic Mean (AM) }&amp;=\frac{\sum_{i=1}^n x_i}{n} \\ \text { Geometric Mean }(\mathrm{GM}) &amp; =\left(\prod_{i=1}^n x_i\right)^{1 / n} \\ \text { Harmonic Mean }(\mathrm{HM}) &amp; =\frac{1}{\frac{1}{n} \sum_{i=1}^n \frac{1}{x_i}} \end{aligned}\)이다.</p>
+  </li>
+  <li>
+    <p>\(-\log(HM) = \log \left(\frac{1}{n} \sum_{i=1}^n \frac{1}{x_i}\right) \ \geq \ -\log(GM)=\frac{1}{n} \sum_{i=1}^n\left\{\log \left(\frac{1}{x_i}\right)\right\}\ \geq \ -\log \left(\frac{1}{n} \sum_{i=1}^n x_i\right)=-\log (\mathrm{AM})\)를 보이면 된다.</p>
+  </li>
+</ul>
+
+<h3 id="examples--kl-divergence-ge-0">Examples : KL-divergence \(\ge 0\)</h3>
+
+<ul>
+  <li>
+    <p>\(D_{\mathrm{KL}}(P \mid\mid Q)=\sum_x p(x) \log \left(\frac{p(x)}{q(x)}\right)=\mathbb{E}\left[\log \left(\frac{p(X)}{q(X)}\right)\right]=\mathbb{E}\left[-\log \left(\frac{q(X)}{p(X)}\right)\right]\)이다.</p>
+  </li>
+  <li>
+    <p>\(D_{\mathrm{KL}}(P \mid\mid Q)=\mathbb{E}[-\log (Z)] \geq-\log \mathbb{E}[Z]=-\log \sum_x p(x) \frac{q(x)}{p(x)}=-\log (1)=0\)이므로 KL-divergence는 non-negative이다.</p>
+  </li>
+</ul>
+
+<h3 id="examples--chi-square-divergence-d_chi2-ge-d_kl">Examples : Chi-square divergence \(D_{\chi^2} \ge D_{KL}\)</h3>
+
+<ul>
+  <li>using \(\log x\le x-1\)</li>
+  <li>\(\begin{aligned}D_{\mathrm{KL}}(P \mid\mid Q) &amp;= \sum_x p(x) \log \left(\frac{p(x)}{q(x)}\right) \\ &amp;\le \sum_x\left(\frac{p(x)}{q(x)}\right)^2 q(x)-1 \\ &amp; = \mathrm{D}_{\chi^2}(P \mid\mid Q)\end{aligned}\)이다.</li>
+</ul>
+
+<h2 id="12-holders-inequality">1.2. Holder’s inequality</h2>
+
+<ul>
+  <li>If \(p, q \in(1, \infty)\) with \(1 / p+1 / q=1\),</li>
+  <li>Then \(\left\vert\mathbb{E}[X Y]\right\vert \leq \mathbb{E}\left\vert X Y\right\vert \leq\left(\mathbb{E}{\left\vert X \right\vert}^p\right)^{1 / p}\left(\mathbb{E}{\left\vert Y\right\vert}^q\right)^{1 / q} .\)</li>
+</ul>
+
+<h3 id="proof-1">Proof</h3>
+
+<ul>
+  <li>The first inequality follows from \(-{\left\vert XY \right\vert} \leq X Y \leq{\left\vert XY \right\vert}\)</li>
+  <li>The second inequality follows from :</li>
+  <li>
+    <p>.\(\begin{aligned}
+a=\frac{|X|}{\left(\mathbb{E}|X|^p\right)^{1 / p}} \quad \text { and } \quad b=\frac{|Y|}{\left(\mathbb{E}|Y|^q\right)^{1 / q}}\\ \frac{1}{p} \frac{|X|^p}{\mathbb{E}|X|^p}+\frac{1}{q} \frac{|Y|^q}{\mathbb{E}|Y|^q} \geq \frac{|X Y|}{\left(\mathbb{E}|X|^p\right)^{1 / p}\left(\mathbb{E}|Y|^q\right)^{1 / q}}
+\end{aligned}\)</p>
+  </li>
+  <li>c.f. Lemma) Let \(a\) and \(b\) be any positive numbers, and let \(p\) and \(q\) be any positive numbers satisfying \(1 / p+1 / q=1\). Then \(\frac{1}{p} a^p+\frac{1}{q} b^q \geq a b\) with equality if and only if \(a^p=b^q\)​.
+    <ul>
+      <li>Note : \(1 / p+1 / q=1 \Longleftrightarrow p-1=p / q \text {. }\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="corollary--cauchyschwarz-inequality">Corollary : Cauchy–Schwarz inequality</h3>
+
+<ul>
+  <li>\(\left\vert\mathbb{E}[X Y]\right\vert \leq \mathbb{E}[{\left\vert XY\right\vert}] \leq\left(\mathbb{E}{\left\vert X \right\vert}^2\right)^{1 / 2}\left(\mathbb{E}{\left\vert Y\right\vert}^2\right)^{1 / 2}\)이다.</li>
+</ul>
+
+<h3 id="example--covariance-inequality">Example : Covariance inequality</h3>
+
+<ul>
+  <li>\(\mathbb{E}\left[\left(X-\mu_X\right)\left(Y-\mu_Y\right)\right] \leq\left\{\mathbb{E}\left[\left(X-\mu_X\right)^2\right]\right\}^{1 / 2}\left\{\mathbb{E}\left[\left(Y-\mu_Y\right)^2\right]\right\}^{1 / 2}\) 이다.</li>
+  <li>즉 \(\operatorname{Cov}(X, Y)^2 \leq \sigma_X^2 \sigma_Y^2\)</li>
+  <li>Cramér–Rao Lower Bound : \(\frac{\operatorname{Cov}(Y, Z)}{\sqrt{\operatorname{Var}(Y) \operatorname{Var}(Z)}} \leq 1 \quad \Longleftrightarrow \quad \operatorname{Var}(Y) \geq \frac{\operatorname{Cov}(Y, Z)^2}{\mathcal{I}(\theta)}=\frac{1}{\mathcal{I}(\theta)}\)
+    <ul>
+      <li>\(\begin{aligned}
+\operatorname{Cov}(Y, Z) &amp; =\mathbb{E}[Y Z]-\mathbb{E}[Y] \mathbb{E}[Z] \\
+&amp; =\frac{d}{d \theta} \underbrace{\int u(x) f_X(x ; \theta) d x}_{=\theta}-\theta \frac{d}{d \theta} \underbrace{\int f_X(x ; \theta) d x}_{=1}=1
+\end{aligned}\) under some regularity conditions.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="example">Example</h3>
+
+<ul>
+  <li>
+    <p>\(\mathbb{E}{\left\vert X \right\vert} \leq\left\{\mathbb{E}\left[{\left\vert X \right\vert}^p\right]\right\}^{1 / p} \leq\left\{\mathbb{E}\left[{\left\vert X \right\vert}^s\right]\right\}^{1 / s}, \quad \text { for } 1&lt;p&lt;s&lt;\infty\)이다.</p>
+  </li>
+  <li>
+    <p><strong>즉 higher moment \(\mathbb E[{\left\vert X \right\vert}^N]&lt;\infty\)이면 lower moment \(\mathbb E[{\left\vert X \right\vert}^n]&lt;\infty\)이다.</strong></p>
+  </li>
+</ul>
+
+<h2 id="13-minkowskis-inequality">1.3. Minkowski’s inequality</h2>
+
+<ul>
+  <li>\(1&lt;p&lt;\infty, \quad\left(\mathbb{E}{\left\vert X+Y \right\vert}^p\right)^{1 / p} \leq\left(\mathbb{E}{\left\vert X \right\vert}^p\right)^{1 / p}+\left(\mathbb{E}{\left\vert Y \right\vert}^p\right)^{1 / p}\)이다.</li>
+</ul>
+
+<h3 id="proof-2">Proof</h3>
+
+<ul>
+  <li>
+    <p>Using the Hölder’s inequality, \(\begin{aligned}
+\mathbb{E}|X+Y|^p &amp; =\mathbb{E}\left[|X+Y||X+Y|^{p-1}\right] \\
+&amp; \leq \mathbb{E}\left[|X||X+Y|^{p-1}\right]+\mathbb{E}\left[|Y||X+Y|^{p-1}\right] \\
+&amp; \leq\left(\mathbb{E}|X|^p\right)^{1 / p}\left(\mathbb{E}|X+Y|^{q(p-1)}\right)^{1 / q}+\left(\mathbb{E}|Y|^p\right)^{1 / p}\left(\mathbb{E}|X+Y|^{q(p-1)}\right)^{1 / q} \\ &amp; \text { where } q \text { satisfies } 1 / p+1 / q=1
+\end{aligned}\)</p>
+  </li>
+  <li>
+    <p>Then, \(\begin{aligned}
+\frac{\mathbb{E}|X+Y|^p}{\left(\mathbb{E}|X+Y|^{q(p-1)}\right)^{1 / q}} = \frac{\mathbb{E}|X+Y|^p}{\left(\mathbb{E}|X+Y|^{p}\right)^{1 / q}} = \left(\mathbb{E}|X+Y|^p\right)^{1/p}\leq\left(\mathbb{E}|X|^p\right)^{1 / p}+\left(\mathbb{E}|Y|^p\right)^{1 / p}
+\end{aligned}\)</p>
+  </li>
+</ul>
+
+<h2 id="14-association-inequality">1.4. Association inequality</h2>
+
+<ul>
+  <li>\(f, g\) non-decreasing implies \(\mathbb{E}[f(X) g(X)] \geq \mathbb{E}[f(X)] \mathbb{E}[g(X)]\).</li>
+  <li>\(f, g\) non-increasing implies \(\mathbb{E}[f(X) g(X)] \geq \mathbb{E}[f(X)] \mathbb{E}[g(X)]\).</li>
+  <li>\(f\) non-decreasing and \(g\) non-increasing implies \(\mathbb{E}[f(X) g(X)] \leq \mathbb{E}[f(X)] \mathbb{E}[g(X)]\)</li>
+</ul>
+
+<h3 id="proof-3">Proof</h3>
+
+<p>Let the pair of random variables \(X^{\prime}\) be distributed as the pair \(X\) and independent of it. If \(f\) and \(g\) are non-decreasing, it holds \(\left(f(X)-f\left(X^{\prime}\right)\right)\left(g(X)-g\left(X^{\prime}\right)\right) \geq 0\) and therefore \(\mathbb{E}\left[\left(f(X)-f\left(X^{\prime}\right)\right)\left(g(X)-g\left(X^{\prime}\right)\right)\right] \geq 0\)</p>
+
+<h3 id="example-1">Example</h3>
+
+<p>\(\begin{aligned}
+&amp; \mathbb{E}\left[X^4\right] \geq \mathbb{E}[X] \mathbb{E}\left[X^3\right] \\
+&amp; \mathbb{E}\left[X e^{-X}\right] \leq \mathbb{E}[X] \mathbb{E}\left[e^{-X}\right] \\
+&amp; \mathbb{E}[X \mathbb{1}(X \geq a)] \geq \mathbb{E}[X] P(X \geq a)
+\end{aligned}\)​</p>
+
+<hr />
+
+<h2 id="2-inequalities-for-variance">2. Inequalities for Variance</h2>
+
+<h2 id="21-variance-upper-bound">2.1. Variance upper bound</h2>
+
+<ul>
+  <li>Suppose that \(a \leq X \leq b\) for some \(a, b \in \mathbb{R}\).</li>
+  <li>Then \(\operatorname{Var}[X] \leq \frac{(b-a)^2}{4}\)</li>
+</ul>
+
+<h3 id="proof-4">Proof</h3>
+
+<ul>
+  <li>
+    <p>\(\operatorname{Var}[X]=\mathbb{E}\left[(X-\mathbb{E}[X])^2\right] \leq \mathbb{E}\left[(X-c)^2\right] \quad \text { for any } c \in \mathbb{R}\)이다.</p>
+  </li>
+  <li>
+    <p>\(c=(b+a) / 2\)이면 \(\operatorname{Var}[X] \leq \mathbb{E}\left[(X-(b+a) / 2)^2\right] \leq(b-a)^2 / 4\)</p>
+  </li>
+</ul>
+
+<h2 id="22-efronstein-inequality">2.2. Efron–Stein inequality</h2>
+
+<ul>
+  <li><u>Simple but surprisingly powerful !</u></li>
+  <li>
+    <p>Suppose that \(X_1, \ldots, X_n, X_1^{\prime}, \ldots, X_n^{\prime}\) are independent with \(X_i\) and \(X_i^{\prime}\) having the same distribution for all \(i \in\{1, \ldots, n\}\). Let \(X=\left(X_1, \ldots, X_n\right)\) and \(X^{(i)}=\) \(\left(X_1, \ldots, X_{i-1}, X_i^{\prime}, X_{i+1}, \ldots, X_n\right)\).</p>
+  </li>
+  <li>Then\(\operatorname{Var}[f(X)] \leq \frac{1}{2} \sum_{i=1}^n \mathbb{E}\left[\left\{f(X)-f\left(X^{(i)}\right)\right\}^2\right]\)</li>
+</ul>
+
+<h3 id="proof-5">Proof</h3>
+
+<ul>
+  <li><strong>Step 1</strong>: Define \(V\)</li>
+  <li>Let \(V_i=\mathbb{E}\left[f(X) \mid X_1, \ldots, X_i\right]-\mathbb{E}\left[f(X) \mid X_1, \ldots, X_{i-1}\right], \quad \text { for } i=1, \ldots, n\)</li>
+  <li>Then \(V=\sum_{i=1}^n V_i\)</li>
+  <li>.\(\begin{aligned}
+\operatorname{Var}[V] &amp; =\mathbb{E}\left[\left(\sum_{i=1}^n V_i\right)^2\right] \\
+&amp; =\sum_{i=1}^n \mathbb{E}\left[V_i^2\right]+2 \sum_{1 \leq i&lt;j \leq n} \mathbb{E}\left[V_i V_j\right]
+\end{aligned}\)</li>
+  <li><strong>Step 2</strong> : cross product = 0</li>
+  <li>
+    <p>For any \(i&gt;j,\) \(\begin{aligned}
+\mathbb{E}\left[V_i V_j\right]&amp;=\mathbb{E}\left[\mathbb{E}\left[V_i V_j \mid X_1, \ldots, X_j\right]\right] \\&amp; =\mathbb{E}\left[V_j \mathbb{E}\left[V_i \mid X_1, \ldots, X_j\right]\right]=0\end{aligned}\)</p>
+  </li>
+  <li>Because \(\begin{aligned}
+\mathbb{E}\left[V_i \mid X_1, \ldots, X_j\right] &amp; =\mathbb{E}\left[\mathbb{E}\left[f(X) \mid X_1, \ldots, X_i\right] \mid X_1, \ldots, X_j\right]-\mathbb{E}\left[\mathbb{E}\left[f(X) \mid X_1, \ldots, X_{i-1}\right] \mid X_1, \ldots, X_j\right] \\
+&amp; =\mathbb{E}\left[f(X) \mid X_1, \ldots, X_j\right]-\mathbb{E}\left[f(X) \mid X_1, \ldots, X_j\right]=0
+\end{aligned}\)
+    <ul>
+      <li>c.f. \(\mathbb{E}[X Y]=\mathbb{E}[\mathbb{E}[X Y \mid X]]=\mathbb{E}[X \mathbb{E}[Y \mid X]]\) and \(\mathbb{E}[\mathbb{E}[X \mid Y, f(X)] \mid f(X)]=\mathbb{E}[X \mid f(X)]\)​</li>
+    </ul>
+  </li>
+  <li>
+    <p>Therefore, \(\operatorname{Var}[V]=\sum_{i=1}^n \mathbb{E}\left[V_i^2\right]\)</p>
+  </li>
+  <li><strong>Step 3</strong> by Jensen’s inequality</li>
+  <li>.\(\begin{aligned}
+V_i^2 &amp; =\left(\mathbb{E}\left[f(X) \mid X_1, \ldots, X_i\right]-\mathbb{E}\left[f(X) \mid X_1, \ldots, X_{i-1}\right]\right)^2 \\
+&amp; =\left(\mathbb{E}\left[\mathbb{E}\left[f(X) \mid X_1, \ldots, X_n\right]-\mathbb{E}\left[f(X) \mid X_1, \ldots, X_{i-1}, X_{i+1}, \ldots, X_n\right] \mid X_1, \ldots, X_i\right]\right)^2 \\
+&amp; \leq \mathbb{E}\left[\left(\mathbb{E}\left[f(X) \mid X_1, \ldots, X_n\right]-\mathbb{E}\left[f(X) \mid X_1, \ldots, X_{i-1}, X_{i+1}, \ldots, X_n\right]\right)^2 \mid X_1, \ldots, X_i\right] \\
+&amp; =\mathbb{E}\left[\left(f(X)-\mathbb{E}[f(X^{(i)})]\right)^2 \mid X_1, \ldots, X_i\right] \end{aligned}\)</li>
+  <li>. \(\begin{aligned} \mathbb{E}[V_i^2]&amp;\le\mathbb{E}\left[\mathbb{E}\left[\left(f(X)-\mathbb{E}[f(X^{(i)})]\right)^2 \mid X_1, \ldots, X_i\right]\right]\\&amp;=\mathbb{E}\left[\left(f(X)-\mathbb{E}(f(X^{(i)}))\right)^2\right] \\ &amp; =\mathbb{E}\left[\operatorname{Var}\left(f(X) \mid X_1, \ldots, X_{i-1}, X_{i+1}, \ldots, X_n\right)\right] \\ &amp; =\frac{1}{2} \mathbb{E}\left[\left(f(X)-f(X^{(i)})\right)^2\right] \end{aligned}\)</li>
+  <li>Note : \(f(X^{(i)})\) is \(Z=f\left(X_1, \ldots, X_{i-1}, X_i^{\prime}, X_{i+1}, \ldots, X_n\right)\)</li>
+  <li><strong>결론</strong> : samples \(X = (X_1, \ldots, X_n),\quad X^{\prime} = (X_1^{\prime}, \ldots, X_n^{\prime})\)이 있을 때, estimator \(f(X)\)의 variance를 알기 위해서는 sample \(X_1, \ldots, X_n\)를 하나씩 \(X_1^{\prime}, \ldots, X_n^{\prime}\)으로 바꿔보면서, \(f(X)\)의 변화량\(^2\) 의 expectation을 다 더하고 2로 나누어주면 upper bound를 구할 수 있다.</li>
+</ul>
+
+<h3 id="example--sample-mean">Example : Sample mean</h3>
+
+<ul>
+  <li>Let \(f(X)=\frac{1}{n} \sum_{i=1}^n X_i\) where \(X_1, \ldots, X_n \stackrel{\text { i.i.d. }}{\sim} P\).</li>
+  <li>Then the EfronStein inequality yields \(\operatorname{Var}[f(X)] \leq \sum_{i=1}^n \frac{1}{n^2} \mathbb{E}\left[\frac{\left(X_i-X_i^{\prime}\right)^2}{2}\right]=\frac{\sigma^2}{n}\)</li>
+  <li>We know that \(\operatorname{Var}[f(X)]=\sigma^2 / n\). In this regard, the Efron-Stein inequality is not improvable.</li>
+</ul>
+
+<h3 id="example--bounded-differences">Example : Bounded Differences</h3>
+
+<ul>
+  <li>\(\sup _{x_1, \ldots, x_n, x_i^{\prime} \in \mathcal{X}}{\left\vert g\left(x_1, \ldots, x_n\right)-g\left(x_1, \ldots, x_{i-1}, x_i^{\prime}, x_{i+1}, \ldots, x_n\right) \right\vert} \leq c_i,\)이면</li>
+  <li>the Efron-Stein inequality shows \(\operatorname{Var}\left[g\left(X_1, \ldots, X_n\right)\right] \leq \frac{1}{2} \sum_{i=1}^n c_i^2, \quad \text { for } 1 \leq i \leq n\)</li>
+</ul>
+
+  
+</article>
+
+
+
+  <hr class="dingbat related mb6" />
+
+
+
+
+
+
+  
+     
+
+
+  <aside class="about related mt4 mb4" role="complementary">
+    
+    
+
+<div class="author mt4">
+  
+
+  
+    
+
+
+<img
+  
+    src="https://via.placeholder.com/128x128"
+    srcset="/assets/img/me/me.JPG 1x,/assets/img/me/me.JPG 2x"
+    
+  
+  alt="GW Jeong"
+  class="avatar"
+  
+  width="120"
+  height="120"
+  loading="lazy"
+/>
+
+  
+
+  
+  
+  <h2  class="page-title hr-bottom">
+    About
+  </h2>
+
+  <p>Bachelor’s degree in Applied Statistics. Yonsei Univ. (2018~2024) <br />
+DataScienceLab 8th 학회장 (2022~2023) <br />
+Master’s degree in Statitstics. Yonsei Univ. (2024~)</p>
+
+
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+
+  </aside>
+
+
+  
+
+  
+  
+
+  
+    
+
+
+  
+
+  
+  
+
+  
+    
+
+  
+
+
+  
+<footer class="content" role="contentinfo">
+  <hr/>
+  
+    <p><small class="copyright">© Geonwoo Jeong.
+</small></p>
+  
+  
+    <p><small>Powered by <a class="external" href="https://hydejack.com/">Hydejack</a> v<span id="_version">9.1.6</span></small></p>
+  <hr class="sr-only"/>
+</footer>
+
+
+</main>
+
+  <hy-drawer
+  id="_drawer"
+  class=""
+  side="left"
+  threshold="10"
+  noscroll
+  
+>
+  <header id="_sidebar" class="sidebar" role="banner">
+    
+
+
+
+
+<div class="sidebar-bg sidebar-overlay" style="background-color:rgb(230, 217, 195);background-image:url(/assets/img/me/sidebar.jpg)"></div>
+
+    <div class="sidebar-sticky">
+  <div class="sidebar-about">
+    
+      <a class="no-hover" href="/" tabindex="-1">
+        <img src="/assets/img/me/logo.jpg" class="avatar" alt="LpppJ" width="120" height="120" loading="lazy" />
+      </a>
+    
+    <a class="sidebar-title" href="/"><h2 class="h1">LpppJ</h2></a>
+    
+    
+      <p class="">
+        DataScience and AI
+
+      </p>
+    
+  </div>
+
+  <nav class="sidebar-nav heading" role="navigation">
+    <span class="sr-only">Navigation:</span>
+<ul>
+  
+    
+      
+      <li>
+        <a
+          id="_drawer--opened"
+          href="/timeseries/"
+          class="sidebar-nav-item "
+          
+        >
+          TimeSeries
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/stat/"
+          class="sidebar-nav-item "
+          
+        >
+          Statistics
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/project/"
+          class="sidebar-nav-item "
+          
+        >
+          Project
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/presentation/"
+          class="sidebar-nav-item "
+          
+        >
+          Presentation
+        </a>
+      </li>
+    
+  
+</ul>
+
+  </nav>
+
+  
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+  </header>
+</hy-drawer>
+<hr class="sr-only" hidden />
+
+</hy-push-state>
+
+
+  <!--[if gt IE 10]><!---->
+  <script nomodule>!function(){var t,n=document.createElement("script");!("noModule"in n)&&"onbeforeload"in n&&(t=!1,document.addEventListener("beforeload",function(e){if(e.target===n)t=!0;else if(!e.target.hasAttribute("nomodule")||!t)return;e.preventDefault()},!0),n.type="module",n.src=".",document.head.appendChild(n),n.remove())}();
+</script>
+  <script src="/assets/js/hydejack-9.1.6.js" type="module"></script>
+  <script src="/assets/js/LEGACY-hydejack-9.1.6.js" nomodule defer></script>
+  
+
+  
+
+<!--<![endif]-->
+  <!-- <script>
+  document.querySelector('hy-push-state').setAttribute('prefetch', '');
+
+  document.querySelectorAll('.sidebar a[href^="/"]').forEach(function (el) { 
+    el.addEventListener('click', function (e) {
+      if (el.pathname === window.location.pathname) {
+        e.preventDefault();
+        e.stopPropagation();
+        document.querySelector('hy-drawer').close();
+      }
+    });
+  });
+</script> -->
+
+<!--
+Code for integrating CloudFlare's email protection with Hydejack's single page app loading.
+-->
+<script>
+  document.getElementById('_pushState').addEventListener('hy-push-state-after', function (e) {
+    function e(e){
+      (console.error?console.error:console.log).call(console,e)
+    }
+
+    function t(e){
+      return l.innerHTML='<a href="'+e.replace(/"/g,"&quot;")+'"></a>',l.childNodes[0].getAttribute("href")
+    }
+
+    function r(e,t){
+      var r=e.substr(t,2);return parseInt(r,16)
+    }
+
+    function n(e,n){
+      for(var o="",c=r(e,n),a=n+2;a<e.length;a+=2){
+        var l=r(e,a)^c;
+        o+=String.fromCharCode(l)
+      }
+      return t(o)
+    }
+
+    var o="/cdn-cgi/l/email-protection#",
+        c=".__cf_email__",
+        a="data-cfemail",
+        l=document.createElement("div");
+
+    !function(){
+      for(var t=document.getElementsByTagName("a"),r=0;r<t.length;r++)
+        try{
+          var c=t[r],a=c.href.indexOf(o);
+          a>-1&&(c.href="mailto:"+n(c.href,a+o.length))
+        }catch(t){
+          e(t)
+        }
+    }(),
+    function(){
+      for(var t=document.querySelectorAll(c),r=0;r<t.length;r++)
+        try{
+          var o=t[r],l=n(o.getAttribute(a),0),i=document.createTextNode(l);
+          o.parentNode.replaceChild(i,o)
+        }catch(t){
+          e(t)
+        }
+    }()
+  });
+</script>
+
+
+
+
+
+<div hidden>
+  
+  <h2 class="sr-only">Templates (for web app):</h2>
+
+  <template id="_animation-template">
+  <div class="animation-main fixed-top">
+    <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+</ul></nav>
+    <div class="content">
+      <div class="page"></div>
+    </div>
+  </div>
+</template>
+
+  <template id="_loading-template">
+  <div class="loading nav-btn fr">
+    <span class="sr-only">Loading…</span>
+    <span class="icon-cog"></span>
+  </div>
+</template>
+
+  <template id="_error-template">
+  <div class="page">
+    <h1 class="page-title">Error</h1>
+    
+    
+    <p class="lead">
+      Sorry, an error occurred while loading <a class="this-link" href=""></a>.
+
+    </p>
+  </div>
+</template>
+
+  <template id="_permalink-template">
+  <a href="#" class="permalink">
+    <span class="sr-only">Permalink</span>
+    <span class="content-hash"></span>
+  </a>
+</template>
+
+</div>
+
+
+</body>
+</html>

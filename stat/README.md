@@ -22,7 +22,9 @@ permalink: /stat/
 \
 [The Law of Total Probability / Total Expectation / Total Variance / Total Covariance (Gumbel-Max trick, ...)]{:.heading.flip-title} \
 \
-[Semi-Supervised Mean Estimation (Variance Reduction Technique)]{:.heading.flip-title}
+[Semi-Supervised Mean Estimation (Variance Reduction Technique)]{:.heading.flip-title}\
+\
+[Inequalities for 1. Expectation and 2.Variance]{:.heading.flip-title}s
 
 [Advanced Variational Inference(VI), Variational Autoencoder(VAE)]: /stat/2024-03-02-vi
 [MCMC with Implementation (1) : Metropolis Hastings algorithm]: /stat/2024-03-04-mcmc
@@ -31,3 +33,4 @@ permalink: /stat/
 [Total variation distance and Convergence in distribution]: /stat/2024-04-14-dTV
 [The Law of Total Probability / Total Expectation / Total Variance / Total Covariance (Gumbel-Max trick, ...)]: /stat/2024-04-14-lawtotal
 [Semi-Supervised Mean Estimation (Variance Reduction Technique)]: /stat/2024-04-16-SSmean
+[Inequalities for 1. Expectation and 2.Variance]: /stat/2024-04-16-ineq1

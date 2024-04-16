@@ -1,5 +1,236 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-04-16T13:10:08+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">Semi-Supervised Mean Estimation (Variance Reduction Technique)</title><link href="http://localhost:4000/stat/2024-04-16-SSmean/" rel="alternate" type="text/html" title="Semi-Supervised Mean Estimation (Variance Reduction Technique)" /><published>2024-04-16T00:00:00+09:00</published><updated>2024-04-16T13:10:04+09:00</updated><id>http://localhost:4000/stat/SSmean</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-16-SSmean/"><![CDATA[<ul>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-04-16T17:49:28+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">Inequalities for 1. Expectation and 2.Variance</title><link href="http://localhost:4000/stat/2024-04-16-ineq1/" rel="alternate" type="text/html" title="Inequalities for 1. Expectation and 2.Variance" /><published>2024-04-16T00:00:00+09:00</published><updated>2024-04-16T17:49:26+09:00</updated><id>http://localhost:4000/stat/ineq1</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-16-ineq1/"><![CDATA[<h2 id="1-inequalities-for-expectation">1. Inequalities for Expectation</h2>
+
+<h2 id="11-jensens-inequality">1.1. Jensen’s Inequality</h2>
+
+<ul>
+  <li>Suppose \(g\) is a convex function such that \(\lambda g(x)+(1-\lambda) g(y) \geq g(\lambda x+(1-\lambda) y)\) for all \(\lambda \in(0,1)\) and \(x, y \in \mathbb{R}\).</li>
+  <li>Then \(\mathbb{E}[g(X)] \geq g(\mathbb{E}[X]),\) provided that both expectations exist, i.e., \(\mathbb{E}{\left\vert X \right\vert}&lt;\infty\) and \(\mathbb{E}{\left\vert g(X) \right\vert}&lt;\infty\).</li>
+</ul>
+
+<h3 id="proof">Proof</h3>
+
+<ul>
+  <li>Assumption : \(g^{\prime \prime}(x)\ge0 \ \forall x\)</li>
+  <li>Using Taylor series about \(\mu = \mathbb E[X]\) of order 2</li>
+  <li>\(g(x)=g(\mu)+g^{\prime}(\mu)(x-\mu)+\frac{g^{\prime \prime}(\zeta)}{2}(x-\mu)^2 \text { where } \zeta \text { is between } x \text { and } \mu\)이고</li>
+  <li>\(g(x) \geq g(\mu)+g^{\prime}(\mu)(x-\mu)\quad (\because g^{\prime \prime}(x)\ge0 \ \forall x)\). 양변에 expectation을 취하면</li>
+  <li>\(\mathbb E[g(x)] \geq g(\mu)\)이 된다.</li>
+</ul>
+
+<p><img src="/assets/img/stat/ineq1/fig1.png" alt="그림1" /></p>
+
+<h3 id="examples--amge-gm-ge-hm">Examples : \(AM\ge GM \ge HM\)</h3>
+
+<ul>
+  <li>
+    <p>\(\begin{aligned} \text { Arithmetic Mean (AM) }&amp;=\frac{\sum_{i=1}^n x_i}{n} \\ \text { Geometric Mean }(\mathrm{GM}) &amp; =\left(\prod_{i=1}^n x_i\right)^{1 / n} \\ \text { Harmonic Mean }(\mathrm{HM}) &amp; =\frac{1}{\frac{1}{n} \sum_{i=1}^n \frac{1}{x_i}} \end{aligned}\)이다.</p>
+  </li>
+  <li>
+    <p>\(-\log(HM) = \log \left(\frac{1}{n} \sum_{i=1}^n \frac{1}{x_i}\right) \ \geq \ -\log(GM)=\frac{1}{n} \sum_{i=1}^n\left\{\log \left(\frac{1}{x_i}\right)\right\}\ \geq \ -\log \left(\frac{1}{n} \sum_{i=1}^n x_i\right)=-\log (\mathrm{AM})\)를 보이면 된다.</p>
+  </li>
+</ul>
+
+<h3 id="examples--kl-divergence-ge-0">Examples : KL-divergence \(\ge 0\)</h3>
+
+<ul>
+  <li>
+    <p>\(D_{\mathrm{KL}}(P \mid\mid Q)=\sum_x p(x) \log \left(\frac{p(x)}{q(x)}\right)=\mathbb{E}\left[\log \left(\frac{p(X)}{q(X)}\right)\right]=\mathbb{E}\left[-\log \left(\frac{q(X)}{p(X)}\right)\right]\)이다.</p>
+  </li>
+  <li>
+    <p>\(D_{\mathrm{KL}}(P \mid\mid Q)=\mathbb{E}[-\log (Z)] \geq-\log \mathbb{E}[Z]=-\log \sum_x p(x) \frac{q(x)}{p(x)}=-\log (1)=0\)이므로 KL-divergence는 non-negative이다.</p>
+  </li>
+</ul>
+
+<h3 id="examples--chi-square-divergence-d_chi2-ge-d_kl">Examples : Chi-square divergence \(D_{\chi^2} \ge D_{KL}\)</h3>
+
+<ul>
+  <li>using \(\log x\le x-1\)</li>
+  <li>\(\begin{aligned}D_{\mathrm{KL}}(P \mid\mid Q) &amp;= \sum_x p(x) \log \left(\frac{p(x)}{q(x)}\right) \\ &amp;\le \sum_x\left(\frac{p(x)}{q(x)}\right)^2 q(x)-1 \\ &amp; = \mathrm{D}_{\chi^2}(P \mid\mid Q)\end{aligned}\)이다.</li>
+</ul>
+
+<h2 id="12-holders-inequality">1.2. Holder’s inequality</h2>
+
+<ul>
+  <li>If \(p, q \in(1, \infty)\) with \(1 / p+1 / q=1\),</li>
+  <li>Then \(\left\vert\mathbb{E}[X Y]\right\vert \leq \mathbb{E}\left\vert X Y\right\vert \leq\left(\mathbb{E}{\left\vert X \right\vert}^p\right)^{1 / p}\left(\mathbb{E}{\left\vert Y\right\vert}^q\right)^{1 / q} .\)</li>
+</ul>
+
+<h3 id="proof-1">Proof</h3>
+
+<ul>
+  <li>The first inequality follows from \(-{\left\vert XY \right\vert} \leq X Y \leq{\left\vert XY \right\vert}\)</li>
+  <li>The second inequality follows from :</li>
+  <li>
+    <p>.\(\begin{aligned}
+a=\frac{|X|}{\left(\mathbb{E}|X|^p\right)^{1 / p}} \quad \text { and } \quad b=\frac{|Y|}{\left(\mathbb{E}|Y|^q\right)^{1 / q}}\\ \frac{1}{p} \frac{|X|^p}{\mathbb{E}|X|^p}+\frac{1}{q} \frac{|Y|^q}{\mathbb{E}|Y|^q} \geq \frac{|X Y|}{\left(\mathbb{E}|X|^p\right)^{1 / p}\left(\mathbb{E}|Y|^q\right)^{1 / q}}
+\end{aligned}\)</p>
+  </li>
+  <li>c.f. Lemma) Let \(a\) and \(b\) be any positive numbers, and let \(p\) and \(q\) be any positive numbers satisfying \(1 / p+1 / q=1\). Then \(\frac{1}{p} a^p+\frac{1}{q} b^q \geq a b\) with equality if and only if \(a^p=b^q\)​.
+    <ul>
+      <li>Note : \(1 / p+1 / q=1 \Longleftrightarrow p-1=p / q \text {. }\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="corollary--cauchyschwarz-inequality">Corollary : Cauchy–Schwarz inequality</h3>
+
+<ul>
+  <li>\(\left\vert\mathbb{E}[X Y]\right\vert \leq \mathbb{E}[{\left\vert XY\right\vert}] \leq\left(\mathbb{E}{\left\vert X \right\vert}^2\right)^{1 / 2}\left(\mathbb{E}{\left\vert Y\right\vert}^2\right)^{1 / 2}\)이다.</li>
+</ul>
+
+<h3 id="example--covariance-inequality">Example : Covariance inequality</h3>
+
+<ul>
+  <li>\(\mathbb{E}\left[\left(X-\mu_X\right)\left(Y-\mu_Y\right)\right] \leq\left\{\mathbb{E}\left[\left(X-\mu_X\right)^2\right]\right\}^{1 / 2}\left\{\mathbb{E}\left[\left(Y-\mu_Y\right)^2\right]\right\}^{1 / 2}\) 이다.</li>
+  <li>즉 \(\operatorname{Cov}(X, Y)^2 \leq \sigma_X^2 \sigma_Y^2\)</li>
+  <li>Cramér–Rao Lower Bound : \(\frac{\operatorname{Cov}(Y, Z)}{\sqrt{\operatorname{Var}(Y) \operatorname{Var}(Z)}} \leq 1 \quad \Longleftrightarrow \quad \operatorname{Var}(Y) \geq \frac{\operatorname{Cov}(Y, Z)^2}{\mathcal{I}(\theta)}=\frac{1}{\mathcal{I}(\theta)}\)
+    <ul>
+      <li>\(\begin{aligned}
+\operatorname{Cov}(Y, Z) &amp; =\mathbb{E}[Y Z]-\mathbb{E}[Y] \mathbb{E}[Z] \\
+&amp; =\frac{d}{d \theta} \underbrace{\int u(x) f_X(x ; \theta) d x}_{=\theta}-\theta \frac{d}{d \theta} \underbrace{\int f_X(x ; \theta) d x}_{=1}=1
+\end{aligned}\) under some regularity conditions.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="example">Example</h3>
+
+<ul>
+  <li>
+    <p>\(\mathbb{E}{\left\vert X \right\vert} \leq\left\{\mathbb{E}\left[{\left\vert X \right\vert}^p\right]\right\}^{1 / p} \leq\left\{\mathbb{E}\left[{\left\vert X \right\vert}^s\right]\right\}^{1 / s}, \quad \text { for } 1&lt;p&lt;s&lt;\infty\)이다.</p>
+  </li>
+  <li>
+    <p><strong>즉 higher moment \(\mathbb E[{\left\vert X \right\vert}^N]&lt;\infty\)이면 lower moment \(\mathbb E[{\left\vert X \right\vert}^n]&lt;\infty\)이다.</strong></p>
+  </li>
+</ul>
+
+<h2 id="13-minkowskis-inequality">1.3. Minkowski’s inequality</h2>
+
+<ul>
+  <li>\(1&lt;p&lt;\infty, \quad\left(\mathbb{E}{\left\vert X+Y \right\vert}^p\right)^{1 / p} \leq\left(\mathbb{E}{\left\vert X \right\vert}^p\right)^{1 / p}+\left(\mathbb{E}{\left\vert Y \right\vert}^p\right)^{1 / p}\)이다.</li>
+</ul>
+
+<h3 id="proof-2">Proof</h3>
+
+<ul>
+  <li>
+    <p>Using the Hölder’s inequality, \(\begin{aligned}
+\mathbb{E}|X+Y|^p &amp; =\mathbb{E}\left[|X+Y||X+Y|^{p-1}\right] \\
+&amp; \leq \mathbb{E}\left[|X||X+Y|^{p-1}\right]+\mathbb{E}\left[|Y||X+Y|^{p-1}\right] \\
+&amp; \leq\left(\mathbb{E}|X|^p\right)^{1 / p}\left(\mathbb{E}|X+Y|^{q(p-1)}\right)^{1 / q}+\left(\mathbb{E}|Y|^p\right)^{1 / p}\left(\mathbb{E}|X+Y|^{q(p-1)}\right)^{1 / q} \\ &amp; \text { where } q \text { satisfies } 1 / p+1 / q=1
+\end{aligned}\)</p>
+  </li>
+  <li>
+    <p>Then, \(\begin{aligned}
+\frac{\mathbb{E}|X+Y|^p}{\left(\mathbb{E}|X+Y|^{q(p-1)}\right)^{1 / q}} = \frac{\mathbb{E}|X+Y|^p}{\left(\mathbb{E}|X+Y|^{p}\right)^{1 / q}} = \left(\mathbb{E}|X+Y|^p\right)^{1/p}\leq\left(\mathbb{E}|X|^p\right)^{1 / p}+\left(\mathbb{E}|Y|^p\right)^{1 / p}
+\end{aligned}\)</p>
+  </li>
+</ul>
+
+<h2 id="14-association-inequality">1.4. Association inequality</h2>
+
+<ul>
+  <li>\(f, g\) non-decreasing implies \(\mathbb{E}[f(X) g(X)] \geq \mathbb{E}[f(X)] \mathbb{E}[g(X)]\).</li>
+  <li>\(f, g\) non-increasing implies \(\mathbb{E}[f(X) g(X)] \geq \mathbb{E}[f(X)] \mathbb{E}[g(X)]\).</li>
+  <li>\(f\) non-decreasing and \(g\) non-increasing implies \(\mathbb{E}[f(X) g(X)] \leq \mathbb{E}[f(X)] \mathbb{E}[g(X)]\)</li>
+</ul>
+
+<h3 id="proof-3">Proof</h3>
+
+<p>Let the pair of random variables \(X^{\prime}\) be distributed as the pair \(X\) and independent of it. If \(f\) and \(g\) are non-decreasing, it holds \(\left(f(X)-f\left(X^{\prime}\right)\right)\left(g(X)-g\left(X^{\prime}\right)\right) \geq 0\) and therefore \(\mathbb{E}\left[\left(f(X)-f\left(X^{\prime}\right)\right)\left(g(X)-g\left(X^{\prime}\right)\right)\right] \geq 0\)</p>
+
+<h3 id="example-1">Example</h3>
+
+<p>\(\begin{aligned}
+&amp; \mathbb{E}\left[X^4\right] \geq \mathbb{E}[X] \mathbb{E}\left[X^3\right] \\
+&amp; \mathbb{E}\left[X e^{-X}\right] \leq \mathbb{E}[X] \mathbb{E}\left[e^{-X}\right] \\
+&amp; \mathbb{E}[X \mathbb{1}(X \geq a)] \geq \mathbb{E}[X] P(X \geq a)
+\end{aligned}\)​</p>
+
+<hr />
+
+<h2 id="2-inequalities-for-variance">2. Inequalities for Variance</h2>
+
+<h2 id="21-variance-upper-bound">2.1. Variance upper bound</h2>
+
+<ul>
+  <li>Suppose that \(a \leq X \leq b\) for some \(a, b \in \mathbb{R}\).</li>
+  <li>Then \(\operatorname{Var}[X] \leq \frac{(b-a)^2}{4}\)</li>
+</ul>
+
+<h3 id="proof-4">Proof</h3>
+
+<ul>
+  <li>
+    <p>\(\operatorname{Var}[X]=\mathbb{E}\left[(X-\mathbb{E}[X])^2\right] \leq \mathbb{E}\left[(X-c)^2\right] \quad \text { for any } c \in \mathbb{R}\)이다.</p>
+  </li>
+  <li>
+    <p>\(c=(b+a) / 2\)이면 \(\operatorname{Var}[X] \leq \mathbb{E}\left[(X-(b+a) / 2)^2\right] \leq(b-a)^2 / 4\)</p>
+  </li>
+</ul>
+
+<h2 id="22-efronstein-inequality">2.2. Efron–Stein inequality</h2>
+
+<ul>
+  <li><u>Simple but surprisingly powerful !</u></li>
+  <li>
+    <p>Suppose that \(X_1, \ldots, X_n, X_1^{\prime}, \ldots, X_n^{\prime}\) are independent with \(X_i\) and \(X_i^{\prime}\) having the same distribution for all \(i \in\{1, \ldots, n\}\). Let \(X=\left(X_1, \ldots, X_n\right)\) and \(X^{(i)}=\) \(\left(X_1, \ldots, X_{i-1}, X_i^{\prime}, X_{i+1}, \ldots, X_n\right)\).</p>
+  </li>
+  <li>Then\(\operatorname{Var}[f(X)] \leq \frac{1}{2} \sum_{i=1}^n \mathbb{E}\left[\left\{f(X)-f\left(X^{(i)}\right)\right\}^2\right]\)</li>
+</ul>
+
+<h3 id="proof-5">Proof</h3>
+
+<ul>
+  <li><strong>Step 1</strong>: Define \(V\)</li>
+  <li>Let \(V_i=\mathbb{E}\left[f(X) \mid X_1, \ldots, X_i\right]-\mathbb{E}\left[f(X) \mid X_1, \ldots, X_{i-1}\right], \quad \text { for } i=1, \ldots, n\)</li>
+  <li>Then \(V=\sum_{i=1}^n V_i\)</li>
+  <li>.\(\begin{aligned}
+\operatorname{Var}[V] &amp; =\mathbb{E}\left[\left(\sum_{i=1}^n V_i\right)^2\right] \\
+&amp; =\sum_{i=1}^n \mathbb{E}\left[V_i^2\right]+2 \sum_{1 \leq i&lt;j \leq n} \mathbb{E}\left[V_i V_j\right]
+\end{aligned}\)</li>
+  <li><strong>Step 2</strong> : cross product = 0</li>
+  <li>
+    <p>For any \(i&gt;j,\) \(\begin{aligned}
+\mathbb{E}\left[V_i V_j\right]&amp;=\mathbb{E}\left[\mathbb{E}\left[V_i V_j \mid X_1, \ldots, X_j\right]\right] \\&amp; =\mathbb{E}\left[V_j \mathbb{E}\left[V_i \mid X_1, \ldots, X_j\right]\right]=0\end{aligned}\)</p>
+  </li>
+  <li>Because \(\begin{aligned}
+\mathbb{E}\left[V_i \mid X_1, \ldots, X_j\right] &amp; =\mathbb{E}\left[\mathbb{E}\left[f(X) \mid X_1, \ldots, X_i\right] \mid X_1, \ldots, X_j\right]-\mathbb{E}\left[\mathbb{E}\left[f(X) \mid X_1, \ldots, X_{i-1}\right] \mid X_1, \ldots, X_j\right] \\
+&amp; =\mathbb{E}\left[f(X) \mid X_1, \ldots, X_j\right]-\mathbb{E}\left[f(X) \mid X_1, \ldots, X_j\right]=0
+\end{aligned}\)
+    <ul>
+      <li>c.f. \(\mathbb{E}[X Y]=\mathbb{E}[\mathbb{E}[X Y \mid X]]=\mathbb{E}[X \mathbb{E}[Y \mid X]]\) and \(\mathbb{E}[\mathbb{E}[X \mid Y, f(X)] \mid f(X)]=\mathbb{E}[X \mid f(X)]\)​</li>
+    </ul>
+  </li>
+  <li>
+    <p>Therefore, \(\operatorname{Var}[V]=\sum_{i=1}^n \mathbb{E}\left[V_i^2\right]\)</p>
+  </li>
+  <li><strong>Step 3</strong> by Jensen’s inequality</li>
+  <li>.\(\begin{aligned}
+V_i^2 &amp; =\left(\mathbb{E}\left[f(X) \mid X_1, \ldots, X_i\right]-\mathbb{E}\left[f(X) \mid X_1, \ldots, X_{i-1}\right]\right)^2 \\
+&amp; =\left(\mathbb{E}\left[\mathbb{E}\left[f(X) \mid X_1, \ldots, X_n\right]-\mathbb{E}\left[f(X) \mid X_1, \ldots, X_{i-1}, X_{i+1}, \ldots, X_n\right] \mid X_1, \ldots, X_i\right]\right)^2 \\
+&amp; \leq \mathbb{E}\left[\left(\mathbb{E}\left[f(X) \mid X_1, \ldots, X_n\right]-\mathbb{E}\left[f(X) \mid X_1, \ldots, X_{i-1}, X_{i+1}, \ldots, X_n\right]\right)^2 \mid X_1, \ldots, X_i\right] \\
+&amp; =\mathbb{E}\left[\left(f(X)-\mathbb{E}[f(X^{(i)})]\right)^2 \mid X_1, \ldots, X_i\right] \end{aligned}\)</li>
+  <li>. \(\begin{aligned} \mathbb{E}[V_i^2]&amp;\le\mathbb{E}\left[\mathbb{E}\left[\left(f(X)-\mathbb{E}[f(X^{(i)})]\right)^2 \mid X_1, \ldots, X_i\right]\right]\\&amp;=\mathbb{E}\left[\left(f(X)-\mathbb{E}(f(X^{(i)}))\right)^2\right] \\ &amp; =\mathbb{E}\left[\operatorname{Var}\left(f(X) \mid X_1, \ldots, X_{i-1}, X_{i+1}, \ldots, X_n\right)\right] \\ &amp; =\frac{1}{2} \mathbb{E}\left[\left(f(X)-f(X^{(i)})\right)^2\right] \end{aligned}\)</li>
+  <li>Note : \(f(X^{(i)})\) is \(Z=f\left(X_1, \ldots, X_{i-1}, X_i^{\prime}, X_{i+1}, \ldots, X_n\right)\)</li>
+  <li><strong>결론</strong> : samples \(X = (X_1, \ldots, X_n),\quad X^{\prime} = (X_1^{\prime}, \ldots, X_n^{\prime})\)이 있을 때, estimator \(f(X)\)의 variance를 알기 위해서는 sample \(X_1, \ldots, X_n\)를 하나씩 \(X_1^{\prime}, \ldots, X_n^{\prime}\)으로 바꿔보면서, \(f(X)\)의 변화량\(^2\) 의 expectation을 다 더하고 2로 나누어주면 upper bound를 구할 수 있다.</li>
+</ul>
+
+<h3 id="example--sample-mean">Example : Sample mean</h3>
+
+<ul>
+  <li>Let \(f(X)=\frac{1}{n} \sum_{i=1}^n X_i\) where \(X_1, \ldots, X_n \stackrel{\text { i.i.d. }}{\sim} P\).</li>
+  <li>Then the EfronStein inequality yields \(\operatorname{Var}[f(X)] \leq \sum_{i=1}^n \frac{1}{n^2} \mathbb{E}\left[\frac{\left(X_i-X_i^{\prime}\right)^2}{2}\right]=\frac{\sigma^2}{n}\)</li>
+  <li>We know that \(\operatorname{Var}[f(X)]=\sigma^2 / n\). In this regard, the Efron-Stein inequality is not improvable.</li>
+</ul>
+
+<h3 id="example--bounded-differences">Example : Bounded Differences</h3>
+
+<ul>
+  <li>\(\sup _{x_1, \ldots, x_n, x_i^{\prime} \in \mathcal{X}}{\left\vert g\left(x_1, \ldots, x_n\right)-g\left(x_1, \ldots, x_{i-1}, x_i^{\prime}, x_{i+1}, \ldots, x_n\right) \right\vert} \leq c_i,\)이면</li>
+  <li>the Efron-Stein inequality shows \(\operatorname{Var}\left[g\left(X_1, \ldots, X_n\right)\right] \leq \frac{1}{2} \sum_{i=1}^n c_i^2, \quad \text { for } 1 \leq i \leq n\)</li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[1. Inequalities for Expectation]]></summary></entry><entry><title type="html">Semi-Supervised Mean Estimation (Variance Reduction Technique)</title><link href="http://localhost:4000/stat/2024-04-16-SSmean/" rel="alternate" type="text/html" title="Semi-Supervised Mean Estimation (Variance Reduction Technique)" /><published>2024-04-16T00:00:00+09:00</published><updated>2024-04-16T13:11:09+09:00</updated><id>http://localhost:4000/stat/SSmean</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-16-SSmean/"><![CDATA[<ul>
   <li>일반적으로 \(\left\{X_i\right\}_{i=1}^n\)으로 \(\mathbb{E}[X]\)를 estimate할 때 sample mean \(\hat \theta = \bar{X}=\frac{1}{n} \sum_{i=1}^n X_i\)을 사용한다.</li>
   <li>하지만 실제로는 소량의 labeled data \(\left\{X_i\right\}_{i=1}^n\)와 대량의 unlabeled data \(\left\{Y_i\right\}_{i=1}^N\), \(n&lt;&lt;N\)이 존재한다.</li>
   <li>Motivation : 대량의 unlabeled data를 사용하여 \(\bar{X}=\frac{1}{n} \sum_{i=1}^n X_i\)보다 좋은 (분산이 작은) unbiased estimator를 찾자.</li>
@@ -59,67 +290,7 @@
       </li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[일반적으로 \(\left\{X_i\right\}_{i=1}^n\)으로 \(\mathbb{E}[X]\)를 estimate할 때 sample mean \(\hat \theta = \bar{X}=\frac{1}{n} \sum_{i=1}^n X_i\)을 사용한다. 하지만 실제로는 소량의 labeled data \(\left\{X_i\right\}_{i=1}^n\)와 대량의 unlabeled data \(\left\{Y_i\right\}_{i=1}^N\), \(n&lt;&lt;N\)이 존재한다. Motivation : 대량의 unlabeled data를 사용하여 \(\bar{X}=\frac{1}{n} \sum_{i=1}^n X_i\)보다 좋은 (분산이 작은) unbiased estimator를 찾자. Consider an estimator \(\widehat{\theta}=\frac{1}{n} \sum_{i=1}^n\left\{X_i-f\left(Y_i\right)\right\}+\frac{1}{N} \sum_{i=1}^N f\left(Y_i\right)\)​ \(f(Y)\)는 \(Y\)​로 만들 수 있는 estimator라고 생각하면 된다. 지금은 \(f(Y)\)가 없는 부분이 unbiased이므로 \(f(Y)\)도 unbiased estimator이어야 한다. 참고로 \(f(Y)=\mathbb E[X \mid Y]\)인 경우가 strong assumption이긴 하지만 optimal choice이다.]]></summary></entry><entry><title type="html">Total variation distance and Convergence in distribution</title><link href="http://localhost:4000/stat/2024-04-14-dTV/" rel="alternate" type="text/html" title="Total variation distance and Convergence in distribution" /><published>2024-04-14T00:00:00+09:00</published><updated>2024-04-14T14:37:24+09:00</updated><id>http://localhost:4000/stat/dTV</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-14-dTV/"><![CDATA[<ul>
-  <li>통계학에서 Convergence in distribution은 중요한 성질이다. 우리는 Sample size n이 커질수록 확률변수 또는 estimator가 어떤 분포에 가까워지는지 궁금하기 때문이다.</li>
-  <li>그러므로 Convergence in distribution을 imply하는 성질도 중요하다. Convergence in distribution을 보일 수 있는 방법들 중 하나가 되기 때문이다.</li>
-  <li>Total variation distance는 두 분포 사이의 distance metric 중 하나이다. Total variation distance가 작으면 두 분포가 가깝다는 의미이다.</li>
-  <li>본 게시글에서는 Total variation distance에 대해서 알아보고 <strong>Total variation distance가 0으로 수렴</strong>하면 한 분포가 다른 분포로 근사한다, 즉 Convergence in distribution한다는 것을 보인다.</li>
-</ul>
-
-<h2 id="total-variation-distanced_tv">Total variation distance(\(d_{TV}\))</h2>
-
-<ul>
-  <li><a href="https://en.wikipedia.org/wiki/Total_variation_distance_of_probability_measures">Wikipedia</a>에 따르면 Total variation distance의 정의는 아래와 같다.
-    <ul>
-      <li>Consider a measurable space \((\Omega, \mathcal{F})\) and probability measures \(P\) and \(Q\) defined on \((\Omega, \mathcal{F})\). The total variation distance between \(P\) and \(Q\) is defined as: \(\delta(P, Q)=\sup _{A \in \mathcal{F}}\mid P(A)-Q(A)\mid\)​</li>
-    </ul>
-  </li>
-  <li>\(d_{TV}\)​는 half of the L1 distance btw/ the probability functions이다.
-    <ul>
-      <li><img src="/assets/img/stat/dTV/fig1.png" alt="그림1" /></li>
-      <li>Geometric 의미는 두 분포의 차이에 해당하는 회색 영역의 넓이를 2로 나눈 값이다.</li>
-      <li>discrete : \(\delta(P, Q)=\frac{1}{2} \sum_x\mid P(x)-Q(x)\mid\)</li>
-      <li>continuous : \(\delta(P, Q)=\frac{1}{2} \int\mid p(x)-q(x)\mid  \mathrm{d} x\)​</li>
-      <li>\(\frac{1}{2}\)를 곱해주는 이유는 \(0 \le d_{TV} \le 1\)으로 만들어주기 위함인데, 아래 사진처럼 \(d_{TV}\)가 매우 큰 경우에 두 분포의 차이의 넓이가 2에 가까워지기 때문에 \(\frac{1}{2}\)를 곱한다.</li>
-      <li><img src="/assets/img/stat/dTV/fig2.png" alt="그림2" /></li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="convergence-in-total-variation-distance">Convergence in Total variation distance</h2>
-
-<ul>
-  <li>Convergence in Total variation distance는 Convergence in distribution보다 강력한 성질이다.</li>
-  <li>
-    <p><strong>즉 두 분포의 Total variation distance가 0으로 수렴하면, 두 분포는 Convergence in distribution이다.</strong></p>
-
-    <p>: \(\begin{aligned}\text{When }\delta(P, Q)&amp;=\sup _{A \in \mathcal{F}}\mid P(A)-Q(A)\mid  \\ \lim _{n \rightarrow \infty} \delta\left(P_n, Q\right)&amp;=0 \\ \lim _{n \rightarrow \infty}\mid P_n(A)-Q(A)\mid &amp;=0 \quad \forall A \in \mathcal{F} \\ \lim _{n \rightarrow \infty}\mid F_n(x)-F(x)\mid &amp;=0 \end{aligned}\)</p>
-  </li>
-  <li>
-    <p>하지만 역은 성립하지 않는다. Convergence in distribution이라고 해서 Total variation distance가 0으로 수렴하는 것은 아니다.</p>
-
-    <ul>
-      <li>Counterexample : \(f_n \sim \frac{2}{\pi} \cos ^2(n x) \mathbf{1}_{[0, \pi]}(x) d x\)</li>
-    </ul>
-
-    <p>: \(\begin{aligned}F_n(x)&amp;=\int_0^x f_n(t)dt \\ &amp;=\int_0^x\frac{2}{\pi} \cos ^2(nt) \mathbf{1}_{[0, \pi]}(x)dt \\ &amp; = \frac{2}{\pi}\mathbf{1}_{[0, \pi]}(x) \int_0^x \cos ^2(nt)dt \\ &amp;= \frac{2}{\pi}\mathbf{1}_{[0, \pi]}(x) \frac{sin(2nx)+2nx}{4n} \\  \lim_{n \to \infty} F_n(x) &amp;=\frac{2}{\pi}\mathbf{1}_{[0, \pi]}(x) \frac{x}{2} \\ &amp;=\frac{x}{\pi},\quad 0 \le x \le \pi \end{aligned}\)</p>
-
-    <ul>
-      <li>즉 \(\lim_{n \to \infty} F_n = F_{\infty}\)는 \(Unif(0, \pi)\)의 CDF가 되므로 Convergence in distribution이다.</li>
-      <li>하지만 \(\lim_{n \to \infty}d_{TV}(F_n, F_{\infty}) \nrightarrow 0\)이다.</li>
-    </ul>
-
-    <p>: \(\begin{aligned} d_{TV}\left(F_n, F_{\infty}\right) &amp; =\frac{1}{2} \int_0^\pi\mid f_n(x)-f_{\infty}(x)\mid  d x \\ &amp; =\frac{1}{2} \int_0^\pi\mid \frac{2}{\pi} \cos ^2(n x)-\frac{1}{\pi}\mid  d x \\ &amp; =\frac{1}{\pi} \int_0^\pi\mid \cos ^2(n x)-\frac{1}{2}\mid  d x \\ &amp; &gt;0 \quad \text{strictly positive} \end{aligned}\)</p>
-
-    <ul>
-      <li><img src="/assets/img/stat/dTV/fig3.png" alt="그림3" /></li>
-      <li>\(cos^2(nx)\)는 0과 1사이에서의 주기 함수이고, \(n\)이 커져도 주기가 짧아질 뿐이다.</li>
-      <li>그러므로 \(\mid \cos ^2(n x)-\frac{1}{2}\mid\)는 n과 관계없이 strictly positive이다. 즉 Total variation distance가 0으로 수렴하지 않는다.</li>
-      <li>만약 \(f_n, f_{\infty}\)​가 continuous random variable의 density이고 unimodal한 경우에는 Convergence in distribution과 Total variation distance이 0으로 수렴하는 것은 if and only if(필요충분)이다. (skip the proof)</li>
-      <li><a href="https://hal.science/hal-00821911/document">Reference : Ivan Nourdin, Guillaume Poly, Convergence in law implies convergence in total variation for polynomials in independent Gaussian, Gamma or Beta random variables</a></li>
-    </ul>
-  </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[통계학에서 Convergence in distribution은 중요한 성질이다. 우리는 Sample size n이 커질수록 확률변수 또는 estimator가 어떤 분포에 가까워지는지 궁금하기 때문이다. 그러므로 Convergence in distribution을 imply하는 성질도 중요하다. Convergence in distribution을 보일 수 있는 방법들 중 하나가 되기 때문이다. Total variation distance는 두 분포 사이의 distance metric 중 하나이다. Total variation distance가 작으면 두 분포가 가깝다는 의미이다. 본 게시글에서는 Total variation distance에 대해서 알아보고 Total variation distance가 0으로 수렴하면 한 분포가 다른 분포로 근사한다, 즉 Convergence in distribution한다는 것을 보인다.]]></summary></entry><entry><title type="html">The Law of Total Probability / Total Expectation / Total Variance (Gumbel-Max trick, …)</title><link href="http://localhost:4000/stat/2024-04-14-lawtotal/" rel="alternate" type="text/html" title="The Law of Total Probability / Total Expectation / Total Variance (Gumbel-Max trick, …)" /><published>2024-04-14T00:00:00+09:00</published><updated>2024-04-15T09:39:45+09:00</updated><id>http://localhost:4000/stat/lawtotal</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-14-lawtotal/"><![CDATA[<ul>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[일반적으로 \(\left\{X_i\right\}_{i=1}^n\)으로 \(\mathbb{E}[X]\)를 estimate할 때 sample mean \(\hat \theta = \bar{X}=\frac{1}{n} \sum_{i=1}^n X_i\)을 사용한다. 하지만 실제로는 소량의 labeled data \(\left\{X_i\right\}_{i=1}^n\)와 대량의 unlabeled data \(\left\{Y_i\right\}_{i=1}^N\), \(n&lt;&lt;N\)이 존재한다. Motivation : 대량의 unlabeled data를 사용하여 \(\bar{X}=\frac{1}{n} \sum_{i=1}^n X_i\)보다 좋은 (분산이 작은) unbiased estimator를 찾자. Consider an estimator \(\widehat{\theta}=\frac{1}{n} \sum_{i=1}^n\left\{X_i-f\left(Y_i\right)\right\}+\frac{1}{N} \sum_{i=1}^N f\left(Y_i\right)\)​ \(f(Y)\)는 \(Y\)​로 만들 수 있는 estimator라고 생각하면 된다. 지금은 \(f(Y)\)가 없는 부분이 unbiased이므로 \(f(Y)\)도 unbiased estimator이어야 한다. 참고로 \(f(Y)=\mathbb E[X \mid Y]\)인 경우가 strong assumption이긴 하지만 optimal choice이다.]]></summary></entry><entry><title type="html">The Law of Total Probability / Total Expectation / Total Variance (Gumbel-Max trick, …)</title><link href="http://localhost:4000/stat/2024-04-14-lawtotal/" rel="alternate" type="text/html" title="The Law of Total Probability / Total Expectation / Total Variance (Gumbel-Max trick, …)" /><published>2024-04-14T00:00:00+09:00</published><updated>2024-04-15T09:39:45+09:00</updated><id>http://localhost:4000/stat/lawtotal</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-14-lawtotal/"><![CDATA[<ul>
   <li>The Law of Total Probability
 \(P(A)=\sum P\left(A \mid B_n\right) P\left(B_n\right)\)</li>
   <li>The Law of Total Expectation
@@ -242,7 +413,67 @@
   <li>
     <p>\(\begin{aligned}\operatorname{Cov}\left(X_i, X_j\right) &amp;\leq \sqrt{\operatorname{Var}\left(X_i\right) \operatorname{Var}\left(X_j\right)} \leq \operatorname{Var}\left(X_i\right) / 2+\operatorname{Var}\left(X_j\right) / 2 \\ &amp;\text{by }x y \leq x^2 / 2+y^2 / 2 \end{aligned}\).</p>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[The Law of Total Probability \(P(A)=\sum P\left(A \mid B_n\right) P\left(B_n\right)\) The Law of Total Expectation \(\mathrm{E}(X)=\mathrm{E}(\mathrm{E}(X \mid Y))\) The Law of Total Variance \(\operatorname{Var}(Y)=\mathrm{E}[\operatorname{Var}(Y \mid X)]+\operatorname{Var}(\mathrm{E}[Y \mid X])\) The Law of Total Covariance \(\operatorname{cov}(X, Y)=\mathrm{E}(\operatorname{cov}(X, Y \mid Z))+\operatorname{cov}(\mathrm{E}(X \mid Z), \mathrm{E}(Y \mid Z))\)]]></summary></entry><entry><title type="html">(Dish-TS) A General Paradigm for Alleviating Distribution Shift in Time Series Forecasting (AAAI 2023)</title><link href="http://localhost:4000/timeseries/2024-04-12-Dish-TS/" rel="alternate" type="text/html" title="(Dish-TS) A General Paradigm for Alleviating Distribution Shift in Time Series Forecasting (AAAI 2023)" /><published>2024-04-12T00:00:00+09:00</published><updated>2024-04-12T19:26:03+09:00</updated><id>http://localhost:4000/timeseries/Dish-TS</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-04-12-Dish-TS/"><![CDATA[<h2 id="abstract">Abstract</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[The Law of Total Probability \(P(A)=\sum P\left(A \mid B_n\right) P\left(B_n\right)\) The Law of Total Expectation \(\mathrm{E}(X)=\mathrm{E}(\mathrm{E}(X \mid Y))\) The Law of Total Variance \(\operatorname{Var}(Y)=\mathrm{E}[\operatorname{Var}(Y \mid X)]+\operatorname{Var}(\mathrm{E}[Y \mid X])\) The Law of Total Covariance \(\operatorname{cov}(X, Y)=\mathrm{E}(\operatorname{cov}(X, Y \mid Z))+\operatorname{cov}(\mathrm{E}(X \mid Z), \mathrm{E}(Y \mid Z))\)]]></summary></entry><entry><title type="html">Total variation distance and Convergence in distribution</title><link href="http://localhost:4000/stat/2024-04-14-dTV/" rel="alternate" type="text/html" title="Total variation distance and Convergence in distribution" /><published>2024-04-14T00:00:00+09:00</published><updated>2024-04-14T14:37:24+09:00</updated><id>http://localhost:4000/stat/dTV</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-14-dTV/"><![CDATA[<ul>
+  <li>통계학에서 Convergence in distribution은 중요한 성질이다. 우리는 Sample size n이 커질수록 확률변수 또는 estimator가 어떤 분포에 가까워지는지 궁금하기 때문이다.</li>
+  <li>그러므로 Convergence in distribution을 imply하는 성질도 중요하다. Convergence in distribution을 보일 수 있는 방법들 중 하나가 되기 때문이다.</li>
+  <li>Total variation distance는 두 분포 사이의 distance metric 중 하나이다. Total variation distance가 작으면 두 분포가 가깝다는 의미이다.</li>
+  <li>본 게시글에서는 Total variation distance에 대해서 알아보고 <strong>Total variation distance가 0으로 수렴</strong>하면 한 분포가 다른 분포로 근사한다, 즉 Convergence in distribution한다는 것을 보인다.</li>
+</ul>
+
+<h2 id="total-variation-distanced_tv">Total variation distance(\(d_{TV}\))</h2>
+
+<ul>
+  <li><a href="https://en.wikipedia.org/wiki/Total_variation_distance_of_probability_measures">Wikipedia</a>에 따르면 Total variation distance의 정의는 아래와 같다.
+    <ul>
+      <li>Consider a measurable space \((\Omega, \mathcal{F})\) and probability measures \(P\) and \(Q\) defined on \((\Omega, \mathcal{F})\). The total variation distance between \(P\) and \(Q\) is defined as: \(\delta(P, Q)=\sup _{A \in \mathcal{F}}\mid P(A)-Q(A)\mid\)​</li>
+    </ul>
+  </li>
+  <li>\(d_{TV}\)​는 half of the L1 distance btw/ the probability functions이다.
+    <ul>
+      <li><img src="/assets/img/stat/dTV/fig1.png" alt="그림1" /></li>
+      <li>Geometric 의미는 두 분포의 차이에 해당하는 회색 영역의 넓이를 2로 나눈 값이다.</li>
+      <li>discrete : \(\delta(P, Q)=\frac{1}{2} \sum_x\mid P(x)-Q(x)\mid\)</li>
+      <li>continuous : \(\delta(P, Q)=\frac{1}{2} \int\mid p(x)-q(x)\mid  \mathrm{d} x\)​</li>
+      <li>\(\frac{1}{2}\)를 곱해주는 이유는 \(0 \le d_{TV} \le 1\)으로 만들어주기 위함인데, 아래 사진처럼 \(d_{TV}\)가 매우 큰 경우에 두 분포의 차이의 넓이가 2에 가까워지기 때문에 \(\frac{1}{2}\)를 곱한다.</li>
+      <li><img src="/assets/img/stat/dTV/fig2.png" alt="그림2" /></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="convergence-in-total-variation-distance">Convergence in Total variation distance</h2>
+
+<ul>
+  <li>Convergence in Total variation distance는 Convergence in distribution보다 강력한 성질이다.</li>
+  <li>
+    <p><strong>즉 두 분포의 Total variation distance가 0으로 수렴하면, 두 분포는 Convergence in distribution이다.</strong></p>
+
+    <p>: \(\begin{aligned}\text{When }\delta(P, Q)&amp;=\sup _{A \in \mathcal{F}}\mid P(A)-Q(A)\mid  \\ \lim _{n \rightarrow \infty} \delta\left(P_n, Q\right)&amp;=0 \\ \lim _{n \rightarrow \infty}\mid P_n(A)-Q(A)\mid &amp;=0 \quad \forall A \in \mathcal{F} \\ \lim _{n \rightarrow \infty}\mid F_n(x)-F(x)\mid &amp;=0 \end{aligned}\)</p>
+  </li>
+  <li>
+    <p>하지만 역은 성립하지 않는다. Convergence in distribution이라고 해서 Total variation distance가 0으로 수렴하는 것은 아니다.</p>
+
+    <ul>
+      <li>Counterexample : \(f_n \sim \frac{2}{\pi} \cos ^2(n x) \mathbf{1}_{[0, \pi]}(x) d x\)</li>
+    </ul>
+
+    <p>: \(\begin{aligned}F_n(x)&amp;=\int_0^x f_n(t)dt \\ &amp;=\int_0^x\frac{2}{\pi} \cos ^2(nt) \mathbf{1}_{[0, \pi]}(x)dt \\ &amp; = \frac{2}{\pi}\mathbf{1}_{[0, \pi]}(x) \int_0^x \cos ^2(nt)dt \\ &amp;= \frac{2}{\pi}\mathbf{1}_{[0, \pi]}(x) \frac{sin(2nx)+2nx}{4n} \\  \lim_{n \to \infty} F_n(x) &amp;=\frac{2}{\pi}\mathbf{1}_{[0, \pi]}(x) \frac{x}{2} \\ &amp;=\frac{x}{\pi},\quad 0 \le x \le \pi \end{aligned}\)</p>
+
+    <ul>
+      <li>즉 \(\lim_{n \to \infty} F_n = F_{\infty}\)는 \(Unif(0, \pi)\)의 CDF가 되므로 Convergence in distribution이다.</li>
+      <li>하지만 \(\lim_{n \to \infty}d_{TV}(F_n, F_{\infty}) \nrightarrow 0\)이다.</li>
+    </ul>
+
+    <p>: \(\begin{aligned} d_{TV}\left(F_n, F_{\infty}\right) &amp; =\frac{1}{2} \int_0^\pi\mid f_n(x)-f_{\infty}(x)\mid  d x \\ &amp; =\frac{1}{2} \int_0^\pi\mid \frac{2}{\pi} \cos ^2(n x)-\frac{1}{\pi}\mid  d x \\ &amp; =\frac{1}{\pi} \int_0^\pi\mid \cos ^2(n x)-\frac{1}{2}\mid  d x \\ &amp; &gt;0 \quad \text{strictly positive} \end{aligned}\)</p>
+
+    <ul>
+      <li><img src="/assets/img/stat/dTV/fig3.png" alt="그림3" /></li>
+      <li>\(cos^2(nx)\)는 0과 1사이에서의 주기 함수이고, \(n\)이 커져도 주기가 짧아질 뿐이다.</li>
+      <li>그러므로 \(\mid \cos ^2(n x)-\frac{1}{2}\mid\)는 n과 관계없이 strictly positive이다. 즉 Total variation distance가 0으로 수렴하지 않는다.</li>
+      <li>만약 \(f_n, f_{\infty}\)​가 continuous random variable의 density이고 unimodal한 경우에는 Convergence in distribution과 Total variation distance이 0으로 수렴하는 것은 if and only if(필요충분)이다. (skip the proof)</li>
+      <li><a href="https://hal.science/hal-00821911/document">Reference : Ivan Nourdin, Guillaume Poly, Convergence in law implies convergence in total variation for polynomials in independent Gaussian, Gamma or Beta random variables</a></li>
+    </ul>
+  </li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[통계학에서 Convergence in distribution은 중요한 성질이다. 우리는 Sample size n이 커질수록 확률변수 또는 estimator가 어떤 분포에 가까워지는지 궁금하기 때문이다. 그러므로 Convergence in distribution을 imply하는 성질도 중요하다. Convergence in distribution을 보일 수 있는 방법들 중 하나가 되기 때문이다. Total variation distance는 두 분포 사이의 distance metric 중 하나이다. Total variation distance가 작으면 두 분포가 가깝다는 의미이다. 본 게시글에서는 Total variation distance에 대해서 알아보고 Total variation distance가 0으로 수렴하면 한 분포가 다른 분포로 근사한다, 즉 Convergence in distribution한다는 것을 보인다.]]></summary></entry><entry><title type="html">(Dish-TS) A General Paradigm for Alleviating Distribution Shift in Time Series Forecasting (AAAI 2023)</title><link href="http://localhost:4000/timeseries/2024-04-12-Dish-TS/" rel="alternate" type="text/html" title="(Dish-TS) A General Paradigm for Alleviating Distribution Shift in Time Series Forecasting (AAAI 2023)" /><published>2024-04-12T00:00:00+09:00</published><updated>2024-04-12T19:26:03+09:00</updated><id>http://localhost:4000/timeseries/Dish-TS</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-04-12-Dish-TS/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>Distribution shift in TS : series distribution changes over time</li>
@@ -1353,273 +1584,4 @@ but maximize the distance btw prototype(=virtual sequences, centor, …)</li>
 <ul>
   <li>2020년에 발표된 survey 논문이지만 최근 Long-term Time Series Forecasting(LTSF)에 활용되는 모델에 대한 내용을 잘 정리한 논문이다.</li>
   <li>본 논문 이후 현재까지 최신 연구들을 이해한 상태로 읽는다면 최신 연구들의 motivation을 이해하는 데에 도움이 되는 논문이다.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Philos Trans R Soc A. 2020](https://arxiv.org/pdf/2004.13408.pdf)]]></summary></entry><entry><title type="html">(Survey paper) Transformers in Time Series: A Survey (IJCAI 2023)</title><link href="http://localhost:4000/timeseries/2024-03-19-TFinTSsurvey/" rel="alternate" type="text/html" title="(Survey paper) Transformers in Time Series: A Survey (IJCAI 2023)" /><published>2024-03-19T00:00:00+09:00</published><updated>2024-03-20T17:35:16+09:00</updated><id>http://localhost:4000/timeseries/TFinTSsurvey</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-19-TFinTSsurvey/"><![CDATA[<h2 id="abstract">Abstract</h2>
-
-<ul>
-  <li>Transformer는 long-range dependencies and interactions를 학습할 수 있다.</li>
-  <li>본 논문에서는 Network structure 관점에서 Transformer를 TS forecasting에 사용하기 위해 어떤 adaptaion and modification을 했는지 알아보고</li>
-  <li>Application 관점에서 forecasting, anomaly detection, and classification을 포함한 task에 대해 얼마나 잘 작동하는지 알아본다.</li>
-  <li>마지막으로 future direction을 제시한다.</li>
-</ul>
-
-<h2 id="1-introduction">1. Introduction</h2>
-
-<ul>
-  <li>Transformer : ability for long-range dependencies and interactions in sequential data</li>
-  <li>Time series : How to effectively model long-range and short-range temporal dependency and capture seasonality simultaneously ?</li>
-  <li>Network modification 관점 : low-level(i.e. module)부터 high-level(i.e. architecture)</li>
-  <li>Application 관점 : summarize Transformer for forecasting, anomaly detection, and classification</li>
-</ul>
-
-<h2 id="2-preliminaries-of-the-transformer">2. Preliminaries of the Transformer</h2>
-
-<h3 id="21-vanilla-transformer">2.1. Vanilla Transformer</h3>
-
-<ul>
-  <li>Encoder : a multi- head self-attention module and a position-wise feed-forward network</li>
-  <li>Decoder : cross-attention models between the multi-head self-attention module and the position-wise feed-forward network</li>
-</ul>
-
-<h3 id="22-input-encoding-and-positional-encoding">2.2. Input Encoding and Positional Encoding</h3>
-
-<ul>
-  <li>No recurrence, instead positional encoding</li>
-  <li>Absolute Positional Encoding : \(PE(t)_i= \begin{cases}\sin \left(\omega_i t\right) &amp; i \% 2=0 \\ \cos \left(\omega_i t\right) &amp; i \% 2=1\end{cases}\)
-    <ul>
-      <li>\(\quad \omega_i\) is the hand-crafted frequency for each dim</li>
-    </ul>
-  </li>
-  <li>Relative Positional Encoding : input의 상대적인 위치에 대해 learnable하지만 train에서 본 적 없는, 더 긴 길이의 input에 대해서 확장이 어려움</li>
-</ul>
-
-<h3 id="23-multi-head-attention">2.3. Multi-head Attention</h3>
-
-<ul>
-  <li>
-    <p>scaled dot-product : \(\operatorname{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V})=\operatorname{softmax}\left(\frac{\mathbf{Q K}^{\mathbf{T}}}{\sqrt{D_k}}\right) \mathbf{V}\)</p>
-  </li>
-  <li>
-    <p>Multi-head Attention :</p>
-
-\[\begin{aligned}MultiHeadAttn (\mathbf{Q}, \mathbf{K}, \mathbf{V})=\operatorname{Concat}\left(\right. head _1, \cdots, head \left._H\right) \mathbf{W}^O \\ \text{where } head _i= Attention \left(\mathbf{Q} \mathbf{W}_i^Q, \mathbf{K} \mathbf{W}_i^K, \mathbf{V} \mathbf{W}_i^V\right)\end{aligned}\]
-  </li>
-</ul>
-
-<h3 id="24-feed-forward-and-residual-network">2.4. Feed-forward and Residual Network</h3>
-
-<ul>
-  <li>The feed-forward network(FFN) : \(FFN\left(\mathbf{H}^{\prime}\right)=\operatorname{ReLU}\left(\mathbf{H}^{\prime} \mathbf{W}^1+\mathbf{b}^1\right) \mathbf{W}^2+\mathbf{b}^2\)
-    <ul>
-      <li>\(\mathbf{H}^{\prime}\) is outputs of previous layer</li>
-      <li>\(\mathbf{W}^1 \in \mathcal{R}^{D_m \times D_f}\), \(\mathbf{W}^2 \in \mathcal{R}^{D_f \times D_m}, \mathbf{b}^1 \in \mathcal{R}^{D_f}, \mathbf{b}^2 \in \mathcal{R}^{D_m}\) are trainable parameters</li>
-    </ul>
-  </li>
-  <li>Residual connection module followed by a layer normalization module : \(\begin{aligned} \mathbf{H}^{\prime} &amp; =\operatorname{LayerNorm}(\operatorname{Self} \operatorname{Attn}(\mathbf{X})+\mathbf{X}), \\ \mathbf{H} &amp; =\operatorname{LayerNorm}\left(FFN\left(\mathbf{H}^{\prime}\right)+\mathbf{H}^{\prime}\right)\end{aligned}\)
-    <ul>
-      <li>SelfAttn(.) : self-attention module</li>
-      <li>LayerNorm(.) : the layer normalization operation</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="3-taxonomy-of-transformers-in-time-series">3. Taxonomy of Transformers in Time Series</h2>
-
-<p><img src="/assets/img/timeseries/TFinTSsurvey/fig1.png" alt="사진1" /></p>
-
-<h2 id="4-network-modifications-for-time-series">4. Network Modifications for Time Series</h2>
-
-<h3 id="41-positional-encoding">4.1. Positional Encoding</h3>
-
-<ul>
-  <li>Vanilla Positional Encoding : fixed, hand-crafted</li>
-  <li>Learnable Positional Encoding : more flexible and can adapt to spe- cific tasks</li>
-  <li>Timestamp Encoding : calendar timestamps (e.g., second, minute, hour, week, month, and year) and special times- tamps (e.g., holidays and events) \(\to\) additional position encoding</li>
-</ul>
-
-<h3 id="42-attention-module">4.2. Attention Module</h3>
-
-<ul>
-  <li>Self-attention module : FC layer w weights that are dynamically generated based on the pairwise similarity of input patterns</li>
-  <li>Memory complexity \(O(N^2)\)
-    <ul>
-      <li>explicitly introducing a sparsity bias into the attention mechanism
-        <ul>
-          <li>e.g. LogTrans [Li <em>et al.</em>, 2019, Pyraformer [Liu <em>et al.</em>, 2022a]</li>
-        </ul>
-      </li>
-      <li>exploring the low-rank property of the self-attention matrix to speed up the computation,
-        <ul>
-          <li>e.g. Informer [Zhou <em>et al.</em>, 2021], FEDformer [Zhou <em>et al.</em>, 2022].</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<p><img src="/assets/img/timeseries/TFinTSsurvey/table1.png" alt="사진2" /></p>
-
-<h3 id="43-architecture-based-attention-innovation">4.3. Architecture-based Attention Innovation</h3>
-
-<ul>
-  <li>Hierarchical architecture : multi-resolution aspect of TS
-    <ul>
-      <li>Informer [Zhou <em>et al.</em>, 2021]
-        <ul>
-          <li>max-pooling layers with stride 2 btw attention blocks (down-sample series into its half slice)</li>
-        </ul>
-      </li>
-      <li>Pyraformer [Liu <em>et al.</em>, 2022a]
-        <ul>
-          <li>C-ary tree-based attention mechanism (finest-origin / coarser-lower resolutions)</li>
-          <li>both intra-scale and inter-scale attentions \(\to\) temporal dependencies across different resolutions</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="5-applications-of-time-series-transformers">5. Applications of Time Series Transformers</h2>
-
-<p><img src="/assets/img/timeseries/TFinTSsurvey/fig2.jpeg" alt="사진9" /></p>
-
-<h3 id="51-transformers-in-forecasting">5.1. Transformers in Forecasting</h3>
-
-<ul>
-  <li><strong>Module-level variants</strong> : main architectures는 비슷한데, minor changes
-    <ul>
-      <li>(1) designing new attention modules
-        <ul>
-          <li>LogTrans [Li <em>et al.</em>, 2019] : convolution self-attention, sparse bias (Logsparse mask)</li>
-          <li>Informer [Zhou <em>et al.</em>, 2021] : selects dominant queries based on queries and key similarities</li>
-          <li>AST [Wu <em>et al.</em>, 2020a] : generative adversarial encoder- decoder framework to train a sparse Transformer</li>
-          <li>Pyraformer [Liu <em>et al.</em>, 2022a] : hierarchical pyramidal attention module with a binary tree following the path</li>
-          <li>Quatformer [Chen <em>et al.</em>, 2022] : learning-to-rotate attention (LRA) based on quaternions that introduce learnable period and phase information</li>
-          <li>FEDformer [Zhou <em>et al.</em>, 2022] : attention operation in the frequency domain with Fourier trans- form and wavelet transform</li>
-        </ul>
-      </li>
-      <li>(2) exploring the innovative way to normalize time series data
-        <ul>
-          <li>Non-stationary Transformer [Liu <em>et al.</em>, 2022b]</li>
-        </ul>
-      </li>
-      <li>(3) utilizing the bias for token inputs
-        <ul>
-          <li>Autoformer [Wu <em>et al.</em>, 2021] : segmentation-based representation mechanism (auto-correlation mechanism)</li>
-          <li>PatchTST [Nie <em>et al.</em>, 2023] : subseries-level patch design which are served as input tokens w/ channel-independency</li>
-          <li>Cross- former [Zhang and Yan, 2023] : input is embedded into a 2D vector array and then two-stage attention layer is used to efficiently capture the cross-time and cross-dimension dependency</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li><strong>Architecture-level variants</strong>
-    <ul>
-      <li>Triformer [Cirstea <em>et al.</em>, 2022] : triangular,variable-specific patch attention \(\to\) lightweight and linear complex- ity</li>
-      <li>Scaleformer [Shabani <em>et al.</em>, 2023] : iteratively refine the forecasted time series at multiple scales with shared weights.</li>
-    </ul>
-  </li>
-  <li><strong>Spatio-temporal Forecasting, Evnet Forecasting</strong>
-    <ul>
-      <li>Pass</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="52-transformers-in-anomaly-detection">5.2. Transformers in Anomaly Detection</h3>
-
-<ul>
-  <li>
-    <p>Transformer + Generative models</p>
-
-    <ul>
-      <li>
-        <p>TranAD [Tuli <em>et al.</em>, 2022] : Transformer는 small deviation of anomaly는 놓치므로 reconstruction errors를 amplify하는 adversarial training</p>
-      </li>
-      <li>
-        <p>MT-RVAE [Wang <em>et al.</em>, 2022], TransAnomaly [Zhang <em>et al.</em>, 2021] : Transformer + VAE \(\to\) reduce training costs, 다양한 scale의 정보 통합</p>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="53-transformers-in-classification">5.3 Transformers in Classification</h3>
-
-<ul>
-  <li>GTN [Liu <em>et al.</em>, 2021] : two-tower Transformer(time-step-wise attention and channel-wise attention) \(\to\)  learnable weighted concatenation</li>
-  <li>TARNet [Chowdhury <em>et al.</em>, 2022] : utilizes attention score for important timestamps masking and reconstruction</li>
-</ul>
-
-<h2 id="6-experimental-evaluation-and-discussion">6. Experimental Evaluation and Discussion</h2>
-
-<ul>
-  <li><strong>Robustness Analysis</strong>
-    <ul>
-      <li>대부분의 attention-based models는 lower the quadratic calculation and memory complexity를 위해 module을 수정했고, 좋은 실험 결과를 위해 짧은 input을 사용했는데, 긴 input을 넣어도 MSE가 커지지 않고 잘 유지되는지 확인했다.</li>
-      <li>대부분의 모델들이 긴 input에 대해서는 잘 처리하지 못한다.</li>
-    </ul>
-  </li>
-</ul>
-
-<p><img src="/assets/img/timeseries/TFinTSsurvey/table2.png" alt="사진3" /></p>
-
-<ul>
-  <li><strong>Model Size Analysis</strong>
-    <ul>
-      <li>일반적으로 model size가 커지면 prediction power도 좋아지는데 attention-based models에서 그렇지 않음을 확인했다.</li>
-      <li>지금까지의 Transformer 자체가 features를 잘 뽑아내지 못하는 구조일 수 있겠다.</li>
-    </ul>
-  </li>
-</ul>
-
-<p><img src="/assets/img/timeseries/TFinTSsurvey/table3.png" alt="사진4" /></p>
-
-<ul>
-  <li><strong>Seasonal-Trend Decomposition Analysis</strong>
-    <ul>
-      <li>seasonal-trend decomposition는 Transformer에서 필수적인 부분 : model performance가 50% - 80% boosting</li>
-    </ul>
-  </li>
-</ul>
-
-<p><img src="/assets/img/timeseries/TFinTSsurvey/table4.png" alt="사진5" /></p>
-
-<h2 id="7-future-research-opportunities">7. Future Research Opportunities</h2>
-
-<h3 id="71-inductive-biases-for-time-series-transformers">7.1. Inductive Biases for Time Series Transformers</h3>
-
-<ul>
-  <li>Channel-independence와 Cross-channel(dim) dependency은 서로 반대 inductive bias이지만 둘 다 실험 결과가 좋았다.</li>
-  <li>즉 cross-channel learning에는 noise도 있고 signal도 있다는 의미</li>
-  <li>어떤 inductive bias를 어떻게 induce할지 고려할 필요가 있음</li>
-</ul>
-
-<h3 id="72-transformers-and-gnn-for-time-series">7.2. Transformers and GNN for Time Series</h3>
-
-<ul>
-  <li>Traffic forecsting처럼 spatial dependency (relationship among dim)이 강한 경우에는 GNN + Transformer의 성능이 좋을 수 있다.</li>
-</ul>
-
-<h3 id="73-pre-trained-transformers-for-time-series">7.3. Pre-trained Transformers for Time Series</h3>
-
-<ul>
-  <li>Large-scale pre-trained Transformer model의 성능이 좋긴 한데 대부분 classification을 위한 pre-train이라는 점에서, 다른 tasks를 위한 pre-train도 고려할 수 있다.</li>
-</ul>
-
-<h3 id="74-transformers-with-architecture-level-variants">7.4. Transformers with Architecture Level Variants</h3>
-
-<ul>
-  <li>지금까지는 attention module에 대한 modification이 주로 등장했지만, TS를 위한 architecture-level design도 고려할 수 있다.</li>
-</ul>
-
-<h3 id="75-transformers-with-nas-for-time-series">7.5. Transformers with NAS for Time Series</h3>
-
-<ul>
-  <li>Neural architecture search(NAS)과 같은 AutoML을 통해, 성능에 영향을 주는 embedding dimension이나 head/layer의 개수 등 효율적인 architecture를 고려할 수 있다.</li>
-</ul>
-
-<h2 id="8-conclusion">8. Conclusion</h2>
-
-<ul>
-  <li>new taxonomy consisting of network design and application</li>
-  <li>strengths and limitations of representative methods by experimental evaluation</li>
-  <li>highlight future research directions.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[IJCAI 2023](https://arxiv.org/pdf/2202.07125.pdf)]]></summary></entry></feed>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Philos Trans R Soc A. 2020](https://arxiv.org/pdf/2004.13408.pdf)]]></summary></entry></feed>
