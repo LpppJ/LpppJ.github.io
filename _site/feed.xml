@@ -1,5 +1,316 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-04-16T17:52:53+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">Inequalities for Expectation and Variance</title><link href="http://localhost:4000/stat/2024-04-16-ineq1/" rel="alternate" type="text/html" title="Inequalities for Expectation and Variance" /><published>2024-04-16T00:00:00+09:00</published><updated>2024-04-16T17:50:43+09:00</updated><id>http://localhost:4000/stat/ineq1</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-16-ineq1/"><![CDATA[<h2 id="1-inequalities-for-expectation">1. Inequalities for Expectation</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-04-18T15:40:29+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">Inequalities for Probabilities</title><link href="http://localhost:4000/stat/2024-04-18-ineq2/" rel="alternate" type="text/html" title="Inequalities for Probabilities" /><published>2024-04-18T00:00:00+09:00</published><updated>2024-04-18T15:40:25+09:00</updated><id>http://localhost:4000/stat/ineq2</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-18-ineq2/"><![CDATA[<h2 id="3-inequalities-for-probabilities">3. Inequalities for Probabilities</h2>
+
+<h2 id="31-markovs-inequality">3.1. Markov’s inequality</h2>
+
+<ul>
+  <li>For any \(t \geq 0\) and a nonnegative random variable \(X\), \(P(X \geq t) \leq \frac{\mathbb{E}[X]}{t}\)​​</li>
+  <li>Markov’s inequality는 extreme events의 확률의 upper bound를 제공한다는 점에서 의미가 있다.</li>
+</ul>
+
+<h3 id="proof">Proof</h3>
+
+<p><img src="/assets/img/stat/ineq2/fig1.png" alt="그림1" /></p>
+
+<p>From \(\mathbb{1}(x \geq t) \leq(x / t) \mathbb{1}(x \geq 0)\)​, By taking the expectation on both sides.</p>
+
+<ul>
+  <li>When become equality ?
+    <ul>
+      <li>the random variable is <strong>constant</strong> or almost constant일 때에 등식이 성립한다.</li>
+      <li>ex 1. \(\begin{aligned} X  =t \quad(p=1) \\ P(X&gt;t)=1 \\ \mathbb{E}[X] / t  =t/t = 1\end{aligned}\)​​일 때 equality가 성립하고</li>
+      <li>ex 2. \(\begin{aligned} X = \begin{cases}0 \quad (p=1-k) \\ t \quad (p=k)\end{cases} \\ P(X&gt;t)=k \\ E[X] / t = tk/t =k \end{aligned}\)인 경우에도 equality가 성립한다.</li>
+      <li>즉 확률변수 \(X\)가 constant이거나(ex1), 0또는 constant를 가지는 경우(ex2)이다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="32-chebyshevs-inequality">3.2. Chebyshev’s inequality</h2>
+
+<ul>
+  <li>Let \(X\) be a random variable and have finite mean \(\mu\) and finite non-zero variance. Then, \(P(\left\vert X-\mu\right\vert \geq t) \leq \frac{\operatorname{Var}(X)}{t^2} .\)</li>
+</ul>
+
+<h3 id="proof-1">Proof</h3>
+
+<p>\(\begin{aligned}
+&amp; \text{By Markov's Inequality, }\\
+&amp; P\left((X-\mu)^2 \ge t^2\right) \le \frac{\mathbb{E[(X-\mu)^2]}}{t^2}\\
+&amp; \therefore P(\left\vert X-\mu\right\vert \geq t) \leq \frac{\operatorname{Var}(X)}{t^2}
+\end{aligned}\)​​​</p>
+
+<ul>
+  <li>
+    <p>\(X\)가 평균에서 \(t\)이상 떨어져있을 확률에 \(t^2\)를 곱해도 \(X\)의 분산보다 작다</p>
+  </li>
+  <li>\(P[\left\vert X-\mu\right\vert \geq k \sigma] \le \frac{1}{k^2}\)로 표현한다면
+    <ul>
+      <li>\(X\)가 평균에서 (\(k \times\)분산) 만큼 떨어져있을 확률은 \(\frac{1}{k^2}\)​보다 작다.</li>
+      <li>Chebyshev’s inequality는 확률변수 \(X\)의 평균으로부터의 extreme events가 발생할 확률에 대한 upper bound를 제공한다.</li>
+    </ul>
+  </li>
+  <li>When become equality ?
+    <ul>
+      <li>증명에서 Markov’s inequality를 사용했기 때문에, Markov’s inequality의 등식이 성립했는지를 생각해보면 된다.</li>
+      <li>\((X-\mu)^2\)가 0 또는 constant인 경우를 생각해야 하므로, 확률변수 \(X\)가 \(\mu\) 또는 \(\mu-a, \mu+a\)만 될 수 있고 다른 값을 가질 확률이 0인 경우이다. (pdf가 \(\mu\)에 대해 symmetric한 경우)</li>
+      <li>아래 경우에 왜 등식이 성립할 수 없는지 이해한다면 언제 등식이 성립하는지 알 수 있다.</li>
+      <li><img src="/assets/img/stat/ineq2/fig2.jpeg" alt="그림2" /></li>
+      <li>\((X-\mu)^2=\left\{\begin{array}{cc}0 &amp; (p=0.4) \\ a^2 &amp; (p=0.4) \\ b^2 &amp; (p=0.2)\end{array} \quad P\left((X-\mu)^2 \geqslant t^2\right)=\left\{\begin{array}{cc}1 &amp; \left(t^2=0\right) \\ 0.4 &amp; \left(0&lt;t^2 \leqslant a^2\right) \\ 0.2 &amp; \left(a^2&lt;t^2 \leqslant b^2\right) \\ 0 &amp; \left(b^2&lt;t^2\right)\end{array}\right.\right.\)​</li>
+      <li>\(\mathbb{E}[(X-\mu)^2] = 0.4a^2+0.2b^2\)이므로
+        <ul>
+          <li>어떤 \(t^2\)로 나누어도 등식이 성립할 수 없는 이유는 \(a^2\)과 \(b^2\)의 계수가 다르기 때문이다.</li>
+          <li>그러므로 둘 중 하나의 계수가 0이면 등식이 성립한다.</li>
+        </ul>
+      </li>
+      <li>위 그림에서 \(P(X=\mu-a)=P(X=\mu+a)=0\)이고 \(P(X=\mu-b)=P(X=\mu+b)=0.3\)이 되면</li>
+      <li>\(\begin{aligned}(X-\mu)^2=\left\{\begin{array}{cc}0 &amp; (p=0.4) \\ b^2 &amp; (p=0.6)\end{array} \quad P\left((X-\mu)^2 \geqslant t^2\right)=\left\{\begin{array}{cc}1 &amp; \left(t^2=0\right) \\ 0.6 &amp; \left(0&lt;t^2 \leqslant b^2\right) \\ 0 &amp; \left(b^2&lt;t^2\right)\end{array}\right.\right.\end{aligned}\)이 되고</li>
+      <li>\(\mathbb{E}[(X-\mu)^2] = 0.6b^2\)이므로 \(t^2=b^2\)​에서 등식이 성립한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="33-hoeffdings-inequality">3.3. Hoeffding’s inequality</h2>
+
+<ul>
+  <li>
+    <p>Let \(X_1, \ldots, X_n\) be independent bounded random variables such that \(X_i\) falls in the interval \(\left[a_i, b_i\right]\) with probability one. Then for any \(t&gt;0\)​, we have</p>
+  </li>
+  <li>\(P\left\{\sum_{i=1}^n\left(X_i-\mathbb{E}\left[X_i\right]\right) \geq t\right\} \leq e^{-2 t^2 / \sum_{i=1}^n\left(b_i-a_i\right)^2}\),</li>
+  <li>and \(P\left\{\sum_{i=1}^n\left(X_i-\mathbb{E}\left[X_i\right]\right) \leq-t\right\} \leq e^{-2 t^2 / \sum_{i=1}^n\left(b_i-a_i\right)^2}\)</li>
+  <li>Therefore \(P\left\{\left\vert {\frac{1}{n} \sum_{i=1}^n\left(X_i-\mathbb{E}\left[X_i\right]\right)} \right\vert \geq t\right\} \leq 2 e^{-2 n^2 t^2 / \sum_{i=1}^n\left(b_i-a_i\right)^2}\)</li>
+</ul>
+
+<h3 id="proof-2">Proof</h3>
+
+<ul>
+  <li>For a given \(\lambda&gt;0\)</li>
+  <li>by Markov’s inequality,</li>
+</ul>
+
+<p>.\(\begin{aligned}
+P\left\{\sum_{i=1}^n\left(X_i-\mathbb{E}\left[X_i\right]\right) \geq t\right\}
+&amp; =P\left\{\exp \left(\lambda \sum_{i=1}^n\left(X_i-\mathbb{E}\left[X_i\right]\right)\right) \geq \exp (\lambda t)\right\} \\
+&amp; \leq \exp (-\lambda t) \mathbb{E}\left[\exp \left(\lambda \sum_{i=1}^n\left(X_i-\mathbb{E}\left[X_i\right]\right)\right)\right]
+\end{aligned}\)</p>
+
+<ul>
+  <li>by independence btw \(X_1, ..., X_n\), and Hoeffding’s Lemma (which is \(\mathbb{E}\left[e^{t(X-\mathbb{E}[X])}\right] \leq e^{t^2(b-a)^2 / 8}\)),</li>
+</ul>
+
+<p>.\(\begin{aligned}
+\mathbb{E}\left[\exp \left(\lambda \sum_{i=1}^n\left(X_i-\mathbb{E}\left[X_i\right]\right)\right)\right]
+&amp; =\prod_{i=1}^n \mathbb{E}\left[\exp \left(\lambda\left(X_i-\mathbb{E}\left[X_i\right]\right)\right)\right] \\
+&amp; \leq \prod_{i=1}^n e^{\lambda^2\left(b_i-a_i\right)^2 / 8}=e^{\lambda^2 \sum_{i=1}^n\left(b_i-a_i\right)^2 / 8}
+\end{aligned}\)​</p>
+
+<ul>
+  <li>Therefore,</li>
+</ul>
+
+<p>.\(\begin{aligned}
+P\left\{\sum_{i=1}^n\left(X_i-\mathbb{E}\left[X_i\right]\right) \geq t\right\}
+&amp;\leq e^{-\lambda t+\lambda^2 \sum_{i=1}^n\left(b_i-a_i\right)^2 / 8} \\
+&amp; \leq e^{\frac{\sum_{i=1}^n\left(b_i-a_i\right)^2}{8}(\lambda^2-\frac{8t}{\sum_{i=1}^n\left(b_i-a_i\right)^2}\lambda+(\frac{4t}{\sum_{i=1}^n\left(b_i-a_i\right)^2})^2-(\frac{4t}{\sum_{i=1}^n\left(b_i-a_i\right)^2})^2)} \\
+&amp; = e^{\frac{\sum_{i=1}^n\left(b_i-a_i\right)^2}{8}(\lambda-\frac{4t}{\sum_{i=1}^n\left(b_i-a_i\right)^2})^2-\frac{2t^2}{\sum_{i=1}^n\left(b_i-a_i\right)^2}} \\
+&amp; \leq e^{\frac{-2t^2}{\sum_{i=1}^n\left(b_i-a_i\right)^2}}
+\end{aligned}\)</p>
+
+<ul>
+  <li>Proof : Hoeffding’s Lemma (\(\mathbb{E}\left[e^{t(X-\mathbb{E}[X])}\right] \leq e^{t^2(b-a)^2 / 8}\))
+    <ul>
+      <li>Step 1 : Hoeffding’s Lemma을 위해 다음 등식을 유도한다.</li>
+      <li>For the Rademacher R.V \(X\) (that take the value \(\{-1, 1\}\)),</li>
+      <li>.\(\begin{aligned}
+\mathbb{E}[\exp (t X)] &amp; =\frac{1}{2}[\exp (t)+\exp (-t)] \\
+&amp; =\frac{1}{2}\left[\sum_{k=0}^{\infty} \frac{t^k}{k !}+\sum_{k=0}^{\infty} \frac{(-t)^k}{k !}\right] \\
+&amp; =\sum_{k=0}^{\infty} \frac{t^{2 k}}{(2 k) !} \leq \sum_{k=0}^{\infty} \frac{t^{2 k}}{2^k k !} \\
+&amp; =\exp \left(t^2 / 2\right)
+\end{aligned}\)</li>
+      <li>Step 2 : Symmetrization</li>
+      <li>For the R.V \(X\) with zero mean, support \([a,b]\), and \(X^{\prime}\) which is independent copy of \(X\)​,</li>
+      <li>.\(\begin{aligned}
+\mathbb{E}_X[\exp (t X)]&amp; = \mathbb{E}_X[\exp(t(X-\mathbb{E}[X^{\prime}]))]\\ &amp; \le \mathbb{E}_{X, X^{\prime}}\left[\exp \left(t\left(X-X^{\prime}\right)\right]\right. \quad \text{by Jensen's inequality}\\ &amp; =\mathbb{E}_{X, X^{\prime}}\left[\mathbb{E}_\epsilon\left[\exp \left(t \epsilon\left(X-X^{\prime}\right) \mid X, X^{\prime}\right]\right]\right. \\
+&amp; \leq \mathbb{E}_{X, X^{\prime}}\left[\exp \left(t^2\left(X-X^{\prime}\right)^2 / 2\right]\right. \quad \text{by step 1}\\ &amp; \le \exp(t^2(b-a)^2/2)
+\end{aligned}\)​</li>
+      <li>추가적인 theorem으로 \(\exp(t^2(b-a)^2/8)\)까지 bound를 낮출 수 있다. (skip the proof)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="comparison-btw-chebyshevs-inequality-vs-hoeffdings-inequality">Comparison btw Chebyshev’s inequality vs. Hoeffding’s inequality</h3>
+
+<ul>
+  <li>\(X\)가 Rademacher R.V (-1 또는 1이 되는데 각각 1/2확률)일 때, \(\mathbb{E}[\bar X]=0, Var(\bar X)=\frac{1}{n}\)이므로</li>
+  <li>Chebyshev’s inequality는 \(P(\left\vert{ X-\mu }\right\vert \geq t) \leq \frac{\operatorname{Var}(X)}{t^2}\)​이고, 우측 항을 \(\delta\)로 만들면 아래와 같다.
+    <ul>
+      <li>\(\begin{aligned}
+&amp; P(|\bar{X}-\mathbb{E}[\bar{X}]| \geq t) \leq \frac{1}{n t^2} \\
+&amp; \Longleftrightarrow P\left(|\bar{X}-\mathbb{E}[\bar{X}]| \geq \sqrt{\frac{1}{n \delta}}\right) \leq \delta \end{aligned}\)​</li>
+    </ul>
+  </li>
+  <li>Hoeffding’s inequality는 \(P\left\{\left\vert{ \frac{1}{n} \sum_{i=1}^n\left(X_i-\mathbb{E}\left[X_i\right]\right)}\right\vert \geq t\right\} \leq 2 e^{-2 n^2 t^2 / \sum_{i=1}^n\left(b_i-a_i\right)^2}\)이고, 우측 항을 \(\delta\)로 만들면 아래와 같다.
+    <ul>
+      <li>\(\begin{aligned}
+&amp; P(|\bar{X}-\mathbb{E}[\bar{X}]| \geq t) \leq 2 e^{-n t^2 / 2} \\
+&amp; \Longleftrightarrow P\left(|\bar{X}-\mathbb{E}[\bar{X}]| \geq \sqrt{\frac{2}{n} \log \left(\frac{2}{\delta}\right)}\right) \leq \delta .
+\end{aligned}\)​</li>
+    </ul>
+  </li>
+  <li>\(\delta \to 0\)일 때 Chebyshev’s의 bound는 polynomially 커지고, Hoeffding’s의 bound는 logarithmically 커진다.
+    <ul>
+      <li>\(\delta=0.001\)일 때, 즉 99.9%의 확률에 대한 bounds는
+Chebyshev’s는 \(\sqrt{\frac{1}{n \times 0.001}} \approx \frac{31}{\sqrt{n}}\) 
+Hoeffding’s는 \(\sqrt{\frac{2}{n} \log \left(\frac{2}{0.001}\right)} \approx \frac{2.57}{\sqrt{n}}\)이다.</li>
+    </ul>
+  </li>
+  <li>결론적으로, Hoeffding’s inequality가 tail (extreme) probability에 대해 훨씬 tight한 bound를 제공한다.</li>
+</ul>
+
+<h3 id="example--classification-error">Example : Classification error</h3>
+
+<ul>
+  <li>Classifier \(h\)의 error \(R(h)=P(Y \neq h(X))\)는 \(\widehat{R}_n(h)=\frac{1}{n} \sum_{i=1}^n \mathbb{1}\left(Y_i \neq h\left(X_i\right)\right)\)로 추정한다.</li>
+  <li>By Hoeffding’s inequality,
+    <ul>
+      <li>\(P\left(\left\vert{ \widehat{R}_n(h)-R(h)} \right\vert \geq t\right) \leq 2 e^{-2 n t^2} \quad \text { for all } t \geq 0\)이다.</li>
+      <li>즉 \(\left\vert{ \widehat{R}_n(h)-R(h)} \right\vert \leq \sqrt{\frac{1}{2 n} \log \left(\frac{2}{\delta}\right)}\) with probability at least \(1-\delta\)</li>
+    </ul>
+  </li>
+  <li>Hoeffding’s inequality는 확률변수의 범위에 대한 가정을 제외하면 어떠한 정보(가정)도 사용하지 않는다는 점에서 유용하다.</li>
+</ul>
+
+<h2 id="34-bernsteins-inequality">3.4. Bernstein’s inequality</h2>
+
+<ul>
+  <li>
+    <p><strong>R.V \(X\)의 분산이 작으면</strong> Hoeffding’s inequality보다 sharper inequality인 Bernstein’s inequality가 된다.</p>
+  </li>
+  <li>Let \(X_1, \ldots, X_n\) be independent and suppose that \(\left\vert {X_i} \right\vert \leq c\) and \(\mathbb{E}\left[X_i\right]=\mu\).</li>
+  <li>Then for any \(t \geq 0,\ P\left(\left\vert{\frac{1}{n} \sum_{i=1}^n X_i-\mu}\right\vert \geq t\right) \leq 2 \exp \left\{-\frac{n t^2}{2 \sigma^2+2 c t / 3}\right\}\)
+    <ul>
+      <li>where \(\sigma^2=\frac{1}{n} \sum_{i=1}^n \operatorname{Var}\left(X_i\right)\)​</li>
+    </ul>
+  </li>
+  <li>Skip the proof</li>
+  <li>확률변수의 분산이 작으면, \(2 \sigma^2+\frac{2 c t}{3}&lt;2 c^2\)이면 Hoeffding’s inequality보다 tight하다.
+    <ul>
+      <li>Hoeffding’s inequality \(P\left\{\left\vert{\frac{1}{n} \sum_{i=1}^n\left(X_i-\mathbb{E}\left[X_i\right]\right)}\right\vert \geq t\right\} \leq 2 e^{-2 n^2 t^2 / \sum_{i=1}^n\left(b_i-a_i\right)^2}\)는 \(\left\vert{X_i}\right\vert \leq c\)에서 \(P\left\{\left\vert{\frac{1}{n} \sum_{i=1}^n\left(X_i-\mathbb{E}\left[X_i\right]\right)}\right\vert \geq t\right\} \leq 2 e^{-2 n^2 t^2 / \sum_{i=1}^n\left(2c\right)^2}=2 e^{-2 n^2 t^2 / n4c^2}=2 e^{-n t^2 / 2c^2}\)이다.</li>
+      <li>\(2 e^{-n t^2 / 2c^2}\)보다 \(2 \exp \left\{-\frac{n t^2}{2 \sigma^2+2 c t / 3}\right\}\)가 더 <strong>작은</strong> 경우를 의미한다.
+        <ul>
+          <li>Error의 upper bound가 더 작은 것이 더 tight한 것이니까</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="35-mcdiarmids-inequality">3.5. McDiarmid’s inequality</h2>
+
+<ul>
+  <li>Suppose that \(\left(X_1, \ldots, X_n\right)\) are independent random variables, and let \(g: \mathcal{X}^n \mapsto \mathbb{R}\) satisfy <strong>the bounded difference property</strong> with constants \(c_1, \ldots, c_n\)​.
+    <ul>
+      <li><strong>the bounded difference property</strong>의 의미는</li>
+      <li>: \(\sup _{x_1, \ldots, x_n, x_i^{\prime} \in \mathcal{X}}\left\vert{g\left(x_1, \ldots, x_n\right)-g\left(x_1, \ldots, x_{i-1}, x_i^{\prime}, x_{i+1}, \ldots, x_n\right)}\right\vert \leq c_i, \quad \text { for } 1 \leq i \leq n\)​</li>
+      <li>즉 \(x_i\)를 \(x^{\prime}_i\)로 replace했을 때 발생하는 g의 difference가 \(c_i\)보다 작다, bounded 되어있다.</li>
+    </ul>
+  </li>
+  <li>Then \(P\left(\left\vert{g\left(X_1, \ldots, X_n\right)-\mathbb{E}\left[g\left(X_1, \ldots, X_n\right)\right]}\right\vert \geq t\right) \leq 2 \exp \left(-\frac{2 t^2}{\sum_{i=1}^n c_i^2}\right)\)​</li>
+</ul>
+
+<h3 id="proof-3">Proof</h3>
+
+<ul>
+  <li>쉽게 말해서… (진짜 쉬움)
+    <ul>
+      <li>왼쪽에 있는 \(g\left(X_1, \ldots, X_n\right)\)는 \(X_1, ..., X_n\)​이 아무것도 given이 아닌 상태인데,
+        <ul>
+          <li>\(X_1\)이 given이 되었을 때 생기는 g의 difference \(Z_1\)은 \(\to\) \(c_1\)보다 작으니 interval \([0,c_1]\)에 bounded,</li>
+          <li>\(X_2\)이 given이 되었을 때 생기는 g의 difference \(Z_2\)는 \(\to\) \(c_2\)보다 작으니 interval \([0,c_2]\)에 bounded,</li>
+        </ul>
+      </li>
+      <li>오른쪽에 있는 \(\mathbb{E}[g(X_1, ..., X_n)]\ \text{는 }\mathbb{E}\left[\mathbb{E}[g(X_1,...,.X_n)\mid X_1, .., X_n]\right]\)이라는 점에서
+        <ul>
+          <li>\(X_1, ..., X_n\)이 모두 given인 때로 볼 수 있으므로</li>
+          <li>왼쪽에 있는 \(g\left(X_1, \ldots, X_n\right)\)과의 difference \(\sum Z_i\)는 \(\to\)  \(\displaystyle\sum_{i=1}^n c_i\)보다 작으니 interval \([0,\displaystyle\sum_{i=1}^n c_i]\)에 bounded</li>
+        </ul>
+      </li>
+      <li>이제 Hoeffding’s inequality : \(P\left\{\sum_{i=1}^n\left(X_i-\mathbb{E}\left[X_i\right]\right) \geq t\right\} \leq e^{-2 t^2 / \sum_{i=1}^n\left(b_i-a_i\right)^2}\)에 의해
+        <ul>
+          <li>\(P\left(\left\vert{g\left(X_1, \ldots, X_n\right)-\mathbb{E}\left[g\left(X_1, \ldots, X_n\right)\right]}\right\vert \geq t\right) \leq 2 \exp \left(-\frac{2 t^2}{\sum_{i=1}^n c_i^2}\right)\)가 된다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="36-dkw-inequality">3.6. DKW inequality</h2>
+
+<ul>
+  <li>There exists a finite positive constant \(C\) such that \(P\left(\sup _{x \in \mathbb{R}}\left\vert{F_n(x)-F(x)}\right\vert \geq t\right) \leq C e^{-2 n t^2} \quad \text { for all } t \geq 0\)</li>
+  <li>The best possible constant \(C\) is known as 2</li>
+</ul>
+
+<p>Pass</p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[3. Inequalities for Probabilities]]></summary></entry><entry><title type="html">Semi-Supervised Mean Estimation (Variance Reduction Technique)</title><link href="http://localhost:4000/stat/2024-04-16-SSmean/" rel="alternate" type="text/html" title="Semi-Supervised Mean Estimation (Variance Reduction Technique)" /><published>2024-04-16T00:00:00+09:00</published><updated>2024-04-16T13:11:09+09:00</updated><id>http://localhost:4000/stat/SSmean</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-16-SSmean/"><![CDATA[<ul>
+  <li>일반적으로 \(\left\{X_i\right\}_{i=1}^n\)으로 \(\mathbb{E}[X]\)를 estimate할 때 sample mean \(\hat \theta = \bar{X}=\frac{1}{n} \sum_{i=1}^n X_i\)을 사용한다.</li>
+  <li>하지만 실제로는 소량의 labeled data \(\left\{X_i\right\}_{i=1}^n\)와 대량의 unlabeled data \(\left\{Y_i\right\}_{i=1}^N\), \(n&lt;&lt;N\)이 존재한다.</li>
+  <li>Motivation : 대량의 unlabeled data를 사용하여 \(\bar{X}=\frac{1}{n} \sum_{i=1}^n X_i\)보다 좋은 (분산이 작은) unbiased estimator를 찾자.</li>
+  <li><strong>Consider an estimator</strong> \(\widehat{\theta}=\frac{1}{n} \sum_{i=1}^n\left\{X_i-f\left(Y_i\right)\right\}+\frac{1}{N} \sum_{i=1}^N f\left(Y_i\right)\)​
+    <ul>
+      <li>\(f(Y)\)는  \(Y\)​로 만들 수 있는 estimator라고 생각하면 된다.</li>
+      <li>지금은 \(f(Y)\)가 없는 부분이 unbiased이므로 \(f(Y)\)도 unbiased estimator이어야 한다.</li>
+      <li>참고로 \(f(Y)=\mathbb E[X \mid Y]\)인 경우가 strong assumption이긴 하지만 optimal choice이다.</li>
+    </ul>
+  </li>
+  <li>Unbiased ? (proof)</li>
+</ul>
+
+<p>: \(\begin{aligned} \mathbb{E}[\hat{\theta}] &amp; =\mathbb{E}\left[\frac{1}{n} \sum_{i=1}^n\left(X_i-f\left(Y_i\right)\right)\right]+\mathbb{E}\left[\frac{1}{N} \sum_{i=1}^N f\left(Y_i\right)\right] \\ &amp; =\frac{1}{n} \sum_{i=1}^n \mathbb{E}\left[X_i-f\left(Y_i\right)\right]+\frac{1}{N} \sum_{i=1}^N \mathbb{E}\left[f\left(Y_i\right)\right] \\ &amp; =\mathbb{E}[X]-\mathbb{E}[f(Y)]+\mathbb{E}[f(Y)] \quad\left(\text { when } Y_i^{\prime} \text { s are iid) }\right. \\ &amp; =\mathbb{E}[X]\end{aligned}\)</p>
+
+<ul>
+  <li>Improves the variance ? (proof)</li>
+</ul>
+
+<p>: \(\begin{aligned} \hat{\theta} &amp; =\frac{1}{n} \sum_{i=1}^n\left(X_i-f\left(Y_i\right)\right)+\frac{1}{N} \sum_{i=1}^N f\left(Y_i\right) \\ &amp; =\frac{1}{n} \sum_{i=1}^n X_i-\left(\frac{1}{n}-\frac{1}{N}\right) \sum_{=1}^n f\left(Y_i\right)+\frac{1}{N} \sum_{i=n+1}^N f\left(Y_i\right) \\ \operatorname{Var}(\hat{\theta}) &amp; =\operatorname{Var}\left(\frac{1}{n} \sum_{i=1}^n X_i\right)+\operatorname{Var}\left(-\left(\frac{1}{n}-\frac{1}{N}\right) \sum_{i=1}^n f\left(Y_i\right)\right) \\ &amp; \quad -2 \operatorname{Cov}\left(\frac{1}{n} \sum_{i=1}^n X_i,\left(\frac{1}{n}-\frac{1}{N}\right) \sum_{i=1}^n f\left(Y_i\right)\right)+\operatorname{Var}\left(\frac{1}{N} \sum_{i=1}^N f\left(Y_i\right)\right) \\ &amp; =\frac{1}{n} \operatorname{Var}(X)+\left(\frac{1}{n}-\frac{1}{N}\right)^2 \cdot n \operatorname{Var}(f(Y)) \\ &amp; \quad -2 \frac{1}{n}\left(\frac{1}{n}-\frac{1}{N}\right) n \operatorname{Cov}(X, f(Y))+\frac{N-n}{N^2} \operatorname{Var}(f(Y)) \\ &amp; =\frac{1}{n} \operatorname{Var}(X)+\left(\frac{1}{n}-\frac{2}{N}+\frac{n}{N^2}-\frac{N-n}{N^2}\right) \operatorname{Var}(f(Y))-2\left(\frac{1}{n}-\frac{1}{N}\right) \operatorname{Cov}\left(X, f(Y)\right) \\ &amp; =\frac{1}{n} \operatorname{Var}(X)+\left(\frac{1}{n}-\frac{2}{N}+\frac{1}{N}\right) \operatorname{Var}(f(Y))-2\left(\frac{1}{n}-\frac{1}{N}\right) \operatorname{Cov}\left(X, f(Y)\right) \\ &amp; =\frac{1}{n}\left[\operatorname{Var}(X)+\frac{N-n}{N}(\operatorname{Var}(f(Y))-2 \operatorname{Cov}(X, f(Y)))\right]\end{aligned}\)</p>
+
+<ul>
+  <li>
+    <p>이 때 \(\operatorname{Var}[\bar{X}]=\operatorname{Var}[X] / n\) 이므로 \(\frac{1}{n}\left[\operatorname{Var}[X]+\frac{N-n}{N}\{\operatorname{Var}[f(Y)]-2 \operatorname{Cov}[X, f(Y)]\}\right]&lt;\frac{\operatorname{Var}[X]}{n}\)이면,</p>
+
+    <ul>
+      <li>즉 \(\operatorname{Var}[f(Y)]&lt;2 \operatorname{Cov}[X, f(Y)]\)이면 \(\hat \theta = \bar X\)보다 improve 된다.</li>
+    </ul>
+  </li>
+  <li>\(f(Y)=\mathbb{E}[X \mid Y]\)을 가정했으므로 \(\begin{aligned}\operatorname{Var}[\widehat{\theta}]=\frac{1}{n}\left[\operatorname{Var}(X)+\frac{N-n}{N}(\operatorname{Var}(f(Y))-2 \operatorname{Cov}(X, f(Y)))\right]\end{aligned}\)이고,
+    <ul>
+      <li>Covariance 부분만 보면
+        <ul>
+          <li>\(\begin{aligned}
+\operatorname{Cov}(X, \mathbb{E}[X \mid Y]) &amp; =\mathbb{E}[(X-\mathbb{E}[X])(\mathbb{E}[X \mid Y]-\mathbb{E}[X])]\\&amp;=\mathbb{E}\left[(\mathbb{E}[X \mid Y]-\mathbb{E}[X])^2\right] \\
+&amp; =\operatorname{Var}[\mathbb{E}(X \mid Y)]
+\end{aligned}\)이므로 대입하면</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>\(\begin{aligned}
+\operatorname{Var}[\widehat{\theta}] &amp; =\frac{1}{n}\{\underbrace{\operatorname{Var}[X]}_{=\operatorname{Var}[\mathbb{E}(X \mid Y)]+\mathbb{E}[\operatorname{Var}(X \mid Y)]}+\frac{N-n}{N} \operatorname{Var}(\mathbb{E}[X \mid Y])-2 \frac{N-n}{N} \underbrace{\operatorname{Cov}(X, \mathbb{E}[X \mid Y])}_{=\operatorname{Var}[\mathbb{E}(X \mid Y)]}\} \\
+&amp; =\frac{1}{n} \mathbb{E}[\operatorname{Var}(X \mid Y)]+\frac{1}{N} \operatorname{Var}[\mathbb{E}(X \mid Y)] \\
+&amp; \leq \frac{1}{n} \mathbb{E}[\operatorname{Var}(X \mid Y)]+\frac{1}{n} \operatorname{Var}[\mathbb{E}(X \mid Y)]=\operatorname{Var}[\bar{X}],
+\end{aligned}\)이다.</p>
+  </li>
+  <li>\(n &lt;&lt; N\)이므로 \(\hat \theta=\bar X\)의 분산이 작아졌다.</li>
+  <li>이 방법의 본질은 \(X\)와 \(Y\)의 dependency이다.
+    <ul>
+      <li>만약 \(X\)와 \(Y\)가 independent이면 \(Y\)가 \(\mathbb E[X]\)에 대한 정보를 가지고 있지 않으므로 improvement가 없다.</li>
+      <li>즉 본질적으로 Antithetic variable for Variance reduction과 같다.
+        <ul>
+          <li>(sample의 개수가 같더라도 iid가 아닌 negatively correlated sampling을 함으로써 estimator의 분산을 줄이는 방법)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[일반적으로 \(\left\{X_i\right\}_{i=1}^n\)으로 \(\mathbb{E}[X]\)를 estimate할 때 sample mean \(\hat \theta = \bar{X}=\frac{1}{n} \sum_{i=1}^n X_i\)을 사용한다. 하지만 실제로는 소량의 labeled data \(\left\{X_i\right\}_{i=1}^n\)와 대량의 unlabeled data \(\left\{Y_i\right\}_{i=1}^N\), \(n&lt;&lt;N\)이 존재한다. Motivation : 대량의 unlabeled data를 사용하여 \(\bar{X}=\frac{1}{n} \sum_{i=1}^n X_i\)보다 좋은 (분산이 작은) unbiased estimator를 찾자. Consider an estimator \(\widehat{\theta}=\frac{1}{n} \sum_{i=1}^n\left\{X_i-f\left(Y_i\right)\right\}+\frac{1}{N} \sum_{i=1}^N f\left(Y_i\right)\)​ \(f(Y)\)는 \(Y\)​로 만들 수 있는 estimator라고 생각하면 된다. 지금은 \(f(Y)\)가 없는 부분이 unbiased이므로 \(f(Y)\)도 unbiased estimator이어야 한다. 참고로 \(f(Y)=\mathbb E[X \mid Y]\)인 경우가 strong assumption이긴 하지만 optimal choice이다.]]></summary></entry><entry><title type="html">Inequalities for Expectation and Variance</title><link href="http://localhost:4000/stat/2024-04-16-ineq1/" rel="alternate" type="text/html" title="Inequalities for Expectation and Variance" /><published>2024-04-16T00:00:00+09:00</published><updated>2024-04-16T17:53:25+09:00</updated><id>http://localhost:4000/stat/ineq1</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-16-ineq1/"><![CDATA[<h2 id="1-inequalities-for-expectation">1. Inequalities for Expectation</h2>
 
 <h2 id="11-jensens-inequality">1.1. Jensen’s Inequality</h2>
 
@@ -231,67 +542,7 @@ V_i^2 &amp; =\left(\mathbb{E}\left[f(X) \mid X_1, \ldots, X_i\right]-\mathbb{E}\
 <ul>
   <li>\(\sup _{x_1, \ldots, x_n, x_i^{\prime} \in \mathcal{X}}{\left\vert g\left(x_1, \ldots, x_n\right)-g\left(x_1, \ldots, x_{i-1}, x_i^{\prime}, x_{i+1}, \ldots, x_n\right) \right\vert} \leq c_i,\)이면</li>
   <li>the Efron-Stein inequality shows \(\operatorname{Var}\left[g\left(X_1, \ldots, X_n\right)\right] \leq \frac{1}{2} \sum_{i=1}^n c_i^2, \quad \text { for } 1 \leq i \leq n\)</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[1. Inequalities for Expectation]]></summary></entry><entry><title type="html">Semi-Supervised Mean Estimation (Variance Reduction Technique)</title><link href="http://localhost:4000/stat/2024-04-16-SSmean/" rel="alternate" type="text/html" title="Semi-Supervised Mean Estimation (Variance Reduction Technique)" /><published>2024-04-16T00:00:00+09:00</published><updated>2024-04-16T13:11:09+09:00</updated><id>http://localhost:4000/stat/SSmean</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-16-SSmean/"><![CDATA[<ul>
-  <li>일반적으로 \(\left\{X_i\right\}_{i=1}^n\)으로 \(\mathbb{E}[X]\)를 estimate할 때 sample mean \(\hat \theta = \bar{X}=\frac{1}{n} \sum_{i=1}^n X_i\)을 사용한다.</li>
-  <li>하지만 실제로는 소량의 labeled data \(\left\{X_i\right\}_{i=1}^n\)와 대량의 unlabeled data \(\left\{Y_i\right\}_{i=1}^N\), \(n&lt;&lt;N\)이 존재한다.</li>
-  <li>Motivation : 대량의 unlabeled data를 사용하여 \(\bar{X}=\frac{1}{n} \sum_{i=1}^n X_i\)보다 좋은 (분산이 작은) unbiased estimator를 찾자.</li>
-  <li><strong>Consider an estimator</strong> \(\widehat{\theta}=\frac{1}{n} \sum_{i=1}^n\left\{X_i-f\left(Y_i\right)\right\}+\frac{1}{N} \sum_{i=1}^N f\left(Y_i\right)\)​
-    <ul>
-      <li>\(f(Y)\)는  \(Y\)​로 만들 수 있는 estimator라고 생각하면 된다.</li>
-      <li>지금은 \(f(Y)\)가 없는 부분이 unbiased이므로 \(f(Y)\)도 unbiased estimator이어야 한다.</li>
-      <li>참고로 \(f(Y)=\mathbb E[X \mid Y]\)인 경우가 strong assumption이긴 하지만 optimal choice이다.</li>
-    </ul>
-  </li>
-  <li>Unbiased ? (proof)</li>
-</ul>
-
-<p>: \(\begin{aligned} \mathbb{E}[\hat{\theta}] &amp; =\mathbb{E}\left[\frac{1}{n} \sum_{i=1}^n\left(X_i-f\left(Y_i\right)\right)\right]+\mathbb{E}\left[\frac{1}{N} \sum_{i=1}^N f\left(Y_i\right)\right] \\ &amp; =\frac{1}{n} \sum_{i=1}^n \mathbb{E}\left[X_i-f\left(Y_i\right)\right]+\frac{1}{N} \sum_{i=1}^N \mathbb{E}\left[f\left(Y_i\right)\right] \\ &amp; =\mathbb{E}[X]-\mathbb{E}[f(Y)]+\mathbb{E}[f(Y)] \quad\left(\text { when } Y_i^{\prime} \text { s are iid) }\right. \\ &amp; =\mathbb{E}[X]\end{aligned}\)</p>
-
-<ul>
-  <li>Improves the variance ? (proof)</li>
-</ul>
-
-<p>: \(\begin{aligned} \hat{\theta} &amp; =\frac{1}{n} \sum_{i=1}^n\left(X_i-f\left(Y_i\right)\right)+\frac{1}{N} \sum_{i=1}^N f\left(Y_i\right) \\ &amp; =\frac{1}{n} \sum_{i=1}^n X_i-\left(\frac{1}{n}-\frac{1}{N}\right) \sum_{=1}^n f\left(Y_i\right)+\frac{1}{N} \sum_{i=n+1}^N f\left(Y_i\right) \\ \operatorname{Var}(\hat{\theta}) &amp; =\operatorname{Var}\left(\frac{1}{n} \sum_{i=1}^n X_i\right)+\operatorname{Var}\left(-\left(\frac{1}{n}-\frac{1}{N}\right) \sum_{i=1}^n f\left(Y_i\right)\right) \\ &amp; \quad -2 \operatorname{Cov}\left(\frac{1}{n} \sum_{i=1}^n X_i,\left(\frac{1}{n}-\frac{1}{N}\right) \sum_{i=1}^n f\left(Y_i\right)\right)+\operatorname{Var}\left(\frac{1}{N} \sum_{i=1}^N f\left(Y_i\right)\right) \\ &amp; =\frac{1}{n} \operatorname{Var}(X)+\left(\frac{1}{n}-\frac{1}{N}\right)^2 \cdot n \operatorname{Var}(f(Y)) \\ &amp; \quad -2 \frac{1}{n}\left(\frac{1}{n}-\frac{1}{N}\right) n \operatorname{Cov}(X, f(Y))+\frac{N-n}{N^2} \operatorname{Var}(f(Y)) \\ &amp; =\frac{1}{n} \operatorname{Var}(X)+\left(\frac{1}{n}-\frac{2}{N}+\frac{n}{N^2}-\frac{N-n}{N^2}\right) \operatorname{Var}(f(Y))-2\left(\frac{1}{n}-\frac{1}{N}\right) \operatorname{Cov}\left(X, f(Y)\right) \\ &amp; =\frac{1}{n} \operatorname{Var}(X)+\left(\frac{1}{n}-\frac{2}{N}+\frac{1}{N}\right) \operatorname{Var}(f(Y))-2\left(\frac{1}{n}-\frac{1}{N}\right) \operatorname{Cov}\left(X, f(Y)\right) \\ &amp; =\frac{1}{n}\left[\operatorname{Var}(X)+\frac{N-n}{N}(\operatorname{Var}(f(Y))-2 \operatorname{Cov}(X, f(Y)))\right]\end{aligned}\)</p>
-
-<ul>
-  <li>
-    <p>이 때 \(\operatorname{Var}[\bar{X}]=\operatorname{Var}[X] / n\) 이므로 \(\frac{1}{n}\left[\operatorname{Var}[X]+\frac{N-n}{N}\{\operatorname{Var}[f(Y)]-2 \operatorname{Cov}[X, f(Y)]\}\right]&lt;\frac{\operatorname{Var}[X]}{n}\)이면,</p>
-
-    <ul>
-      <li>즉 \(\operatorname{Var}[f(Y)]&lt;2 \operatorname{Cov}[X, f(Y)]\)이면 \(\hat \theta = \bar X\)보다 improve 된다.</li>
-    </ul>
-  </li>
-  <li>\(f(Y)=\mathbb{E}[X \mid Y]\)을 가정했으므로 \(\begin{aligned}\operatorname{Var}[\widehat{\theta}]=\frac{1}{n}\left[\operatorname{Var}(X)+\frac{N-n}{N}(\operatorname{Var}(f(Y))-2 \operatorname{Cov}(X, f(Y)))\right]\end{aligned}\)이고,
-    <ul>
-      <li>Covariance 부분만 보면
-        <ul>
-          <li>\(\begin{aligned}
-\operatorname{Cov}(X, \mathbb{E}[X \mid Y]) &amp; =\mathbb{E}[(X-\mathbb{E}[X])(\mathbb{E}[X \mid Y]-\mathbb{E}[X])]\\&amp;=\mathbb{E}\left[(\mathbb{E}[X \mid Y]-\mathbb{E}[X])^2\right] \\
-&amp; =\operatorname{Var}[\mathbb{E}(X \mid Y)]
-\end{aligned}\)이므로 대입하면</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>
-    <p>\(\begin{aligned}
-\operatorname{Var}[\widehat{\theta}] &amp; =\frac{1}{n}\{\underbrace{\operatorname{Var}[X]}_{=\operatorname{Var}[\mathbb{E}(X \mid Y)]+\mathbb{E}[\operatorname{Var}(X \mid Y)]}+\frac{N-n}{N} \operatorname{Var}(\mathbb{E}[X \mid Y])-2 \frac{N-n}{N} \underbrace{\operatorname{Cov}(X, \mathbb{E}[X \mid Y])}_{=\operatorname{Var}[\mathbb{E}(X \mid Y)]}\} \\
-&amp; =\frac{1}{n} \mathbb{E}[\operatorname{Var}(X \mid Y)]+\frac{1}{N} \operatorname{Var}[\mathbb{E}(X \mid Y)] \\
-&amp; \leq \frac{1}{n} \mathbb{E}[\operatorname{Var}(X \mid Y)]+\frac{1}{n} \operatorname{Var}[\mathbb{E}(X \mid Y)]=\operatorname{Var}[\bar{X}],
-\end{aligned}\)이다.</p>
-  </li>
-  <li>\(n &lt;&lt; N\)이므로 \(\hat \theta=\bar X\)의 분산이 작아졌다.</li>
-  <li>이 방법의 본질은 \(X\)와 \(Y\)의 dependency이다.
-    <ul>
-      <li>만약 \(X\)와 \(Y\)가 independent이면 \(Y\)가 \(\mathbb E[X]\)에 대한 정보를 가지고 있지 않으므로 improvement가 없다.</li>
-      <li>즉 본질적으로 Antithetic variable for Variance reduction과 같다.
-        <ul>
-          <li>(sample의 개수가 같더라도 iid가 아닌 negatively correlated sampling을 함으로써 estimator의 분산을 줄이는 방법)</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[일반적으로 \(\left\{X_i\right\}_{i=1}^n\)으로 \(\mathbb{E}[X]\)를 estimate할 때 sample mean \(\hat \theta = \bar{X}=\frac{1}{n} \sum_{i=1}^n X_i\)을 사용한다. 하지만 실제로는 소량의 labeled data \(\left\{X_i\right\}_{i=1}^n\)와 대량의 unlabeled data \(\left\{Y_i\right\}_{i=1}^N\), \(n&lt;&lt;N\)이 존재한다. Motivation : 대량의 unlabeled data를 사용하여 \(\bar{X}=\frac{1}{n} \sum_{i=1}^n X_i\)보다 좋은 (분산이 작은) unbiased estimator를 찾자. Consider an estimator \(\widehat{\theta}=\frac{1}{n} \sum_{i=1}^n\left\{X_i-f\left(Y_i\right)\right\}+\frac{1}{N} \sum_{i=1}^N f\left(Y_i\right)\)​ \(f(Y)\)는 \(Y\)​로 만들 수 있는 estimator라고 생각하면 된다. 지금은 \(f(Y)\)가 없는 부분이 unbiased이므로 \(f(Y)\)도 unbiased estimator이어야 한다. 참고로 \(f(Y)=\mathbb E[X \mid Y]\)인 경우가 strong assumption이긴 하지만 optimal choice이다.]]></summary></entry><entry><title type="html">The Law of Total Probability / Total Expectation / Total Variance (Gumbel-Max trick, …)</title><link href="http://localhost:4000/stat/2024-04-14-lawtotal/" rel="alternate" type="text/html" title="The Law of Total Probability / Total Expectation / Total Variance (Gumbel-Max trick, …)" /><published>2024-04-14T00:00:00+09:00</published><updated>2024-04-15T09:39:45+09:00</updated><id>http://localhost:4000/stat/lawtotal</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-14-lawtotal/"><![CDATA[<ul>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[1. Inequalities for Expectation]]></summary></entry><entry><title type="html">The Law of Total Probability / Total Expectation / Total Variance (Gumbel-Max trick, …)</title><link href="http://localhost:4000/stat/2024-04-14-lawtotal/" rel="alternate" type="text/html" title="The Law of Total Probability / Total Expectation / Total Variance (Gumbel-Max trick, …)" /><published>2024-04-14T00:00:00+09:00</published><updated>2024-04-15T09:39:45+09:00</updated><id>http://localhost:4000/stat/lawtotal</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-14-lawtotal/"><![CDATA[<ul>
   <li>The Law of Total Probability
 \(P(A)=\sum P\left(A \mid B_n\right) P\left(B_n\right)\)</li>
   <li>The Law of Total Expectation
@@ -1461,128 +1712,4 @@ but maximize the distance btw prototype(=virtual sequences, centor, …)</li>
 </ul>
 
 <h2 id="8-conclusion">8. Conclusion</h2>
-<p>Pass</p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Arxiv 2023](https://arxiv.org/pdf/2306.10125.pdf)]]></summary></entry><entry><title type="html">(Survey paper) Time Series Forecasting With Deep Learning A Survey (Philos Trans R Soc A. 2020)</title><link href="http://localhost:4000/timeseries/2024-03-19-TSwDLsurvey/" rel="alternate" type="text/html" title="(Survey paper) Time Series Forecasting With Deep Learning A Survey (Philos Trans R Soc A. 2020)" /><published>2024-03-19T00:00:00+09:00</published><updated>2024-03-19T13:15:52+09:00</updated><id>http://localhost:4000/timeseries/TSwDLsurvey</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-19-TSwDLsurvey/"><![CDATA[<h2 id="1-introduction">1. Introduction</h2>
-<ul>
-  <li>Time series forecasting
-    <ul>
-      <li>traditional methods : parametric models informed by domain expertise (ex. autoregressive(AR))</li>
-      <li>machine learning : learn temporal dynamics in a puerly data-driven manner</li>
-      <li>deep learning : learn complex data representation
-        <ul>
-          <li>CNN, RNN, Attention-based mechanism</li>
-        </ul>
-      </li>
-      <li>hybrid model : Quantitative TS model + deep learning model</li>
-    </ul>
-  </li>
-  <li>Time series forecasting의 application
-    <ul>
-      <li>interpretability and counterfactual prediction</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="2-deep-learning-architectures-for-tsf">2. Deep Learning Architectures for TSF</h2>
-<ul>
-  <li>One-step-ahead forecasting : \(\hat{y}_{i, t+1}=f\left(y_{i, t-k: t}, \boldsymbol{x}_{i, t-k: t}, \boldsymbol{s}_i\right)\)
-    <ul>
-      <li>\(\hat{y}_{i, t+1}\) : model forecast</li>
-      <li>\(y_{i, t-k: t}=\left\{y_{i, t-k}, \ldots, y_{i, t}\right\}, \boldsymbol{x}_{i, t-k: t}=\left\{\boldsymbol{x}_{i, t-k}, \ldots, \boldsymbol{x}_{i, t}\right\}\) : observation over look-back window</li>
-      <li>\(f(\cdot)\) : the prediction function learntby the model
-        <h3 id="2a-basic-building-blocks">2.(a) Basic building blocks</h3>
-      </li>
-    </ul>
-  </li>
-  <li>Encoder : \(\boldsymbol{z}_t=g_{\mathrm{enc}}\left(y_{t-k: t}, \boldsymbol{x}_{t-k: t}, \boldsymbol{s}\right)\)</li>
-  <li>Decoder : \(f\left(y_{t-k: t}, \boldsymbol{x}_{t-k: t}, \boldsymbol{s}\right)=g_{\mathrm{dec}}\left(\boldsymbol{z}_t\right)\)
-    <ul>
-      <li>Encoder에서 observations를 latent vector로 representation</li>
-      <li>(1) Convolution Neural Networks : \(\begin{aligned} \boldsymbol{h}_t^{l+1} &amp; =A((\boldsymbol{W} * \boldsymbol{h})(l, t)) \\ (\boldsymbol{W} * \boldsymbol{h})(l, t) &amp; =\sum_{\tau=0}^k \boldsymbol{W}(l, \tau) \boldsymbol{h}_{t-\tau}^l \end{aligned}\)
-        <ul>
-          <li>Convolution과 pooling을 반복하는 구조. TS에서는 과거의 값만 보도록 설계</li>
-          <li>\(\boldsymbol{h}_t^l \in \mathbb{R}^{\mathcal{H}_{i n}}\) : intermediate state at layer \(l\) at time \(t\)</li>
-          <li>
-            <p>\(*\) : convolution operator</p>
-          </li>
-          <li>\(\boldsymbol{W}(l, \tau) \in$ $\mathbb{R}^{\mathcal{H}_{\text {out }} \times \mathcal{H}_{\text {in }}}\) : fixed filter weight at layer \(l\)</li>
-          <li>\(A(.)\) : activation function</li>
-        </ul>
-      </li>
-      <li>Dilated Convolution : \((\boldsymbol{W} * \boldsymbol{h})\left(l, t, d_l\right)=\sum_{\tau=0}^{\left\lfloor k / d_l\right\rfloor} \boldsymbol{W}(l, \tau) \boldsymbol{h}_{t-d_l \tau}^l\)
-        <ul>
-          <li>\(d_l\) : layer-specific dilation rate</li>
-          <li>(WaveNet) \(d_l = 2^l\) at layer \(l\) (fig1.(a))
-<img src="/assets/img/timeseries/TSwDLsurvey/fig1.png" alt="사진1" /></li>
-        </ul>
-      </li>
-      <li>(2) Recurrent Neural Networks
-        <ul>
-          <li>Memory state를 통해 과거 정보를 기억하는 sequential data에 적합한 구조</li>
-          <li>
-            <p>Gradient vanishing으로 인한 long-range dependency \(\to\) LSTM</p>
-          </li>
-          <li>
-            <p>Memory update funciton : \(\boldsymbol{z}_t=\nu\left(\boldsymbol{z}_{t-1}, y_t, \boldsymbol{x}_t, \boldsymbol{s}\right)\)</p>
-          </li>
-          <li>Network : \(\begin{aligned} y_{t+1} &amp; =\gamma_y\left(\boldsymbol{W}_y \boldsymbol{z}_t+\boldsymbol{b}_y\right) \\ \boldsymbol{z}_t &amp; =\gamma_z\left(\boldsymbol{W}_{z_1} \boldsymbol{z}_{t-1}+\boldsymbol{W}_{z_2} y_t+\boldsymbol{W}_{z_3} \boldsymbol{x}_t+\boldsymbol{W}_{z_4} \boldsymbol{s}+\boldsymbol{b}_z\right) \end{aligned}\)
-            <ul>
-              <li>\(W_{.}, \boldsymbol{b}\) : the linear weights and bias</li>
-              <li>\(\gamma_y(.), \gamma_z(.)\) : network activation functions</li>
-            </ul>
-          </li>
-          <li>Long Short Term Memory(LSTM)
-<img src="/assets/img/timeseries/TSwDLsurvey/fig2.png" alt="사진2" /></li>
-        </ul>
-      </li>
-      <li>(3) Attention mechanisms
-        <ul>
-          <li>form : \(\boldsymbol{h}_t=\sum_{\tau=0}^k \alpha\left(\boldsymbol{\kappa}_t, \boldsymbol{q}_\tau\right) \boldsymbol{v}_{t-\tau}\)
-            <ul>
-              <li>key \(\boldsymbol{\kappa}_t\), query \(\boldsymbol{q}_\tau\) and value \(\boldsymbol{v}_{t-\tau}\) are intermediate features produced at different time steps by lower levels of the network</li>
-              <li>\(\alpha\left(\boldsymbol{\kappa}_t, \boldsymbol{q}_\tau\right) \in[0,1]\) is the attention weight for \(t-\tau\) generated at time \(t\)</li>
-              <li>\(\boldsymbol{h}_t\) is the context vector output of the attention layer
-                <h3 id="2b-multi-horizon-forecasting-models">2.(b) Multi-horizon Forecasting Models</h3>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>단순히 다음 한 시점에 대한 예측이 아닌 미래 여러 시점에 대한 예측</li>
-  <li>(1) Iterative Methods : Autoregressive forecasting. 각 time step에서의 작은 오차가 누적된다는 단점이 있다.</li>
-  <li>(2) Direct Methods : Encoder의 정보를 활용해서 한 번에 target time steps를 예측</li>
-</ul>
-
-<h2 id="3-incorporating-domain-knowledge-with-hybrid-models">3. Incorporating Domain Knowledge with Hybrid Models</h2>
-<ul>
-  <li>Machine learning의 underperformance의 이유는 1) flexibility로 인한 overfitting, 2) pre-processed input에 대한 sensitivity</li>
-  <li>Hybrid models
-    <ul>
-      <li>combine well-studied quantitative time series models together with deep learning</li>
-      <li>use domain knowledge \(\to\) hypothesis space를 줄여준다</li>
-      <li>(a) Non-probabilistic Hybrid models : forecasting equations를 modify</li>
-      <li>(b) Probabilistic Hybrid models : predictive distribution으로 parameters 생성</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="4-facilitating-decision-support-using-deep-neural-networks">4. Facilitating Decision Support Using Deep Neural Networks</h2>
-<ul>
-  <li>연구하는 입장에서는 model의 성능(MSE, Accuracy, …)가 중요하지만, user는 future action에 대한 guide의 지표</li>
-  <li>그러므로 Local Interpretable Model-Agnostic Explanations (LIME), Shapley additive explanations (SHAP)과 같은 post-hoc 분석, Attention weights를 통한 inherent interpretability를 이해할 필요가 있다.</li>
-  <li>그러면 counterfactual forecast(determining what would have happened if a different set of circumstances had occurred) 가능</li>
-</ul>
-
-<h2 id="5-conclusions-and-future-directions">5. Conclusions and Future Directions</h2>
-<ul>
-  <li>Survey the main architectures used for TS forecasting</li>
-  <li>Hybrid DL models : combine statistical and deep learning components</li>
-  <li>Limitation : irregular TS나 hierarchical structure에 대한 고민은 하기 이전</li>
-</ul>
-
-<h2 id="추가">추가</h2>
-<ul>
-  <li>2020년에 발표된 survey 논문이지만 최근 Long-term Time Series Forecasting(LTSF)에 활용되는 모델에 대한 내용을 잘 정리한 논문이다.</li>
-  <li>본 논문 이후 현재까지 최신 연구들을 이해한 상태로 읽는다면 최신 연구들의 motivation을 이해하는 데에 도움이 되는 논문이다.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Philos Trans R Soc A. 2020](https://arxiv.org/pdf/2004.13408.pdf)]]></summary></entry></feed>
+<p>Pass</p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Arxiv 2023](https://arxiv.org/pdf/2306.10125.pdf)]]></summary></entry></feed>
