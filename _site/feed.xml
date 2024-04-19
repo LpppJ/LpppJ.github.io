@@ -1,5 +1,50 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-04-18T15:40:29+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">Inequalities for Probabilities</title><link href="http://localhost:4000/stat/2024-04-18-ineq2/" rel="alternate" type="text/html" title="Inequalities for Probabilities" /><published>2024-04-18T00:00:00+09:00</published><updated>2024-04-18T15:40:25+09:00</updated><id>http://localhost:4000/stat/ineq2</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-18-ineq2/"><![CDATA[<h2 id="3-inequalities-for-probabilities">3. Inequalities for Probabilities</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-04-19T21:21:42+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">Median of Means Estimator (MoM)</title><link href="http://localhost:4000/stat/2024-04-19-MoM/" rel="alternate" type="text/html" title="Median of Means Estimator (MoM)" /><published>2024-04-19T00:00:00+09:00</published><updated>2024-04-19T21:21:42+09:00</updated><id>http://localhost:4000/stat/MoM</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-19-MoM/"><![CDATA[<ul>
+  <li>우리는 sample을 n개 뽑아서 만든 estimator가 true parameter의 근처에서 자주 등장하기를 원한다.</li>
+  <li>Estimator와 true parameter의 거리는 \(\left\vert \hat \mu - \mu \right\vert\)이다. (mean에 대한 estimator인 경우)</li>
+  <li>\(\left\vert \hat \mu - \mu \right\vert \ge t\)는 estimator의 error가 우리의 기준 t보다 높은 경우로 볼 수 있으므로,
+    <ul>
+      <li>\(P(\left\vert \hat \mu - \mu \right\vert \ge t) \le \delta\)일 때, 주어진 \(t\)에 대해 \(\delta\)가 얼마나 작은지가 중요하다.</li>
+      <li>또는 \(t\)가 커짐에 따라 \(\delta\)가 얼마나 빠르게 줄어드는지</li>
+    </ul>
+  </li>
+  <li>Ex. Chebyshev’s inequality \(P\left\{\left\vert \frac{1}{n} \sum_{i=1}^n X_i-\mu \right\vert \geq \sigma \sqrt{\frac{1}{n \delta}}\right\} \leq \delta\)는 polynomial upper bound를 제공한다.</li>
+  <li>하지만 <a href="https://lpppj.github.io/stat/2024-04-18-ineq2">Inequalities for Probabilities</a>에서 exponential upper bound를 제공하는 다양한 부등식을 소개하였다.</li>
+  <li><u>Exponential upper bound를 제공하는 또 다른 부등식 Median of Means Estimator (MoM)</u>을 소개한다.</li>
+</ul>
+
+<h2 id="median-of-means-estimator-mom">Median of Means Estimator (MoM)</h2>
+
+<ul>
+  <li>목표는 \(X_1, \ldots, X_n \stackrel{\text { i.i.d. }}{\sim} F\) 으로  \(\mathbb{E}[X]=\mu\)를 estimate하는 것이다.</li>
+  <li>\(n\)개의 sample을 \(K\)개의 그룹으로 나누고, (각 그룹에는 \(B\)개의 samples) 각 그룹의 평균 \(\widehat{\mu}_1, \ldots, \widehat{\mu}_K\)를 만든다.</li>
+  <li>MoM은 \(\widehat{\mu}_{\mathrm{MoM}}=\operatorname{median}\left(\widehat{\mu}_1, \ldots, \widehat{\mu}_K\right)\)으로 정의한다.</li>
+  <li>MoM은 \(\operatorname{Var}\left[X_1\right]:=\sigma^2&lt;\infty\)라는 단순한 가정만으로 exponential upper bound \(P\left(\left\vert \widehat{\mu}_{\mathrm{MoM}}-\mu\right\vert \geq t\right) \leq e^{-2 K\left(\frac{1}{2}-\frac{K}{n} \frac{\sigma^2}{t^2}\right)^2}=e^{-2 \frac{n}{B}\left(\frac{1}{2}-\frac{\sigma^2}{B t^2}\right)^2}\)를 제공한다.</li>
+  <li>Upper bound를 단순하게 표현하려면 \(t=\sqrt{4 \sigma^2 / B}\left(&gt;\sqrt{2 \sigma^2 / B}\right)\)로 잡으면 \(P\left(\left\vert \widehat{\mu}_{\mathrm{MoM}}-\mu\right\vert \geq 2 \sigma \sqrt{K / n}\right) \leq e^{-K / 8}\)가 된다.</li>
+</ul>
+
+<h3 id="proof">Proof</h3>
+
+<ul>
+  <li>증명이 아주 직관적이다.
+    <ul>
+      <li>만약 \(\hat \mu_{MoM}\)이 \(\mu+t\)보다 크다면, 적어도 \(K\)개의 \(\hat \mu\) 중 절반인 \(\frac{K}{2}\)개의 \(\hat \mu\)가 \(\mu+t\)보다 크다는 것을 의미한다.</li>
+      <li>반대로  \(\hat \mu_{MoM}\)이 \(\mu-t\)보다 크다면, 적어도 \(K\)개의 \(\hat \mu\) 중 절반인 \(\frac{K}{2}\)개의 \(\hat \mu\)가 \(\mu-t\)보다 작다는 것을 의미한다.</li>
+    </ul>
+  </li>
+  <li>그러므로 \(P\left(\left\vert \widehat{\mu}_{\mathrm{MoM}}-\mu\right\vert \geq t\right) \leq P\left(\sum_{i=1}^K \mathbb{1}\left(\left\vert \widehat{\mu}_i-\mu\right\vert \geq t\right) \geq \frac{K}{2}\right)\)이다.
+    <ul>
+      <li>\(Z_i = \mathbb{1}\left(\left\vert \widehat{\mu}_i-\mu\right\vert \geq t\right)\)라 하면 indicator function이기 때문에 \([0,1]\)​로 bounded이다.</li>
+      <li>또한 \(\mathbb{E}[Z_i] = \mathbb{E}[Z_1]\)이고, Chebyshev’s inequality에 의해 \(\mathbb{E}\left[Z_1\right]=P\left(\left\vert \widehat{\mu}_1-\mu\right\vert \geq t\right) \leq \frac{\sigma^2}{B t^2}\)이다.</li>
+    </ul>
+  </li>
+  <li>따라서 \(\begin{aligned} P\left(\frac{1}{K} \sum_{i=1}^K Z_i \geq \frac{1}{2}\right)&amp;=P\left(\frac{1}{K} \sum_{i=1}^K\left(Z_i-\mathbb{E}\left[Z_1\right]\right) \geq \frac{1}{2}-\mathbb{E}\left[Z_1\right]\right) \\ &amp;\le P\left( \sum_{i=1}^K\left(Z_i-\mathbb{E}\left[Z_1\right]\right) \ge K(\frac{1}{2}-\frac{\sigma^2}{Bt^2})\right)\end{aligned}\)는
+    <ul>
+      <li>Hoeffding’s inequality \(P\left\{\displaystyle\sum_{i=1}^n\left(X_i-\mathbb{E}\left[X_i\right]\right) \geq t\right\} \leq e^{-2 t^2 / \sum_{i=1}^n\left(b_i-a_i\right)^2}\)을 이용하여</li>
+      <li>\(P\left(\frac{1}{K} \sum_{i=1}^K Z_i \geq \frac{1}{2}\right) \le e^{-2 K^2\left(\frac{1}{2}-\frac{K}{n} \frac{\sigma^2}{t^2}\right)^2/\sum_{i=1}^{K}(1-0)^2}= e^{-2 K\left(\frac{1}{2}-\frac{K}{n} \frac{\sigma^2}{t^2}\right)^2}\)이다.</li>
+    </ul>
+  </li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[우리는 sample을 n개 뽑아서 만든 estimator가 true parameter의 근처에서 자주 등장하기를 원한다. Estimator와 true parameter의 거리는 \(\left\vert \hat \mu - \mu \right\vert\)이다. (mean에 대한 estimator인 경우) \(\left\vert \hat \mu - \mu \right\vert \ge t\)는 estimator의 error가 우리의 기준 t보다 높은 경우로 볼 수 있으므로, \(P(\left\vert \hat \mu - \mu \right\vert \ge t) \le \delta\)일 때, 주어진 \(t\)에 대해 \(\delta\)가 얼마나 작은지가 중요하다. 또는 \(t\)가 커짐에 따라 \(\delta\)가 얼마나 빠르게 줄어드는지 Ex. Chebyshev’s inequality \(P\left\{\left\vert \frac{1}{n} \sum_{i=1}^n X_i-\mu \right\vert \geq \sigma \sqrt{\frac{1}{n \delta}}\right\} \leq \delta\)는 polynomial upper bound를 제공한다. 하지만 Inequalities for Probabilities에서 exponential upper bound를 제공하는 다양한 부등식을 소개하였다. Exponential upper bound를 제공하는 또 다른 부등식 Median of Means Estimator (MoM)을 소개한다.]]></summary></entry><entry><title type="html">Inequalities for Probabilities</title><link href="http://localhost:4000/stat/2024-04-18-ineq2/" rel="alternate" type="text/html" title="Inequalities for Probabilities" /><published>2024-04-18T00:00:00+09:00</published><updated>2024-04-18T18:46:41+09:00</updated><id>http://localhost:4000/stat/ineq2</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-18-ineq2/"><![CDATA[<h2 id="3-inequalities-for-probabilities">3. Inequalities for Probabilities</h2>
 
 <h2 id="31-markovs-inequality">3.1. Markov’s inequality</h2>
 
@@ -220,7 +265,7 @@ Hoeffding’s는 \(\sqrt{\frac{2}{n} \log \left(\frac{2}{0.001}\right)} \approx 
 <h3 id="proof-3">Proof</h3>
 
 <ul>
-  <li>쉽게 말해서… (진짜 쉬움)
+  <li>쉽게 말해서
     <ul>
       <li>왼쪽에 있는 \(g\left(X_1, \ldots, X_n\right)\)는 \(X_1, ..., X_n\)​이 아무것도 given이 아닌 상태인데,
         <ul>
@@ -542,7 +587,67 @@ V_i^2 &amp; =\left(\mathbb{E}\left[f(X) \mid X_1, \ldots, X_i\right]-\mathbb{E}\
 <ul>
   <li>\(\sup _{x_1, \ldots, x_n, x_i^{\prime} \in \mathcal{X}}{\left\vert g\left(x_1, \ldots, x_n\right)-g\left(x_1, \ldots, x_{i-1}, x_i^{\prime}, x_{i+1}, \ldots, x_n\right) \right\vert} \leq c_i,\)이면</li>
   <li>the Efron-Stein inequality shows \(\operatorname{Var}\left[g\left(X_1, \ldots, X_n\right)\right] \leq \frac{1}{2} \sum_{i=1}^n c_i^2, \quad \text { for } 1 \leq i \leq n\)</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[1. Inequalities for Expectation]]></summary></entry><entry><title type="html">The Law of Total Probability / Total Expectation / Total Variance (Gumbel-Max trick, …)</title><link href="http://localhost:4000/stat/2024-04-14-lawtotal/" rel="alternate" type="text/html" title="The Law of Total Probability / Total Expectation / Total Variance (Gumbel-Max trick, …)" /><published>2024-04-14T00:00:00+09:00</published><updated>2024-04-15T09:39:45+09:00</updated><id>http://localhost:4000/stat/lawtotal</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-14-lawtotal/"><![CDATA[<ul>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[1. Inequalities for Expectation]]></summary></entry><entry><title type="html">Total variation distance and Convergence in distribution</title><link href="http://localhost:4000/stat/2024-04-14-dTV/" rel="alternate" type="text/html" title="Total variation distance and Convergence in distribution" /><published>2024-04-14T00:00:00+09:00</published><updated>2024-04-14T14:37:24+09:00</updated><id>http://localhost:4000/stat/dTV</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-14-dTV/"><![CDATA[<ul>
+  <li>통계학에서 Convergence in distribution은 중요한 성질이다. 우리는 Sample size n이 커질수록 확률변수 또는 estimator가 어떤 분포에 가까워지는지 궁금하기 때문이다.</li>
+  <li>그러므로 Convergence in distribution을 imply하는 성질도 중요하다. Convergence in distribution을 보일 수 있는 방법들 중 하나가 되기 때문이다.</li>
+  <li>Total variation distance는 두 분포 사이의 distance metric 중 하나이다. Total variation distance가 작으면 두 분포가 가깝다는 의미이다.</li>
+  <li>본 게시글에서는 Total variation distance에 대해서 알아보고 <strong>Total variation distance가 0으로 수렴</strong>하면 한 분포가 다른 분포로 근사한다, 즉 Convergence in distribution한다는 것을 보인다.</li>
+</ul>
+
+<h2 id="total-variation-distanced_tv">Total variation distance(\(d_{TV}\))</h2>
+
+<ul>
+  <li><a href="https://en.wikipedia.org/wiki/Total_variation_distance_of_probability_measures">Wikipedia</a>에 따르면 Total variation distance의 정의는 아래와 같다.
+    <ul>
+      <li>Consider a measurable space \((\Omega, \mathcal{F})\) and probability measures \(P\) and \(Q\) defined on \((\Omega, \mathcal{F})\). The total variation distance between \(P\) and \(Q\) is defined as: \(\delta(P, Q)=\sup _{A \in \mathcal{F}}\mid P(A)-Q(A)\mid\)​</li>
+    </ul>
+  </li>
+  <li>\(d_{TV}\)​는 half of the L1 distance btw/ the probability functions이다.
+    <ul>
+      <li><img src="/assets/img/stat/dTV/fig1.png" alt="그림1" /></li>
+      <li>Geometric 의미는 두 분포의 차이에 해당하는 회색 영역의 넓이를 2로 나눈 값이다.</li>
+      <li>discrete : \(\delta(P, Q)=\frac{1}{2} \sum_x\mid P(x)-Q(x)\mid\)</li>
+      <li>continuous : \(\delta(P, Q)=\frac{1}{2} \int\mid p(x)-q(x)\mid  \mathrm{d} x\)​</li>
+      <li>\(\frac{1}{2}\)를 곱해주는 이유는 \(0 \le d_{TV} \le 1\)으로 만들어주기 위함인데, 아래 사진처럼 \(d_{TV}\)가 매우 큰 경우에 두 분포의 차이의 넓이가 2에 가까워지기 때문에 \(\frac{1}{2}\)를 곱한다.</li>
+      <li><img src="/assets/img/stat/dTV/fig2.png" alt="그림2" /></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="convergence-in-total-variation-distance">Convergence in Total variation distance</h2>
+
+<ul>
+  <li>Convergence in Total variation distance는 Convergence in distribution보다 강력한 성질이다.</li>
+  <li>
+    <p><strong>즉 두 분포의 Total variation distance가 0으로 수렴하면, 두 분포는 Convergence in distribution이다.</strong></p>
+
+    <p>: \(\begin{aligned}\text{When }\delta(P, Q)&amp;=\sup _{A \in \mathcal{F}}\mid P(A)-Q(A)\mid  \\ \lim _{n \rightarrow \infty} \delta\left(P_n, Q\right)&amp;=0 \\ \lim _{n \rightarrow \infty}\mid P_n(A)-Q(A)\mid &amp;=0 \quad \forall A \in \mathcal{F} \\ \lim _{n \rightarrow \infty}\mid F_n(x)-F(x)\mid &amp;=0 \end{aligned}\)</p>
+  </li>
+  <li>
+    <p>하지만 역은 성립하지 않는다. Convergence in distribution이라고 해서 Total variation distance가 0으로 수렴하는 것은 아니다.</p>
+
+    <ul>
+      <li>Counterexample : \(f_n \sim \frac{2}{\pi} \cos ^2(n x) \mathbf{1}_{[0, \pi]}(x) d x\)</li>
+    </ul>
+
+    <p>: \(\begin{aligned}F_n(x)&amp;=\int_0^x f_n(t)dt \\ &amp;=\int_0^x\frac{2}{\pi} \cos ^2(nt) \mathbf{1}_{[0, \pi]}(x)dt \\ &amp; = \frac{2}{\pi}\mathbf{1}_{[0, \pi]}(x) \int_0^x \cos ^2(nt)dt \\ &amp;= \frac{2}{\pi}\mathbf{1}_{[0, \pi]}(x) \frac{sin(2nx)+2nx}{4n} \\  \lim_{n \to \infty} F_n(x) &amp;=\frac{2}{\pi}\mathbf{1}_{[0, \pi]}(x) \frac{x}{2} \\ &amp;=\frac{x}{\pi},\quad 0 \le x \le \pi \end{aligned}\)</p>
+
+    <ul>
+      <li>즉 \(\lim_{n \to \infty} F_n = F_{\infty}\)는 \(Unif(0, \pi)\)의 CDF가 되므로 Convergence in distribution이다.</li>
+      <li>하지만 \(\lim_{n \to \infty}d_{TV}(F_n, F_{\infty}) \nrightarrow 0\)이다.</li>
+    </ul>
+
+    <p>: \(\begin{aligned} d_{TV}\left(F_n, F_{\infty}\right) &amp; =\frac{1}{2} \int_0^\pi\mid f_n(x)-f_{\infty}(x)\mid  d x \\ &amp; =\frac{1}{2} \int_0^\pi\mid \frac{2}{\pi} \cos ^2(n x)-\frac{1}{\pi}\mid  d x \\ &amp; =\frac{1}{\pi} \int_0^\pi\mid \cos ^2(n x)-\frac{1}{2}\mid  d x \\ &amp; &gt;0 \quad \text{strictly positive} \end{aligned}\)</p>
+
+    <ul>
+      <li><img src="/assets/img/stat/dTV/fig3.png" alt="그림3" /></li>
+      <li>\(cos^2(nx)\)는 0과 1사이에서의 주기 함수이고, \(n\)이 커져도 주기가 짧아질 뿐이다.</li>
+      <li>그러므로 \(\mid \cos ^2(n x)-\frac{1}{2}\mid\)는 n과 관계없이 strictly positive이다. 즉 Total variation distance가 0으로 수렴하지 않는다.</li>
+      <li>만약 \(f_n, f_{\infty}\)​가 continuous random variable의 density이고 unimodal한 경우에는 Convergence in distribution과 Total variation distance이 0으로 수렴하는 것은 if and only if(필요충분)이다. (skip the proof)</li>
+      <li><a href="https://hal.science/hal-00821911/document">Reference : Ivan Nourdin, Guillaume Poly, Convergence in law implies convergence in total variation for polynomials in independent Gaussian, Gamma or Beta random variables</a></li>
+    </ul>
+  </li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[통계학에서 Convergence in distribution은 중요한 성질이다. 우리는 Sample size n이 커질수록 확률변수 또는 estimator가 어떤 분포에 가까워지는지 궁금하기 때문이다. 그러므로 Convergence in distribution을 imply하는 성질도 중요하다. Convergence in distribution을 보일 수 있는 방법들 중 하나가 되기 때문이다. Total variation distance는 두 분포 사이의 distance metric 중 하나이다. Total variation distance가 작으면 두 분포가 가깝다는 의미이다. 본 게시글에서는 Total variation distance에 대해서 알아보고 Total variation distance가 0으로 수렴하면 한 분포가 다른 분포로 근사한다, 즉 Convergence in distribution한다는 것을 보인다.]]></summary></entry><entry><title type="html">The Law of Total Probability / Total Expectation / Total Variance (Gumbel-Max trick, …)</title><link href="http://localhost:4000/stat/2024-04-14-lawtotal/" rel="alternate" type="text/html" title="The Law of Total Probability / Total Expectation / Total Variance (Gumbel-Max trick, …)" /><published>2024-04-14T00:00:00+09:00</published><updated>2024-04-15T09:39:45+09:00</updated><id>http://localhost:4000/stat/lawtotal</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-14-lawtotal/"><![CDATA[<ul>
   <li>The Law of Total Probability
 \(P(A)=\sum P\left(A \mid B_n\right) P\left(B_n\right)\)</li>
   <li>The Law of Total Expectation
@@ -665,67 +770,237 @@ V_i^2 &amp; =\left(\mathbb{E}\left[f(X) \mid X_1, \ldots, X_i\right]-\mathbb{E}\
   <li>
     <p>\(\begin{aligned}\operatorname{Cov}\left(X_i, X_j\right) &amp;\leq \sqrt{\operatorname{Var}\left(X_i\right) \operatorname{Var}\left(X_j\right)} \leq \operatorname{Var}\left(X_i\right) / 2+\operatorname{Var}\left(X_j\right) / 2 \\ &amp;\text{by }x y \leq x^2 / 2+y^2 / 2 \end{aligned}\).</p>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[The Law of Total Probability \(P(A)=\sum P\left(A \mid B_n\right) P\left(B_n\right)\) The Law of Total Expectation \(\mathrm{E}(X)=\mathrm{E}(\mathrm{E}(X \mid Y))\) The Law of Total Variance \(\operatorname{Var}(Y)=\mathrm{E}[\operatorname{Var}(Y \mid X)]+\operatorname{Var}(\mathrm{E}[Y \mid X])\) The Law of Total Covariance \(\operatorname{cov}(X, Y)=\mathrm{E}(\operatorname{cov}(X, Y \mid Z))+\operatorname{cov}(\mathrm{E}(X \mid Z), \mathrm{E}(Y \mid Z))\)]]></summary></entry><entry><title type="html">Total variation distance and Convergence in distribution</title><link href="http://localhost:4000/stat/2024-04-14-dTV/" rel="alternate" type="text/html" title="Total variation distance and Convergence in distribution" /><published>2024-04-14T00:00:00+09:00</published><updated>2024-04-14T14:37:24+09:00</updated><id>http://localhost:4000/stat/dTV</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-14-dTV/"><![CDATA[<ul>
-  <li>통계학에서 Convergence in distribution은 중요한 성질이다. 우리는 Sample size n이 커질수록 확률변수 또는 estimator가 어떤 분포에 가까워지는지 궁금하기 때문이다.</li>
-  <li>그러므로 Convergence in distribution을 imply하는 성질도 중요하다. Convergence in distribution을 보일 수 있는 방법들 중 하나가 되기 때문이다.</li>
-  <li>Total variation distance는 두 분포 사이의 distance metric 중 하나이다. Total variation distance가 작으면 두 분포가 가깝다는 의미이다.</li>
-  <li>본 게시글에서는 Total variation distance에 대해서 알아보고 <strong>Total variation distance가 0으로 수렴</strong>하면 한 분포가 다른 분포로 근사한다, 즉 Convergence in distribution한다는 것을 보인다.</li>
-</ul>
-
-<h2 id="total-variation-distanced_tv">Total variation distance(\(d_{TV}\))</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[The Law of Total Probability \(P(A)=\sum P\left(A \mid B_n\right) P\left(B_n\right)\) The Law of Total Expectation \(\mathrm{E}(X)=\mathrm{E}(\mathrm{E}(X \mid Y))\) The Law of Total Variance \(\operatorname{Var}(Y)=\mathrm{E}[\operatorname{Var}(Y \mid X)]+\operatorname{Var}(\mathrm{E}[Y \mid X])\) The Law of Total Covariance \(\operatorname{cov}(X, Y)=\mathrm{E}(\operatorname{cov}(X, Y \mid Z))+\operatorname{cov}(\mathrm{E}(X \mid Z), \mathrm{E}(Y \mid Z))\)]]></summary></entry><entry><title type="html">MGF(Moment Generating Function) and Characteristic Function에 대해서</title><link href="http://localhost:4000/stat/2024-04-12-MGF/" rel="alternate" type="text/html" title="MGF(Moment Generating Function) and Characteristic Function에 대해서" /><published>2024-04-12T00:00:00+09:00</published><updated>2024-04-18T18:46:41+09:00</updated><id>http://localhost:4000/stat/MGF</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-12-MGF/"><![CDATA[<h2 id="moments">Moments</h2>
 
 <ul>
-  <li><a href="https://en.wikipedia.org/wiki/Total_variation_distance_of_probability_measures">Wikipedia</a>에 따르면 Total variation distance의 정의는 아래와 같다.
+  <li>Definition
     <ul>
-      <li>Consider a measurable space \((\Omega, \mathcal{F})\) and probability measures \(P\) and \(Q\) defined on \((\Omega, \mathcal{F})\). The total variation distance between \(P\) and \(Q\) is defined as: \(\delta(P, Q)=\sup _{A \in \mathcal{F}}\mid P(A)-Q(A)\mid\)​</li>
+      <li>For each integer \(n\), the \(n\)th moment of \(X\) is \(\mu_n=\mathbb{E}\left[X^n\right]\).</li>
+      <li>The \(n\)th central moment of \(X\) is \(\mu_n^{\prime}=\mathbb{E}\left[(X-\mu)^n\right]\) where \(\mu=\mu_1^{\prime}=\mathbb{E}[X]\)</li>
     </ul>
   </li>
-  <li>\(d_{TV}\)​는 half of the L1 distance btw/ the probability functions이다.
+  <li><u>확률변수의 moments는 tail probability와 밀접한 연관이 있다.</u>
     <ul>
-      <li><img src="/assets/img/stat/dTV/fig1.png" alt="그림1" /></li>
-      <li>Geometric 의미는 두 분포의 차이에 해당하는 회색 영역의 넓이를 2로 나눈 값이다.</li>
-      <li>discrete : \(\delta(P, Q)=\frac{1}{2} \sum_x\mid P(x)-Q(x)\mid\)</li>
-      <li>continuous : \(\delta(P, Q)=\frac{1}{2} \int\mid p(x)-q(x)\mid  \mathrm{d} x\)​</li>
-      <li>\(\frac{1}{2}\)를 곱해주는 이유는 \(0 \le d_{TV} \le 1\)으로 만들어주기 위함인데, 아래 사진처럼 \(d_{TV}\)가 매우 큰 경우에 두 분포의 차이의 넓이가 2에 가까워지기 때문에 \(\frac{1}{2}\)를 곱한다.</li>
-      <li><img src="/assets/img/stat/dTV/fig2.png" alt="그림2" /></li>
+      <li>
+        <p>Let \(X\) is non-negative random variable</p>
+
+        <p>: \(\begin{aligned}\mathbb{E}[X]&amp;=\mathbb{E}\left[\int_0^{\infty} \mathbb{1}(t&lt;X) d t\right]\\&amp;=\int_0^{\infty} \mathbb{E}[\mathbb{1}(t&lt;X)] d t\\&amp;=\int_0^{\infty} P(t&lt;X) d t\\&amp;=\int_0^{\infty}\left[1-F_X(x)\right] d x \end{aligned}\)</p>
+      </li>
+      <li>
+        <p>위 결과를 확장하면 아래와 같다.</p>
+
+        <p>: \(\begin{aligned} \mathbb{E}\left[\mid X\mid ^p\right] &amp; =\int_0^{\infty}\left[1-F_{\mid X\mid ^p}(y)\right] d y \\ P\left(\mid X\mid ^p&gt;y\right) &amp; =P\left(\mid X\mid &gt;y^{\frac{1}{p}}\right) \\ &amp; =1-F_{\mid X\mid }\left(y^{\frac{1}{p}}\right) \\ \text{Let } y&amp;=x^p, \text{then } \frac{d y}{d x}=p x^{p-1} \\ \mathbb{E}\left[\mid X\mid ^p\right] &amp; =\int_0^{\infty}\left[1-F_{\mid X\mid }(x)\right] p x^{p-1} d x \\ &amp; =\int_0^{\infty} p x^{p-1} P(\mid X\mid &gt;x) d x \end{aligned}\)</p>
+      </li>
     </ul>
   </li>
 </ul>
 
-<h2 id="convergence-in-total-variation-distance">Convergence in Total variation distance</h2>
+<h2 id="moment-generating-function">Moment Generating Function</h2>
 
 <ul>
-  <li>Convergence in Total variation distance는 Convergence in distribution보다 강력한 성질이다.</li>
   <li>
-    <p><strong>즉 두 분포의 Total variation distance가 0으로 수렴하면, 두 분포는 Convergence in distribution이다.</strong></p>
-
-    <p>: \(\begin{aligned}\text{When }\delta(P, Q)&amp;=\sup _{A \in \mathcal{F}}\mid P(A)-Q(A)\mid  \\ \lim _{n \rightarrow \infty} \delta\left(P_n, Q\right)&amp;=0 \\ \lim _{n \rightarrow \infty}\mid P_n(A)-Q(A)\mid &amp;=0 \quad \forall A \in \mathcal{F} \\ \lim _{n \rightarrow \infty}\mid F_n(x)-F(x)\mid &amp;=0 \end{aligned}\)</p>
+    <p>Definition : \(M_X(t)=\mathbb{E}\left[e^{t X}\right]\)</p>
   </li>
   <li>
-    <p>하지만 역은 성립하지 않는다. Convergence in distribution이라고 해서 Total variation distance가 0으로 수렴하는 것은 아니다.</p>
+    <p>MGF가 왜 중요할까 ?</p>
 
     <ul>
-      <li>Counterexample : \(f_n \sim \frac{2}{\pi} \cos ^2(n x) \mathbf{1}_{[0, \pi]}(x) d x\)</li>
-    </ul>
-
-    <p>: \(\begin{aligned}F_n(x)&amp;=\int_0^x f_n(t)dt \\ &amp;=\int_0^x\frac{2}{\pi} \cos ^2(nt) \mathbf{1}_{[0, \pi]}(x)dt \\ &amp; = \frac{2}{\pi}\mathbf{1}_{[0, \pi]}(x) \int_0^x \cos ^2(nt)dt \\ &amp;= \frac{2}{\pi}\mathbf{1}_{[0, \pi]}(x) \frac{sin(2nx)+2nx}{4n} \\  \lim_{n \to \infty} F_n(x) &amp;=\frac{2}{\pi}\mathbf{1}_{[0, \pi]}(x) \frac{x}{2} \\ &amp;=\frac{x}{\pi},\quad 0 \le x \le \pi \end{aligned}\)</p>
-
-    <ul>
-      <li>즉 \(\lim_{n \to \infty} F_n = F_{\infty}\)는 \(Unif(0, \pi)\)의 CDF가 되므로 Convergence in distribution이다.</li>
-      <li>하지만 \(\lim_{n \to \infty}d_{TV}(F_n, F_{\infty}) \nrightarrow 0\)이다.</li>
-    </ul>
-
-    <p>: \(\begin{aligned} d_{TV}\left(F_n, F_{\infty}\right) &amp; =\frac{1}{2} \int_0^\pi\mid f_n(x)-f_{\infty}(x)\mid  d x \\ &amp; =\frac{1}{2} \int_0^\pi\mid \frac{2}{\pi} \cos ^2(n x)-\frac{1}{\pi}\mid  d x \\ &amp; =\frac{1}{\pi} \int_0^\pi\mid \cos ^2(n x)-\frac{1}{2}\mid  d x \\ &amp; &gt;0 \quad \text{strictly positive} \end{aligned}\)</p>
-
-    <ul>
-      <li><img src="/assets/img/stat/dTV/fig3.png" alt="그림3" /></li>
-      <li>\(cos^2(nx)\)는 0과 1사이에서의 주기 함수이고, \(n\)이 커져도 주기가 짧아질 뿐이다.</li>
-      <li>그러므로 \(\mid \cos ^2(n x)-\frac{1}{2}\mid\)는 n과 관계없이 strictly positive이다. 즉 Total variation distance가 0으로 수렴하지 않는다.</li>
-      <li>만약 \(f_n, f_{\infty}\)​가 continuous random variable의 density이고 unimodal한 경우에는 Convergence in distribution과 Total variation distance이 0으로 수렴하는 것은 if and only if(필요충분)이다. (skip the proof)</li>
-      <li><a href="https://hal.science/hal-00821911/document">Reference : Ivan Nourdin, Guillaume Poly, Convergence in law implies convergence in total variation for polynomials in independent Gaussian, Gamma or Beta random variables</a></li>
+      <li><u>첫째, 확률변수 X의 MGF는 X의 모든 moments를 생성한다.</u></li>
+      <li><u>둘째, 확률변수 X의 MGF는 X의 분포를 uniquely 결정한다.</u></li>
+      <li><u>셋째, MGF의 수렴은 분포수렴(convergence in distribution)을 의미한다.</u></li>
+      <li><u>넷째, MGF로 probability tail bound를 구한다. (Hoeffding's inequality)</u></li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[통계학에서 Convergence in distribution은 중요한 성질이다. 우리는 Sample size n이 커질수록 확률변수 또는 estimator가 어떤 분포에 가까워지는지 궁금하기 때문이다. 그러므로 Convergence in distribution을 imply하는 성질도 중요하다. Convergence in distribution을 보일 수 있는 방법들 중 하나가 되기 때문이다. Total variation distance는 두 분포 사이의 distance metric 중 하나이다. Total variation distance가 작으면 두 분포가 가깝다는 의미이다. 본 게시글에서는 Total variation distance에 대해서 알아보고 Total variation distance가 0으로 수렴하면 한 분포가 다른 분포로 근사한다, 즉 Convergence in distribution한다는 것을 보인다.]]></summary></entry><entry><title type="html">(Dish-TS) A General Paradigm for Alleviating Distribution Shift in Time Series Forecasting (AAAI 2023)</title><link href="http://localhost:4000/timeseries/2024-04-12-Dish-TS/" rel="alternate" type="text/html" title="(Dish-TS) A General Paradigm for Alleviating Distribution Shift in Time Series Forecasting (AAAI 2023)" /><published>2024-04-12T00:00:00+09:00</published><updated>2024-04-12T19:26:03+09:00</updated><id>http://localhost:4000/timeseries/Dish-TS</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-04-12-Dish-TS/"><![CDATA[<h2 id="abstract">Abstract</h2>
+</ul>
+
+<h3 id="첫째-확률변수-x의-mgf는-x의-모든-moments를-생성한다">첫째, 확률변수 X의 MGF는 X의 모든 moments를 생성한다.</h3>
+
+<ul>
+  <li>
+    <p>Step1) MGF가 존재한다고 가정했다면 \(\mathbb{E}\left[e^{\mid t X\mid }\right] \leq \mathbb{E}\left[e^{t X}\right]+\mathbb{E}\left[e^{-t X}\right]&lt;\infty \quad \text { for all }\mid t\mid &lt;\epsilon\)​</p>
+  </li>
+  <li>
+    <p>c.f. <strong>(Dominated Convergence Theorem)</strong>. If \(\left\{f_n: \mathbb{R} \mapsto \mathbb{R}\right\}\) is a sequence of measurable functions which converge pointwise almost everywhere to \(f\), and if there exists an integrable function \(g\) (that is \(\left.\int_{-\infty}^{\infty}\mid g(x)\mid  d x&lt;\infty\right)\) such that \(\mid f_n(x)\mid  \leq\mid g(x)\mid\) for all \(n\) and for all \(x\), then \(f\) is integrable and</p>
+
+    <ul>
+      <li>\(\int_{-\infty}^{\infty} f(x) d x=\int_{-\infty}^{\infty} \lim _{n \rightarrow \infty} f_n(x) d x=\lim _{n \rightarrow \infty} \int_{-\infty}^{\infty} f_n(x) d x\)​​</li>
+      <li>즉 \(\mid f_n(x)\mid\)의 bound 역할을 하는 \(\mid g(x)\mid\)가 \(\int_{-\infty}^{\infty}\mid g(x)\mid  d x&lt;\infty\)이면 \(\int_{-\infty}^{\infty} \lim _{n \rightarrow \infty} f_n(x) d x\)의 \(\int\)와 \(\lim\)의 위치를 바꿀 수 있다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>Step2) DCT에 의해 X의 MGF는 아래와 같다.</p>
+
+    <ul>
+      <li>MGF</li>
+    </ul>
+
+    <p>: \(\begin{aligned}\int_{-\infty}^{\infty} e^{t x} f_X(x) d x &amp; =\lim _{n \rightarrow \infty} \int_{-\infty}^{\infty} \sum_{j=0}^n t^j \frac{x^j}{j !} f_X(x) d x \\ &amp; =\lim _{n \rightarrow \infty} \sum_{j=0}^n \frac{t^j}{j !} \underbrace{\int_{-\infty}^{\infty} x^j f_X(x) d x}_{=\mu_j} \\ &amp; =\sum_{j=0}^{\infty} \frac{t^j \mu_j}{j !} \end{aligned}\)</p>
+
+    <ul>
+      <li>moment</li>
+    </ul>
+
+    <p>: \(\begin{aligned} M_X^{(m)}(t) &amp; =\frac{d^m}{d t^m}\left(\sum_{k=0}^{\infty} \frac{t^k \mu_k}{k !}\right) \\ &amp; =\sum_{k=0}^{\infty} \frac{\mu_k}{k !} \frac{d^m\left(t^k\right)}{d t^m} \\ &amp; =\sum_{k=m}^{\infty} \mu_k \frac{t^{k-m}}{(k-m) !} \\ &amp; =\sum_{j=0}^{\infty} \mu_{m+j} \frac{t^j}{j !} \quad(j \equiv k-m) \end{aligned}\)</p>
+    <ul>
+      <li>Thus, \(M_X^{(m)}(0)=\mathbb{E}\left[X^m\right] \text { by noting } 0^0=1,0^j=0 \text { for } j \geq 1\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="둘째-확률변수-x의-mgf는-x의-분포를-uniquely-결정한다">둘째, 확률변수 X의 MGF는 X의 분포를 uniquely 결정한다.</h3>
+
+<ul>
+  <li>
+    <p>확률변수 X와 Y의 분포가 같다면 \(\to\) MGF가 같다는 것을 보이는 것은 쉽다.</p>
+  </li>
+  <li>
+    <p>반대로 두 확률변수 X와 Y의 MGF가 같으면 같은 분포를 따름은 아래와 같이 증명한다.</p>
+  </li>
+  <li>
+    <p>Suppose that \(X\) and \(Y\) have the same MGF for all \(t\) : \(\sum_{x=0}^n e^{t x} f_X(x)=\sum_{y=0}^n e^{t y} f_Y(y)\)
+  Let \(s=e^t\) and \(c_i=f_X(i)-f_Y(i)\) for \(i=0,1, \ldots, n\)</p>
+  </li>
+</ul>
+
+<p>: \(\begin{aligned} \sum_{x=0}^n e^{t x} f_X(x)-\sum_{y=0}^n e^{t y} f_Y(y)=0 \\ \Rightarrow \sum_{x=0}^n s^x f_X(x)-\sum_{y=0}^n s^y f_Y(y)=0 \\ \Rightarrow \sum_{x=0}^n s^x f_X(x)-\sum_{x=0}^n s^x f_Y(x)=0 \\ \Rightarrow \sum_{x=0}^n s^x\left[f_X(x)-f_Y(x)\right]=0 \\ \Rightarrow \sum_{x=0}^n s^x c_x=0 \quad \forall s&gt;0 \end{aligned}\)</p>
+
+<ul>
+  <li>
+    <p>The above is simply a polynomial in \(\mathrm{s}\) with coefficients \(c_0, c_1, \ldots, c_n\). The only way it can be zero for all values of \(\mathrm{s}\) is if \(c_0=c_1=\cdots=c_n=0\)</p>
+  </li>
+  <li>
+    <p>Therefore, \(0=c_i=f_X(i)-f_Y(i)\) for \(i=0,1, \ldots, n\), which means \(f_X(i)=f_Y(i)\) for \(i=0,1, \ldots, n\).</p>
+  </li>
+</ul>
+
+<h3 id="셋째-mgf의-수렴은-분포수렴convergence-in-distribution을-의미한다">셋째, MGF의 수렴은 분포수렴(convergence in distribution)을 의미한다.</h3>
+
+<ul>
+  <li>즉 \(\lim _{n \rightarrow \infty} M_{X_n}(t)=M_X(t)\)이면 \(\lim _{n \rightarrow \infty} F_{X_n}(x)=F_X(x)\)이다.</li>
+  <li><strong>(Portmanteau lemma)</strong> For random vector \(Y_n\) and \(Y\) with \(Y_n \sim P_n\) and \(Y \sim P\), the following are equivalent :
+    <ul>
+      <li>\(Y_n \xrightarrow{d} Y\);</li>
+      <li>\(P\left(Y_n \leq t\right) \rightarrow P(Y \leq t)\) for all continuous points \(t\) of \(t \mapsto P(Y \leq t)\);</li>
+      <li>\(\mathbb{E}\left[g\left(Y_n\right)\right] \rightarrow \mathbb{E}[g(Y)]\) for all bounded, continuous \(g: \mathbb{R}^d \rightarrow \mathbb{R}\)​;</li>
+      <li>(Skip the proof)</li>
+      <li>그러므로 아래 (Lévy’s continuity theorem)가 성립한다.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>(Lévy’s continuity theorem)</strong> Let \(X_n\) and \(X\) be random vectors in \(\mathbb{R}^d\). Then \(X_n \xrightarrow{d} X\) if and only if \(\lim _{n \rightarrow \infty} \mathbb{E}\left[e^{i t^{\top} X_n}\right]=\mathbb{E}\left[e^{i t^{\top} X}\right]\) for every \(t \in \mathbb{R}^d\)</p>
+  </li>
+  <li>위의 high-dimension에서의 증명은 (Cramér–Wold device)를 통해 1-dimension에서도 성립된다.</li>
+  <li><strong>(Cramér-Wold device)</strong> If \(t^{\top} X_n \xrightarrow{d} t^{\top} X\) for all \(t \in \mathbb{R}^d\), then \(X_n \xrightarrow{d} X\)</li>
+</ul>
+
+<h3 id="넷째-mgf로-probability-tail-bound를-구한다-hoeffdings-inequality">넷째, MGF로 probability tail bound를 구한다. (Hoeffding’s inequality)</h3>
+<ul>
+  <li><a href="https://lpppj.github.io/stat/2024-04-18-ineq2">Inequalities for Probabilities</a></li>
+  <li>pass</li>
+</ul>
+
+<h2 id="characteristic-function">Characteristic Function</h2>
+
+<ul>
+  <li>Definitnion : \(\phi_X(t)=\mathbb{E}[\exp (i t X)]=\mathbb{E}[\cos (t X)+i \sin (t X)], \quad t \in \mathbb{R},\)
+    <ul>
+      <li>where \(i=\sqrt{-1}\) is the imaginary unit (note Euler’s formula: \(e^{i x}=\cos (x)+i \sin (x)\)​)</li>
+    </ul>
+  </li>
+  <li>
+    <p>characteristic function은 언제 사용할까</p>
+
+    <ul>
+      <li>MGF가 존재하지 않는 분포(ex. Cauchy)에 대한 특성을 파악할 때</li>
+      <li>Lévy’s continuity theorem 증명할 때</li>
+    </ul>
+  </li>
+  <li>
+    <p>Element properties:</p>
+
+    <ul>
+      <li>
+        <p>If \(Y=a X+b, \phi_Y(t)=e^{i b t} \phi_X(a t)\).</p>
+      </li>
+      <li>
+        <p>If \(X\) and \(Y\) are independent, then \(\phi_{X+Y}(t)=\phi_X(t) \phi_Y(t)\)​</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>아래 4가지 properties를 하나씩 증명한다.</p>
+
+    <ul>
+      <li>
+        <p>첫째, \(\phi_X(0)=1\) and \(\mid \phi_X(t)\mid \leq 1\) for all \(t \in \mathbb{R}\)​</p>
+      </li>
+      <li>둘째, \(\phi_X(t)\) is uniformly continuous on  \(\mathbb{R}\)​​
+        <ul>
+          <li>즉 \(h \to 0\)에 따라 \(\psi(h) \rightarrow 0\) s.t.  \(\mid \phi_X(t+h)-\phi_X(t)\mid \leq \psi(h)\)</li>
+        </ul>
+      </li>
+      <li>
+        <p>셋째, The characteristic function of a symmetric random variable, that is  \(X \stackrel{d}{=}-X\), is real-valued</p>
+      </li>
+      <li>넷째, MGF처럼 두 확률변수의 characteristic function이 같으면 같은 분포를 따른다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="첫째-phi_x01-and-mid-phi_xtmid-leq-1-for-all-t-in-mathbbr">첫째, \(\phi_X(0)=1\) and \(\mid \phi_X(t)\mid \leq 1\) for all \(t \in \mathbb{R}\)</h3>
+
+<ul>
+  <li>\(\mid e^{i t x}\mid =\sqrt{\cos ^2(t x)+\sin ^2(t x)}=1\) for all \(t\) and \(x\). Therefore \(\mid \phi_X(t)\mid =\mid \mathbb{E}\left[e^{i t X}\right]\mid  \leq \mathbb{E}\left[\mid e^{i t X}\mid \right]=1\)</li>
+</ul>
+
+<h3 id="둘째-phi_xt-is-uniformly-continuous-on--mathbbr">둘째, \(\phi_X(t)\) is uniformly continuous on  \(\mathbb{R}\)</h3>
+
+<ul>
+  <li>\(\mid \underbrace{\mathbb{E}\left[e^{i(t+h) X}\right]}_{=\phi_X(t+h)}-\underbrace{\mathbb{E}\left[e^{i t X}\right]}_{=\phi_X(t)}\mid =\mid \mathbb{E}\left[e^{i t X}\left(e^{i h X}-1\right)\right]\mid  \leq \mathbb{E}\left[\mid e^{i h X}-1\mid \right]\) 이고</li>
+  <li>Let \(g_X(h)=\mid e^{i h X}-1\mid , \text{ Then } g_X(h) \rightarrow 0 \text{ as } h \to 0\) 이므로</li>
+</ul>
+
+<p>: \(\begin{aligned} g_X(h) &amp; =\mid e^{i h X}-1\mid  \\ &amp; =\mid \{\cos (h X)-1\}+i \sin (h X)\mid  \\ &amp; =\sqrt{\{\cos (h X)-1\}^2+\sin ^2(h X)} \\ &amp; =\sqrt{2-2 \cos (h X)} \leq 2 \end{aligned}\)</p>
+
+<ul>
+  <li>\(g_X(h)\)가 uniformly bounded by 2이므로 DCT에 의해 \(\mathbb E[g_X(h)] \rightarrow 0 \text{ as } h \to 0\)</li>
+</ul>
+
+<h3 id="셋째-x-stackreld-x-characteristic-function-of-x는-real-valued">셋째, \(X \stackrel{d}{=}-X\), characteristic function of \(X\)는 real-valued</h3>
+
+<ul>
+  <li>
+    <p>: \(\begin{aligned} \mathbb{E}\left[e^{i t X}\right] &amp; =\mathbb{E}[\cos (t X)]+i \mathbb{E}[\sin (t X)] \stackrel{(\mathrm{i})}{=} \mathbb{E}[\cos (t X)]+i \mathbb{E}[\sin (-t X)] \\ &amp; \stackrel{(\mathrm{ii})}{=} \mathbb{E}[\cos (t X)]-i \mathbb{E}[\sin (t X)] \end{aligned}\).</p>
+  </li>
+  <li>
+    <p>(i)는 \(X \stackrel{d}{=}-X\) 때문이고, (ii)는 sin의 성질 \(\sin (-x)=-\sin (x)\) 때문이다.</p>
+  </li>
+</ul>
+
+<h3 id="넷째-mgf처럼-두-확률변수의-characteristic-function이-같으면-같은-분포를-따른다">넷째, MGF처럼 두 확률변수의 characteristic function이 같으면 같은 분포를 따른다.</h3>
+
+<ul>
+  <li>두 확률변수가 characteristic function이 같으면 같은 분포를 따름만 증명한다.</li>
+  <li>본 증명에는 다양한 기법이 사용되는데 그 중 몇 가지를 소개한다. 아래와 같다.
+    <ul>
+      <li>Convolution : \(X\)와 \(Y\)가 독립이면 \(Z=X+Y\)의 density function은 \(f_Z(z)=\int_{-\infty}^{\infty} f_X(x) f_Y(z-x) d x\)​</li>
+      <li>Characteristic function of \(Z \sim N(0, \sigma^2)\) : \(\mathbb{E}\left[e^{i t Z}\right]=e^{-\frac{\sigma^2 t^2}{2}} \text { for all } t \in \mathbb{R}\)​</li>
+      <li>Fubini’s theorem : \(\int_{X \times Y}\mid f(x, y)\mid  d(x, y)&lt;\infty\) 이면 \(\int\)의 순서를 바꿀 수 있다.</li>
+    </ul>
+  </li>
+  <li>\(X+Z\)와 \(Y+Z\)가 같은 분포를 따른다는 것을 증명하고 Slutsky’s theorem으로  \(X\)와 \(Y\)가 같은 분포를 따름을 증명한다.</li>
+  <li>\(\begin{aligned}
+f_{X+Z}(t) &amp; =\int_{-\infty}^{\infty} f_Z(w) f_X(t-w) d w \\
+&amp; =\int_{-\infty}^{\infty} f_Z(-w) f_X(t-w) d w \quad \text { since } f_Z(-w)=f_Z(w) \\
+&amp; =\int_{-\infty}^{\infty} f_Z(w) f_X(t+w) d w \quad \text { by the change of variables }(-w \rightarrow w) \\
+&amp; =\frac{1}{\sqrt{2 \pi} \sigma} \int_{-\infty}^{\infty} e^{-\frac{w^2}{2 \sigma^2}} f_X(t+w) d w \\
+&amp; =\frac{1}{\sqrt{2 \pi} \sigma} \int_{-\infty}^{\infty} \mathbb{E}_Z\left[e^{i w Z \sigma^{-2}}\right] f_X(t+w) d w \\ &amp; \text {by Characteristic function of } Z \sim N(0, \sigma^2) \text { and } Z \sigma^{-2} \sim N\left(0, \sigma^{-2}\right) \\
+&amp; =\frac{1}{\sqrt{2 \pi} \sigma} \mathbb{E}_Z\left[\int_{-\infty}^{\infty} e^{i w Z \sigma^{-2}} f_X(t+w) d w\right] \quad \text { by Fubini's theorem } \\
+&amp; =\frac{1}{\sqrt{2 \pi} \sigma} \mathbb{E}_Z\left[e^{-i t Z \sigma^{-2}} \int_{-\infty}^{\infty} e^{i(t+w) Z \sigma^{-2}} f_X(t+w) d w\right] \\
+&amp; =\frac{1}{\sqrt{2 \pi} \sigma} \mathbb{E}_Z\left[e^{-i t Z \sigma^{-2}} \int_{-\infty}^{\infty} e^{i w Z \sigma^{-2}} f_X(w) d w\right] \\ &amp;\text { by the change of variables }(t+w \rightarrow w) \\ &amp; =\frac{1}{\sqrt{2 \pi} \sigma} \mathbb{E}_Z\left[e^{-i t Z \sigma^{-2}} \phi_X\left(Z \sigma^{-2}\right)\right] = \frac{1}{\sqrt{2 \pi} \sigma} \mathbb{E}_Z\left[e^{-i t Z \sigma^{-2}} \phi_Y\left(Z \sigma^{-2}\right)\right] \\ &amp;( \because \phi_X = \phi_Y ) \\ &amp;=f_{Y+Z}(t)
+\end{aligned}\)​</li>
+  <li>By Slutsky’s theorem, \(X\)와 \(Y\)는 같은 분포를 따른다.</li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[Moments]]></summary></entry><entry><title type="html">(Dish-TS) A General Paradigm for Alleviating Distribution Shift in Time Series Forecasting (AAAI 2023)</title><link href="http://localhost:4000/timeseries/2024-04-12-Dish-TS/" rel="alternate" type="text/html" title="(Dish-TS) A General Paradigm for Alleviating Distribution Shift in Time Series Forecasting (AAAI 2023)" /><published>2024-04-12T00:00:00+09:00</published><updated>2024-04-12T19:26:03+09:00</updated><id>http://localhost:4000/timeseries/Dish-TS</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-04-12-Dish-TS/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>Distribution shift in TS : series distribution changes over time</li>
@@ -924,236 +1199,7 @@ V_i^2 &amp; =\left(\mathbb{E}\left[f(X) \mid X_1, \ldots, X_i\right]-\mathbb{E}\
       <li>prior knowledge-induced training strategy, for effectiveness</li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[AAAI 2023](https://arxiv.org/pdf/2302.14829.pdf)]]></summary></entry><entry><title type="html">MGF(Moment Generating Function) and Characteristic Function에 대해서</title><link href="http://localhost:4000/stat/2024-04-12-MGF/" rel="alternate" type="text/html" title="MGF(Moment Generating Function) and Characteristic Function에 대해서" /><published>2024-04-12T00:00:00+09:00</published><updated>2024-04-13T15:39:49+09:00</updated><id>http://localhost:4000/stat/MGF</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-12-MGF/"><![CDATA[<h2 id="moments">Moments</h2>
-
-<ul>
-  <li>Definition
-    <ul>
-      <li>For each integer \(n\), the \(n\)th moment of \(X\) is \(\mu_n=\mathbb{E}\left[X^n\right]\).</li>
-      <li>The \(n\)th central moment of \(X\) is \(\mu_n^{\prime}=\mathbb{E}\left[(X-\mu)^n\right]\) where \(\mu=\mu_1^{\prime}=\mathbb{E}[X]\)</li>
-    </ul>
-  </li>
-  <li><u>확률변수의 moments는 tail probability와 밀접한 연관이 있다.</u>
-    <ul>
-      <li>
-        <p>Let \(X\) is non-negative random variable</p>
-
-        <p>: \(\begin{aligned}\mathbb{E}[X]&amp;=\mathbb{E}\left[\int_0^{\infty} \mathbb{1}(t&lt;X) d t\right]\\&amp;=\int_0^{\infty} \mathbb{E}[\mathbb{1}(t&lt;X)] d t\\&amp;=\int_0^{\infty} P(t&lt;X) d t\\&amp;=\int_0^{\infty}\left[1-F_X(x)\right] d x \end{aligned}\)</p>
-      </li>
-      <li>
-        <p>위 결과를 확장하면 아래와 같다.</p>
-
-        <p>: \(\begin{aligned} \mathbb{E}\left[\mid X\mid ^p\right] &amp; =\int_0^{\infty}\left[1-F_{\mid X\mid ^p}(y)\right] d y \\ P\left(\mid X\mid ^p&gt;y\right) &amp; =P\left(\mid X\mid &gt;y^{\frac{1}{p}}\right) \\ &amp; =1-F_{\mid X\mid }\left(y^{\frac{1}{p}}\right) \\ \text{Let } y&amp;=x^p, \text{then } \frac{d y}{d x}=p x^{p-1} \\ \mathbb{E}\left[\mid X\mid ^p\right] &amp; =\int_0^{\infty}\left[1-F_{\mid X\mid }(x)\right] p x^{p-1} d x \\ &amp; =\int_0^{\infty} p x^{p-1} P(\mid X\mid &gt;x) d x \end{aligned}\)</p>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="moment-generating-function">Moment Generating Function</h2>
-
-<ul>
-  <li>
-    <p>Definition : \(M_X(t)=\mathbb{E}\left[e^{t X}\right]\)</p>
-  </li>
-  <li>
-    <p>MGF가 왜 중요할까 ?</p>
-
-    <ul>
-      <li><u>첫째, 확률변수 X의 MGF는 X의 모든 moments를 생성한다.</u></li>
-      <li><u>둘째, 확률변수 X의 MGF는 X의 분포를 uniquely 결정한다.</u></li>
-      <li><u>셋째, MGF의 수렴은 분포수렴(convergence in distribution)을 의미한다.</u></li>
-      <li><u>넷째, MGF로 probability tail bound를 구한다. (Hoeffding's inequality)</u></li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="첫째-확률변수-x의-mgf는-x의-모든-moments를-생성한다">첫째, 확률변수 X의 MGF는 X의 모든 moments를 생성한다.</h3>
-
-<ul>
-  <li>
-    <p>Step1) MGF가 존재한다고 가정했다면 \(\mathbb{E}\left[e^{\mid t X\mid }\right] \leq \mathbb{E}\left[e^{t X}\right]+\mathbb{E}\left[e^{-t X}\right]&lt;\infty \quad \text { for all }\mid t\mid &lt;\epsilon\)​</p>
-  </li>
-  <li>
-    <p>c.f. <strong>(Dominated Convergence Theorem)</strong>. If \(\left\{f_n: \mathbb{R} \mapsto \mathbb{R}\right\}\) is a sequence of measurable functions which converge pointwise almost everywhere to \(f\), and if there exists an integrable function \(g\) (that is \(\left.\int_{-\infty}^{\infty}\mid g(x)\mid  d x&lt;\infty\right)\) such that \(\mid f_n(x)\mid  \leq\mid g(x)\mid\) for all \(n\) and for all \(x\), then \(f\) is integrable and</p>
-
-    <ul>
-      <li>\(\int_{-\infty}^{\infty} f(x) d x=\int_{-\infty}^{\infty} \lim _{n \rightarrow \infty} f_n(x) d x=\lim _{n \rightarrow \infty} \int_{-\infty}^{\infty} f_n(x) d x\)​​</li>
-      <li>즉 \(\mid f_n(x)\mid\)의 bound 역할을 하는 \(\mid g(x)\mid\)가 \(\int_{-\infty}^{\infty}\mid g(x)\mid  d x&lt;\infty\)이면 \(\int_{-\infty}^{\infty} \lim _{n \rightarrow \infty} f_n(x) d x\)의 \(\int\)와 \(\lim\)의 위치를 바꿀 수 있다.</li>
-    </ul>
-  </li>
-  <li>
-    <p>Step2) DCT에 의해 X의 MGF는 아래와 같다.</p>
-
-    <ul>
-      <li>MGF</li>
-    </ul>
-
-    <p>: \(\begin{aligned}\int_{-\infty}^{\infty} e^{t x} f_X(x) d x &amp; =\lim _{n \rightarrow \infty} \int_{-\infty}^{\infty} \sum_{j=0}^n t^j \frac{x^j}{j !} f_X(x) d x \\ &amp; =\lim _{n \rightarrow \infty} \sum_{j=0}^n \frac{t^j}{j !} \underbrace{\int_{-\infty}^{\infty} x^j f_X(x) d x}_{=\mu_j} \\ &amp; =\sum_{j=0}^{\infty} \frac{t^j \mu_j}{j !} \end{aligned}\)</p>
-
-    <ul>
-      <li>moment</li>
-    </ul>
-
-    <p>: \(\begin{aligned} M_X^{(m)}(t) &amp; =\frac{d^m}{d t^m}\left(\sum_{k=0}^{\infty} \frac{t^k \mu_k}{k !}\right) \\ &amp; =\sum_{k=0}^{\infty} \frac{\mu_k}{k !} \frac{d^m\left(t^k\right)}{d t^m} \\ &amp; =\sum_{k=m}^{\infty} \mu_k \frac{t^{k-m}}{(k-m) !} \\ &amp; =\sum_{j=0}^{\infty} \mu_{m+j} \frac{t^j}{j !} \quad(j \equiv k-m) \end{aligned}\)</p>
-    <ul>
-      <li>Thus, \(M_X^{(m)}(0)=\mathbb{E}\left[X^m\right] \text { by noting } 0^0=1,0^j=0 \text { for } j \geq 1\)</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="둘째-확률변수-x의-mgf는-x의-분포를-uniquely-결정한다">둘째, 확률변수 X의 MGF는 X의 분포를 uniquely 결정한다.</h3>
-
-<ul>
-  <li>
-    <p>확률변수 X와 Y의 분포가 같다면 \(\to\) MGF가 같다는 것을 보이는 것은 쉽다.</p>
-  </li>
-  <li>
-    <p>반대로 두 확률변수 X와 Y의 MGF가 같으면 같은 분포를 따름은 아래와 같이 증명한다.</p>
-  </li>
-  <li>
-    <p>Suppose that \(X\) and \(Y\) have the same MGF for all \(t\) : \(\sum_{x=0}^n e^{t x} f_X(x)=\sum_{y=0}^n e^{t y} f_Y(y)\)
-  Let \(s=e^t\) and \(c_i=f_X(i)-f_Y(i)\) for \(i=0,1, \ldots, n\)</p>
-  </li>
-</ul>
-
-<p>: \(\begin{aligned} \sum_{x=0}^n e^{t x} f_X(x)-\sum_{y=0}^n e^{t y} f_Y(y)=0 \\ \Rightarrow \sum_{x=0}^n s^x f_X(x)-\sum_{y=0}^n s^y f_Y(y)=0 \\ \Rightarrow \sum_{x=0}^n s^x f_X(x)-\sum_{x=0}^n s^x f_Y(x)=0 \\ \Rightarrow \sum_{x=0}^n s^x\left[f_X(x)-f_Y(x)\right]=0 \\ \Rightarrow \sum_{x=0}^n s^x c_x=0 \quad \forall s&gt;0 \end{aligned}\)</p>
-
-<ul>
-  <li>
-    <p>The above is simply a polynomial in \(\mathrm{s}\) with coefficients \(c_0, c_1, \ldots, c_n\). The only way it can be zero for all values of \(\mathrm{s}\) is if \(c_0=c_1=\cdots=c_n=0\)</p>
-  </li>
-  <li>
-    <p>Therefore, \(0=c_i=f_X(i)-f_Y(i)\) for \(i=0,1, \ldots, n\), which means \(f_X(i)=f_Y(i)\) for \(i=0,1, \ldots, n\).</p>
-  </li>
-</ul>
-
-<h3 id="셋째-mgf의-수렴은-분포수렴convergence-in-distribution을-의미한다">셋째, MGF의 수렴은 분포수렴(convergence in distribution)을 의미한다.</h3>
-
-<ul>
-  <li>즉 \(\lim _{n \rightarrow \infty} M_{X_n}(t)=M_X(t)\)이면 \(\lim _{n \rightarrow \infty} F_{X_n}(x)=F_X(x)\)이다.</li>
-  <li><strong>(Portmanteau lemma)</strong> For random vector \(Y_n\) and \(Y\) with \(Y_n \sim P_n\) and \(Y \sim P\), the following are equivalent :
-    <ul>
-      <li>\(Y_n \xrightarrow{d} Y\);</li>
-      <li>\(P\left(Y_n \leq t\right) \rightarrow P(Y \leq t)\) for all continuous points \(t\) of \(t \mapsto P(Y \leq t)\);</li>
-      <li>\(\mathbb{E}\left[g\left(Y_n\right)\right] \rightarrow \mathbb{E}[g(Y)]\) for all bounded, continuous \(g: \mathbb{R}^d \rightarrow \mathbb{R}\)​;</li>
-      <li>(Skip the proof)</li>
-      <li>그러므로 아래 (Lévy’s continuity theorem)가 성립한다.</li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>(Lévy’s continuity theorem)</strong> Let \(X_n\) and \(X\) be random vectors in \(\mathbb{R}^d\). Then \(X_n \xrightarrow{d} X\) if and only if \(\lim _{n \rightarrow \infty} \mathbb{E}\left[e^{i t^{\top} X_n}\right]=\mathbb{E}\left[e^{i t^{\top} X}\right]\) for every \(t \in \mathbb{R}^d\)</p>
-  </li>
-  <li>위의 high-dimension에서의 증명은 (Cramér–Wold device)를 통해 1-dimension에서도 성립된다.</li>
-  <li><strong>(Cramér-Wold device)</strong> If \(t^{\top} X_n \xrightarrow{d} t^{\top} X\) for all \(t \in \mathbb{R}^d\), then \(X_n \xrightarrow{d} X\)</li>
-</ul>
-
-<h3 id="넷째-mgf로-probability-tail-bound를-구한다-hoeffdings-inequality">넷째, MGF로 probability tail bound를 구한다. (Hoeffding’s inequality)</h3>
-<ul>
-  <li>pass</li>
-</ul>
-
-<h2 id="characteristic-function">Characteristic Function</h2>
-
-<ul>
-  <li>Definitnion : \(\phi_X(t)=\mathbb{E}[\exp (i t X)]=\mathbb{E}[\cos (t X)+i \sin (t X)], \quad t \in \mathbb{R},\)
-    <ul>
-      <li>where \(i=\sqrt{-1}\) is the imaginary unit (note Euler’s formula: \(e^{i x}=\cos (x)+i \sin (x)\)​)</li>
-    </ul>
-  </li>
-  <li>
-    <p>characteristic function은 언제 사용할까</p>
-
-    <ul>
-      <li>MGF가 존재하지 않는 분포(ex. Cauchy)에 대한 특성을 파악할 때</li>
-      <li>Lévy’s continuity theorem 증명할 때</li>
-    </ul>
-  </li>
-  <li>
-    <p>Element properties:</p>
-
-    <ul>
-      <li>
-        <p>If \(Y=a X+b, \phi_Y(t)=e^{i b t} \phi_X(a t)\).</p>
-      </li>
-      <li>
-        <p>If \(X\) and \(Y\) are independent, then \(\phi_{X+Y}(t)=\phi_X(t) \phi_Y(t)\)​</p>
-      </li>
-    </ul>
-  </li>
-  <li>
-    <p>아래 4가지 properties를 하나씩 증명한다.</p>
-
-    <ul>
-      <li>
-        <p>첫째, \(\phi_X(0)=1\) and \(\mid \phi_X(t)\mid \leq 1\) for all \(t \in \mathbb{R}\)​</p>
-      </li>
-      <li>둘째, \(\phi_X(t)\) is uniformly continuous on  \(\mathbb{R}\)​​
-        <ul>
-          <li>즉 \(h \to 0\)에 따라 \(\psi(h) \rightarrow 0\) s.t.  \(\mid \phi_X(t+h)-\phi_X(t)\mid \leq \psi(h)\)</li>
-        </ul>
-      </li>
-      <li>
-        <p>셋째, The characteristic function of a symmetric random variable, that is  \(X \stackrel{d}{=}-X\), is real-valued</p>
-      </li>
-      <li>넷째, MGF처럼 두 확률변수의 characteristic function이 같으면 같은 분포를 따른다.</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="첫째-phi_x01-and-mid-phi_xtmid-leq-1-for-all-t-in-mathbbr">첫째, \(\phi_X(0)=1\) and \(\mid \phi_X(t)\mid \leq 1\) for all \(t \in \mathbb{R}\)</h3>
-
-<ul>
-  <li>\(\mid e^{i t x}\mid =\sqrt{\cos ^2(t x)+\sin ^2(t x)}=1\) for all \(t\) and \(x\). Therefore \(\mid \phi_X(t)\mid =\mid \mathbb{E}\left[e^{i t X}\right]\mid  \leq \mathbb{E}\left[\mid e^{i t X}\mid \right]=1\)</li>
-</ul>
-
-<h3 id="둘째-phi_xt-is-uniformly-continuous-on--mathbbr">둘째, \(\phi_X(t)\) is uniformly continuous on  \(\mathbb{R}\)</h3>
-
-<ul>
-  <li>\(\mid \underbrace{\mathbb{E}\left[e^{i(t+h) X}\right]}_{=\phi_X(t+h)}-\underbrace{\mathbb{E}\left[e^{i t X}\right]}_{=\phi_X(t)}\mid =\mid \mathbb{E}\left[e^{i t X}\left(e^{i h X}-1\right)\right]\mid  \leq \mathbb{E}\left[\mid e^{i h X}-1\mid \right]\) 이고</li>
-  <li>Let \(g_X(h)=\mid e^{i h X}-1\mid , \text{ Then } g_X(h) \rightarrow 0 \text{ as } h \to 0\) 이므로</li>
-</ul>
-
-<p>: \(\begin{aligned} g_X(h) &amp; =\mid e^{i h X}-1\mid  \\ &amp; =\mid \{\cos (h X)-1\}+i \sin (h X)\mid  \\ &amp; =\sqrt{\{\cos (h X)-1\}^2+\sin ^2(h X)} \\ &amp; =\sqrt{2-2 \cos (h X)} \leq 2 \end{aligned}\)</p>
-
-<ul>
-  <li>\(g_X(h)\)가 uniformly bounded by 2이므로 DCT에 의해 \(\mathbb E[g_X(h)] \rightarrow 0 \text{ as } h \to 0\)</li>
-</ul>
-
-<h3 id="셋째-x-stackreld-x-characteristic-function-of-x는-real-valued">셋째, \(X \stackrel{d}{=}-X\), characteristic function of \(X\)는 real-valued</h3>
-
-<ul>
-  <li>
-    <p>: \(\begin{aligned} \mathbb{E}\left[e^{i t X}\right] &amp; =\mathbb{E}[\cos (t X)]+i \mathbb{E}[\sin (t X)] \stackrel{(\mathrm{i})}{=} \mathbb{E}[\cos (t X)]+i \mathbb{E}[\sin (-t X)] \\ &amp; \stackrel{(\mathrm{ii})}{=} \mathbb{E}[\cos (t X)]-i \mathbb{E}[\sin (t X)] \end{aligned}\).</p>
-  </li>
-  <li>
-    <p>(i)는 \(X \stackrel{d}{=}-X\) 때문이고, (ii)는 sin의 성질 \(\sin (-x)=-\sin (x)\) 때문이다.</p>
-  </li>
-</ul>
-
-<h3 id="넷째-mgf처럼-두-확률변수의-characteristic-function이-같으면-같은-분포를-따른다">넷째, MGF처럼 두 확률변수의 characteristic function이 같으면 같은 분포를 따른다.</h3>
-
-<ul>
-  <li>두 확률변수가 characteristic function이 같으면 같은 분포를 따름만 증명한다.</li>
-  <li>본 증명에는 다양한 기법이 사용되는데 그 중 몇 가지를 소개한다. 아래와 같다.
-    <ul>
-      <li>Convolution : \(X\)와 \(Y\)가 독립이면 \(Z=X+Y\)의 density function은 \(f_Z(z)=\int_{-\infty}^{\infty} f_X(x) f_Y(z-x) d x\)​</li>
-      <li>Characteristic function of \(Z \sim N(0, \sigma^2)\) : \(\mathbb{E}\left[e^{i t Z}\right]=e^{-\frac{\sigma^2 t^2}{2}} \text { for all } t \in \mathbb{R}\)​</li>
-      <li>Fubini’s theorem : \(\int_{X \times Y}\mid f(x, y)\mid  d(x, y)&lt;\infty\) 이면 \(\int\)의 순서를 바꿀 수 있다.</li>
-    </ul>
-  </li>
-  <li>\(X+Z\)와 \(Y+Z\)가 같은 분포를 따른다는 것을 증명하고 Slutsky’s theorem으로  \(X\)와 \(Y\)가 같은 분포를 따름을 증명한다.</li>
-  <li>\(\begin{aligned}
-f_{X+Z}(t) &amp; =\int_{-\infty}^{\infty} f_Z(w) f_X(t-w) d w \\
-&amp; =\int_{-\infty}^{\infty} f_Z(-w) f_X(t-w) d w \quad \text { since } f_Z(-w)=f_Z(w) \\
-&amp; =\int_{-\infty}^{\infty} f_Z(w) f_X(t+w) d w \quad \text { by the change of variables }(-w \rightarrow w) \\
-&amp; =\frac{1}{\sqrt{2 \pi} \sigma} \int_{-\infty}^{\infty} e^{-\frac{w^2}{2 \sigma^2}} f_X(t+w) d w \\
-&amp; =\frac{1}{\sqrt{2 \pi} \sigma} \int_{-\infty}^{\infty} \mathbb{E}_Z\left[e^{i w Z \sigma^{-2}}\right] f_X(t+w) d w \\ &amp; \text {by Characteristic function of } Z \sim N(0, \sigma^2) \text { and } Z \sigma^{-2} \sim N\left(0, \sigma^{-2}\right) \\
-&amp; =\frac{1}{\sqrt{2 \pi} \sigma} \mathbb{E}_Z\left[\int_{-\infty}^{\infty} e^{i w Z \sigma^{-2}} f_X(t+w) d w\right] \quad \text { by Fubini's theorem } \\
-&amp; =\frac{1}{\sqrt{2 \pi} \sigma} \mathbb{E}_Z\left[e^{-i t Z \sigma^{-2}} \int_{-\infty}^{\infty} e^{i(t+w) Z \sigma^{-2}} f_X(t+w) d w\right] \\
-&amp; =\frac{1}{\sqrt{2 \pi} \sigma} \mathbb{E}_Z\left[e^{-i t Z \sigma^{-2}} \int_{-\infty}^{\infty} e^{i w Z \sigma^{-2}} f_X(w) d w\right] \\ &amp;\text { by the change of variables }(t+w \rightarrow w) \\ &amp; =\frac{1}{\sqrt{2 \pi} \sigma} \mathbb{E}_Z\left[e^{-i t Z \sigma^{-2}} \phi_X\left(Z \sigma^{-2}\right)\right] = \frac{1}{\sqrt{2 \pi} \sigma} \mathbb{E}_Z\left[e^{-i t Z \sigma^{-2}} \phi_Y\left(Z \sigma^{-2}\right)\right] \\ &amp;( \because \phi_X = \phi_Y ) \\ &amp;=f_{Y+Z}(t)
-\end{aligned}\)​</li>
-  <li>By Slutsky’s theorem, \(X\)와 \(Y\)는 같은 분포를 따른다.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[Moments]]></summary></entry><entry><title type="html">Revisiting Long-term Time Series Forecasting: An Investigation on Linear Mapping</title><link href="http://localhost:4000/timeseries/2024-04-04-RTSF/" rel="alternate" type="text/html" title="Revisiting Long-term Time Series Forecasting: An Investigation on Linear Mapping" /><published>2024-04-04T00:00:00+09:00</published><updated>2024-04-05T09:40:54+09:00</updated><id>http://localhost:4000/timeseries/RTSF</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-04-04-RTSF/"><![CDATA[<ul>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[AAAI 2023](https://arxiv.org/pdf/2302.14829.pdf)]]></summary></entry><entry><title type="html">Revisiting Long-term Time Series Forecasting: An Investigation on Linear Mapping</title><link href="http://localhost:4000/timeseries/2024-04-04-RTSF/" rel="alternate" type="text/html" title="Revisiting Long-term Time Series Forecasting: An Investigation on Linear Mapping" /><published>2024-04-04T00:00:00+09:00</published><updated>2024-04-05T09:40:54+09:00</updated><id>http://localhost:4000/timeseries/RTSF</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-04-04-RTSF/"><![CDATA[<ul>
   <li>이전에 review했던 <a href="https://arxiv.org/abs/2205.13504">DLinear</a> paper에서는 ‘Time series의 properties가 무엇인지’, 그리고 ‘왜 Transformer-based model이 완벽할 수 없는지’에 집중했다면, 본 논문은 ‘왜 linear mapping이 단순한데도 성능이 좋은지’에 집중한다.</li>
 </ul>
 
@@ -1500,216 +1546,4 @@ then linearly projected \(\to \mathbf{O}^{(i)} \in \mathbb{R}^{P \times D}\)</li
   <li>Prompt-as-Prefix로 guidance를 LLM에 제공</li>
   <li>TS forecasting을 language task로 casting</li>
   <li>결론적으로 Patching + Prompting으로 성능을 더 올린 모델</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2024](https://arxiv.org/pdf/2310.01728.pdf)]]></summary></entry><entry><title type="html">(Survey paper) Self-Supervised Learning for Time Series Analysis: Taxonomy, Progress, and Prospects (Arxiv 2023)</title><link href="http://localhost:4000/timeseries/2024-03-25-SSL4TS/" rel="alternate" type="text/html" title="(Survey paper) Self-Supervised Learning for Time Series Analysis: Taxonomy, Progress, and Prospects (Arxiv 2023)" /><published>2024-03-25T00:00:00+09:00</published><updated>2024-03-25T19:43:09+09:00</updated><id>http://localhost:4000/timeseries/SSL4TS</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-03-25-SSL4TS/"><![CDATA[<h2 id="abstract">Abstract</h2>
-
-<ul>
-  <li>Self-supervised learning (SSL) : for reducing the dependence of labeled data</li>
-  <li>will review SOTA SSL for TS</li>
-  <li>will provide taxonomy of SSL for TS : generative-based, contrastive-based, adversarial-based
-    <ul>
-      <li>intuitions, main frameworks, (dis)advantages</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="1-introduction">1. Introduction</h2>
-<ul>
-  <li>To extract useful and informative features, (=hidden patterns and features of the data)
-    <ul>
-      <li>SSL utilizes pretext tasks to derive supervision signals from unlabeled data (=creating valuable representation for downstream tasks)</li>
-    </ul>
-  </li>
-  <li>Challenges:
-    <ul>
-      <li>대부분의 pre-text tasks(이미지, 언어, …) designed 모델들은 TS의 unique properties(seasonality, trend, frequency, …)를 고려하기 위한 것이 아니다.</li>
-      <li>SSL을 위해 data augmentation할 때 rotation이나 crop과 같은 방식은 TS의 temporal dependency를 학습하기 어렵게 만든다.</li>
-      <li>MTS에서 몇몇의 dimension(=channel, variate)에만 유용한 정보가 있는 경우에는 이를 고려해야 한다.</li>
-    </ul>
-  </li>
-  <li>SSL for TS:
-    <ul>
-      <li>Generative-based : autoregressive-based forecasting / auto-encoder-based reconstruction / diffusion-based generation</li>
-      <li>Contrastive-based : sampling contrast / prediction contrast / augmentation contrast / prototype contrast / expert knowledge contrast</li>
-      <li>Adversarial-based : generation and imputation and auxiliary representation enhancement
-<img src="/assets/img/timeseries/SSL4TS/fig1.png" alt="사진1" />
-<img src="/assets/img/timeseries/SSL4TS/fig5.png" alt="사진5" /></li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="2-related-surveys">2. Related Surveys</h2>
-
-<h3 id="21-definition-of-time-series-data">2.1. Definition of time series data</h3>
-<ul>
-  <li>Univariate TS : \(X=\left(x_0, x_1, x_2, \ldots, x_t\right)\) where \(x_i\) is  the point at timestamp \(i\)​</li>
-  <li>Multivariate TS : \(\mathbf{X}=\left[X_0, X_1, X_2, \ldots, X_p\right]\), where \(p\) is the number of variables</li>
-  <li>Multiple multivariate TS : \(\mathcal{X}=\left\{\mathbf{X}_0, \mathbf{X}_1, \mathbf{X}_2, \ldots, \mathbf{X}_n\right\}\), where \(n\) is the number of multivariate TS</li>
-</ul>
-
-<h3 id="22-surveys-on-ssl">2.2. Surveys on SSL</h3>
-<ul>
-  <li>pretext tasks 의 핵심은 pseudo-supervision signals을 만드는 것</li>
-  <li>Basic intuition : pull positive samples closer and push negative samples away
-    <ul>
-      <li>positive and negative samples : multisensory signals / data augmentation(noise injection, …) / local-global consistency / temporal consistency</li>
-      <li>pretext task : Context prediction / Instance discrimination / Instance generation</li>
-      <li>model architecture</li>
-      <li>training loss : contrastive loss functions generally include scoring functions (cosine similarity), energy-based margin functions (pair loss and triplet loss), probabilistic NCE-based functions, and mutual information based functions</li>
-    </ul>
-  </li>
-</ul>
-
-<p><img src="/assets/img/timeseries/SSL4TS/table3.png" alt="사진7" /></p>
-
-<h2 id="3-generative-based-models">3. Generative-based Models</h2>
-<ul>
-  <li>pretext task : to generate the expected data based on a given view of the data
-<img src="/assets/img/timeseries/SSL4TS/fig2.png" alt="사진2" /></li>
-</ul>
-
-<h3 id="31-autoregressive-based-forecasting">3.1. Autoregressive-based forecasting</h3>
-<ul>
-  <li>Forecasting : \(\hat{x}_{[t+1: t+K]}=f\left(x_{[1: t]}\right)\)</li>
-  <li>Loss : \(\mathcal{L}=\frac{1}{K} \sum_{k=1}^K\left(\hat{x}_{[t+k]}-x_{[t+k]}\right)^2\)​</li>
-  <li>RNN-based
-    <ul>
-      <li>Adv : Long-term dependencies / Adaptable to varying lengths / Global context information extraction</li>
-      <li>Dis-adv : Vanishing or exploding gradients / Computational efficiency</li>
-      <li>ex : <a href="https://proceedings.neurips.cc/paper/2020/file/97e401a02082021fd24957f852e0e475-Paper.pdf">THOC</a> : Temporal Self-supervision(TSS), which takes the L-layer dilated RNN with skip-connection structure \(\to\)​ different resolutions at the same time</li>
-    </ul>
-  </li>
-  <li>CNN-based
-    <ul>
-      <li>Adv : Local pattern extraction / Computational efficiency</li>
-      <li>Dis-adv : Long-termdependencies / Information loss</li>
-    </ul>
-  </li>
-  <li>GNN-based
-    <ul>
-      <li>Adv : Adaptability to graph structures / Dynamic relationship capture</li>
-      <li>Dis-adv : Computational and storage complexity</li>
-      <li>ex : <a href="https://arxiv.org/pdf/2106.06947.pdf">GDN</a> : the correlation among variables</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="32-autoencoder-based-reconstruction">3.2. Autoencoder-based reconstruction</h3>
-<ul>
-  <li>basic autoencoder (BAE)
-    <ul>
-      <li>Encoder \(x \to z\) , Decoder \(z \to \hat {x}\)  / Loss : \(\mathcal{L}=\|x-\tilde{x}\|_2\)</li>
-      <li>E(), D() 같이 train, D() 제거하고 E()를 feature extractor로 사용</li>
-      <li>ex. <a href="https://arxiv.org/pdf/1706.08838.pdf">TimeNet</a>, <a href="https://www.nature.com/articles/s41598-019-55320-6">PT-LSTM-SAE</a>, <a href="https://arxiv.org/pdf/1810.10107.pdf">Autowarp</a></li>
-    </ul>
-  </li>
-  <li>Denoising autoencoder (DAE)
-    <ul>
-      <li>\(x_n=\mathcal{T}(x), \quad Z=E\left(x_n\right), \quad \tilde{x}=D(z)\), \(\quad \mathcal{T}\): add noise  / Loss : \(\mathcal{L}=\|x-\tilde{x}\|_2\)</li>
-    </ul>
-  </li>
-  <li>Mask autoencoder (MAE)
-    <ul>
-      <li>Intuition : pre-training할 때에 input의 일부를 mask하고 un-mask part 보고 예측</li>
-      <li>form : \(\begin{gathered}x_m=\mathcal{M}(x), \quad z=E\left(x_m\right), \quad \tilde{x}=D(z),\ \mathcal{L}=\mathcal{M}\left(\|x-\tilde{x}\|_2\right),\end{gathered}\)</li>
-      <li>TS에서는 time-step-wise masking은 interpolation 해버리기 때문에, segment-wise masking or variable-wise masking</li>
-      <li>ex. <a href="https://dl.acm.org/doi/pdf/10.1145/3534678.3539329">TARNet</a> : 중요한 역할을 하는 data를 선정하고, 해당 데이터를 masking 하여 reconstruction</li>
-    </ul>
-  </li>
-  <li>Variational autoencoder (VAE)
-    <ul>
-      <li>Encoder \(x \to P(z\mid x)\), instead of explicit representation \(z\), Decoder는 sampling from \(P(z \mid x)\)​</li>
-      <li>\(P(z \mid x)=E(x), \quad z=\mathcal{S}(P(z \mid x)), \quad \tilde{x}=D(z)\) / Loss : \(\mathcal{L}=\|x-\tilde{x}\|_2+\operatorname{KL}(\mathcal{N}(\mu, \delta), \mathcal{N}(0, I))\)</li>
-      <li>ex. <a href="https://dl.acm.org/doi/10.1145/3447548.3467075">InterFusion</a>, <a href="https://arxiv.org/pdf/2101.10318.pdf">mTANs</a>, <a href="https://arxiv.org/pdf/2107.11350.pdf">HetVAE</a>(extract seasonal and trend via VAE)</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="33-diffusion-based-generation">3.3. Diffusion-based generation</h3>
-<ul>
-  <li>reverse transition kernel을 NN으로 approximate</li>
-  <li>Denoising diffusion probabilistic models <a href="https://arxiv.org/pdf/2006.11239.pdf">DDPM</a>,
-    <ul>
-      <li>\(p_\theta\left(\boldsymbol{x}_{\boldsymbol{t}-\mathbf{1}} \mid \boldsymbol{x}_{\boldsymbol{t}}\right)=$ $\mathcal{N}\left(\boldsymbol{x}_{t-1} ; \mu_\theta\left(\boldsymbol{x}_t, t\right), \sum_\theta\left(\boldsymbol{x}_t, t\right)\right)\) 일 때,</li>
-      <li>Jensen’s inequality에 의해, training loss는 \(\begin{array}{r}\mathbf{K L}\left(q\left(\boldsymbol{x}_1, \boldsymbol{x}_2, \ldots, \boldsymbol{x}_T\right) \| p_\theta\left(\boldsymbol{x}_0, \boldsymbol{x}_1, \ldots, \boldsymbol{x}_T\right)\right) \geq \mathbf{E}\left[-\log p_\theta\left(\boldsymbol{x}_0\right)\right]+\text { const. }\end{array}\)</li>
-    </ul>
-  </li>
-  <li>Score matching diffusion models <a href="https://arxiv.org/pdf/1907.05600.pdf">score matching</a>
-    <ul>
-      <li>per- turb data with a sequence of Gaussian noise \(\to\) estimating the score function for all the noisy data</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="4-contrastive-based-methods">4. Contrastive-based Methods</h2>
-<ul>
-  <li>positive는 가깝게, negative는 멀게 representation하도록 학습 \(\to\) positive / negative 정하는 룰이 중요함
-<img src="/assets/img/timeseries/SSL4TS/fig3.png" alt="사진3" /></li>
-  <li><strong>Sampling contrast</strong>
-    <ul>
-      <li>가정 : 시점이 가까울수록 유사도가 높을 것</li>
-      <li>하지만 실제로 꼭 그런 것은 아니다. contextual information으로 pos / neg 정하기가 쉽지 않다</li>
-      <li>ex. <a href="https://arxiv.org/pdf/2106.00750.pdf">TNC</a> : augmented Dickey-Fuller (ADF) statistical test 해서 neg samples를 unknown으로 취급, weights 할당, <a href="https://arxiv.org/pdf/2004.11362.pdf">Supervised contrastive learning</a></li>
-    </ul>
-  </li>
-  <li><strong>Prediction contrast</strong>
-    <ul>
-      <li>maximally preserve the mutual information of the context and the target</li>
-      <li>Ex. <a href="https://arxiv.org/pdf/1807.03748.pdf">Contrastive predictive coding (CPC)</a> : Context와 target의 mutual information을 최대한 유지한 채로 prediction</li>
-      <li>variants : <a href="https://arxiv.org/pdf/2202.03944.pdf">LNT</a>, <a href="https://arxiv.org/pdf/2106.14112.pdf">TS-TCC</a> <a href="https://arxiv.org/pdf/2208.06616.pdf">CA-TCC</a> (TS data augmentation techniques)</li>
-    </ul>
-  </li>
-  <li><strong>Augmentation contrast</strong>
-    <ul>
-      <li>different views of an input sample 생성 (같은 sample의 view끼리는 positive) \(\to\) similarity <a href="https://arxiv.org/pdf/2002.05709.pdf">SimCLR</a></li>
-      <li>variants : <a href="https://arxiv.org/pdf/2106.10466.pdf">TS2Vec</a> (week augmentation e.g. jitter-and-scale), <a href="https://arxiv.org/pdf/2202.01575.pdf">CoST</a>, <a href="https://arxiv.org/pdf/2206.08496.pdf">TF-C</a> (frequency domain), <a href="https://arxiv.org/pdf/2306.10347.pdf">DCdetector</a>, <a href="https://pdf.sciencedirectassets.com/271505/1-s2.0-S0950705122X00075/1-s2.0-S0950705122002726/main.pdf?X-Amz-Security-Token=IQoJb3JpZ2luX2VjEHAaCXVzLWVhc3QtMSJIMEYCIQDgmFUeLriQDh4DVodXqV0y990PZCUCjyqFZw5tbaaWOQIhAJJXI3FfJlWxRX7ERxHJD52xqRrpOHF7bO5s8CcvR%2BObKrwFCIn%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQBRoMMDU5MDAzNTQ2ODY1Igz9LqUqaUEhwALsmIAqkAVKSauBGYOJAgLt97GY2VGTuMQnRA7AgMmTvZNbQR13nb0eSyB3AddrtMNpzfTApqlafitG63sIURfGc04jk0%2BqiLp73hS3BmM6J9f3LNclZKHKiIQ%2BfUjQppBf9%2BSzb2GYgwcFIWgWQCR5PtN2siu0UfPOBUAUFniH5sww3WHYgzisgA4woX%2F%2B1lpEeSZAfoqOLu%2BD70QDpxoC0KgT%2FXhLrNhBehAy%2FZqTdVfSNmO8PnYW%2BbOc6HJ8zuTY5RATpiy9V7EMrdnYFYXvqu%2F1qW2x%2FtdeEZ0RfWCu524fQvnPpB8zVmySXJH4TXT4LA7QJE%2B1QwAHRqUatsaSoMpckzyqhP4LGwWneO%2Fq9RiEEqDkaOCpaL5F%2F%2B5i1tibhhFGI9ACzd814laQtq%2BIcvidp9986C1DHHJjTFHEXHUgMObbcOMXVA8xcpjCf5yFKcLC42BCHss82InfazC%2BJ8X4if%2BIhr7C%2B4MnowAGueEbmt5yQhoYboaD1tk%2FKKIohIhI2hghsk%2Fj%2BwhkWCn5KyLfoONkWJmJW1CXLDORF38jJLFEREaAQr3LRwExugVvijVdQLlWMyzPoCNRSLI5zkotkTprBsrs6iaJrS7hLn3mxOjCh9mZyJI2yV6%2Brr7jzg5XQ6VHiYlrkcfYuw9OFK5jv5OsoGoi4E46toRGV7X2p9jKlrg7T4m61BP5khSxzLJq61nOGlO%2Bx3zUvUT3dMyvkGMkKtaSk1%2FKXT4RovxkHp%2Bmpc3QUR7j6hzf5z0n9IIsv8FzAtzg58kKHg9OBQmHtCehUyLOErVo7P9Qxj5SIP7umI%2F%2Fe9p%2BK%2BGGZKNKv4LyjUqeB7XdlwPp2x2ysLv4d4o%2BIPtvkyjLqxhNu6sOYmb6VjCX1oSwBjqwAfzu66rFmDL30GLaRAVAW1ntG5mkCnwKEF3lFukhkQUOfwCxm7RM9jOJeG4%2Bmi3EJkTk7YzUpDz3XnUhEC9%2BvejsHkC1qETTJrb0bcqMFFW3EaZrZZYvZ4zodutAKA%2BUzMn5Df82EqEjSmeySV18YkkkKDNTM0usR%2FHaNfviRepwNslRryoSwTWiPWMwiV9tIIbZaIFpcs6nZlQB%2BGqMP1tw1rZAozE5PSe1E%2Btz1kLS&amp;X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Date=20240325T090224Z&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Expires=300&amp;X-Amz-Credential=ASIAQ3PHCVTYQXRPBKFN%2F20240325%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Signature=2f8baa651eec4fdd10cde55f49d1477a95f8710aa9c8758546ef1df59d330c78&amp;hash=4538839e76c3c485eb651626f2c825dd66a6195b3060bbed9553996335a29682&amp;host=68042c943591013ac2b2430a89b270f6af2c76d8dfd086a07176afe7c76c2c61&amp;pii=S0950705122002726&amp;tid=spdf-baf2cd37-88cd-4f95-a9ab-f50f1a42eb98&amp;sid=fc89350759b08043e82bbad-52465f639e79gxrqa&amp;type=client&amp;tsoh=d3d3LnNjaWVuY2VkaXJlY3QuY29t&amp;ua=0f11585559020c5807&amp;rr=869db8c7e9f3a7c3&amp;cc=kr">TimeCLR</a></li>
-    </ul>
-  </li>
-  <li><strong>Prototype contrast</strong>
-    <ul>
-      <li>minimize the distance btw samples and prototype(=virtual sequences, centor, …)
-but maximize the distance btw prototype(=virtual sequences, centor, …)</li>
-    </ul>
-  </li>
-  <li><strong>Expert knowledge contrast</strong>
-    <ul>
-      <li>incorporates expert prior knowledge or information into deep neural networks to guide model training</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="5-adversarial-based-methods">5. Adversarial-based Methods</h2>
-<ul>
-  <li>pre-text tasks를 GAN으로 푼다. (generator \(\mathcal{G}\) and a discriminator \(\mathcal{D}\))</li>
-  <li>Learning objective : \(\mathcal{L}=\mathbb{E}_{x \sim \mathcal{P}_{\text {data }}(x)}[\log \mathcal{D}(x)]+\mathbb{E}_{z \sim \mathcal{P}_{\mathbf{z}}(z)}[\log (1-\mathcal{D}(\mathcal{G}(\mathbf{z})))]\)
-<img src="/assets/img/timeseries/SSL4TS/fig4.png" alt="사진4" /></li>
-  <li><strong>Time series generation and imputation</strong>
-    <ul>
-      <li>Complete time series generation : <a href="https://papers.nips.cc/paper_files/paper/2019/file/c9efe5f26cd17ba6216bbe2a7d26d490-Paper.pdf">TimeGAN</a> (autoregressive GAN), <a href="https://arxiv.org/pdf/2202.02691.pdf">TTS-GAN</a> (Transformer treating TS as image)</li>
-      <li>time series imputation : pass</li>
-    </ul>
-  </li>
-  <li><strong>Auxiliary representation enhancement</strong>
-    <ul>
-      <li>pass</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="6-applications-and-datasets">6. Applications and Datasets</h2>
-<p><img src="/assets/img/timeseries/SSL4TS/table2.png" alt="사진6" /></p>
-
-<h2 id="7-discussion-and-future-directions">7. Discussion and Future Directions</h2>
-<h3 id="71-selection-and-combination-of-data-augmentation">7.1. <strong>Selection and combination of data augmentation</strong></h3>
-<ul>
-  <li>augmentation methods :  jitter, scaling, rotation, permutation, and warping, …</li>
-  <li>permutation + rotation + time warping &gt; single method
-    <h3 id="72-inductive-bias-for-time-series-ssl">7.2. <strong>Inductive bias for time series SSL</strong></h3>
-  </li>
-  <li>특히 데이터가 충분하지 않을 수록 합리적인 inductive bias는 필요할 수 있음
-    <h3 id="73-ssl-for-irregular-and-sparse-time-series">7.3. <strong>SSL for irregular and sparse time series</strong>=</h3>
-  </li>
-  <li>Irregular and sparse time series를 interpolation해서 쓰려고 하다보면 undesirable noise가 낄 수도 있으니 그대로 SSL로 활용</li>
-</ul>
-
-<h2 id="8-conclusion">8. Conclusion</h2>
-<p>Pass</p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Arxiv 2023](https://arxiv.org/pdf/2306.10125.pdf)]]></summary></entry></feed>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2024](https://arxiv.org/pdf/2310.01728.pdf)]]></summary></entry></feed>

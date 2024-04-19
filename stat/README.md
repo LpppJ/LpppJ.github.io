@@ -26,7 +26,9 @@ permalink: /stat/
 \
 [Inequalities for Expectation and Variance]{:.heading.flip-title}\
 \
-[Inequalities for Probabilities]{:.heading.flip-title}
+[Inequalities for Probabilities]{:.heading.flip-title}\
+\
+[Median of Means Estimator (MoM)]{:.heading.flip-title}
 
 [Advanced Variational Inference(VI), Variational Autoencoder(VAE)]: /stat/2024-03-02-vi
 [MCMC with Implementation (1) : Metropolis Hastings algorithm]: /stat/2024-03-04-mcmc
@@ -37,3 +39,4 @@ permalink: /stat/
 [Semi-Supervised Mean Estimation (Variance Reduction Technique)]: /stat/2024-04-16-SSmean
 [Inequalities for Expectation and Variance]: /stat/2024-04-16-ineq1
 [Inequalities for Probabilities]: /stat/2024-04-18-ineq2
+[Median of Means Estimator (MoM)]: /stat/2024-04-19-MoM
