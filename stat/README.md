@@ -20,7 +20,7 @@ permalink: /stat/
 \
 [Total variation distance and Convergence in distribution]{:.heading.flip-title}\
 \
-[The Law of Total Probability / Total Expectation / Total Variance / Total Covariance (Gumbel-Max trick, ...)]{:.heading.flip-title} \
+[The Law of Total Probability / Total Expectation / Total Variance (Gumbel-Max trick, ...)]{:.heading.flip-title} \
 \
 [Semi-Supervised Mean Estimation (Variance Reduction Technique)]{:.heading.flip-title}\
 \
@@ -35,7 +35,7 @@ permalink: /stat/
 [MCMC with Implementation (2) : Gibbs Sampling]: /stat/2024-03-06-gibbs
 [MGF(Moment Generating Function) and Characteristic Function에 대해서]: /stat/2024-04-12-MGF
 [Total variation distance and Convergence in distribution]: /stat/2024-04-14-dTV
-[The Law of Total Probability / Total Expectation / Total Variance / Total Covariance (Gumbel-Max trick, ...)]: /stat/2024-04-14-lawtotal
+[The Law of Total Probability / Total Expectation / Total Variance (Gumbel-Max trick, ...)]: /stat/2024-04-14-lawtotal
 [Semi-Supervised Mean Estimation (Variance Reduction Technique)]: /stat/2024-04-16-SSmean
 [Inequalities for Expectation and Variance]: /stat/2024-04-16-ineq1
 [Inequalities for Probabilities]: /stat/2024-04-18-ineq2
