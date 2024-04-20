@@ -1,23 +1,129 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-04-19T21:21:42+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">Median of Means Estimator (MoM)</title><link href="http://localhost:4000/stat/2024-04-19-MoM/" rel="alternate" type="text/html" title="Median of Means Estimator (MoM)" /><published>2024-04-19T00:00:00+09:00</published><updated>2024-04-19T21:21:42+09:00</updated><id>http://localhost:4000/stat/MoM</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-19-MoM/"><![CDATA[<ul>
-  <li>우리는 sample을 n개 뽑아서 만든 estimator가 true parameter의 근처에서 자주 등장하기를 원한다.</li>
-  <li>Estimator와 true parameter의 거리는 \(\left\vert \hat \mu - \mu \right\vert\)이다. (mean에 대한 estimator인 경우)</li>
-  <li>\(\left\vert \hat \mu - \mu \right\vert \ge t\)는 estimator의 error가 우리의 기준 t보다 높은 경우로 볼 수 있으므로,
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-04-20T14:16:23+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">Convergence of Random Variables</title><link href="http://localhost:4000/stat/2024-04-19-converge/" rel="alternate" type="text/html" title="Convergence of Random Variables" /><published>2024-04-19T00:00:00+09:00</published><updated>2024-04-20T14:16:20+09:00</updated><id>http://localhost:4000/stat/converge</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-19-converge/"><![CDATA[<h2 id="1-almost-sure-convergence">1. Almost sure Convergence</h2>
+
+<ul>
+  <li>Definition : \(P\left(\displaystyle\lim _{n \rightarrow \infty} X_n=X\right)=1\)</li>
+  <li>pass</li>
+</ul>
+
+<h2 id="2-convergence-in-probability">2. Convergence in Probability</h2>
+
+<ul>
+  <li>Definition : \(\displaystyle\lim _{n \rightarrow \infty} P\left(\left\vert X_n-X\right\vert \geq \epsilon\right)=0\)</li>
+  <li>Notation : \(X_n \xrightarrow{p} X\)</li>
+  <li>Convergence in Probability가 Almost sure Convergence를 의미하지는 않는다.</li>
+</ul>
+
+<h3 id="21-weak-law-of-large-numbers-wlln">2.1. Weak Law of Large Numbers (WLLN)</h3>
+
+<ul>
+  <li>Let \(X, X_1, X_2, \ldots\) be a sequence of independent, identically distributed (i.i.d.) random variables with \(\operatorname{Var}[X]=\sigma^2&lt;\infty\). Then
+\(\bar{X}_n:=\frac{1}{n} \sum_{i=1}^n X_i \xrightarrow{p} \mathbb{E}[X]\)</li>
+</ul>
+
+<h3 id="proof">Proof</h3>
+
+<ul>
+  <li>
+    <p>By Chebyshev’s inequality, \(P\left(\left\vert \bar{X}_n-\mathbb{E}[X]\right\vert  \geq \epsilon\right) \leq \frac{\sigma^2}{n \epsilon^2}\)</p>
+  </li>
+  <li>
+    <p>This in turn implies that, \(\lim _{n \rightarrow \infty} P\left(\left\vert \bar{X}_n-\mathbb{E}[X]\right\vert  \geq \epsilon\right)=0,\)</p>
+  </li>
+  <li>사실 finite variance \(\operatorname{Var}[X]=\sigma^2&lt;\infty\)​ 가정 없이도 증명할 수 있다. (only finite <strong>first</strong> moment)</li>
+  <li>(skip the proof)</li>
+</ul>
+
+<h3 id="22-strong-law-of-large-numbers">2.2. Strong Law of Large Numbers</h3>
+
+<ul>
+  <li>Let \(X_1, X_2, \ldots\) be pairwise independent identically distributed random variables with \(\mathbb{E}\left[\left\vert X_i\right\vert \right]&lt;\infty\). Let \(\mathbb{E}\left[X_i\right]=\mu\). Then
+\(\frac{1}{n} \sum_{i=1}^n X_i \xrightarrow{a . s .} \mu \quad \text { as } n \rightarrow \infty .\)</li>
+</ul>
+
+<h3 id="consistency">Consistency</h3>
+
+<ul>
+  <li>Estimator가 convergence in Probability이면 Consistent하다.</li>
+  <li>Estimator의 분산이 0으로 수렴하면 Consistent하다.</li>
+</ul>
+
+<h2 id="3-convergence-in-quadratic-mean">3. Convergence in Quadratic mean</h2>
+
+<ul>
+  <li>Definition : \(\mathbb{E}\left[\left(X_n-X\right)^2\right] \rightarrow 0\)</li>
+  <li>Notation : \(X_n \xrightarrow{q m} X\)</li>
+  <li>\(b&gt;a\)일 때, \(\mathbb{E}\left[\left(X_n-X\right)^b\right] \rightarrow 0\)이면 \(\mathbb{E}\left[\left(X_n-X\right)^a\right] \rightarrow 0\) 이다.</li>
+</ul>
+
+<h2 id="4-convergence-in-distribution">4. Convergence in Distribution</h2>
+
+<ul>
+  <li>Definitnion : \(\lim _{n \rightarrow \infty} F_{X_n}(t)=F_X(t), \text { for all points } t \text { where the } \mathrm{CDF} F_X \text { is continuous. }\)</li>
+  <li>Notation : \(X_n \xrightarrow{d} X\)</li>
+  <li>Target CDF \(F_X\)​​가 continuous한 points에서만 ! 같으면 된다.
     <ul>
-      <li>\(P(\left\vert \hat \mu - \mu \right\vert \ge t) \le \delta\)일 때, 주어진 \(t\)에 대해 \(\delta\)가 얼마나 작은지가 중요하다.</li>
+      <li>만약 limiting distribution이 모든 \(x\)에서 continuous라면, 모든 \(x\)​에서 Convergence in Distribution이다. (Polya’s theorem)</li>
+    </ul>
+  </li>
+  <li>Convergence in Distribution은 Convergence in Proability를 imply하지 않는다.
+    <ul>
+      <li>Ex. \(X, X_1, \ldots, X_n \stackrel{\text { i.i.d. }}{\sim} N(0,1) \text {이면} X_n \xrightarrow{d} X\)이다.</li>
+      <li>However, since \(X_n-X \sim N(0,2)\)</li>
+      <li>\(P\left(\left\vert X_n-X\right\vert&gt;\epsilon\right)=2 P(X \leq-\epsilon / \sqrt{2})\)​는 0으로 수렴하지 않는다.</li>
+      <li>만약 \(X_n\)이 constant이면 Convergence in Distribution이 Convergence in Probability를 imply한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="41-polyas-theorem">4.1. <strong>Polya’s theorem</strong></h3>
+
+<ul>
+  <li>
+    <p>Suppose that \(X_n \xrightarrow{d} X\) for a random variable \(X\) with a continuous distribution function. Then \(\sup _{x \in \mathbb{R}}\left\vert P\left(X_n \leq x\right)-P(X \leq x)\right\vert  \rightarrow 0\)</p>
+  </li>
+  <li>
+    <p><strong>Proof</strong></p>
+    <ul>
+      <li>By the continuity, \(-\infty=x_0&lt;x_1&lt;\cdots&lt;x_k=\infty \text { with } F\left(x_i\right)=i / k\)가 존재하고</li>
+      <li>\(x_{i-1} \leq x \leq x_i\)에 대해 \(F_n(x_{i-1}) \leq F_n(x) \leq F_n(x_i)\)이고 \(F(x_{i-1}) \leq F(x) \leq F(x_i)\)이므로</li>
+      <li>\(\begin{aligned}
+F_n(x)-F(x) &amp; \leq F_n\left(x_i\right)-F\left(x_{i-1}\right)=F_n\left(x_i\right)-F\left(x_i\right)+1 / k \\
+&amp; \geq F_n\left(x_{i-1}\right)-F\left(x_i\right)=F_n\left(x_{i-1}\right)-F\left(x_{i-1}\right)-1 / k
+\end{aligned}\)​이고,</li>
+      <li>\(\left\vert F_n(x)-F(x)\right\vert \text { 의 upper bound가 } \sup _i\left\vert F_n\left(x_i\right)-F\left(x_i\right)\right\vert +1 / k\)이다.</li>
+      <li>\(k\)는 arbitrary fixed number이므로 \(n \to \infty\)일 때 upper bound가 0이 된다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="42-lévys-continuity-theorem">4.2. Lévy’s continuity theorem</h3>
+
+<ul>
+  <li>Let \(X_n\) and \(X\) be random vectors in \(\mathbb{R}^d\). Then \(X_n \xrightarrow{d} X\) if and only if \(\lim _{n \rightarrow \infty} \mathbb{E}\left[e^{i t^{\top} X_n}\right]=\mathbb{E}\left[e^{i t^{\top} X}\right]\) for every \(t \in \mathbb{R}^d\)​​</li>
+  <li>\(X_n\)이 \(X\)로 Convergence in Distribution하는 것은 characteristic functions의 수렴과 같다.</li>
+  <li>Cramér–Wold device : highier-dim problem을 one-dim problem으로 생각할 수 있다.</li>
+</ul>
+
+<p><img src="/assets/img/stat/convergence/fig1.jpeg" alt="그림1" /></p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[1. Almost sure Convergence]]></summary></entry><entry><title type="html">Median of Means Estimator (MoM)</title><link href="http://localhost:4000/stat/2024-04-19-MoM/" rel="alternate" type="text/html" title="Median of Means Estimator (MoM)" /><published>2024-04-19T00:00:00+09:00</published><updated>2024-04-19T21:21:50+09:00</updated><id>http://localhost:4000/stat/MoM</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-19-MoM/"><![CDATA[<ul>
+  <li>우리는 sample을 n개 뽑아서 만든 estimator가 true parameter의 근처에서 자주 등장하기를 원한다.</li>
+  <li>Estimator와 true parameter의 거리는 \(\left\vert \hat \mu - \mu \right\vert\)이다.</li>
+  <li>\(\left\vert \hat \mu - \mu \right\vert \ge t\)는 estimator의 error가 우리의 정한 기준(\(t\)라고 하자) 보다 높은 경우로 볼 수 있으므로,
+    <ul>
+      <li>\(P(\left\vert \hat \mu - \mu \right\vert \ge t) \le \delta\)는, 주어진 \(t\)에 대해 \(\delta\)가 얼마나 작은지가 중요하다.</li>
       <li>또는 \(t\)가 커짐에 따라 \(\delta\)가 얼마나 빠르게 줄어드는지</li>
     </ul>
   </li>
   <li>Ex. Chebyshev’s inequality \(P\left\{\left\vert \frac{1}{n} \sum_{i=1}^n X_i-\mu \right\vert \geq \sigma \sqrt{\frac{1}{n \delta}}\right\} \leq \delta\)는 polynomial upper bound를 제공한다.</li>
   <li>하지만 <a href="https://lpppj.github.io/stat/2024-04-18-ineq2">Inequalities for Probabilities</a>에서 exponential upper bound를 제공하는 다양한 부등식을 소개하였다.</li>
-  <li><u>Exponential upper bound를 제공하는 또 다른 부등식 Median of Means Estimator (MoM)</u>을 소개한다.</li>
+  <li>이를 활용하여 mean에 대한 <u>exponential upper bound를 제공하는 부등식 Median of Means Estimator (MoM)</u>을 소개한다.</li>
 </ul>
 
 <h2 id="median-of-means-estimator-mom">Median of Means Estimator (MoM)</h2>
 
 <ul>
   <li>목표는 \(X_1, \ldots, X_n \stackrel{\text { i.i.d. }}{\sim} F\) 으로  \(\mathbb{E}[X]=\mu\)를 estimate하는 것이다.</li>
-  <li>\(n\)개의 sample을 \(K\)개의 그룹으로 나누고, (각 그룹에는 \(B\)개의 samples) 각 그룹의 평균 \(\widehat{\mu}_1, \ldots, \widehat{\mu}_K\)를 만든다.</li>
+  <li>\(n\)개의 sample을 \(K\)개의 그룹으로 나누고, (각 그룹에는 \(B\)개의 samples) 각 그룹의 평균 \(\widehat{\mu}_1, \ldots, \widehat{\mu}_K\)를 구한다.</li>
   <li>MoM은 \(\widehat{\mu}_{\mathrm{MoM}}=\operatorname{median}\left(\widehat{\mu}_1, \ldots, \widehat{\mu}_K\right)\)으로 정의한다.</li>
   <li>MoM은 \(\operatorname{Var}\left[X_1\right]:=\sigma^2&lt;\infty\)라는 단순한 가정만으로 exponential upper bound \(P\left(\left\vert \widehat{\mu}_{\mathrm{MoM}}-\mu\right\vert \geq t\right) \leq e^{-2 K\left(\frac{1}{2}-\frac{K}{n} \frac{\sigma^2}{t^2}\right)^2}=e^{-2 \frac{n}{B}\left(\frac{1}{2}-\frac{\sigma^2}{B t^2}\right)^2}\)를 제공한다.</li>
   <li>Upper bound를 단순하게 표현하려면 \(t=\sqrt{4 \sigma^2 / B}\left(&gt;\sqrt{2 \sigma^2 / B}\right)\)로 잡으면 \(P\left(\left\vert \widehat{\mu}_{\mathrm{MoM}}-\mu\right\vert \geq 2 \sigma \sqrt{K / n}\right) \leq e^{-K / 8}\)가 된다.</li>
@@ -41,10 +147,10 @@
   <li>따라서 \(\begin{aligned} P\left(\frac{1}{K} \sum_{i=1}^K Z_i \geq \frac{1}{2}\right)&amp;=P\left(\frac{1}{K} \sum_{i=1}^K\left(Z_i-\mathbb{E}\left[Z_1\right]\right) \geq \frac{1}{2}-\mathbb{E}\left[Z_1\right]\right) \\ &amp;\le P\left( \sum_{i=1}^K\left(Z_i-\mathbb{E}\left[Z_1\right]\right) \ge K(\frac{1}{2}-\frac{\sigma^2}{Bt^2})\right)\end{aligned}\)는
     <ul>
       <li>Hoeffding’s inequality \(P\left\{\displaystyle\sum_{i=1}^n\left(X_i-\mathbb{E}\left[X_i\right]\right) \geq t\right\} \leq e^{-2 t^2 / \sum_{i=1}^n\left(b_i-a_i\right)^2}\)을 이용하여</li>
-      <li>\(P\left(\frac{1}{K} \sum_{i=1}^K Z_i \geq \frac{1}{2}\right) \le e^{-2 K^2\left(\frac{1}{2}-\frac{K}{n} \frac{\sigma^2}{t^2}\right)^2/\sum_{i=1}^{K}(1-0)^2}= e^{-2 K\left(\frac{1}{2}-\frac{K}{n} \frac{\sigma^2}{t^2}\right)^2}\)이다.</li>
+      <li>\(P\left(\frac{1}{K} \sum_{i=1}^K Z_i \geq \frac{1}{2}\right) \le e^{-2 K^2\left(\frac{1}{2}-\frac{K}{n} \frac{\sigma^2}{t^2}\right)^2/\sum_{i=1}^{K}(1-0)^2}= e^{-2 K\left(\frac{1}{2}-\frac{K}{n} \frac{\sigma^2}{t^2}\right)^2}\)가 된다.</li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[우리는 sample을 n개 뽑아서 만든 estimator가 true parameter의 근처에서 자주 등장하기를 원한다. Estimator와 true parameter의 거리는 \(\left\vert \hat \mu - \mu \right\vert\)이다. (mean에 대한 estimator인 경우) \(\left\vert \hat \mu - \mu \right\vert \ge t\)는 estimator의 error가 우리의 기준 t보다 높은 경우로 볼 수 있으므로, \(P(\left\vert \hat \mu - \mu \right\vert \ge t) \le \delta\)일 때, 주어진 \(t\)에 대해 \(\delta\)가 얼마나 작은지가 중요하다. 또는 \(t\)가 커짐에 따라 \(\delta\)가 얼마나 빠르게 줄어드는지 Ex. Chebyshev’s inequality \(P\left\{\left\vert \frac{1}{n} \sum_{i=1}^n X_i-\mu \right\vert \geq \sigma \sqrt{\frac{1}{n \delta}}\right\} \leq \delta\)는 polynomial upper bound를 제공한다. 하지만 Inequalities for Probabilities에서 exponential upper bound를 제공하는 다양한 부등식을 소개하였다. Exponential upper bound를 제공하는 또 다른 부등식 Median of Means Estimator (MoM)을 소개한다.]]></summary></entry><entry><title type="html">Inequalities for Probabilities</title><link href="http://localhost:4000/stat/2024-04-18-ineq2/" rel="alternate" type="text/html" title="Inequalities for Probabilities" /><published>2024-04-18T00:00:00+09:00</published><updated>2024-04-18T18:46:41+09:00</updated><id>http://localhost:4000/stat/ineq2</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-18-ineq2/"><![CDATA[<h2 id="3-inequalities-for-probabilities">3. Inequalities for Probabilities</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[우리는 sample을 n개 뽑아서 만든 estimator가 true parameter의 근처에서 자주 등장하기를 원한다. Estimator와 true parameter의 거리는 \(\left\vert \hat \mu - \mu \right\vert\)이다. \(\left\vert \hat \mu - \mu \right\vert \ge t\)는 estimator의 error가 우리의 정한 기준(\(t\)라고 하자) 보다 높은 경우로 볼 수 있으므로, \(P(\left\vert \hat \mu - \mu \right\vert \ge t) \le \delta\)는, 주어진 \(t\)에 대해 \(\delta\)가 얼마나 작은지가 중요하다. 또는 \(t\)가 커짐에 따라 \(\delta\)가 얼마나 빠르게 줄어드는지 Ex. Chebyshev’s inequality \(P\left\{\left\vert \frac{1}{n} \sum_{i=1}^n X_i-\mu \right\vert \geq \sigma \sqrt{\frac{1}{n \delta}}\right\} \leq \delta\)는 polynomial upper bound를 제공한다. 하지만 Inequalities for Probabilities에서 exponential upper bound를 제공하는 다양한 부등식을 소개하였다. 이를 활용하여 mean에 대한 exponential upper bound를 제공하는 부등식 Median of Means Estimator (MoM)을 소개한다.]]></summary></entry><entry><title type="html">Inequalities for Probabilities</title><link href="http://localhost:4000/stat/2024-04-18-ineq2/" rel="alternate" type="text/html" title="Inequalities for Probabilities" /><published>2024-04-18T00:00:00+09:00</published><updated>2024-04-18T18:46:41+09:00</updated><id>http://localhost:4000/stat/ineq2</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-18-ineq2/"><![CDATA[<h2 id="3-inequalities-for-probabilities">3. Inequalities for Probabilities</h2>
 
 <h2 id="31-markovs-inequality">3.1. Markov’s inequality</h2>
 
@@ -587,67 +693,7 @@ V_i^2 &amp; =\left(\mathbb{E}\left[f(X) \mid X_1, \ldots, X_i\right]-\mathbb{E}\
 <ul>
   <li>\(\sup _{x_1, \ldots, x_n, x_i^{\prime} \in \mathcal{X}}{\left\vert g\left(x_1, \ldots, x_n\right)-g\left(x_1, \ldots, x_{i-1}, x_i^{\prime}, x_{i+1}, \ldots, x_n\right) \right\vert} \leq c_i,\)이면</li>
   <li>the Efron-Stein inequality shows \(\operatorname{Var}\left[g\left(X_1, \ldots, X_n\right)\right] \leq \frac{1}{2} \sum_{i=1}^n c_i^2, \quad \text { for } 1 \leq i \leq n\)</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[1. Inequalities for Expectation]]></summary></entry><entry><title type="html">Total variation distance and Convergence in distribution</title><link href="http://localhost:4000/stat/2024-04-14-dTV/" rel="alternate" type="text/html" title="Total variation distance and Convergence in distribution" /><published>2024-04-14T00:00:00+09:00</published><updated>2024-04-14T14:37:24+09:00</updated><id>http://localhost:4000/stat/dTV</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-14-dTV/"><![CDATA[<ul>
-  <li>통계학에서 Convergence in distribution은 중요한 성질이다. 우리는 Sample size n이 커질수록 확률변수 또는 estimator가 어떤 분포에 가까워지는지 궁금하기 때문이다.</li>
-  <li>그러므로 Convergence in distribution을 imply하는 성질도 중요하다. Convergence in distribution을 보일 수 있는 방법들 중 하나가 되기 때문이다.</li>
-  <li>Total variation distance는 두 분포 사이의 distance metric 중 하나이다. Total variation distance가 작으면 두 분포가 가깝다는 의미이다.</li>
-  <li>본 게시글에서는 Total variation distance에 대해서 알아보고 <strong>Total variation distance가 0으로 수렴</strong>하면 한 분포가 다른 분포로 근사한다, 즉 Convergence in distribution한다는 것을 보인다.</li>
-</ul>
-
-<h2 id="total-variation-distanced_tv">Total variation distance(\(d_{TV}\))</h2>
-
-<ul>
-  <li><a href="https://en.wikipedia.org/wiki/Total_variation_distance_of_probability_measures">Wikipedia</a>에 따르면 Total variation distance의 정의는 아래와 같다.
-    <ul>
-      <li>Consider a measurable space \((\Omega, \mathcal{F})\) and probability measures \(P\) and \(Q\) defined on \((\Omega, \mathcal{F})\). The total variation distance between \(P\) and \(Q\) is defined as: \(\delta(P, Q)=\sup _{A \in \mathcal{F}}\mid P(A)-Q(A)\mid\)​</li>
-    </ul>
-  </li>
-  <li>\(d_{TV}\)​는 half of the L1 distance btw/ the probability functions이다.
-    <ul>
-      <li><img src="/assets/img/stat/dTV/fig1.png" alt="그림1" /></li>
-      <li>Geometric 의미는 두 분포의 차이에 해당하는 회색 영역의 넓이를 2로 나눈 값이다.</li>
-      <li>discrete : \(\delta(P, Q)=\frac{1}{2} \sum_x\mid P(x)-Q(x)\mid\)</li>
-      <li>continuous : \(\delta(P, Q)=\frac{1}{2} \int\mid p(x)-q(x)\mid  \mathrm{d} x\)​</li>
-      <li>\(\frac{1}{2}\)를 곱해주는 이유는 \(0 \le d_{TV} \le 1\)으로 만들어주기 위함인데, 아래 사진처럼 \(d_{TV}\)가 매우 큰 경우에 두 분포의 차이의 넓이가 2에 가까워지기 때문에 \(\frac{1}{2}\)를 곱한다.</li>
-      <li><img src="/assets/img/stat/dTV/fig2.png" alt="그림2" /></li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="convergence-in-total-variation-distance">Convergence in Total variation distance</h2>
-
-<ul>
-  <li>Convergence in Total variation distance는 Convergence in distribution보다 강력한 성질이다.</li>
-  <li>
-    <p><strong>즉 두 분포의 Total variation distance가 0으로 수렴하면, 두 분포는 Convergence in distribution이다.</strong></p>
-
-    <p>: \(\begin{aligned}\text{When }\delta(P, Q)&amp;=\sup _{A \in \mathcal{F}}\mid P(A)-Q(A)\mid  \\ \lim _{n \rightarrow \infty} \delta\left(P_n, Q\right)&amp;=0 \\ \lim _{n \rightarrow \infty}\mid P_n(A)-Q(A)\mid &amp;=0 \quad \forall A \in \mathcal{F} \\ \lim _{n \rightarrow \infty}\mid F_n(x)-F(x)\mid &amp;=0 \end{aligned}\)</p>
-  </li>
-  <li>
-    <p>하지만 역은 성립하지 않는다. Convergence in distribution이라고 해서 Total variation distance가 0으로 수렴하는 것은 아니다.</p>
-
-    <ul>
-      <li>Counterexample : \(f_n \sim \frac{2}{\pi} \cos ^2(n x) \mathbf{1}_{[0, \pi]}(x) d x\)</li>
-    </ul>
-
-    <p>: \(\begin{aligned}F_n(x)&amp;=\int_0^x f_n(t)dt \\ &amp;=\int_0^x\frac{2}{\pi} \cos ^2(nt) \mathbf{1}_{[0, \pi]}(x)dt \\ &amp; = \frac{2}{\pi}\mathbf{1}_{[0, \pi]}(x) \int_0^x \cos ^2(nt)dt \\ &amp;= \frac{2}{\pi}\mathbf{1}_{[0, \pi]}(x) \frac{sin(2nx)+2nx}{4n} \\  \lim_{n \to \infty} F_n(x) &amp;=\frac{2}{\pi}\mathbf{1}_{[0, \pi]}(x) \frac{x}{2} \\ &amp;=\frac{x}{\pi},\quad 0 \le x \le \pi \end{aligned}\)</p>
-
-    <ul>
-      <li>즉 \(\lim_{n \to \infty} F_n = F_{\infty}\)는 \(Unif(0, \pi)\)의 CDF가 되므로 Convergence in distribution이다.</li>
-      <li>하지만 \(\lim_{n \to \infty}d_{TV}(F_n, F_{\infty}) \nrightarrow 0\)이다.</li>
-    </ul>
-
-    <p>: \(\begin{aligned} d_{TV}\left(F_n, F_{\infty}\right) &amp; =\frac{1}{2} \int_0^\pi\mid f_n(x)-f_{\infty}(x)\mid  d x \\ &amp; =\frac{1}{2} \int_0^\pi\mid \frac{2}{\pi} \cos ^2(n x)-\frac{1}{\pi}\mid  d x \\ &amp; =\frac{1}{\pi} \int_0^\pi\mid \cos ^2(n x)-\frac{1}{2}\mid  d x \\ &amp; &gt;0 \quad \text{strictly positive} \end{aligned}\)</p>
-
-    <ul>
-      <li><img src="/assets/img/stat/dTV/fig3.png" alt="그림3" /></li>
-      <li>\(cos^2(nx)\)는 0과 1사이에서의 주기 함수이고, \(n\)이 커져도 주기가 짧아질 뿐이다.</li>
-      <li>그러므로 \(\mid \cos ^2(n x)-\frac{1}{2}\mid\)는 n과 관계없이 strictly positive이다. 즉 Total variation distance가 0으로 수렴하지 않는다.</li>
-      <li>만약 \(f_n, f_{\infty}\)​가 continuous random variable의 density이고 unimodal한 경우에는 Convergence in distribution과 Total variation distance이 0으로 수렴하는 것은 if and only if(필요충분)이다. (skip the proof)</li>
-      <li><a href="https://hal.science/hal-00821911/document">Reference : Ivan Nourdin, Guillaume Poly, Convergence in law implies convergence in total variation for polynomials in independent Gaussian, Gamma or Beta random variables</a></li>
-    </ul>
-  </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[통계학에서 Convergence in distribution은 중요한 성질이다. 우리는 Sample size n이 커질수록 확률변수 또는 estimator가 어떤 분포에 가까워지는지 궁금하기 때문이다. 그러므로 Convergence in distribution을 imply하는 성질도 중요하다. Convergence in distribution을 보일 수 있는 방법들 중 하나가 되기 때문이다. Total variation distance는 두 분포 사이의 distance metric 중 하나이다. Total variation distance가 작으면 두 분포가 가깝다는 의미이다. 본 게시글에서는 Total variation distance에 대해서 알아보고 Total variation distance가 0으로 수렴하면 한 분포가 다른 분포로 근사한다, 즉 Convergence in distribution한다는 것을 보인다.]]></summary></entry><entry><title type="html">The Law of Total Probability / Total Expectation / Total Variance (Gumbel-Max trick, …)</title><link href="http://localhost:4000/stat/2024-04-14-lawtotal/" rel="alternate" type="text/html" title="The Law of Total Probability / Total Expectation / Total Variance (Gumbel-Max trick, …)" /><published>2024-04-14T00:00:00+09:00</published><updated>2024-04-15T09:39:45+09:00</updated><id>http://localhost:4000/stat/lawtotal</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-14-lawtotal/"><![CDATA[<ul>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[1. Inequalities for Expectation]]></summary></entry><entry><title type="html">The Law of Total Probability / Total Expectation / Total Variance (Gumbel-Max trick, …)</title><link href="http://localhost:4000/stat/2024-04-14-lawtotal/" rel="alternate" type="text/html" title="The Law of Total Probability / Total Expectation / Total Variance (Gumbel-Max trick, …)" /><published>2024-04-14T00:00:00+09:00</published><updated>2024-04-15T09:39:45+09:00</updated><id>http://localhost:4000/stat/lawtotal</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-14-lawtotal/"><![CDATA[<ul>
   <li>The Law of Total Probability
 \(P(A)=\sum P\left(A \mid B_n\right) P\left(B_n\right)\)</li>
   <li>The Law of Total Expectation
@@ -770,7 +816,266 @@ V_i^2 &amp; =\left(\mathbb{E}\left[f(X) \mid X_1, \ldots, X_i\right]-\mathbb{E}\
   <li>
     <p>\(\begin{aligned}\operatorname{Cov}\left(X_i, X_j\right) &amp;\leq \sqrt{\operatorname{Var}\left(X_i\right) \operatorname{Var}\left(X_j\right)} \leq \operatorname{Var}\left(X_i\right) / 2+\operatorname{Var}\left(X_j\right) / 2 \\ &amp;\text{by }x y \leq x^2 / 2+y^2 / 2 \end{aligned}\).</p>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[The Law of Total Probability \(P(A)=\sum P\left(A \mid B_n\right) P\left(B_n\right)\) The Law of Total Expectation \(\mathrm{E}(X)=\mathrm{E}(\mathrm{E}(X \mid Y))\) The Law of Total Variance \(\operatorname{Var}(Y)=\mathrm{E}[\operatorname{Var}(Y \mid X)]+\operatorname{Var}(\mathrm{E}[Y \mid X])\) The Law of Total Covariance \(\operatorname{cov}(X, Y)=\mathrm{E}(\operatorname{cov}(X, Y \mid Z))+\operatorname{cov}(\mathrm{E}(X \mid Z), \mathrm{E}(Y \mid Z))\)]]></summary></entry><entry><title type="html">MGF(Moment Generating Function) and Characteristic Function에 대해서</title><link href="http://localhost:4000/stat/2024-04-12-MGF/" rel="alternate" type="text/html" title="MGF(Moment Generating Function) and Characteristic Function에 대해서" /><published>2024-04-12T00:00:00+09:00</published><updated>2024-04-18T18:46:41+09:00</updated><id>http://localhost:4000/stat/MGF</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-12-MGF/"><![CDATA[<h2 id="moments">Moments</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[The Law of Total Probability \(P(A)=\sum P\left(A \mid B_n\right) P\left(B_n\right)\) The Law of Total Expectation \(\mathrm{E}(X)=\mathrm{E}(\mathrm{E}(X \mid Y))\) The Law of Total Variance \(\operatorname{Var}(Y)=\mathrm{E}[\operatorname{Var}(Y \mid X)]+\operatorname{Var}(\mathrm{E}[Y \mid X])\) The Law of Total Covariance \(\operatorname{cov}(X, Y)=\mathrm{E}(\operatorname{cov}(X, Y \mid Z))+\operatorname{cov}(\mathrm{E}(X \mid Z), \mathrm{E}(Y \mid Z))\)]]></summary></entry><entry><title type="html">Total variation distance and Convergence in distribution</title><link href="http://localhost:4000/stat/2024-04-14-dTV/" rel="alternate" type="text/html" title="Total variation distance and Convergence in distribution" /><published>2024-04-14T00:00:00+09:00</published><updated>2024-04-14T14:37:24+09:00</updated><id>http://localhost:4000/stat/dTV</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-14-dTV/"><![CDATA[<ul>
+  <li>통계학에서 Convergence in distribution은 중요한 성질이다. 우리는 Sample size n이 커질수록 확률변수 또는 estimator가 어떤 분포에 가까워지는지 궁금하기 때문이다.</li>
+  <li>그러므로 Convergence in distribution을 imply하는 성질도 중요하다. Convergence in distribution을 보일 수 있는 방법들 중 하나가 되기 때문이다.</li>
+  <li>Total variation distance는 두 분포 사이의 distance metric 중 하나이다. Total variation distance가 작으면 두 분포가 가깝다는 의미이다.</li>
+  <li>본 게시글에서는 Total variation distance에 대해서 알아보고 <strong>Total variation distance가 0으로 수렴</strong>하면 한 분포가 다른 분포로 근사한다, 즉 Convergence in distribution한다는 것을 보인다.</li>
+</ul>
+
+<h2 id="total-variation-distanced_tv">Total variation distance(\(d_{TV}\))</h2>
+
+<ul>
+  <li><a href="https://en.wikipedia.org/wiki/Total_variation_distance_of_probability_measures">Wikipedia</a>에 따르면 Total variation distance의 정의는 아래와 같다.
+    <ul>
+      <li>Consider a measurable space \((\Omega, \mathcal{F})\) and probability measures \(P\) and \(Q\) defined on \((\Omega, \mathcal{F})\). The total variation distance between \(P\) and \(Q\) is defined as: \(\delta(P, Q)=\sup _{A \in \mathcal{F}}\mid P(A)-Q(A)\mid\)​</li>
+    </ul>
+  </li>
+  <li>\(d_{TV}\)​는 half of the L1 distance btw/ the probability functions이다.
+    <ul>
+      <li><img src="/assets/img/stat/dTV/fig1.png" alt="그림1" /></li>
+      <li>Geometric 의미는 두 분포의 차이에 해당하는 회색 영역의 넓이를 2로 나눈 값이다.</li>
+      <li>discrete : \(\delta(P, Q)=\frac{1}{2} \sum_x\mid P(x)-Q(x)\mid\)</li>
+      <li>continuous : \(\delta(P, Q)=\frac{1}{2} \int\mid p(x)-q(x)\mid  \mathrm{d} x\)​</li>
+      <li>\(\frac{1}{2}\)를 곱해주는 이유는 \(0 \le d_{TV} \le 1\)으로 만들어주기 위함인데, 아래 사진처럼 \(d_{TV}\)가 매우 큰 경우에 두 분포의 차이의 넓이가 2에 가까워지기 때문에 \(\frac{1}{2}\)를 곱한다.</li>
+      <li><img src="/assets/img/stat/dTV/fig2.png" alt="그림2" /></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="convergence-in-total-variation-distance">Convergence in Total variation distance</h2>
+
+<ul>
+  <li>Convergence in Total variation distance는 Convergence in distribution보다 강력한 성질이다.</li>
+  <li>
+    <p><strong>즉 두 분포의 Total variation distance가 0으로 수렴하면, 두 분포는 Convergence in distribution이다.</strong></p>
+
+    <p>: \(\begin{aligned}\text{When }\delta(P, Q)&amp;=\sup _{A \in \mathcal{F}}\mid P(A)-Q(A)\mid  \\ \lim _{n \rightarrow \infty} \delta\left(P_n, Q\right)&amp;=0 \\ \lim _{n \rightarrow \infty}\mid P_n(A)-Q(A)\mid &amp;=0 \quad \forall A \in \mathcal{F} \\ \lim _{n \rightarrow \infty}\mid F_n(x)-F(x)\mid &amp;=0 \end{aligned}\)</p>
+  </li>
+  <li>
+    <p>하지만 역은 성립하지 않는다. Convergence in distribution이라고 해서 Total variation distance가 0으로 수렴하는 것은 아니다.</p>
+
+    <ul>
+      <li>Counterexample : \(f_n \sim \frac{2}{\pi} \cos ^2(n x) \mathbf{1}_{[0, \pi]}(x) d x\)</li>
+    </ul>
+
+    <p>: \(\begin{aligned}F_n(x)&amp;=\int_0^x f_n(t)dt \\ &amp;=\int_0^x\frac{2}{\pi} \cos ^2(nt) \mathbf{1}_{[0, \pi]}(x)dt \\ &amp; = \frac{2}{\pi}\mathbf{1}_{[0, \pi]}(x) \int_0^x \cos ^2(nt)dt \\ &amp;= \frac{2}{\pi}\mathbf{1}_{[0, \pi]}(x) \frac{sin(2nx)+2nx}{4n} \\  \lim_{n \to \infty} F_n(x) &amp;=\frac{2}{\pi}\mathbf{1}_{[0, \pi]}(x) \frac{x}{2} \\ &amp;=\frac{x}{\pi},\quad 0 \le x \le \pi \end{aligned}\)</p>
+
+    <ul>
+      <li>즉 \(\lim_{n \to \infty} F_n = F_{\infty}\)는 \(Unif(0, \pi)\)의 CDF가 되므로 Convergence in distribution이다.</li>
+      <li>하지만 \(\lim_{n \to \infty}d_{TV}(F_n, F_{\infty}) \nrightarrow 0\)이다.</li>
+    </ul>
+
+    <p>: \(\begin{aligned} d_{TV}\left(F_n, F_{\infty}\right) &amp; =\frac{1}{2} \int_0^\pi\mid f_n(x)-f_{\infty}(x)\mid  d x \\ &amp; =\frac{1}{2} \int_0^\pi\mid \frac{2}{\pi} \cos ^2(n x)-\frac{1}{\pi}\mid  d x \\ &amp; =\frac{1}{\pi} \int_0^\pi\mid \cos ^2(n x)-\frac{1}{2}\mid  d x \\ &amp; &gt;0 \quad \text{strictly positive} \end{aligned}\)</p>
+
+    <ul>
+      <li><img src="/assets/img/stat/dTV/fig3.png" alt="그림3" /></li>
+      <li>\(cos^2(nx)\)는 0과 1사이에서의 주기 함수이고, \(n\)이 커져도 주기가 짧아질 뿐이다.</li>
+      <li>그러므로 \(\mid \cos ^2(n x)-\frac{1}{2}\mid\)는 n과 관계없이 strictly positive이다. 즉 Total variation distance가 0으로 수렴하지 않는다.</li>
+      <li>만약 \(f_n, f_{\infty}\)​가 continuous random variable의 density이고 unimodal한 경우에는 Convergence in distribution과 Total variation distance이 0으로 수렴하는 것은 if and only if(필요충분)이다. (skip the proof)</li>
+      <li><a href="https://hal.science/hal-00821911/document">Reference : Ivan Nourdin, Guillaume Poly, Convergence in law implies convergence in total variation for polynomials in independent Gaussian, Gamma or Beta random variables</a></li>
+    </ul>
+  </li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[통계학에서 Convergence in distribution은 중요한 성질이다. 우리는 Sample size n이 커질수록 확률변수 또는 estimator가 어떤 분포에 가까워지는지 궁금하기 때문이다. 그러므로 Convergence in distribution을 imply하는 성질도 중요하다. Convergence in distribution을 보일 수 있는 방법들 중 하나가 되기 때문이다. Total variation distance는 두 분포 사이의 distance metric 중 하나이다. Total variation distance가 작으면 두 분포가 가깝다는 의미이다. 본 게시글에서는 Total variation distance에 대해서 알아보고 Total variation distance가 0으로 수렴하면 한 분포가 다른 분포로 근사한다, 즉 Convergence in distribution한다는 것을 보인다.]]></summary></entry><entry><title type="html">(Dish-TS) A General Paradigm for Alleviating Distribution Shift in Time Series Forecasting (AAAI 2023)</title><link href="http://localhost:4000/timeseries/2024-04-12-Dish-TS/" rel="alternate" type="text/html" title="(Dish-TS) A General Paradigm for Alleviating Distribution Shift in Time Series Forecasting (AAAI 2023)" /><published>2024-04-12T00:00:00+09:00</published><updated>2024-04-12T19:26:03+09:00</updated><id>http://localhost:4000/timeseries/Dish-TS</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-04-12-Dish-TS/"><![CDATA[<h2 id="abstract">Abstract</h2>
+
+<ul>
+  <li>Distribution shift in TS : series distribution changes over time</li>
+  <li>기존 연구들은 the quantification of distribution 정도</li>
+  <li>Distribution shift in TS는 2개 카테고리
+    <ul>
+      <li><strong>intra-space shift</strong> : the distribution within the input-space keeps shifted over time</li>
+      <li><strong>inter-space shift</strong> : that the distribution is shifted btw/ input-space and output-space</li>
+    </ul>
+  </li>
+  <li>Dish-TS : neural paradigm for alleviating distribution shift in TSF
+    <ul>
+      <li>CONET : can be any NN, input sequences into learnable distribution coefficients</li>
+      <li>Dual-CONET : separately learn the distribution of input- and output-space</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="1-introduction">1. Introduction</h2>
+
+<p><img src="/assets/img/timeseries/Dish-TS/fig1.png" alt="사진1" /></p>
+
+<ul>
+  <li>TS의 non-stationarity(distribution shift over time)는 예측 성능을 방해</li>
+  <li><strong>intra-space shift</strong> :  TS distribution changes over time</li>
+  <li><strong>inter-space shift</strong> :  Distribution shift btw/ input-space (lookbacks) and output-space (horizons)</li>
+  <li>대표적인 alleviate distribution shift solution : RevIN.
+    <ul>
+      <li>Quantifying true distribution with fixed statistics (e.g., mean and std.)
+        <ul>
+          <li>But, unreliable (limited in expressiveness for representing the true distribution)</li>
+          <li>Different sampling frequencies provide different statistics</li>
+        </ul>
+      </li>
+      <li>Strong assumption : the lookbacks and horizons share the same statistical properties</li>
+      <li>But,  always a variation in distribution btw/ input-space and output-space</li>
+    </ul>
+  </li>
+  <li>Dish-TS는 RevIN으로부터 영감을 받은 만큼 전체적인 구조는 유사하다
+    <ul>
+      <li>two-stage process : normalizing \(\to\) forecasting \(\to\) denormalizing</li>
+      <li>CONET : window \(\to\) two learnable coefficients:
+        <ul>
+          <li>a level coefficient and a scaling coefficient</li>
+          <li>to illustrate series overall scale and fluctuation</li>
+        </ul>
+      </li>
+      <li>Dual-CONET
+        <ul>
+          <li>BACKCONET : coefficients to estimate the distribution of input-space (lookbacks)</li>
+          <li>HORICONET : coefficients to infer the distribution of output-space (horizons)</li>
+        </ul>
+      </li>
+      <li>Prior-knowledge : HORICONET 학습할 때 prior 줘서 output-space를 잘 infer(predict) 하도록</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="2-related-work">2. Related Work</h2>
+
+<ul>
+  <li>Models for Time Series Forecasting
+    <ul>
+      <li>ARMA, BEATS, Transformer, Informer, Autoformer, …</li>
+    </ul>
+  </li>
+  <li>Distribution Shift in Time Series Forecasting
+    <ul>
+      <li>Adaptive Norm :  puts z-score normalization on series by the computed global statistics</li>
+      <li>DAIN (Passalis et al. 2019) :  applies nonlinear NN to adaptively normalize the series</li>
+      <li>RevIN (Kim et al. 2022) : instance normalization to reduce series shift</li>
+    </ul>
+  </li>
+  <li>대부분의 연구가 static statistics 사용해서 normalizing한다. (inter-space shift 고려 안함)</li>
+</ul>
+
+<h2 id="3-problem-formulations">3. Problem Formulations</h2>
+
+<ul>
+  <li>
+    <p>Time Series Forecasting</p>
+
+    <ul>
+      <li>Formula : \(\left(x_{t: t+H}^{(1)}, \cdots, x_{t: t+H}^{(N)}\right)^T=\mathscr{F}_{\Theta}\left(\left(x_{t-L: t}^{(1)}, \cdots, x_{t-L: t}^{(N)}\right)^T\right)\)​</li>
+      <li>\(\mathscr{F}_{\Theta}: \mathbb{R}^{L \times N} \rightarrow \mathbb{R}^{H \times N}\),   \(\Theta\) :  forecasting model parameters</li>
+    </ul>
+  </li>
+  <li>
+    <p>Distribution Shift in Time Series</p>
+
+    <ul>
+      <li>intra-space shift : \(\mid d\left(\mathcal{X}_{\text {input }}^{(i)}(u), \mathcal{X}_{\text {input }}^{(i)}(v)\right)\mid &gt;\delta\)​</li>
+      <li>
+        <p>inter-space shift : \(\mid d\left(\mathcal{X}_{\text {input }}^{(i)}(u), \mathcal{X}_{\text {output }}^{(i)}(u)\right)\mid &gt;\delta\)</p>
+      </li>
+      <li>\(\mathcal{X}_{\text {input }}^{(i)}(u)\)는 \(t=u\) 시점으로부터 과거 방향으로 \(L\) 길이의 lookback window</li>
+      <li>\(\mathcal{X}_{\text {output }}^{(i)}(u)\)는 \(t=u\) 시점으로부터 미래 방향으로 \(H\) 길이의 horizon window</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="4-dish-ts">4. Dish-TS</h2>
+
+<h3 id="41-overview">4.1. Overview</h3>
+
+<p><img src="/assets/img/timeseries/Dish-TS/fig2.png" alt="사진2" /></p>
+
+<ul>
+  <li>CONET :  input series \(\to\)​​ coefficients (for distribution measurement)</li>
+  <li>RevIN처럼 two-stage process
+    <ul>
+      <li>BACKCONET : transformed the lookbacks (before forecasting model)</li>
+      <li>HORICONET : transformed the forecasting results
+        <ul>
+          <li>HORICONET can be trained in a prior knowledgeinduced fashion (4.4에서 설명)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="42-dual-conet-framework">4.2. Dual-Conet Framework</h3>
+
+<ul>
+  <li>기존 연구들은 mean, std로 distribution을 measure \(\to\)​ unreliable (Different frequencies different statistics)</li>
+  <li>기본 CONET구조
+    <ul>
+      <li>\(\varphi, \xi=\operatorname{CONET}(x)\) : any NN (can non-linear mapping)
+        <ul>
+          <li>\(\varphi \in \mathbb{R}^1\) : level coefficient (overall scale of input series)</li>
+          <li>\(\xi \in \mathbb{R}^1\) : scaling coefficient (fluctuation scale)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Mutivariate forecasting을 위한 Dual-CONET
+    <ul>
+      <li>\(\begin{aligned}
+&amp; \varphi_{b, t}^{(i)}, \xi_{b, t}^{(i)}=\operatorname{BACKCONET}\left(x_{t-L: t}^{(i)}\right), i=1, \cdots, N \\
+&amp; \varphi_{h, t}^{(i)}, \xi_{h, t}^{(i)}=\operatorname{HORICONET}\left(x_{t-L: t}^{(i)}\right), i=1, \cdots, N
+\end{aligned}\)​
+        <ul>
+          <li>\(\varphi_{b, t}^{(i)}, \xi_{b, t}^{(i)} \in \mathbb{R}^1\) : level, scaling coefficients for lookbacks</li>
+          <li>\(\varphi_{h, t}^{(i)}, \xi_{h, t}^{(i)} \in \mathbb{R}^1\) : level, scaling coefficients for horizons</li>
+        </ul>
+      </li>
+      <li>BACKCONET과 HORICONET 둘다 input이 “t 시점에서 L 길이의 historical series”이다 !</li>
+    </ul>
+  </li>
+  <li>Integrating Dual-Conet into Forecasting
+    <ul>
+      <li>Final transformed forecasting results : \(\hat{x}_{t: t+H}^{(i)}=\xi_{h, t}^{(i)} \mathscr{F}_{\Theta}\left(\frac{1}{\xi_{b, t}^{(i)}}\left(x_{t-L: t}^{(i)}-\varphi_{b, t}^{(i)}\right)\right)+\varphi_{h, t}^{(i)}\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="43-a-simple-and-intuitive-instance-of-conet">4.3. A Simple and Intuitive Instance of Conet</h3>
+
+<ul>
+  <li>실제 CONET에서의 연산은 다음과 같다.</li>
+  <li>lookback level coefficient : \(\varphi_{b, t}^{(i)}=\sigma\left(\sum_{\tau=1}^{\operatorname{dim}\left(\mathbf{v}_{b, i}^{\ell}\right)} \mathbf{v}_{b, i \tau}^{\ell} x_{\tau-L+t}^{(i)}\right),\)</li>
+  <li>horizons level coefficient : \(\varphi_{h, t}^{(i)}=\sigma\left(\sum_{\tau=1}^{\operatorname{dim}\left(\mathbf{v}_{h, i}^{\ell}\right)} \mathbf{v}_{h, i \tau}^{\ell} x_{\tau-L+t}^{(i)}\right)\)​</li>
+  <li>lookback scaling coefficient : \(\xi_{b, t}^{(i)}=\sqrt{\mathbb{E}\left(x_t^{(i)}-\varphi_{b, t}^{(i)}\right)^2}\)</li>
+  <li>horizons scaling coefficient : \(\xi_{h, t}^{(i)}=\sqrt{\mathbb{E}\left(x_t^{(i)}-\varphi_{h, t}^{(i)}\right)^2}\)</li>
+</ul>
+
+<h3 id="44-prior-knowledge-induced-training-strategy">4.4. Prior Knowledge-Induced Training Strategy</h3>
+
+<ul>
+  <li>HORICONET은 미래의 정보인 \(\mathcal{X}_{\text {output }}^{(i)}\)의 분포를 infer(predict)해야 하기 때문에 intractable하다.</li>
+  <li>그러므로 prior(mean of horizons)을 soft-target으로 줘서 학습의 난이도를 낮춘다.</li>
+  <li>final loss는 \(\sum_{k=1}^K \sum_{i=1}^N[\left(\hat{x}_{t_k: t_k+H}^{(i)}-x_{t_k: t_k+H}^{(i)}\right)^2+\underbrace{\left.\alpha\left(\frac{1}{H} \sum_{t=t_k+1}^{t_k+H} x_t^{(i)}-\varphi_{h, t_k}^{(i)}\right)^2\right]}_{\text {Prior Knowledge Guidance }}\)이다.
+    <ul>
+      <li>MSE term에 prior knowledge를 \(\alpha\)의 weight로 준다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="5-experiment">5. Experiment</h2>
+
+<p><img src="/assets/img/timeseries/Dish-TS/table1.png" alt="사진3" /></p>
+
+<p><img src="/assets/img/timeseries/Dish-TS/table2.png" alt="사진4" /></p>
+
+<p><img src="/assets/img/timeseries/Dish-TS/table3.png" alt="사진5" /></p>
+
+<p>Dish-TS를 적용하면 Informer, Autoformer, N-BEATS의 성능이 향상되고, 그 정도는 RevIN보다 크다.</p>
+
+<h2 id="6-conclusion">6. Conclusion</h2>
+
+<ul>
+  <li>Systematically summarize the distribution shift in time series forecasting</li>
+  <li>as intra-space shift and interspace shift.</li>
+  <li>Dish-TS better alleviates the two shift
+    <ul>
+      <li>prior knowledge-induced training strategy, for effectiveness</li>
+    </ul>
+  </li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[AAAI 2023](https://arxiv.org/pdf/2302.14829.pdf)]]></summary></entry><entry><title type="html">MGF(Moment Generating Function) and Characteristic Function에 대해서</title><link href="http://localhost:4000/stat/2024-04-12-MGF/" rel="alternate" type="text/html" title="MGF(Moment Generating Function) and Characteristic Function에 대해서" /><published>2024-04-12T00:00:00+09:00</published><updated>2024-04-18T18:46:41+09:00</updated><id>http://localhost:4000/stat/MGF</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-12-MGF/"><![CDATA[<h2 id="moments">Moments</h2>
 
 <ul>
   <li>Definition
@@ -1000,206 +1305,7 @@ f_{X+Z}(t) &amp; =\int_{-\infty}^{\infty} f_Z(w) f_X(t-w) d w \\
 &amp; =\frac{1}{\sqrt{2 \pi} \sigma} \mathbb{E}_Z\left[e^{-i t Z \sigma^{-2}} \int_{-\infty}^{\infty} e^{i w Z \sigma^{-2}} f_X(w) d w\right] \\ &amp;\text { by the change of variables }(t+w \rightarrow w) \\ &amp; =\frac{1}{\sqrt{2 \pi} \sigma} \mathbb{E}_Z\left[e^{-i t Z \sigma^{-2}} \phi_X\left(Z \sigma^{-2}\right)\right] = \frac{1}{\sqrt{2 \pi} \sigma} \mathbb{E}_Z\left[e^{-i t Z \sigma^{-2}} \phi_Y\left(Z \sigma^{-2}\right)\right] \\ &amp;( \because \phi_X = \phi_Y ) \\ &amp;=f_{Y+Z}(t)
 \end{aligned}\)​</li>
   <li>By Slutsky’s theorem, \(X\)와 \(Y\)는 같은 분포를 따른다.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[Moments]]></summary></entry><entry><title type="html">(Dish-TS) A General Paradigm for Alleviating Distribution Shift in Time Series Forecasting (AAAI 2023)</title><link href="http://localhost:4000/timeseries/2024-04-12-Dish-TS/" rel="alternate" type="text/html" title="(Dish-TS) A General Paradigm for Alleviating Distribution Shift in Time Series Forecasting (AAAI 2023)" /><published>2024-04-12T00:00:00+09:00</published><updated>2024-04-12T19:26:03+09:00</updated><id>http://localhost:4000/timeseries/Dish-TS</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-04-12-Dish-TS/"><![CDATA[<h2 id="abstract">Abstract</h2>
-
-<ul>
-  <li>Distribution shift in TS : series distribution changes over time</li>
-  <li>기존 연구들은 the quantification of distribution 정도</li>
-  <li>Distribution shift in TS는 2개 카테고리
-    <ul>
-      <li><strong>intra-space shift</strong> : the distribution within the input-space keeps shifted over time</li>
-      <li><strong>inter-space shift</strong> : that the distribution is shifted btw/ input-space and output-space</li>
-    </ul>
-  </li>
-  <li>Dish-TS : neural paradigm for alleviating distribution shift in TSF
-    <ul>
-      <li>CONET : can be any NN, input sequences into learnable distribution coefficients</li>
-      <li>Dual-CONET : separately learn the distribution of input- and output-space</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="1-introduction">1. Introduction</h2>
-
-<p><img src="/assets/img/timeseries/Dish-TS/fig1.png" alt="사진1" /></p>
-
-<ul>
-  <li>TS의 non-stationarity(distribution shift over time)는 예측 성능을 방해</li>
-  <li><strong>intra-space shift</strong> :  TS distribution changes over time</li>
-  <li><strong>inter-space shift</strong> :  Distribution shift btw/ input-space (lookbacks) and output-space (horizons)</li>
-  <li>대표적인 alleviate distribution shift solution : RevIN.
-    <ul>
-      <li>Quantifying true distribution with fixed statistics (e.g., mean and std.)
-        <ul>
-          <li>But, unreliable (limited in expressiveness for representing the true distribution)</li>
-          <li>Different sampling frequencies provide different statistics</li>
-        </ul>
-      </li>
-      <li>Strong assumption : the lookbacks and horizons share the same statistical properties</li>
-      <li>But,  always a variation in distribution btw/ input-space and output-space</li>
-    </ul>
-  </li>
-  <li>Dish-TS는 RevIN으로부터 영감을 받은 만큼 전체적인 구조는 유사하다
-    <ul>
-      <li>two-stage process : normalizing \(\to\) forecasting \(\to\) denormalizing</li>
-      <li>CONET : window \(\to\) two learnable coefficients:
-        <ul>
-          <li>a level coefficient and a scaling coefficient</li>
-          <li>to illustrate series overall scale and fluctuation</li>
-        </ul>
-      </li>
-      <li>Dual-CONET
-        <ul>
-          <li>BACKCONET : coefficients to estimate the distribution of input-space (lookbacks)</li>
-          <li>HORICONET : coefficients to infer the distribution of output-space (horizons)</li>
-        </ul>
-      </li>
-      <li>Prior-knowledge : HORICONET 학습할 때 prior 줘서 output-space를 잘 infer(predict) 하도록</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="2-related-work">2. Related Work</h2>
-
-<ul>
-  <li>Models for Time Series Forecasting
-    <ul>
-      <li>ARMA, BEATS, Transformer, Informer, Autoformer, …</li>
-    </ul>
-  </li>
-  <li>Distribution Shift in Time Series Forecasting
-    <ul>
-      <li>Adaptive Norm :  puts z-score normalization on series by the computed global statistics</li>
-      <li>DAIN (Passalis et al. 2019) :  applies nonlinear NN to adaptively normalize the series</li>
-      <li>RevIN (Kim et al. 2022) : instance normalization to reduce series shift</li>
-    </ul>
-  </li>
-  <li>대부분의 연구가 static statistics 사용해서 normalizing한다. (inter-space shift 고려 안함)</li>
-</ul>
-
-<h2 id="3-problem-formulations">3. Problem Formulations</h2>
-
-<ul>
-  <li>
-    <p>Time Series Forecasting</p>
-
-    <ul>
-      <li>Formula : \(\left(x_{t: t+H}^{(1)}, \cdots, x_{t: t+H}^{(N)}\right)^T=\mathscr{F}_{\Theta}\left(\left(x_{t-L: t}^{(1)}, \cdots, x_{t-L: t}^{(N)}\right)^T\right)\)​</li>
-      <li>\(\mathscr{F}_{\Theta}: \mathbb{R}^{L \times N} \rightarrow \mathbb{R}^{H \times N}\),   \(\Theta\) :  forecasting model parameters</li>
-    </ul>
-  </li>
-  <li>
-    <p>Distribution Shift in Time Series</p>
-
-    <ul>
-      <li>intra-space shift : \(\mid d\left(\mathcal{X}_{\text {input }}^{(i)}(u), \mathcal{X}_{\text {input }}^{(i)}(v)\right)\mid &gt;\delta\)​</li>
-      <li>
-        <p>inter-space shift : \(\mid d\left(\mathcal{X}_{\text {input }}^{(i)}(u), \mathcal{X}_{\text {output }}^{(i)}(u)\right)\mid &gt;\delta\)</p>
-      </li>
-      <li>\(\mathcal{X}_{\text {input }}^{(i)}(u)\)는 \(t=u\) 시점으로부터 과거 방향으로 \(L\) 길이의 lookback window</li>
-      <li>\(\mathcal{X}_{\text {output }}^{(i)}(u)\)는 \(t=u\) 시점으로부터 미래 방향으로 \(H\) 길이의 horizon window</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="4-dish-ts">4. Dish-TS</h2>
-
-<h3 id="41-overview">4.1. Overview</h3>
-
-<p><img src="/assets/img/timeseries/Dish-TS/fig2.png" alt="사진2" /></p>
-
-<ul>
-  <li>CONET :  input series \(\to\)​​ coefficients (for distribution measurement)</li>
-  <li>RevIN처럼 two-stage process
-    <ul>
-      <li>BACKCONET : transformed the lookbacks (before forecasting model)</li>
-      <li>HORICONET : transformed the forecasting results
-        <ul>
-          <li>HORICONET can be trained in a prior knowledgeinduced fashion (4.4에서 설명)</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="42-dual-conet-framework">4.2. Dual-Conet Framework</h3>
-
-<ul>
-  <li>기존 연구들은 mean, std로 distribution을 measure \(\to\)​ unreliable (Different frequencies different statistics)</li>
-  <li>기본 CONET구조
-    <ul>
-      <li>\(\varphi, \xi=\operatorname{CONET}(x)\) : any NN (can non-linear mapping)
-        <ul>
-          <li>\(\varphi \in \mathbb{R}^1\) : level coefficient (overall scale of input series)</li>
-          <li>\(\xi \in \mathbb{R}^1\) : scaling coefficient (fluctuation scale)</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>Mutivariate forecasting을 위한 Dual-CONET
-    <ul>
-      <li>\(\begin{aligned}
-&amp; \varphi_{b, t}^{(i)}, \xi_{b, t}^{(i)}=\operatorname{BACKCONET}\left(x_{t-L: t}^{(i)}\right), i=1, \cdots, N \\
-&amp; \varphi_{h, t}^{(i)}, \xi_{h, t}^{(i)}=\operatorname{HORICONET}\left(x_{t-L: t}^{(i)}\right), i=1, \cdots, N
-\end{aligned}\)​
-        <ul>
-          <li>\(\varphi_{b, t}^{(i)}, \xi_{b, t}^{(i)} \in \mathbb{R}^1\) : level, scaling coefficients for lookbacks</li>
-          <li>\(\varphi_{h, t}^{(i)}, \xi_{h, t}^{(i)} \in \mathbb{R}^1\) : level, scaling coefficients for horizons</li>
-        </ul>
-      </li>
-      <li>BACKCONET과 HORICONET 둘다 input이 “t 시점에서 L 길이의 historical series”이다 !</li>
-    </ul>
-  </li>
-  <li>Integrating Dual-Conet into Forecasting
-    <ul>
-      <li>Final transformed forecasting results : \(\hat{x}_{t: t+H}^{(i)}=\xi_{h, t}^{(i)} \mathscr{F}_{\Theta}\left(\frac{1}{\xi_{b, t}^{(i)}}\left(x_{t-L: t}^{(i)}-\varphi_{b, t}^{(i)}\right)\right)+\varphi_{h, t}^{(i)}\)</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="43-a-simple-and-intuitive-instance-of-conet">4.3. A Simple and Intuitive Instance of Conet</h3>
-
-<ul>
-  <li>실제 CONET에서의 연산은 다음과 같다.</li>
-  <li>lookback level coefficient : \(\varphi_{b, t}^{(i)}=\sigma\left(\sum_{\tau=1}^{\operatorname{dim}\left(\mathbf{v}_{b, i}^{\ell}\right)} \mathbf{v}_{b, i \tau}^{\ell} x_{\tau-L+t}^{(i)}\right),\)</li>
-  <li>horizons level coefficient : \(\varphi_{h, t}^{(i)}=\sigma\left(\sum_{\tau=1}^{\operatorname{dim}\left(\mathbf{v}_{h, i}^{\ell}\right)} \mathbf{v}_{h, i \tau}^{\ell} x_{\tau-L+t}^{(i)}\right)\)​</li>
-  <li>lookback scaling coefficient : \(\xi_{b, t}^{(i)}=\sqrt{\mathbb{E}\left(x_t^{(i)}-\varphi_{b, t}^{(i)}\right)^2}\)</li>
-  <li>horizons scaling coefficient : \(\xi_{h, t}^{(i)}=\sqrt{\mathbb{E}\left(x_t^{(i)}-\varphi_{h, t}^{(i)}\right)^2}\)</li>
-</ul>
-
-<h3 id="44-prior-knowledge-induced-training-strategy">4.4. Prior Knowledge-Induced Training Strategy</h3>
-
-<ul>
-  <li>HORICONET은 미래의 정보인 \(\mathcal{X}_{\text {output }}^{(i)}\)의 분포를 infer(predict)해야 하기 때문에 intractable하다.</li>
-  <li>그러므로 prior(mean of horizons)을 soft-target으로 줘서 학습의 난이도를 낮춘다.</li>
-  <li>final loss는 \(\sum_{k=1}^K \sum_{i=1}^N[\left(\hat{x}_{t_k: t_k+H}^{(i)}-x_{t_k: t_k+H}^{(i)}\right)^2+\underbrace{\left.\alpha\left(\frac{1}{H} \sum_{t=t_k+1}^{t_k+H} x_t^{(i)}-\varphi_{h, t_k}^{(i)}\right)^2\right]}_{\text {Prior Knowledge Guidance }}\)이다.
-    <ul>
-      <li>MSE term에 prior knowledge를 \(\alpha\)의 weight로 준다.</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="5-experiment">5. Experiment</h2>
-
-<p><img src="/assets/img/timeseries/Dish-TS/table1.png" alt="사진3" /></p>
-
-<p><img src="/assets/img/timeseries/Dish-TS/table2.png" alt="사진4" /></p>
-
-<p><img src="/assets/img/timeseries/Dish-TS/table3.png" alt="사진5" /></p>
-
-<p>Dish-TS를 적용하면 Informer, Autoformer, N-BEATS의 성능이 향상되고, 그 정도는 RevIN보다 크다.</p>
-
-<h2 id="6-conclusion">6. Conclusion</h2>
-
-<ul>
-  <li>Systematically summarize the distribution shift in time series forecasting</li>
-  <li>as intra-space shift and interspace shift.</li>
-  <li>Dish-TS better alleviates the two shift
-    <ul>
-      <li>prior knowledge-induced training strategy, for effectiveness</li>
-    </ul>
-  </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[AAAI 2023](https://arxiv.org/pdf/2302.14829.pdf)]]></summary></entry><entry><title type="html">Revisiting Long-term Time Series Forecasting: An Investigation on Linear Mapping</title><link href="http://localhost:4000/timeseries/2024-04-04-RTSF/" rel="alternate" type="text/html" title="Revisiting Long-term Time Series Forecasting: An Investigation on Linear Mapping" /><published>2024-04-04T00:00:00+09:00</published><updated>2024-04-05T09:40:54+09:00</updated><id>http://localhost:4000/timeseries/RTSF</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-04-04-RTSF/"><![CDATA[<ul>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[Moments]]></summary></entry><entry><title type="html">Revisiting Long-term Time Series Forecasting: An Investigation on Linear Mapping</title><link href="http://localhost:4000/timeseries/2024-04-04-RTSF/" rel="alternate" type="text/html" title="Revisiting Long-term Time Series Forecasting: An Investigation on Linear Mapping" /><published>2024-04-04T00:00:00+09:00</published><updated>2024-04-05T09:40:54+09:00</updated><id>http://localhost:4000/timeseries/RTSF</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-04-04-RTSF/"><![CDATA[<ul>
   <li>이전에 review했던 <a href="https://arxiv.org/abs/2205.13504">DLinear</a> paper에서는 ‘Time series의 properties가 무엇인지’, 그리고 ‘왜 Transformer-based model이 완벽할 수 없는지’에 집중했다면, 본 논문은 ‘왜 linear mapping이 단순한데도 성능이 좋은지’에 집중한다.</li>
 </ul>
 
@@ -1387,163 +1493,4 @@ f_{X+Z}(t) &amp; =\int_{-\infty}^{\infty} f_Z(w) f_X(t-w) d w \\
   <li>Linear mapping와 foreacsting methods가 학습하는 것은 비슷하다. (input historical observations에서 periodic patterns)</li>
   <li>RevIN과 Channel Independent는 periodicity를 단순하게 만들어 학습을 용이하게 하므로 성능 향상에 필요하다.</li>
   <li>Linear mapping은 MTS에 대해서도 input horizon만 충분하다면 예측 성능이 뛰어나다.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Arxiv 2023](https://arxiv.org/pdf/2305.10721.pdf)]]></summary></entry><entry><title type="html">(Time-LLM) Time Series Forecasting by Reprogramming Large Language Models</title><link href="http://localhost:4000/timeseries/2024-04-01-TimeLLM/" rel="alternate" type="text/html" title="(Time-LLM) Time Series Forecasting by Reprogramming Large Language Models" /><published>2024-04-01T00:00:00+09:00</published><updated>2024-04-05T09:40:54+09:00</updated><id>http://localhost:4000/timeseries/TimeLLM</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-04-01-TimeLLM/"><![CDATA[<h2 id="abstract">Abstract</h2>
-
-<ul>
-  <li>CV, NLP는 single large model (또는 pre-trained foundation model)이 거의 모든 tasks에서 성능이 좋음</li>
-  <li>반면 TS는 <strong>dat sparsity</strong> 때문에 tasks마다 모델 디자인이 다름</li>
-  <li>본 논문에서는 TS와 NLP의 modality gap을 align하기 위해 Time-LLM을 제안</li>
-  <li><strong>Prompt-as-Prefix</strong>(PaP, reprogramming the input TS) \(\to\) frozen LLM \(\to\) forecasting</li>
-</ul>
-
-<h2 id="1-introduction">1. Introduction</h2>
-<ul>
-  <li>LLM을 forecasting model로 발전시키기 위해 필요한 것들
-    <ul>
-      <li><strong>Generalizability</strong> : Capability for few-shot and zero-shot transfer learning, w/o pre-task retraining</li>
-      <li><strong>Data efficiency</strong> : Performance new tasks with only a few examples(limited data)</li>
-      <li><strong>Reasoning</strong> : Sophisticated reasoning \(\to\) learned higher-level concepts \(\to\) highly precise forecasting</li>
-      <li><strong>Multimodal knowledge</strong> :  Diverse knowledge across modalities \(\to\) synergistic forecasting that fuses different data types</li>
-      <li><strong>Easy optimization</strong> : Once on massive computing \(\to\) can be applied to forecasting tasks (without learning from scratch)</li>
-    </ul>
-  </li>
-  <li><strong>Align the modalities of TS &amp; NLP</strong> : Why challenging ?
-    <ul>
-      <li>첫째로 NLP는 discrete tokens, TS는 본질적으로 continuous</li>
-      <li>둘째로 TS reasoning 지식이 LLM pre-training 안에 없다.</li>
-    </ul>
-  </li>
-  <li>So, <strong>Time-LLM</strong>
-    <ul>
-      <li>Core idea : TS input을 LLM이 활용하기 쉬운 <strong>text prototype</strong>으로 reprogramming하는 framework (backbone model은 그대로)</li>
-      <li><strong>Prompt-as-Prefix (PaP)</strong> : 1) enrich the input TS with additional context and 2) providing task instructions in the modality of NLP</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="2-related-work">2. Related Work</h2>
-<p><img src="/assets/img/timeseries/TimeLLM/fig1.jpeg" alt="사진1" /></p>
-<ul>
-  <li>TS models는 task-specific \(\to\) ex. ARIMA는 UTS를, LSTM은 seq를, TCN과 Transformer는 longer temporal dependencies를 위해 디자인 \(\to\) versatility and generalizability 부족</li>
-  <li>In-modality Adaptation : Pre-training (representation learning) \(\to\)​ fine-tuning (for downstream tasks) ! But <strong>TS data sparsity.</strong>..</li>
-  <li>Cross-modality Adaptation (multimodal fine tuning) : Voice2Series(2021)은 TS를 acoustic model에 맞게 editing했고 LLM4TS는 first supervised pre-training on time series, then task-specific fine-tuning</li>
-  <li>Time-LLM은 1) input TS를 수정하지도 않고, 2) backbone LLM을 fine tuning하지도 않는다. LLM이 잠재력을 발휘할 수 있도록 TS를 reprogramming</li>
-</ul>
-
-<h2 id="3-methodology">3. Methodology</h2>
-<ul>
-  <li>Goal : <strong>Reprogram an embedding-visible language foundation model for general time series forecasting</strong> without requiring any fine-tuning of the backbone model.</li>
-  <li>\(f(\ \mathbf{X} \in \mathbb{R}^{N \times T}\ )= \hat{\mathbf{Y}} \in \mathbb{R}^{N \times H}\), \(f\)는 input TS를 이해하고 예측.
-Loss : \(\frac{1}{H} \sum_{h=1}^H\left\|\hat{\mathbf{Y}}_h-\mathbf{Y}_h\right\|_F^2\)​
-<img src="/assets/img/timeseries/TimeLLM/fig2.jpeg" alt="사진2" /></li>
-  <li>3-main components
-    <ul>
-      <li>(1) input transformation</li>
-      <li>(2) a pre-trained and frozen LLM</li>
-      <li>(3) output projection</li>
-    </ul>
-  </li>
-  <li>Step 1) Channel independence : MTS \(\to\)​ N개의 UTS <br />
-Step 2) Normalization, Patching, Embedding prior <br />
-Step 3) Augment the LLM’s Ts reasoning ability <br />
-Step 4) Project to the final forecast \(\hat{\mathbf{Y}}^{i}\)</li>
-  <li>Efficiency
-    <ul>
-      <li>only the parameters of the <strong>lightweight input transformation and output projection</strong> are updated. (backbone LLM is frozen)</li>
-      <li>directly optimizing \(\to\) <strong>small set of TS and a few training epochs</strong></li>
-      <li>for reduce memory footprint, <strong>off-the-shelf techniques (e.g., quantization)</strong></li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="31-model-structure">3.1. Model Structure</h3>
-<ul>
-  <li><strong>Input Embedding</strong>
-    <ul>
-      <li>step 1) RevIN \(\mathbf X^{(i)}\)</li>
-      <li>step 2) Patching with length \(L_p\)
-        <ul>
-          <li>Total number of input patches : \(P=\left\lfloor\frac{\left(T-L_p\right)}{S}\right\rfloor+2\)</li>
-          <li>Underlying motivations :
-            <ul>
-              <li>Better preserving local semantic information by aggregating local information into each patch</li>
-              <li>Serving as tokenization to form a compact sequence of input tokens, reducing computational burdens.</li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li>step 3) Embedding w/ simple linear layer
-        <ul>
-          <li>\(\mathbf{X}_P^{(i)} \in \mathbb{R}^{P \times L_p} \to \mathbf{\hat X}_P^{(i)} \in \mathbb{R}^{P \times d_m}\)​</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li><strong>Patch Reprogramming</strong>
-<img src="/assets/img/timeseries/TimeLLM/fig3.png" alt="사진3" />
-    <ul>
-      <li>Goal : to align the modalities of TS and natural language (TS 직접적인 수정 없이)</li>
-      <li>How : pre-trained word embedding \(\mathbf E \in \mathbb R^{V \times D}\) in backbone.
-        <ul>
-          <li>But! no prior knowledge indicating which source token are directly relevant.</li>
-          <li>So, simply leveraging small collection of text prototypes by linearly probing \(\mathbf E\), denoted as \(\mathbf E' \in \mathbb R^{V' \times D}, V^{\prime} \ll V\)</li>
-          <li>: efficient &amp; allows for the adaptive selection of relevant source information</li>
-        </ul>
-      </li>
-      <li>Multi-head cross-attention
-        <ul>
-          <li>query matrices \(\mathbf{Q}_k^{(i)}=\hat{\mathbf{X}}_P^{(i)} \mathbf{W}_k^Q\)
-key matrices \(\mathbf{K}_k^{(i)}=\mathbf{E}^{\prime} \mathbf{W}_k^K\)
-value matrices \(\mathbf{V}_k^{(i)}=\mathbf{E}^{\prime} \mathbf{W}_k^V\)
-where \(\mathbf{W}_k^Q \in \mathbb{R}^{d_m \times d}\) and \(\mathbf{W}_k^K, \mathbf{W}_k^V \in \mathbb{R}^{D \times d}\)
-\(D\) is the hidden dimension of the backbone model, and \(d=\left\lfloor\frac{d_m}{K}\right\rfloor\)</li>
-          <li>i-layer : \(\mathbf{Z}_k^{(i)}=\operatorname{ATTENTION}\left(\mathbf{Q}_k^{(i)}, \mathbf{K}_k^{(i)}, \mathbf{V}_k^{(i)}\right)=\operatorname{SOFTmax}\left(\frac{\mathbf{Q}_k^{(i)} \mathbf{K}_k^{(i) \top}}{\sqrt{d_k}}\right) \mathbf{V}_k^{(i)}\)</li>
-          <li>By aggregating each \(\mathbf{Z}_k^{(i)} \in \mathbb{R}^{P \times d}\) in every head, \(\mathbf{Z}^{(i)} \in \mathbb{R}^{P \times d_m}\),
-then linearly projected \(\to \mathbf{O}^{(i)} \in \mathbb{R}^{P \times D}\)</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li><strong>Patch-as-Prefix</strong> (constraints…)
-    <ul>
-      <li>natural language로 표현된 TS를 예측</li>
-      <li>Constraints :
-        <ul>
-          <li>LLM은 <strong>high-precision numerals</strong> 연산에 sensitivity 떨어지고</li>
-          <li>LLM별로 서로 다른 후처리가 필요 ex.  0.61이 [’ 0 ‘, ‘, ‘, 6 ‘, ‘ 1 ‘] 또는 [’ 0 ‘, ‘, ‘, ‘61’]로 표시</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li><strong>Prompt-as-Prefix</strong> (avoid constraints !)
-    <ul>
-      <li>(1) Dataset context : input TS의 essential background information을 LLM에 제공
-(2) Task instruction : task에 따른 patch embedding 가이드를 LLM에 제공
-(3) Input statistics : Enrich the input TS with additional statistics (trends, lags, …)</li>
-    </ul>
-  </li>
-  <li><strong>Output Projection</strong>
-    <ul>
-      <li>Prefixal part 버리고 output representation 얻어서 flatten하고 linear projection  \(\to \hat{\mathbf{Y}}^{(i)}\)</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="4-main-results">4. Main Results</h2>
-<h3 id="41-42-longshort-term-forecasting">4.1, 4.2. Long/Short-term Forecasting</h3>
-<p><img src="/assets/img/timeseries/TimeLLM/table12.png" alt="사진4" /></p>
-<h3 id="43-few-shot-forecasting">4.3. Few-shot Forecasting</h3>
-<p><img src="/assets/img/timeseries/TimeLLM/table3.png" alt="사진5" />
-<img src="/assets/img/timeseries/TimeLLM/table4.png" alt="사진6" /></p>
-<h3 id="44-zero-shot-forecasting">4.4. Zero-shot Forecasting</h3>
-<p><img src="/assets/img/timeseries/TimeLLM/table5.png" alt="사진7" /></p>
-<h3 id="45-model-analysis">4.5. Model Analysis</h3>
-<p><img src="/assets/img/timeseries/TimeLLM/table67.png" alt="사진8" /></p>
-
-<h2 id="5-conclusion-and-future-work">5. Conclusion and Future work</h2>
-<ul>
-  <li>TS를 test prototype으로 reprogramming해서 frozen LLM 통과</li>
-  <li>Prompt-as-Prefix로 guidance를 LLM에 제공</li>
-  <li>TS forecasting을 language task로 casting</li>
-  <li>결론적으로 Patching + Prompting으로 성능을 더 올린 모델</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2024](https://arxiv.org/pdf/2310.01728.pdf)]]></summary></entry></feed>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Arxiv 2023](https://arxiv.org/pdf/2305.10721.pdf)]]></summary></entry></feed>
