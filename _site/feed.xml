@@ -1,936 +1,375 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-04-20T14:16:23+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">Convergence of Random Variables</title><link href="http://localhost:4000/stat/2024-04-19-converge/" rel="alternate" type="text/html" title="Convergence of Random Variables" /><published>2024-04-19T00:00:00+09:00</published><updated>2024-04-20T14:16:20+09:00</updated><id>http://localhost:4000/stat/converge</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-19-converge/"><![CDATA[<h2 id="1-almost-sure-convergence">1. Almost sure Convergence</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-07-02T16:16:29+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">Neyman-Pearson Hypothesis Testing</title><link href="http://localhost:4000/stat/2024-07-02-NPtest/" rel="alternate" type="text/html" title="Neyman-Pearson Hypothesis Testing" /><published>2024-07-02T00:00:00+09:00</published><updated>2024-07-02T15:53:20+09:00</updated><id>http://localhost:4000/stat/NPtest</id><content type="html" xml:base="http://localhost:4000/stat/2024-07-02-NPtest/"><![CDATA[<h2 id="basics-of-hypothesis-testing">Basics of Hypothesis Testing</h2>
 
 <ul>
-  <li>Definition : \(P\left(\displaystyle\lim _{n \rightarrow \infty} X_n=X\right)=1\)</li>
-  <li>pass</li>
+  <li>일반적으로 가설 검정을 construction하는 과정은 아래와 같다.
+    <ul>
+      <li>Test statistic \(T_n=T_n\left(X_1, \ldots, X_n\right)\) 선택</li>
+      <li>Rejection region (기각역) 설정</li>
+      <li>만약 \(T_n \in R\)이면 귀무가설 기각, 그렇지 않으면 기각할 수 없다.</li>
+    </ul>
+  </li>
+  <li>가설 검정을 하는 이유는 귀무가설이 참인지 거짓인지 판단하기 위함이 아니다.
+    <ul>
+      <li>정확히는 <strong>귀무가설을 기각할 충분한 evidence</strong>가 있는지를 판단하기 위함이다.</li>
+    </ul>
+  </li>
 </ul>
 
-<h2 id="2-convergence-in-probability">2. Convergence in Probability</h2>
+<h2 id="neyman-pearson-paradigm">Neyman-Pearson paradigm</h2>
 
 <ul>
-  <li>Definition : \(\displaystyle\lim _{n \rightarrow \infty} P\left(\left\vert X_n-X\right\vert \geq \epsilon\right)=0\)</li>
-  <li>Notation : \(X_n \xrightarrow{p} X\)</li>
-  <li>Convergence in Probability가 Almost sure Convergence를 의미하지는 않는다.</li>
+  <li>
+    <p>$H_0: \theta \in \Theta_0 \quad$ versus \(\quad H_1: \theta \in \Theta_1\)</p>
+  </li>
+  <li>Pick an \(\alpha \in(0,1)\)​</li>
+  <li>Then try to maximize \(\beta(\theta)\) over \(\Theta_1\) subject to \(\sup _{\theta \in \Theta_0} \beta(\theta) \leq \alpha\)
+    <ul>
+      <li>where Power function : \(\beta(\theta)=P_\theta\left(\left(X_1, \ldots, X_n\right) \in R\right)\)​</li>
+    </ul>
+  </li>
+  <li>가설 검정할 때 test statistic이 \(Z_{1-\alpha}\)보다 크면 귀무가설 기각하고… 어쩌고 그게 어디서 나온 것인지를 아래 예시를 통해 알아보자.</li>
 </ul>
 
-<h3 id="21-weak-law-of-large-numbers-wlln">2.1. Weak Law of Large Numbers (WLLN)</h3>
+<h3 id="example--one-sided-test">example : One sided test</h3>
 
 <ul>
-  <li>Let \(X, X_1, X_2, \ldots\) be a sequence of independent, identically distributed (i.i.d.) random variables with \(\operatorname{Var}[X]=\sigma^2&lt;\infty\). Then
-\(\bar{X}_n:=\frac{1}{n} \sum_{i=1}^n X_i \xrightarrow{p} \mathbb{E}[X]\)</li>
+  <li>Suppose \(X_1, \ldots, X_n \stackrel{\text { i.i.d. }}{\sim} N\left(\theta, \sigma^2\right)\) with \(\sigma^2\) known</li>
+  <li>$H_0: \theta=\theta_0 \quad$ versus \(\quad H_1: \theta&gt;\theta_0\) (one sided)</li>
+  <li>natural test statistic은 \(T_n\left(X_1, \ldots, X_n\right)=\frac{\frac{1}{n} \sum_{i=1}^n X_i-\theta_0}{\sigma / \sqrt{n}}\)이다.</li>
+  <li>Power function : \(\beta(\theta)=P_\theta\left(T_n&gt;t\right)=P_\theta\left(\frac{\frac{1}{n} \sum_{i=1}^n X_i-\theta}{\sigma / \sqrt{n}}&gt;t+\frac{\theta_0-\theta}{\sigma / \sqrt{n}}\right)\)에서
+    <ul>
+      <li>Thresholdld \(t\)를 결정해야 한다.</li>
+    </ul>
+  </li>
+  <li>\(\theta\)는 true parameter라는 점에서 \(\frac{\frac{1}{n} \sum_{i=1}^n X_i-\theta}{\sigma / \sqrt{n}} \sim N(0,1)\)이므로 \(\beta(\theta)=P\left(Z&gt;t+\frac{\theta_0-\theta}{\sigma / \sqrt{n}}\right)=1-\Phi\left(t+\frac{\theta_0-\theta}{\sigma / \sqrt{n}}\right)\)이다.</li>
+  <li>이제 Neyman-Pearson paradigm을 implement한다.
+    <ul>
+      <li>\(\sup _{\theta \in \Theta_0}\left\{1-\Phi\left(t+\frac{\theta_0-\theta}{\sigma / \sqrt{n}}\right)\right\} \leq \alpha\)인데 귀무가설에서는 \(\theta = \theta_0\)이므로</li>
+      <li>\(1-\Phi(t) \leq \alpha\)이고 \(t\)에 대해 정리하면 \(t=\Phi^{-1}(1-\alpha)\)이다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="neyman-pearson-procedure">Neyman-Pearson Procedure</h2>
+
+<ul>
+  <li>먼저 test function을 정의한다.
+    <ul>
+      <li>\(\phi(\boldsymbol{x})= \begin{cases}1, &amp; \text { if } \boldsymbol{x} \in R \\ 0, &amp; \text { if } \boldsymbol{x} \notin R\end{cases}\) , 즉 \(\phi(\boldsymbol{x})=1\)은 귀무가설 기각을 의미한다.</li>
+      <li>이 notation에 따르면 \(\text { power }=\int \phi(\boldsymbol{x}) f_1(\boldsymbol{x}) d \boldsymbol{x}\) 이고 \(\text { size }=\int \phi(\boldsymbol{x}) f_0(\boldsymbol{x}) d \boldsymbol{x}\)이다.</li>
+    </ul>
+  </li>
+  <li>Neyman–Pearson test statistic은 likelihood ratio이다.
+    <ul>
+      <li>\(\Lambda(\boldsymbol{x})=\frac{L\left(\theta_0 \mid \boldsymbol{x}\right)}{L\left(\theta_1 \mid \boldsymbol{x}\right)}=\frac{f_0(\boldsymbol{x})}{f_1(\boldsymbol{x})}\)로 setting하고 \(P_0\left(\Lambda(\boldsymbol{X}) \leq t^*\right)=\alpha\)가 되도록 \(t^*\)를 결정한다.</li>
+      <li>이렇게 likelihood ratio로 test function을 결정하는 방식이 유의수준이 \(\alpha\)인 모든 test 중에서 가장 power가 높다.</li>
+      <li>이것을 증명하는 것이 The Neyman–Pearson Lemma이다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="the-neymanpearson-lemma">The Neyman–Pearson Lemma</h2>
+
+<ul>
+  <li>
+    <p>한 마디로 말하자면 귀무가설 하에서 type 1 error를 유의수준 \(\alpha\)와 같게 했을 때, type 2 error의 확률이 최소화된다는 것 (most powerful)</p>
+  </li>
+  <li>Consider a test with hypotheses \(H_0: \theta=\theta_0\) and \(H_1: \theta=\theta_1\)
+    <ul>
+      <li>where the pdf (or pmf) is \(f_i(\boldsymbol{x})\) for \(i=0,1\).</li>
+    </ul>
+  </li>
+  <li>Consider the Neyman-Pearson test \(\phi_{\mathrm{NP}}(\boldsymbol{x})=\mathbb{1}\left(\frac{f_0(\boldsymbol{x})}{f_1(\boldsymbol{x})} \leq t^*\right)\),
+    <ul>
+      <li>where \(t^*\) is chosen such that \(\int \phi_{\mathrm{NP}}(\boldsymbol{x}) f_0(\boldsymbol{x}) d \boldsymbol{x}=\alpha\).</li>
+    </ul>
+  </li>
+  <li>Consider any arbitrary test \(\phi_A(\boldsymbol{x})\) such that \(\int \phi_A(\boldsymbol{x}) f_0(\boldsymbol{x}) d \boldsymbol{x} \leq \alpha\),
+    <ul>
+      <li>i.e. level \(\alpha\) test.</li>
+    </ul>
+  </li>
+  <li>Then the power of \(\phi_A(\boldsymbol{x})\) is at most the power of the Neyman-Pearson test,
+    <ul>
+      <li>that is \(\int \phi_{\mathrm{NP}}(\boldsymbol{x}) f_1(\boldsymbol{x}) d \boldsymbol{x} \geq \int \phi_A(\boldsymbol{x}) f_1(\boldsymbol{x}) d \boldsymbol{x}\)</li>
+    </ul>
+  </li>
 </ul>
 
 <h3 id="proof">Proof</h3>
 
 <ul>
   <li>
-    <p>By Chebyshev’s inequality, \(P\left(\left\vert \bar{X}_n-\mathbb{E}[X]\right\vert  \geq \epsilon\right) \leq \frac{\sigma^2}{n \epsilon^2}\)</p>
-  </li>
-  <li>
-    <p>This in turn implies that, \(\lim _{n \rightarrow \infty} P\left(\left\vert \bar{X}_n-\mathbb{E}[X]\right\vert  \geq \epsilon\right)=0,\)</p>
-  </li>
-  <li>사실 finite variance \(\operatorname{Var}[X]=\sigma^2&lt;\infty\)​ 가정 없이도 증명할 수 있다. (only finite <strong>first</strong> moment)</li>
-  <li>(skip the proof)</li>
-</ul>
+    <p>먼저 \(\int \underbrace{\left(\phi_{\mathrm{NP}}(\boldsymbol{x})-\phi_A(\boldsymbol{x})\right)}_{T_1} \underbrace{\left(f_1(\boldsymbol{x})-\frac{f_0(\boldsymbol{x})}{t^*}\right)}_{T_2} d \boldsymbol{x} \geq 0\)​를 보인다.</p>
 
-<h3 id="22-strong-law-of-large-numbers">2.2. Strong Law of Large Numbers</h3>
-
-<ul>
-  <li>Let \(X_1, X_2, \ldots\) be pairwise independent identically distributed random variables with \(\mathbb{E}\left[\left\vert X_i\right\vert \right]&lt;\infty\). Let \(\mathbb{E}\left[X_i\right]=\mu\). Then
-\(\frac{1}{n} \sum_{i=1}^n X_i \xrightarrow{a . s .} \mu \quad \text { as } n \rightarrow \infty .\)</li>
-</ul>
-
-<h3 id="consistency">Consistency</h3>
-
-<ul>
-  <li>Estimator가 convergence in Probability이면 Consistent하다.</li>
-  <li>Estimator의 분산이 0으로 수렴하면 Consistent하다.</li>
-</ul>
-
-<h2 id="3-convergence-in-quadratic-mean">3. Convergence in Quadratic mean</h2>
-
-<ul>
-  <li>Definition : \(\mathbb{E}\left[\left(X_n-X\right)^2\right] \rightarrow 0\)</li>
-  <li>Notation : \(X_n \xrightarrow{q m} X\)</li>
-  <li>\(b&gt;a\)일 때, \(\mathbb{E}\left[\left(X_n-X\right)^b\right] \rightarrow 0\)이면 \(\mathbb{E}\left[\left(X_n-X\right)^a\right] \rightarrow 0\) 이다.</li>
-</ul>
-
-<h2 id="4-convergence-in-distribution">4. Convergence in Distribution</h2>
-
-<ul>
-  <li>Definitnion : \(\lim _{n \rightarrow \infty} F_{X_n}(t)=F_X(t), \text { for all points } t \text { where the } \mathrm{CDF} F_X \text { is continuous. }\)</li>
-  <li>Notation : \(X_n \xrightarrow{d} X\)</li>
-  <li>Target CDF \(F_X\)​​가 continuous한 points에서만 ! 같으면 된다.
     <ul>
-      <li>만약 limiting distribution이 모든 \(x\)에서 continuous라면, 모든 \(x\)​에서 Convergence in Distribution이다. (Polya’s theorem)</li>
+      <li>NP와 arbitrary test가 같은 결정을 내렸다면 \(T_1=0\)이므로 성립한다.</li>
+      <li>NP와 arbitrary test가 다른 결정을 내렸다면 \(T_1\)과 \(T_2\)의 부호가 같으므로 성립한다.</li>
     </ul>
   </li>
-  <li>Convergence in Distribution은 Convergence in Proability를 imply하지 않는다.
+  <li>
+    <p>이제 다음과 같이 전개가 가능하다.</p>
+
+    <p>\(\begin{aligned}
+\int\left(\phi_{\mathrm{NP}}(\boldsymbol{x})-\phi_A(\boldsymbol{x})\right) f_1(\boldsymbol{x}) d \boldsymbol{x} &amp; \geq \frac{1}{t^*} \int\left(\phi_{\mathrm{NP}}(\boldsymbol{x})-\phi_A(\boldsymbol{x})\right) f_0(\boldsymbol{x}) d \boldsymbol{x} \\
+&amp; =\frac{1}{t^*}(\underbrace{\int \phi_{\mathrm{NP}}(\boldsymbol{x}) f_0(\boldsymbol{x}) d \boldsymbol{x}}_{=\alpha}-\underbrace{\int \phi_A(\boldsymbol{x}) f_0(\boldsymbol{x}) d \boldsymbol{x}}_{\leq \alpha} \geq 0
+\end{aligned}\)​</p>
+  </li>
+  <li>
+    <p>위 결과를 통해 the power of the NP test가 the power of any other test보다 크다는 것을 알 수 있다.</p>
+  </li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[Basics of Hypothesis Testing]]></summary></entry><entry><title type="html">Minimax Estimator and Stein’s Paradox</title><link href="http://localhost:4000/stat/2024-06-27-minimax/" rel="alternate" type="text/html" title="Minimax Estimator and Stein’s Paradox" /><published>2024-06-27T00:00:00+09:00</published><updated>2024-07-02T14:28:39+09:00</updated><id>http://localhost:4000/stat/minimax</id><content type="html" xml:base="http://localhost:4000/stat/2024-06-27-minimax/"><![CDATA[<h2 id="1-minimax-estimator">1. Minimax Estimator</h2>
+
+<ul>
+  <li>Minimax estimator는 최악이 가장 좋은 estimator이다.</li>
+  <li>최악이라는 말은 true parameter \(\theta\)에 대한 estimator의 risk이다.
     <ul>
-      <li>Ex. \(X, X_1, \ldots, X_n \stackrel{\text { i.i.d. }}{\sim} N(0,1) \text {이면} X_n \xrightarrow{d} X\)이다.</li>
-      <li>However, since \(X_n-X \sim N(0,2)\)</li>
-      <li>\(P\left(\left\vert X_n-X\right\vert&gt;\epsilon\right)=2 P(X \leq-\epsilon / \sqrt{2})\)​는 0으로 수렴하지 않는다.</li>
-      <li>만약 \(X_n\)이 constant이면 Convergence in Distribution이 Convergence in Probability를 imply한다.</li>
+      <li>Risk : \(R(\theta, \widehat{\theta}(X))=\mathbb{E}_{X \sim f_\theta}[(\widehat{\theta}(X) - \theta)^2]\)</li>
+    </ul>
+  </li>
+  <li>즉 Minimax estimator \(\hat \theta\)는 아래를 만족하는 estimator이다.
+    <ul>
+      <li>: \(\sup _{\theta \in \Theta} R(\theta, \widehat{\theta})=\inf _{\widetilde{\theta}} \sup _{\theta \in \Theta} R(\theta, \widetilde{\theta})\)</li>
     </ul>
   </li>
 </ul>
 
-<h3 id="41-polyas-theorem">4.1. <strong>Polya’s theorem</strong></h3>
+<h3 id="boundig-the-minimax-risk">Boundig the Minimax Risk</h3>
 
 <ul>
   <li>
-    <p>Suppose that \(X_n \xrightarrow{d} X\) for a random variable \(X\) with a continuous distribution function. Then \(\sup _{x \in \mathbb{R}}\left\vert P\left(X_n \leq x\right)-P(X \leq x)\right\vert  \rightarrow 0\)</p>
+    <p>Minimax Risk의 Upper bound와 Lower bound에 대해서 알아보자</p>
+  </li>
+  <li>
+    <p>Upper bound는 그냥 다른 estimator의 maximum risk를 사용하면 된다.</p>
+  </li>
+  <li>
+    <p>Lower bound를 찾는 방법은 아래와 같다.</p>
+
+    <ul>
+      <li>Bayes estimator의 Bayes risk는 (어떤 prior \(\pi\)를 사용하더라도) minimax risk의 lower bound가 된다.</li>
+      <li>
+        <p>수식으로 표현하면 \(B_\pi\left(\widehat{\theta}_{\text {low }}\right) \leq B_\pi\left(\hat{\theta}_{\text {minimax}}\right) \leq \sup _\theta R\left(\theta, \hat{\theta}_{\text {minimax}}\right)=\inf _{\widetilde{\theta}} \sup _{\theta \in \Theta} R(\theta, \widetilde{\theta})\)</p>
+      </li>
+      <li>직관적인 의미는 minimax risk는 risk의 maximum을 고려하지만, bayes risk는 risk를 prior를 가중치로 한 weighted average이다.</li>
+      <li>평균은 최댓값보다 작다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="example--d-dim-gaussian">Example : d-dim Gaussian</h3>
+
+<ul>
+  <li>
+    <p>\(X_1, \ldots, X_n \stackrel{\text { i.i.d. }}{\sim} N\left(\theta, I_d\right)\), then the average \(\widehat{\theta}=\frac{1}{n} \sum_{i=1}^n X_i\)가 minimax estimator of \(\theta\) w.r.t the squared loss임을 보이자.</p>
+  </li>
+  <li>
+    <p>Upper bound</p>
+
+    <ul>
+      <li>\(\widehat{\theta} \sim N\left(\theta, I_d / n\right)\)의 Risk는 \(R(\theta, \widehat{\theta})=\mathbb{E}\left[\sum_{i=1}^d\left(\hat{\theta}_i-\theta_i\right)^2\right]=\mathbb{E}\left[\sum_{i=1}^d Z_i^2\right]=\frac{d}{n}\)이므로</li>
+      <li>\(\inf _{\widetilde{\theta}} \sup _{\theta \in \Theta} R(\theta, \widetilde{\theta}) \leq R(\theta, \widehat{\theta})=\frac{d}{n}\)이다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>Lower bound</p>
+
+    <ul>
+      <li>먼저 Bayes estimator를 구하고 bayes risk를 구할 것이다.</li>
+      <li>\(\theta \in \mathbb R\)이므로 prior는 \(N(0, c^2I)\)를 사용한다. \(c^2\)가 매우 크면 non-informative prior이다.</li>
+      <li>Bayes estimator는 \(\hat \theta_{\text{bayes}}=\frac{c^2}{c^2+\frac{1}{n}}\hat \theta\)이다.</li>
+      <li>
+\[R\left(\theta, \widehat{\theta}_{\text {Bayes }}\right)=\mathbb{E}_{X_1, \ldots, X_X \stackrel{\text { i.i.d. }}{\sim} N\left(\theta, I_d\right)}\left\|\frac{c^2}{c^2+1 / n} \widehat{\theta}-\theta\right\|^2 = \frac{\|\theta\|_2^2}{n^2 \beta^2}+\frac{c^4}{\beta^2} \frac{d}{n}\]
+        <ul>
+          <li>where \(\widehat{\theta}=\theta+W\) and \(W \sim N\left(0, I_d / n\right)\), and \(\beta:=c^2+1 / n\)</li>
+        </ul>
+      </li>
+      <li>이제 Bayes risk는 다음과 같다.
+        <ul>
+          <li>
+\[\begin{aligned}
+B_\pi\left(\frac{c^2}{c^2+1 / n} \widehat{\theta}\right) &amp; =\mathbb{E}_{\theta \sim \pi}\left[R\left(\theta, \widehat{\theta}_{\text {Bayes }}\right)\right] \\
+&amp; =\frac{c^2 d}{n^2 \beta^2}+\frac{c^4}{\beta^2} \frac{d}{n}=\frac{c^2 d}{n \beta}=\frac{d}{n\left(1+1 /\left(n c^2\right)\right)}
+\end{aligned}\]
+          </li>
+        </ul>
+      </li>
+      <li>그러므로 \(\frac{d}{n\left(1+1 /\left(n c^2\right)\right)} \leq R_n \leq \frac{d}{n}\)인데 c는 arbitrary이니까 무한대로 보낼 수 있다.</li>
+      <li>upper bound와 lower bound가 모두 \(\frac{d}{n}\)이므로 \(\hat \theta\)는 minimax estimator이다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="2-steins-paradox">2. Stein’s Paradox</h2>
+
+<ul>
+  <li>
+    <p>먼저 admissible의 의미를 이해해야 한다.</p>
+
+    <ul>
+      <li>Estimator가 admissible하다는 것은</li>
+      <li>모든 true parameters에 대해 다른 estimator보다 risk가 작거나 같고,</li>
+      <li>적어도 하나의 true parameters에 대해 다른 estimator보다 risk가 작다는 뜻이다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>모든 Minimax estimator가 admissible한 것은 아니다. 특히 parameter의 dimension이 3 이상일 때 그렇다.</p>
+  </li>
+  <li>
+    <p>예를 들어 \(Y_i \sim N\left(\theta_i, 1\right) \quad \text { for } i \in\{1, \ldots, d\}\) 세팅에서는 minimax estimator는 \(\widehat{\theta}=Y=\left(Y_1, \ldots, Y_d\right)^{\top}\)이다.</p>
+  </li>
+  <li>
+    <p>하지만 James-Stein estimator \(\widehat{\theta}_{\mathrm{JS}}=\left(1-\frac{d-2}{\|Y\|^2}\right) Y\)는 \(\mathbb{E}\left[\left\|\widehat{\theta}_{\mathrm{JS}}-\theta\right\|^2\right]=d-(d-2)^2 \mathbb{E}\left[\frac{1}{\|Y\|^2}\right]&lt;d\)​이다.</p>
+
+    <ul>
+      <li>즉 James-Stein estimator의 risk가 더 작기 때문에 minimax estimator가 admissible하지 않다.</li>
+    </ul>
   </li>
   <li>
     <p><strong>Proof</strong></p>
-    <ul>
-      <li>By the continuity, \(-\infty=x_0&lt;x_1&lt;\cdots&lt;x_k=\infty \text { with } F\left(x_i\right)=i / k\)가 존재하고</li>
-      <li>\(x_{i-1} \leq x \leq x_i\)에 대해 \(F_n(x_{i-1}) \leq F_n(x) \leq F_n(x_i)\)이고 \(F(x_{i-1}) \leq F(x) \leq F(x_i)\)이므로</li>
-      <li>\(\begin{aligned}
-F_n(x)-F(x) &amp; \leq F_n\left(x_i\right)-F\left(x_{i-1}\right)=F_n\left(x_i\right)-F\left(x_i\right)+1 / k \\
-&amp; \geq F_n\left(x_{i-1}\right)-F\left(x_i\right)=F_n\left(x_{i-1}\right)-F\left(x_{i-1}\right)-1 / k
-\end{aligned}\)​이고,</li>
-      <li>\(\left\vert F_n(x)-F(x)\right\vert \text { 의 upper bound가 } \sup _i\left\vert F_n\left(x_i\right)-F\left(x_i\right)\right\vert +1 / k\)이다.</li>
-      <li>\(k\)는 arbitrary fixed number이므로 \(n \to \infty\)일 때 upper bound가 0이 된다.</li>
-    </ul>
-  </li>
-</ul>
 
-<h3 id="42-lévys-continuity-theorem">4.2. Lévy’s continuity theorem</h3>
-
-<ul>
-  <li>Let \(X_n\) and \(X\) be random vectors in \(\mathbb{R}^d\). Then \(X_n \xrightarrow{d} X\) if and only if \(\lim _{n \rightarrow \infty} \mathbb{E}\left[e^{i t^{\top} X_n}\right]=\mathbb{E}\left[e^{i t^{\top} X}\right]\) for every \(t \in \mathbb{R}^d\)​​</li>
-  <li>\(X_n\)이 \(X\)로 Convergence in Distribution하는 것은 characteristic functions의 수렴과 같다.</li>
-  <li>Cramér–Wold device : highier-dim problem을 one-dim problem으로 생각할 수 있다.</li>
-</ul>
-
-<p><img src="/assets/img/stat/convergence/fig1.jpeg" alt="그림1" /></p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[1. Almost sure Convergence]]></summary></entry><entry><title type="html">Median of Means Estimator (MoM)</title><link href="http://localhost:4000/stat/2024-04-19-MoM/" rel="alternate" type="text/html" title="Median of Means Estimator (MoM)" /><published>2024-04-19T00:00:00+09:00</published><updated>2024-04-19T21:21:50+09:00</updated><id>http://localhost:4000/stat/MoM</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-19-MoM/"><![CDATA[<ul>
-  <li>우리는 sample을 n개 뽑아서 만든 estimator가 true parameter의 근처에서 자주 등장하기를 원한다.</li>
-  <li>Estimator와 true parameter의 거리는 \(\left\vert \hat \mu - \mu \right\vert\)이다.</li>
-  <li>\(\left\vert \hat \mu - \mu \right\vert \ge t\)는 estimator의 error가 우리의 정한 기준(\(t\)라고 하자) 보다 높은 경우로 볼 수 있으므로,
-    <ul>
-      <li>\(P(\left\vert \hat \mu - \mu \right\vert \ge t) \le \delta\)는, 주어진 \(t\)에 대해 \(\delta\)가 얼마나 작은지가 중요하다.</li>
-      <li>또는 \(t\)가 커짐에 따라 \(\delta\)가 얼마나 빠르게 줄어드는지</li>
-    </ul>
-  </li>
-  <li>Ex. Chebyshev’s inequality \(P\left\{\left\vert \frac{1}{n} \sum_{i=1}^n X_i-\mu \right\vert \geq \sigma \sqrt{\frac{1}{n \delta}}\right\} \leq \delta\)는 polynomial upper bound를 제공한다.</li>
-  <li>하지만 <a href="https://lpppj.github.io/stat/2024-04-18-ineq2">Inequalities for Probabilities</a>에서 exponential upper bound를 제공하는 다양한 부등식을 소개하였다.</li>
-  <li>이를 활용하여 mean에 대한 <u>exponential upper bound를 제공하는 부등식 Median of Means Estimator (MoM)</u>을 소개한다.</li>
-</ul>
-
-<h2 id="median-of-means-estimator-mom">Median of Means Estimator (MoM)</h2>
-
-<ul>
-  <li>목표는 \(X_1, \ldots, X_n \stackrel{\text { i.i.d. }}{\sim} F\) 으로  \(\mathbb{E}[X]=\mu\)를 estimate하는 것이다.</li>
-  <li>\(n\)개의 sample을 \(K\)개의 그룹으로 나누고, (각 그룹에는 \(B\)개의 samples) 각 그룹의 평균 \(\widehat{\mu}_1, \ldots, \widehat{\mu}_K\)를 구한다.</li>
-  <li>MoM은 \(\widehat{\mu}_{\mathrm{MoM}}=\operatorname{median}\left(\widehat{\mu}_1, \ldots, \widehat{\mu}_K\right)\)으로 정의한다.</li>
-  <li>MoM은 \(\operatorname{Var}\left[X_1\right]:=\sigma^2&lt;\infty\)라는 단순한 가정만으로 exponential upper bound \(P\left(\left\vert \widehat{\mu}_{\mathrm{MoM}}-\mu\right\vert \geq t\right) \leq e^{-2 K\left(\frac{1}{2}-\frac{K}{n} \frac{\sigma^2}{t^2}\right)^2}=e^{-2 \frac{n}{B}\left(\frac{1}{2}-\frac{\sigma^2}{B t^2}\right)^2}\)를 제공한다.</li>
-  <li>Upper bound를 단순하게 표현하려면 \(t=\sqrt{4 \sigma^2 / B}\left(&gt;\sqrt{2 \sigma^2 / B}\right)\)로 잡으면 \(P\left(\left\vert \widehat{\mu}_{\mathrm{MoM}}-\mu\right\vert \geq 2 \sigma \sqrt{K / n}\right) \leq e^{-K / 8}\)가 된다.</li>
-</ul>
-
-<h3 id="proof">Proof</h3>
-
-<ul>
-  <li>증명이 아주 직관적이다.
-    <ul>
-      <li>만약 \(\hat \mu_{MoM}\)이 \(\mu+t\)보다 크다면, 적어도 \(K\)개의 \(\hat \mu\) 중 절반인 \(\frac{K}{2}\)개의 \(\hat \mu\)가 \(\mu+t\)보다 크다는 것을 의미한다.</li>
-      <li>반대로  \(\hat \mu_{MoM}\)이 \(\mu-t\)보다 크다면, 적어도 \(K\)개의 \(\hat \mu\) 중 절반인 \(\frac{K}{2}\)개의 \(\hat \mu\)가 \(\mu-t\)보다 작다는 것을 의미한다.</li>
-    </ul>
-  </li>
-  <li>그러므로 \(P\left(\left\vert \widehat{\mu}_{\mathrm{MoM}}-\mu\right\vert \geq t\right) \leq P\left(\sum_{i=1}^K \mathbb{1}\left(\left\vert \widehat{\mu}_i-\mu\right\vert \geq t\right) \geq \frac{K}{2}\right)\)이다.
-    <ul>
-      <li>\(Z_i = \mathbb{1}\left(\left\vert \widehat{\mu}_i-\mu\right\vert \geq t\right)\)라 하면 indicator function이기 때문에 \([0,1]\)​로 bounded이다.</li>
-      <li>또한 \(\mathbb{E}[Z_i] = \mathbb{E}[Z_1]\)이고, Chebyshev’s inequality에 의해 \(\mathbb{E}\left[Z_1\right]=P\left(\left\vert \widehat{\mu}_1-\mu\right\vert \geq t\right) \leq \frac{\sigma^2}{B t^2}\)이다.</li>
-    </ul>
-  </li>
-  <li>따라서 \(\begin{aligned} P\left(\frac{1}{K} \sum_{i=1}^K Z_i \geq \frac{1}{2}\right)&amp;=P\left(\frac{1}{K} \sum_{i=1}^K\left(Z_i-\mathbb{E}\left[Z_1\right]\right) \geq \frac{1}{2}-\mathbb{E}\left[Z_1\right]\right) \\ &amp;\le P\left( \sum_{i=1}^K\left(Z_i-\mathbb{E}\left[Z_1\right]\right) \ge K(\frac{1}{2}-\frac{\sigma^2}{Bt^2})\right)\end{aligned}\)는
-    <ul>
-      <li>Hoeffding’s inequality \(P\left\{\displaystyle\sum_{i=1}^n\left(X_i-\mathbb{E}\left[X_i\right]\right) \geq t\right\} \leq e^{-2 t^2 / \sum_{i=1}^n\left(b_i-a_i\right)^2}\)을 이용하여</li>
-      <li>\(P\left(\frac{1}{K} \sum_{i=1}^K Z_i \geq \frac{1}{2}\right) \le e^{-2 K^2\left(\frac{1}{2}-\frac{K}{n} \frac{\sigma^2}{t^2}\right)^2/\sum_{i=1}^{K}(1-0)^2}= e^{-2 K\left(\frac{1}{2}-\frac{K}{n} \frac{\sigma^2}{t^2}\right)^2}\)가 된다.</li>
-    </ul>
-  </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[우리는 sample을 n개 뽑아서 만든 estimator가 true parameter의 근처에서 자주 등장하기를 원한다. Estimator와 true parameter의 거리는 \(\left\vert \hat \mu - \mu \right\vert\)이다. \(\left\vert \hat \mu - \mu \right\vert \ge t\)는 estimator의 error가 우리의 정한 기준(\(t\)라고 하자) 보다 높은 경우로 볼 수 있으므로, \(P(\left\vert \hat \mu - \mu \right\vert \ge t) \le \delta\)는, 주어진 \(t\)에 대해 \(\delta\)가 얼마나 작은지가 중요하다. 또는 \(t\)가 커짐에 따라 \(\delta\)가 얼마나 빠르게 줄어드는지 Ex. Chebyshev’s inequality \(P\left\{\left\vert \frac{1}{n} \sum_{i=1}^n X_i-\mu \right\vert \geq \sigma \sqrt{\frac{1}{n \delta}}\right\} \leq \delta\)는 polynomial upper bound를 제공한다. 하지만 Inequalities for Probabilities에서 exponential upper bound를 제공하는 다양한 부등식을 소개하였다. 이를 활용하여 mean에 대한 exponential upper bound를 제공하는 부등식 Median of Means Estimator (MoM)을 소개한다.]]></summary></entry><entry><title type="html">Inequalities for Probabilities</title><link href="http://localhost:4000/stat/2024-04-18-ineq2/" rel="alternate" type="text/html" title="Inequalities for Probabilities" /><published>2024-04-18T00:00:00+09:00</published><updated>2024-04-18T18:46:41+09:00</updated><id>http://localhost:4000/stat/ineq2</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-18-ineq2/"><![CDATA[<h2 id="3-inequalities-for-probabilities">3. Inequalities for Probabilities</h2>
-
-<h2 id="31-markovs-inequality">3.1. Markov’s inequality</h2>
-
-<ul>
-  <li>For any \(t \geq 0\) and a nonnegative random variable \(X\), \(P(X \geq t) \leq \frac{\mathbb{E}[X]}{t}\)​​</li>
-  <li>Markov’s inequality는 extreme events의 확률의 upper bound를 제공한다는 점에서 의미가 있다.</li>
-</ul>
-
-<h3 id="proof">Proof</h3>
-
-<p><img src="/assets/img/stat/ineq2/fig1.png" alt="그림1" /></p>
-
-<p>From \(\mathbb{1}(x \geq t) \leq(x / t) \mathbb{1}(x \geq 0)\)​, By taking the expectation on both sides.</p>
-
-<ul>
-  <li>When become equality ?
-    <ul>
-      <li>the random variable is <strong>constant</strong> or almost constant일 때에 등식이 성립한다.</li>
-      <li>ex 1. \(\begin{aligned} X  =t \quad(p=1) \\ P(X&gt;t)=1 \\ \mathbb{E}[X] / t  =t/t = 1\end{aligned}\)​​일 때 equality가 성립하고</li>
-      <li>ex 2. \(\begin{aligned} X = \begin{cases}0 \quad (p=1-k) \\ t \quad (p=k)\end{cases} \\ P(X&gt;t)=k \\ E[X] / t = tk/t =k \end{aligned}\)인 경우에도 equality가 성립한다.</li>
-      <li>즉 확률변수 \(X\)가 constant이거나(ex1), 0또는 constant를 가지는 경우(ex2)이다.</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="32-chebyshevs-inequality">3.2. Chebyshev’s inequality</h2>
-
-<ul>
-  <li>Let \(X\) be a random variable and have finite mean \(\mu\) and finite non-zero variance. Then, \(P(\left\vert X-\mu\right\vert \geq t) \leq \frac{\operatorname{Var}(X)}{t^2} .\)</li>
-</ul>
-
-<h3 id="proof-1">Proof</h3>
-
-<p>\(\begin{aligned}
-&amp; \text{By Markov's Inequality, }\\
-&amp; P\left((X-\mu)^2 \ge t^2\right) \le \frac{\mathbb{E[(X-\mu)^2]}}{t^2}\\
-&amp; \therefore P(\left\vert X-\mu\right\vert \geq t) \leq \frac{\operatorname{Var}(X)}{t^2}
-\end{aligned}\)​​​</p>
-
-<ul>
-  <li>
-    <p>\(X\)가 평균에서 \(t\)이상 떨어져있을 확률에 \(t^2\)를 곱해도 \(X\)의 분산보다 작다</p>
-  </li>
-  <li>\(P[\left\vert X-\mu\right\vert \geq k \sigma] \le \frac{1}{k^2}\)로 표현한다면
-    <ul>
-      <li>\(X\)가 평균에서 (\(k \times\)분산) 만큼 떨어져있을 확률은 \(\frac{1}{k^2}\)​보다 작다.</li>
-      <li>Chebyshev’s inequality는 확률변수 \(X\)의 평균으로부터의 extreme events가 발생할 확률에 대한 upper bound를 제공한다.</li>
-    </ul>
-  </li>
-  <li>When become equality ?
-    <ul>
-      <li>증명에서 Markov’s inequality를 사용했기 때문에, Markov’s inequality의 등식이 성립했는지를 생각해보면 된다.</li>
-      <li>\((X-\mu)^2\)가 0 또는 constant인 경우를 생각해야 하므로, 확률변수 \(X\)가 \(\mu\) 또는 \(\mu-a, \mu+a\)만 될 수 있고 다른 값을 가질 확률이 0인 경우이다. (pdf가 \(\mu\)에 대해 symmetric한 경우)</li>
-      <li>아래 경우에 왜 등식이 성립할 수 없는지 이해한다면 언제 등식이 성립하는지 알 수 있다.</li>
-      <li><img src="/assets/img/stat/ineq2/fig2.jpeg" alt="그림2" /></li>
-      <li>\((X-\mu)^2=\left\{\begin{array}{cc}0 &amp; (p=0.4) \\ a^2 &amp; (p=0.4) \\ b^2 &amp; (p=0.2)\end{array} \quad P\left((X-\mu)^2 \geqslant t^2\right)=\left\{\begin{array}{cc}1 &amp; \left(t^2=0\right) \\ 0.4 &amp; \left(0&lt;t^2 \leqslant a^2\right) \\ 0.2 &amp; \left(a^2&lt;t^2 \leqslant b^2\right) \\ 0 &amp; \left(b^2&lt;t^2\right)\end{array}\right.\right.\)​</li>
-      <li>\(\mathbb{E}[(X-\mu)^2] = 0.4a^2+0.2b^2\)이므로
-        <ul>
-          <li>어떤 \(t^2\)로 나누어도 등식이 성립할 수 없는 이유는 \(a^2\)과 \(b^2\)의 계수가 다르기 때문이다.</li>
-          <li>그러므로 둘 중 하나의 계수가 0이면 등식이 성립한다.</li>
-        </ul>
-      </li>
-      <li>위 그림에서 \(P(X=\mu-a)=P(X=\mu+a)=0\)이고 \(P(X=\mu-b)=P(X=\mu+b)=0.3\)이 되면</li>
-      <li>\(\begin{aligned}(X-\mu)^2=\left\{\begin{array}{cc}0 &amp; (p=0.4) \\ b^2 &amp; (p=0.6)\end{array} \quad P\left((X-\mu)^2 \geqslant t^2\right)=\left\{\begin{array}{cc}1 &amp; \left(t^2=0\right) \\ 0.6 &amp; \left(0&lt;t^2 \leqslant b^2\right) \\ 0 &amp; \left(b^2&lt;t^2\right)\end{array}\right.\right.\end{aligned}\)이 되고</li>
-      <li>\(\mathbb{E}[(X-\mu)^2] = 0.6b^2\)이므로 \(t^2=b^2\)​에서 등식이 성립한다.</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="33-hoeffdings-inequality">3.3. Hoeffding’s inequality</h2>
-
-<ul>
-  <li>
-    <p>Let \(X_1, \ldots, X_n\) be independent bounded random variables such that \(X_i\) falls in the interval \(\left[a_i, b_i\right]\) with probability one. Then for any \(t&gt;0\)​, we have</p>
-  </li>
-  <li>\(P\left\{\sum_{i=1}^n\left(X_i-\mathbb{E}\left[X_i\right]\right) \geq t\right\} \leq e^{-2 t^2 / \sum_{i=1}^n\left(b_i-a_i\right)^2}\),</li>
-  <li>and \(P\left\{\sum_{i=1}^n\left(X_i-\mathbb{E}\left[X_i\right]\right) \leq-t\right\} \leq e^{-2 t^2 / \sum_{i=1}^n\left(b_i-a_i\right)^2}\)</li>
-  <li>Therefore \(P\left\{\left\vert {\frac{1}{n} \sum_{i=1}^n\left(X_i-\mathbb{E}\left[X_i\right]\right)} \right\vert \geq t\right\} \leq 2 e^{-2 n^2 t^2 / \sum_{i=1}^n\left(b_i-a_i\right)^2}\)</li>
-</ul>
-
-<h3 id="proof-2">Proof</h3>
-
-<ul>
-  <li>For a given \(\lambda&gt;0\)</li>
-  <li>by Markov’s inequality,</li>
-</ul>
-
-<p>.\(\begin{aligned}
-P\left\{\sum_{i=1}^n\left(X_i-\mathbb{E}\left[X_i\right]\right) \geq t\right\}
-&amp; =P\left\{\exp \left(\lambda \sum_{i=1}^n\left(X_i-\mathbb{E}\left[X_i\right]\right)\right) \geq \exp (\lambda t)\right\} \\
-&amp; \leq \exp (-\lambda t) \mathbb{E}\left[\exp \left(\lambda \sum_{i=1}^n\left(X_i-\mathbb{E}\left[X_i\right]\right)\right)\right]
-\end{aligned}\)</p>
-
-<ul>
-  <li>by independence btw \(X_1, ..., X_n\), and Hoeffding’s Lemma (which is \(\mathbb{E}\left[e^{t(X-\mathbb{E}[X])}\right] \leq e^{t^2(b-a)^2 / 8}\)),</li>
-</ul>
-
-<p>.\(\begin{aligned}
-\mathbb{E}\left[\exp \left(\lambda \sum_{i=1}^n\left(X_i-\mathbb{E}\left[X_i\right]\right)\right)\right]
-&amp; =\prod_{i=1}^n \mathbb{E}\left[\exp \left(\lambda\left(X_i-\mathbb{E}\left[X_i\right]\right)\right)\right] \\
-&amp; \leq \prod_{i=1}^n e^{\lambda^2\left(b_i-a_i\right)^2 / 8}=e^{\lambda^2 \sum_{i=1}^n\left(b_i-a_i\right)^2 / 8}
-\end{aligned}\)​</p>
-
-<ul>
-  <li>Therefore,</li>
-</ul>
-
-<p>.\(\begin{aligned}
-P\left\{\sum_{i=1}^n\left(X_i-\mathbb{E}\left[X_i\right]\right) \geq t\right\}
-&amp;\leq e^{-\lambda t+\lambda^2 \sum_{i=1}^n\left(b_i-a_i\right)^2 / 8} \\
-&amp; \leq e^{\frac{\sum_{i=1}^n\left(b_i-a_i\right)^2}{8}(\lambda^2-\frac{8t}{\sum_{i=1}^n\left(b_i-a_i\right)^2}\lambda+(\frac{4t}{\sum_{i=1}^n\left(b_i-a_i\right)^2})^2-(\frac{4t}{\sum_{i=1}^n\left(b_i-a_i\right)^2})^2)} \\
-&amp; = e^{\frac{\sum_{i=1}^n\left(b_i-a_i\right)^2}{8}(\lambda-\frac{4t}{\sum_{i=1}^n\left(b_i-a_i\right)^2})^2-\frac{2t^2}{\sum_{i=1}^n\left(b_i-a_i\right)^2}} \\
-&amp; \leq e^{\frac{-2t^2}{\sum_{i=1}^n\left(b_i-a_i\right)^2}}
-\end{aligned}\)</p>
-
-<ul>
-  <li>Proof : Hoeffding’s Lemma (\(\mathbb{E}\left[e^{t(X-\mathbb{E}[X])}\right] \leq e^{t^2(b-a)^2 / 8}\))
-    <ul>
-      <li>Step 1 : Hoeffding’s Lemma을 위해 다음 등식을 유도한다.</li>
-      <li>For the Rademacher R.V \(X\) (that take the value \(\{-1, 1\}\)),</li>
-      <li>.\(\begin{aligned}
-\mathbb{E}[\exp (t X)] &amp; =\frac{1}{2}[\exp (t)+\exp (-t)] \\
-&amp; =\frac{1}{2}\left[\sum_{k=0}^{\infty} \frac{t^k}{k !}+\sum_{k=0}^{\infty} \frac{(-t)^k}{k !}\right] \\
-&amp; =\sum_{k=0}^{\infty} \frac{t^{2 k}}{(2 k) !} \leq \sum_{k=0}^{\infty} \frac{t^{2 k}}{2^k k !} \\
-&amp; =\exp \left(t^2 / 2\right)
-\end{aligned}\)</li>
-      <li>Step 2 : Symmetrization</li>
-      <li>For the R.V \(X\) with zero mean, support \([a,b]\), and \(X^{\prime}\) which is independent copy of \(X\)​,</li>
-      <li>.\(\begin{aligned}
-\mathbb{E}_X[\exp (t X)]&amp; = \mathbb{E}_X[\exp(t(X-\mathbb{E}[X^{\prime}]))]\\ &amp; \le \mathbb{E}_{X, X^{\prime}}\left[\exp \left(t\left(X-X^{\prime}\right)\right]\right. \quad \text{by Jensen's inequality}\\ &amp; =\mathbb{E}_{X, X^{\prime}}\left[\mathbb{E}_\epsilon\left[\exp \left(t \epsilon\left(X-X^{\prime}\right) \mid X, X^{\prime}\right]\right]\right. \\
-&amp; \leq \mathbb{E}_{X, X^{\prime}}\left[\exp \left(t^2\left(X-X^{\prime}\right)^2 / 2\right]\right. \quad \text{by step 1}\\ &amp; \le \exp(t^2(b-a)^2/2)
-\end{aligned}\)​</li>
-      <li>추가적인 theorem으로 \(\exp(t^2(b-a)^2/8)\)까지 bound를 낮출 수 있다. (skip the proof)</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="comparison-btw-chebyshevs-inequality-vs-hoeffdings-inequality">Comparison btw Chebyshev’s inequality vs. Hoeffding’s inequality</h3>
-
-<ul>
-  <li>\(X\)가 Rademacher R.V (-1 또는 1이 되는데 각각 1/2확률)일 때, \(\mathbb{E}[\bar X]=0, Var(\bar X)=\frac{1}{n}\)이므로</li>
-  <li>Chebyshev’s inequality는 \(P(\left\vert{ X-\mu }\right\vert \geq t) \leq \frac{\operatorname{Var}(X)}{t^2}\)​이고, 우측 항을 \(\delta\)로 만들면 아래와 같다.
-    <ul>
-      <li>\(\begin{aligned}
-&amp; P(|\bar{X}-\mathbb{E}[\bar{X}]| \geq t) \leq \frac{1}{n t^2} \\
-&amp; \Longleftrightarrow P\left(|\bar{X}-\mathbb{E}[\bar{X}]| \geq \sqrt{\frac{1}{n \delta}}\right) \leq \delta \end{aligned}\)​</li>
-    </ul>
-  </li>
-  <li>Hoeffding’s inequality는 \(P\left\{\left\vert{ \frac{1}{n} \sum_{i=1}^n\left(X_i-\mathbb{E}\left[X_i\right]\right)}\right\vert \geq t\right\} \leq 2 e^{-2 n^2 t^2 / \sum_{i=1}^n\left(b_i-a_i\right)^2}\)이고, 우측 항을 \(\delta\)로 만들면 아래와 같다.
-    <ul>
-      <li>\(\begin{aligned}
-&amp; P(|\bar{X}-\mathbb{E}[\bar{X}]| \geq t) \leq 2 e^{-n t^2 / 2} \\
-&amp; \Longleftrightarrow P\left(|\bar{X}-\mathbb{E}[\bar{X}]| \geq \sqrt{\frac{2}{n} \log \left(\frac{2}{\delta}\right)}\right) \leq \delta .
-\end{aligned}\)​</li>
-    </ul>
-  </li>
-  <li>\(\delta \to 0\)일 때 Chebyshev’s의 bound는 polynomially 커지고, Hoeffding’s의 bound는 logarithmically 커진다.
-    <ul>
-      <li>\(\delta=0.001\)일 때, 즉 99.9%의 확률에 대한 bounds는
-Chebyshev’s는 \(\sqrt{\frac{1}{n \times 0.001}} \approx \frac{31}{\sqrt{n}}\) 
-Hoeffding’s는 \(\sqrt{\frac{2}{n} \log \left(\frac{2}{0.001}\right)} \approx \frac{2.57}{\sqrt{n}}\)이다.</li>
-    </ul>
-  </li>
-  <li>결론적으로, Hoeffding’s inequality가 tail (extreme) probability에 대해 훨씬 tight한 bound를 제공한다.</li>
-</ul>
-
-<h3 id="example--classification-error">Example : Classification error</h3>
-
-<ul>
-  <li>Classifier \(h\)의 error \(R(h)=P(Y \neq h(X))\)는 \(\widehat{R}_n(h)=\frac{1}{n} \sum_{i=1}^n \mathbb{1}\left(Y_i \neq h\left(X_i\right)\right)\)로 추정한다.</li>
-  <li>By Hoeffding’s inequality,
-    <ul>
-      <li>\(P\left(\left\vert{ \widehat{R}_n(h)-R(h)} \right\vert \geq t\right) \leq 2 e^{-2 n t^2} \quad \text { for all } t \geq 0\)이다.</li>
-      <li>즉 \(\left\vert{ \widehat{R}_n(h)-R(h)} \right\vert \leq \sqrt{\frac{1}{2 n} \log \left(\frac{2}{\delta}\right)}\) with probability at least \(1-\delta\)</li>
-    </ul>
-  </li>
-  <li>Hoeffding’s inequality는 확률변수의 범위에 대한 가정을 제외하면 어떠한 정보(가정)도 사용하지 않는다는 점에서 유용하다.</li>
-</ul>
-
-<h2 id="34-bernsteins-inequality">3.4. Bernstein’s inequality</h2>
-
-<ul>
-  <li>
-    <p><strong>R.V \(X\)의 분산이 작으면</strong> Hoeffding’s inequality보다 sharper inequality인 Bernstein’s inequality가 된다.</p>
-  </li>
-  <li>Let \(X_1, \ldots, X_n\) be independent and suppose that \(\left\vert {X_i} \right\vert \leq c\) and \(\mathbb{E}\left[X_i\right]=\mu\).</li>
-  <li>Then for any \(t \geq 0,\ P\left(\left\vert{\frac{1}{n} \sum_{i=1}^n X_i-\mu}\right\vert \geq t\right) \leq 2 \exp \left\{-\frac{n t^2}{2 \sigma^2+2 c t / 3}\right\}\)
-    <ul>
-      <li>where \(\sigma^2=\frac{1}{n} \sum_{i=1}^n \operatorname{Var}\left(X_i\right)\)​</li>
-    </ul>
-  </li>
-  <li>Skip the proof</li>
-  <li>확률변수의 분산이 작으면, \(2 \sigma^2+\frac{2 c t}{3}&lt;2 c^2\)이면 Hoeffding’s inequality보다 tight하다.
-    <ul>
-      <li>Hoeffding’s inequality \(P\left\{\left\vert{\frac{1}{n} \sum_{i=1}^n\left(X_i-\mathbb{E}\left[X_i\right]\right)}\right\vert \geq t\right\} \leq 2 e^{-2 n^2 t^2 / \sum_{i=1}^n\left(b_i-a_i\right)^2}\)는 \(\left\vert{X_i}\right\vert \leq c\)에서 \(P\left\{\left\vert{\frac{1}{n} \sum_{i=1}^n\left(X_i-\mathbb{E}\left[X_i\right]\right)}\right\vert \geq t\right\} \leq 2 e^{-2 n^2 t^2 / \sum_{i=1}^n\left(2c\right)^2}=2 e^{-2 n^2 t^2 / n4c^2}=2 e^{-n t^2 / 2c^2}\)이다.</li>
-      <li>\(2 e^{-n t^2 / 2c^2}\)보다 \(2 \exp \left\{-\frac{n t^2}{2 \sigma^2+2 c t / 3}\right\}\)가 더 <strong>작은</strong> 경우를 의미한다.
-        <ul>
-          <li>Error의 upper bound가 더 작은 것이 더 tight한 것이니까</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="35-mcdiarmids-inequality">3.5. McDiarmid’s inequality</h2>
-
-<ul>
-  <li>Suppose that \(\left(X_1, \ldots, X_n\right)\) are independent random variables, and let \(g: \mathcal{X}^n \mapsto \mathbb{R}\) satisfy <strong>the bounded difference property</strong> with constants \(c_1, \ldots, c_n\)​.
-    <ul>
-      <li><strong>the bounded difference property</strong>의 의미는</li>
-      <li>: \(\sup _{x_1, \ldots, x_n, x_i^{\prime} \in \mathcal{X}}\left\vert{g\left(x_1, \ldots, x_n\right)-g\left(x_1, \ldots, x_{i-1}, x_i^{\prime}, x_{i+1}, \ldots, x_n\right)}\right\vert \leq c_i, \quad \text { for } 1 \leq i \leq n\)​</li>
-      <li>즉 \(x_i\)를 \(x^{\prime}_i\)로 replace했을 때 발생하는 g의 difference가 \(c_i\)보다 작다, bounded 되어있다.</li>
-    </ul>
-  </li>
-  <li>Then \(P\left(\left\vert{g\left(X_1, \ldots, X_n\right)-\mathbb{E}\left[g\left(X_1, \ldots, X_n\right)\right]}\right\vert \geq t\right) \leq 2 \exp \left(-\frac{2 t^2}{\sum_{i=1}^n c_i^2}\right)\)​</li>
-</ul>
-
-<h3 id="proof-3">Proof</h3>
-
-<ul>
-  <li>쉽게 말해서
-    <ul>
-      <li>왼쪽에 있는 \(g\left(X_1, \ldots, X_n\right)\)는 \(X_1, ..., X_n\)​이 아무것도 given이 아닌 상태인데,
-        <ul>
-          <li>\(X_1\)이 given이 되었을 때 생기는 g의 difference \(Z_1\)은 \(\to\) \(c_1\)보다 작으니 interval \([0,c_1]\)에 bounded,</li>
-          <li>\(X_2\)이 given이 되었을 때 생기는 g의 difference \(Z_2\)는 \(\to\) \(c_2\)보다 작으니 interval \([0,c_2]\)에 bounded,</li>
-        </ul>
-      </li>
-      <li>오른쪽에 있는 \(\mathbb{E}[g(X_1, ..., X_n)]\ \text{는 }\mathbb{E}\left[\mathbb{E}[g(X_1,...,.X_n)\mid X_1, .., X_n]\right]\)이라는 점에서
-        <ul>
-          <li>\(X_1, ..., X_n\)이 모두 given인 때로 볼 수 있으므로</li>
-          <li>왼쪽에 있는 \(g\left(X_1, \ldots, X_n\right)\)과의 difference \(\sum Z_i\)는 \(\to\)  \(\displaystyle\sum_{i=1}^n c_i\)보다 작으니 interval \([0,\displaystyle\sum_{i=1}^n c_i]\)에 bounded</li>
-        </ul>
-      </li>
-      <li>이제 Hoeffding’s inequality : \(P\left\{\sum_{i=1}^n\left(X_i-\mathbb{E}\left[X_i\right]\right) \geq t\right\} \leq e^{-2 t^2 / \sum_{i=1}^n\left(b_i-a_i\right)^2}\)에 의해
-        <ul>
-          <li>\(P\left(\left\vert{g\left(X_1, \ldots, X_n\right)-\mathbb{E}\left[g\left(X_1, \ldots, X_n\right)\right]}\right\vert \geq t\right) \leq 2 \exp \left(-\frac{2 t^2}{\sum_{i=1}^n c_i^2}\right)\)가 된다.</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="36-dkw-inequality">3.6. DKW inequality</h2>
-
-<ul>
-  <li>There exists a finite positive constant \(C\) such that \(P\left(\sup _{x \in \mathbb{R}}\left\vert{F_n(x)-F(x)}\right\vert \geq t\right) \leq C e^{-2 n t^2} \quad \text { for all } t \geq 0\)</li>
-  <li>The best possible constant \(C\) is known as 2</li>
-</ul>
-
-<p>Pass</p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[3. Inequalities for Probabilities]]></summary></entry><entry><title type="html">Semi-Supervised Mean Estimation (Variance Reduction Technique)</title><link href="http://localhost:4000/stat/2024-04-16-SSmean/" rel="alternate" type="text/html" title="Semi-Supervised Mean Estimation (Variance Reduction Technique)" /><published>2024-04-16T00:00:00+09:00</published><updated>2024-04-16T13:11:09+09:00</updated><id>http://localhost:4000/stat/SSmean</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-16-SSmean/"><![CDATA[<ul>
-  <li>일반적으로 \(\left\{X_i\right\}_{i=1}^n\)으로 \(\mathbb{E}[X]\)를 estimate할 때 sample mean \(\hat \theta = \bar{X}=\frac{1}{n} \sum_{i=1}^n X_i\)을 사용한다.</li>
-  <li>하지만 실제로는 소량의 labeled data \(\left\{X_i\right\}_{i=1}^n\)와 대량의 unlabeled data \(\left\{Y_i\right\}_{i=1}^N\), \(n&lt;&lt;N\)이 존재한다.</li>
-  <li>Motivation : 대량의 unlabeled data를 사용하여 \(\bar{X}=\frac{1}{n} \sum_{i=1}^n X_i\)보다 좋은 (분산이 작은) unbiased estimator를 찾자.</li>
-  <li><strong>Consider an estimator</strong> \(\widehat{\theta}=\frac{1}{n} \sum_{i=1}^n\left\{X_i-f\left(Y_i\right)\right\}+\frac{1}{N} \sum_{i=1}^N f\left(Y_i\right)\)​
-    <ul>
-      <li>\(f(Y)\)는  \(Y\)​로 만들 수 있는 estimator라고 생각하면 된다.</li>
-      <li>지금은 \(f(Y)\)가 없는 부분이 unbiased이므로 \(f(Y)\)도 unbiased estimator이어야 한다.</li>
-      <li>참고로 \(f(Y)=\mathbb E[X \mid Y]\)인 경우가 strong assumption이긴 하지만 optimal choice이다.</li>
-    </ul>
-  </li>
-  <li>Unbiased ? (proof)</li>
-</ul>
-
-<p>: \(\begin{aligned} \mathbb{E}[\hat{\theta}] &amp; =\mathbb{E}\left[\frac{1}{n} \sum_{i=1}^n\left(X_i-f\left(Y_i\right)\right)\right]+\mathbb{E}\left[\frac{1}{N} \sum_{i=1}^N f\left(Y_i\right)\right] \\ &amp; =\frac{1}{n} \sum_{i=1}^n \mathbb{E}\left[X_i-f\left(Y_i\right)\right]+\frac{1}{N} \sum_{i=1}^N \mathbb{E}\left[f\left(Y_i\right)\right] \\ &amp; =\mathbb{E}[X]-\mathbb{E}[f(Y)]+\mathbb{E}[f(Y)] \quad\left(\text { when } Y_i^{\prime} \text { s are iid) }\right. \\ &amp; =\mathbb{E}[X]\end{aligned}\)</p>
-
-<ul>
-  <li>Improves the variance ? (proof)</li>
-</ul>
-
-<p>: \(\begin{aligned} \hat{\theta} &amp; =\frac{1}{n} \sum_{i=1}^n\left(X_i-f\left(Y_i\right)\right)+\frac{1}{N} \sum_{i=1}^N f\left(Y_i\right) \\ &amp; =\frac{1}{n} \sum_{i=1}^n X_i-\left(\frac{1}{n}-\frac{1}{N}\right) \sum_{=1}^n f\left(Y_i\right)+\frac{1}{N} \sum_{i=n+1}^N f\left(Y_i\right) \\ \operatorname{Var}(\hat{\theta}) &amp; =\operatorname{Var}\left(\frac{1}{n} \sum_{i=1}^n X_i\right)+\operatorname{Var}\left(-\left(\frac{1}{n}-\frac{1}{N}\right) \sum_{i=1}^n f\left(Y_i\right)\right) \\ &amp; \quad -2 \operatorname{Cov}\left(\frac{1}{n} \sum_{i=1}^n X_i,\left(\frac{1}{n}-\frac{1}{N}\right) \sum_{i=1}^n f\left(Y_i\right)\right)+\operatorname{Var}\left(\frac{1}{N} \sum_{i=1}^N f\left(Y_i\right)\right) \\ &amp; =\frac{1}{n} \operatorname{Var}(X)+\left(\frac{1}{n}-\frac{1}{N}\right)^2 \cdot n \operatorname{Var}(f(Y)) \\ &amp; \quad -2 \frac{1}{n}\left(\frac{1}{n}-\frac{1}{N}\right) n \operatorname{Cov}(X, f(Y))+\frac{N-n}{N^2} \operatorname{Var}(f(Y)) \\ &amp; =\frac{1}{n} \operatorname{Var}(X)+\left(\frac{1}{n}-\frac{2}{N}+\frac{n}{N^2}-\frac{N-n}{N^2}\right) \operatorname{Var}(f(Y))-2\left(\frac{1}{n}-\frac{1}{N}\right) \operatorname{Cov}\left(X, f(Y)\right) \\ &amp; =\frac{1}{n} \operatorname{Var}(X)+\left(\frac{1}{n}-\frac{2}{N}+\frac{1}{N}\right) \operatorname{Var}(f(Y))-2\left(\frac{1}{n}-\frac{1}{N}\right) \operatorname{Cov}\left(X, f(Y)\right) \\ &amp; =\frac{1}{n}\left[\operatorname{Var}(X)+\frac{N-n}{N}(\operatorname{Var}(f(Y))-2 \operatorname{Cov}(X, f(Y)))\right]\end{aligned}\)</p>
-
-<ul>
-  <li>
-    <p>이 때 \(\operatorname{Var}[\bar{X}]=\operatorname{Var}[X] / n\) 이므로 \(\frac{1}{n}\left[\operatorname{Var}[X]+\frac{N-n}{N}\{\operatorname{Var}[f(Y)]-2 \operatorname{Cov}[X, f(Y)]\}\right]&lt;\frac{\operatorname{Var}[X]}{n}\)이면,</p>
-
-    <ul>
-      <li>즉 \(\operatorname{Var}[f(Y)]&lt;2 \operatorname{Cov}[X, f(Y)]\)이면 \(\hat \theta = \bar X\)보다 improve 된다.</li>
-    </ul>
-  </li>
-  <li>\(f(Y)=\mathbb{E}[X \mid Y]\)을 가정했으므로 \(\begin{aligned}\operatorname{Var}[\widehat{\theta}]=\frac{1}{n}\left[\operatorname{Var}(X)+\frac{N-n}{N}(\operatorname{Var}(f(Y))-2 \operatorname{Cov}(X, f(Y)))\right]\end{aligned}\)이고,
-    <ul>
-      <li>Covariance 부분만 보면
-        <ul>
-          <li>\(\begin{aligned}
-\operatorname{Cov}(X, \mathbb{E}[X \mid Y]) &amp; =\mathbb{E}[(X-\mathbb{E}[X])(\mathbb{E}[X \mid Y]-\mathbb{E}[X])]\\&amp;=\mathbb{E}\left[(\mathbb{E}[X \mid Y]-\mathbb{E}[X])^2\right] \\
-&amp; =\operatorname{Var}[\mathbb{E}(X \mid Y)]
-\end{aligned}\)이므로 대입하면</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>
-    <p>\(\begin{aligned}
-\operatorname{Var}[\widehat{\theta}] &amp; =\frac{1}{n}\{\underbrace{\operatorname{Var}[X]}_{=\operatorname{Var}[\mathbb{E}(X \mid Y)]+\mathbb{E}[\operatorname{Var}(X \mid Y)]}+\frac{N-n}{N} \operatorname{Var}(\mathbb{E}[X \mid Y])-2 \frac{N-n}{N} \underbrace{\operatorname{Cov}(X, \mathbb{E}[X \mid Y])}_{=\operatorname{Var}[\mathbb{E}(X \mid Y)]}\} \\
-&amp; =\frac{1}{n} \mathbb{E}[\operatorname{Var}(X \mid Y)]+\frac{1}{N} \operatorname{Var}[\mathbb{E}(X \mid Y)] \\
-&amp; \leq \frac{1}{n} \mathbb{E}[\operatorname{Var}(X \mid Y)]+\frac{1}{n} \operatorname{Var}[\mathbb{E}(X \mid Y)]=\operatorname{Var}[\bar{X}],
-\end{aligned}\)이다.</p>
-  </li>
-  <li>\(n &lt;&lt; N\)이므로 \(\hat \theta=\bar X\)의 분산이 작아졌다.</li>
-  <li>이 방법의 본질은 \(X\)와 \(Y\)의 dependency이다.
-    <ul>
-      <li>만약 \(X\)와 \(Y\)가 independent이면 \(Y\)가 \(\mathbb E[X]\)에 대한 정보를 가지고 있지 않으므로 improvement가 없다.</li>
-      <li>즉 본질적으로 Antithetic variable for Variance reduction과 같다.
-        <ul>
-          <li>(sample의 개수가 같더라도 iid가 아닌 negatively correlated sampling을 함으로써 estimator의 분산을 줄이는 방법)</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[일반적으로 \(\left\{X_i\right\}_{i=1}^n\)으로 \(\mathbb{E}[X]\)를 estimate할 때 sample mean \(\hat \theta = \bar{X}=\frac{1}{n} \sum_{i=1}^n X_i\)을 사용한다. 하지만 실제로는 소량의 labeled data \(\left\{X_i\right\}_{i=1}^n\)와 대량의 unlabeled data \(\left\{Y_i\right\}_{i=1}^N\), \(n&lt;&lt;N\)이 존재한다. Motivation : 대량의 unlabeled data를 사용하여 \(\bar{X}=\frac{1}{n} \sum_{i=1}^n X_i\)보다 좋은 (분산이 작은) unbiased estimator를 찾자. Consider an estimator \(\widehat{\theta}=\frac{1}{n} \sum_{i=1}^n\left\{X_i-f\left(Y_i\right)\right\}+\frac{1}{N} \sum_{i=1}^N f\left(Y_i\right)\)​ \(f(Y)\)는 \(Y\)​로 만들 수 있는 estimator라고 생각하면 된다. 지금은 \(f(Y)\)가 없는 부분이 unbiased이므로 \(f(Y)\)도 unbiased estimator이어야 한다. 참고로 \(f(Y)=\mathbb E[X \mid Y]\)인 경우가 strong assumption이긴 하지만 optimal choice이다.]]></summary></entry><entry><title type="html">Inequalities for Expectation and Variance</title><link href="http://localhost:4000/stat/2024-04-16-ineq1/" rel="alternate" type="text/html" title="Inequalities for Expectation and Variance" /><published>2024-04-16T00:00:00+09:00</published><updated>2024-04-16T17:53:25+09:00</updated><id>http://localhost:4000/stat/ineq1</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-16-ineq1/"><![CDATA[<h2 id="1-inequalities-for-expectation">1. Inequalities for Expectation</h2>
-
-<h2 id="11-jensens-inequality">1.1. Jensen’s Inequality</h2>
-
-<ul>
-  <li>Suppose \(g\) is a convex function such that \(\lambda g(x)+(1-\lambda) g(y) \geq g(\lambda x+(1-\lambda) y)\) for all \(\lambda \in(0,1)\) and \(x, y \in \mathbb{R}\).</li>
-  <li>Then \(\mathbb{E}[g(X)] \geq g(\mathbb{E}[X]),\) provided that both expectations exist, i.e., \(\mathbb{E}{\left\vert X \right\vert}&lt;\infty\) and \(\mathbb{E}{\left\vert g(X) \right\vert}&lt;\infty\).</li>
-</ul>
-
-<h3 id="proof">Proof</h3>
-
-<ul>
-  <li>Assumption : \(g^{\prime \prime}(x)\ge0 \ \forall x\)</li>
-  <li>Using Taylor series about \(\mu = \mathbb E[X]\) of order 2</li>
-  <li>\(g(x)=g(\mu)+g^{\prime}(\mu)(x-\mu)+\frac{g^{\prime \prime}(\zeta)}{2}(x-\mu)^2 \text { where } \zeta \text { is between } x \text { and } \mu\)이고</li>
-  <li>\(g(x) \geq g(\mu)+g^{\prime}(\mu)(x-\mu)\quad (\because g^{\prime \prime}(x)\ge0 \ \forall x)\). 양변에 expectation을 취하면</li>
-  <li>\(\mathbb E[g(x)] \geq g(\mu)\)이 된다.</li>
-</ul>
-
-<p><img src="/assets/img/stat/ineq1/fig1.png" alt="그림1" /></p>
-
-<h3 id="examples--amge-gm-ge-hm">Examples : \(AM\ge GM \ge HM\)</h3>
-
-<ul>
-  <li>
-    <p>\(\begin{aligned} \text { Arithmetic Mean (AM) }&amp;=\frac{\sum_{i=1}^n x_i}{n} \\ \text { Geometric Mean }(\mathrm{GM}) &amp; =\left(\prod_{i=1}^n x_i\right)^{1 / n} \\ \text { Harmonic Mean }(\mathrm{HM}) &amp; =\frac{1}{\frac{1}{n} \sum_{i=1}^n \frac{1}{x_i}} \end{aligned}\)이다.</p>
-  </li>
-  <li>
-    <p>\(-\log(HM) = \log \left(\frac{1}{n} \sum_{i=1}^n \frac{1}{x_i}\right) \ \geq \ -\log(GM)=\frac{1}{n} \sum_{i=1}^n\left\{\log \left(\frac{1}{x_i}\right)\right\}\ \geq \ -\log \left(\frac{1}{n} \sum_{i=1}^n x_i\right)=-\log (\mathrm{AM})\)를 보이면 된다.</p>
-  </li>
-</ul>
-
-<h3 id="examples--kl-divergence-ge-0">Examples : KL-divergence \(\ge 0\)</h3>
-
-<ul>
-  <li>
-    <p>\(D_{\mathrm{KL}}(P \mid\mid Q)=\sum_x p(x) \log \left(\frac{p(x)}{q(x)}\right)=\mathbb{E}\left[\log \left(\frac{p(X)}{q(X)}\right)\right]=\mathbb{E}\left[-\log \left(\frac{q(X)}{p(X)}\right)\right]\)이다.</p>
-  </li>
-  <li>
-    <p>\(D_{\mathrm{KL}}(P \mid\mid Q)=\mathbb{E}[-\log (Z)] \geq-\log \mathbb{E}[Z]=-\log \sum_x p(x) \frac{q(x)}{p(x)}=-\log (1)=0\)이므로 KL-divergence는 non-negative이다.</p>
-  </li>
-</ul>
-
-<h3 id="examples--chi-square-divergence-d_chi2-ge-d_kl">Examples : Chi-square divergence \(D_{\chi^2} \ge D_{KL}\)</h3>
-
-<ul>
-  <li>using \(\log x\le x-1\)</li>
-  <li>\(\begin{aligned}D_{\mathrm{KL}}(P \mid\mid Q) &amp;= \sum_x p(x) \log \left(\frac{p(x)}{q(x)}\right) \\ &amp;\le \sum_x\left(\frac{p(x)}{q(x)}\right)^2 q(x)-1 \\ &amp; = \mathrm{D}_{\chi^2}(P \mid\mid Q)\end{aligned}\)이다.</li>
-</ul>
-
-<h2 id="12-holders-inequality">1.2. Holder’s inequality</h2>
-
-<ul>
-  <li>If \(p, q \in(1, \infty)\) with \(1 / p+1 / q=1\),</li>
-  <li>Then \(\left\vert\mathbb{E}[X Y]\right\vert \leq \mathbb{E}\left\vert X Y\right\vert \leq\left(\mathbb{E}{\left\vert X \right\vert}^p\right)^{1 / p}\left(\mathbb{E}{\left\vert Y\right\vert}^q\right)^{1 / q} .\)</li>
-</ul>
-
-<h3 id="proof-1">Proof</h3>
-
-<ul>
-  <li>The first inequality follows from :</li>
-  <li>.\(\begin{aligned}-{\left\vert XY \right\vert} \leq X Y \leq{\left\vert XY \right\vert}\end{aligned}\)</li>
-  <li>The second inequality follows from :</li>
-  <li>
-    <p>.\(\begin{aligned}
-a=\frac{|X|}{\left(\mathbb{E}|X|^p\right)^{1 / p}} \quad \text { and } \quad b=\frac{|Y|}{\left(\mathbb{E}|Y|^q\right)^{1 / q}}\\ \frac{1}{p} \frac{|X|^p}{\mathbb{E}|X|^p}+\frac{1}{q} \frac{|Y|^q}{\mathbb{E}|Y|^q} \geq \frac{|X Y|}{\left(\mathbb{E}|X|^p\right)^{1 / p}\left(\mathbb{E}|Y|^q\right)^{1 / q}}
-\end{aligned}\)</p>
-  </li>
-  <li>c.f. Lemma) Let \(a\) and \(b\) be any positive numbers, and let \(p\) and \(q\) be any positive numbers satisfying \(1 / p+1 / q=1\). Then \(\frac{1}{p} a^p+\frac{1}{q} b^q \geq a b\) with equality if and only if \(a^p=b^q\)​.
-    <ul>
-      <li>Note : \(1 / p+1 / q=1 \Longleftrightarrow p-1=p / q \text {. }\)</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="corollary--cauchyschwarz-inequality">Corollary : Cauchy–Schwarz inequality</h3>
-
-<ul>
-  <li>\(\left\vert\mathbb{E}[X Y]\right\vert \leq \mathbb{E}[{\left\vert XY\right\vert}] \leq\left(\mathbb{E}{\left\vert X \right\vert}^2\right)^{1 / 2}\left(\mathbb{E}{\left\vert Y\right\vert}^2\right)^{1 / 2}\)이다.</li>
-</ul>
-
-<h3 id="example--covariance-inequality">Example : Covariance inequality</h3>
-
-<ul>
-  <li>\(\mathbb{E}\left[\left(X-\mu_X\right)\left(Y-\mu_Y\right)\right] \leq\left\{\mathbb{E}\left[\left(X-\mu_X\right)^2\right]\right\}^{1 / 2}\left\{\mathbb{E}\left[\left(Y-\mu_Y\right)^2\right]\right\}^{1 / 2}\) 이다.</li>
-  <li>즉 \(\operatorname{Cov}(X, Y)^2 \leq \sigma_X^2 \sigma_Y^2\)</li>
-  <li>Cramér–Rao Lower Bound : \(\frac{\operatorname{Cov}(Y, Z)}{\sqrt{\operatorname{Var}(Y) \operatorname{Var}(Z)}} \leq 1 \quad \Longleftrightarrow \quad \operatorname{Var}(Y) \geq \frac{\operatorname{Cov}(Y, Z)^2}{\mathcal{I}(\theta)}=\frac{1}{\mathcal{I}(\theta)}\)
-    <ul>
-      <li>\(\begin{aligned}
-\operatorname{Cov}(Y, Z) &amp; =\mathbb{E}[Y Z]-\mathbb{E}[Y] \mathbb{E}[Z] \\
-&amp; =\frac{d}{d \theta} \underbrace{\int u(x) f_X(x ; \theta) d x}_{=\theta}-\theta \frac{d}{d \theta} \underbrace{\int f_X(x ; \theta) d x}_{=1}=1
-\end{aligned}\) under some regularity conditions.</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="example">Example</h3>
-
-<ul>
-  <li>
-    <p>\(\mathbb{E}{\left\vert X \right\vert} \leq\left\{\mathbb{E}\left[{\left\vert X \right\vert}^p\right]\right\}^{1 / p} \leq\left\{\mathbb{E}\left[{\left\vert X \right\vert}^s\right]\right\}^{1 / s}, \quad \text { for } 1&lt;p&lt;s&lt;\infty\)이다.</p>
-  </li>
-  <li>
-    <p><strong>즉 higher moment \(\mathbb E[{\left\vert X \right\vert}^N]&lt;\infty\)이면 lower moment \(\mathbb E[{\left\vert X \right\vert}^n]&lt;\infty\)이다.</strong></p>
-  </li>
-</ul>
-
-<h2 id="13-minkowskis-inequality">1.3. Minkowski’s inequality</h2>
-
-<ul>
-  <li>\(1&lt;p&lt;\infty, \quad\left(\mathbb{E}{\left\vert X+Y \right\vert}^p\right)^{1 / p} \leq\left(\mathbb{E}{\left\vert X \right\vert}^p\right)^{1 / p}+\left(\mathbb{E}{\left\vert Y \right\vert}^p\right)^{1 / p}\)이다.</li>
-</ul>
-
-<h3 id="proof-2">Proof</h3>
-
-<ul>
-  <li>
-    <p>Using the Hölder’s inequality, \(\begin{aligned}
-\mathbb{E}|X+Y|^p &amp; =\mathbb{E}\left[|X+Y||X+Y|^{p-1}\right] \\
-&amp; \leq \mathbb{E}\left[|X||X+Y|^{p-1}\right]+\mathbb{E}\left[|Y||X+Y|^{p-1}\right] \\
-&amp; \leq\left(\mathbb{E}|X|^p\right)^{1 / p}\left(\mathbb{E}|X+Y|^{q(p-1)}\right)^{1 / q}+\left(\mathbb{E}|Y|^p\right)^{1 / p}\left(\mathbb{E}|X+Y|^{q(p-1)}\right)^{1 / q} \\ &amp; \text { where } q \text { satisfies } 1 / p+1 / q=1
-\end{aligned}\)</p>
-  </li>
-  <li>
-    <p>Then, \(\begin{aligned}
-\frac{\mathbb{E}|X+Y|^p}{\left(\mathbb{E}|X+Y|^{q(p-1)}\right)^{1 / q}} = \frac{\mathbb{E}|X+Y|^p}{\left(\mathbb{E}|X+Y|^{p}\right)^{1 / q}} = \left(\mathbb{E}|X+Y|^p\right)^{1/p}\leq\left(\mathbb{E}|X|^p\right)^{1 / p}+\left(\mathbb{E}|Y|^p\right)^{1 / p}
-\end{aligned}\)</p>
-  </li>
-</ul>
-
-<h2 id="14-association-inequality">1.4. Association inequality</h2>
-
-<ul>
-  <li>\(f, g\) non-decreasing implies \(\mathbb{E}[f(X) g(X)] \geq \mathbb{E}[f(X)] \mathbb{E}[g(X)]\).</li>
-  <li>\(f, g\) non-increasing implies \(\mathbb{E}[f(X) g(X)] \geq \mathbb{E}[f(X)] \mathbb{E}[g(X)]\).</li>
-  <li>\(f\) non-decreasing and \(g\) non-increasing implies \(\mathbb{E}[f(X) g(X)] \leq \mathbb{E}[f(X)] \mathbb{E}[g(X)]\)</li>
-</ul>
-
-<h3 id="proof-3">Proof</h3>
-
-<p>Let the pair of random variables \(X^{\prime}\) be distributed as the pair \(X\) and independent of it. If \(f\) and \(g\) are non-decreasing, it holds \(\left(f(X)-f\left(X^{\prime}\right)\right)\left(g(X)-g\left(X^{\prime}\right)\right) \geq 0\) and therefore \(\mathbb{E}\left[\left(f(X)-f\left(X^{\prime}\right)\right)\left(g(X)-g\left(X^{\prime}\right)\right)\right] \geq 0\)</p>
-
-<h3 id="example-1">Example</h3>
-
-<p>\(\begin{aligned}
-&amp; \mathbb{E}\left[X^4\right] \geq \mathbb{E}[X] \mathbb{E}\left[X^3\right] \\
-&amp; \mathbb{E}\left[X e^{-X}\right] \leq \mathbb{E}[X] \mathbb{E}\left[e^{-X}\right] \\
-&amp; \mathbb{E}[X \mathbb{1}(X \geq a)] \geq \mathbb{E}[X] P(X \geq a)
-\end{aligned}\)​</p>
-
-<hr />
-
-<h2 id="2-inequalities-for-variance">2. Inequalities for Variance</h2>
-
-<h2 id="21-variance-upper-bound">2.1. Variance upper bound</h2>
-
-<ul>
-  <li>Suppose that \(a \leq X \leq b\) for some \(a, b \in \mathbb{R}\).</li>
-  <li>Then \(\operatorname{Var}[X] \leq \frac{(b-a)^2}{4}\)</li>
-</ul>
-
-<h3 id="proof-4">Proof</h3>
-
-<ul>
-  <li>
-    <p>\(\operatorname{Var}[X]=\mathbb{E}\left[(X-\mathbb{E}[X])^2\right] \leq \mathbb{E}\left[(X-c)^2\right] \quad \text { for any } c \in \mathbb{R}\)이다.</p>
-  </li>
-  <li>
-    <p>\(c=(b+a) / 2\)이면 \(\operatorname{Var}[X] \leq \mathbb{E}\left[(X-(b+a) / 2)^2\right] \leq(b-a)^2 / 4\)</p>
-  </li>
-</ul>
-
-<h2 id="22-efronstein-inequality">2.2. Efron–Stein inequality</h2>
-
-<ul>
-  <li><u>Simple but surprisingly powerful !</u></li>
-  <li>
-    <p>Suppose that \(X_1, \ldots, X_n, X_1^{\prime}, \ldots, X_n^{\prime}\) are independent with \(X_i\) and \(X_i^{\prime}\) having the same distribution for all \(i \in\{1, \ldots, n\}\). Let \(X=\left(X_1, \ldots, X_n\right)\) and \(X^{(i)}=\) \(\left(X_1, \ldots, X_{i-1}, X_i^{\prime}, X_{i+1}, \ldots, X_n\right)\).</p>
-  </li>
-  <li>Then\(\operatorname{Var}[f(X)] \leq \frac{1}{2} \sum_{i=1}^n \mathbb{E}\left[\left\{f(X)-f\left(X^{(i)}\right)\right\}^2\right]\)</li>
-</ul>
-
-<h3 id="proof-5">Proof</h3>
-
-<ul>
-  <li><strong>Step 1</strong>: Define \(V\)</li>
-  <li>Let \(V_i=\mathbb{E}\left[f(X) \mid X_1, \ldots, X_i\right]-\mathbb{E}\left[f(X) \mid X_1, \ldots, X_{i-1}\right], \quad \text { for } i=1, \ldots, n\)</li>
-  <li>Then \(V=\sum_{i=1}^n V_i\)</li>
-  <li>.\(\begin{aligned}
-\operatorname{Var}[V] &amp; =\mathbb{E}\left[\left(\sum_{i=1}^n V_i\right)^2\right] \\
-&amp; =\sum_{i=1}^n \mathbb{E}\left[V_i^2\right]+2 \sum_{1 \leq i&lt;j \leq n} \mathbb{E}\left[V_i V_j\right]
-\end{aligned}\)</li>
-  <li><strong>Step 2</strong> : cross product = 0</li>
-  <li>
-    <p>For any \(i&gt;j,\) \(\begin{aligned}
-\mathbb{E}\left[V_i V_j\right]&amp;=\mathbb{E}\left[\mathbb{E}\left[V_i V_j \mid X_1, \ldots, X_j\right]\right] \\&amp; =\mathbb{E}\left[V_j \mathbb{E}\left[V_i \mid X_1, \ldots, X_j\right]\right]=0\end{aligned}\)</p>
-  </li>
-  <li>Because \(\begin{aligned}
-\mathbb{E}\left[V_i \mid X_1, \ldots, X_j\right] &amp; =\mathbb{E}\left[\mathbb{E}\left[f(X) \mid X_1, \ldots, X_i\right] \mid X_1, \ldots, X_j\right]-\mathbb{E}\left[\mathbb{E}\left[f(X) \mid X_1, \ldots, X_{i-1}\right] \mid X_1, \ldots, X_j\right] \\
-&amp; =\mathbb{E}\left[f(X) \mid X_1, \ldots, X_j\right]-\mathbb{E}\left[f(X) \mid X_1, \ldots, X_j\right]=0
-\end{aligned}\)
-    <ul>
-      <li>c.f. \(\mathbb{E}[X Y]=\mathbb{E}[\mathbb{E}[X Y \mid X]]=\mathbb{E}[X \mathbb{E}[Y \mid X]]\) and \(\mathbb{E}[\mathbb{E}[X \mid Y, f(X)] \mid f(X)]=\mathbb{E}[X \mid f(X)]\)​</li>
-    </ul>
-  </li>
-  <li>
-    <p>Therefore, \(\operatorname{Var}[V]=\sum_{i=1}^n \mathbb{E}\left[V_i^2\right]\)</p>
-  </li>
-  <li><strong>Step 3</strong> by Jensen’s inequality</li>
-  <li>.\(\begin{aligned}
-V_i^2 &amp; =\left(\mathbb{E}\left[f(X) \mid X_1, \ldots, X_i\right]-\mathbb{E}\left[f(X) \mid X_1, \ldots, X_{i-1}\right]\right)^2 \\
-&amp; =\left(\mathbb{E}\left[\mathbb{E}\left[f(X) \mid X_1, \ldots, X_n\right]-\mathbb{E}\left[f(X) \mid X_1, \ldots, X_{i-1}, X_{i+1}, \ldots, X_n\right] \mid X_1, \ldots, X_i\right]\right)^2 \\
-&amp; \leq \mathbb{E}\left[\left(\mathbb{E}\left[f(X) \mid X_1, \ldots, X_n\right]-\mathbb{E}\left[f(X) \mid X_1, \ldots, X_{i-1}, X_{i+1}, \ldots, X_n\right]\right)^2 \mid X_1, \ldots, X_i\right] \\
-&amp; =\mathbb{E}\left[\left(f(X)-\mathbb{E}[f(X^{(i)})]\right)^2 \mid X_1, \ldots, X_i\right] \end{aligned}\)</li>
-  <li>. \(\begin{aligned} \mathbb{E}[V_i^2]&amp;\le\mathbb{E}\left[\mathbb{E}\left[\left(f(X)-\mathbb{E}[f(X^{(i)})]\right)^2 \mid X_1, \ldots, X_i\right]\right]\\&amp;=\mathbb{E}\left[\left(f(X)-\mathbb{E}(f(X^{(i)}))\right)^2\right] \\ &amp; =\mathbb{E}\left[\operatorname{Var}\left(f(X) \mid X_1, \ldots, X_{i-1}, X_{i+1}, \ldots, X_n\right)\right] \\ &amp; =\frac{1}{2} \mathbb{E}\left[\left(f(X)-f(X^{(i)})\right)^2\right] \end{aligned}\)</li>
-  <li>Note : \(f(X^{(i)})\) is \(Z=f\left(X_1, \ldots, X_{i-1}, X_i^{\prime}, X_{i+1}, \ldots, X_n\right)\)</li>
-  <li><strong>결론</strong> : samples \(X = (X_1, \ldots, X_n),\quad X^{\prime} = (X_1^{\prime}, \ldots, X_n^{\prime})\)이 있을 때, estimator \(f(X)\)의 variance를 알기 위해서는 sample \(X_1, \ldots, X_n\)를 하나씩 \(X_1^{\prime}, \ldots, X_n^{\prime}\)으로 바꿔보면서, \(f(X)\)의 변화량\(^2\) 의 expectation을 다 더하고 2로 나누어주면 upper bound를 구할 수 있다.</li>
-</ul>
-
-<h3 id="example--sample-mean">Example : Sample mean</h3>
-
-<ul>
-  <li>Let \(f(X)=\frac{1}{n} \sum_{i=1}^n X_i\) where \(X_1, \ldots, X_n \stackrel{\text { i.i.d. }}{\sim} P\).</li>
-  <li>Then the EfronStein inequality yields \(\operatorname{Var}[f(X)] \leq \sum_{i=1}^n \frac{1}{n^2} \mathbb{E}\left[\frac{\left(X_i-X_i^{\prime}\right)^2}{2}\right]=\frac{\sigma^2}{n}\)</li>
-  <li>We know that \(\operatorname{Var}[f(X)]=\sigma^2 / n\). In this regard, the Efron-Stein inequality is not improvable.</li>
-</ul>
-
-<h3 id="example--bounded-differences">Example : Bounded Differences</h3>
-
-<ul>
-  <li>\(\sup _{x_1, \ldots, x_n, x_i^{\prime} \in \mathcal{X}}{\left\vert g\left(x_1, \ldots, x_n\right)-g\left(x_1, \ldots, x_{i-1}, x_i^{\prime}, x_{i+1}, \ldots, x_n\right) \right\vert} \leq c_i,\)이면</li>
-  <li>the Efron-Stein inequality shows \(\operatorname{Var}\left[g\left(X_1, \ldots, X_n\right)\right] \leq \frac{1}{2} \sum_{i=1}^n c_i^2, \quad \text { for } 1 \leq i \leq n\)</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[1. Inequalities for Expectation]]></summary></entry><entry><title type="html">The Law of Total Probability / Total Expectation / Total Variance (Gumbel-Max trick, …)</title><link href="http://localhost:4000/stat/2024-04-14-lawtotal/" rel="alternate" type="text/html" title="The Law of Total Probability / Total Expectation / Total Variance (Gumbel-Max trick, …)" /><published>2024-04-14T00:00:00+09:00</published><updated>2024-04-15T09:39:45+09:00</updated><id>http://localhost:4000/stat/lawtotal</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-14-lawtotal/"><![CDATA[<ul>
-  <li>The Law of Total Probability
-\(P(A)=\sum P\left(A \mid B_n\right) P\left(B_n\right)\)</li>
-  <li>The Law of Total Expectation
-\(\mathrm{E}(X)=\mathrm{E}(\mathrm{E}(X \mid Y))\)</li>
-  <li>The Law of Total Variance
-\(\operatorname{Var}(Y)=\mathrm{E}[\operatorname{Var}(Y \mid X)]+\operatorname{Var}(\mathrm{E}[Y \mid X])\)</li>
-  <li>The Law of Total Covariance
-\(\operatorname{cov}(X, Y)=\mathrm{E}(\operatorname{cov}(X, Y \mid Z))+\operatorname{cov}(\mathrm{E}(X \mid Z), \mathrm{E}(Y \mid Z))\)</li>
-</ul>
-
-<h2 id="the-law-of-total-probability">The Law of Total Probability</h2>
-
-<p>\(P(A)=\sum P\left(A \mid B_n\right) P\left(B_n\right)\)</p>
-<ul>
-  <li>Example) <strong>Gumbel-Max trick</strong></li>
-  <li>일반적으로 계산이 어려운 normalizing constant \(\sum \exp(\theta)\)를 계산하지 않으면서 categorical distribution에서 sample을 생성하는 technique</li>
-  <li>다음과 같은 상황을 가정한다.</li>
-  <li>\(X \sim Cat(\pi)\)는 \(1, ..., K\)중 하나의 class에 속하는 R.V (각 class에 속할 확률은 \(\pi_k\))</li>
-</ul>
-
-\[\begin{array}{c|ccccc} \hline k &amp; 1 &amp; 2 &amp; \cdots &amp; K-1 &amp; K \\ \hline P(X=k) &amp; \pi_1 &amp; \pi_2 &amp; \cdots &amp; \pi_{K-1} &amp; \pi_K \\ \hline \end{array}\]
-
-<ul>
-  <li>
-    <p>Probability \(\pi\)는 다음과 같이 계산한다. \(\pi_i=\frac{\exp \left(\theta_i\right)}{\sum_{j \in[K]} \exp \left(\theta_j\right)} \quad \text { where }[K]=\{1,2, \ldots, K\}\)</p>
-  </li>
-  <li>이 경우 normalizaing constant \(\sum_{j \in[K]} \exp \left(\theta_j\right)\)를 계산해야 한다.</li>
-  <li>
-    <p>Gumbel-Max trick은 normalizaing constant를 계산하지 않는다.</p>
-  </li>
-  <li>
-    <p><strong>\(X\)대신 \(Y=\arg \max _{j \in[K]}\left\{\theta_j+G_j\right\} \sim \operatorname{Cat}(\pi)\)을 사용하자 !</strong></p>
-
-    <ul>
-      <li>\(G_1, ..., G_k\)는 i.i.d standard Gumbel R.V</li>
-      <li>즉 \(G\)의 CDF가 \(F(x)=e^{-e^{-x}} \text { for all } x \in \mathbb{R}\)</li>
-      <li><strong>\(P(Y=i)=\pi_i \text { for each } i \in[K] \text {. }\)를 보이면 된다 !</strong></li>
-    </ul>
-  </li>
-  <li>Proof</li>
-</ul>
-
-<p>: \(\begin{aligned}
-    P(Y=i) &amp; =P\left(\theta_i+G_i \geq \max _{j \in[K] \backslash\{i\}}\left\{\theta_j+G_j\right\}\right)\\&amp;=\mathbb{E}\left[P\left(\theta_i+G_i \geq \max _{j \in[K] \backslash\{i\}}\left\{\theta_j+G_j\right\} \mid G_i\right)\right] \\ &amp; \text{by the law of total probability}\\
-    &amp; =\int_{-\infty}^{\infty} f_{G_i}(x) P\left(\theta_i+G_i \geq \max _{j \in[K] \backslash\{i\}}\left\{\theta_j+G_j\right\} \mid G_i=x\right) d x \\
-    &amp;=\int_{-\infty}^{\infty} f_{G_i}(x) P\left(\theta_i+x \geq \max _{j \in[K] \backslash\{i\}}\left\{\theta_j+G_j\right\}\right) d x \\ &amp;=\int_{-\infty}^{\infty} f_{G_i}(x) A\ dx
-    \end{aligned}\)</p>
-
-<p>where \(\begin{aligned}A &amp;= P\left(\theta_i+x \geq \max _{j \in[K] \backslash\{i\}}\left\{\theta_j+G_j\right\}\right)\\ &amp; =\prod_{j \in[K] \backslash\{i\}} P\left(G_j \leq x+\theta_i \theta_j\right)\\&amp;=\prod_{j \in[K] \backslash\{i\}} e^{-e^{-x-\theta_i+\theta_j}} \\ &amp;=e^{-B} \end{aligned}\)</p>
-
-<p>where \(\begin{aligned}B &amp;= e^{-x+\theta_i+\theta_1}+e^{-x+\theta_i+\theta_2}+...\\&amp;= e^{-x-\theta_1} \sum_{j \in[K] \backslash\{i\}} e^{\theta_j} \\ &amp;=e^{-x} \frac{\sum_{j \in[K] \backslash\{i\}} e^{\theta_j}}{e^{-\theta_i}} \\ &amp;= e^{-x}\frac{1-\pi_i}{\pi_i}\end{aligned}\)</p>
-
-<ul>
-  <li>
-    <p>therefore, \(\begin{aligned} A &amp;= e^{-B} = e^{-e^{-x} \times \frac{1-\pi_i}{\pi_i}}\end{aligned}\)​</p>
-  </li>
-  <li>
-    <p>finally,  \(\begin{aligned} P(Y=i) &amp; =\int_{-\infty}^{\infty} f_{G_i}(x) e^{-e^{-x} \times \frac{1-\pi_i}{\pi_i}} d x \\&amp; =\int_{-\infty}^{\infty} e^{-x-e^{-x}} e^{-e^{-x} \times \frac{1-\pi_i}{\pi_i}} d x \\ &amp; =\int_{-\infty}^{\infty} e^{-x-e^{-x} \pi_i^{-1}} d x \\ &amp; =\pi_i \int_{-\infty}^{\infty} e^{-\left[\left(x-\log \frac{1}{\pi_i}\right)+e^{\left.-\left(x-\log \frac{1}{\pi_i}\right)\right]}\right.} d x=\pi_i \\ &amp;\because \int e^{-(x+A+e^{(-x+A)})}dx = 1\end{aligned}\)</p>
-  </li>
-</ul>
-
-<h2 id="the-law-of-total-expectation">The Law of Total Expectation</h2>
-
-<p>\(\mathrm{E}(X)=\mathrm{E}(\mathrm{E}(X \mid Y))\)</p>
-<ul>
-  <li>Proof</li>
-</ul>
-
-<p>: \(\begin{aligned}
-    \mathrm{E}[\mathrm{E}(X \mid Y)] &amp; =\mathrm{E}\left[\sum_{x \in \mathcal{X}} x \cdot \operatorname{Pr}(X=x \mid Y)\right] \\
-    &amp; =\sum_{y \in \mathcal{Y}}\left[\sum_{x \in \mathcal{X}} x \cdot \operatorname{Pr}(X=x \mid Y=y)\right] \cdot \operatorname{Pr}(Y=y) \\ &amp; =\sum_{x \in \mathcal{X}} \sum_{y \in \mathcal{Y}} x \cdot \operatorname{Pr}(X=x \mid Y=y) \cdot \operatorname{Pr}(Y=y) \\ &amp; =\sum_{x \in \mathcal{X}} \sum_{y \in \mathcal{Y}} x \cdot \operatorname{Pr}(X=x, Y=y) \\&amp; =\sum_{x \in \mathcal{X}} x \sum_{y \in \mathcal{Y}} \operatorname{Pr}(X=x, Y=y)\\  &amp; =\sum_{x \in \mathcal{X}} x \cdot \operatorname{Pr}(X=x) \\ &amp; =\mathrm{E}(X) \end{aligned}\)</p>
-
-<ul>
-  <li>Example)
-    <ul>
-      <li>\(\begin{aligned} X \mid P &amp;\sim \operatorname{Binomial}(n, P), \\ P &amp;\sim \operatorname{Beta}(\alpha, \beta) \end{aligned}\)이면</li>
-      <li>\(\mathbb{E}[X]=\mathbb{E}[\mathbb{E}(X \mid P)]=\mathbb{E}[n P]=n \frac{\alpha}{\alpha+\beta}\)이다.</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="the-law-of-total-variance">The Law of Total Variance</h2>
-
-<ul>
-  <li>
-    <p>\(\operatorname{Var}(Y)=\mathrm{E}[\operatorname{Var}(Y \mid X)]+\operatorname{Var}(\mathrm{E}[Y \mid X])\) (EVVE)</p>
-  </li>
-  <li>
-    <p>Proof</p>
-  </li>
-</ul>
-
-<p>: \(\begin{aligned}
-  Var[X]&amp;=\mathbb{E}\left[(X-\mathbb{E}[X])^2\right]\\&amp;=\mathbb{E}\left[(X-\mathbb{E}[X \mid Y]+\mathbb{E}[X \mid Y]-\mathbb{E}[X])^2\right]\\&amp; =\mathbb{E}\left[(X-\mathbb{E}[X \mid Y])^2\right]+\mathbb{E}\left[(\mathbb{E}[X \mid Y]-\mathbb{E}[X])^2\right] \\&amp;\quad +2 \mathbb{E}([X-\mathbb{E}(X \mid Y)]\left[\mathbb{E}(X \mid Y)-\mathbb{E}(X)\right])\\&amp;=\mathbb{E}\left[(X-\mathbb{E}[X \mid Y])^2\right]+\mathbb{E}\left[(\mathbb{E}[X \mid Y]-\mathbb{E}[X])^2\right] \\ &amp;=\mathbb{E}[Var(X\mid Y)] + Var[\mathbb{E}(X \mid Y)]\\ &amp; \because \mathbb{E}[X-\mathbb{E}(X \mid Y)] = \mathbb{E}[\mathbb{E}[X-\mathbb{E}(X \mid Y)]\mid Y]=0
-  \end{aligned}\)</p>
-
-<ul>
-  <li>Example)
     <ul>
       <li>
-        <p>\(\begin{aligned} X \mid Y &amp;\sim \operatorname{Binomial}(n, P), \\ Y &amp;\sim \operatorname{Beta}(\alpha, \beta) \end{aligned}\)이면</p>
+        <p>Squared term을 전개하면 \(\mathbb{E}\left[\left\|\widehat{\theta}_{\mathrm{JS}}-\theta\right\|^2\right]=\mathbb{E}\left[\|Y-\theta\|^2\right]+\mathbb{E}\left[\frac{(d-2)^2}{\|Y\|^2}\right]-2(d-2) \sum_{i=1}^d \mathbb{E}\left[\frac{Y_i\left(Y_i-\theta_i\right)}{\|Y\|^2}\right]\)</p>
       </li>
       <li>
-        <p>\(\begin{aligned}Var(X)&amp;=\mathrm{E}[\operatorname{Var}(X \mid Y)]+\operatorname{Var}(\mathrm{E}[X \mid Y])\end{aligned}\)​</p>
+        <p>가장 우측에 있는 \(\mathbb{E}\left[\frac{Y_i\left(Y_i-\theta_i\right)}{\|Y\|^2}\right]\)를 보자</p>
+
+        <ul>
+          <li>
+            <p>\(\|Y-\theta\|^2 \sim \chi^2(d)\)이므로 expectation이 d이다.</p>
+          </li>
+          <li>
+            <p>Gaussian setting이므로 \(\mathbb{E}\left[\frac{Y_i\left(Y_i-\theta_i\right)}{\|Y\|^2}\right]=\int \cdots \int \underbrace{\frac{y_i}{\|y\|^2}}_{=g_i(y)} \underbrace{\frac{y_i-\theta}{(2 \pi)^{d / 2}} e^{-\|y-\theta\|^2 / 2}}_{=-\frac{\partial f(y)}{\partial y_i}} d y_1 \cdots d y_d\)이다.</p>
+          </li>
+          <li>
+            <p>아래와 같은 계산 과정을 통해 \(\sum_{i=1}^d \mathbb{E}\left[\frac{Y_i\left(Y_i-\theta_i\right)}{\|Y\|^2}\right]=(d-2) \mathbb{E}\left[\frac{1}{\|Y\|^2}\right]\)이다.</p>
+
+\[\begin{aligned}
+\mathbb{E}\left[\frac{Y_i\left(Y_i-\theta_i\right)}{\|Y\|^2}\right] &amp; =\int \cdots \int \frac{\partial g_i(y)}{\partial y_i} f(y) d y_1 \cdots d y_d \\
+&amp; =\int \cdots \int \frac{\|y\|^2-2 y_i^2}{\|y\|^4} f(y) d y_1 \cdots d y_d \\
+&amp; =\mathbb{E}\left[\frac{1}{\|Y\|^2}\right]-\mathbb{E}\left[\frac{2 Y_i^2}{\|Y\|^4}\right]
+\end{aligned}\]
+          </li>
+          <li>
+            <p>이걸 첫 줄의 식에 대입하면 증명 끝이다.</p>
+          </li>
+        </ul>
       </li>
     </ul>
   </li>
-</ul>
-
-<p>: \(\begin{aligned}
-  \mathbb{E}[\operatorname{Var}(X \mid Y)] &amp; =n\left(\mathbb{E}[Y]-\mathbb{E}\left[Y^2\right]\right)\\&amp;=n\left(\frac{\alpha}{\alpha+\beta}-\frac{\alpha \beta}{(\alpha+\beta)^2(\alpha+\beta+1)}-\frac{\alpha^2}{(\alpha+\beta)^2}\right) \\ &amp; =n \frac{\alpha \beta}{(\alpha+\beta)(\alpha+\beta+1)} \\ \operatorname{Var}[\mathbb{E}(X \mid Y)]&amp;=\operatorname{Var}[n P]=n^2 \frac{\alpha \beta}{(\alpha+\beta)^2(\alpha+\beta+1)} \\ \therefore \operatorname{Var}[X]&amp;=n \frac{\alpha \beta(\alpha+\beta+n)}{(\alpha+\beta)^2(\alpha+\beta+1)}
-  \end{aligned}\)​</p>
-
-<h2 id="the-law-of-total-covariance">The Law of Total Covariance</h2>
-
-<ul>
-  <li>
-    <p>\(\operatorname{cov}(X, Y)=\mathrm{E}(\operatorname{cov}(X, Y \mid Z))+\operatorname{cov}(\mathrm{E}(X \mid Z), \mathrm{E}(Y \mid Z))\).</p>
-  </li>
-  <li>
-    <p>\(\begin{aligned}\operatorname{Cov}\left(X_i, X_j\right) &amp;\leq \sqrt{\operatorname{Var}\left(X_i\right) \operatorname{Var}\left(X_j\right)} \leq \operatorname{Var}\left(X_i\right) / 2+\operatorname{Var}\left(X_j\right) / 2 \\ &amp;\text{by }x y \leq x^2 / 2+y^2 / 2 \end{aligned}\).</p>
-  </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[The Law of Total Probability \(P(A)=\sum P\left(A \mid B_n\right) P\left(B_n\right)\) The Law of Total Expectation \(\mathrm{E}(X)=\mathrm{E}(\mathrm{E}(X \mid Y))\) The Law of Total Variance \(\operatorname{Var}(Y)=\mathrm{E}[\operatorname{Var}(Y \mid X)]+\operatorname{Var}(\mathrm{E}[Y \mid X])\) The Law of Total Covariance \(\operatorname{cov}(X, Y)=\mathrm{E}(\operatorname{cov}(X, Y \mid Z))+\operatorname{cov}(\mathrm{E}(X \mid Z), \mathrm{E}(Y \mid Z))\)]]></summary></entry><entry><title type="html">Total variation distance and Convergence in distribution</title><link href="http://localhost:4000/stat/2024-04-14-dTV/" rel="alternate" type="text/html" title="Total variation distance and Convergence in distribution" /><published>2024-04-14T00:00:00+09:00</published><updated>2024-04-14T14:37:24+09:00</updated><id>http://localhost:4000/stat/dTV</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-14-dTV/"><![CDATA[<ul>
-  <li>통계학에서 Convergence in distribution은 중요한 성질이다. 우리는 Sample size n이 커질수록 확률변수 또는 estimator가 어떤 분포에 가까워지는지 궁금하기 때문이다.</li>
-  <li>그러므로 Convergence in distribution을 imply하는 성질도 중요하다. Convergence in distribution을 보일 수 있는 방법들 중 하나가 되기 때문이다.</li>
-  <li>Total variation distance는 두 분포 사이의 distance metric 중 하나이다. Total variation distance가 작으면 두 분포가 가깝다는 의미이다.</li>
-  <li>본 게시글에서는 Total variation distance에 대해서 알아보고 <strong>Total variation distance가 0으로 수렴</strong>하면 한 분포가 다른 분포로 근사한다, 즉 Convergence in distribution한다는 것을 보인다.</li>
-</ul>
-
-<h2 id="total-variation-distanced_tv">Total variation distance(\(d_{TV}\))</h2>
-
-<ul>
-  <li><a href="https://en.wikipedia.org/wiki/Total_variation_distance_of_probability_measures">Wikipedia</a>에 따르면 Total variation distance의 정의는 아래와 같다.
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[1. Minimax Estimator]]></summary></entry><entry><title type="html">Analysis of non-parametric kernel regression</title><link href="http://localhost:4000/stat/2024-05-26-kernel_reg/" rel="alternate" type="text/html" title="Analysis of non-parametric kernel regression" /><published>2024-05-26T00:00:00+09:00</published><updated>2024-07-02T16:16:29+09:00</updated><id>http://localhost:4000/stat/kernel_reg</id><content type="html" xml:base="http://localhost:4000/stat/2024-05-26-kernel_reg/"><![CDATA[<ul>
+  <li>일반적인 regression은 response variable Y와 covariate X의 관계를 이해하는 방법 중 하나로 일종의 conditional expectation이다. <br />
+\(r(x)=\mathbb{E}[Y \mid X=x]=\int y f(y \mid x) dy\)</li>
+  <li>non-parametric regession을 하는 기본적인 방법 중 하나는 kernel regression이다. <br />
+estimator는 \(\widehat{r}(x)=\sum_{i=1}^n w_i(x) Y_i\) where \(w_i(x)=\frac{K\left(\frac{x-X_i}{h}\right)}{\sum_{j=1}^n K\left(\frac{x-X_j}{h}\right)}\)
     <ul>
-      <li>Consider a measurable space \((\Omega, \mathcal{F})\) and probability measures \(P\) and \(Q\) defined on \((\Omega, \mathcal{F})\). The total variation distance between \(P\) and \(Q\) is defined as: \(\delta(P, Q)=\sup _{A \in \mathcal{F}}\mid P(A)-Q(A)\mid\)​</li>
-    </ul>
-  </li>
-  <li>\(d_{TV}\)​는 half of the L1 distance btw/ the probability functions이다.
-    <ul>
-      <li><img src="/assets/img/stat/dTV/fig1.png" alt="그림1" /></li>
-      <li>Geometric 의미는 두 분포의 차이에 해당하는 회색 영역의 넓이를 2로 나눈 값이다.</li>
-      <li>discrete : \(\delta(P, Q)=\frac{1}{2} \sum_x\mid P(x)-Q(x)\mid\)</li>
-      <li>continuous : \(\delta(P, Q)=\frac{1}{2} \int\mid p(x)-q(x)\mid  \mathrm{d} x\)​</li>
-      <li>\(\frac{1}{2}\)를 곱해주는 이유는 \(0 \le d_{TV} \le 1\)으로 만들어주기 위함인데, 아래 사진처럼 \(d_{TV}\)가 매우 큰 경우에 두 분포의 차이의 넓이가 2에 가까워지기 때문에 \(\frac{1}{2}\)를 곱한다.</li>
-      <li><img src="/assets/img/stat/dTV/fig2.png" alt="그림2" /></li>
+      <li>weights는 x 주변에 높은 가중치를 두고, h는 smoothing을 결정하는 bandwidth이다.</li>
+      <li>간단한 kernel의 예시로 Gaussian kernel을 사용한다. \(K(x)=\frac{1}{\sqrt{2 \pi}} \exp \left(-x^2 / 2\right)\)</li>
     </ul>
   </li>
 </ul>
 
-<h2 id="convergence-in-total-variation-distance">Convergence in Total variation distance</h2>
+<h2 id="assumptions">Assumptions</h2>
+<ul>
+  <li>증명을 복잡하지 않게 하기 위한 가정 \(y_i=r\left(x_i\right)+\epsilon_i\), where
+    <ul>
+      <li><strong>Design Assumption</strong> : \(x_i\) is one-dimensional, and <strong>equally spaced</strong> on \([0,1]\)
+        <ul>
+          <li>사실 꼭 필요한 가정은 아니지만 특정 x 근처에 다른 x가 존재함을 가정하기 위한 가정이다.</li>
+        </ul>
+      </li>
+      <li><strong>Regression function Assumption</strong> : \(r(x)=\mathbb{E}[Y \mid X=x] \text { is } L \text {-Lipschitz}\) i.e. \(\left\vert\frac{d}{d x} r(x)\right\vert \leq L\)</li>
+      <li><strong>Noise Assumption</strong> : \(\mathbb{E}\left[\epsilon_i\right]=0, \operatorname{Var}\left[\epsilon_i\right]=\sigma^2\) and iid</li>
+      <li><strong>Kernel Assumption</strong> : spherical kernel \(K(x)=\mathbb{1}(-1 \leq x \leq 1)\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="kernel-regression">Kernel Regression</h2>
+<ul>
+  <li>Under the <strong>Assumptions</strong> with \(h \ge 1/(n-1)\), <br />
+\(\begin{aligned} R(\widehat{r}, r) &amp; = MSE(\widehat{r}, r) \\ &amp; =\int_0^1\{\widehat{r}(x)-r(x)\}^2 d x \\ &amp; =\int_0^1 \operatorname{bias}^2(x) d x+\int_0^1 \operatorname{Var}(\widehat{r}(x)) d x \leq L^2 h^2+\frac{\sigma^2}{(n-1) h} \end{aligned}\)</li>
+  <li>Proof : 적분 구간이 [0,1]이므로 \(\max _{x \in[0,1]}\left\vert\operatorname{bias}(x)\right\vert \leq L h\), 그리고 \(\max _{x \in[0,1]} \operatorname{Var}(\widehat{r}(x)) \leq \frac{\sigma^2}{(n-1) h}\)를 증명
+    <ul>
+      <li><strong>Bounding the bias</strong> <br />
+\(\begin{aligned} \left\vert \operatorname{bias}(x)\right\vert=\left\vert \mathbb{E} \widehat{r}(x)-r(x)\right\vert &amp; \stackrel{\text { (i) }}{=}\left\vert \mathbb{E}\left[\sum_{i=1}^n\left(w_i(x)\left(Y_i-r(x)\right)\right)\right]\right\vert \\ &amp;  \stackrel{\text { (ii) }}{=} \left\vert\sum_{i=1}^n\left(w_i(x)\left(r\left(X_i\right)-r(x)\right)\right)\right\vert \\ &amp; \stackrel{\text { (iii) }}{\leq} \sum_{i=1}^n w_i(x)\left\vert r\left(X_i\right)-r(x)\right\vert \\ &amp; \stackrel{\text { (iv) }}{\leq} L h \sum_{i=1}^n w_i(x)=L h,\end{aligned}\) <br />
+(i) is holds since \(\sum_{i=1}^n w_i(x)=\frac{\sum_{i=1}^n K\left(\frac{x-X_i}{h}\right)}{\sum_{j=1}^n K\left(\frac{x-X_j}{h}\right)}=1\) <br />
+(ii) follows by \(\mathbb{E}\left[Y_i \mid X_i\right]=r\left(X_i\right)\) <br />
+(iii) uses triangle inequality <br />
+(iv) if \(\left\vert X_i-x\right\vert \leq h,\) then \(\left\vert r\left(X_i\right)-r(x)\right\vert \leq Lh\) by the Lipschitz  and if \(\left\vert X_i-x\right\vert&gt;h,\) then \(w_i(x)=0\)</li>
+      <li><strong>Bounding the variance</strong>
+        <ul>
+          <li>먼저 weights에 대한 bound \(w_i(x)=\frac{K\left(\frac{x-X_i}{h}\right)}{\sum_{j=1}^n K\left(\frac{x-X_j}{h}\right)}=\frac{\mathbb{1}\left(\left\vert x-X_i\right\vert \leq h\right)}{\sum_{j=1}^n \mathbb{1}\left(\left\vert x-X_j\right\Vert \leq h\right)} \leq \frac{1}{(n-1) h}\)를 보인다.</li>
+          <li>즉 \(\sum_{j=1}^n \mathbb{1}\left(\left\vert x-X_j\right\vert \leq h\right) \geq (n-1)h\)를 보인다.
+            <ul>
+              <li>모든 \(h \geq 1 /(n-1)\)에 대해 \(\min _{x \in[0,1]} \sum_{j=1}^n \mathbb{1}\left(\left\vert x-X_j\right\vert \leq h\right)=\sum_{j=1}^n \mathbb{1}\left(\left\vert X_1-X_j\right\vert \leq h\right)\)이므로 (sum is minimized at the boundary)</li>
+              <li>\(h \in\left[\frac{k}{n-1}, \frac{k+1}{n-1}\right)\)의 경우에 대해 <br />
+\(\\ \begin{aligned} \min _{x \in[0,1]} \sum_{j=1}^n \mathbb{1}\left(\left\vert x-X_j\right\vert \leq h\right) &amp; =\sum_{j=1}^n \mathbb{1}\left(\left\vert X_1-X_j\right\vert \leq h\right) \\ &amp; \geq \sum_{j=1}^n \mathbb{1}\left(\left\vert X_1-X_j\right\vert \leq \frac{k}{n-1}\right)=k+1 \\ &amp; \geq(n-1) h \end{aligned}\)</li>
+              <li>그러므로 <br />
+\(\\ \begin{aligned} \operatorname{Var}(\widehat{r}(x)) &amp; =\mathbb{E}\left[(\widehat{r}(x)-\mathbb{E}(\widehat{r}(x)))^2\right]=\mathbb{E}[(\sum_{i=1}^n(w_i(x) \underbrace{\left(Y_i-r\left(X_i\right)\right.}_{=\epsilon_i})))^2] \\ &amp; =\mathbb{E}\left[\left(\sum_{i=1}^n \epsilon_i w_i(x)\right)^2\right] \\ &amp; =\sum_{i=1}^n w_i(x)^2 \mathbb{E}\left(\epsilon_i^2\right)=\sigma^2 \sum_{i=1}^n w_i(x)^2 \\ &amp; \leq \sigma^2 \max _{1 \leq i \leq n} w_i(x) \sum_{i=1}^n w_i(x) \leq \frac{\sigma^2}{(n-1) h} \end{aligned}\)</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Proof : 적분 구간이 [0,1]이므로 \(\max _{x \in[0,1]}\left\vert\operatorname{bias}(x)\right\vert \leq L h\), 그리고 \(\max _{x \in[0,1]} \operatorname{Var}(\widehat{r}(x)) \leq \frac{\sigma^2}{(n-1) h}\)이 증명되었다.</li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[일반적인 regression은 response variable Y와 covariate X의 관계를 이해하는 방법 중 하나로 일종의 conditional expectation이다. \(r(x)=\mathbb{E}[Y \mid X=x]=\int y f(y \mid x) dy\) non-parametric regession을 하는 기본적인 방법 중 하나는 kernel regression이다. estimator는 \(\widehat{r}(x)=\sum_{i=1}^n w_i(x) Y_i\) where \(w_i(x)=\frac{K\left(\frac{x-X_i}{h}\right)}{\sum_{j=1}^n K\left(\frac{x-X_j}{h}\right)}\) weights는 x 주변에 높은 가중치를 두고, h는 smoothing을 결정하는 bandwidth이다. 간단한 kernel의 예시로 Gaussian kernel을 사용한다. \(K(x)=\frac{1}{\sqrt{2 \pi}} \exp \left(-x^2 / 2\right)\)]]></summary></entry><entry><title type="html">Pathformer: Multi-scale Transformers with Adaptive Pathways for Time Series Forecasting (ICLR 2024)</title><link href="http://localhost:4000/timeseries/2024-05-23-Pathformer/" rel="alternate" type="text/html" title="Pathformer: Multi-scale Transformers with Adaptive Pathways for Time Series Forecasting (ICLR 2024)" /><published>2024-05-23T00:00:00+09:00</published><updated>2024-05-23T17:58:34+09:00</updated><id>http://localhost:4000/timeseries/Pathformer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-05-23-Pathformer/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
-  <li>Convergence in Total variation distance는 Convergence in distribution보다 강력한 성질이다.</li>
-  <li>
-    <p><strong>즉 두 분포의 Total variation distance가 0으로 수렴하면, 두 분포는 Convergence in distribution이다.</strong></p>
-
-    <p>: \(\begin{aligned}\text{When }\delta(P, Q)&amp;=\sup _{A \in \mathcal{F}}\mid P(A)-Q(A)\mid  \\ \lim _{n \rightarrow \infty} \delta\left(P_n, Q\right)&amp;=0 \\ \lim _{n \rightarrow \infty}\mid P_n(A)-Q(A)\mid &amp;=0 \quad \forall A \in \mathcal{F} \\ \lim _{n \rightarrow \infty}\mid F_n(x)-F(x)\mid &amp;=0 \end{aligned}\)</p>
-  </li>
-  <li>
-    <p>하지만 역은 성립하지 않는다. Convergence in distribution이라고 해서 Total variation distance가 0으로 수렴하는 것은 아니다.</p>
-
+  <li>기존 Transformer for TS 모델들은 limited or fixed scales</li>
+  <li>Pathformer는 temporal resolution과 temporal distance를 합치는 방식
     <ul>
-      <li>Counterexample : \(f_n \sim \frac{2}{\pi} \cos ^2(n x) \mathbf{1}_{[0, \pi]}(x) d x\)</li>
-    </ul>
-
-    <p>: \(\begin{aligned}F_n(x)&amp;=\int_0^x f_n(t)dt \\ &amp;=\int_0^x\frac{2}{\pi} \cos ^2(nt) \mathbf{1}_{[0, \pi]}(x)dt \\ &amp; = \frac{2}{\pi}\mathbf{1}_{[0, \pi]}(x) \int_0^x \cos ^2(nt)dt \\ &amp;= \frac{2}{\pi}\mathbf{1}_{[0, \pi]}(x) \frac{sin(2nx)+2nx}{4n} \\  \lim_{n \to \infty} F_n(x) &amp;=\frac{2}{\pi}\mathbf{1}_{[0, \pi]}(x) \frac{x}{2} \\ &amp;=\frac{x}{\pi},\quad 0 \le x \le \pi \end{aligned}\)</p>
-
-    <ul>
-      <li>즉 \(\lim_{n \to \infty} F_n = F_{\infty}\)는 \(Unif(0, \pi)\)의 CDF가 되므로 Convergence in distribution이다.</li>
-      <li>하지만 \(\lim_{n \to \infty}d_{TV}(F_n, F_{\infty}) \nrightarrow 0\)이다.</li>
-    </ul>
-
-    <p>: \(\begin{aligned} d_{TV}\left(F_n, F_{\infty}\right) &amp; =\frac{1}{2} \int_0^\pi\mid f_n(x)-f_{\infty}(x)\mid  d x \\ &amp; =\frac{1}{2} \int_0^\pi\mid \frac{2}{\pi} \cos ^2(n x)-\frac{1}{\pi}\mid  d x \\ &amp; =\frac{1}{\pi} \int_0^\pi\mid \cos ^2(n x)-\frac{1}{2}\mid  d x \\ &amp; &gt;0 \quad \text{strictly positive} \end{aligned}\)</p>
-
-    <ul>
-      <li><img src="/assets/img/stat/dTV/fig3.png" alt="그림3" /></li>
-      <li>\(cos^2(nx)\)는 0과 1사이에서의 주기 함수이고, \(n\)이 커져도 주기가 짧아질 뿐이다.</li>
-      <li>그러므로 \(\mid \cos ^2(n x)-\frac{1}{2}\mid\)는 n과 관계없이 strictly positive이다. 즉 Total variation distance가 0으로 수렴하지 않는다.</li>
-      <li>만약 \(f_n, f_{\infty}\)​가 continuous random variable의 density이고 unimodal한 경우에는 Convergence in distribution과 Total variation distance이 0으로 수렴하는 것은 if and only if(필요충분)이다. (skip the proof)</li>
-      <li><a href="https://hal.science/hal-00821911/document">Reference : Ivan Nourdin, Guillaume Poly, Convergence in law implies convergence in total variation for polynomials in independent Gaussian, Gamma or Beta random variables</a></li>
+      <li>다양한 크기의 patches를 사용해서 서로 다른 temporal resolutions를 만들고</li>
+      <li>dual attention으로 temporal dependencies(global correlation과 local details)</li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[통계학에서 Convergence in distribution은 중요한 성질이다. 우리는 Sample size n이 커질수록 확률변수 또는 estimator가 어떤 분포에 가까워지는지 궁금하기 때문이다. 그러므로 Convergence in distribution을 imply하는 성질도 중요하다. Convergence in distribution을 보일 수 있는 방법들 중 하나가 되기 때문이다. Total variation distance는 두 분포 사이의 distance metric 중 하나이다. Total variation distance가 작으면 두 분포가 가깝다는 의미이다. 본 게시글에서는 Total variation distance에 대해서 알아보고 Total variation distance가 0으로 수렴하면 한 분포가 다른 분포로 근사한다, 즉 Convergence in distribution한다는 것을 보인다.]]></summary></entry><entry><title type="html">(Dish-TS) A General Paradigm for Alleviating Distribution Shift in Time Series Forecasting (AAAI 2023)</title><link href="http://localhost:4000/timeseries/2024-04-12-Dish-TS/" rel="alternate" type="text/html" title="(Dish-TS) A General Paradigm for Alleviating Distribution Shift in Time Series Forecasting (AAAI 2023)" /><published>2024-04-12T00:00:00+09:00</published><updated>2024-04-12T19:26:03+09:00</updated><id>http://localhost:4000/timeseries/Dish-TS</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-04-12-Dish-TS/"><![CDATA[<h2 id="abstract">Abstract</h2>
-
-<ul>
-  <li>Distribution shift in TS : series distribution changes over time</li>
-  <li>기존 연구들은 the quantification of distribution 정도</li>
-  <li>Distribution shift in TS는 2개 카테고리
-    <ul>
-      <li><strong>intra-space shift</strong> : the distribution within the input-space keeps shifted over time</li>
-      <li><strong>inter-space shift</strong> : that the distribution is shifted btw/ input-space and output-space</li>
-    </ul>
-  </li>
-  <li>Dish-TS : neural paradigm for alleviating distribution shift in TSF
-    <ul>
-      <li>CONET : can be any NN, input sequences into learnable distribution coefficients</li>
-      <li>Dual-CONET : separately learn the distribution of input- and output-space</li>
-    </ul>
-  </li>
+  <li>Input의 varying temporal dynamics에 따라 adaptive multi-scale</li>
 </ul>
 
 <h2 id="1-introduction">1. Introduction</h2>
 
-<p><img src="/assets/img/timeseries/Dish-TS/fig1.png" alt="사진1" /></p>
-
 <ul>
-  <li>TS의 non-stationarity(distribution shift over time)는 예측 성능을 방해</li>
-  <li><strong>intra-space shift</strong> :  TS distribution changes over time</li>
-  <li><strong>inter-space shift</strong> :  Distribution shift btw/ input-space (lookbacks) and output-space (horizons)</li>
-  <li>대표적인 alleviate distribution shift solution : RevIN.
+  <li>최근 simpler linear model의 성능이 transformer 보다 잘 나옴 - transformer 디자인 수정 필요</li>
+  <li>Time Series에서는 multiple scales를 고려하는 것이 중요 (일, 월 등…)
     <ul>
-      <li>Quantifying true distribution with fixed statistics (e.g., mean and std.)
-        <ul>
-          <li>But, unreliable (limited in expressiveness for representing the true distribution)</li>
-          <li>Different sampling frequencies provide different statistics</li>
-        </ul>
-      </li>
-      <li>Strong assumption : the lookbacks and horizons share the same statistical properties</li>
-      <li>But,  always a variation in distribution btw/ input-space and output-space</li>
+      <li><strong>Temporal resolution</strong>: patch의 길이 (fine-grained or coarse grained)</li>
+      <li><strong>Temporal distance</strong> : time steps 사이의 거리
+<img src="/assets/img/timeseries/Pathformer/fig1.png" alt="그림1" /></li>
+      <li>그림 왼쪽 위에서 blue patch와 orange patch는 Temporal resolution가 다른 것이고</li>
+      <li>그림 오른쪽에서 black arrows와 colored arrows는 Temporal distance가 다른 것</li>
     </ul>
   </li>
-  <li>Dish-TS는 RevIN으로부터 영감을 받은 만큼 전체적인 구조는 유사하다
+  <li>그래서 Transformer로 multi-scale modeling 하려는데 challenges 2개
     <ul>
-      <li>two-stage process : normalizing \(\to\) forecasting \(\to\) denormalizing</li>
-      <li>CONET : window \(\to\) two learnable coefficients:
+      <li><strong>incompleteness of multi-scale modeling</strong>
         <ul>
-          <li>a level coefficient and a scaling coefficient</li>
-          <li>to illustrate series overall scale and fluctuation</li>
+          <li>단순히 Temporal resolution (patch 길이) 늘리는 건 다양한 dependency 파악에 도움 안됨</li>
+          <li>차라리 Temporal distance (time steps 간격) 다양하게 하면 좋은데 Temporal distance는 patch size (data division)에 따라 달라짐</li>
         </ul>
       </li>
-      <li>Dual-CONET
+      <li><strong>fixed multi-scale modeling process</strong>
         <ul>
-          <li>BACKCONET : coefficients to estimate the distribution of input-space (lookbacks)</li>
-          <li>HORICONET : coefficients to infer the distribution of output-space (horizons)</li>
+          <li>different series prefer different scales !</li>
+          <li>그림 왼쪽 위 series는 rapid fluctuation, fine-grained, short-term characteriestics</li>
+          <li>그림 왼쪽 아래 series는 coarse-grained and long-term characteriestics</li>
+          <li>모든 데이터에 fixed multi-scale modeling하면 안되는데 매번 optimal scale 찾으려니 오래걸림</li>
         </ul>
       </li>
-      <li>Prior-knowledge : HORICONET 학습할 때 prior 줘서 output-space를 잘 infer(predict) 하도록</li>
+      <li>그래서 <strong>adaptive multi-scale modeling</strong>이 필요하다.
+        <ul>
+          <li>adaptively models the current data from certain multiple scales</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>기존에는 그냥 다양한 길이의 patch로 자른 뒤에, patch 안에서 temporal dependencies를, patch 끼리 global correlation을 파악하는 dual attention</li>
+  <li>본 논문에서 제시하는 Pathformer는
+    <ul>
+      <li>Multi-scale router가 seasonality와 trend를 보고 적절한 patch size들을 결정</li>
+      <li>그 다음 multi-scale characteristics를 weighted aggregation</li>
     </ul>
   </li>
 </ul>
@@ -938,559 +377,449 @@ V_i^2 &amp; =\left(\mathbb{E}\left[f(X) \mid X_1, \ldots, X_i\right]-\mathbb{E}\
 <h2 id="2-related-work">2. Related Work</h2>
 
 <ul>
-  <li>Models for Time Series Forecasting
+  <li>Time Series forecasting
     <ul>
-      <li>ARMA, BEATS, Transformer, Informer, Autoformer, …</li>
+      <li>Statistical modeling, GNN(spatial dependency), RNN(temporal dependency), CNN(sub-series features), TimesNet(1-dim \(\to\) 2-dim), LLM-based…</li>
     </ul>
   </li>
-  <li>Distribution Shift in Time Series Forecasting
+  <li>Transformer
     <ul>
-      <li>Adaptive Norm :  puts z-score normalization on series by the computed global statistics</li>
-      <li>DAIN (Passalis et al. 2019) :  applies nonlinear NN to adaptively normalize the series</li>
-      <li>RevIN (Kim et al. 2022) : instance normalization to reduce series shift</li>
+      <li>Informer : prob-sparse self-attention to select important keys</li>
+      <li>Triformer :  manages to reduce the complexity</li>
+      <li>Autoformer : auto-correlation mechanisms to replace self- attention</li>
+      <li>FEDformer : the perspective of frequency to model temporal dynamics</li>
+      <li>하지만 simple linear model의 성능이 더 좋은 경우가 많았음</li>
+      <li>PatchTST : patching and channel independence로 transformer의 가능성 제시</li>
     </ul>
   </li>
-  <li>대부분의 연구가 static statistics 사용해서 normalizing한다. (inter-space shift 고려 안함)</li>
-</ul>
-
-<h2 id="3-problem-formulations">3. Problem Formulations</h2>
-
-<ul>
-  <li>
-    <p>Time Series Forecasting</p>
-
+  <li>Multi-scale Modeling for Time Series
     <ul>
-      <li>Formula : \(\left(x_{t: t+H}^{(1)}, \cdots, x_{t: t+H}^{(N)}\right)^T=\mathscr{F}_{\Theta}\left(\left(x_{t-L: t}^{(1)}, \cdots, x_{t-L: t}^{(N)}\right)^T\right)\)​</li>
-      <li>\(\mathscr{F}_{\Theta}: \mathbb{R}^{L \times N} \rightarrow \mathbb{R}^{H \times N}\),   \(\Theta\) :  forecasting model parameters</li>
-    </ul>
-  </li>
-  <li>
-    <p>Distribution Shift in Time Series</p>
-
-    <ul>
-      <li>intra-space shift : \(\mid d\left(\mathcal{X}_{\text {input }}^{(i)}(u), \mathcal{X}_{\text {input }}^{(i)}(v)\right)\mid &gt;\delta\)​</li>
-      <li>
-        <p>inter-space shift : \(\mid d\left(\mathcal{X}_{\text {input }}^{(i)}(u), \mathcal{X}_{\text {output }}^{(i)}(u)\right)\mid &gt;\delta\)</p>
-      </li>
-      <li>\(\mathcal{X}_{\text {input }}^{(i)}(u)\)는 \(t=u\) 시점으로부터 과거 방향으로 \(L\) 길이의 lookback window</li>
-      <li>\(\mathcal{X}_{\text {output }}^{(i)}(u)\)는 \(t=u\) 시점으로부터 미래 방향으로 \(H\) 길이의 horizon window</li>
+      <li>N-HiTs : multi-rate data sampling and hierarchical interpolation for diverse temporal resolutions</li>
+      <li>Pyraformer : pyramid attention to extract features at different temporal resolutions</li>
+      <li>하지만 fixed scale이었고, 본 논문에서는 adaptive multi scale 제안</li>
     </ul>
   </li>
 </ul>
 
-<h2 id="4-dish-ts">4. Dish-TS</h2>
+<h2 id="3-methodology">3. Methodology</h2>
 
-<h3 id="41-overview">4.1. Overview</h3>
-
-<p><img src="/assets/img/timeseries/Dish-TS/fig2.png" alt="사진2" /></p>
+<p><img src="/assets/img/timeseries/Pathformer/fig2.png" alt="그림2" /></p>
 
 <ul>
-  <li>CONET :  input series \(\to\)​​ coefficients (for distribution measurement)</li>
-  <li>RevIN처럼 two-stage process
+  <li>Instance Norm - Stacking of <strong>Adaptive Multi-Scale Blocks</strong> - Predictor(FC)로 구성</li>
+  <li>Adaptive Multi-Scale Blocks은 multi-scale Transformer block과 adaptive pathways으로 구성
     <ul>
-      <li>BACKCONET : transformed the lookbacks (before forecasting model)</li>
-      <li>HORICONET : transformed the forecasting results
+      <li>multi-scale Transformer block
         <ul>
-          <li>HORICONET can be trained in a prior knowledgeinduced fashion (4.4에서 설명)</li>
+          <li>다양한 size의 patch division and dual attention으로 multi-scale temporal resolution and distances 통합</li>
+        </ul>
+      </li>
+      <li>adaptive pathways
+        <ul>
+          <li>multi-scale router가 다양한 patch size르 고르고</li>
+          <li>aggregator에서 mutli-scale characteristics를 weighted aggregation</li>
         </ul>
       </li>
     </ul>
   </li>
 </ul>
 
-<h3 id="42-dual-conet-framework">4.2. Dual-Conet Framework</h3>
+<h3 id="31-multi-scale-transformer-block">3.1. Multi-scale Transformer Block</h3>
 
 <ul>
-  <li>기존 연구들은 mean, std로 distribution을 measure \(\to\)​ unreliable (Different frequencies different statistics)</li>
-  <li>기본 CONET구조
+  <li><strong>Multi-scale Division</strong>
     <ul>
-      <li>\(\varphi, \xi=\operatorname{CONET}(x)\) : any NN (can non-linear mapping)
+      <li>\(\mathrm{X} \in \mathbb{R}^{H \times d}\)를 P개의 patch \(\left(\mathrm{X}^1, \mathrm{X}^2, \ldots, \mathrm{X}^P\right)\)로 나눔, patch size는 M개 \(\mathcal{S}=\left\{S_1, \ldots, S_M\right\}\) 즉 \(P = H/S\)</li>
+      <li>다양한 크기의 patch size로 다양한 temporal resolutions를 dual attention</li>
+    </ul>
+  </li>
+  <li><strong>Dual attention</strong>
+<img src="/assets/img/timeseries/Pathformer/fig3.png" alt="그림3" />
+    <ul>
+      <li>Intra-patch attention : relationships btw time steps within each patch
         <ul>
-          <li>\(\varphi \in \mathbb{R}^1\) : level coefficient (overall scale of input series)</li>
-          <li>\(\xi \in \mathbb{R}^1\) : scaling coefficient (fluctuation scale)</li>
+          <li>먼저 \(X_{\text {intra }}^i \in \mathbb{R}^{S \times d_m}\) patch를 embedding하고 \(\operatorname{Attn}_{\text {intra }}^i=\operatorname{Softmax}\left(Q_{\text {intra }}^i\left(K_{\text {intra }}^i\right)^T / \sqrt{d_m}\right) V_{\text {intra }}^i \in \mathbb{R}^{1 \times d_m}\)</li>
+          <li>모든 patches에 대해 다 합치면 \(\operatorname{Attn}_{\text {intra }}=\operatorname{Concat}\left(\operatorname{Attn}_{\text {intra }}^1, \ldots, \operatorname{Attn}_{\text {intra }}^P\right) \in \mathbb{R}^{P \times d_m}\)​</li>
+          <li>Linear transformation으로 \(\operatorname{Attn}_{\text {intra }} \in \mathbb{R}^{P \times S \times d_m}\)</li>
+        </ul>
+      </li>
+      <li>Inter-patch attention : relationships btw patches to capture global correlations
+        <ul>
+          <li>먼저 feature embedding and rearrange : \(\mathrm{X}_{\text {inter }} \in \mathbb{R}^{P \times d_m^{\prime}} \text {, where } d_m^{\prime}=S \cdot d_m\)</li>
+          <li>아까처럼  linear mapping으로 \(\operatorname{Attn}_{\text {inter }}=\operatorname{Softmax}\left(Q_{\text {inter }}\left(K_{\text {inter }}\right)^T / \sqrt{d_m^{\prime}}\right) V_{\text {inter }} \in \mathbb{R}^{P \times S \times d_m}\)</li>
+        </ul>
+      </li>
+      <li>둘을 더하면 \(\mathrm{Attn}_{\text {intra }} + \mathrm{Attn}_{\text {intra }}=\text { Attn } \in \mathbb{R}^{P \times S \times d_m}\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="32-adaptive-pathways">3.2. Adaptive Pathways</h3>
+
+<ul>
+  <li>different series may prefer diverse scales \(\to\) model needs to figure out critical scales based on the input</li>
+  <li><strong>Multi-scale router</strong> selects specific sizes of patch division based on the input data</li>
+  <li>
+    <p><strong>Multi-scale aggregator</strong> combines multi-scale characteristics(weighted aggregation) \(\to\) output of the Transformer block</p>
+  </li>
+  <li><strong>Multi-scale router</strong> : selects the optimal sizes for patch division
+    <ul>
+      <li>by its complex inherent characteristics and dynamic patterns</li>
+      <li>seasonality and trend decomposition \(\to\) extract periodicity and trend patterns</li>
+      <li><strong>Seasonality decomposition</strong>
+        <ul>
+          <li>Discern Fourier Transform (DFT) : X를 푸리에 basis로 decomopose하고 the largest amplitudes 선택 (to keep the sparsity of frequency domain)</li>
+          <li>IDFT로 periodic patterns \(\mathrm{X}_{\text {sea }}=\operatorname{IDFT}\left(\left\{f_1, \ldots, f_{K_f}\right\}, A, \Phi\right)\) 얻음
+            <ul>
+              <li>\(\Phi\), \(A\) :the phase and amplitude of each frequency from \(\operatorname{DFT}(\mathrm{X})\)</li>
+              <li>\(\left\{f_1, \ldots, f_{K_f}\right\}\) : the frequencies with the top \(K_f\) amplitudes</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><strong>Trend decomposition</strong>
+        <ul>
+          <li>seasonality를 제외한 부분 \(\mathrm{X}_{\mathrm{rem}}=\mathrm{X}-\mathrm{X}_{\text {sea }}\)에 대해 different kernels of average pooling for moving averages to extract trend patterns</li>
+          <li>정리하면 \(\mathrm{X}_{\text {trend }}=\operatorname{Softmax}\left(L\left(\mathrm{X}_{\mathrm{rem}}\right)\right) \cdot\left(\operatorname{Avgpool}\left(\mathrm{X}_{\mathrm{rem}}\right)_{\text {kernel }_1}, \ldots, \operatorname{Avgpool}\left(\mathrm{X}_{\mathrm{rem}}\right)_{\text {kernel }_N}\right)\)</li>
+        </ul>
+      </li>
+      <li>input \(X\)에 seasonality pattern and trend pattern를 더하고 linear mapping으로 \(\mathrm{X}_{\text {trans }} \in \mathbb{R}^d\)</li>
+      <li>마지막으로 routing function \(R\left(\mathrm{X}_{\text {trans }}\right)=\operatorname{Softmax}\left(\mathrm{X}_{\text {trans }} W_r+\epsilon \cdot \operatorname{Softplus}\left(\mathrm{X}_{\text {trans }} W_{\text {noise }}\right)\right), \epsilon \sim \mathcal{N}(0,1)\) 을 통해 pathway weights \(\in \mathbb{R}^{M}\)을 구한다.
+        <ul>
+          <li>\(W_r \text { and } W_{\text {noise }} \in \mathbb{R}^{d \times M}\)은 leanable parameters, \(d\)는 feature dim, \(M\)은 patch size의 개수</li>
+          <li>noise를 추가한 이유는 patch size가 같은 것만 나오는 것을 방지하기 위함</li>
+          <li>이렇게 만든 M개의 pathway weights 중에서 top K개를 제외하고 0으로 만든 걸 \(\bar{R}\left(\mathrm{X}_{\text {trans }}\right)\)로 표기</li>
         </ul>
       </li>
     </ul>
   </li>
-  <li>Mutivariate forecasting을 위한 Dual-CONET
+  <li><strong>Multi-Scale Aggregator</strong>
     <ul>
-      <li>\(\begin{aligned}
-&amp; \varphi_{b, t}^{(i)}, \xi_{b, t}^{(i)}=\operatorname{BACKCONET}\left(x_{t-L: t}^{(i)}\right), i=1, \cdots, N \\
-&amp; \varphi_{h, t}^{(i)}, \xi_{h, t}^{(i)}=\operatorname{HORICONET}\left(x_{t-L: t}^{(i)}\right), i=1, \cdots, N
-\end{aligned}\)​
+      <li>\(\bar{R}\left(\mathrm{X}_{\text {trans }}\right)_i&gt;0\)이 의미하는 것은 patch size \(S_i\)로 나누고 dual attention을 수행함을 의미</li>
+      <li>그러므로 AMS block의 final output은 \(\mathrm{X}_{\text {out }}=\sum_{i=1}^M \mathcal{I}\left(\bar{R}\left(\mathrm{X}_{\text {trans }}\right)_i&gt;0\right) R\left(\mathrm{X}_{\text {trans }}\right)_i T_i\left(\mathrm{X}_{\text {out }}^i\right)\)
         <ul>
-          <li>\(\varphi_{b, t}^{(i)}, \xi_{b, t}^{(i)} \in \mathbb{R}^1\) : level, scaling coefficients for lookbacks</li>
-          <li>\(\varphi_{h, t}^{(i)}, \xi_{h, t}^{(i)} \in \mathbb{R}^1\) : level, scaling coefficients for horizons</li>
+          <li>\(\mathrm{X}_{\text {out }}^i\)는 output of the multi-scale Transformer with the patch size \(S_i\)</li>
+          <li>\(T_i\)는 align the temporal dimension from different scales하는 transformation function</li>
         </ul>
       </li>
-      <li>BACKCONET과 HORICONET 둘다 input이 “t 시점에서 L 길이의 historical series”이다 !</li>
-    </ul>
-  </li>
-  <li>Integrating Dual-Conet into Forecasting
-    <ul>
-      <li>Final transformed forecasting results : \(\hat{x}_{t: t+H}^{(i)}=\xi_{h, t}^{(i)} \mathscr{F}_{\Theta}\left(\frac{1}{\xi_{b, t}^{(i)}}\left(x_{t-L: t}^{(i)}-\varphi_{b, t}^{(i)}\right)\right)+\varphi_{h, t}^{(i)}\)</li>
     </ul>
   </li>
 </ul>
 
-<h3 id="43-a-simple-and-intuitive-instance-of-conet">4.3. A Simple and Intuitive Instance of Conet</h3>
+<h2 id="4-experiments">4. Experiments</h2>
 
+<p><img src="/assets/img/timeseries/Pathformer/table1.png" alt="그림4" /></p>
+
+<p><img src="/assets/img/timeseries/Pathformer/table3.png" alt="그림5" /></p>
+
+<h2 id="5-conclusion">5. Conclusion</h2>
 <ul>
-  <li>실제 CONET에서의 연산은 다음과 같다.</li>
-  <li>lookback level coefficient : \(\varphi_{b, t}^{(i)}=\sigma\left(\sum_{\tau=1}^{\operatorname{dim}\left(\mathbf{v}_{b, i}^{\ell}\right)} \mathbf{v}_{b, i \tau}^{\ell} x_{\tau-L+t}^{(i)}\right),\)</li>
-  <li>horizons level coefficient : \(\varphi_{h, t}^{(i)}=\sigma\left(\sum_{\tau=1}^{\operatorname{dim}\left(\mathbf{v}_{h, i}^{\ell}\right)} \mathbf{v}_{h, i \tau}^{\ell} x_{\tau-L+t}^{(i)}\right)\)​</li>
-  <li>lookback scaling coefficient : \(\xi_{b, t}^{(i)}=\sqrt{\mathbb{E}\left(x_t^{(i)}-\varphi_{b, t}^{(i)}\right)^2}\)</li>
-  <li>horizons scaling coefficient : \(\xi_{h, t}^{(i)}=\sqrt{\mathbb{E}\left(x_t^{(i)}-\varphi_{h, t}^{(i)}\right)^2}\)</li>
+  <li>Pathformer : Multi-Scale Transformer with Adaptive Pathways for TSF
+    <ul>
+      <li>integrates multi-scale temporal resolutions and temporal distances</li>
+      <li>by patch division with multiple patch sizes and dual attention (modeling multi-scale characteristics)</li>
+      <li>adaptive pathways dynamically select and aggregate scale-specific characteristics</li>
+    </ul>
+  </li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2024](https://openreview.net/pdf?id=lJkOCMP2aW)]]></summary></entry><entry><title type="html">Chernoff Bound (upper bound on the tail probability)</title><link href="http://localhost:4000/stat/2024-05-23-ChernoffBound/" rel="alternate" type="text/html" title="Chernoff Bound (upper bound on the tail probability)" /><published>2024-05-23T00:00:00+09:00</published><updated>2024-05-23T23:35:27+09:00</updated><id>http://localhost:4000/stat/ChernoffBound</id><content type="html" xml:base="http://localhost:4000/stat/2024-05-23-ChernoffBound/"><![CDATA[<h2 id="prerequirement">Prerequirement</h2>
+<ul>
+  <li>Markov inequality \(\mathrm{P}(X \geq a) \leq \frac{\mathrm{E}(X)}{a}\)</li>
+  <li>Chebyshev inequality \(\operatorname{Pr}(\mid X-\mu\mid \geq k \sigma) \leq \frac{1}{k^2}\)</li>
 </ul>
 
-<h3 id="44-prior-knowledge-induced-training-strategy">4.4. Prior Knowledge-Induced Training Strategy</h3>
-
+<h2 id="chernoff-bound">Chernoff Bound</h2>
 <ul>
-  <li>HORICONET은 미래의 정보인 \(\mathcal{X}_{\text {output }}^{(i)}\)의 분포를 infer(predict)해야 하기 때문에 intractable하다.</li>
-  <li>그러므로 prior(mean of horizons)을 soft-target으로 줘서 학습의 난이도를 낮춘다.</li>
-  <li>final loss는 \(\sum_{k=1}^K \sum_{i=1}^N[\left(\hat{x}_{t_k: t_k+H}^{(i)}-x_{t_k: t_k+H}^{(i)}\right)^2+\underbrace{\left.\alpha\left(\frac{1}{H} \sum_{t=t_k+1}^{t_k+H} x_t^{(i)}-\varphi_{h, t_k}^{(i)}\right)^2\right]}_{\text {Prior Knowledge Guidance }}\)이다.
-    <ul>
-      <li>MSE term에 prior knowledge를 \(\alpha\)의 weight로 준다.</li>
-    </ul>
-  </li>
+  <li>확률변수 X에 대한 tail probability <br />
+\(\begin{aligned}P(X \geqslant a) &amp; =P\left(e^{t X} \geqslant e^{t a}\right) \\ &amp; \leqslant \frac{\mathbb{E}\left[e^{t X}\right]}{e^{t a}} \text { by Markov inequality } . \\ &amp; =M(t) e^{-t a}\end{aligned}\)</li>
 </ul>
 
-<h2 id="5-experiment">5. Experiment</h2>
-
-<p><img src="/assets/img/timeseries/Dish-TS/table1.png" alt="사진3" /></p>
-
-<p><img src="/assets/img/timeseries/Dish-TS/table2.png" alt="사진4" /></p>
-
-<p><img src="/assets/img/timeseries/Dish-TS/table3.png" alt="사진5" /></p>
-
-<p>Dish-TS를 적용하면 Informer, Autoformer, N-BEATS의 성능이 향상되고, 그 정도는 RevIN보다 크다.</p>
-
-<h2 id="6-conclusion">6. Conclusion</h2>
-
+<h2 id="example--bernoulli-confidence-sets-vs-hoeffdings-inequality">Example : Bernoulli Confidence sets vs. Hoeffding’s inequality</h2>
 <ul>
-  <li>Systematically summarize the distribution shift in time series forecasting</li>
-  <li>as intra-space shift and interspace shift.</li>
-  <li>Dish-TS better alleviates the two shift
+  <li>Under asymptotic normality <br />
+\(\begin{aligned}P_\theta\left(\theta \in C_n\right)&amp;=P_\theta\left(\widehat{\theta}-z_{\alpha / 2} \sqrt{\operatorname{Var}_\theta[\widehat{\theta}]} \leq \theta \leq \widehat{\theta}+z_{\alpha / 2} \sqrt{\operatorname{Var}_\theta[\widehat{\theta}]}\right)\\C_n&amp;=\left(\widehat{p}-z_{\alpha / 2} \sqrt{\frac{\widehat{p}(1-\widehat{p})}{n}}, \widehat{p}+z_{\alpha / 2} \sqrt{\frac{\widehat{p}(1-\widehat{p})}{n}}\right)\end{aligned}\)</li>
+  <li>Hoeffding’s inequality <br />
+\(P(\mid \widehat{p}-p\mid \geq t) \leq 2 e^{-2 n t^2}\)</li>
+  <li><strong>Under asymptotic normality로 얻은 Confidence sets은 항상 Hoeffding’s inequality 보다 tight(short)하다.</strong>
     <ul>
-      <li>prior knowledge-induced training strategy, for effectiveness</li>
+      <li><strong>증명</strong> :  \(z_{\alpha / 2} \sqrt{\frac{\widehat{p}(1-\widehat{p})}{n}} \leq \sqrt{\frac{\log (2 / \alpha)}{2 n}}\)에서 \(\widehat{p}(1-\widehat{p}) \le \frac{1}{4}\) 이므로</li>
+      <li>(1) Exponential Markov Inequality<br />
+\(\begin{aligned} P(z \geqslant z) &amp; =P\left(e^{t Z} e^{t z}\right) \\ &amp; \leqslant \frac{\mathbb{E}\left[e^{t Z}\right]}{e^{t z}}=e^{\frac{t^2}{2}-t z} \\ &amp; \leqslant e^{-z^2 / 2} \quad \text{ when }t=z\end{aligned}\)</li>
+      <li>(2) Chernoff Bounds<br />
+\(\begin{aligned}  p(Z \geqslant z) &amp;\leqslant e^{-z^2 / 2} \\ p\left(z \geqslant z_{\frac{\alpha}{2}}\right) &amp;\leqslant e^{-z_{\frac{\alpha}{2}}^2 / 2} \\  \alpha / 2 &amp;\leqslant e^{-z_{\frac{\alpha}{2}}^2 / 2} \\ \log{\frac{\alpha}{2}}&amp;\leqslant-\frac{z_{\frac{\alpha}{2}}^2}{2} \\ z_{\frac{\alpha}{2}}^2 &amp;\leq 2 \log{\frac{\alpha}{2}} \\ \end{aligned}\)</li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[AAAI 2023](https://arxiv.org/pdf/2302.14829.pdf)]]></summary></entry><entry><title type="html">MGF(Moment Generating Function) and Characteristic Function에 대해서</title><link href="http://localhost:4000/stat/2024-04-12-MGF/" rel="alternate" type="text/html" title="MGF(Moment Generating Function) and Characteristic Function에 대해서" /><published>2024-04-12T00:00:00+09:00</published><updated>2024-04-18T18:46:41+09:00</updated><id>http://localhost:4000/stat/MGF</id><content type="html" xml:base="http://localhost:4000/stat/2024-04-12-MGF/"><![CDATA[<h2 id="moments">Moments</h2>
-
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[Prerequirement Markov inequality \(\mathrm{P}(X \geq a) \leq \frac{\mathrm{E}(X)}{a}\) Chebyshev inequality \(\operatorname{Pr}(\mid X-\mu\mid \geq k \sigma) \leq \frac{1}{k^2}\)]]></summary></entry><entry><title type="html">TimeMixer: Decomposable Multiscale Mixing for Time Series Forecasting</title><link href="http://localhost:4000/timeseries/2024-05-23-Timemixer/" rel="alternate" type="text/html" title="TimeMixer: Decomposable Multiscale Mixing for Time Series Forecasting" /><published>2024-05-23T00:00:00+09:00</published><updated>2024-05-28T21:08:19+09:00</updated><id>http://localhost:4000/timeseries/Timemixer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-05-23-Timemixer/"><![CDATA[<h2 id="abstract">Abstract</h2>
 <ul>
-  <li>Definition
+  <li>지금까지는 plain decomposition and multiperiodicity analysis</li>
+  <li>본 논문에서는 novel view of multiscale-mixing (intuition : distinct patterns in different sampling scales)</li>
+  <li><strong>TimeMixer</strong> :  fully MLP-based architecture
     <ul>
-      <li>For each integer \(n\), the \(n\)th moment of \(X\) is \(\mu_n=\mathbb{E}\left[X^n\right]\).</li>
-      <li>The \(n\)th central moment of \(X\) is \(\mu_n^{\prime}=\mathbb{E}\left[(X-\mu)^n\right]\) where \(\mu=\mu_1^{\prime}=\mathbb{E}[X]\)</li>
-    </ul>
-  </li>
-  <li><u>확률변수의 moments는 tail probability와 밀접한 연관이 있다.</u>
-    <ul>
-      <li>
-        <p>Let \(X\) is non-negative random variable</p>
-
-        <p>: \(\begin{aligned}\mathbb{E}[X]&amp;=\mathbb{E}\left[\int_0^{\infty} \mathbb{1}(t&lt;X) d t\right]\\&amp;=\int_0^{\infty} \mathbb{E}[\mathbb{1}(t&lt;X)] d t\\&amp;=\int_0^{\infty} P(t&lt;X) d t\\&amp;=\int_0^{\infty}\left[1-F_X(x)\right] d x \end{aligned}\)</p>
-      </li>
-      <li>
-        <p>위 결과를 확장하면 아래와 같다.</p>
-
-        <p>: \(\begin{aligned} \mathbb{E}\left[\mid X\mid ^p\right] &amp; =\int_0^{\infty}\left[1-F_{\mid X\mid ^p}(y)\right] d y \\ P\left(\mid X\mid ^p&gt;y\right) &amp; =P\left(\mid X\mid &gt;y^{\frac{1}{p}}\right) \\ &amp; =1-F_{\mid X\mid }\left(y^{\frac{1}{p}}\right) \\ \text{Let } y&amp;=x^p, \text{then } \frac{d y}{d x}=p x^{p-1} \\ \mathbb{E}\left[\mid X\mid ^p\right] &amp; =\int_0^{\infty}\left[1-F_{\mid X\mid }(x)\right] p x^{p-1} d x \\ &amp; =\int_0^{\infty} p x^{p-1} P(\mid X\mid &gt;x) d x \end{aligned}\)</p>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="moment-generating-function">Moment Generating Function</h2>
-
-<ul>
-  <li>
-    <p>Definition : \(M_X(t)=\mathbb{E}\left[e^{t X}\right]\)</p>
-  </li>
-  <li>
-    <p>MGF가 왜 중요할까 ?</p>
-
-    <ul>
-      <li><u>첫째, 확률변수 X의 MGF는 X의 모든 moments를 생성한다.</u></li>
-      <li><u>둘째, 확률변수 X의 MGF는 X의 분포를 uniquely 결정한다.</u></li>
-      <li><u>셋째, MGF의 수렴은 분포수렴(convergence in distribution)을 의미한다.</u></li>
-      <li><u>넷째, MGF로 probability tail bound를 구한다. (Hoeffding's inequality)</u></li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="첫째-확률변수-x의-mgf는-x의-모든-moments를-생성한다">첫째, 확률변수 X의 MGF는 X의 모든 moments를 생성한다.</h3>
-
-<ul>
-  <li>
-    <p>Step1) MGF가 존재한다고 가정했다면 \(\mathbb{E}\left[e^{\mid t X\mid }\right] \leq \mathbb{E}\left[e^{t X}\right]+\mathbb{E}\left[e^{-t X}\right]&lt;\infty \quad \text { for all }\mid t\mid &lt;\epsilon\)​</p>
-  </li>
-  <li>
-    <p>c.f. <strong>(Dominated Convergence Theorem)</strong>. If \(\left\{f_n: \mathbb{R} \mapsto \mathbb{R}\right\}\) is a sequence of measurable functions which converge pointwise almost everywhere to \(f\), and if there exists an integrable function \(g\) (that is \(\left.\int_{-\infty}^{\infty}\mid g(x)\mid  d x&lt;\infty\right)\) such that \(\mid f_n(x)\mid  \leq\mid g(x)\mid\) for all \(n\) and for all \(x\), then \(f\) is integrable and</p>
-
-    <ul>
-      <li>\(\int_{-\infty}^{\infty} f(x) d x=\int_{-\infty}^{\infty} \lim _{n \rightarrow \infty} f_n(x) d x=\lim _{n \rightarrow \infty} \int_{-\infty}^{\infty} f_n(x) d x\)​​</li>
-      <li>즉 \(\mid f_n(x)\mid\)의 bound 역할을 하는 \(\mid g(x)\mid\)가 \(\int_{-\infty}^{\infty}\mid g(x)\mid  d x&lt;\infty\)이면 \(\int_{-\infty}^{\infty} \lim _{n \rightarrow \infty} f_n(x) d x\)의 \(\int\)와 \(\lim\)의 위치를 바꿀 수 있다.</li>
-    </ul>
-  </li>
-  <li>
-    <p>Step2) DCT에 의해 X의 MGF는 아래와 같다.</p>
-
-    <ul>
-      <li>MGF</li>
-    </ul>
-
-    <p>: \(\begin{aligned}\int_{-\infty}^{\infty} e^{t x} f_X(x) d x &amp; =\lim _{n \rightarrow \infty} \int_{-\infty}^{\infty} \sum_{j=0}^n t^j \frac{x^j}{j !} f_X(x) d x \\ &amp; =\lim _{n \rightarrow \infty} \sum_{j=0}^n \frac{t^j}{j !} \underbrace{\int_{-\infty}^{\infty} x^j f_X(x) d x}_{=\mu_j} \\ &amp; =\sum_{j=0}^{\infty} \frac{t^j \mu_j}{j !} \end{aligned}\)</p>
-
-    <ul>
-      <li>moment</li>
-    </ul>
-
-    <p>: \(\begin{aligned} M_X^{(m)}(t) &amp; =\frac{d^m}{d t^m}\left(\sum_{k=0}^{\infty} \frac{t^k \mu_k}{k !}\right) \\ &amp; =\sum_{k=0}^{\infty} \frac{\mu_k}{k !} \frac{d^m\left(t^k\right)}{d t^m} \\ &amp; =\sum_{k=m}^{\infty} \mu_k \frac{t^{k-m}}{(k-m) !} \\ &amp; =\sum_{j=0}^{\infty} \mu_{m+j} \frac{t^j}{j !} \quad(j \equiv k-m) \end{aligned}\)</p>
-    <ul>
-      <li>Thus, \(M_X^{(m)}(0)=\mathbb{E}\left[X^m\right] \text { by noting } 0^0=1,0^j=0 \text { for } j \geq 1\)</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="둘째-확률변수-x의-mgf는-x의-분포를-uniquely-결정한다">둘째, 확률변수 X의 MGF는 X의 분포를 uniquely 결정한다.</h3>
-
-<ul>
-  <li>
-    <p>확률변수 X와 Y의 분포가 같다면 \(\to\) MGF가 같다는 것을 보이는 것은 쉽다.</p>
-  </li>
-  <li>
-    <p>반대로 두 확률변수 X와 Y의 MGF가 같으면 같은 분포를 따름은 아래와 같이 증명한다.</p>
-  </li>
-  <li>
-    <p>Suppose that \(X\) and \(Y\) have the same MGF for all \(t\) : \(\sum_{x=0}^n e^{t x} f_X(x)=\sum_{y=0}^n e^{t y} f_Y(y)\)
-  Let \(s=e^t\) and \(c_i=f_X(i)-f_Y(i)\) for \(i=0,1, \ldots, n\)</p>
-  </li>
-</ul>
-
-<p>: \(\begin{aligned} \sum_{x=0}^n e^{t x} f_X(x)-\sum_{y=0}^n e^{t y} f_Y(y)=0 \\ \Rightarrow \sum_{x=0}^n s^x f_X(x)-\sum_{y=0}^n s^y f_Y(y)=0 \\ \Rightarrow \sum_{x=0}^n s^x f_X(x)-\sum_{x=0}^n s^x f_Y(x)=0 \\ \Rightarrow \sum_{x=0}^n s^x\left[f_X(x)-f_Y(x)\right]=0 \\ \Rightarrow \sum_{x=0}^n s^x c_x=0 \quad \forall s&gt;0 \end{aligned}\)</p>
-
-<ul>
-  <li>
-    <p>The above is simply a polynomial in \(\mathrm{s}\) with coefficients \(c_0, c_1, \ldots, c_n\). The only way it can be zero for all values of \(\mathrm{s}\) is if \(c_0=c_1=\cdots=c_n=0\)</p>
-  </li>
-  <li>
-    <p>Therefore, \(0=c_i=f_X(i)-f_Y(i)\) for \(i=0,1, \ldots, n\), which means \(f_X(i)=f_Y(i)\) for \(i=0,1, \ldots, n\).</p>
-  </li>
-</ul>
-
-<h3 id="셋째-mgf의-수렴은-분포수렴convergence-in-distribution을-의미한다">셋째, MGF의 수렴은 분포수렴(convergence in distribution)을 의미한다.</h3>
-
-<ul>
-  <li>즉 \(\lim _{n \rightarrow \infty} M_{X_n}(t)=M_X(t)\)이면 \(\lim _{n \rightarrow \infty} F_{X_n}(x)=F_X(x)\)이다.</li>
-  <li><strong>(Portmanteau lemma)</strong> For random vector \(Y_n\) and \(Y\) with \(Y_n \sim P_n\) and \(Y \sim P\), the following are equivalent :
-    <ul>
-      <li>\(Y_n \xrightarrow{d} Y\);</li>
-      <li>\(P\left(Y_n \leq t\right) \rightarrow P(Y \leq t)\) for all continuous points \(t\) of \(t \mapsto P(Y \leq t)\);</li>
-      <li>\(\mathbb{E}\left[g\left(Y_n\right)\right] \rightarrow \mathbb{E}[g(Y)]\) for all bounded, continuous \(g: \mathbb{R}^d \rightarrow \mathbb{R}\)​;</li>
-      <li>(Skip the proof)</li>
-      <li>그러므로 아래 (Lévy’s continuity theorem)가 성립한다.</li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>(Lévy’s continuity theorem)</strong> Let \(X_n\) and \(X\) be random vectors in \(\mathbb{R}^d\). Then \(X_n \xrightarrow{d} X\) if and only if \(\lim _{n \rightarrow \infty} \mathbb{E}\left[e^{i t^{\top} X_n}\right]=\mathbb{E}\left[e^{i t^{\top} X}\right]\) for every \(t \in \mathbb{R}^d\)</p>
-  </li>
-  <li>위의 high-dimension에서의 증명은 (Cramér–Wold device)를 통해 1-dimension에서도 성립된다.</li>
-  <li><strong>(Cramér-Wold device)</strong> If \(t^{\top} X_n \xrightarrow{d} t^{\top} X\) for all \(t \in \mathbb{R}^d\), then \(X_n \xrightarrow{d} X\)</li>
-</ul>
-
-<h3 id="넷째-mgf로-probability-tail-bound를-구한다-hoeffdings-inequality">넷째, MGF로 probability tail bound를 구한다. (Hoeffding’s inequality)</h3>
-<ul>
-  <li><a href="https://lpppj.github.io/stat/2024-04-18-ineq2">Inequalities for Probabilities</a></li>
-  <li>pass</li>
-</ul>
-
-<h2 id="characteristic-function">Characteristic Function</h2>
-
-<ul>
-  <li>Definitnion : \(\phi_X(t)=\mathbb{E}[\exp (i t X)]=\mathbb{E}[\cos (t X)+i \sin (t X)], \quad t \in \mathbb{R},\)
-    <ul>
-      <li>where \(i=\sqrt{-1}\) is the imaginary unit (note Euler’s formula: \(e^{i x}=\cos (x)+i \sin (x)\)​)</li>
-    </ul>
-  </li>
-  <li>
-    <p>characteristic function은 언제 사용할까</p>
-
-    <ul>
-      <li>MGF가 존재하지 않는 분포(ex. Cauchy)에 대한 특성을 파악할 때</li>
-      <li>Lévy’s continuity theorem 증명할 때</li>
-    </ul>
-  </li>
-  <li>
-    <p>Element properties:</p>
-
-    <ul>
-      <li>
-        <p>If \(Y=a X+b, \phi_Y(t)=e^{i b t} \phi_X(a t)\).</p>
-      </li>
-      <li>
-        <p>If \(X\) and \(Y\) are independent, then \(\phi_{X+Y}(t)=\phi_X(t) \phi_Y(t)\)​</p>
-      </li>
-    </ul>
-  </li>
-  <li>
-    <p>아래 4가지 properties를 하나씩 증명한다.</p>
-
-    <ul>
-      <li>
-        <p>첫째, \(\phi_X(0)=1\) and \(\mid \phi_X(t)\mid \leq 1\) for all \(t \in \mathbb{R}\)​</p>
-      </li>
-      <li>둘째, \(\phi_X(t)\) is uniformly continuous on  \(\mathbb{R}\)​​
+      <li>Past-Decomposable-Mixing (PDM) : past extraction
         <ul>
-          <li>즉 \(h \to 0\)에 따라 \(\psi(h) \rightarrow 0\) s.t.  \(\mid \phi_X(t+h)-\phi_X(t)\mid \leq \psi(h)\)</li>
+          <li>1) decomposition to multiscale series and 2) mixes the decomposed seasonal and trend components</li>
         </ul>
       </li>
-      <li>
-        <p>셋째, The characteristic function of a symmetric random variable, that is  \(X \stackrel{d}{=}-X\), is real-valued</p>
+      <li>Future-Multipredictor-Mixing (FMM) : future prediction
+        <ul>
+          <li>ensembles multiple predictors</li>
+        </ul>
       </li>
-      <li>넷째, MGF처럼 두 확률변수의 characteristic function이 같으면 같은 분포를 따른다.</li>
     </ul>
   </li>
-</ul>
-
-<h3 id="첫째-phi_x01-and-mid-phi_xtmid-leq-1-for-all-t-in-mathbbr">첫째, \(\phi_X(0)=1\) and \(\mid \phi_X(t)\mid \leq 1\) for all \(t \in \mathbb{R}\)</h3>
-
-<ul>
-  <li>\(\mid e^{i t x}\mid =\sqrt{\cos ^2(t x)+\sin ^2(t x)}=1\) for all \(t\) and \(x\). Therefore \(\mid \phi_X(t)\mid =\mid \mathbb{E}\left[e^{i t X}\right]\mid  \leq \mathbb{E}\left[\mid e^{i t X}\mid \right]=1\)</li>
-</ul>
-
-<h3 id="둘째-phi_xt-is-uniformly-continuous-on--mathbbr">둘째, \(\phi_X(t)\) is uniformly continuous on  \(\mathbb{R}\)</h3>
-
-<ul>
-  <li>\(\mid \underbrace{\mathbb{E}\left[e^{i(t+h) X}\right]}_{=\phi_X(t+h)}-\underbrace{\mathbb{E}\left[e^{i t X}\right]}_{=\phi_X(t)}\mid =\mid \mathbb{E}\left[e^{i t X}\left(e^{i h X}-1\right)\right]\mid  \leq \mathbb{E}\left[\mid e^{i h X}-1\mid \right]\) 이고</li>
-  <li>Let \(g_X(h)=\mid e^{i h X}-1\mid , \text{ Then } g_X(h) \rightarrow 0 \text{ as } h \to 0\) 이므로</li>
-</ul>
-
-<p>: \(\begin{aligned} g_X(h) &amp; =\mid e^{i h X}-1\mid  \\ &amp; =\mid \{\cos (h X)-1\}+i \sin (h X)\mid  \\ &amp; =\sqrt{\{\cos (h X)-1\}^2+\sin ^2(h X)} \\ &amp; =\sqrt{2-2 \cos (h X)} \leq 2 \end{aligned}\)</p>
-
-<ul>
-  <li>\(g_X(h)\)가 uniformly bounded by 2이므로 DCT에 의해 \(\mathbb E[g_X(h)] \rightarrow 0 \text{ as } h \to 0\)</li>
-</ul>
-
-<h3 id="셋째-x-stackreld-x-characteristic-function-of-x는-real-valued">셋째, \(X \stackrel{d}{=}-X\), characteristic function of \(X\)는 real-valued</h3>
-
-<ul>
-  <li>
-    <p>: \(\begin{aligned} \mathbb{E}\left[e^{i t X}\right] &amp; =\mathbb{E}[\cos (t X)]+i \mathbb{E}[\sin (t X)] \stackrel{(\mathrm{i})}{=} \mathbb{E}[\cos (t X)]+i \mathbb{E}[\sin (-t X)] \\ &amp; \stackrel{(\mathrm{ii})}{=} \mathbb{E}[\cos (t X)]-i \mathbb{E}[\sin (t X)] \end{aligned}\).</p>
-  </li>
-  <li>
-    <p>(i)는 \(X \stackrel{d}{=}-X\) 때문이고, (ii)는 sin의 성질 \(\sin (-x)=-\sin (x)\) 때문이다.</p>
-  </li>
-</ul>
-
-<h3 id="넷째-mgf처럼-두-확률변수의-characteristic-function이-같으면-같은-분포를-따른다">넷째, MGF처럼 두 확률변수의 characteristic function이 같으면 같은 분포를 따른다.</h3>
-
-<ul>
-  <li>두 확률변수가 characteristic function이 같으면 같은 분포를 따름만 증명한다.</li>
-  <li>본 증명에는 다양한 기법이 사용되는데 그 중 몇 가지를 소개한다. 아래와 같다.
-    <ul>
-      <li>Convolution : \(X\)와 \(Y\)가 독립이면 \(Z=X+Y\)의 density function은 \(f_Z(z)=\int_{-\infty}^{\infty} f_X(x) f_Y(z-x) d x\)​</li>
-      <li>Characteristic function of \(Z \sim N(0, \sigma^2)\) : \(\mathbb{E}\left[e^{i t Z}\right]=e^{-\frac{\sigma^2 t^2}{2}} \text { for all } t \in \mathbb{R}\)​</li>
-      <li>Fubini’s theorem : \(\int_{X \times Y}\mid f(x, y)\mid  d(x, y)&lt;\infty\) 이면 \(\int\)의 순서를 바꿀 수 있다.</li>
-    </ul>
-  </li>
-  <li>\(X+Z\)와 \(Y+Z\)가 같은 분포를 따른다는 것을 증명하고 Slutsky’s theorem으로  \(X\)와 \(Y\)가 같은 분포를 따름을 증명한다.</li>
-  <li>\(\begin{aligned}
-f_{X+Z}(t) &amp; =\int_{-\infty}^{\infty} f_Z(w) f_X(t-w) d w \\
-&amp; =\int_{-\infty}^{\infty} f_Z(-w) f_X(t-w) d w \quad \text { since } f_Z(-w)=f_Z(w) \\
-&amp; =\int_{-\infty}^{\infty} f_Z(w) f_X(t+w) d w \quad \text { by the change of variables }(-w \rightarrow w) \\
-&amp; =\frac{1}{\sqrt{2 \pi} \sigma} \int_{-\infty}^{\infty} e^{-\frac{w^2}{2 \sigma^2}} f_X(t+w) d w \\
-&amp; =\frac{1}{\sqrt{2 \pi} \sigma} \int_{-\infty}^{\infty} \mathbb{E}_Z\left[e^{i w Z \sigma^{-2}}\right] f_X(t+w) d w \\ &amp; \text {by Characteristic function of } Z \sim N(0, \sigma^2) \text { and } Z \sigma^{-2} \sim N\left(0, \sigma^{-2}\right) \\
-&amp; =\frac{1}{\sqrt{2 \pi} \sigma} \mathbb{E}_Z\left[\int_{-\infty}^{\infty} e^{i w Z \sigma^{-2}} f_X(t+w) d w\right] \quad \text { by Fubini's theorem } \\
-&amp; =\frac{1}{\sqrt{2 \pi} \sigma} \mathbb{E}_Z\left[e^{-i t Z \sigma^{-2}} \int_{-\infty}^{\infty} e^{i(t+w) Z \sigma^{-2}} f_X(t+w) d w\right] \\
-&amp; =\frac{1}{\sqrt{2 \pi} \sigma} \mathbb{E}_Z\left[e^{-i t Z \sigma^{-2}} \int_{-\infty}^{\infty} e^{i w Z \sigma^{-2}} f_X(w) d w\right] \\ &amp;\text { by the change of variables }(t+w \rightarrow w) \\ &amp; =\frac{1}{\sqrt{2 \pi} \sigma} \mathbb{E}_Z\left[e^{-i t Z \sigma^{-2}} \phi_X\left(Z \sigma^{-2}\right)\right] = \frac{1}{\sqrt{2 \pi} \sigma} \mathbb{E}_Z\left[e^{-i t Z \sigma^{-2}} \phi_Y\left(Z \sigma^{-2}\right)\right] \\ &amp;( \because \phi_X = \phi_Y ) \\ &amp;=f_{Y+Z}(t)
-\end{aligned}\)​</li>
-  <li>By Slutsky’s theorem, \(X\)와 \(Y\)는 같은 분포를 따른다.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[Moments]]></summary></entry><entry><title type="html">Revisiting Long-term Time Series Forecasting: An Investigation on Linear Mapping</title><link href="http://localhost:4000/timeseries/2024-04-04-RTSF/" rel="alternate" type="text/html" title="Revisiting Long-term Time Series Forecasting: An Investigation on Linear Mapping" /><published>2024-04-04T00:00:00+09:00</published><updated>2024-04-05T09:40:54+09:00</updated><id>http://localhost:4000/timeseries/RTSF</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-04-04-RTSF/"><![CDATA[<ul>
-  <li>이전에 review했던 <a href="https://arxiv.org/abs/2205.13504">DLinear</a> paper에서는 ‘Time series의 properties가 무엇인지’, 그리고 ‘왜 Transformer-based model이 완벽할 수 없는지’에 집중했다면, 본 논문은 ‘왜 linear mapping이 단순한데도 성능이 좋은지’에 집중한다.</li>
-</ul>
-
-<h2 id="abstract">Abstract</h2>
-
-<ul>
-  <li>Linear mapping is critical to prior long-term time series forecasting efforts</li>
-  <li>RevIN (reversible normalization) and CI (Channel Independent) play a vital role for performance</li>
-  <li>Linear mapping can effectively capture periodic features in TS</li>
 </ul>
 
 <h2 id="1-introduction">1. Introduction</h2>
-
 <ul>
-  <li>Transformer-based model
+  <li>challenge: complex and non-stationary nature of the real world system</li>
+  <li>CNN : MICN(ICLR 2023), TimesNet(ICLR 2023), TCN(Soft Computing 2020)</li>
+  <li>Transformer : Informer(AAAI 2021), Autoformer(NeurIPS 2021),</li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2024](https://openreview.net/pdf?id=7oLshfEIC2)]]></summary></entry><entry><title type="html">(Corrformer, NMI 2023) Code Review 3 - Encoder</title><link href="http://localhost:4000/pytorch/2024-05-05-corrformer3/" rel="alternate" type="text/html" title="(Corrformer, NMI 2023) Code Review 3 - Encoder" /><published>2024-05-05T00:00:00+09:00</published><updated>2024-05-09T13:51:54+09:00</updated><id>http://localhost:4000/pytorch/corrformer3</id><content type="html" xml:base="http://localhost:4000/pytorch/2024-05-05-corrformer3/"><![CDATA[<p><img src="/assets/img/pytorch/corrformer0/corrformer010.jpeg" alt="사진10" /></p>
+<ul>
+  <li>우리는 <code class="language-plaintext highlighter-rouge">exp_main</code>의 <code class="language-plaintext highlighter-rouge">train</code> 메소드를 실행하고 있다.</li>
+  <li><code class="language-plaintext highlighter-rouge">get_data</code>는 이미 살펴보았고 <code class="language-plaintext highlighter-rouge">self.model</code>에 들어가는 Corrformer를 이해하기 위해 <code class="language-plaintext highlighter-rouge">Corrformer.py</code>를 살펴보고 있다.
     <ul>
-      <li>Non-autoregressive methods (to capture long-term temporal correlations)</li>
-      <li><a href="https://arxiv.org/pdf/2012.07436.pdf">Informer(AAAI 2021)</a>, <a href="https://arxiv.org/pdf/2106.13008.pdf">Autoformer(NeurIPS 2021)</a>, <a href="https://arxiv.org/pdf/2201.12740.pdf">Fedformer(PMLR 2022)</a>, <a href="https://openreview.net/pdf?id=0EXmFzUn5I">Pyraformer(ICLR 2022)</a>, <a href="https://arxiv.org/pdf/2206.04038.pdf">Scaleformer(ICLR 2023)</a>, <a href="https://openreview.net/pdf?id=vSVLM2j9eie">Crossformer(ICLR 2023)</a></li>
-      <li>However, autoregressive에 비해 non-autoregressive의 성능이 좋았던 것이지 transformer가 TS forecasting에 효과적인 것은 아님 <a href="https://arxiv.org/pdf/2205.13504.pdf">DLinear(AAAI 2022)</a></li>
+      <li>step 0. Initialization and Normalizaiton</li>
+      <li>step 1. Data Embedding Instance</li>
+      <li>step 2. Encoder Instance</li>
+      <li>step 3. Decoder Instance</li>
+      <li>step 4. forward</li>
     </ul>
   </li>
-  <li>Subsequent approaches (patching)
-    <ul>
-      <li>Encoder-decoder(ex.transformer) 구조를 버리고 temporal feature extractor 모델링 (attention을 안쓴 건 아님)</li>
-      <li><a href="https://proceedings.neurips.cc/paper_files/paper/2022/file/266983d0949aed78a16fa4782237dea7-Paper-Conference.pdf">SCINet(NeurIPS 2022)</a>, <a href="https://arxiv.org/pdf/2211.14730.pdf">PatchTST(ICLR2023)</a>, <a href="https://arxiv.org/pdf/2302.04501.pdf">MTS-Mixers(Arxiv 2023)</a>, <a href="https://openreview.net/pdf?id=ju_Uqw384Oq">Timesnet(ICLR 2023)</a></li>
-      <li>But, adjustable hyper-parameters가 너무 많이 필요하다.</li>
-    </ul>
-  </li>
-  <li>본 논문의 Questions
-    <ul>
-      <li>(1) Are temporal feature extractors effective for long-term time series forecasting?</li>
-      <li>(2) What are the <u>underlying mechanisms</u> explaining the effectiveness of <u>linear mapping</u> in time series forecasting?</li>
-      <li>(3) What are the limits of linear models and how can we improve them?</li>
-    </ul>
-  </li>
+  <li>forward 전체 코드
+<img src="/assets/img/pytorch/corrformer1/fig6.png" alt="사진6" /></li>
 </ul>
 
-<h2 id="2-problem-definition-and-experimental-setup">2. Problem Definition and Experimental Setup</h2>
-
+<h3 id="step-2-encoder-instance">step 2. Encoder Instance</h3>
 <ul>
-  <li>\(\mathbf{X}=\left[\boldsymbol{x}_1, \boldsymbol{x}_2, \ldots, \boldsymbol{x}_n\right] \in \mathbb{R}^{c \times n}\) 으로 \(\mathbf{Y}=\left[\boldsymbol{x}_{n+1}, \boldsymbol{x}_{n+2}, \ldots, \boldsymbol{x}_{n+m}\right] \in \mathbb{R}^{c \times m}\) 예측(mapping)하는 함수 \(\mathcal{F}: \mathbf{X}^{c \times n} \mapsto \mathbf{Y}^{c \times m}\) 를 학습</li>
-  <li><a href="https://arxiv.org/pdf/2211.14730.pdf">PatchTST(ICLR2023)</a>와 동일한 dataset split, Adam optimizer, Nvidia V100 32GB GPU 사용</li>
-</ul>
-
-<h2 id="3-are-temporal-feature-extractors-effective-">3. Are Temporal Feature Extractors Effective ?</h2>
-
-<ul>
-  <li>TSF 일반적인 Framework는 <strong>RevIN</strong> \(\to\) <strong>temporal feature extractor</strong>(Attention, MLP, Conv, …) \(\to\) <strong>linear projection</strong>
-    <ul>
-      <li>다른 모델들의 temporal feature extractor를 살펴보면 PatchTST(attention), MTS-Mixers(MLP), TimesNet(conv), SCINet(conv), …</li>
-    </ul>
-  </li>
-</ul>
-
-<p><img src="/assets/img/timeseries/RTSF/fig2.png" alt="사진1" /></p>
-
-<ul>
-  <li>Fig2 - RLinear : linear projection layer with RevIN</li>
-  <li>Fixed random extractor : only initialize the temporal feature extractor randomly and do not update its parameters in the training phase</li>
-  <li>Fig2는 RevIN이 예측 성능을 향상시킨다 정도를 보여줄 뿐. simple linear layer가 RevIIN 도움 받으면 PatchTST보다 성능이 좋다.</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/RTSF/fig3.png" alt="사진2" /></p>
-
-<ul>
-  <li>Fig3는 복잡한 모델들이 결국에는 가장 왼쪽에 있는 simple linear layer의 weights와 비슷한 weights를 학습하게 됨을 보여준다.</li>
-</ul>
-
-<h2 id="4-theoretical-and-empirical-study-on-the-linear-mapping">4. Theoretical and Empirical Study on the Linear Mapping</h2>
-
-<h3 id="41-roles-of-linear-mapping-in-forecasting">4.1. Roles of Linear Mapping in Forecasting</h3>
-
-<ul>
+  <li><code class="language-plaintext highlighter-rouge">enc_out = self.encoder(enc_out, attn_mask=enc_self_mask)</code>
+<img src="/assets/img/pytorch/corrformer2/corrformer23.png" alt="사진3" /></li>
+  <li>지난 포스팅에서 봤던 <code class="language-plaintext highlighter-rouge">enc_out = self.enc_embedding(x_enc, x_mark_enc) #(350, 48, 768)</code>가 <code class="language-plaintext highlighter-rouge">encoder</code>의 input</li>
   <li>
-    <dl>
-      <dt><strong>Linear mapping learns periodicity</strong></dt>
-      <dd>single linear layer는 periodicity를 학습할 수 있다. (trend는 잘 학습하지 못한다.)</dd>
-    </dl>
+    <p><code class="language-plaintext highlighter-rouge">encoder</code>는 `layers’에 있는 Encoder, MultiCorrelation, AutoCorrelation, CrossCorrelation, CausalConv를 import
+<img src="/assets/img/pytorch/corrformer3/corrformer31.png" alt="사진31" /></p>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">self.encoder</code> instance를 만드는데, parameters를 잠시 지우고 구조만 보면 아래와 같다.</li>
+</ul>
 
-    <p>아래 가정들과 정리들의 의미를 이해해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">self</span><span class="p">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="nc">Encoder</span><span class="p">([</span>
+        <span class="nc">EncoderLayer</span><span class="p">(</span>
+            <span class="nc">MultiCorrelation</span><span class="p">(</span>
+                <span class="nc">AutoCorrelationLayer</span><span class="p">(</span><span class="nc">AutoCorrelation</span><span class="p">()),</span>
+                <span class="nc">CrossCorrelationLayer</span><span class="p">(</span><span class="nc">CrossCorrelation</span><span class="p">(</span><span class="nc">CausalConv</span><span class="p">()))</span>
+            <span class="p">))])</span>
+</code></pre></div></div>
 
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Encoder</code> 안에 <code class="language-plaintext highlighter-rouge">EncoderLayer</code>가 있다. <code class="language-plaintext highlighter-rouge">EncoderLayer</code> 안에는 <code class="language-plaintext highlighter-rouge">MultiCorrelation</code>이 있는데, <code class="language-plaintext highlighter-rouge">MultiCorrelation</code> 안에는 <code class="language-plaintext highlighter-rouge">AutoCorrelationLayer(AutoCorrelation())</code>과 <code class="language-plaintext highlighter-rouge">CrossCorrelationLayer(CrossCorrelation(CausalConv()))</code>이 있다.</li>
+</ul>
+
+<h3 id="causalconv">CausalConv()</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Corrformer.py
+</span><span class="nc">CausalConv</span><span class="p">(</span>
+    <span class="n">num_inputs</span><span class="o">=</span><span class="n">configs</span><span class="p">.</span><span class="n">d_model</span> <span class="o">//</span> <span class="n">configs</span><span class="p">.</span><span class="n">n_heads</span> <span class="o">*</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">label_len</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">pred_len</span><span class="p">),</span>
+    <span class="n">num_channels</span><span class="o">=</span><span class="p">[</span><span class="n">configs</span><span class="p">.</span><span class="n">d_model</span> <span class="o">//</span> <span class="n">configs</span><span class="p">.</span><span class="n">n_heads</span> <span class="o">*</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">label_len</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">pred_len</span><span class="p">)]</span> <span class="o">*</span> <span class="n">configs</span><span class="p">.</span><span class="n">dec_tcn_layers</span><span class="p">,</span>
+    <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># Corrformer.sh
+# --d_model 768 \ --n_heads 16 \ --label_len 24 \ --pred_len 24 \ --dec_tcn_layers 1 \
+</span>
+<span class="c1"># Causal_Conv.py
+</span><span class="k">class</span> <span class="nc">CausalConv</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">num_inputs</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
+        <span class="nf">super</span><span class="p">(</span><span class="n">CausalConv</span><span class="p">,</span> <span class="n">self</span><span class="p">).</span><span class="nf">__init__</span><span class="p">()</span>
+        <span class="n">layers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">num_levels</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">num_channels</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">num_levels</span><span class="p">):</span>
+            <span class="n">dilation_size</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">**</span> <span class="n">i</span>
+            <span class="n">in_channels</span> <span class="o">=</span> <span class="n">num_inputs</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">num_channels</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">out_channels</span> <span class="o">=</span> <span class="n">num_channels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">layers</span> <span class="o">+=</span> <span class="p">[</span><span class="nc">CausalBlock</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dilation</span><span class="o">=</span><span class="n">dilation_size</span><span class="p">,</span>
+                                   <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="n">kernel_size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">dilation_size</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="n">dropout</span><span class="p">)]</span>
+
+        <span class="n">self</span><span class="p">.</span><span class="n">network</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Sequential</span><span class="p">(</span><span class="o">*</span><span class="n">layers</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="nf">network</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div></div>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="pytorch" /><summary type="html"><![CDATA[[Corrformer github](https://github.com/thuml/Corrformer)]]></summary></entry><entry><title type="html">(Corrformer, NMI 2023) Code Review 2 - Data Embedding</title><link href="http://localhost:4000/pytorch/2024-05-04-corrformer2/" rel="alternate" type="text/html" title="(Corrformer, NMI 2023) Code Review 2 - Data Embedding" /><published>2024-05-04T00:00:00+09:00</published><updated>2024-05-23T17:34:46+09:00</updated><id>http://localhost:4000/pytorch/corrformer2</id><content type="html" xml:base="http://localhost:4000/pytorch/2024-05-04-corrformer2/"><![CDATA[<ul>
+  <li>step 0. Initialization and Normalizaiton</li>
+  <li>step 1. Data Embedding Instance</li>
+  <li>step 2. Encoder Instance</li>
+  <li>step 3. Decoder Instance</li>
+  <li>step 0 ~ 3는 embedding, encoder, decoder를 정의한 것이고, forward에서 실행된다.
     <ul>
-      <li>
-        <p>single linear layers : \(\mathbf{Y}=\mathbf X \mathbf{W}+\mathbf{b}\)  라 하자.</p>
-      </li>
-      <li>
-        <p><strong>Assumption 1</strong>. A general time series \(x(t)\) can be disentangled into seasonality part \(s(t)\) and trend part \(f(t)\) with tolerable noise, denoted as \(x(t)=s(t)+f(t)+\epsilon\)</p>
-
-        <ul>
-          <li>즉 시계열 = seasonality + trend + noise로 분해할 수 있다는 의미이다.</li>
-        </ul>
-      </li>
-      <li><strong>Theorem 1</strong>. Given a seasonal time series satisfying \(x(t)=s(t)=s(t-p)\) where \(p \leq n\) is the period, there always exists an analytical solution for the linear model as
-        <ul>
-          <li>\(\left[\boldsymbol{x}_1, \boldsymbol{x}_2, \ldots, \boldsymbol{x}_n\right] \cdot \mathbf{W}+\mathbf{b}=\left[\boldsymbol{x}_{n+1}, \boldsymbol{x}_{n+2}, \ldots, \boldsymbol{x}_{n+m}\right]\) 이고</li>
-          <li>\(\mathbf{W}_{i j}^{(k)}=\left\{\begin{array}{ll} 1, &amp; \text { if } i=n-k p+(j \bmod p) \\ 0, &amp; \text { otherwise } \end{array}, 1 \leq k \in \mathbb{Z} \leq\lfloor n / p\rfloor, b_i=0\right.\) 이다.</li>
-          <li>input historical sequence의 길이가 주기보다 길다면 linear mapping은 periodicity를 예측할 수 있다는 의미이다.</li>
-          <li>하지만 위 정리는 \(x(t)=s(t)=s(t-p)\) 즉 trend가 없는 경우에 해당한다.</li>
-          <li><img src="/assets/img/timeseries/RTSF/fig4.png" alt="사진3" /></li>
-          <li>Fig4는 linear model이 seasonality는 잘 학습하지만 trend가 있을 때에는 성능이 좋지 못함을 보여준다.</li>
-        </ul>
-      </li>
-      <li>
-        <p><strong>Theorem 2</strong>. Let \(x(t)=s(t)+f(t)\) where \(s(t)\) is a seasonal signal with period \(p\) and \(f(t)\) satisfies \(K\)-Lipschitz continuous. Then there exists a linear model as \(\mathbf{Y}=\mathbf X \mathbf{W}+\mathbf{b}\) with input horizon size \(n=p+\tau, \tau \geq 0\) such that \(\mid x(n+j)-\hat x(n+j) \mid \leq K(p+j), j=1, \ldots, m\).</p>
-
-        <ul>
-          <li>linear model의 trend term에 대한 forecasting error의 upper bound를 제시하는 정리이지만, trend에 대해 성능이 좋지 않다는 건 여전하다.</li>
-          <li><img src="/assets/img/timeseries/RTSF/proof.png" alt="사진4" /></li>
-        </ul>
-      </li>
+      <li>forward에서 각 step을 지날 때에 step 0 ~ 3을 자세히 보도록 한다.</li>
     </ul>
   </li>
 </ul>
 
-<h3 id="42-disentanglement-and-normalization"><strong>4.2. Disentanglement and Normalization</strong></h3>
+<h3 id="step-4-forward">step 4. forward</h3>
+<p><img src="/assets/img/pytorch/corrformer1/fig6.png" alt="사진6" /></p>
+<ul>
+  <li>step 1. embedding은 <code class="language-plaintext highlighter-rouge">enc_out = self.enc_embedding(x_enc, x_mark_enc)</code> 부분</li>
+  <li>step 2. encoder는 <code class="language-plaintext highlighter-rouge">enc_out = self.encoder(enc_out, attn_mask=enc_self_mask)</code> 부분</li>
+  <li>step 3. decoder는 <code class="language-plaintext highlighter-rouge">seasonal_part, trend_part = self.decoder(dec_out, enc_out, x_mask=dec_self_mask, cross_mask=dec_enc_mask,trend=trend_init)</code> 부분이다.</li>
+</ul>
+
+<h3 id="step-0-initialization-and-normalizaiton">step 0. Initialization and Normalizaiton</h3>
+<p><img src="/assets/img/pytorch/corrformer2/corrformer200.png" alt="사진0" /></p>
+<ul>
+  <li>이전 포스팅에서 봤던 <code class="language-plaintext highlighter-rouge">batch_x</code>가 <code class="language-plaintext highlighter-rouge">x_enc</code>로 들어간다. (<code class="language-plaintext highlighter-rouge">torch.Size([1, 48, 3850])</code>)</li>
+  <li><code class="language-plaintext highlighter-rouge">x_enc</code>를 normalization해주고 RevIN처럼 learnable parameters로 설정한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">self.decomp</code>에서는 seasonal(x - moving average)와 trend(moving average)로 분해한다. (shape은 똑같이 <code class="language-plaintext highlighter-rouge">torch.Size([1, 48, 3850])</code>)</li>
+</ul>
+
+<h3 id="step-1-data-embedding-instance">step 1. Data Embedding Instance</h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">enc_out = self.enc_embedding(x_enc, x_mark_enc)</code>
+<img src="/assets/img/pytorch/corrformer2/corrformer23.png" alt="사진3" /></li>
+  <li><code class="language-plaintext highlighter-rouge">Corrformer.sh</code>에서 B:1 / L:48 / D:3850 / C:4 / node_num:350 이므로</li>
+  <li><code class="language-plaintext highlighter-rouge">x_enc</code>는 <code class="language-plaintext highlighter-rouge">1, 48, 3850</code> –<code class="language-plaintext highlighter-rouge">view</code>–&gt; <code class="language-plaintext highlighter-rouge">(1, 48, 350, 11)</code> –<code class="language-plaintext highlighter-rouge">permute</code>–&gt; <code class="language-plaintext highlighter-rouge">(1, 350, 48, 11)</code> –<code class="language-plaintext highlighter-rouge">view</code>–&gt; <code class="language-plaintext highlighter-rouge">(350, 48, 11)</code>이고</li>
+  <li><code class="language-plaintext highlighter-rouge">x_mark_enc</code>는  <code class="language-plaintext highlighter-rouge">(1, 48, 4)</code> –<code class="language-plaintext highlighter-rouge">unsqueeze</code>–&gt; <code class="language-plaintext highlighter-rouge">(1, 1, 48, 4)</code> –<code class="language-plaintext highlighter-rouge">repeat</code>–&gt; <code class="language-plaintext highlighter-rouge">(1, 350, 48, 4)</code> –<code class="language-plaintext highlighter-rouge">view</code>–&gt; <code class="language-plaintext highlighter-rouge">(350, 48, 4)</code>가 된다.</li>
+  <li><code class="language-plaintext highlighter-rouge">self.enc_embedding</code>의 input이 된다.
+<img src="/assets/img/pytorch/corrformer2/corrformer20.png" alt="사진0" /></li>
+  <li>encoder embedding은 <code class="language-plaintext highlighter-rouge">DataEmbedding</code>으로 정의되는데 (그리고 decoder embedding도) <code class="language-plaintext highlighter-rouge">Embed.py</code>에서 import
+<img src="/assets/img/pytorch/corrformer2/corrformer21.png" alt="사진1" /></li>
+  <li>forward의 x는 <code class="language-plaintext highlighter-rouge">value_embedding(x) + temporal_embedding(x_mark) + national_embedding(national_position)</code></li>
+  <li>논문에서 아래 부분에 해당한다.
+<img src="/assets/img/pytorch/corrformer2/corrformer22.png" alt="사진2" /></li>
+  <li>GeoPositionalEmbedding, TokenEmbedding, TemporalEmbedding의 코드를 첨부하지는 않겠지만 코드를 보면 각각 national, value, temporal을 <code class="language-plaintext highlighter-rouge">d_model=768</code> 차원으로 embedding한다.
+    <ul>
+      <li>GeoPositionalEmbedding은 1개의 linear layer 사용</li>
+      <li>TokenEmbedding은 channel-wise self-attention + conv1d 사용</li>
+      <li>TemporalEmbedding은 sin과 cos를 사용했다.</li>
+      <li><code class="language-plaintext highlighter-rouge">self.enc_embedding(x_enc, x_mark_enc)</code>는 torch.Size([<code class="language-plaintext highlighter-rouge">350, 48, 768</code>])이다. (<code class="language-plaintext highlighter-rouge">d_model=768</code>)
+        <ul>
+          <li>x_enc       –TokenEmbedding–&gt; <code class="language-plaintext highlighter-rouge">(350, 48, 768)</code> <br />
+\(+\) x_mark_enc  –TemporalEmbedding–&gt; <code class="language-plaintext highlighter-rouge">(350, 48, 768)</code> <br />
+\(+\) GeoPositionalEmbedding <code class="language-plaintext highlighter-rouge">(350, 48, 768)</code></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>step 2부터는 다음 포스팅에서 다루도록 한다.</li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="pytorch" /><summary type="html"><![CDATA[[Corrformer github](https://github.com/thuml/Corrformer)]]></summary></entry><entry><title type="html">(Corrformer, NMI 2023) Code Review 1 - Overall Framework</title><link href="http://localhost:4000/pytorch/2024-04-29-corrformer1/" rel="alternate" type="text/html" title="(Corrformer, NMI 2023) Code Review 1 - Overall Framework" /><published>2024-04-29T00:00:00+09:00</published><updated>2024-05-23T17:30:40+09:00</updated><id>http://localhost:4000/pytorch/corrformer1</id><content type="html" xml:base="http://localhost:4000/pytorch/2024-04-29-corrformer1/"><![CDATA[<p><img src="/assets/img/pytorch/corrformer0/corrformer011.png" alt="사진11" /></p>
 
 <ul>
+  <li><code class="language-plaintext highlighter-rouge">_get_data</code> 함수로 데이터를 불러오는데 예를 들어 train_data의 경로는 <code class="language-plaintext highlighter-rouge">Corrformer/dataset/global_temp/temp_global_hourly_train.np</code>이고 shape은 <code class="language-plaintext highlighter-rouge">(12280, 3850, 1)</code>이다.
+    <ul>
+      <li>12280은 timestep의 개수, 3850은 sensor의 개수이다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">train_steps = len(train_loader)</code>는 <code class="language-plaintext highlighter-rouge">len(self.data_x)</code> - <code class="language-plaintext highlighter-rouge">self.seq_len</code> - <code class="language-plaintext highlighter-rouge">self.pred_len</code> + <code class="language-plaintext highlighter-rouge">1</code> = <code class="language-plaintext highlighter-rouge">12280 - 48 - 24 + 1</code> = <code class="language-plaintext highlighter-rouge">12209</code>가 된다.
+    <ul>
+      <li>12209번째부터 마지막 12280째까지 (48+24=72)개가 마지막 배치에 들어가고 12210째부터는 72개를 만들 수 없기 때문</li>
+    </ul>
+  </li>
   <li>
-    <p><strong>Problems in Disentanglement</strong></p>
+    <p><code class="language-plaintext highlighter-rouge">_select_optimizer</code>로 MSE, <code class="language-plaintext highlighter-rouge">_select_criterion</code>로 Adam을 사용한다.</p>
 
     <ul>
-      <li>
-        <p>시계열에서 trend와 seasonality를 분리할 수 있으면 성능을 높일 수 있을 것</p>
-
-        <ul>
-          <li>
-            <p>moving average(by an average pooling layer with a sliding window)로 trend를 분리할 수 있다.</p>
-          </li>
-          <li>
-            <p>하지만, sliding window의 크기가 seasonality의 최대 주기보다 커야만 효과적이고</p>
-
-            <p>average pooling layer를 사용할 때 input TS의 양 끝에 padding을 해줘야 하는데, 그러면 원본 시퀀스가 왜곡된다.</p>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>Turning trend into seasonality</strong></p>
-    <ul>
-      <li>Disentanglement의 핵심은 원본 TS에서 movind average를 빼는 것인데, 이건 normalization과 관련이 있다.
-        <ul>
-          <li>TS의 statistical information(평균, 분산)은 distribution shift로 인해 계속 바뀌기 때문에 RevIN이 사용된다.</li>
-          <li>RevIN : Normalization the input \(\to\) Forecasting module \(\to\) Denormalization the output</li>
-        </ul>
-      </li>
-      <li>하지만 input 데이터에 directly normalization하면 오히려 statistical information을 지우는 것과 같다.</li>
-      <li><img src="/assets/img/timeseries/RTSF/fig5.png" alt="사진5" /></li>
-      <li>RevIN의 경우에는 scaling을 하지만 periodicity는 바꾸지 않는다. 그리고 reversible하다.</li>
-      <li><img src="/assets/img/timeseries/RTSF/fig6.png" alt="사진6" /></li>
-      <li><img src="/assets/img/timeseries/RTSF/fig7.png" alt="사진7" /></li>
-      <li>RevIN은 continuously changing trends를 multiple segments with a fixed and similar trend로 바꾼다.</li>
-      <li>그러면 accumulated timesteps in the past로 인한  errors in trend prediction이 완화된다.</li>
+      <li>참고로 <code class="language-plaintext highlighter-rouge">_get_data</code>는 <code class="language-plaintext highlighter-rouge">data_factory.py</code>에 있는 <code class="language-plaintext highlighter-rouge">data_provider</code> 함수를 import한 것이다.</li>
     </ul>
   </li>
 </ul>
 
-<h2 id="5-experimental-evaluation">5. Experimental Evaluation</h2>
-
-<h3 id="51-comparison-on-real-world-datasets">5.1 Comparison on Real-world Datasets</h3>
-
-<p><img src="/assets/img/timeseries/RTSF/table3.png" alt="사진8" /></p>
+<p><img src="/assets/img/pytorch/corrformer0/corrformer08.png" alt="사진8" /></p>
 
 <ul>
-  <li>learning of periodicity via linear mapping, 그리고 efficiency of reversible normalization 덕분에 well-designed models보다 RLinear의 성능이 좋다.</li>
+  <li><code class="language-plaintext highlighter-rouge">data_factory.py</code> - <code class="language-plaintext highlighter-rouge">data_provider</code> 함수의 첫 줄에서 <code class="language-plaintext highlighter-rouge">arg.data</code>에는 <code class="language-plaintext highlighter-rouge">Corrformer.sh</code>에서 정한 Global_Temp 또는 Global_Wind가 들어간다.</li>
+  <li>그러면 <code class="language-plaintext highlighter-rouge">data_loader.py</code>에서 실제로 데이터를 불러오는 코드가 실행된다.</li>
+  <li><code class="language-plaintext highlighter-rouge">data_loader.py</code> 코드를 보지는 않겠지만 numpy version 호환성으로 인해 <code class="language-plaintext highlighter-rouge">astype(np.float)</code>로 적힌 두 곳을 <code class="language-plaintext highlighter-rouge">astype(np.float64)</code>로 바꿔주었다. (안바꾸면 버전 호환성으로 인한 에러 발생)</li>
+  <li>이제 매 epoch에서 어떻게 실행되는지 알아보자.</li>
 </ul>
 
-<h3 id="52-when-linear-meets-multiple-periods-among-channels">5.2. When Linear Meets Multiple Periods among Channels</h3>
-
-<p><img src="/assets/img/timeseries/RTSF/table4.png" alt="사진9" /></p>
+<p><img src="/assets/img/pytorch/corrformer0/corrformer07.png" alt="사진7" /></p>
 
 <ul>
-  <li>Multi-channel datasets의 경우에는 Channel Independent(CI) modeling으로 TS의 각 채널을 독립적으로 처리할 때 성능이 좋다.</li>
+  <li>모델을 train mode로 설정하고 <code class="language-plaintext highlighter-rouge">train_loader</code>에서 데이터를 배치 단위로 불러온다.</li>
 </ul>
 
-<p><img src="/assets/img/timeseries/RTSF/fig10.png" alt="사진10" /></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Corrformer</span><span class="p">.</span><span class="n">sh에서</span> <span class="o">--</span><span class="n">seq_len</span> <span class="mi">48</span> \ <span class="o">--</span><span class="n">label_len</span> <span class="mi">24</span> \ <span class="o">--</span><span class="n">pred_len</span> <span class="mi">24</span> <span class="n">이므로</span>
+
+<span class="n">i</span> <span class="p">:</span> <span class="mi">0</span>
+<span class="n">shape</span> <span class="n">of</span> <span class="n">batch_x</span> <span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="nc">Size</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">3850</span><span class="p">])</span>
+<span class="n">shape</span> <span class="n">of</span> <span class="n">batch_y</span> <span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="nc">Size</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">3850</span><span class="p">])</span>
+<span class="n">shape</span> <span class="n">of</span> <span class="n">batch_x_mark</span> <span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="nc">Size</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="n">shape</span> <span class="n">of</span> <span class="n">batch_y_mark</span> <span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="nc">Size</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+
+<span class="mi">48</span><span class="n">개를</span> <span class="n">보고</span> <span class="mi">24</span><span class="n">개를</span> <span class="n">예측하는데</span> <span class="n">y의</span> <span class="n">길이도</span> <span class="mi">48</span><span class="n">인</span> <span class="n">이유</span>
+<span class="o">--&gt;</span> <span class="n">x는</span> <span class="p">[</span><span class="n">index</span> <span class="n">부터</span> <span class="n">index</span> <span class="o">+</span> <span class="n">seq_len</span> <span class="n">까지</span><span class="p">]</span> <span class="n">이렇게</span> <span class="mi">48</span><span class="n">개이고</span> <span class="n">ex</span><span class="p">.</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">48</span><span class="p">]</span>
+<span class="o">--&gt;</span> <span class="n">y는</span> <span class="p">[</span><span class="n">index</span> <span class="o">+</span> <span class="n">seq_len</span> <span class="o">-</span> <span class="n">label_len</span> <span class="n">부터</span> <span class="n">index</span> <span class="o">+</span> <span class="n">label_len</span> <span class="o">+</span> <span class="n">pred_len</span> <span class="n">까지</span><span class="p">]</span> <span class="n">이렇게</span> <span class="mi">48</span><span class="n">개</span> <span class="n">ex</span><span class="p">.</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">72</span><span class="p">]</span>
+<span class="o">--&gt;</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">24</span><span class="p">]</span><span class="n">는</span> <span class="n">예측에</span> <span class="n">사용되는</span> <span class="n">부분이지</span> <span class="n">맞춰야</span> <span class="n">할</span> <span class="n">부분은</span> <span class="n">아니기</span> <span class="n">때문에</span><span class="p">,</span> <span class="n">x만</span> <span class="n">있으면</span> <span class="n">되고</span> <span class="n">y에는</span> <span class="n">없어도</span> <span class="n">되는</span> <span class="n">것이고</span>
+<span class="o">--&gt;</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">48</span><span class="p">]</span><span class="n">은</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">24</span><span class="p">]</span><span class="n">로</span> <span class="n">예측도</span> <span class="n">해야하고</span> <span class="p">[</span><span class="mi">49</span><span class="p">,</span> <span class="mi">72</span><span class="p">]</span><span class="n">를</span> <span class="n">예측할</span> <span class="n">때</span> <span class="n">사용도</span> <span class="n">해야</span> <span class="n">하니</span> <span class="n">x와</span> <span class="n">y가</span> <span class="n">모두</span> <span class="n">있어야</span> <span class="n">하고</span>
+<span class="o">--&gt;</span> <span class="p">[</span><span class="mi">49</span><span class="p">,</span> <span class="mi">72</span><span class="p">]</span><span class="n">는</span> <span class="n">맞추기만</span> <span class="n">하면</span> <span class="n">되지</span> <span class="n">다른</span> <span class="n">예측에는</span> <span class="n">안쓰이기</span> <span class="n">때문에</span> <span class="n">y만</span> <span class="n">있으면</span> <span class="n">되는</span> <span class="n">것</span>
+</code></pre></div></div>
 
 <ul>
-  <li>Channels가 많아지면 channel마다 periodicity가 달라져서 예측이 어려워지는데 input horizon을 늘리면 완화된다.</li>
+  <li>decoder의 input <code class="language-plaintext highlighter-rouge">dec_inp</code>는 <code class="language-plaintext highlighter-rouge">label_len</code> 만큼의 <code class="language-plaintext highlighter-rouge">batch_y</code>와 그 뒤에 <code class="language-plaintext highlighter-rouge">pred_len</code>만큼의 zero를 붙여서 만든다.</li>
 </ul>
 
-<h2 id="6-conclusion">6. Conclusion</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">dec_inp</span> <span class="c1"># torch.Size([1, 48, 3850])
+</span><span class="nf">tensor</span><span class="p">([[[</span> <span class="mf">42.</span><span class="p">,</span>  <span class="mf">67.</span><span class="p">,</span>  <span class="mf">87.</span><span class="p">,</span>  <span class="p">...,</span> <span class="mf">300.</span><span class="p">,</span> <span class="mf">310.</span><span class="p">,</span> <span class="mf">320.</span><span class="p">],</span>
+        <span class="p">[</span> <span class="mf">37.</span><span class="p">,</span>  <span class="mf">67.</span><span class="p">,</span>  <span class="mf">88.</span><span class="p">,</span>  <span class="p">...,</span> <span class="mf">310.</span><span class="p">,</span> <span class="mf">320.</span><span class="p">,</span> <span class="mf">340.</span><span class="p">],</span>
+        <span class="p">[</span> <span class="mf">31.</span><span class="p">,</span>  <span class="mf">70.</span><span class="p">,</span>  <span class="mf">91.</span><span class="p">,</span>  <span class="p">...,</span> <span class="mf">320.</span><span class="p">,</span> <span class="mf">330.</span><span class="p">,</span> <span class="mf">350.</span><span class="p">],</span>
+        <span class="p">...,</span>
+        <span class="p">[</span>  <span class="mf">0.</span><span class="p">,</span>   <span class="mf">0.</span><span class="p">,</span>   <span class="mf">0.</span><span class="p">,</span>  <span class="p">...,</span>   <span class="mf">0.</span><span class="p">,</span>   <span class="mf">0.</span><span class="p">,</span>   <span class="mf">0.</span><span class="p">],</span>
+        <span class="p">[</span>  <span class="mf">0.</span><span class="p">,</span>   <span class="mf">0.</span><span class="p">,</span>   <span class="mf">0.</span><span class="p">,</span>  <span class="p">...,</span>   <span class="mf">0.</span><span class="p">,</span>   <span class="mf">0.</span><span class="p">,</span>   <span class="mf">0.</span><span class="p">],</span>
+        <span class="p">[</span>  <span class="mf">0.</span><span class="p">,</span>   <span class="mf">0.</span><span class="p">,</span>   <span class="mf">0.</span><span class="p">,</span>  <span class="p">...,</span>   <span class="mf">0.</span><span class="p">,</span>   <span class="mf">0.</span><span class="p">,</span>   <span class="mf">0.</span><span class="p">]]])</span>
+</code></pre></div></div>
 
 <ul>
-  <li>Linear mapping와 foreacsting methods가 학습하는 것은 비슷하다. (input historical observations에서 periodic patterns)</li>
-  <li>RevIN과 Channel Independent는 periodicity를 단순하게 만들어 학습을 용이하게 하므로 성능 향상에 필요하다.</li>
-  <li>Linear mapping은 MTS에 대해서도 input horizon만 충분하다면 예측 성능이 뛰어나다.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Arxiv 2023](https://arxiv.org/pdf/2305.10721.pdf)]]></summary></entry></feed>
+  <li><code class="language-plaintext highlighter-rouge">output = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)</code>에서 <code class="language-plaintext highlighter-rouge">Model</code> 클래스의 <code class="language-plaintext highlighter-rouge">forward</code>도 호출
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">Corrformer.py</code>에서 <code class="language-plaintext highlighter-rouge">class Model(nn.Module):</code>로 Model이라는 class를 정의할 때 <code class="language-plaintext highlighter-rouge">nn.Module</code>을 상속받았는데, <code class="language-plaintext highlighter-rouge">nn.Module</code>에 오버라이딩 된 <code class="language-plaintext highlighter-rouge">__call__</code> 메소드 덕분에 <code class="language-plaintext highlighter-rouge">class Model</code>의 <code class="language-plaintext highlighter-rouge">forward</code> 메소드도 같이 호출되기 때문이다.</li>
+      <li>즉 <code class="language-plaintext highlighter-rouge">batch_x</code>가 <code class="language-plaintext highlighter-rouge">Model</code> 클래스 <code class="language-plaintext highlighter-rouge">forward</code>의 <code class="language-plaintext highlighter-rouge">x_enc</code>로 들어가게 된다.</li>
+      <li>이 때 <code class="language-plaintext highlighter-rouge">nn.Module</code>의 <code class="language-plaintext highlighter-rouge">__call__</code>에 의해 <code class="language-plaintext highlighter-rouge">forward</code>라는 메소드만 특별하게 처리되는 것이고, 만약 <code class="language-plaintext highlighter-rouge">Corrformer.py</code>에 <code class="language-plaintext highlighter-rouge">forward</code> 말고 다른 함수 <code class="language-plaintext highlighter-rouge">custom_function</code>도 있었다면 <code class="language-plaintext highlighter-rouge">self.model.custom_function</code>이렇게 해줘야 한다.</li>
+    </ul>
+  </li>
+  <li>지금까지는 모델에 대해서 알아본 건 아니고 기본적인 코드의 구조를 이해했다. (아래 사진)</li>
+  <li><code class="language-plaintext highlighter-rouge">exp_main</code> \(\to\) <code class="language-plaintext highlighter-rouge">Corrformer.py</code> 부분은 다음 포스팅에서 다룰 것이다.</li>
+</ul>
+
+<p><img src="/assets/img/pytorch/corrformer0/corrformer010.jpeg" alt="사진10" /></p>
+
+<p><img src="/assets/img/pytorch/corrformer0/corrformer09.png" alt="사진9" /></p>
+
+<ul>
+  <li>다음 포스팅부터는 <code class="language-plaintext highlighter-rouge">outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)</code>에서 무슨 일이 일어나는지 알아보기 위해 <code class="language-plaintext highlighter-rouge">Exp_Main</code>에서 <code class="language-plaintext highlighter-rouge">arg.model</code>로 사용하게 되는 <code class="language-plaintext highlighter-rouge">Corrformer.py</code>에 있는 <code class="language-plaintext highlighter-rouge">Model</code> 클래스를 살펴보면서 모델을 이해해보도록 한다.</li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="pytorch" /><summary type="html"><![CDATA[[Corrformer github](https://github.com/thuml/Corrformer)]]></summary></entry><entry><title type="html">(Corrformer, NMI 2023) Code Review 0 - Code Structure</title><link href="http://localhost:4000/pytorch/2024-04-29-corrformer0/" rel="alternate" type="text/html" title="(Corrformer, NMI 2023) Code Review 0 - Code Structure" /><published>2024-04-29T00:00:00+09:00</published><updated>2024-05-06T01:59:08+09:00</updated><id>http://localhost:4000/pytorch/corrformer0</id><content type="html" xml:base="http://localhost:4000/pytorch/2024-04-29-corrformer0/"><![CDATA[<p><img src="/assets/img/pytorch/corrformer0/corrformer01.png" alt="사진1" />
+<img src="/assets/img/pytorch/corrformer0/corrformer02.png" alt="사진2" /></p>
+
+<ul>
+  <li><a href="https://github.com/thuml/Corrformer">Corrformer github</a>에서 <code class="language-plaintext highlighter-rouge">Corrformer.sh</code>를 확인하면 되겠다.</li>
+</ul>
+
+<h3 id="corrformersh">Corrformer.sh</h3>
+
+<p><img src="/assets/img/pytorch/corrformer0/corrformer03.png" alt="사진3" /></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">run.py</code>를 보도록 한다.</li>
+</ul>
+
+<h3 id="runpy">run.py</h3>
+
+<p><img src="/assets/img/pytorch/corrformer0/corrformer04.png" alt="사진4" /></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">exp.train</code>, <code class="language-plaintext highlighter-rouge">exp.test</code>, <code class="language-plaintext highlighter-rouge">exp.predict</code>를 실행하는데 <code class="language-plaintext highlighter-rouge">exp</code>는 <code class="language-plaintext highlighter-rouge">Exp(args)</code>이고, <code class="language-plaintext highlighter-rouge">Exp</code>는 <code class="language-plaintext highlighter-rouge">Exp_main</code>이다.</li>
+</ul>
+
+<p><img src="/assets/img/pytorch/corrformer0/corrformer05.png" alt="사진5" /></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Exp_main</code>은 <code class="language-plaintext highlighter-rouge">exp</code> 폴더 안에 있는 <code class="language-plaintext highlighter-rouge">exp_main.py</code>에 있는 함수 <code class="language-plaintext highlighter-rouge">Exp_Main</code>이 되겠다.</li>
+</ul>
+
+<h3 id="exp_mainpy">exp_main.py</h3>
+
+<p><img src="/assets/img/pytorch/corrformer0/corrformer06.png" alt="사진6" /></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Exp_Main</code>이라는 함수에서 <code class="language-plaintext highlighter-rouge">_build_model</code>에서 <code class="language-plaintext highlighter-rouge">Corrformer</code>를 불러온다.</li>
+  <li>(수정) 그런 줄 알았는데 <code class="language-plaintext highlighter-rouge">Exp_Main</code>의 <code class="language-plaintext highlighter-rouge">train</code>에서 <code class="language-plaintext highlighter-rouge">_build_model</code>가 실행되지 않는다 !</li>
+  <li>그 말은 <code class="language-plaintext highlighter-rouge">_build_model</code>에서가 아니라 <code class="language-plaintext highlighter-rouge">Corrformer.sh</code>에서 받은 parameter <code class="language-plaintext highlighter-rouge">Corrformer</code>를 그대로 받음을 의미한다.</li>
+  <li>결과적으로는 <code class="language-plaintext highlighter-rouge">self.model</code>에 Corrformer가 들어간다는 건 변함이 없다.</li>
+  <li>아무튼 앞서 <code class="language-plaintext highlighter-rouge">run.py</code>에서는 <code class="language-plaintext highlighter-rouge">Exp_Main.train</code>을 실행했기 때문에 다음 포스팅부터는 <code class="language-plaintext highlighter-rouge">train</code> 함수부터 보도록 한다.</li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="pytorch" /><summary type="html"><![CDATA[[Corrformer github](https://github.com/thuml/Corrformer)]]></summary></entry></feed>

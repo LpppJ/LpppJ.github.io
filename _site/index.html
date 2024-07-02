@@ -108,7 +108,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2024-04-20T14:16:23+09:00',
+    INDEX_KEY: 'index--2024-07-02T16:16:29+09:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -203,6 +203,18 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
           
         >
           TimeSeries
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/pytorch/"
+          class="sidebar-nav-item "
+          
+        >
+          Pytorch
         </a>
       </li>
     
@@ -344,18 +356,18 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 
 
-<article id="post-stat-converge" class="page post mb6" role="article">
+<article id="post-stat-NPtest" class="page post mb6" role="article">
   <header>
     <h1 class="post-title flip-project-title">
-      <a href="/stat/2024-04-19-converge/" class="flip-title">
-        Convergence of Random Variables
+      <a href="/stat/2024-07-02-NPtest/" class="flip-title">
+        Neyman-Pearson Hypothesis Testing
       </a>
     </h1>
 
     <div class="post-date">
       
       <span class="ellipsis mr1">
-        <time datetime="2024-04-19T00:00:00+09:00">19 Apr 2024</time> in <span>Stat</span> 
+        <time datetime="2024-07-02T00:00:00+09:00">02 Jul 2024</time> in <span>Stat</span> 
       </span>
       
     </div>
@@ -373,14 +385,14 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
   </header>
 
   
-    <h2 id="1-almost-sure-convergence">1. Almost sure Convergence</h2>
+    <h2 id="basics-of-hypothesis-testing">Basics of Hypothesis Testing</h2>
 
 
     
     
     <footer>
       <p class="read-more">
-        Continue reading <a class="heading flip-title" href="/stat/2024-04-19-converge/">Convergence of Random Variables</a>
+        Continue reading <a class="heading flip-title" href="/stat/2024-07-02-NPtest/">Neyman-Pearson Hypothesis Testing</a>
 
       </p>
     </footer>
@@ -394,18 +406,68 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 
 
-<article id="post-stat-MoM" class="page post mb6" role="article">
+<article id="post-stat-minimax" class="page post mb6" role="article">
   <header>
     <h1 class="post-title flip-project-title">
-      <a href="/stat/2024-04-19-MoM/" class="flip-title">
-        Median of Means Estimator (MoM)
+      <a href="/stat/2024-06-27-minimax/" class="flip-title">
+        Minimax Estimator and Stein’s Paradox
       </a>
     </h1>
 
     <div class="post-date">
       
       <span class="ellipsis mr1">
-        <time datetime="2024-04-19T00:00:00+09:00">19 Apr 2024</time> in <span>Stat</span> 
+        <time datetime="2024-06-27T00:00:00+09:00">27 Jun 2024</time> in <span>Stat</span> 
+      </span>
+      
+    </div>
+
+    
+    
+
+    
+
+
+
+  <div class="hr pb0"></div>
+
+
+  </header>
+
+  
+    <h2 id="1-minimax-estimator">1. Minimax Estimator</h2>
+
+
+    
+    
+    <footer>
+      <p class="read-more">
+        Continue reading <a class="heading flip-title" href="/stat/2024-06-27-minimax/">Minimax Estimator and Stein’s Paradox</a>
+
+      </p>
+    </footer>
+  
+</article>
+
+
+  
+
+
+
+
+
+<article id="post-stat-kernel_reg" class="page post mb6" role="article">
+  <header>
+    <h1 class="post-title flip-project-title">
+      <a href="/stat/2024-05-26-kernel_reg/" class="flip-title">
+        Analysis of non-parametric kernel regression
+      </a>
+    </h1>
+
+    <div class="post-date">
+      
+      <span class="ellipsis mr1">
+        <time datetime="2024-05-26T00:00:00+09:00">26 May 2024</time> in <span>Stat</span> 
       </span>
       
     </div>
@@ -424,176 +486,13 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
   
     <ul>
-  <li>우리는 sample을 n개 뽑아서 만든 estimator가 true parameter의 근처에서 자주 등장하기를 원한다.</li>
-  <li>Estimator와 true parameter의 거리는 \(\left\vert \hat \mu - \mu \right\vert\)이다.</li>
-  <li>\(\left\vert \hat \mu - \mu \right\vert \ge t\)는 estimator의 error가 우리의 정한 기준(\(t\)라고 하자) 보다 높은 경우로 볼 수 있으므로,
+  <li>일반적인 regression은 response variable Y와 covariate X의 관계를 이해하는 방법 중 하나로 일종의 conditional expectation이다. <br />
+\(r(x)=\mathbb{E}[Y \mid X=x]=\int y f(y \mid x) dy\)</li>
+  <li>non-parametric regession을 하는 기본적인 방법 중 하나는 kernel regression이다. <br />
+estimator는 \(\widehat{r}(x)=\sum_{i=1}^n w_i(x) Y_i\) where \(w_i(x)=\frac{K\left(\frac{x-X_i}{h}\right)}{\sum_{j=1}^n K\left(\frac{x-X_j}{h}\right)}\)
     <ul>
-      <li>\(P(\left\vert \hat \mu - \mu \right\vert \ge t) \le \delta\)는, 주어진 \(t\)에 대해 \(\delta\)가 얼마나 작은지가 중요하다.</li>
-      <li>또는 \(t\)가 커짐에 따라 \(\delta\)가 얼마나 빠르게 줄어드는지</li>
-    </ul>
-  </li>
-  <li>Ex. Chebyshev’s inequality \(P\left\{\left\vert \frac{1}{n} \sum_{i=1}^n X_i-\mu \right\vert \geq \sigma \sqrt{\frac{1}{n \delta}}\right\} \leq \delta\)는 polynomial upper bound를 제공한다.</li>
-  <li>하지만 <a href="https://lpppj.github.io/stat/2024-04-18-ineq2">Inequalities for Probabilities</a>에서 exponential upper bound를 제공하는 다양한 부등식을 소개하였다.</li>
-  <li>이를 활용하여 mean에 대한 <u>exponential upper bound를 제공하는 부등식 Median of Means Estimator (MoM)</u>을 소개한다.</li>
-</ul>
-
-
-    
-    
-    <footer>
-      <p class="read-more">
-        Continue reading <a class="heading flip-title" href="/stat/2024-04-19-MoM/">Median of Means Estimator (MoM)</a>
-
-      </p>
-    </footer>
-  
-</article>
-
-
-  
-
-
-
-
-
-<article id="post-stat-ineq2" class="page post mb6" role="article">
-  <header>
-    <h1 class="post-title flip-project-title">
-      <a href="/stat/2024-04-18-ineq2/" class="flip-title">
-        Inequalities for Probabilities
-      </a>
-    </h1>
-
-    <div class="post-date">
-      
-      <span class="ellipsis mr1">
-        <time datetime="2024-04-18T00:00:00+09:00">18 Apr 2024</time> in <span>Stat</span> 
-      </span>
-      
-    </div>
-
-    
-    
-
-    
-
-
-
-  <div class="hr pb0"></div>
-
-
-  </header>
-
-  
-    <h2 id="3-inequalities-for-probabilities">3. Inequalities for Probabilities</h2>
-
-
-    
-    
-    <footer>
-      <p class="read-more">
-        Continue reading <a class="heading flip-title" href="/stat/2024-04-18-ineq2/">Inequalities for Probabilities</a>
-
-      </p>
-    </footer>
-  
-</article>
-
-
-  
-
-
-
-
-
-<article id="post-stat-ineq1" class="page post mb6" role="article">
-  <header>
-    <h1 class="post-title flip-project-title">
-      <a href="/stat/2024-04-16-ineq1/" class="flip-title">
-        Inequalities for Expectation and Variance
-      </a>
-    </h1>
-
-    <div class="post-date">
-      
-      <span class="ellipsis mr1">
-        <time datetime="2024-04-16T00:00:00+09:00">16 Apr 2024</time> in <span>Stat</span> 
-      </span>
-      
-    </div>
-
-    
-    
-
-    
-
-
-
-  <div class="hr pb0"></div>
-
-
-  </header>
-
-  
-    <h2 id="1-inequalities-for-expectation">1. Inequalities for Expectation</h2>
-
-
-    
-    
-    <footer>
-      <p class="read-more">
-        Continue reading <a class="heading flip-title" href="/stat/2024-04-16-ineq1/">Inequalities for Expectation and Variance</a>
-
-      </p>
-    </footer>
-  
-</article>
-
-
-  
-
-
-
-
-
-<article id="post-stat-SSmean" class="page post mb6" role="article">
-  <header>
-    <h1 class="post-title flip-project-title">
-      <a href="/stat/2024-04-16-SSmean/" class="flip-title">
-        Semi-Supervised Mean Estimation (Variance Reduction Technique)
-      </a>
-    </h1>
-
-    <div class="post-date">
-      
-      <span class="ellipsis mr1">
-        <time datetime="2024-04-16T00:00:00+09:00">16 Apr 2024</time> in <span>Stat</span> 
-      </span>
-      
-    </div>
-
-    
-    
-
-    
-
-
-
-  <div class="hr pb0"></div>
-
-
-  </header>
-
-  
-    <ul>
-  <li>일반적으로 \(\left\{X_i\right\}_{i=1}^n\)으로 \(\mathbb{E}[X]\)를 estimate할 때 sample mean \(\hat \theta = \bar{X}=\frac{1}{n} \sum_{i=1}^n X_i\)을 사용한다.</li>
-  <li>하지만 실제로는 소량의 labeled data \(\left\{X_i\right\}_{i=1}^n\)와 대량의 unlabeled data \(\left\{Y_i\right\}_{i=1}^N\), \(n&lt;&lt;N\)이 존재한다.</li>
-  <li>Motivation : 대량의 unlabeled data를 사용하여 \(\bar{X}=\frac{1}{n} \sum_{i=1}^n X_i\)보다 좋은 (분산이 작은) unbiased estimator를 찾자.</li>
-  <li><strong>Consider an estimator</strong> \(\widehat{\theta}=\frac{1}{n} \sum_{i=1}^n\left\{X_i-f\left(Y_i\right)\right\}+\frac{1}{N} \sum_{i=1}^N f\left(Y_i\right)\)​
-    <ul>
-      <li>\(f(Y)\)는  \(Y\)​로 만들 수 있는 estimator라고 생각하면 된다.</li>
-      <li>지금은 \(f(Y)\)가 없는 부분이 unbiased이므로 \(f(Y)\)도 unbiased estimator이어야 한다.</li>
-      <li>참고로 \(f(Y)=\mathbb E[X \mid Y]\)인 경우가 strong assumption이긴 하지만 optimal choice이다.</li>
+      <li>weights는 x 주변에 높은 가중치를 두고, h는 smoothing을 결정하는 bandwidth이다.</li>
+      <li>간단한 kernel의 예시로 Gaussian kernel을 사용한다. \(K(x)=\frac{1}{\sqrt{2 \pi}} \exp \left(-x^2 / 2\right)\)</li>
     </ul>
   </li>
 </ul>
@@ -603,7 +502,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
     
     <footer>
       <p class="read-more">
-        Continue reading <a class="heading flip-title" href="/stat/2024-04-16-SSmean/">Semi-Supervised Mean Estimation (Variance Reduction Technique)</a>
+        Continue reading <a class="heading flip-title" href="/stat/2024-05-26-kernel_reg/">Analysis of non-parametric kernel regression</a>
 
       </p>
     </footer>
@@ -617,132 +516,18 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 
 
-<article id="post-stat-lawtotal" class="page post mb6" role="article">
+<article id="post-timeseries-Timemixer" class="page post mb6" role="article">
   <header>
     <h1 class="post-title flip-project-title">
-      <a href="/stat/2024-04-14-lawtotal/" class="flip-title">
-        The Law of Total Probability / Total Expectation / Total Variance (Gumbel-Max trick, …)
+      <a href="/timeseries/2024-05-23-Timemixer/" class="flip-title">
+        TimeMixer: Decomposable Multiscale Mixing for Time Series Forecasting
       </a>
     </h1>
 
     <div class="post-date">
       
       <span class="ellipsis mr1">
-        <time datetime="2024-04-14T00:00:00+09:00">14 Apr 2024</time> in <span>Stat</span> 
-      </span>
-      
-    </div>
-
-    
-    
-
-    
-
-
-
-  <div class="hr pb0"></div>
-
-
-  </header>
-
-  
-    <ul>
-  <li>The Law of Total Probability
-\(P(A)=\sum P\left(A \mid B_n\right) P\left(B_n\right)\)</li>
-  <li>The Law of Total Expectation
-\(\mathrm{E}(X)=\mathrm{E}(\mathrm{E}(X \mid Y))\)</li>
-  <li>The Law of Total Variance
-\(\operatorname{Var}(Y)=\mathrm{E}[\operatorname{Var}(Y \mid X)]+\operatorname{Var}(\mathrm{E}[Y \mid X])\)</li>
-  <li>The Law of Total Covariance
-\(\operatorname{cov}(X, Y)=\mathrm{E}(\operatorname{cov}(X, Y \mid Z))+\operatorname{cov}(\mathrm{E}(X \mid Z), \mathrm{E}(Y \mid Z))\)</li>
-</ul>
-
-
-    
-    
-    <footer>
-      <p class="read-more">
-        Continue reading <a class="heading flip-title" href="/stat/2024-04-14-lawtotal/">The Law of Total Probability / Total Expectation / Total Variance (Gumbel-Max trick, …)</a>
-
-      </p>
-    </footer>
-  
-</article>
-
-
-  
-
-
-
-
-
-<article id="post-stat-dTV" class="page post mb6" role="article">
-  <header>
-    <h1 class="post-title flip-project-title">
-      <a href="/stat/2024-04-14-dTV/" class="flip-title">
-        Total variation distance and Convergence in distribution
-      </a>
-    </h1>
-
-    <div class="post-date">
-      
-      <span class="ellipsis mr1">
-        <time datetime="2024-04-14T00:00:00+09:00">14 Apr 2024</time> in <span>Stat</span> 
-      </span>
-      
-    </div>
-
-    
-    
-
-    
-
-
-
-  <div class="hr pb0"></div>
-
-
-  </header>
-
-  
-    <ul>
-  <li>통계학에서 Convergence in distribution은 중요한 성질이다. 우리는 Sample size n이 커질수록 확률변수 또는 estimator가 어떤 분포에 가까워지는지 궁금하기 때문이다.</li>
-  <li>그러므로 Convergence in distribution을 imply하는 성질도 중요하다. Convergence in distribution을 보일 수 있는 방법들 중 하나가 되기 때문이다.</li>
-  <li>Total variation distance는 두 분포 사이의 distance metric 중 하나이다. Total variation distance가 작으면 두 분포가 가깝다는 의미이다.</li>
-  <li>본 게시글에서는 Total variation distance에 대해서 알아보고 <strong>Total variation distance가 0으로 수렴</strong>하면 한 분포가 다른 분포로 근사한다, 즉 Convergence in distribution한다는 것을 보인다.</li>
-</ul>
-
-
-    
-    
-    <footer>
-      <p class="read-more">
-        Continue reading <a class="heading flip-title" href="/stat/2024-04-14-dTV/">Total variation distance and Convergence in distribution</a>
-
-      </p>
-    </footer>
-  
-</article>
-
-
-  
-
-
-
-
-
-<article id="post-timeseries-Dish-TS" class="page post mb6" role="article">
-  <header>
-    <h1 class="post-title flip-project-title">
-      <a href="/timeseries/2024-04-12-Dish-TS/" class="flip-title">
-        (Dish-TS) A General Paradigm for Alleviating Distribution Shift in Time Series Forecasting (AAAI 2023)
-      </a>
-    </h1>
-
-    <div class="post-date">
-      
-      <span class="ellipsis mr1">
-        <time datetime="2024-04-12T00:00:00+09:00">12 Apr 2024</time> in <span>Timeseries</span> 
+        <time datetime="2024-05-23T00:00:00+09:00">23 May 2024</time> in <span>Timeseries</span> 
       </span>
       
     </div>
@@ -756,7 +541,80 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
   
     <p class="note-sm" >
-      <a href="https://arxiv.org/pdf/2302.14829.pdf">AAAI 2023</a>
+      <a href="https://openreview.net/pdf?id=7oLshfEIC2">ICLR 2024</a>
+
+    </p>
+  
+
+
+  </header>
+
+  
+    <h2 id="abstract">Abstract</h2>
+<ul>
+  <li>지금까지는 plain decomposition and multiperiodicity analysis</li>
+  <li>본 논문에서는 novel view of multiscale-mixing (intuition : distinct patterns in different sampling scales)</li>
+  <li><strong>TimeMixer</strong> :  fully MLP-based architecture
+    <ul>
+      <li>Past-Decomposable-Mixing (PDM) : past extraction
+        <ul>
+          <li>1) decomposition to multiscale series and 2) mixes the decomposed seasonal and trend components</li>
+        </ul>
+      </li>
+      <li>Future-Multipredictor-Mixing (FMM) : future prediction
+        <ul>
+          <li>ensembles multiple predictors</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+
+    
+    
+    <footer>
+      <p class="read-more">
+        Continue reading <a class="heading flip-title" href="/timeseries/2024-05-23-Timemixer/">TimeMixer: Decomposable Multiscale Mixing for Time Series Forecasting</a>
+
+      </p>
+    </footer>
+  
+</article>
+
+
+  
+
+
+
+
+
+<article id="post-timeseries-Pathformer" class="page post mb6" role="article">
+  <header>
+    <h1 class="post-title flip-project-title">
+      <a href="/timeseries/2024-05-23-Pathformer/" class="flip-title">
+        Pathformer: Multi-scale Transformers with Adaptive Pathways for Time Series Forecasting (ICLR 2024)
+      </a>
+    </h1>
+
+    <div class="post-date">
+      
+      <span class="ellipsis mr1">
+        <time datetime="2024-05-23T00:00:00+09:00">23 May 2024</time> in <span>Timeseries</span> 
+      </span>
+      
+    </div>
+
+    
+    
+
+    
+
+
+
+  
+    <p class="note-sm" >
+      <a href="https://openreview.net/pdf?id=lJkOCMP2aW">ICLR 2024</a>
 
     </p>
   
@@ -772,7 +630,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
     
     <footer>
       <p class="read-more">
-        Continue reading <a class="heading flip-title" href="/timeseries/2024-04-12-Dish-TS/">(Dish-TS) A General Paradigm for Alleviating Distribution Shift in Time Series Forecasting (AAAI 2023)</a>
+        Continue reading <a class="heading flip-title" href="/timeseries/2024-05-23-Pathformer/">Pathformer: Multi-scale Transformers with Adaptive Pathways for Time Series Forecasting (ICLR 2024)</a>
 
       </p>
     </footer>
@@ -786,18 +644,18 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 
 
-<article id="post-stat-MGF" class="page post mb6" role="article">
+<article id="post-stat-ChernoffBound" class="page post mb6" role="article">
   <header>
     <h1 class="post-title flip-project-title">
-      <a href="/stat/2024-04-12-MGF/" class="flip-title">
-        MGF(Moment Generating Function) and Characteristic Function에 대해서
+      <a href="/stat/2024-05-23-ChernoffBound/" class="flip-title">
+        Chernoff Bound (upper bound on the tail probability)
       </a>
     </h1>
 
     <div class="post-date">
       
       <span class="ellipsis mr1">
-        <time datetime="2024-04-12T00:00:00+09:00">12 Apr 2024</time> in <span>Stat</span> 
+        <time datetime="2024-05-23T00:00:00+09:00">23 May 2024</time> in <span>Stat</span> 
       </span>
       
     </div>
@@ -815,14 +673,18 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
   </header>
 
   
-    <h2 id="moments">Moments</h2>
+    <h2 id="prerequirement">Prerequirement</h2>
+<ul>
+  <li>Markov inequality \(\mathrm{P}(X \geq a) \leq \frac{\mathrm{E}(X)}{a}\)</li>
+  <li>Chebyshev inequality \(\operatorname{Pr}(\mid X-\mu\mid \geq k \sigma) \leq \frac{1}{k^2}\)</li>
+</ul>
 
 
     
     
     <footer>
       <p class="read-more">
-        Continue reading <a class="heading flip-title" href="/stat/2024-04-12-MGF/">MGF(Moment Generating Function) and Characteristic Function에 대해서</a>
+        Continue reading <a class="heading flip-title" href="/stat/2024-05-23-ChernoffBound/">Chernoff Bound (upper bound on the tail probability)</a>
 
       </p>
     </footer>
@@ -836,18 +698,18 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 
 
-<article id="post-timeseries-RTSF" class="page post mb6" role="article">
+<article id="post-pytorch-corrformer3" class="page post mb6" role="article">
   <header>
     <h1 class="post-title flip-project-title">
-      <a href="/timeseries/2024-04-04-RTSF/" class="flip-title">
-        Revisiting Long-term Time Series Forecasting: An Investigation on Linear Mapping
+      <a href="/pytorch/2024-05-05-corrformer3/" class="flip-title">
+        (Corrformer, NMI 2023) Code Review 3 - Encoder
       </a>
     </h1>
 
     <div class="post-date">
       
       <span class="ellipsis mr1">
-        <time datetime="2024-04-04T00:00:00+09:00">04 Apr 2024</time> in <span>Timeseries</span> 
+        <time datetime="2024-05-05T00:00:00+09:00">05 May 2024</time> in <span>Pytorch</span> 
       </span>
       
     </div>
@@ -861,7 +723,74 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
   
     <p class="note-sm" >
-      <a href="https://arxiv.org/pdf/2305.10721.pdf">Arxiv 2023</a>
+      <a href="https://github.com/thuml/Corrformer">Corrformer github</a>
+
+    </p>
+  
+
+
+  </header>
+
+  
+    <p><img src="/assets/img/pytorch/corrformer0/corrformer010.jpeg" alt="사진10" /></p>
+<ul>
+  <li>우리는 <code class="language-plaintext highlighter-rouge">exp_main</code>의 <code class="language-plaintext highlighter-rouge">train</code> 메소드를 실행하고 있다.</li>
+  <li><code class="language-plaintext highlighter-rouge">get_data</code>는 이미 살펴보았고 <code class="language-plaintext highlighter-rouge">self.model</code>에 들어가는 Corrformer를 이해하기 위해 <code class="language-plaintext highlighter-rouge">Corrformer.py</code>를 살펴보고 있다.
+    <ul>
+      <li>step 0. Initialization and Normalizaiton</li>
+      <li>step 1. Data Embedding Instance</li>
+      <li>step 2. Encoder Instance</li>
+      <li>step 3. Decoder Instance</li>
+      <li>step 4. forward</li>
+    </ul>
+  </li>
+</ul>
+
+
+    
+    
+    <footer>
+      <p class="read-more">
+        Continue reading <a class="heading flip-title" href="/pytorch/2024-05-05-corrformer3/">(Corrformer, NMI 2023) Code Review 3 - Encoder</a>
+
+      </p>
+    </footer>
+  
+</article>
+
+
+  
+
+
+
+
+
+<article id="post-pytorch-corrformer2" class="page post mb6" role="article">
+  <header>
+    <h1 class="post-title flip-project-title">
+      <a href="/pytorch/2024-05-04-corrformer2/" class="flip-title">
+        (Corrformer, NMI 2023) Code Review 2 - Data Embedding
+      </a>
+    </h1>
+
+    <div class="post-date">
+      
+      <span class="ellipsis mr1">
+        <time datetime="2024-05-04T00:00:00+09:00">04 May 2024</time> in <span>Pytorch</span> 
+      </span>
+      
+    </div>
+
+    
+    
+
+    
+
+
+
+  
+    <p class="note-sm" >
+      <a href="https://github.com/thuml/Corrformer">Corrformer github</a>
 
     </p>
   
@@ -871,7 +800,15 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
   
     <ul>
-  <li>이전에 review했던 <a href="https://arxiv.org/abs/2205.13504">DLinear</a> paper에서는 ‘Time series의 properties가 무엇인지’, 그리고 ‘왜 Transformer-based model이 완벽할 수 없는지’에 집중했다면, 본 논문은 ‘왜 linear mapping이 단순한데도 성능이 좋은지’에 집중한다.</li>
+  <li>step 0. Initialization and Normalizaiton</li>
+  <li>step 1. Data Embedding Instance</li>
+  <li>step 2. Encoder Instance</li>
+  <li>step 3. Decoder Instance</li>
+  <li>step 0 ~ 3는 embedding, encoder, decoder를 정의한 것이고, forward에서 실행된다.
+    <ul>
+      <li>forward에서 각 step을 지날 때에 step 0 ~ 3을 자세히 보도록 한다.</li>
+    </ul>
+  </li>
 </ul>
 
 
@@ -879,7 +816,117 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
     
     <footer>
       <p class="read-more">
-        Continue reading <a class="heading flip-title" href="/timeseries/2024-04-04-RTSF/">Revisiting Long-term Time Series Forecasting: An Investigation on Linear Mapping</a>
+        Continue reading <a class="heading flip-title" href="/pytorch/2024-05-04-corrformer2/">(Corrformer, NMI 2023) Code Review 2 - Data Embedding</a>
+
+      </p>
+    </footer>
+  
+</article>
+
+
+  
+
+
+
+
+
+<article id="post-timeseries-Corrformer" class="page post mb6" role="article">
+  <header>
+    <h1 class="post-title flip-project-title">
+      <a href="/timeseries/2024-04-29-Corrformer/" class="flip-title">
+        Corrformer: Interpretable weather forecasting for worldwide stations with a unified deep model (NMI 2023)
+      </a>
+    </h1>
+
+    <div class="post-date">
+      
+      <span class="ellipsis mr1">
+        <time datetime="2024-04-29T00:00:00+09:00">29 Apr 2024</time> in <span>Timeseries</span> 
+      </span>
+      
+    </div>
+
+    
+    
+
+    
+
+
+
+  
+    <p class="note-sm" >
+      <a href="https://www.nature.com/articles/s42256-023-00667-9">NMI 2023</a>
+
+    </p>
+  
+
+
+  </header>
+
+  
+    <p><img src="/assets/img/pytorch/corrformer0/fig1.png" alt="사진1" /></p>
+
+
+    
+    
+    <footer>
+      <p class="read-more">
+        Continue reading <a class="heading flip-title" href="/timeseries/2024-04-29-Corrformer/">Corrformer: Interpretable weather forecasting for worldwide stations with a unified deep model (NMI 2023)</a>
+
+      </p>
+    </footer>
+  
+</article>
+
+
+  
+
+
+
+
+
+<article id="post-pytorch-corrformer1" class="page post mb6" role="article">
+  <header>
+    <h1 class="post-title flip-project-title">
+      <a href="/pytorch/2024-04-29-corrformer1/" class="flip-title">
+        (Corrformer, NMI 2023) Code Review 1 - Overall Framework
+      </a>
+    </h1>
+
+    <div class="post-date">
+      
+      <span class="ellipsis mr1">
+        <time datetime="2024-04-29T00:00:00+09:00">29 Apr 2024</time> in <span>Pytorch</span> 
+      </span>
+      
+    </div>
+
+    
+    
+
+    
+
+
+
+  
+    <p class="note-sm" >
+      <a href="https://github.com/thuml/Corrformer">Corrformer github</a>
+
+    </p>
+  
+
+
+  </header>
+
+  
+    <p><img src="/assets/img/pytorch/corrformer0/corrformer011.png" alt="사진11" /></p>
+
+
+    
+    
+    <footer>
+      <p class="read-more">
+        Continue reading <a class="heading flip-title" href="/pytorch/2024-04-29-corrformer1/">(Corrformer, NMI 2023) Code Review 1 - Overall Framework</a>
 
       </p>
     </footer>

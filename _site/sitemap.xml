@@ -4,6 +4,182 @@
         xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
     <url>
+        <loc>http://localhost:4000/stat/2024-07-02-NPtest/</loc>
+        
+        <lastmod>2024-07-02T00:00:00+09:00</lastmod>
+        
+
+        
+        <changefreq>daily</changefreq>
+        
+
+        
+        <priority>1.0</priority>
+        
+
+    </url>
+    
+    <url>
+        <loc>http://localhost:4000/stat/2024-06-27-minimax/</loc>
+        
+        <lastmod>2024-06-27T00:00:00+09:00</lastmod>
+        
+
+        
+        <changefreq>daily</changefreq>
+        
+
+        
+        <priority>1.0</priority>
+        
+
+    </url>
+    
+    <url>
+        <loc>http://localhost:4000/stat/2024-05-26-kernel_reg/</loc>
+        
+        <lastmod>2024-05-26T00:00:00+09:00</lastmod>
+        
+
+        
+        <changefreq>daily</changefreq>
+        
+
+        
+        <priority>1.0</priority>
+        
+
+    </url>
+    
+    <url>
+        <loc>http://localhost:4000/timeseries/2024-05-23-Timemixer/</loc>
+        
+        <lastmod>2024-05-23T00:00:00+09:00</lastmod>
+        
+
+        
+        <changefreq>daily</changefreq>
+        
+
+        
+        <priority>1.0</priority>
+        
+
+    </url>
+    
+    <url>
+        <loc>http://localhost:4000/timeseries/2024-05-23-Pathformer/</loc>
+        
+        <lastmod>2024-05-23T00:00:00+09:00</lastmod>
+        
+
+        
+        <changefreq>daily</changefreq>
+        
+
+        
+        <priority>1.0</priority>
+        
+
+    </url>
+    
+    <url>
+        <loc>http://localhost:4000/stat/2024-05-23-ChernoffBound/</loc>
+        
+        <lastmod>2024-05-23T00:00:00+09:00</lastmod>
+        
+
+        
+        <changefreq>daily</changefreq>
+        
+
+        
+        <priority>1.0</priority>
+        
+
+    </url>
+    
+    <url>
+        <loc>http://localhost:4000/pytorch/2024-05-05-corrformer3/</loc>
+        
+        <lastmod>2024-05-05T00:00:00+09:00</lastmod>
+        
+
+        
+        <changefreq>daily</changefreq>
+        
+
+        
+        <priority>1.0</priority>
+        
+
+    </url>
+    
+    <url>
+        <loc>http://localhost:4000/pytorch/2024-05-04-corrformer2/</loc>
+        
+        <lastmod>2024-05-04T00:00:00+09:00</lastmod>
+        
+
+        
+        <changefreq>daily</changefreq>
+        
+
+        
+        <priority>1.0</priority>
+        
+
+    </url>
+    
+    <url>
+        <loc>http://localhost:4000/timeseries/2024-04-29-Corrformer/</loc>
+        
+        <lastmod>2024-04-29T00:00:00+09:00</lastmod>
+        
+
+        
+        <changefreq>daily</changefreq>
+        
+
+        
+        <priority>1.0</priority>
+        
+
+    </url>
+    
+    <url>
+        <loc>http://localhost:4000/pytorch/2024-04-29-corrformer1/</loc>
+        
+        <lastmod>2024-04-29T00:00:00+09:00</lastmod>
+        
+
+        
+        <changefreq>daily</changefreq>
+        
+
+        
+        <priority>1.0</priority>
+        
+
+    </url>
+    
+    <url>
+        <loc>http://localhost:4000/pytorch/2024-04-29-corrformer0/</loc>
+        
+        <lastmod>2024-04-29T00:00:00+09:00</lastmod>
+        
+
+        
+        <changefreq>daily</changefreq>
+        
+
+        
+        <priority>1.0</priority>
+        
+
+    </url>
+    
+    <url>
         <loc>http://localhost:4000/stat/2024-04-19-converge/</loc>
         
         <lastmod>2024-04-19T00:00:00+09:00</lastmod>

@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en"><!--
+ __  __                __                                     __
+/\ \/\ \              /\ \             __                    /\ \
+\ \ \_\ \   __  __    \_\ \      __   /\_\      __       ___ \ \ \/'\
+ \ \  _  \ /\ \/\ \   /'_` \   /'__`\ \/\ \   /'__`\    /'___\\ \ , <
+  \ \ \ \ \\ \ \_\ \ /\ \L\ \ /\  __/  \ \ \ /\ \L\.\_ /\ \__/ \ \ \\`\
+   \ \_\ \_\\/`____ \\ \___,_\\ \____\ _\ \ \\ \__/.\_\\ \____\ \ \_\ \_\
+    \/_/\/_/ `/___/> \\/__,_ / \/____//\ \_\ \\/__/\/_/ \/____/  \/_/\/_/
+                /\___/                \ \____/
+                \/__/                  \/___/
+
+Powered by Hydejack v9.1.6 <https://hydejack.com/>
+-->
+
+
+
+
+
+
+
+<head>
+  
+
+
+
+
+
+
+  
+    
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>(Corrformer, NMI 2023) Code Review 1 - Overall Framework | LpppJ</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="(Corrformer, NMI 2023) Code Review 1 - Overall Framework" />
+<meta name="author" content="GW Jeong" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Corrformer github" />
+<meta property="og:description" content="Corrformer github" />
+<link rel="canonical" href="http://localhost:4000/pytorch/2024-04-29-corrformer1/" />
+<meta property="og:url" content="http://localhost:4000/pytorch/2024-04-29-corrformer1/" />
+<meta property="og:site_name" content="LpppJ" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-04-29T00:00:00+09:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="(Corrformer, NMI 2023) Code Review 1 - Overall Framework" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-05-23T17:30:40+09:00","datePublished":"2024-04-29T00:00:00+09:00","description":"Corrformer github","headline":"(Corrformer, NMI 2023) Code Review 1 - Overall Framework","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/pytorch/2024-04-29-corrformer1/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/pytorch/2024-04-29-corrformer1/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  
+
+
+
+  <meta name="theme-color" content="rgb(230, 217, 195)">
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="LpppJ">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<meta name="application-name" content="LpppJ">
+
+<meta name="generator" content="Hydejack v9.1.6" />
+
+
+<link rel="alternate" href="http://localhost:4000/pytorch/2024-04-29-corrformer1/" hreflang="en">
+
+<link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="LpppJ" />
+
+
+<link rel="shortcut icon"    href="/assets/icons/favicon.ico">
+<link rel="apple-touch-icon" href="/assets/icons/icon-192x192.png">
+
+<link rel="manifest" href="/assets/site.webmanifest">
+
+<link rel="dns-prefetch" href="https://fonts.googleapis.com"><link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+
+
+<link rel="preload" href="/assets/img/swipe.svg" as="image" id="_hrefSwipeSVG">
+
+
+
+
+
+
+<script>!function(r,c){"use strict";function a(e,t,n,o){e.addEventListener?e.addEventListener(t,n,o):e.attachEvent?e.attachEvent("on"+t,n):e["on"+t]=n}r.loadJS=function(e,t){var n=c.createElement("script"),e=(n.src=e,t&&a(n,"load",t,{once:!0}),c.scripts[0]);return e.parentNode.insertBefore(n,e),n},r._loaded=!1,r.loadJSDeferred=function(e,t){var n=c.createElement("script");function o(){r._loaded=!0,t&&a(n,"load",t,{once:!0});var e=c.scripts[0];e.parentNode.insertBefore(n,e)}return n.src=e,r._loaded?o():a(r,"load",o,{once:!0}),n},r.setRel=r.setRelStylesheet=function(e){a(c.getElementById(e),"load",function(){this.rel="stylesheet"},{once:!0})}}(window,document);
+!function(a){"use strict";var b=function(b,c,d){function e(a){return h.body?a():void setTimeout(function(){e(a)})}function f(){i.addEventListener&&i.removeEventListener("load",f),i.media=d||"all"}var g,h=a.document,i=h.createElement("link");if(c)g=c;else{var j=(h.body||h.getElementsByTagName("head")[0]).childNodes;g=j[j.length-1]}var k=h.styleSheets;i.rel="stylesheet",i.href=b,i.media="only x",e(function(){g.parentNode.insertBefore(i,c?g:g.nextSibling)});var l=function(a){for(var b=i.href,c=k.length;c--;)if(k[c].href===b)return a();setTimeout(function(){l(a)})};return i.addEventListener&&i.addEventListener("load",f),i.onloadcssdefined=l,l(f),i};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
+!function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(b){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
+!function(w) {
+  w._baseURL = '/';
+  w._publicPath = '/assets/js/';
+  w._noPushState = false;
+  w._noDrawer = false;
+  w._noNavbar = false;
+  w._noToc = false;
+  w._noSearch = false;
+  w._search = {
+    DATA_URL: '/assets/sitedata.json?no-cache',
+    STORAGE_KEY: 'mini-search/',
+    INDEX_KEY: 'index--2024-07-02T16:16:29+09:00',
+  };
+  w._clapButton = true;
+}(window);</script>
+
+
+<script async src="/assets/bower_components/MathJax/es5/tex-mml-chtml.js" id="_MathJax"></script>
+
+
+<!--[if gt IE 8]><!---->
+
+  
+
+
+
+
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css" id="_iconsPreload">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:700%7CNoto+Sans:400,400i,700,700i&display=swap" id="_fontsPreload">
+
+
+
+  <style id="_pageStyle">
+
+html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5);--accent-color-highlight: rgba(94, 97, 94, 0.1);--accent-color-darkened: #4b4e4b;--theme-color: rgb(230, 217, 195)}
+</style>
+
+
+<!--<![endif]-->
+
+
+
+
+</head>
+
+<body class="no-break-layout">
+  
+
+
+<hy-push-state
+  id="_pushState"
+  replace-selector="#_main"
+  link-selector="a[href]:not([href^='/assets/']):not(.external):not(.no-push-state)"
+  script-selector="script"
+  duration="500"
+  hashchange
+>
+  
+  
+  <div id="_navbar" class="navbar fixed-top">
+  <div class="content">
+    <span class="sr-only">Jump to:</span>
+    <div class="nav-btn-bar">
+      <a id="_menu" class="nav-btn no-hover" href="#_drawer--opened">
+        <span class="sr-only">Navigation</span>
+        <span class="icon-menu"></span>
+      </a>
+      <div class="nav-span"></div>
+    </div>
+  </div>
+</div>
+<hr class="sr-only" hidden />
+
+  <main
+  id="_main"
+  class="content layout-post"
+  role="main"
+>
+  <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+    <li><a href="/">home</a></li>
+    
+      <li>
+        
+          <span>/</span>
+          
+          
+          <a href="/pytorch/">pytorch</a>
+        
+      </li>
+    
+      <li>
+        
+          <span>/</span>
+          <span>2024-04-29-corrformer1</span>
+        
+      </li>
+    
+  
+</ul></nav>
+  
+
+
+
+
+
+
+
+
+
+
+<article id="post-pytorch-corrformer1" class="page post mb6" role="article">
+  <header>
+    <h1 class="post-title flip-project-title">
+      
+        (Corrformer, NMI 2023) Code Review 1 - Overall Framework
+      
+    </h1>
+
+    <div class="post-date">
+      
+      <span class="ellipsis mr1">
+        <time datetime="2024-04-29T00:00:00+09:00">29 Apr 2024</time> in <span>Pytorch</span> 
+      </span>
+      
+    </div>
+
+    
+    
+
+    
+
+
+
+  
+    <p class="note-sm" >
+      <a href="https://github.com/thuml/Corrformer">Corrformer github</a>
+
+    </p>
+  
+
+
+  </header>
+
+  
+    <p><img src="/assets/img/pytorch/corrformer0/corrformer011.png" alt="사진11" /></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">_get_data</code> 함수로 데이터를 불러오는데 예를 들어 train_data의 경로는 <code class="language-plaintext highlighter-rouge">Corrformer/dataset/global_temp/temp_global_hourly_train.np</code>이고 shape은 <code class="language-plaintext highlighter-rouge">(12280, 3850, 1)</code>이다.
+    <ul>
+      <li>12280은 timestep의 개수, 3850은 sensor의 개수이다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">train_steps = len(train_loader)</code>는 <code class="language-plaintext highlighter-rouge">len(self.data_x)</code> - <code class="language-plaintext highlighter-rouge">self.seq_len</code> - <code class="language-plaintext highlighter-rouge">self.pred_len</code> + <code class="language-plaintext highlighter-rouge">1</code> = <code class="language-plaintext highlighter-rouge">12280 - 48 - 24 + 1</code> = <code class="language-plaintext highlighter-rouge">12209</code>가 된다.
+    <ul>
+      <li>12209번째부터 마지막 12280째까지 (48+24=72)개가 마지막 배치에 들어가고 12210째부터는 72개를 만들 수 없기 때문</li>
+    </ul>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">_select_optimizer</code>로 MSE, <code class="language-plaintext highlighter-rouge">_select_criterion</code>로 Adam을 사용한다.</p>
+
+    <ul>
+      <li>참고로 <code class="language-plaintext highlighter-rouge">_get_data</code>는 <code class="language-plaintext highlighter-rouge">data_factory.py</code>에 있는 <code class="language-plaintext highlighter-rouge">data_provider</code> 함수를 import한 것이다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/pytorch/corrformer0/corrformer08.png" alt="사진8" /></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">data_factory.py</code> - <code class="language-plaintext highlighter-rouge">data_provider</code> 함수의 첫 줄에서 <code class="language-plaintext highlighter-rouge">arg.data</code>에는 <code class="language-plaintext highlighter-rouge">Corrformer.sh</code>에서 정한 Global_Temp 또는 Global_Wind가 들어간다.</li>
+  <li>그러면 <code class="language-plaintext highlighter-rouge">data_loader.py</code>에서 실제로 데이터를 불러오는 코드가 실행된다.</li>
+  <li><code class="language-plaintext highlighter-rouge">data_loader.py</code> 코드를 보지는 않겠지만 numpy version 호환성으로 인해 <code class="language-plaintext highlighter-rouge">astype(np.float)</code>로 적힌 두 곳을 <code class="language-plaintext highlighter-rouge">astype(np.float64)</code>로 바꿔주었다. (안바꾸면 버전 호환성으로 인한 에러 발생)</li>
+  <li>이제 매 epoch에서 어떻게 실행되는지 알아보자.</li>
+</ul>
+
+<p><img src="/assets/img/pytorch/corrformer0/corrformer07.png" alt="사진7" /></p>
+
+<ul>
+  <li>모델을 train mode로 설정하고 <code class="language-plaintext highlighter-rouge">train_loader</code>에서 데이터를 배치 단위로 불러온다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Corrformer</span><span class="p">.</span><span class="n">sh에서</span> <span class="o">--</span><span class="n">seq_len</span> <span class="mi">48</span> \ <span class="o">--</span><span class="n">label_len</span> <span class="mi">24</span> \ <span class="o">--</span><span class="n">pred_len</span> <span class="mi">24</span> <span class="n">이므로</span>
+
+<span class="n">i</span> <span class="p">:</span> <span class="mi">0</span>
+<span class="n">shape</span> <span class="n">of</span> <span class="n">batch_x</span> <span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="nc">Size</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">3850</span><span class="p">])</span>
+<span class="n">shape</span> <span class="n">of</span> <span class="n">batch_y</span> <span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="nc">Size</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">3850</span><span class="p">])</span>
+<span class="n">shape</span> <span class="n">of</span> <span class="n">batch_x_mark</span> <span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="nc">Size</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="n">shape</span> <span class="n">of</span> <span class="n">batch_y_mark</span> <span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="nc">Size</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+
+<span class="mi">48</span><span class="n">개를</span> <span class="n">보고</span> <span class="mi">24</span><span class="n">개를</span> <span class="n">예측하는데</span> <span class="n">y의</span> <span class="n">길이도</span> <span class="mi">48</span><span class="n">인</span> <span class="n">이유</span>
+<span class="o">--&gt;</span> <span class="n">x는</span> <span class="p">[</span><span class="n">index</span> <span class="n">부터</span> <span class="n">index</span> <span class="o">+</span> <span class="n">seq_len</span> <span class="n">까지</span><span class="p">]</span> <span class="n">이렇게</span> <span class="mi">48</span><span class="n">개이고</span> <span class="n">ex</span><span class="p">.</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">48</span><span class="p">]</span>
+<span class="o">--&gt;</span> <span class="n">y는</span> <span class="p">[</span><span class="n">index</span> <span class="o">+</span> <span class="n">seq_len</span> <span class="o">-</span> <span class="n">label_len</span> <span class="n">부터</span> <span class="n">index</span> <span class="o">+</span> <span class="n">label_len</span> <span class="o">+</span> <span class="n">pred_len</span> <span class="n">까지</span><span class="p">]</span> <span class="n">이렇게</span> <span class="mi">48</span><span class="n">개</span> <span class="n">ex</span><span class="p">.</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">72</span><span class="p">]</span>
+<span class="o">--&gt;</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">24</span><span class="p">]</span><span class="n">는</span> <span class="n">예측에</span> <span class="n">사용되는</span> <span class="n">부분이지</span> <span class="n">맞춰야</span> <span class="n">할</span> <span class="n">부분은</span> <span class="n">아니기</span> <span class="n">때문에</span><span class="p">,</span> <span class="n">x만</span> <span class="n">있으면</span> <span class="n">되고</span> <span class="n">y에는</span> <span class="n">없어도</span> <span class="n">되는</span> <span class="n">것이고</span>
+<span class="o">--&gt;</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">48</span><span class="p">]</span><span class="n">은</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">24</span><span class="p">]</span><span class="n">로</span> <span class="n">예측도</span> <span class="n">해야하고</span> <span class="p">[</span><span class="mi">49</span><span class="p">,</span> <span class="mi">72</span><span class="p">]</span><span class="n">를</span> <span class="n">예측할</span> <span class="n">때</span> <span class="n">사용도</span> <span class="n">해야</span> <span class="n">하니</span> <span class="n">x와</span> <span class="n">y가</span> <span class="n">모두</span> <span class="n">있어야</span> <span class="n">하고</span>
+<span class="o">--&gt;</span> <span class="p">[</span><span class="mi">49</span><span class="p">,</span> <span class="mi">72</span><span class="p">]</span><span class="n">는</span> <span class="n">맞추기만</span> <span class="n">하면</span> <span class="n">되지</span> <span class="n">다른</span> <span class="n">예측에는</span> <span class="n">안쓰이기</span> <span class="n">때문에</span> <span class="n">y만</span> <span class="n">있으면</span> <span class="n">되는</span> <span class="n">것</span>
+</code></pre></div></div>
+
+<ul>
+  <li>decoder의 input <code class="language-plaintext highlighter-rouge">dec_inp</code>는 <code class="language-plaintext highlighter-rouge">label_len</code> 만큼의 <code class="language-plaintext highlighter-rouge">batch_y</code>와 그 뒤에 <code class="language-plaintext highlighter-rouge">pred_len</code>만큼의 zero를 붙여서 만든다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">dec_inp</span> <span class="c1"># torch.Size([1, 48, 3850])
+</span><span class="nf">tensor</span><span class="p">([[[</span> <span class="mf">42.</span><span class="p">,</span>  <span class="mf">67.</span><span class="p">,</span>  <span class="mf">87.</span><span class="p">,</span>  <span class="p">...,</span> <span class="mf">300.</span><span class="p">,</span> <span class="mf">310.</span><span class="p">,</span> <span class="mf">320.</span><span class="p">],</span>
+        <span class="p">[</span> <span class="mf">37.</span><span class="p">,</span>  <span class="mf">67.</span><span class="p">,</span>  <span class="mf">88.</span><span class="p">,</span>  <span class="p">...,</span> <span class="mf">310.</span><span class="p">,</span> <span class="mf">320.</span><span class="p">,</span> <span class="mf">340.</span><span class="p">],</span>
+        <span class="p">[</span> <span class="mf">31.</span><span class="p">,</span>  <span class="mf">70.</span><span class="p">,</span>  <span class="mf">91.</span><span class="p">,</span>  <span class="p">...,</span> <span class="mf">320.</span><span class="p">,</span> <span class="mf">330.</span><span class="p">,</span> <span class="mf">350.</span><span class="p">],</span>
+        <span class="p">...,</span>
+        <span class="p">[</span>  <span class="mf">0.</span><span class="p">,</span>   <span class="mf">0.</span><span class="p">,</span>   <span class="mf">0.</span><span class="p">,</span>  <span class="p">...,</span>   <span class="mf">0.</span><span class="p">,</span>   <span class="mf">0.</span><span class="p">,</span>   <span class="mf">0.</span><span class="p">],</span>
+        <span class="p">[</span>  <span class="mf">0.</span><span class="p">,</span>   <span class="mf">0.</span><span class="p">,</span>   <span class="mf">0.</span><span class="p">,</span>  <span class="p">...,</span>   <span class="mf">0.</span><span class="p">,</span>   <span class="mf">0.</span><span class="p">,</span>   <span class="mf">0.</span><span class="p">],</span>
+        <span class="p">[</span>  <span class="mf">0.</span><span class="p">,</span>   <span class="mf">0.</span><span class="p">,</span>   <span class="mf">0.</span><span class="p">,</span>  <span class="p">...,</span>   <span class="mf">0.</span><span class="p">,</span>   <span class="mf">0.</span><span class="p">,</span>   <span class="mf">0.</span><span class="p">]]])</span>
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">output = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)</code>에서 <code class="language-plaintext highlighter-rouge">Model</code> 클래스의 <code class="language-plaintext highlighter-rouge">forward</code>도 호출
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">Corrformer.py</code>에서 <code class="language-plaintext highlighter-rouge">class Model(nn.Module):</code>로 Model이라는 class를 정의할 때 <code class="language-plaintext highlighter-rouge">nn.Module</code>을 상속받았는데, <code class="language-plaintext highlighter-rouge">nn.Module</code>에 오버라이딩 된 <code class="language-plaintext highlighter-rouge">__call__</code> 메소드 덕분에 <code class="language-plaintext highlighter-rouge">class Model</code>의 <code class="language-plaintext highlighter-rouge">forward</code> 메소드도 같이 호출되기 때문이다.</li>
+      <li>즉 <code class="language-plaintext highlighter-rouge">batch_x</code>가 <code class="language-plaintext highlighter-rouge">Model</code> 클래스 <code class="language-plaintext highlighter-rouge">forward</code>의 <code class="language-plaintext highlighter-rouge">x_enc</code>로 들어가게 된다.</li>
+      <li>이 때 <code class="language-plaintext highlighter-rouge">nn.Module</code>의 <code class="language-plaintext highlighter-rouge">__call__</code>에 의해 <code class="language-plaintext highlighter-rouge">forward</code>라는 메소드만 특별하게 처리되는 것이고, 만약 <code class="language-plaintext highlighter-rouge">Corrformer.py</code>에 <code class="language-plaintext highlighter-rouge">forward</code> 말고 다른 함수 <code class="language-plaintext highlighter-rouge">custom_function</code>도 있었다면 <code class="language-plaintext highlighter-rouge">self.model.custom_function</code>이렇게 해줘야 한다.</li>
+    </ul>
+  </li>
+  <li>지금까지는 모델에 대해서 알아본 건 아니고 기본적인 코드의 구조를 이해했다. (아래 사진)</li>
+  <li><code class="language-plaintext highlighter-rouge">exp_main</code> \(\to\) <code class="language-plaintext highlighter-rouge">Corrformer.py</code> 부분은 다음 포스팅에서 다룰 것이다.</li>
+</ul>
+
+<p><img src="/assets/img/pytorch/corrformer0/corrformer010.jpeg" alt="사진10" /></p>
+
+<p><img src="/assets/img/pytorch/corrformer0/corrformer09.png" alt="사진9" /></p>
+
+<ul>
+  <li>다음 포스팅부터는 <code class="language-plaintext highlighter-rouge">outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)</code>에서 무슨 일이 일어나는지 알아보기 위해 <code class="language-plaintext highlighter-rouge">Exp_Main</code>에서 <code class="language-plaintext highlighter-rouge">arg.model</code>로 사용하게 되는 <code class="language-plaintext highlighter-rouge">Corrformer.py</code>에 있는 <code class="language-plaintext highlighter-rouge">Model</code> 클래스를 살펴보면서 모델을 이해해보도록 한다.</li>
+</ul>
+
+  
+</article>
+
+
+
+  <hr class="dingbat related mb6" />
+
+
+
+
+
+
+  
+     
+
+
+  <aside class="about related mt4 mb4" role="complementary">
+    
+    
+
+<div class="author mt4">
+  
+
+  
+    
+
+
+<img
+  
+    src="https://via.placeholder.com/128x128"
+    srcset="/assets/img/me/me.JPG 1x,/assets/img/me/me.JPG 2x"
+    
+  
+  alt="GW Jeong"
+  class="avatar"
+  
+  width="120"
+  height="120"
+  loading="lazy"
+/>
+
+  
+
+  
+  
+  <h2  class="page-title hr-bottom">
+    About
+  </h2>
+
+  <p>Bachelor’s degree in Applied Statistics. Yonsei Univ. (2018~2024) <br />
+DataScienceLab 8th 학회장 (2022~2023) <br />
+Master’s degree in Statitstics. Yonsei Univ. (2024~)</p>
+
+
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+
+  </aside>
+
+
+  
+
+  
+  
+
+  
+    
+
+
+  
+
+  
+  
+
+  
+    
+
+  
+
+
+  
+<footer class="content" role="contentinfo">
+  <hr/>
+  
+    <p><small class="copyright">© Geonwoo Jeong.
+</small></p>
+  
+  
+    <p><small>Powered by <a class="external" href="https://hydejack.com/">Hydejack</a> v<span id="_version">9.1.6</span></small></p>
+  <hr class="sr-only"/>
+</footer>
+
+
+</main>
+
+  <hy-drawer
+  id="_drawer"
+  class=""
+  side="left"
+  threshold="10"
+  noscroll
+  
+>
+  <header id="_sidebar" class="sidebar" role="banner">
+    
+
+
+
+
+<div class="sidebar-bg sidebar-overlay" style="background-color:rgb(230, 217, 195);background-image:url(/assets/img/me/sidebar.jpg)"></div>
+
+    <div class="sidebar-sticky">
+  <div class="sidebar-about">
+    
+      <a class="no-hover" href="/" tabindex="-1">
+        <img src="/assets/img/me/logo.jpg" class="avatar" alt="LpppJ" width="120" height="120" loading="lazy" />
+      </a>
+    
+    <a class="sidebar-title" href="/"><h2 class="h1">LpppJ</h2></a>
+    
+    
+      <p class="">
+        DataScience and AI
+
+      </p>
+    
+  </div>
+
+  <nav class="sidebar-nav heading" role="navigation">
+    <span class="sr-only">Navigation:</span>
+<ul>
+  
+    
+      
+      <li>
+        <a
+          id="_drawer--opened"
+          href="/timeseries/"
+          class="sidebar-nav-item "
+          
+        >
+          TimeSeries
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/pytorch/"
+          class="sidebar-nav-item "
+          
+        >
+          Pytorch
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/stat/"
+          class="sidebar-nav-item "
+          
+        >
+          Statistics
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/project/"
+          class="sidebar-nav-item "
+          
+        >
+          Project
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/presentation/"
+          class="sidebar-nav-item "
+          
+        >
+          Presentation
+        </a>
+      </li>
+    
+  
+</ul>
+
+  </nav>
+
+  
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+  </header>
+</hy-drawer>
+<hr class="sr-only" hidden />
+
+</hy-push-state>
+
+
+  <!--[if gt IE 10]><!---->
+  <script nomodule>!function(){var t,n=document.createElement("script");!("noModule"in n)&&"onbeforeload"in n&&(t=!1,document.addEventListener("beforeload",function(e){if(e.target===n)t=!0;else if(!e.target.hasAttribute("nomodule")||!t)return;e.preventDefault()},!0),n.type="module",n.src=".",document.head.appendChild(n),n.remove())}();
+</script>
+  <script src="/assets/js/hydejack-9.1.6.js" type="module"></script>
+  <script src="/assets/js/LEGACY-hydejack-9.1.6.js" nomodule defer></script>
+  
+
+  
+
+<!--<![endif]-->
+  <!-- <script>
+  document.querySelector('hy-push-state').setAttribute('prefetch', '');
+
+  document.querySelectorAll('.sidebar a[href^="/"]').forEach(function (el) { 
+    el.addEventListener('click', function (e) {
+      if (el.pathname === window.location.pathname) {
+        e.preventDefault();
+        e.stopPropagation();
+        document.querySelector('hy-drawer').close();
+      }
+    });
+  });
+</script> -->
+
+<!--
+Code for integrating CloudFlare's email protection with Hydejack's single page app loading.
+-->
+<script>
+  document.getElementById('_pushState').addEventListener('hy-push-state-after', function (e) {
+    function e(e){
+      (console.error?console.error:console.log).call(console,e)
+    }
+
+    function t(e){
+      return l.innerHTML='<a href="'+e.replace(/"/g,"&quot;")+'"></a>',l.childNodes[0].getAttribute("href")
+    }
+
+    function r(e,t){
+      var r=e.substr(t,2);return parseInt(r,16)
+    }
+
+    function n(e,n){
+      for(var o="",c=r(e,n),a=n+2;a<e.length;a+=2){
+        var l=r(e,a)^c;
+        o+=String.fromCharCode(l)
+      }
+      return t(o)
+    }
+
+    var o="/cdn-cgi/l/email-protection#",
+        c=".__cf_email__",
+        a="data-cfemail",
+        l=document.createElement("div");
+
+    !function(){
+      for(var t=document.getElementsByTagName("a"),r=0;r<t.length;r++)
+        try{
+          var c=t[r],a=c.href.indexOf(o);
+          a>-1&&(c.href="mailto:"+n(c.href,a+o.length))
+        }catch(t){
+          e(t)
+        }
+    }(),
+    function(){
+      for(var t=document.querySelectorAll(c),r=0;r<t.length;r++)
+        try{
+          var o=t[r],l=n(o.getAttribute(a),0),i=document.createTextNode(l);
+          o.parentNode.replaceChild(i,o)
+        }catch(t){
+          e(t)
+        }
+    }()
+  });
+</script>
+
+
+
+
+
+<div hidden>
+  
+  <h2 class="sr-only">Templates (for web app):</h2>
+
+  <template id="_animation-template">
+  <div class="animation-main fixed-top">
+    <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+</ul></nav>
+    <div class="content">
+      <div class="page"></div>
+    </div>
+  </div>
+</template>
+
+  <template id="_loading-template">
+  <div class="loading nav-btn fr">
+    <span class="sr-only">Loading…</span>
+    <span class="icon-cog"></span>
+  </div>
+</template>
+
+  <template id="_error-template">
+  <div class="page">
+    <h1 class="page-title">Error</h1>
+    
+    
+    <p class="lead">
+      Sorry, an error occurred while loading <a class="this-link" href=""></a>.
+
+    </p>
+  </div>
+</template>
+
+  <template id="_permalink-template">
+  <a href="#" class="permalink">
+    <span class="sr-only">Permalink</span>
+    <span class="content-hash"></span>
+  </a>
+</template>
+
+</div>
+
+
+</body>
+</html>

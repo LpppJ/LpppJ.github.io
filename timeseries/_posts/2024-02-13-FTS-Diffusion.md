@@ -11,7 +11,7 @@ sitemap:
 hide_last_modified: true
 ---
 
-# (FTS-Diffusion) Generative Learning for Financial Time Series with Irregular and Scale-invariant Patterns (ICLR 2024)
+# FTS-Diffusion: Generative Learning for Financial Time Series with Irregular and Scale-invariant Patterns (ICLR 2024)
 
 ## Abstract
 - Financial deep learning 모델을 훈련시키기 위한 데이터가 부족한데, 그렇다고 synthetic data를 만들어내려 하니 irregular and scale-invariant patterns 때문에 어려움이 있음

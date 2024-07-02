@@ -11,7 +11,7 @@ sitemap:
 hide_last_modified: true
 ---
 
-# (Crossformer) Transformer Utilizing Cross-Dimension Dependency for Multivariate Time Series Forecasting (ICLR 2023)
+# Crossformer: Transformer Utilizing Cross-Dimension Dependency for Multivariate Time Series Forecasting (ICLR 2023)
 
 ## Abstract
 

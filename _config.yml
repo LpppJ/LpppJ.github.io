@@ -50,6 +50,8 @@ author:
 menu:
   - title:             TimeSeries
     url:               /timeseries/
+  - title:             Pytorch
+    url:               /pytorch/    
   - title:             Statistics
     url:               /stat/
   - title:             Project

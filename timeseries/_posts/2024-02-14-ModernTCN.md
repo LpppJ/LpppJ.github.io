@@ -11,7 +11,7 @@ sitemap:
 hide_last_modified: true
 ---
 
-# (ModernTCN) A Modern Pure Convolution Structure for General Time Series Analysis (ICLR 2024)
+# ModernTCN: A Modern Pure Convolution Structure for General Time Series Analysis (ICLR 2024)
 
 ## Abstract
 - 최근 Transformer-based 모델과 MLP-based 모델이 time series에서 우위에 있지만, 본 논문에서는 convolution을 time series에서 사용하는 모델 ModernTCN을 제안한다.

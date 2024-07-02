@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en"><!--
+ __  __                __                                     __
+/\ \/\ \              /\ \             __                    /\ \
+\ \ \_\ \   __  __    \_\ \      __   /\_\      __       ___ \ \ \/'\
+ \ \  _  \ /\ \/\ \   /'_` \   /'__`\ \/\ \   /'__`\    /'___\\ \ , <
+  \ \ \ \ \\ \ \_\ \ /\ \L\ \ /\  __/  \ \ \ /\ \L\.\_ /\ \__/ \ \ \\`\
+   \ \_\ \_\\/`____ \\ \___,_\\ \____\ _\ \ \\ \__/.\_\\ \____\ \ \_\ \_\
+    \/_/\/_/ `/___/> \\/__,_ / \/____//\ \_\ \\/__/\/_/ \/____/  \/_/\/_/
+                /\___/                \ \____/
+                \/__/                  \/___/
+
+Powered by Hydejack v9.1.6 <https://hydejack.com/>
+-->
+
+
+
+
+
+
+
+<head>
+  
+
+
+
+
+
+
+  
+    
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Pathformer: Multi-scale Transformers with Adaptive Pathways for Time Series Forecasting (ICLR 2024) | LpppJ</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Pathformer: Multi-scale Transformers with Adaptive Pathways for Time Series Forecasting (ICLR 2024)" />
+<meta name="author" content="GW Jeong" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="ICLR 2024" />
+<meta property="og:description" content="ICLR 2024" />
+<link rel="canonical" href="http://localhost:4000/timeseries/2024-05-23-Pathformer/" />
+<meta property="og:url" content="http://localhost:4000/timeseries/2024-05-23-Pathformer/" />
+<meta property="og:site_name" content="LpppJ" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-05-23T00:00:00+09:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Pathformer: Multi-scale Transformers with Adaptive Pathways for Time Series Forecasting (ICLR 2024)" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-05-23T17:58:34+09:00","datePublished":"2024-05-23T00:00:00+09:00","description":"ICLR 2024","headline":"Pathformer: Multi-scale Transformers with Adaptive Pathways for Time Series Forecasting (ICLR 2024)","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/timeseries/2024-05-23-Pathformer/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/timeseries/2024-05-23-Pathformer/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  
+
+
+
+  <meta name="theme-color" content="rgb(230, 217, 195)">
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="LpppJ">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<meta name="application-name" content="LpppJ">
+
+<meta name="generator" content="Hydejack v9.1.6" />
+
+
+<link rel="alternate" href="http://localhost:4000/timeseries/2024-05-23-Pathformer/" hreflang="en">
+
+<link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="LpppJ" />
+
+
+<link rel="shortcut icon"    href="/assets/icons/favicon.ico">
+<link rel="apple-touch-icon" href="/assets/icons/icon-192x192.png">
+
+<link rel="manifest" href="/assets/site.webmanifest">
+
+<link rel="dns-prefetch" href="https://fonts.googleapis.com"><link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+
+
+<link rel="preload" href="/assets/img/swipe.svg" as="image" id="_hrefSwipeSVG">
+
+
+
+
+
+
+<script>!function(r,c){"use strict";function a(e,t,n,o){e.addEventListener?e.addEventListener(t,n,o):e.attachEvent?e.attachEvent("on"+t,n):e["on"+t]=n}r.loadJS=function(e,t){var n=c.createElement("script"),e=(n.src=e,t&&a(n,"load",t,{once:!0}),c.scripts[0]);return e.parentNode.insertBefore(n,e),n},r._loaded=!1,r.loadJSDeferred=function(e,t){var n=c.createElement("script");function o(){r._loaded=!0,t&&a(n,"load",t,{once:!0});var e=c.scripts[0];e.parentNode.insertBefore(n,e)}return n.src=e,r._loaded?o():a(r,"load",o,{once:!0}),n},r.setRel=r.setRelStylesheet=function(e){a(c.getElementById(e),"load",function(){this.rel="stylesheet"},{once:!0})}}(window,document);
+!function(a){"use strict";var b=function(b,c,d){function e(a){return h.body?a():void setTimeout(function(){e(a)})}function f(){i.addEventListener&&i.removeEventListener("load",f),i.media=d||"all"}var g,h=a.document,i=h.createElement("link");if(c)g=c;else{var j=(h.body||h.getElementsByTagName("head")[0]).childNodes;g=j[j.length-1]}var k=h.styleSheets;i.rel="stylesheet",i.href=b,i.media="only x",e(function(){g.parentNode.insertBefore(i,c?g:g.nextSibling)});var l=function(a){for(var b=i.href,c=k.length;c--;)if(k[c].href===b)return a();setTimeout(function(){l(a)})};return i.addEventListener&&i.addEventListener("load",f),i.onloadcssdefined=l,l(f),i};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
+!function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(b){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
+!function(w) {
+  w._baseURL = '/';
+  w._publicPath = '/assets/js/';
+  w._noPushState = false;
+  w._noDrawer = false;
+  w._noNavbar = false;
+  w._noToc = false;
+  w._noSearch = false;
+  w._search = {
+    DATA_URL: '/assets/sitedata.json?no-cache',
+    STORAGE_KEY: 'mini-search/',
+    INDEX_KEY: 'index--2024-07-02T16:16:29+09:00',
+  };
+  w._clapButton = true;
+}(window);</script>
+
+
+<script async src="/assets/bower_components/MathJax/es5/tex-mml-chtml.js" id="_MathJax"></script>
+
+
+<!--[if gt IE 8]><!---->
+
+  
+
+
+
+
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css" id="_iconsPreload">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:700%7CNoto+Sans:400,400i,700,700i&display=swap" id="_fontsPreload">
+
+
+
+  <style id="_pageStyle">
+
+html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5);--accent-color-highlight: rgba(94, 97, 94, 0.1);--accent-color-darkened: #4b4e4b;--theme-color: rgb(230, 217, 195)}
+</style>
+
+
+<!--<![endif]-->
+
+
+
+
+</head>
+
+<body class="no-break-layout">
+  
+
+
+<hy-push-state
+  id="_pushState"
+  replace-selector="#_main"
+  link-selector="a[href]:not([href^='/assets/']):not(.external):not(.no-push-state)"
+  script-selector="script"
+  duration="500"
+  hashchange
+>
+  
+  
+  <div id="_navbar" class="navbar fixed-top">
+  <div class="content">
+    <span class="sr-only">Jump to:</span>
+    <div class="nav-btn-bar">
+      <a id="_menu" class="nav-btn no-hover" href="#_drawer--opened">
+        <span class="sr-only">Navigation</span>
+        <span class="icon-menu"></span>
+      </a>
+      <div class="nav-span"></div>
+    </div>
+  </div>
+</div>
+<hr class="sr-only" hidden />
+
+  <main
+  id="_main"
+  class="content layout-post"
+  role="main"
+>
+  <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+    <li><a href="/">home</a></li>
+    
+      <li>
+        
+          <span>/</span>
+          
+          
+          <a href="/timeseries/">timeseries</a>
+        
+      </li>
+    
+      <li>
+        
+          <span>/</span>
+          <span>2024-05-23-Pathformer</span>
+        
+      </li>
+    
+  
+</ul></nav>
+  
+
+
+
+
+
+
+
+
+
+
+<article id="post-timeseries-Pathformer" class="page post mb6" role="article">
+  <header>
+    <h1 class="post-title flip-project-title">
+      
+        Pathformer: Multi-scale Transformers with Adaptive Pathways for Time Series Forecasting (ICLR 2024)
+      
+    </h1>
+
+    <div class="post-date">
+      
+      <span class="ellipsis mr1">
+        <time datetime="2024-05-23T00:00:00+09:00">23 May 2024</time> in <span>Timeseries</span> 
+      </span>
+      
+    </div>
+
+    
+    
+
+    
+
+
+
+  
+    <p class="note-sm" >
+      <a href="https://openreview.net/pdf?id=lJkOCMP2aW">ICLR 2024</a>
+
+    </p>
+  
+
+
+  </header>
+
+  
+    <h2 id="abstract">Abstract</h2>
+
+<ul>
+  <li>기존 Transformer for TS 모델들은 limited or fixed scales</li>
+  <li>Pathformer는 temporal resolution과 temporal distance를 합치는 방식
+    <ul>
+      <li>다양한 크기의 patches를 사용해서 서로 다른 temporal resolutions를 만들고</li>
+      <li>dual attention으로 temporal dependencies(global correlation과 local details)</li>
+    </ul>
+  </li>
+  <li>Input의 varying temporal dynamics에 따라 adaptive multi-scale</li>
+</ul>
+
+<h2 id="1-introduction">1. Introduction</h2>
+
+<ul>
+  <li>최근 simpler linear model의 성능이 transformer 보다 잘 나옴 - transformer 디자인 수정 필요</li>
+  <li>Time Series에서는 multiple scales를 고려하는 것이 중요 (일, 월 등…)
+    <ul>
+      <li><strong>Temporal resolution</strong>: patch의 길이 (fine-grained or coarse grained)</li>
+      <li><strong>Temporal distance</strong> : time steps 사이의 거리
+<img src="/assets/img/timeseries/Pathformer/fig1.png" alt="그림1" /></li>
+      <li>그림 왼쪽 위에서 blue patch와 orange patch는 Temporal resolution가 다른 것이고</li>
+      <li>그림 오른쪽에서 black arrows와 colored arrows는 Temporal distance가 다른 것</li>
+    </ul>
+  </li>
+  <li>그래서 Transformer로 multi-scale modeling 하려는데 challenges 2개
+    <ul>
+      <li><strong>incompleteness of multi-scale modeling</strong>
+        <ul>
+          <li>단순히 Temporal resolution (patch 길이) 늘리는 건 다양한 dependency 파악에 도움 안됨</li>
+          <li>차라리 Temporal distance (time steps 간격) 다양하게 하면 좋은데 Temporal distance는 patch size (data division)에 따라 달라짐</li>
+        </ul>
+      </li>
+      <li><strong>fixed multi-scale modeling process</strong>
+        <ul>
+          <li>different series prefer different scales !</li>
+          <li>그림 왼쪽 위 series는 rapid fluctuation, fine-grained, short-term characteriestics</li>
+          <li>그림 왼쪽 아래 series는 coarse-grained and long-term characteriestics</li>
+          <li>모든 데이터에 fixed multi-scale modeling하면 안되는데 매번 optimal scale 찾으려니 오래걸림</li>
+        </ul>
+      </li>
+      <li>그래서 <strong>adaptive multi-scale modeling</strong>이 필요하다.
+        <ul>
+          <li>adaptively models the current data from certain multiple scales</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>기존에는 그냥 다양한 길이의 patch로 자른 뒤에, patch 안에서 temporal dependencies를, patch 끼리 global correlation을 파악하는 dual attention</li>
+  <li>본 논문에서 제시하는 Pathformer는
+    <ul>
+      <li>Multi-scale router가 seasonality와 trend를 보고 적절한 patch size들을 결정</li>
+      <li>그 다음 multi-scale characteristics를 weighted aggregation</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="2-related-work">2. Related Work</h2>
+
+<ul>
+  <li>Time Series forecasting
+    <ul>
+      <li>Statistical modeling, GNN(spatial dependency), RNN(temporal dependency), CNN(sub-series features), TimesNet(1-dim \(\to\) 2-dim), LLM-based…</li>
+    </ul>
+  </li>
+  <li>Transformer
+    <ul>
+      <li>Informer : prob-sparse self-attention to select important keys</li>
+      <li>Triformer :  manages to reduce the complexity</li>
+      <li>Autoformer : auto-correlation mechanisms to replace self- attention</li>
+      <li>FEDformer : the perspective of frequency to model temporal dynamics</li>
+      <li>하지만 simple linear model의 성능이 더 좋은 경우가 많았음</li>
+      <li>PatchTST : patching and channel independence로 transformer의 가능성 제시</li>
+    </ul>
+  </li>
+  <li>Multi-scale Modeling for Time Series
+    <ul>
+      <li>N-HiTs : multi-rate data sampling and hierarchical interpolation for diverse temporal resolutions</li>
+      <li>Pyraformer : pyramid attention to extract features at different temporal resolutions</li>
+      <li>하지만 fixed scale이었고, 본 논문에서는 adaptive multi scale 제안</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="3-methodology">3. Methodology</h2>
+
+<p><img src="/assets/img/timeseries/Pathformer/fig2.png" alt="그림2" /></p>
+
+<ul>
+  <li>Instance Norm - Stacking of <strong>Adaptive Multi-Scale Blocks</strong> - Predictor(FC)로 구성</li>
+  <li>Adaptive Multi-Scale Blocks은 multi-scale Transformer block과 adaptive pathways으로 구성
+    <ul>
+      <li>multi-scale Transformer block
+        <ul>
+          <li>다양한 size의 patch division and dual attention으로 multi-scale temporal resolution and distances 통합</li>
+        </ul>
+      </li>
+      <li>adaptive pathways
+        <ul>
+          <li>multi-scale router가 다양한 patch size르 고르고</li>
+          <li>aggregator에서 mutli-scale characteristics를 weighted aggregation</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="31-multi-scale-transformer-block">3.1. Multi-scale Transformer Block</h3>
+
+<ul>
+  <li><strong>Multi-scale Division</strong>
+    <ul>
+      <li>\(\mathrm{X} \in \mathbb{R}^{H \times d}\)를 P개의 patch \(\left(\mathrm{X}^1, \mathrm{X}^2, \ldots, \mathrm{X}^P\right)\)로 나눔, patch size는 M개 \(\mathcal{S}=\left\{S_1, \ldots, S_M\right\}\) 즉 \(P = H/S\)</li>
+      <li>다양한 크기의 patch size로 다양한 temporal resolutions를 dual attention</li>
+    </ul>
+  </li>
+  <li><strong>Dual attention</strong>
+<img src="/assets/img/timeseries/Pathformer/fig3.png" alt="그림3" />
+    <ul>
+      <li>Intra-patch attention : relationships btw time steps within each patch
+        <ul>
+          <li>먼저 \(X_{\text {intra }}^i \in \mathbb{R}^{S \times d_m}\) patch를 embedding하고 \(\operatorname{Attn}_{\text {intra }}^i=\operatorname{Softmax}\left(Q_{\text {intra }}^i\left(K_{\text {intra }}^i\right)^T / \sqrt{d_m}\right) V_{\text {intra }}^i \in \mathbb{R}^{1 \times d_m}\)</li>
+          <li>모든 patches에 대해 다 합치면 \(\operatorname{Attn}_{\text {intra }}=\operatorname{Concat}\left(\operatorname{Attn}_{\text {intra }}^1, \ldots, \operatorname{Attn}_{\text {intra }}^P\right) \in \mathbb{R}^{P \times d_m}\)​</li>
+          <li>Linear transformation으로 \(\operatorname{Attn}_{\text {intra }} \in \mathbb{R}^{P \times S \times d_m}\)</li>
+        </ul>
+      </li>
+      <li>Inter-patch attention : relationships btw patches to capture global correlations
+        <ul>
+          <li>먼저 feature embedding and rearrange : \(\mathrm{X}_{\text {inter }} \in \mathbb{R}^{P \times d_m^{\prime}} \text {, where } d_m^{\prime}=S \cdot d_m\)</li>
+          <li>아까처럼  linear mapping으로 \(\operatorname{Attn}_{\text {inter }}=\operatorname{Softmax}\left(Q_{\text {inter }}\left(K_{\text {inter }}\right)^T / \sqrt{d_m^{\prime}}\right) V_{\text {inter }} \in \mathbb{R}^{P \times S \times d_m}\)</li>
+        </ul>
+      </li>
+      <li>둘을 더하면 \(\mathrm{Attn}_{\text {intra }} + \mathrm{Attn}_{\text {intra }}=\text { Attn } \in \mathbb{R}^{P \times S \times d_m}\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="32-adaptive-pathways">3.2. Adaptive Pathways</h3>
+
+<ul>
+  <li>different series may prefer diverse scales \(\to\) model needs to figure out critical scales based on the input</li>
+  <li><strong>Multi-scale router</strong> selects specific sizes of patch division based on the input data</li>
+  <li>
+    <p><strong>Multi-scale aggregator</strong> combines multi-scale characteristics(weighted aggregation) \(\to\) output of the Transformer block</p>
+  </li>
+  <li><strong>Multi-scale router</strong> : selects the optimal sizes for patch division
+    <ul>
+      <li>by its complex inherent characteristics and dynamic patterns</li>
+      <li>seasonality and trend decomposition \(\to\) extract periodicity and trend patterns</li>
+      <li><strong>Seasonality decomposition</strong>
+        <ul>
+          <li>Discern Fourier Transform (DFT) : X를 푸리에 basis로 decomopose하고 the largest amplitudes 선택 (to keep the sparsity of frequency domain)</li>
+          <li>IDFT로 periodic patterns \(\mathrm{X}_{\text {sea }}=\operatorname{IDFT}\left(\left\{f_1, \ldots, f_{K_f}\right\}, A, \Phi\right)\) 얻음
+            <ul>
+              <li>\(\Phi\), \(A\) :the phase and amplitude of each frequency from \(\operatorname{DFT}(\mathrm{X})\)</li>
+              <li>\(\left\{f_1, \ldots, f_{K_f}\right\}\) : the frequencies with the top \(K_f\) amplitudes</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><strong>Trend decomposition</strong>
+        <ul>
+          <li>seasonality를 제외한 부분 \(\mathrm{X}_{\mathrm{rem}}=\mathrm{X}-\mathrm{X}_{\text {sea }}\)에 대해 different kernels of average pooling for moving averages to extract trend patterns</li>
+          <li>정리하면 \(\mathrm{X}_{\text {trend }}=\operatorname{Softmax}\left(L\left(\mathrm{X}_{\mathrm{rem}}\right)\right) \cdot\left(\operatorname{Avgpool}\left(\mathrm{X}_{\mathrm{rem}}\right)_{\text {kernel }_1}, \ldots, \operatorname{Avgpool}\left(\mathrm{X}_{\mathrm{rem}}\right)_{\text {kernel }_N}\right)\)</li>
+        </ul>
+      </li>
+      <li>input \(X\)에 seasonality pattern and trend pattern를 더하고 linear mapping으로 \(\mathrm{X}_{\text {trans }} \in \mathbb{R}^d\)</li>
+      <li>마지막으로 routing function \(R\left(\mathrm{X}_{\text {trans }}\right)=\operatorname{Softmax}\left(\mathrm{X}_{\text {trans }} W_r+\epsilon \cdot \operatorname{Softplus}\left(\mathrm{X}_{\text {trans }} W_{\text {noise }}\right)\right), \epsilon \sim \mathcal{N}(0,1)\) 을 통해 pathway weights \(\in \mathbb{R}^{M}\)을 구한다.
+        <ul>
+          <li>\(W_r \text { and } W_{\text {noise }} \in \mathbb{R}^{d \times M}\)은 leanable parameters, \(d\)는 feature dim, \(M\)은 patch size의 개수</li>
+          <li>noise를 추가한 이유는 patch size가 같은 것만 나오는 것을 방지하기 위함</li>
+          <li>이렇게 만든 M개의 pathway weights 중에서 top K개를 제외하고 0으로 만든 걸 \(\bar{R}\left(\mathrm{X}_{\text {trans }}\right)\)로 표기</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Multi-Scale Aggregator</strong>
+    <ul>
+      <li>\(\bar{R}\left(\mathrm{X}_{\text {trans }}\right)_i&gt;0\)이 의미하는 것은 patch size \(S_i\)로 나누고 dual attention을 수행함을 의미</li>
+      <li>그러므로 AMS block의 final output은 \(\mathrm{X}_{\text {out }}=\sum_{i=1}^M \mathcal{I}\left(\bar{R}\left(\mathrm{X}_{\text {trans }}\right)_i&gt;0\right) R\left(\mathrm{X}_{\text {trans }}\right)_i T_i\left(\mathrm{X}_{\text {out }}^i\right)\)
+        <ul>
+          <li>\(\mathrm{X}_{\text {out }}^i\)는 output of the multi-scale Transformer with the patch size \(S_i\)</li>
+          <li>\(T_i\)는 align the temporal dimension from different scales하는 transformation function</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="4-experiments">4. Experiments</h2>
+
+<p><img src="/assets/img/timeseries/Pathformer/table1.png" alt="그림4" /></p>
+
+<p><img src="/assets/img/timeseries/Pathformer/table3.png" alt="그림5" /></p>
+
+<h2 id="5-conclusion">5. Conclusion</h2>
+<ul>
+  <li>Pathformer : Multi-Scale Transformer with Adaptive Pathways for TSF
+    <ul>
+      <li>integrates multi-scale temporal resolutions and temporal distances</li>
+      <li>by patch division with multiple patch sizes and dual attention (modeling multi-scale characteristics)</li>
+      <li>adaptive pathways dynamically select and aggregate scale-specific characteristics</li>
+    </ul>
+  </li>
+</ul>
+
+  
+</article>
+
+
+
+  <hr class="dingbat related mb6" />
+
+
+
+
+
+
+  
+     
+
+
+  <aside class="about related mt4 mb4" role="complementary">
+    
+    
+
+<div class="author mt4">
+  
+
+  
+    
+
+
+<img
+  
+    src="https://via.placeholder.com/128x128"
+    srcset="/assets/img/me/me.JPG 1x,/assets/img/me/me.JPG 2x"
+    
+  
+  alt="GW Jeong"
+  class="avatar"
+  
+  width="120"
+  height="120"
+  loading="lazy"
+/>
+
+  
+
+  
+  
+  <h2  class="page-title hr-bottom">
+    About
+  </h2>
+
+  <p>Bachelor’s degree in Applied Statistics. Yonsei Univ. (2018~2024) <br />
+DataScienceLab 8th 학회장 (2022~2023) <br />
+Master’s degree in Statitstics. Yonsei Univ. (2024~)</p>
+
+
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+
+  </aside>
+
+
+  
+
+  
+  
+
+  
+    
+
+
+  
+
+  
+  
+
+  
+    
+
+  
+
+
+  
+<footer class="content" role="contentinfo">
+  <hr/>
+  
+    <p><small class="copyright">© Geonwoo Jeong.
+</small></p>
+  
+  
+    <p><small>Powered by <a class="external" href="https://hydejack.com/">Hydejack</a> v<span id="_version">9.1.6</span></small></p>
+  <hr class="sr-only"/>
+</footer>
+
+
+</main>
+
+  <hy-drawer
+  id="_drawer"
+  class=""
+  side="left"
+  threshold="10"
+  noscroll
+  
+>
+  <header id="_sidebar" class="sidebar" role="banner">
+    
+
+
+
+
+<div class="sidebar-bg sidebar-overlay" style="background-color:rgb(230, 217, 195);background-image:url(/assets/img/me/sidebar.jpg)"></div>
+
+    <div class="sidebar-sticky">
+  <div class="sidebar-about">
+    
+      <a class="no-hover" href="/" tabindex="-1">
+        <img src="/assets/img/me/logo.jpg" class="avatar" alt="LpppJ" width="120" height="120" loading="lazy" />
+      </a>
+    
+    <a class="sidebar-title" href="/"><h2 class="h1">LpppJ</h2></a>
+    
+    
+      <p class="">
+        DataScience and AI
+
+      </p>
+    
+  </div>
+
+  <nav class="sidebar-nav heading" role="navigation">
+    <span class="sr-only">Navigation:</span>
+<ul>
+  
+    
+      
+      <li>
+        <a
+          id="_drawer--opened"
+          href="/timeseries/"
+          class="sidebar-nav-item "
+          
+        >
+          TimeSeries
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/pytorch/"
+          class="sidebar-nav-item "
+          
+        >
+          Pytorch
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/stat/"
+          class="sidebar-nav-item "
+          
+        >
+          Statistics
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/project/"
+          class="sidebar-nav-item "
+          
+        >
+          Project
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/presentation/"
+          class="sidebar-nav-item "
+          
+        >
+          Presentation
+        </a>
+      </li>
+    
+  
+</ul>
+
+  </nav>
+
+  
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+  </header>
+</hy-drawer>
+<hr class="sr-only" hidden />
+
+</hy-push-state>
+
+
+  <!--[if gt IE 10]><!---->
+  <script nomodule>!function(){var t,n=document.createElement("script");!("noModule"in n)&&"onbeforeload"in n&&(t=!1,document.addEventListener("beforeload",function(e){if(e.target===n)t=!0;else if(!e.target.hasAttribute("nomodule")||!t)return;e.preventDefault()},!0),n.type="module",n.src=".",document.head.appendChild(n),n.remove())}();
+</script>
+  <script src="/assets/js/hydejack-9.1.6.js" type="module"></script>
+  <script src="/assets/js/LEGACY-hydejack-9.1.6.js" nomodule defer></script>
+  
+
+  
+
+<!--<![endif]-->
+  <!-- <script>
+  document.querySelector('hy-push-state').setAttribute('prefetch', '');
+
+  document.querySelectorAll('.sidebar a[href^="/"]').forEach(function (el) { 
+    el.addEventListener('click', function (e) {
+      if (el.pathname === window.location.pathname) {
+        e.preventDefault();
+        e.stopPropagation();
+        document.querySelector('hy-drawer').close();
+      }
+    });
+  });
+</script> -->
+
+<!--
+Code for integrating CloudFlare's email protection with Hydejack's single page app loading.
+-->
+<script>
+  document.getElementById('_pushState').addEventListener('hy-push-state-after', function (e) {
+    function e(e){
+      (console.error?console.error:console.log).call(console,e)
+    }
+
+    function t(e){
+      return l.innerHTML='<a href="'+e.replace(/"/g,"&quot;")+'"></a>',l.childNodes[0].getAttribute("href")
+    }
+
+    function r(e,t){
+      var r=e.substr(t,2);return parseInt(r,16)
+    }
+
+    function n(e,n){
+      for(var o="",c=r(e,n),a=n+2;a<e.length;a+=2){
+        var l=r(e,a)^c;
+        o+=String.fromCharCode(l)
+      }
+      return t(o)
+    }
+
+    var o="/cdn-cgi/l/email-protection#",
+        c=".__cf_email__",
+        a="data-cfemail",
+        l=document.createElement("div");
+
+    !function(){
+      for(var t=document.getElementsByTagName("a"),r=0;r<t.length;r++)
+        try{
+          var c=t[r],a=c.href.indexOf(o);
+          a>-1&&(c.href="mailto:"+n(c.href,a+o.length))
+        }catch(t){
+          e(t)
+        }
+    }(),
+    function(){
+      for(var t=document.querySelectorAll(c),r=0;r<t.length;r++)
+        try{
+          var o=t[r],l=n(o.getAttribute(a),0),i=document.createTextNode(l);
+          o.parentNode.replaceChild(i,o)
+        }catch(t){
+          e(t)
+        }
+    }()
+  });
+</script>
+
+
+
+
+
+<div hidden>
+  
+  <h2 class="sr-only">Templates (for web app):</h2>
+
+  <template id="_animation-template">
+  <div class="animation-main fixed-top">
+    <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+</ul></nav>
+    <div class="content">
+      <div class="page"></div>
+    </div>
+  </div>
+</template>
+
+  <template id="_loading-template">
+  <div class="loading nav-btn fr">
+    <span class="sr-only">Loading…</span>
+    <span class="icon-cog"></span>
+  </div>
+</template>
+
+  <template id="_error-template">
+  <div class="page">
+    <h1 class="page-title">Error</h1>
+    
+    
+    <p class="lead">
+      Sorry, an error occurred while loading <a class="this-link" href=""></a>.
+
+    </p>
+  </div>
+</template>
+
+  <template id="_permalink-template">
+  <a href="#" class="permalink">
+    <span class="sr-only">Permalink</span>
+    <span class="content-hash"></span>
+  </a>
+</template>
+
+</div>
+
+
+</body>
+</html>
