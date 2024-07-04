@@ -45,7 +45,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Neyman-Pearson Hypothesis Testing" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-07-02T15:53:20+09:00","datePublished":"2024-07-02T00:00:00+09:00","description":"This is blog about machine learning, deep learning, artificial intelligence.","headline":"Neyman-Pearson Hypothesis Testing","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/stat/2024-07-02-NPtest/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/stat/2024-07-02-NPtest/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-07-02T22:54:50+09:00","datePublished":"2024-07-02T00:00:00+09:00","description":"This is blog about machine learning, deep learning, artificial intelligence.","headline":"Neyman-Pearson Hypothesis Testing","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/stat/2024-07-02-NPtest/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/stat/2024-07-02-NPtest/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -108,7 +108,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2024-07-02T16:16:29+09:00',
+    INDEX_KEY: 'index--2024-07-04T00:28:33+09:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -260,7 +260,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 <ul>
   <li>
-    <p>$H_0: \theta \in \Theta_0 \quad$ versus \(\quad H_1: \theta \in \Theta_1\)</p>
+    <p>\(H_0: \theta \in \Theta_0 \quad\) versus \(\quad H_1: \theta \in \Theta_1\)</p>
   </li>
   <li>Pick an \(\alpha \in(0,1)\)​</li>
   <li>Then try to maximize \(\beta(\theta)\) over \(\Theta_1\) subject to \(\sup _{\theta \in \Theta_0} \beta(\theta) \leq \alpha\)
@@ -275,7 +275,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 <ul>
   <li>Suppose \(X_1, \ldots, X_n \stackrel{\text { i.i.d. }}{\sim} N\left(\theta, \sigma^2\right)\) with \(\sigma^2\) known</li>
-  <li>$H_0: \theta=\theta_0 \quad$ versus \(\quad H_1: \theta&gt;\theta_0\) (one sided)</li>
+  <li>\(H_0: \theta=\theta_0 \quad\) versus \(\quad H_1: \theta&gt;\theta_0\) (one sided)</li>
   <li>natural test statistic은 \(T_n\left(X_1, \ldots, X_n\right)=\frac{\frac{1}{n} \sum_{i=1}^n X_i-\theta_0}{\sigma / \sqrt{n}}\)이다.</li>
   <li>Power function : \(\beta(\theta)=P_\theta\left(T_n&gt;t\right)=P_\theta\left(\frac{\frac{1}{n} \sum_{i=1}^n X_i-\theta}{\sigma / \sqrt{n}}&gt;t+\frac{\theta_0-\theta}{\sigma / \sqrt{n}}\right)\)에서
     <ul>

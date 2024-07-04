@@ -55,7 +55,7 @@ hide_last_modified: true
   \mathbf{x}_{i, d}^{(s)} & =\left\{x_{t, d} \mid(i-1) \times L_{\text {seg }}<t \leq i \times L_{\text {seg }}\right\} \\ \mathbf{h}_{i, d}&=\mathbf{E} \mathbf{x}_{i, d}^{(s)}+\mathbf{E}_{i, d}^{(p o s)} \end{aligned}$$
   - $$\mathbf{x}_{i, d}^{(s)} \in \mathbb{R}^{L_{\text {seg }}}$$  is the $$i$$-th segment in dimension $$d$$ with length $$L_{\text {seg }}$$
   - $$\mathbf{E} \in \mathbb{R}^{d_{\text {model }} \times L_{\text {seg }}}$$ : the learnable projection matrix
-  - $$\mathbf{E}_{i, d}^{(\text {pos })} \in \mathbb{R}^{d_{\text {model }}}$$ : the learnable position embedding for position $(i, d)$. 
+  - $$\mathbf{E}_{i, d}^{(\text {pos })} \in \mathbb{R}^{d_{\text {model }}}$$ : the learnable position embedding for position $$(i, d)$$. 
 - $$\mathbf{H}=\left\{\mathbf{h}_{i, d} \mid, 1 \leq i \leq \frac{T}{L_{\text {seg }}}, 1 \leq d \leq D\right\}$$
   - where each $$\mathbf{h}_{i, d}$$ represents a univariate time series segment.
 - 수식으로 표현하다보니 어려운데 아래 그림과 같고, $$\mathbf{H}$$는 오른쪽처럼 생겼다.
