@@ -155,4 +155,4 @@ hide_last_modified: true
 
 ## 5. Conclusion
 
-- Empowered by Past-Decomposable-Mixing and Future- Multipredictor-Mixing blocks, TimeMixer took advantage of both disentangled variations and complementary forecasting capabilities
+- Empowered by Past-Decomposable-Mixing and Future- Multipredictor-Mixing blocks, TimeMixer took advantage of both disentangled variations and complementary forecasting capabilities.
