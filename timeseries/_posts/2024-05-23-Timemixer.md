@@ -68,7 +68,7 @@ hide_last_modified: true
 
 ![그림1](/assets/img/timeseries/TimeMixer/fig1.png)
 
-- 먼저 complex variations를 disentangle하기 위해 downsampleng한다.
+- 먼저 complex variations를 disentangle하기 위해 downsampling한다.
 
   - $$\mathbf{x} \in \mathbb{R}^{P \times C}$$를 M개의 scale로 downsampling하면
   - $$\mathcal{X}=\left\{\mathbf{x}_0, \cdots, \mathbf{x}_M\right\} \text {, where } \mathbf{x}_m \in \mathbb{R}^{\left\lfloor \frac{P}{2^m}\right\rfloor \times C}, m \in\{0, \cdots, M\}$$를 얻는다.
@@ -152,6 +152,8 @@ hide_last_modified: true
 ![그림6](/assets/img/timeseries/TimeMixer/fig3.png)
 
 ![그림7](/assets/img/timeseries/TimeMixer/fig4.png)
+
+![그림8](/assets/img/timeseries/TimeLLM/fig1.jpeg)
 
 ## 5. Conclusion
 

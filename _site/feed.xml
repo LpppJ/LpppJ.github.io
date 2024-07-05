@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-07-04T14:59:04+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-07-05T16:56:56+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
 </subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">Neyman-Pearson Hypothesis Testing</title><link href="http://localhost:4000/stat/2024-07-02-NPtest/" rel="alternate" type="text/html" title="Neyman-Pearson Hypothesis Testing" /><published>2024-07-02T00:00:00+09:00</published><updated>2024-07-04T09:50:22+09:00</updated><id>http://localhost:4000/stat/NPtest</id><content type="html" xml:base="http://localhost:4000/stat/2024-07-02-NPtest/"><![CDATA[<h2 id="basics-of-hypothesis-testing">Basics of Hypothesis Testing</h2>
 
 <ul>
@@ -548,7 +548,7 @@ estimator는 \(\widehat{r}(x)=\sum_{i=1}^n w_i(x) Y_i\) where \(w_i(x)=\frac{K\l
 \(\begin{aligned}  p(Z \geqslant z) &amp;\leqslant e^{-z^2 / 2} \\ p\left(z \geqslant z_{\frac{\alpha}{2}}\right) &amp;\leqslant e^{-z_{\frac{\alpha}{2}}^2 / 2} \\  \alpha / 2 &amp;\leqslant e^{-z_{\frac{\alpha}{2}}^2 / 2} \\ \log{\frac{\alpha}{2}}&amp;\leqslant-\frac{z_{\frac{\alpha}{2}}^2}{2} \\ z_{\frac{\alpha}{2}}^2 &amp;\leq 2 \log{\frac{\alpha}{2}} \\ \end{aligned}\)</li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[Prerequirement Markov inequality \(\mathrm{P}(X \geq a) \leq \frac{\mathrm{E}(X)}{a}\) Chebyshev inequality \(\operatorname{Pr}(\mid X-\mu\mid \geq k \sigma) \leq \frac{1}{k^2}\)]]></summary></entry><entry><title type="html">TimeMixer: Decomposable Multiscale Mixing for Time Series Forecasting (ICLR 2024)</title><link href="http://localhost:4000/timeseries/2024-05-23-Timemixer/" rel="alternate" type="text/html" title="TimeMixer: Decomposable Multiscale Mixing for Time Series Forecasting (ICLR 2024)" /><published>2024-05-23T00:00:00+09:00</published><updated>2024-07-04T09:54:33+09:00</updated><id>http://localhost:4000/timeseries/Timemixer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-05-23-Timemixer/"><![CDATA[<h2 id="abstract">Abstract</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[Prerequirement Markov inequality \(\mathrm{P}(X \geq a) \leq \frac{\mathrm{E}(X)}{a}\) Chebyshev inequality \(\operatorname{Pr}(\mid X-\mu\mid \geq k \sigma) \leq \frac{1}{k^2}\)]]></summary></entry><entry><title type="html">TimeMixer: Decomposable Multiscale Mixing for Time Series Forecasting (ICLR 2024)</title><link href="http://localhost:4000/timeseries/2024-05-23-Timemixer/" rel="alternate" type="text/html" title="TimeMixer: Decomposable Multiscale Mixing for Time Series Forecasting (ICLR 2024)" /><published>2024-05-23T00:00:00+09:00</published><updated>2024-07-04T20:04:35+09:00</updated><id>http://localhost:4000/timeseries/Timemixer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-05-23-Timemixer/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>Real world에서 time series는 복잡한 temporal variations 때문에 forecasting이 어려움</li>
@@ -644,7 +644,7 @@ estimator는 \(\widehat{r}(x)=\sum_{i=1}^n w_i(x) Y_i\) where \(w_i(x)=\frac{K\l
 
 <ul>
   <li>
-    <p>먼저 complex variations를 disentangle하기 위해 downsampleng한다.</p>
+    <p>먼저 complex variations를 disentangle하기 위해 downsampling한다.</p>
 
     <ul>
       <li>\(\mathbf{x} \in \mathbb{R}^{P \times C}\)를 M개의 scale로 downsampling하면</li>
@@ -784,10 +784,12 @@ estimator는 \(\widehat{r}(x)=\sum_{i=1}^n w_i(x) Y_i\) where \(w_i(x)=\frac{K\l
 
 <p><img src="/assets/img/timeseries/TimeMixer/fig4.png" alt="그림7" /></p>
 
+<p><img src="/assets/img/timeseries/TimeLLM/fig1.jpeg" alt="그림8" /></p>
+
 <h2 id="5-conclusion">5. Conclusion</h2>
 
 <ul>
-  <li>Empowered by Past-Decomposable-Mixing and Future- Multipredictor-Mixing blocks, TimeMixer took advantage of both disentangled variations and complementary forecasting capabilities</li>
+  <li>Empowered by Past-Decomposable-Mixing and Future- Multipredictor-Mixing blocks, TimeMixer took advantage of both disentangled variations and complementary forecasting capabilities.</li>
 </ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2024](https://openreview.net/pdf?id=7oLshfEIC2)]]></summary></entry><entry><title type="html">(Corrformer, NMI 2023) Code Review 3 - Encoder</title><link href="http://localhost:4000/pytorch/2024-05-05-corrformer3/" rel="alternate" type="text/html" title="(Corrformer, NMI 2023) Code Review 3 - Encoder" /><published>2024-05-05T00:00:00+09:00</published><updated>2024-07-02T22:54:50+09:00</updated><id>http://localhost:4000/pytorch/corrformer3</id><content type="html" xml:base="http://localhost:4000/pytorch/2024-05-05-corrformer3/"><![CDATA[<p><img src="/assets/img/pytorch/corrformer0/corrformer010.jpeg" alt="사진10" /></p>
 <ul>
   <li>우리는 <code class="language-plaintext highlighter-rouge">exp_main</code>의 <code class="language-plaintext highlighter-rouge">train</code> 메소드를 실행하고 있다.</li>
