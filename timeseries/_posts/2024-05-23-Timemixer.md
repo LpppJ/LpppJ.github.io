@@ -105,7 +105,7 @@ hide_last_modified: true
   - $$\text { FeedForward(} \cdot)$$ contains two linear layers w/ GELU
   - $$\operatorname{S}-\operatorname{Mix}(\cdot), T-\operatorname{Mix}(\cdot)$$​는 지금부터 설명할 mixing
 
-fig2
+![그림2](/assets/img/timeseries/Timemixer/fig2.png)
 
 - **Seasonal Mixing**
   - (Box & Jenkins, 1970)의 seasonality analysis에 따르면
@@ -137,21 +137,21 @@ fig2
 
 - Summary
 
-table1
+![그림11](/assets/img/timeseries/Timemixer/table1.png)
 
 - Main results
 
-table2
+![그림12](/assets/img/timeseries/Timemixer/table2.png)
 
 - Ablations
 
-table5
+![그림15](/assets/img/timeseries/Timemixer/table5.png)
 
 - Decomposition과 multiscale의 각 components에 대한 visualization
 
-fig3
+![그림3](/assets/img/timeseries/Timemixer/fig3.png)
 
-fig4
+![그림4](/assets/img/timeseries/Timemixer/fig4.png)
 
 
 ## 5. Conclusion
