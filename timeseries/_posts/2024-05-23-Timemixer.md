@@ -66,7 +66,7 @@ hide_last_modified: true
 
 ### 3.1. Multiscale Mixing Architecture
 
-fig1
+![그림1](/assets/img/timeseries/Timemixer/fig1.png)
 
 - 먼저 complex variations를 disentangle하기 위해 downsampling한다.
 
