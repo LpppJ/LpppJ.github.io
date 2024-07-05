@@ -66,7 +66,7 @@ hide_last_modified: true
 
 ### 3.1. Multiscale Mixing Architecture
 
-![그림1](/assets/img/timeseries/TimeMixer/fig1.png)
+fig1
 
 - 먼저 complex variations를 disentangle하기 위해 downsampling한다.
 
@@ -105,7 +105,7 @@ hide_last_modified: true
   - $$\text { FeedForward(} \cdot)$$ contains two linear layers w/ GELU
   - $$\operatorname{S}-\operatorname{Mix}(\cdot), T-\operatorname{Mix}(\cdot)$$​는 지금부터 설명할 mixing
 
-![그림2](/assets/img/timeseries/TimeMixer/fig2.png)
+fig2
 
 - **Seasonal Mixing**
   - (Box & Jenkins, 1970)의 seasonality analysis에 따르면
@@ -137,24 +137,22 @@ hide_last_modified: true
 
 - Summary
 
-![그림3](/assets/img/timeseries/TimeMixer/table1.png)
+table1
 
 - Main results
 
-![그림4](/assets/img/timeseries/TimeMixer/table2.png)
+table2
 
 - Ablations
 
-![그림5](/assets/img/timeseries/TimeMixer/table5.png)
+table5
 
 - Decomposition과 multiscale의 각 components에 대한 visualization
 
-![그림6](/assets/img/timeseries/TimeMixer/fig3.png)
+fig3
 
-![그림7](/assets/img/timeseries/TimeMixer/fig4.png)
+fig4
 
-![그림8](/assets/img/timeseries/TimeLLM/fig1.jpeg)
-![그림9](/assets/img/timeseries/TimeMixer/fig1.png)
 
 ## 5. Conclusion
 
