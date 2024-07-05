@@ -154,6 +154,7 @@ hide_last_modified: true
 ![그림7](/assets/img/timeseries/TimeMixer/fig4.png)
 
 ![그림8](/assets/img/timeseries/TimeLLM/fig1.jpeg)
+![그림9](/assets/img/timeseries/TimeMixer/fig1.png)
 
 ## 5. Conclusion
 
