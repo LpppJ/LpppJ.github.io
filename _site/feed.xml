@@ -1,5 +1,234 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-07-05T16:56:56+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">Neyman-Pearson Hypothesis Testing</title><link href="http://localhost:4000/stat/2024-07-02-NPtest/" rel="alternate" type="text/html" title="Neyman-Pearson Hypothesis Testing" /><published>2024-07-02T00:00:00+09:00</published><updated>2024-07-04T09:50:22+09:00</updated><id>http://localhost:4000/stat/NPtest</id><content type="html" xml:base="http://localhost:4000/stat/2024-07-02-NPtest/"><![CDATA[<h2 id="basics-of-hypothesis-testing">Basics of Hypothesis Testing</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-07-06T12:22:55+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">MultiResFormer: Transformer with Adaptive Multi-Resolution Modeling for General Time Series Forecasting (Arxiv 2023)</title><link href="http://localhost:4000/timeseries/2024-07-06-MultiResFormer/" rel="alternate" type="text/html" title="MultiResFormer: Transformer with Adaptive Multi-Resolution Modeling for General Time Series Forecasting (Arxiv 2023)" /><published>2024-07-06T00:00:00+09:00</published><updated>2024-07-06T12:22:53+09:00</updated><id>http://localhost:4000/timeseries/MultiResFormer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-06-MultiResFormer/"><![CDATA[<h2 id="abstract">Abstract</h2>
+
+<ul>
+  <li>Transformer-based models는 TS를 segments로 나눠서 encode (<strong>patches</strong>)
+    <ul>
+      <li>다양한 <strong>scale</strong>(i.e.. <strong>resolutions</strong>)에서의 TS를 모델링</li>
+    </ul>
+  </li>
+  <li>하지만 pre-defined scale(patch의 길이)은…
+    <ul>
+      <li>variety of intricate temporal dependencies를 찾기 어려움</li>
+    </ul>
+  </li>
+  <li>그래서 MultiResFormer는 adaptive time scale.
+    <ul>
+      <li>patch length를 주어진 데이터의 주기성을 보고 찾겠다</li>
+      <li>그 다음 intraperiod and interperiod dependencies 학습</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="1-introduction">1. Introduction</h2>
+
+<ul>
+  <li>TSF를 위한 vanila Transformer의 modification 3:</li>
+  <li>첫째. Efficient attention mechanisms for sub-quadratic attention computation
+    <ul>
+      <li><a href="https://arxiv.org/pdf/1907.00235">LogTrans(2019)</a>, <a href="https://arxiv.org/pdf/2012.07436">Informer(2021)</a>, <a href="https://openreview.net/pdf?id=0EXmFzUn5I">Pyraformer(2022)</a></li>
+    </ul>
+  </li>
+  <li>둘째. Breaking the point-wise nature of dot-product attention for segment or series level dependency modeling
+    <ul>
+      <li><a href="https://arxiv.org/pdf/1907.00235">LogTrans(2019)</a>, <a href="https://arxiv.org/pdf/2106.13008">Autoformer(2021)</a>, <a href="https://arxiv.org/pdf/2201.12740">Fedformer(2022)</a>, <a href="https://arxiv.org/pdf/2211.14730">PatchTST(2023)</a>, <a href="https://openreview.net/pdf?id=vSVLM2j9eie">Crossformer(2023)</a></li>
+    </ul>
+  </li>
+  <li>셋째. Modeling sequences at multiple time scales with hierarchical representation learning
+    <ul>
+      <li><a href="https://arxiv.org/pdf/1907.00235">LogTrans(2019)</a>, <a href="https://arxiv.org/pdf/2204.13767">Triformer(2022)</a>, <a href="https://arxiv.org/pdf/2206.04038">Scaleformer(2023)</a>, <a href="https://openreview.net/pdf?id=lJkOCMP2aW">Pathformer(2024)</a></li>
+    </ul>
+  </li>
+  <li>하지만 세 번째 multi-scale methods의 경우 pre-defined resolution으로 인해 generalization이 안된다.</li>
+  <li>그래서 본 논문에서는 데이터의 underlying periodicities을 파악해서 데이터에 맞게 multi-resolution view</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/MultiResFormer/fig1.png" alt="그림1" /></p>
+
+<ul>
+  <li>본 논문에서는 two core Transformer sublayers를 repurpose:
+    <ul>
+      <li><strong>Multi-headed attention</strong> for “interperiod” variation modeling
+        <ul>
+          <li>MHA는 전역적인 패치 간 의존성을 모델링하는 데 강점을 가지고 있어 interperiod 변동을 모델링하는 데 적합</li>
+        </ul>
+      </li>
+      <li><strong>Position-wise Feed-Forward network</strong> for “intraperiod” variation modeling
+        <ul>
+          <li>FFN은 각 위치 내의 복잡한 의존성을 모델링하는 데 강점을 가지고 있어 intraperiod 변동을 모델링하는 데 적합</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>고려해야 할 사항들
+    <ul>
+      <li>어떻게 different resolution branches끼리 parameter-sharing을 할까 ?
+        <ul>
+          <li>일단 parameter-sharing을 해야 특정 scale에 overfitting되는 걸 방지하는 건 맞음</li>
+          <li>patch length 모르니까 linear projection 못 쓰고, 그냥 padding하는 건 모델 학습을 방해함</li>
+          <li>그래서 각 scale에서의 patches의 길이를 맞추기 위한 <strong>interpolation scheme</strong> 사용</li>
+          <li>그리고 <strong>resolution embedding</strong>으로 scale-awareness</li>
+        </ul>
+      </li>
+      <li>계산 복잡도를 어떻게 줄일까 ?
+        <ul>
+          <li>이미 interpolation scheme으로 patches의 길이를 맞춰줬으니 별도의 embedding 필요 없음
+            <ul>
+              <li>Dlinear model의 성공 사례에서 영감 받음</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="2-related-work">2. Related Work</h2>
+
+<h3 id="time-series-transformer">Time series Transformer</h3>
+
+<ul>
+  <li>Transformer의 quadratic complexity 때문에 longer series는 모델링하기 어려웠음
+    <ul>
+      <li><a href="https://arxiv.org/pdf/1907.00235">LogTrans(2019)</a> : sparse attention blocks where each token attends to others with an exponential step size</li>
+      <li><a href="https://arxiv.org/pdf/2012.07436">Informer(2021)</a> : entropy-based measurement to filter out uninformative keys for \(O(N)\)</li>
+      <li><a href="https://arxiv.org/pdf/2204.13767">Triformer(2022)</a>, <a href="https://openreview.net/pdf?id=0EXmFzUn5I">Pyraformer(2022)</a> : adopt CNN-like approaches for local attention operations</li>
+      <li><a href="https://arxiv.org/pdf/2211.14730">PatchTST(2023)</a> : patch단위로 attention 연산 하니까 \(O(N^2/S^2)\)</li>
+    </ul>
+  </li>
+  <li>단일 시점의 데이터는 정보가 별로 없음 (<a href="https://arxiv.org/pdf/2211.14730">PatchTST(2023)</a>)
+    <ul>
+      <li>단일 시점을 토큰으로 하는 transformer는 localized patterns을 간과할 수 있음</li>
+    </ul>
+  </li>
+  <li>channel-mixing embedding은 over-fitting 발생시킬 수 있음 (<a href="https://arxiv.org/pdf/2211.14730">PatchTST(2023)</a>)</li>
+</ul>
+
+<h3 id="multi-resolution-time-series-modeling">Multi-Resolution Time Series Modeling</h3>
+
+<ul>
+  <li><a href="https://arxiv.org/pdf/2210.02186">TimesNet(2023)</a>에서 adaptive multi-resolution modeling 하긴 함
+    <ul>
+      <li>하지만 input length를 맞춰줘야 해서 flatten해야 하고 longer series 예측 못함</li>
+      <li>channel-mixing embedding이 불가피해서 overfitting</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="3-adaptive-multi-resolution-time-series-modeling-with-transformers">3. Adaptive Multi-Resolution Time Series Modeling with Transformers</h2>
+
+<ul>
+  <li>\(\mathbf{X}_{1 \ldots I}=\left(\mathbf{x}_1, \ldots, \mathbf{x}_I\right) \in \mathbb{R}^{I \times V}\)로 \(\mathbf{X}_{I+1 \ldots I+O}=\left(\mathbf{x}_{I+1}, \ldots, \mathbf{x}_{I+O}\right) \in \mathbb{R}^{O \times V}\)​ 예측</li>
+</ul>
+
+<h3 id="31-multiresformer">3.1. MultiResFormer</h3>
+
+<p><img src="/assets/img/timeseries/MultiResFormer/fig2.png" alt="그림2" /></p>
+
+<ul>
+  <li>The periodicity-aware patching module, detecting salient periodicities (section 3.2.)</li>
+  <li>The Transformer Encoder block, shared across all resolution branches (section 3.3.)</li>
+  <li>aggregate the representations derived within each resolution branch into \(\mathbf{X}^{(l)} \in \mathbf{R}^{I \times V}\)​ (section 3.4.)</li>
+</ul>
+
+<h3 id="32-salient-periodicity-detection">3.2. Salient Periodicity Detection</h3>
+
+<ul>
+  <li>
+    <p>salient periodicites of the input series는 Fast Fourier Transform (FFT)으로 찾음</p>
+
+\[\begin{aligned}
+\mathbf{A} &amp; =\operatorname{Avg}(\operatorname{Amp}(\operatorname{FFT}(\mathbf{X}))) \\
+\left\{f_1, \ldots, f_k\right\} &amp; =\underset{f_* \in\left\{1, \ldots,\left\lfloor\frac{I}{2}\right\rfloor\right\}}{\operatorname{argTopk}}(\mathbf{A}) \\
+\text { Period }_i &amp; =\left\lceil\frac{I}{f_i}\right\rceil
+\end{aligned}\]
+  </li>
+  <li>
+    <p>Gradient-based 방식이 아니라서 미분이 필요없음</p>
+  </li>
+</ul>
+
+<h3 id="33-multi-resolution-modeling-with-a-shared-transformer-block">3.3. Multi-Resolution Modeling with a Shared Transformer Block</h3>
+
+<ul>
+  <li>PatchTST처럼 fixed patch length 사용할 땐 high-dimensional embeddings을 위한 linear transformations가 필요했는데, 이제는 patch embedding layers가 필요없어짐 (efficient)</li>
+  <li>다양한 patch length를 사용한다고 해서 길이를 맞춰주기 위해 padding을 한다고 하더라도, MHA와 FFN에는 masking mechanism이 없기 때문에 모델 성능 저하
+    <ul>
+      <li>그러므로 interpolation으로 original patches의 temporal characteristics 보존</li>
+    </ul>
+  </li>
+  <li>one resolution branch의 Periodi가 주어지면 길이 Periodi의 겹치치 않는 patch로 분할
+    <ul>
+      <li>그 다음 길이 d가 되도록 linearly interpolate</li>
+      <li>shape of the patch-based representation of the input series : \(V \times\left\lceil\frac{I}{\text { Period }_i}\right\rceil \times d\)</li>
+    </ul>
+  </li>
+  <li>각 resolution branch에서 same-sized patches로 연산이 이루어지기 때문에 resolution embedding을 linearly interpolate에 더해줌 (transformer block에게 해상도 알려주기 위해)</li>
+  <li>MHA to capture patch-wise dependencies (interperiod variation modeling)
+    <ul>
+      <li>FFN layers for capturing dependencies within each patch (intraperiod variation modeling)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="34-adaptive-aggregation">3.4. Adaptive Aggregation</h3>
+
+<ul>
+  <li>i 번째 resolution에서 representation의 shape은 \(V \times\left\lceil\frac{I}{\text { Period }_i}\right\rceil \times d\)​</li>
+  <li>interpolation으로 \(I \times V\)로 representation</li>
+  <li>
+    <p>\(I \times V\)으로 표현된 모든 k개의 resolution에서의 representation을 adaptive aggregation:</p>
+
+\[\begin{aligned}
+  &amp; \left\{A_1, \ldots, A_k\right\}=\underset{f_* \in\left\{1, \ldots,\left\lfloor\frac{I}{2}\right\rfloor\right\}}{\operatorname{Topk}}(\mathbf{A}) \\
+  &amp; \left\{w_1, \ldots, w_k\right\}=\operatorname{Softmax}\left(\left\{A_1, \ldots, A_k\right\}\right)
+  \end{aligned}\]
+  </li>
+</ul>
+
+<h2 id="4-experiments">4. Experiments</h2>
+
+<ul>
+  <li>Main Results</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/MultiResFormer/table12.png" alt="그림3" /></p>
+
+<ul>
+  <li>Ablation Study</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/MultiResFormer/table4.png" alt="그림4" /></p>
+
+<ul>
+  <li>Varying Look-back Window Size</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/MultiResFormer/fig3.png" alt="그림5" /></p>
+
+<ul>
+  <li>Representation analysis</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/MultiResFormer/fig4.png" alt="그림6" /></p>
+
+<ul>
+  <li>Efficiency Comparison</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/MultiResFormer/fig5.png" alt="그림7" /></p>
+
+<h2 id="5-conclusion">5. Conclusion</h2>
+
+<ul>
+  <li>각 transformer blocks 내에서 FFT로 데이터의 underlying periodicities를 파악하고 resolution 결정</li>
+  <li>각 transformer blocks 내에서 interpolation 덕분에 resolution끼리 parameter sharing</li>
+  <li>블록 내의 encoder는 interpolation으로 input size와 output representation의 size가 같아서
+    <ul>
+      <li>embedding layer가 필요없고 final linear prediction head layer에서의 parameters 개수가 적음</li>
+    </ul>
+  </li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Arxiv 2023](https://arxiv.org/pdf/2311.18780)]]></summary></entry><entry><title type="html">Neyman-Pearson Hypothesis Testing</title><link href="http://localhost:4000/stat/2024-07-02-NPtest/" rel="alternate" type="text/html" title="Neyman-Pearson Hypothesis Testing" /><published>2024-07-02T00:00:00+09:00</published><updated>2024-07-04T09:50:22+09:00</updated><id>http://localhost:4000/stat/NPtest</id><content type="html" xml:base="http://localhost:4000/stat/2024-07-02-NPtest/"><![CDATA[<h2 id="basics-of-hypothesis-testing">Basics of Hypothesis Testing</h2>
 
 <ul>
   <li>일반적으로 가설 검정을 construction하는 과정은 아래와 같다.
@@ -316,7 +545,274 @@ estimator는 \(\widehat{r}(x)=\sum_{i=1}^n w_i(x) Y_i\) where \(w_i(x)=\frac{K\l
     </ul>
   </li>
   <li>Proof : 적분 구간이 [0,1]이므로 \(\max _{x \in[0,1]}\left\vert\operatorname{bias}(x)\right\vert \leq L h\), 그리고 \(\max _{x \in[0,1]} \operatorname{Var}(\widehat{r}(x)) \leq \frac{\sigma^2}{(n-1) h}\)이 증명되었다.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[일반적인 regression은 response variable Y와 covariate X의 관계를 이해하는 방법 중 하나로 일종의 conditional expectation이다. \(r(x)=\mathbb{E}[Y \mid X=x]=\int y f(y \mid x) dy\) non-parametric regession을 하는 기본적인 방법 중 하나는 kernel regression이다. estimator는 \(\widehat{r}(x)=\sum_{i=1}^n w_i(x) Y_i\) where \(w_i(x)=\frac{K\left(\frac{x-X_i}{h}\right)}{\sum_{j=1}^n K\left(\frac{x-X_j}{h}\right)}\) weights는 x 주변에 높은 가중치를 두고, h는 smoothing을 결정하는 bandwidth이다. 간단한 kernel의 예시로 Gaussian kernel을 사용한다. \(K(x)=\frac{1}{\sqrt{2 \pi}} \exp \left(-x^2 / 2\right)\)]]></summary></entry><entry><title type="html">Pathformer: Multi-scale Transformers with Adaptive Pathways for Time Series Forecasting (ICLR 2024)</title><link href="http://localhost:4000/timeseries/2024-05-23-Pathformer/" rel="alternate" type="text/html" title="Pathformer: Multi-scale Transformers with Adaptive Pathways for Time Series Forecasting (ICLR 2024)" /><published>2024-05-23T00:00:00+09:00</published><updated>2024-07-02T22:54:50+09:00</updated><id>http://localhost:4000/timeseries/Pathformer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-05-23-Pathformer/"><![CDATA[<h2 id="abstract">Abstract</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[일반적인 regression은 response variable Y와 covariate X의 관계를 이해하는 방법 중 하나로 일종의 conditional expectation이다. \(r(x)=\mathbb{E}[Y \mid X=x]=\int y f(y \mid x) dy\) non-parametric regession을 하는 기본적인 방법 중 하나는 kernel regression이다. estimator는 \(\widehat{r}(x)=\sum_{i=1}^n w_i(x) Y_i\) where \(w_i(x)=\frac{K\left(\frac{x-X_i}{h}\right)}{\sum_{j=1}^n K\left(\frac{x-X_j}{h}\right)}\) weights는 x 주변에 높은 가중치를 두고, h는 smoothing을 결정하는 bandwidth이다. 간단한 kernel의 예시로 Gaussian kernel을 사용한다. \(K(x)=\frac{1}{\sqrt{2 \pi}} \exp \left(-x^2 / 2\right)\)]]></summary></entry><entry><title type="html">Chernoff Bound (upper bound on the tail probability)</title><link href="http://localhost:4000/stat/2024-05-23-ChernoffBound/" rel="alternate" type="text/html" title="Chernoff Bound (upper bound on the tail probability)" /><published>2024-05-23T00:00:00+09:00</published><updated>2024-07-02T22:54:50+09:00</updated><id>http://localhost:4000/stat/ChernoffBound</id><content type="html" xml:base="http://localhost:4000/stat/2024-05-23-ChernoffBound/"><![CDATA[<h2 id="prerequirement">Prerequirement</h2>
+<ul>
+  <li>Markov inequality \(\mathrm{P}(X \geq a) \leq \frac{\mathrm{E}(X)}{a}\)</li>
+  <li>Chebyshev inequality \(\operatorname{Pr}(\mid X-\mu\mid \geq k \sigma) \leq \frac{1}{k^2}\)</li>
+</ul>
+
+<h2 id="chernoff-bound">Chernoff Bound</h2>
+<ul>
+  <li>확률변수 X에 대한 tail probability <br />
+\(\begin{aligned}P(X \geqslant a) &amp; =P\left(e^{t X} \geqslant e^{t a}\right) \\ &amp; \leqslant \frac{\mathbb{E}\left[e^{t X}\right]}{e^{t a}} \text { by Markov inequality } . \\ &amp; =M(t) e^{-t a}\end{aligned}\)</li>
+</ul>
+
+<h2 id="example--bernoulli-confidence-sets-vs-hoeffdings-inequality">Example : Bernoulli Confidence sets vs. Hoeffding’s inequality</h2>
+<ul>
+  <li>Under asymptotic normality <br />
+\(\begin{aligned}P_\theta\left(\theta \in C_n\right)&amp;=P_\theta\left(\widehat{\theta}-z_{\alpha / 2} \sqrt{\operatorname{Var}_\theta[\widehat{\theta}]} \leq \theta \leq \widehat{\theta}+z_{\alpha / 2} \sqrt{\operatorname{Var}_\theta[\widehat{\theta}]}\right)\\C_n&amp;=\left(\widehat{p}-z_{\alpha / 2} \sqrt{\frac{\widehat{p}(1-\widehat{p})}{n}}, \widehat{p}+z_{\alpha / 2} \sqrt{\frac{\widehat{p}(1-\widehat{p})}{n}}\right)\end{aligned}\)</li>
+  <li>Hoeffding’s inequality <br />
+\(P(\mid \widehat{p}-p\mid \geq t) \leq 2 e^{-2 n t^2}\)</li>
+  <li><strong>Under asymptotic normality로 얻은 Confidence sets은 항상 Hoeffding’s inequality 보다 tight(short)하다.</strong>
+    <ul>
+      <li><strong>증명</strong> :  \(z_{\alpha / 2} \sqrt{\frac{\widehat{p}(1-\widehat{p})}{n}} \leq \sqrt{\frac{\log (2 / \alpha)}{2 n}}\)에서 \(\widehat{p}(1-\widehat{p}) \le \frac{1}{4}\) 이므로</li>
+      <li>(1) Exponential Markov Inequality<br />
+\(\begin{aligned} P(z \geqslant z) &amp; =P\left(e^{t Z} e^{t z}\right) \\ &amp; \leqslant \frac{\mathbb{E}\left[e^{t Z}\right]}{e^{t z}}=e^{\frac{t^2}{2}-t z} \\ &amp; \leqslant e^{-z^2 / 2} \quad \text{ when }t=z\end{aligned}\)</li>
+      <li>(2) Chernoff Bounds<br />
+\(\begin{aligned}  p(Z \geqslant z) &amp;\leqslant e^{-z^2 / 2} \\ p\left(z \geqslant z_{\frac{\alpha}{2}}\right) &amp;\leqslant e^{-z_{\frac{\alpha}{2}}^2 / 2} \\  \alpha / 2 &amp;\leqslant e^{-z_{\frac{\alpha}{2}}^2 / 2} \\ \log{\frac{\alpha}{2}}&amp;\leqslant-\frac{z_{\frac{\alpha}{2}}^2}{2} \\ z_{\frac{\alpha}{2}}^2 &amp;\leq 2 \log{\frac{\alpha}{2}} \\ \end{aligned}\)</li>
+    </ul>
+  </li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[Prerequirement Markov inequality \(\mathrm{P}(X \geq a) \leq \frac{\mathrm{E}(X)}{a}\) Chebyshev inequality \(\operatorname{Pr}(\mid X-\mu\mid \geq k \sigma) \leq \frac{1}{k^2}\)]]></summary></entry><entry><title type="html">TimeMixer: Decomposable Multiscale Mixing for Time Series Forecasting (ICLR 2024)</title><link href="http://localhost:4000/timeseries/2024-05-23-Timemixer/" rel="alternate" type="text/html" title="TimeMixer: Decomposable Multiscale Mixing for Time Series Forecasting (ICLR 2024)" /><published>2024-05-23T00:00:00+09:00</published><updated>2024-07-05T18:29:41+09:00</updated><id>http://localhost:4000/timeseries/Timemixer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-05-23-Timemixer/"><![CDATA[<h2 id="abstract">Abstract</h2>
+
+<ul>
+  <li>Real world에서 time series는 복잡한 temporal variations 때문에 forecasting이 어려움</li>
+  <li>지금까지는 그냥 decomposition하고 multiperiodicity 분석 했는데,</li>
+  <li>본 논문에서는 time series를 다양한 scale로 sampling하면 별개의 patterns가 관찰될 것이라는 intuition에 따라 multiscale-mixing을 제안
+    <ul>
+      <li>microscopic information은 fine scale, macroscopic information은 coarse scales</li>
+    </ul>
+  </li>
+  <li><strong>TimeMixer</strong> : fully MLP-based architecture
+    <ul>
+      <li>with <strong>Past-Decomposable-Mixing</strong> (PDM) for past extraction
+        <ul>
+          <li>applies the decomposition to multiscale series</li>
+          <li>and mixes the decomposed seasonal and trend components
+            <ul>
+              <li>즉 the microscopic seasonal과 macroscopic trend를 통합</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>with <strong>Future-Multipredictor-Mixing</strong> (FMM) for future prediction
+        <ul>
+          <li>multiscale observation을 통한 완성도 있는 예측을 위해 multiple predictors를 ensemble</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="introduction">Introduction</h2>
+
+<ul>
+  <li>Time series의 representative models는 temporal variations를 파악
+    <ul>
+      <li>foundation backbone 별로 보면</li>
+      <li>CNN 계열로는 <a href="https://openreview.net/forum?id=zt53IDUR1U">MICN(2023)</a>, <a href="https://arxiv.org/abs/2210.02186">TimesNet(2023)</a>, <a href="https://link.springer.com/article/10.1007/s00500-020-04954-0">TCN(2020)</a>, RNN 계열로는 <a href="https://arxiv.org/abs/1703.07015">LSTNet(2018)</a>, <a href="https://arxiv.org/abs/1704.02971">DA-RNN(2017)</a>, <a href="https://www.sciencedirect.com/science/article/pii/S0169207019301888">DeepAR(2020)</a>이 있고</li>
+      <li>Transformer 계열로는 <a href="https://arxiv.org/abs/2012.07436">Informer(2021)</a>, <a href="https://arxiv.org/abs/2106.13008">Autoformer(2021)</a>, <a href="https://arxiv.org/abs/2201.12740">Fedformer(2022)</a>, <a href="https://arxiv.org/abs/2211.14730">PatchTST(2023)</a>가 있다.</li>
+      <li>그리고 MLP 계열로는 <a href="https://arxiv.org/abs/2205.13504">DLinear(2023)</a>, <a href="https://arxiv.org/abs/2207.01186">LightTS(2022)</a>, <a href="https://arxiv.org/abs/2201.12886">N-hits(2023)</a>가 있다.</li>
+    </ul>
+  </li>
+  <li>지금까지는 그냥 decomposition하고 multiperiodicity 분석
+    <ul>
+      <li>decomposition : predictable component(seasonal, trend)와 complex temporal patterns를 분리</li>
+      <li>multiperiodicity analysis : mixed temporal variations을 주기가 다른 여러 components로 disentangle</li>
+    </ul>
+  </li>
+  <li>본 논문의 intuition : sampling scales가 달라지면 temporal variations도 달라진다.
+    <ul>
+      <li>microscopic information을 담은 fine scale과 macroscopic information을 담고 있는 coarse scales에서의 변동이 joint하게 미래 변동을 결정한다.</li>
+      <li>multiscale mixing을 통해 scale에 따른 변동을 구분하고 그걸 다 고려해서 complementary한 예측을 할 수 있을 것</li>
+    </ul>
+  </li>
+  <li><strong>Past-Decomposable-Mixing</strong> (PDM) : average downsampling을 통해 multiscale observations 생성</li>
+  <li><strong>Future-Multipredictor-Mixing</strong> (FMM) : multiscale에서의 seasonal, trend를 합쳐서 multiple predictors를 ensemble</li>
+</ul>
+
+<h2 id="2-related-work">2. Related Work</h2>
+
+<h3 id="21-temporal-modeling-in-deep-tsf">2.1. Temporal Modeling in Deep TSF</h3>
+
+<ul>
+  <li>Foundation backbones에 따라 4가지 계열로 구분 : CNN, RNN, Transformer, MLP
+    <ul>
+      <li>CNN, RNN-based deep models는 limited receptive field 때문에 long-term forecasting이 어려움</li>
+      <li>Transformer-based models는 long-term temporal depdendencies 파악</li>
+      <li>MLP-based models는 단순한 구조로도 복잡한 모델의 성능만큼 도달할 수 있음을 제시</li>
+    </ul>
+  </li>
+  <li>Temporal multiscale designs models이 있긴 하지만 <a href="https://openreview.net/forum?id=0EXmFzUn5I">Pyraformer(2021)</a>, <a href="https://arxiv.org/abs/2106.09305">SCINet(2022)</a>
+    <ul>
+      <li>예측 과정에서 multiscale information을 동시에 활용하지는 않음</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="22-mixing-networks">2.2. Mixing Networks</h3>
+
+<ul>
+  <li>Computer Vision과 NLP 분야에서 사용되는 mixing <a href="https://arxiv.org/abs/2105.01601">MLP-Mixer(2021)</a>, <a href="https://arxiv.org/abs/2105.03824">FNet(2022)</a></li>
+</ul>
+
+<h2 id="3-timemixer">3. TimeMixer</h2>
+
+<ul>
+  <li>P길이의 과거를 보고 F길이의 미래를 예측</li>
+  <li>disentangled variations(past information extraction) &amp; complementary forecasting(future prediction)</li>
+</ul>
+
+<h3 id="31-multiscale-mixing-architecture">3.1. Multiscale Mixing Architecture</h3>
+
+<p><img src="/assets/img/timeseries/Timemixer/fig1.png" alt="그림1" /></p>
+
+<ul>
+  <li>
+    <p>먼저 complex variations를 disentangle하기 위해 downsampling한다.</p>
+
+    <ul>
+      <li>\(\mathbf{x} \in \mathbb{R}^{P \times C}\)를 M개의 scale로 downsampling하면</li>
+      <li>\(\mathcal{X}=\left\{\mathbf{x}_0, \cdots, \mathbf{x}_M\right\} \text {, where } \mathbf{x}_m \in \mathbb{R}^{\left\lfloor \frac{P}{2^m}\right\rfloor \times C}, m \in\{0, \cdots, M\}\)를 얻는다.</li>
+      <li>\(C\)는 변수 개수</li>
+      <li>즉 \(\mathbf{x}_0\)는 input 원본이고, \(\mathbf{x}_m\)은 m개씩 average pooling한 것이다.</li>
+      <li>그리고 embedding layer 통과하면 \(\mathcal{X}^0=\operatorname{Embed}(\mathcal{X})\)를 얻는다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>이제 <strong>Past-Decomposable-Mixing</strong> (PDM, for mixing past information)</p>
+
+\[x^l=\operatorname{PDM}\left(x^{l-1}\right),\quad l \in\{0, \cdots, L\}, \quad \mathbf{x}_m^l \in \mathbb{R}^{\left\lfloor\frac{P}{2^m}\right\rfloor \times d_{\text {model }}}\]
+
+    <ul>
+      <li>(자세한 건 다음 section 3.2.)</li>
+    </ul>
+  </li>
+  <li>
+    <p>다음으로 <strong>Future-Multipredictor-Mixing</strong> (FMM, for future prediction)</p>
+
+\[\widehat{\mathbf{x}}=\operatorname{FMM}\left(\mathcal{X}^L\right), \quad \widehat{\mathbf{x}} \in \mathbb{R}^{F \times C}\]
+
+    <ul>
+      <li>(자세한 건 다음 section 3.3.)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="32-past-decomposable-mixing">3.2. Past Decomposable Mixing</h3>
+
+<ul>
+  <li>
+    <p>Seasonal과 trend는 scale에 따라 다르게 나타나므로</p>
+
+    <ul>
+      <li>Seasonal끼리 scale별로 구해서 mixing, trend끼리 scale별로 구해서 mixing</li>
+    </ul>
+  </li>
+  <li>
+    <p>\(l\)-번째 PDM block에서는</p>
+    <ul>
+      <li>ts \(\mathcal{X}_l\)를 seasonal part \(\mathcal{S}^l=\left\{\mathbf{s}_0^l, \cdots, \mathbf{s}_M^l\right\}\)과 trend parts \(\mathcal{T}^l=\left\{\mathbf{t}_0^l, \cdots, \mathbf{t}_M^l\right\}\)로 decompose</li>
+    </ul>
+
+\[\begin{gathered}
+\mathbf{s}_m^l, \mathbf{t}_m^l=\text { SeriesDecomp }\left(\mathbf{x}_m^l\right), m \in\{0, \cdots, M\}, \\
+\mathcal{X}^l=\mathcal{X}^{l-1}+\text { FeedForward }\left(\operatorname{S-Mix}\left(\left\{\mathbf{s}_m^l\right\}_{m=0}^M\right)+\text { T-Mix }\left(\left\{\mathbf{t}_m^l\right\}_{m=0}^M\right)\right)
+\end{gathered}\]
+
+    <ul>
+      <li>\(\text { FeedForward(} \cdot)\) contains two linear layers w/ GELU</li>
+      <li>\(\operatorname{S}-\operatorname{Mix}(\cdot), T-\operatorname{Mix}(\cdot)\)​는 지금부터 설명할 mixing</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/timeseries/Timemixer/fig2.png" alt="그림2" /></p>
+
+<ul>
+  <li><strong>Seasonal Mixing</strong>
+    <ul>
+      <li>(Box &amp; Jenkins, 1970)의 seasonality analysis에 따르면
+        <ul>
+          <li>larger periods는 smaller periods의 aggregation</li>
+          <li>그러므로 residual하게 bottom-up approach</li>
+          <li>(coarser scales의 seasonality를 위해 lower-level fine-scale 사용)</li>
+          <li>
+\[\text { for } m: 1 \rightarrow M \text { do: } \quad \mathbf{s}_m^l=\mathbf{s}_m^l+\text { Bottom-Up-Mixing }\left(\mathbf{s}_{m-1}^l\right)\]
+            <ul>
+              <li>\(\text { Bottom-Up-Mixing(} \cdot \text {) }\): input dim \(\left\lfloor\frac{P}{2^{m-1}}\right\rfloor\), output dim \(\left\lfloor\frac{P}{2^{m}}\right\rfloor\)인 two linear layers with GELU</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Trend Mixing</strong>
+    <ul>
+      <li>seasonal parts와 반대로
+        <ul>
+          <li>detailed variations는 noise로 보일 뿐이고 coarser scales가 finer scales를 guide</li>
+          <li>그러므로 residual하게 top-down mixing</li>
+          <li>
+\[\text { for } m:(M-1) \rightarrow 0 \text { do: } \quad \mathbf{t}_m^l=\mathbf{t}_m^l+\text { Top-Down-Mixing }\left(\mathbf{t}_{m+1}^l\right)\]
+            <ul>
+              <li>\(\text { Top-Down-Mixing(} \cdot \text {) }\) : : input dim \(\left\lfloor\frac{P}{2^{m+1}}\right\rfloor\), output dim \(\left\lfloor\frac{P}{2^{m}}\right\rfloor\)인 two linear layers with GELU</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>결론적으로 seasonality는 from fine to coarse, 반대로 trend는 coarse to fine하게 multiscale mixing in past information extraction</li>
+</ul>
+
+<h3 id="33-future-multipredictor-mixing">3.3. Future MultiPredictor Mixing</h3>
+
+<ul>
+  <li>\(L\)개의 PDM block으로 \(\mathcal{X}^L=\left\{\mathbf{x}_0^L, \cdots, \mathbf{x}_M^L\right\}, \mathbf{x}_m^L \in \mathbb{R}^{\left\lfloor\frac{P}{2^m}\right\rfloor \times d_{\text {model }}}\)를 얻었다.</li>
+  <li>서로 다른 scale인 \(\mathbf{x}_m^L\)들은 서로 다른 variations를 present하고 있기 때문에 모든 scale에서 예측을 하고 각각의 예측을 aggregate한다. (ensemble)</li>
+  <li>
+\[\widehat{\mathbf{x}}_m=\operatorname{Predictor}_m\left(\mathbf{x}_m^L\right), m \in\{0, \cdots, M\}, \widehat{\mathbf{x}}=\sum_{m=0}^M \widehat{\mathbf{x}}_m\]
+    <ul>
+      <li>\(\widehat{\mathbf{x}}_m, \widehat{\mathbf{x}} \in \mathbb{R}^{F \times C}\)​</li>
+    </ul>
+  </li>
+  <li>\(\text { Predictor }_m(\cdot)\)은 one single linear layer인데 \(\left\lfloor\frac{P}{2^m}\right\rfloor\)길이의 과거 정보로부터 F 길이의 future를 regress</li>
+  <li>FMM은 mixed multiscale series로 complementary forecasting하는  ensemble of multiple predictors</li>
+</ul>
+
+<h2 id="4-experiments">4. Experiments</h2>
+
+<ul>
+  <li>Summary</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/Timemixer/table1.png" alt="그림11" /></p>
+
+<ul>
+  <li>Main results</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/Timemixer/table2.png" alt="그림12" /></p>
+
+<ul>
+  <li>Ablations</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/Timemixer/table5.png" alt="그림15" /></p>
+
+<ul>
+  <li>Decomposition과 multiscale의 각 components에 대한 visualization</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/Timemixer/fig3.png" alt="그림3" /></p>
+
+<p><img src="/assets/img/timeseries/Timemixer/fig4.png" alt="그림4" /></p>
+
+<h2 id="5-conclusion">5. Conclusion</h2>
+
+<ul>
+  <li>Empowered by Past-Decomposable-Mixing and Future- Multipredictor-Mixing blocks, TimeMixer took advantage of both disentangled variations and complementary forecasting capabilities.</li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2024](https://openreview.net/pdf?id=7oLshfEIC2)]]></summary></entry><entry><title type="html">Pathformer: Multi-scale Transformers with Adaptive Pathways for Time Series Forecasting (ICLR 2024)</title><link href="http://localhost:4000/timeseries/2024-05-23-Pathformer/" rel="alternate" type="text/html" title="Pathformer: Multi-scale Transformers with Adaptive Pathways for Time Series Forecasting (ICLR 2024)" /><published>2024-05-23T00:00:00+09:00</published><updated>2024-07-02T22:54:50+09:00</updated><id>http://localhost:4000/timeseries/Pathformer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-05-23-Pathformer/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>기존 Transformer for TS 모델들은 limited or fixed scales</li>
@@ -521,276 +1017,7 @@ estimator는 \(\widehat{r}(x)=\sum_{i=1}^n w_i(x) Y_i\) where \(w_i(x)=\frac{K\l
       <li>adaptive pathways dynamically select and aggregate scale-specific characteristics</li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2024](https://openreview.net/pdf?id=lJkOCMP2aW)]]></summary></entry><entry><title type="html">Chernoff Bound (upper bound on the tail probability)</title><link href="http://localhost:4000/stat/2024-05-23-ChernoffBound/" rel="alternate" type="text/html" title="Chernoff Bound (upper bound on the tail probability)" /><published>2024-05-23T00:00:00+09:00</published><updated>2024-07-02T22:54:50+09:00</updated><id>http://localhost:4000/stat/ChernoffBound</id><content type="html" xml:base="http://localhost:4000/stat/2024-05-23-ChernoffBound/"><![CDATA[<h2 id="prerequirement">Prerequirement</h2>
-<ul>
-  <li>Markov inequality \(\mathrm{P}(X \geq a) \leq \frac{\mathrm{E}(X)}{a}\)</li>
-  <li>Chebyshev inequality \(\operatorname{Pr}(\mid X-\mu\mid \geq k \sigma) \leq \frac{1}{k^2}\)</li>
-</ul>
-
-<h2 id="chernoff-bound">Chernoff Bound</h2>
-<ul>
-  <li>확률변수 X에 대한 tail probability <br />
-\(\begin{aligned}P(X \geqslant a) &amp; =P\left(e^{t X} \geqslant e^{t a}\right) \\ &amp; \leqslant \frac{\mathbb{E}\left[e^{t X}\right]}{e^{t a}} \text { by Markov inequality } . \\ &amp; =M(t) e^{-t a}\end{aligned}\)</li>
-</ul>
-
-<h2 id="example--bernoulli-confidence-sets-vs-hoeffdings-inequality">Example : Bernoulli Confidence sets vs. Hoeffding’s inequality</h2>
-<ul>
-  <li>Under asymptotic normality <br />
-\(\begin{aligned}P_\theta\left(\theta \in C_n\right)&amp;=P_\theta\left(\widehat{\theta}-z_{\alpha / 2} \sqrt{\operatorname{Var}_\theta[\widehat{\theta}]} \leq \theta \leq \widehat{\theta}+z_{\alpha / 2} \sqrt{\operatorname{Var}_\theta[\widehat{\theta}]}\right)\\C_n&amp;=\left(\widehat{p}-z_{\alpha / 2} \sqrt{\frac{\widehat{p}(1-\widehat{p})}{n}}, \widehat{p}+z_{\alpha / 2} \sqrt{\frac{\widehat{p}(1-\widehat{p})}{n}}\right)\end{aligned}\)</li>
-  <li>Hoeffding’s inequality <br />
-\(P(\mid \widehat{p}-p\mid \geq t) \leq 2 e^{-2 n t^2}\)</li>
-  <li><strong>Under asymptotic normality로 얻은 Confidence sets은 항상 Hoeffding’s inequality 보다 tight(short)하다.</strong>
-    <ul>
-      <li><strong>증명</strong> :  \(z_{\alpha / 2} \sqrt{\frac{\widehat{p}(1-\widehat{p})}{n}} \leq \sqrt{\frac{\log (2 / \alpha)}{2 n}}\)에서 \(\widehat{p}(1-\widehat{p}) \le \frac{1}{4}\) 이므로</li>
-      <li>(1) Exponential Markov Inequality<br />
-\(\begin{aligned} P(z \geqslant z) &amp; =P\left(e^{t Z} e^{t z}\right) \\ &amp; \leqslant \frac{\mathbb{E}\left[e^{t Z}\right]}{e^{t z}}=e^{\frac{t^2}{2}-t z} \\ &amp; \leqslant e^{-z^2 / 2} \quad \text{ when }t=z\end{aligned}\)</li>
-      <li>(2) Chernoff Bounds<br />
-\(\begin{aligned}  p(Z \geqslant z) &amp;\leqslant e^{-z^2 / 2} \\ p\left(z \geqslant z_{\frac{\alpha}{2}}\right) &amp;\leqslant e^{-z_{\frac{\alpha}{2}}^2 / 2} \\  \alpha / 2 &amp;\leqslant e^{-z_{\frac{\alpha}{2}}^2 / 2} \\ \log{\frac{\alpha}{2}}&amp;\leqslant-\frac{z_{\frac{\alpha}{2}}^2}{2} \\ z_{\frac{\alpha}{2}}^2 &amp;\leq 2 \log{\frac{\alpha}{2}} \\ \end{aligned}\)</li>
-    </ul>
-  </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[Prerequirement Markov inequality \(\mathrm{P}(X \geq a) \leq \frac{\mathrm{E}(X)}{a}\) Chebyshev inequality \(\operatorname{Pr}(\mid X-\mu\mid \geq k \sigma) \leq \frac{1}{k^2}\)]]></summary></entry><entry><title type="html">TimeMixer: Decomposable Multiscale Mixing for Time Series Forecasting (ICLR 2024)</title><link href="http://localhost:4000/timeseries/2024-05-23-Timemixer/" rel="alternate" type="text/html" title="TimeMixer: Decomposable Multiscale Mixing for Time Series Forecasting (ICLR 2024)" /><published>2024-05-23T00:00:00+09:00</published><updated>2024-07-04T20:04:35+09:00</updated><id>http://localhost:4000/timeseries/Timemixer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-05-23-Timemixer/"><![CDATA[<h2 id="abstract">Abstract</h2>
-
-<ul>
-  <li>Real world에서 time series는 복잡한 temporal variations 때문에 forecasting이 어려움</li>
-  <li>지금까지는 그냥 decomposition하고 multiperiodicity 분석 했는데,</li>
-  <li>본 논문에서는 time series를 다양한 scale로 sampling하면 별개의 patterns가 관찰될 것이라는 intuition에 따라 multiscale-mixing을 제안
-    <ul>
-      <li>microscopic information은 fine scale, macroscopic information은 coarse scales</li>
-    </ul>
-  </li>
-  <li><strong>TimeMixer</strong> : fully MLP-based architecture
-    <ul>
-      <li>with <strong>Past-Decomposable-Mixing</strong> (PDM) for past extraction
-        <ul>
-          <li>applies the decomposition to multiscale series</li>
-          <li>and mixes the decomposed seasonal and trend components
-            <ul>
-              <li>즉 the microscopic seasonal과 macroscopic trend를 통합</li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li>with <strong>Future-Multipredictor-Mixing</strong> (FMM) for future prediction
-        <ul>
-          <li>multiscale observation을 통한 완성도 있는 예측을 위해 multiple predictors를 ensemble</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="introduction">Introduction</h2>
-
-<ul>
-  <li>Time series의 representative models는 temporal variations를 파악
-    <ul>
-      <li>foundation backbone 별로 보면</li>
-      <li>CNN 계열로는 <a href="https://openreview.net/forum?id=zt53IDUR1U">MICN(2023)</a>, <a href="https://arxiv.org/abs/2210.02186">TimesNet(2023)</a>, <a href="https://link.springer.com/article/10.1007/s00500-020-04954-0">TCN(2020)</a>, RNN 계열로는 <a href="https://arxiv.org/abs/1703.07015">LSTNet(2018)</a>, <a href="https://arxiv.org/abs/1704.02971">DA-RNN(2017)</a>, <a href="https://www.sciencedirect.com/science/article/pii/S0169207019301888">DeepAR(2020)</a>이 있고</li>
-      <li>Transformer 계열로는 <a href="https://arxiv.org/abs/2012.07436">Informer(2021)</a>, <a href="https://arxiv.org/abs/2106.13008">Autoformer(2021)</a>, <a href="https://arxiv.org/abs/2201.12740">Fedformer(2022)</a>, <a href="https://arxiv.org/abs/2211.14730">PatchTST(2023)</a>가 있다.</li>
-      <li>그리고 MLP 계열로는 <a href="https://arxiv.org/abs/2205.13504">DLinear(2023)</a>, <a href="https://arxiv.org/abs/2207.01186">LightTS(2022)</a>, <a href="https://arxiv.org/abs/2201.12886">N-hits(2023)</a>가 있다.</li>
-    </ul>
-  </li>
-  <li>지금까지는 그냥 decomposition하고 multiperiodicity 분석
-    <ul>
-      <li>decomposition : predictable component(seasonal, trend)와 complex temporal patterns를 분리</li>
-      <li>multiperiodicity analysis : mixed temporal variations을 주기가 다른 여러 components로 disentangle</li>
-    </ul>
-  </li>
-  <li>본 논문의 intuition : sampling scales가 달라지면 temporal variations도 달라진다.
-    <ul>
-      <li>microscopic information을 담은 fine scale과 macroscopic information을 담고 있는 coarse scales에서의 변동이 joint하게 미래 변동을 결정한다.</li>
-      <li>multiscale mixing을 통해 scale에 따른 변동을 구분하고 그걸 다 고려해서 complementary한 예측을 할 수 있을 것</li>
-    </ul>
-  </li>
-  <li><strong>Past-Decomposable-Mixing</strong> (PDM) : average downsampling을 통해 multiscale observations 생성</li>
-  <li><strong>Future-Multipredictor-Mixing</strong> (FMM) : multiscale에서의 seasonal, trend를 합쳐서 multiple predictors를 ensemble</li>
-</ul>
-
-<h2 id="2-related-work">2. Related Work</h2>
-
-<h3 id="21-temporal-modeling-in-deep-tsf">2.1. Temporal Modeling in Deep TSF</h3>
-
-<ul>
-  <li>Foundation backbones에 따라 4가지 계열로 구분 : CNN, RNN, Transformer, MLP
-    <ul>
-      <li>CNN, RNN-based deep models는 limited receptive field 때문에 long-term forecasting이 어려움</li>
-      <li>Transformer-based models는 long-term temporal depdendencies 파악</li>
-      <li>MLP-based models는 단순한 구조로도 복잡한 모델의 성능만큼 도달할 수 있음을 제시</li>
-    </ul>
-  </li>
-  <li>Temporal multiscale designs models이 있긴 하지만 <a href="https://openreview.net/forum?id=0EXmFzUn5I">Pyraformer(2021)</a>, <a href="https://arxiv.org/abs/2106.09305">SCINet(2022)</a>
-    <ul>
-      <li>예측 과정에서 multiscale information을 동시에 활용하지는 않음</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="22-mixing-networks">2.2. Mixing Networks</h3>
-
-<ul>
-  <li>Computer Vision과 NLP 분야에서 사용되는 mixing <a href="https://arxiv.org/abs/2105.01601">MLP-Mixer(2021)</a>, <a href="https://arxiv.org/abs/2105.03824">FNet(2022)</a></li>
-</ul>
-
-<h2 id="3-timemixer">3. TimeMixer</h2>
-
-<ul>
-  <li>P길이의 과거를 보고 F길이의 미래를 예측</li>
-  <li>disentangled variations(past information extraction) &amp; complementary forecasting(future prediction)</li>
-</ul>
-
-<h3 id="31-multiscale-mixing-architecture">3.1. Multiscale Mixing Architecture</h3>
-
-<p><img src="/assets/img/timeseries/TimeMixer/fig1.png" alt="그림1" /></p>
-
-<ul>
-  <li>
-    <p>먼저 complex variations를 disentangle하기 위해 downsampling한다.</p>
-
-    <ul>
-      <li>\(\mathbf{x} \in \mathbb{R}^{P \times C}\)를 M개의 scale로 downsampling하면</li>
-      <li>\(\mathcal{X}=\left\{\mathbf{x}_0, \cdots, \mathbf{x}_M\right\} \text {, where } \mathbf{x}_m \in \mathbb{R}^{\left\lfloor \frac{P}{2^m}\right\rfloor \times C}, m \in\{0, \cdots, M\}\)를 얻는다.</li>
-      <li>\(C\)는 변수 개수</li>
-      <li>즉 \(\mathbf{x}_0\)는 input 원본이고, \(\mathbf{x}_m\)은 m개씩 average pooling한 것이다.</li>
-      <li>그리고 embedding layer 통과하면 \(\mathcal{X}^0=\operatorname{Embed}(\mathcal{X})\)를 얻는다.</li>
-    </ul>
-  </li>
-  <li>
-    <p>이제 <strong>Past-Decomposable-Mixing</strong> (PDM, for mixing past information)</p>
-
-\[x^l=\operatorname{PDM}\left(x^{l-1}\right),\quad l \in\{0, \cdots, L\}, \quad \mathbf{x}_m^l \in \mathbb{R}^{\left\lfloor\frac{P}{2^m}\right\rfloor \times d_{\text {model }}}\]
-
-    <ul>
-      <li>(자세한 건 다음 section 3.2.)</li>
-    </ul>
-  </li>
-  <li>
-    <p>다음으로 <strong>Future-Multipredictor-Mixing</strong> (FMM, for future prediction)</p>
-
-\[\widehat{\mathbf{x}}=\operatorname{FMM}\left(\mathcal{X}^L\right), \quad \widehat{\mathbf{x}} \in \mathbb{R}^{F \times C}\]
-
-    <ul>
-      <li>(자세한 건 다음 section 3.3.)</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="32-past-decomposable-mixing">3.2. Past Decomposable Mixing</h3>
-
-<ul>
-  <li>
-    <p>Seasonal과 trend는 scale에 따라 다르게 나타나므로</p>
-
-    <ul>
-      <li>Seasonal끼리 scale별로 구해서 mixing, trend끼리 scale별로 구해서 mixing</li>
-    </ul>
-  </li>
-  <li>
-    <p>\(l\)-번째 PDM block에서는</p>
-    <ul>
-      <li>ts \(\mathcal{X}_l\)를 seasonal part \(\mathcal{S}^l=\left\{\mathbf{s}_0^l, \cdots, \mathbf{s}_M^l\right\}\)과 trend parts \(\mathcal{T}^l=\left\{\mathbf{t}_0^l, \cdots, \mathbf{t}_M^l\right\}\)로 decompose</li>
-    </ul>
-
-\[\begin{gathered}
-\mathbf{s}_m^l, \mathbf{t}_m^l=\text { SeriesDecomp }\left(\mathbf{x}_m^l\right), m \in\{0, \cdots, M\}, \\
-\mathcal{X}^l=\mathcal{X}^{l-1}+\text { FeedForward }\left(\operatorname{S-Mix}\left(\left\{\mathbf{s}_m^l\right\}_{m=0}^M\right)+\text { T-Mix }\left(\left\{\mathbf{t}_m^l\right\}_{m=0}^M\right)\right)
-\end{gathered}\]
-
-    <ul>
-      <li>\(\text { FeedForward(} \cdot)\) contains two linear layers w/ GELU</li>
-      <li>\(\operatorname{S}-\operatorname{Mix}(\cdot), T-\operatorname{Mix}(\cdot)\)​는 지금부터 설명할 mixing</li>
-    </ul>
-  </li>
-</ul>
-
-<p><img src="/assets/img/timeseries/TimeMixer/fig2.png" alt="그림2" /></p>
-
-<ul>
-  <li><strong>Seasonal Mixing</strong>
-    <ul>
-      <li>(Box &amp; Jenkins, 1970)의 seasonality analysis에 따르면
-        <ul>
-          <li>larger periods는 smaller periods의 aggregation</li>
-          <li>그러므로 residual하게 bottom-up approach</li>
-          <li>(coarser scales의 seasonality를 위해 lower-level fine-scale 사용)</li>
-          <li>
-\[\text { for } m: 1 \rightarrow M \text { do: } \quad \mathbf{s}_m^l=\mathbf{s}_m^l+\text { Bottom-Up-Mixing }\left(\mathbf{s}_{m-1}^l\right)\]
-            <ul>
-              <li>\(\text { Bottom-Up-Mixing(} \cdot \text {) }\): input dim \(\left\lfloor\frac{P}{2^{m-1}}\right\rfloor\), output dim \(\left\lfloor\frac{P}{2^{m}}\right\rfloor\)인 two linear layers with GELU</li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li><strong>Trend Mixing</strong>
-    <ul>
-      <li>seasonal parts와 반대로
-        <ul>
-          <li>detailed variations는 noise로 보일 뿐이고 coarser scales가 finer scales를 guide</li>
-          <li>그러므로 residual하게 top-down mixing</li>
-          <li>
-\[\text { for } m:(M-1) \rightarrow 0 \text { do: } \quad \mathbf{t}_m^l=\mathbf{t}_m^l+\text { Top-Down-Mixing }\left(\mathbf{t}_{m+1}^l\right)\]
-            <ul>
-              <li>\(\text { Top-Down-Mixing(} \cdot \text {) }\) : : input dim \(\left\lfloor\frac{P}{2^{m+1}}\right\rfloor\), output dim \(\left\lfloor\frac{P}{2^{m}}\right\rfloor\)인 two linear layers with GELU</li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>결론적으로 seasonality는 from fine to coarse, 반대로 trend는 coarse to fine하게 multiscale mixing in past information extraction</li>
-</ul>
-
-<h3 id="33-future-multipredictor-mixing">3.3. Future MultiPredictor Mixing</h3>
-
-<ul>
-  <li>\(L\)개의 PDM block으로 \(\mathcal{X}^L=\left\{\mathbf{x}_0^L, \cdots, \mathbf{x}_M^L\right\}, \mathbf{x}_m^L \in \mathbb{R}^{\left\lfloor\frac{P}{2^m}\right\rfloor \times d_{\text {model }}}\)를 얻었다.</li>
-  <li>서로 다른 scale인 \(\mathbf{x}_m^L\)들은 서로 다른 variations를 present하고 있기 때문에 모든 scale에서 예측을 하고 각각의 예측을 aggregate한다. (ensemble)</li>
-  <li>
-\[\widehat{\mathbf{x}}_m=\operatorname{Predictor}_m\left(\mathbf{x}_m^L\right), m \in\{0, \cdots, M\}, \widehat{\mathbf{x}}=\sum_{m=0}^M \widehat{\mathbf{x}}_m\]
-    <ul>
-      <li>\(\widehat{\mathbf{x}}_m, \widehat{\mathbf{x}} \in \mathbb{R}^{F \times C}\)​</li>
-    </ul>
-  </li>
-  <li>\(\text { Predictor }_m(\cdot)\)은 one single linear layer인데 \(\left\lfloor\frac{P}{2^m}\right\rfloor\)길이의 과거 정보로부터 F 길이의 future를 regress</li>
-  <li>FMM은 mixed multiscale series로 complementary forecasting하는  ensemble of multiple predictors</li>
-</ul>
-
-<h2 id="4-experiments">4. Experiments</h2>
-
-<ul>
-  <li>Summary</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/TimeMixer/table1.png" alt="그림3" /></p>
-
-<ul>
-  <li>Main results</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/TimeMixer/table2.png" alt="그림4" /></p>
-
-<ul>
-  <li>Ablations</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/TimeMixer/table5.png" alt="그림5" /></p>
-
-<ul>
-  <li>Decomposition과 multiscale의 각 components에 대한 visualization</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/TimeMixer/fig3.png" alt="그림6" /></p>
-
-<p><img src="/assets/img/timeseries/TimeMixer/fig4.png" alt="그림7" /></p>
-
-<p><img src="/assets/img/timeseries/TimeLLM/fig1.jpeg" alt="그림8" /></p>
-
-<h2 id="5-conclusion">5. Conclusion</h2>
-
-<ul>
-  <li>Empowered by Past-Decomposable-Mixing and Future- Multipredictor-Mixing blocks, TimeMixer took advantage of both disentangled variations and complementary forecasting capabilities.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2024](https://openreview.net/pdf?id=7oLshfEIC2)]]></summary></entry><entry><title type="html">(Corrformer, NMI 2023) Code Review 3 - Encoder</title><link href="http://localhost:4000/pytorch/2024-05-05-corrformer3/" rel="alternate" type="text/html" title="(Corrformer, NMI 2023) Code Review 3 - Encoder" /><published>2024-05-05T00:00:00+09:00</published><updated>2024-07-02T22:54:50+09:00</updated><id>http://localhost:4000/pytorch/corrformer3</id><content type="html" xml:base="http://localhost:4000/pytorch/2024-05-05-corrformer3/"><![CDATA[<p><img src="/assets/img/pytorch/corrformer0/corrformer010.jpeg" alt="사진10" /></p>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2024](https://openreview.net/pdf?id=lJkOCMP2aW)]]></summary></entry><entry><title type="html">(Corrformer, NMI 2023) Code Review 3 - Encoder</title><link href="http://localhost:4000/pytorch/2024-05-05-corrformer3/" rel="alternate" type="text/html" title="(Corrformer, NMI 2023) Code Review 3 - Encoder" /><published>2024-05-05T00:00:00+09:00</published><updated>2024-07-02T22:54:50+09:00</updated><id>http://localhost:4000/pytorch/corrformer3</id><content type="html" xml:base="http://localhost:4000/pytorch/2024-05-05-corrformer3/"><![CDATA[<p><img src="/assets/img/pytorch/corrformer0/corrformer010.jpeg" alt="사진10" /></p>
 <ul>
   <li>우리는 <code class="language-plaintext highlighter-rouge">exp_main</code>의 <code class="language-plaintext highlighter-rouge">train</code> 메소드를 실행하고 있다.</li>
   <li><code class="language-plaintext highlighter-rouge">get_data</code>는 이미 살펴보았고 <code class="language-plaintext highlighter-rouge">self.model</code>에 들어가는 Corrformer를 이해하기 위해 <code class="language-plaintext highlighter-rouge">Corrformer.py</code>를 살펴보고 있다.
@@ -1000,43 +1227,4 @@ estimator는 \(\widehat{r}(x)=\sum_{i=1}^n w_i(x) Y_i\) where \(w_i(x)=\frac{K\l
 
 <ul>
   <li>다음 포스팅부터는 <code class="language-plaintext highlighter-rouge">outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)</code>에서 무슨 일이 일어나는지 알아보기 위해 <code class="language-plaintext highlighter-rouge">Exp_Main</code>에서 <code class="language-plaintext highlighter-rouge">arg.model</code>로 사용하게 되는 <code class="language-plaintext highlighter-rouge">Corrformer.py</code>에 있는 <code class="language-plaintext highlighter-rouge">Model</code> 클래스를 살펴보면서 모델을 이해해보도록 한다.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="pytorch" /><summary type="html"><![CDATA[[Corrformer github](https://github.com/thuml/Corrformer)]]></summary></entry><entry><title type="html">(Corrformer, NMI 2023) Code Review 0 - Code Structure</title><link href="http://localhost:4000/pytorch/2024-04-29-corrformer0/" rel="alternate" type="text/html" title="(Corrformer, NMI 2023) Code Review 0 - Code Structure" /><published>2024-04-29T00:00:00+09:00</published><updated>2024-07-02T22:54:50+09:00</updated><id>http://localhost:4000/pytorch/corrformer0</id><content type="html" xml:base="http://localhost:4000/pytorch/2024-04-29-corrformer0/"><![CDATA[<p><img src="/assets/img/pytorch/corrformer0/corrformer01.png" alt="사진1" />
-<img src="/assets/img/pytorch/corrformer0/corrformer02.png" alt="사진2" /></p>
-
-<ul>
-  <li><a href="https://github.com/thuml/Corrformer">Corrformer github</a>에서 <code class="language-plaintext highlighter-rouge">Corrformer.sh</code>를 확인하면 되겠다.</li>
-</ul>
-
-<h3 id="corrformersh">Corrformer.sh</h3>
-
-<p><img src="/assets/img/pytorch/corrformer0/corrformer03.png" alt="사진3" /></p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">run.py</code>를 보도록 한다.</li>
-</ul>
-
-<h3 id="runpy">run.py</h3>
-
-<p><img src="/assets/img/pytorch/corrformer0/corrformer04.png" alt="사진4" /></p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">exp.train</code>, <code class="language-plaintext highlighter-rouge">exp.test</code>, <code class="language-plaintext highlighter-rouge">exp.predict</code>를 실행하는데 <code class="language-plaintext highlighter-rouge">exp</code>는 <code class="language-plaintext highlighter-rouge">Exp(args)</code>이고, <code class="language-plaintext highlighter-rouge">Exp</code>는 <code class="language-plaintext highlighter-rouge">Exp_main</code>이다.</li>
-</ul>
-
-<p><img src="/assets/img/pytorch/corrformer0/corrformer05.png" alt="사진5" /></p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">Exp_main</code>은 <code class="language-plaintext highlighter-rouge">exp</code> 폴더 안에 있는 <code class="language-plaintext highlighter-rouge">exp_main.py</code>에 있는 함수 <code class="language-plaintext highlighter-rouge">Exp_Main</code>이 되겠다.</li>
-</ul>
-
-<h3 id="exp_mainpy">exp_main.py</h3>
-
-<p><img src="/assets/img/pytorch/corrformer0/corrformer06.png" alt="사진6" /></p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">Exp_Main</code>이라는 함수에서 <code class="language-plaintext highlighter-rouge">_build_model</code>에서 <code class="language-plaintext highlighter-rouge">Corrformer</code>를 불러온다.</li>
-  <li>(수정) 그런 줄 알았는데 <code class="language-plaintext highlighter-rouge">Exp_Main</code>의 <code class="language-plaintext highlighter-rouge">train</code>에서 <code class="language-plaintext highlighter-rouge">_build_model</code>가 실행되지 않는다 !</li>
-  <li>그 말은 <code class="language-plaintext highlighter-rouge">_build_model</code>에서가 아니라 <code class="language-plaintext highlighter-rouge">Corrformer.sh</code>에서 받은 parameter <code class="language-plaintext highlighter-rouge">Corrformer</code>를 그대로 받음을 의미한다.</li>
-  <li>결과적으로는 <code class="language-plaintext highlighter-rouge">self.model</code>에 Corrformer가 들어간다는 건 변함이 없다.</li>
-  <li>아무튼 앞서 <code class="language-plaintext highlighter-rouge">run.py</code>에서는 <code class="language-plaintext highlighter-rouge">Exp_Main.train</code>을 실행했기 때문에 다음 포스팅부터는 <code class="language-plaintext highlighter-rouge">train</code> 함수부터 보도록 한다.</li>
 </ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="pytorch" /><summary type="html"><![CDATA[[Corrformer github](https://github.com/thuml/Corrformer)]]></summary></entry></feed>

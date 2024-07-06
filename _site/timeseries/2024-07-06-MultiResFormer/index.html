@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en"><!--
+ __  __                __                                     __
+/\ \/\ \              /\ \             __                    /\ \
+\ \ \_\ \   __  __    \_\ \      __   /\_\      __       ___ \ \ \/'\
+ \ \  _  \ /\ \/\ \   /'_` \   /'__`\ \/\ \   /'__`\    /'___\\ \ , <
+  \ \ \ \ \\ \ \_\ \ /\ \L\ \ /\  __/  \ \ \ /\ \L\.\_ /\ \__/ \ \ \\`\
+   \ \_\ \_\\/`____ \\ \___,_\\ \____\ _\ \ \\ \__/.\_\\ \____\ \ \_\ \_\
+    \/_/\/_/ `/___/> \\/__,_ / \/____//\ \_\ \\/__/\/_/ \/____/  \/_/\/_/
+                /\___/                \ \____/
+                \/__/                  \/___/
+
+Powered by Hydejack v9.1.6 <https://hydejack.com/>
+-->
+
+
+
+
+
+
+
+<head>
+  
+
+
+
+
+
+
+  
+    
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>MultiResFormer: Transformer with Adaptive Multi-Resolution Modeling for General Time Series Forecasting (Arxiv 2023) | LpppJ</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="MultiResFormer: Transformer with Adaptive Multi-Resolution Modeling for General Time Series Forecasting (Arxiv 2023)" />
+<meta name="author" content="GW Jeong" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Arxiv 2023" />
+<meta property="og:description" content="Arxiv 2023" />
+<link rel="canonical" href="http://localhost:4000/timeseries/2024-07-06-MultiResFormer/" />
+<meta property="og:url" content="http://localhost:4000/timeseries/2024-07-06-MultiResFormer/" />
+<meta property="og:site_name" content="LpppJ" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-07-06T00:00:00+09:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="MultiResFormer: Transformer with Adaptive Multi-Resolution Modeling for General Time Series Forecasting (Arxiv 2023)" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-07-06T12:22:53+09:00","datePublished":"2024-07-06T00:00:00+09:00","description":"Arxiv 2023","headline":"MultiResFormer: Transformer with Adaptive Multi-Resolution Modeling for General Time Series Forecasting (Arxiv 2023)","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/timeseries/2024-07-06-MultiResFormer/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/timeseries/2024-07-06-MultiResFormer/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  
+
+
+
+  <meta name="theme-color" content="rgb(230, 217, 195)">
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="LpppJ">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<meta name="application-name" content="LpppJ">
+
+<meta name="generator" content="Hydejack v9.1.6" />
+
+
+<link rel="alternate" href="http://localhost:4000/timeseries/2024-07-06-MultiResFormer/" hreflang="en">
+
+<link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="LpppJ" />
+
+
+<link rel="shortcut icon"    href="/assets/icons/favicon.ico">
+<link rel="apple-touch-icon" href="/assets/icons/icon-192x192.png">
+
+<link rel="manifest" href="/assets/site.webmanifest">
+
+<link rel="dns-prefetch" href="https://fonts.googleapis.com"><link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+
+
+<link rel="preload" href="/assets/img/swipe.svg" as="image" id="_hrefSwipeSVG">
+
+
+
+
+
+
+<script>!function(r,c){"use strict";function a(e,t,n,o){e.addEventListener?e.addEventListener(t,n,o):e.attachEvent?e.attachEvent("on"+t,n):e["on"+t]=n}r.loadJS=function(e,t){var n=c.createElement("script"),e=(n.src=e,t&&a(n,"load",t,{once:!0}),c.scripts[0]);return e.parentNode.insertBefore(n,e),n},r._loaded=!1,r.loadJSDeferred=function(e,t){var n=c.createElement("script");function o(){r._loaded=!0,t&&a(n,"load",t,{once:!0});var e=c.scripts[0];e.parentNode.insertBefore(n,e)}return n.src=e,r._loaded?o():a(r,"load",o,{once:!0}),n},r.setRel=r.setRelStylesheet=function(e){a(c.getElementById(e),"load",function(){this.rel="stylesheet"},{once:!0})}}(window,document);
+!function(a){"use strict";var b=function(b,c,d){function e(a){return h.body?a():void setTimeout(function(){e(a)})}function f(){i.addEventListener&&i.removeEventListener("load",f),i.media=d||"all"}var g,h=a.document,i=h.createElement("link");if(c)g=c;else{var j=(h.body||h.getElementsByTagName("head")[0]).childNodes;g=j[j.length-1]}var k=h.styleSheets;i.rel="stylesheet",i.href=b,i.media="only x",e(function(){g.parentNode.insertBefore(i,c?g:g.nextSibling)});var l=function(a){for(var b=i.href,c=k.length;c--;)if(k[c].href===b)return a();setTimeout(function(){l(a)})};return i.addEventListener&&i.addEventListener("load",f),i.onloadcssdefined=l,l(f),i};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
+!function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(b){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
+!function(w) {
+  w._baseURL = '/';
+  w._publicPath = '/assets/js/';
+  w._noPushState = false;
+  w._noDrawer = false;
+  w._noNavbar = false;
+  w._noToc = false;
+  w._noSearch = false;
+  w._search = {
+    DATA_URL: '/assets/sitedata.json?no-cache',
+    STORAGE_KEY: 'mini-search/',
+    INDEX_KEY: 'index--2024-07-06T12:22:55+09:00',
+  };
+  w._clapButton = true;
+}(window);</script>
+
+
+<script async src="/assets/bower_components/MathJax/es5/tex-mml-chtml.js" id="_MathJax"></script>
+
+
+<!--[if gt IE 8]><!---->
+
+  
+
+
+
+
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css" id="_iconsPreload">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:700%7CNoto+Sans:400,400i,700,700i&display=swap" id="_fontsPreload">
+
+
+
+  <style id="_pageStyle">
+
+html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5);--accent-color-highlight: rgba(94, 97, 94, 0.1);--accent-color-darkened: #4b4e4b;--theme-color: rgb(230, 217, 195)}
+</style>
+
+
+<!--<![endif]-->
+
+
+
+
+</head>
+
+<body class="no-break-layout">
+  
+
+
+<hy-push-state
+  id="_pushState"
+  replace-selector="#_main"
+  link-selector="a[href]:not([href^='/assets/']):not(.external):not(.no-push-state)"
+  script-selector="script"
+  duration="500"
+  hashchange
+>
+  
+  
+  <div id="_navbar" class="navbar fixed-top">
+  <div class="content">
+    <span class="sr-only">Jump to:</span>
+    <div class="nav-btn-bar">
+      <a id="_menu" class="nav-btn no-hover" href="#_drawer--opened">
+        <span class="sr-only">Navigation</span>
+        <span class="icon-menu"></span>
+      </a>
+      <div class="nav-span"></div>
+    </div>
+  </div>
+</div>
+<hr class="sr-only" hidden />
+
+  <main
+  id="_main"
+  class="content layout-post"
+  role="main"
+>
+  <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+    <li><a href="/">home</a></li>
+    
+      <li>
+        
+          <span>/</span>
+          
+          
+          <a href="/timeseries/">timeseries</a>
+        
+      </li>
+    
+      <li>
+        
+          <span>/</span>
+          <span>2024-07-06-MultiResFormer</span>
+        
+      </li>
+    
+  
+</ul></nav>
+  
+
+
+
+
+
+
+
+
+
+
+<article id="post-timeseries-MultiResFormer" class="page post mb6" role="article">
+  <header>
+    <h1 class="post-title flip-project-title">
+      
+        MultiResFormer: Transformer with Adaptive Multi-Resolution Modeling for General Time Series Forecasting (Arxiv 2023)
+      
+    </h1>
+
+    <div class="post-date">
+      
+      <span class="ellipsis mr1">
+        <time datetime="2024-07-06T00:00:00+09:00">06 Jul 2024</time> in <span>Timeseries</span> 
+      </span>
+      
+    </div>
+
+    
+    
+
+    
+
+
+
+  
+    <p class="note-sm" >
+      <a href="https://arxiv.org/pdf/2311.18780">Arxiv 2023</a>
+
+    </p>
+  
+
+
+  </header>
+
+  
+    <h2 id="abstract">Abstract</h2>
+
+<ul>
+  <li>Transformer-based models는 TS를 segments로 나눠서 encode (<strong>patches</strong>)
+    <ul>
+      <li>다양한 <strong>scale</strong>(i.e.. <strong>resolutions</strong>)에서의 TS를 모델링</li>
+    </ul>
+  </li>
+  <li>하지만 pre-defined scale(patch의 길이)은…
+    <ul>
+      <li>variety of intricate temporal dependencies를 찾기 어려움</li>
+    </ul>
+  </li>
+  <li>그래서 MultiResFormer는 adaptive time scale.
+    <ul>
+      <li>patch length를 주어진 데이터의 주기성을 보고 찾겠다</li>
+      <li>그 다음 intraperiod and interperiod dependencies 학습</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="1-introduction">1. Introduction</h2>
+
+<ul>
+  <li>TSF를 위한 vanila Transformer의 modification 3:</li>
+  <li>첫째. Efficient attention mechanisms for sub-quadratic attention computation
+    <ul>
+      <li><a href="https://arxiv.org/pdf/1907.00235">LogTrans(2019)</a>, <a href="https://arxiv.org/pdf/2012.07436">Informer(2021)</a>, <a href="https://openreview.net/pdf?id=0EXmFzUn5I">Pyraformer(2022)</a></li>
+    </ul>
+  </li>
+  <li>둘째. Breaking the point-wise nature of dot-product attention for segment or series level dependency modeling
+    <ul>
+      <li><a href="https://arxiv.org/pdf/1907.00235">LogTrans(2019)</a>, <a href="https://arxiv.org/pdf/2106.13008">Autoformer(2021)</a>, <a href="https://arxiv.org/pdf/2201.12740">Fedformer(2022)</a>, <a href="https://arxiv.org/pdf/2211.14730">PatchTST(2023)</a>, <a href="https://openreview.net/pdf?id=vSVLM2j9eie">Crossformer(2023)</a></li>
+    </ul>
+  </li>
+  <li>셋째. Modeling sequences at multiple time scales with hierarchical representation learning
+    <ul>
+      <li><a href="https://arxiv.org/pdf/1907.00235">LogTrans(2019)</a>, <a href="https://arxiv.org/pdf/2204.13767">Triformer(2022)</a>, <a href="https://arxiv.org/pdf/2206.04038">Scaleformer(2023)</a>, <a href="https://openreview.net/pdf?id=lJkOCMP2aW">Pathformer(2024)</a></li>
+    </ul>
+  </li>
+  <li>하지만 세 번째 multi-scale methods의 경우 pre-defined resolution으로 인해 generalization이 안된다.</li>
+  <li>그래서 본 논문에서는 데이터의 underlying periodicities을 파악해서 데이터에 맞게 multi-resolution view</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/MultiResFormer/fig1.png" alt="그림1" /></p>
+
+<ul>
+  <li>본 논문에서는 two core Transformer sublayers를 repurpose:
+    <ul>
+      <li><strong>Multi-headed attention</strong> for “interperiod” variation modeling
+        <ul>
+          <li>MHA는 전역적인 패치 간 의존성을 모델링하는 데 강점을 가지고 있어 interperiod 변동을 모델링하는 데 적합</li>
+        </ul>
+      </li>
+      <li><strong>Position-wise Feed-Forward network</strong> for “intraperiod” variation modeling
+        <ul>
+          <li>FFN은 각 위치 내의 복잡한 의존성을 모델링하는 데 강점을 가지고 있어 intraperiod 변동을 모델링하는 데 적합</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>고려해야 할 사항들
+    <ul>
+      <li>어떻게 different resolution branches끼리 parameter-sharing을 할까 ?
+        <ul>
+          <li>일단 parameter-sharing을 해야 특정 scale에 overfitting되는 걸 방지하는 건 맞음</li>
+          <li>patch length 모르니까 linear projection 못 쓰고, 그냥 padding하는 건 모델 학습을 방해함</li>
+          <li>그래서 각 scale에서의 patches의 길이를 맞추기 위한 <strong>interpolation scheme</strong> 사용</li>
+          <li>그리고 <strong>resolution embedding</strong>으로 scale-awareness</li>
+        </ul>
+      </li>
+      <li>계산 복잡도를 어떻게 줄일까 ?
+        <ul>
+          <li>이미 interpolation scheme으로 patches의 길이를 맞춰줬으니 별도의 embedding 필요 없음
+            <ul>
+              <li>Dlinear model의 성공 사례에서 영감 받음</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="2-related-work">2. Related Work</h2>
+
+<h3 id="time-series-transformer">Time series Transformer</h3>
+
+<ul>
+  <li>Transformer의 quadratic complexity 때문에 longer series는 모델링하기 어려웠음
+    <ul>
+      <li><a href="https://arxiv.org/pdf/1907.00235">LogTrans(2019)</a> : sparse attention blocks where each token attends to others with an exponential step size</li>
+      <li><a href="https://arxiv.org/pdf/2012.07436">Informer(2021)</a> : entropy-based measurement to filter out uninformative keys for \(O(N)\)</li>
+      <li><a href="https://arxiv.org/pdf/2204.13767">Triformer(2022)</a>, <a href="https://openreview.net/pdf?id=0EXmFzUn5I">Pyraformer(2022)</a> : adopt CNN-like approaches for local attention operations</li>
+      <li><a href="https://arxiv.org/pdf/2211.14730">PatchTST(2023)</a> : patch단위로 attention 연산 하니까 \(O(N^2/S^2)\)</li>
+    </ul>
+  </li>
+  <li>단일 시점의 데이터는 정보가 별로 없음 (<a href="https://arxiv.org/pdf/2211.14730">PatchTST(2023)</a>)
+    <ul>
+      <li>단일 시점을 토큰으로 하는 transformer는 localized patterns을 간과할 수 있음</li>
+    </ul>
+  </li>
+  <li>channel-mixing embedding은 over-fitting 발생시킬 수 있음 (<a href="https://arxiv.org/pdf/2211.14730">PatchTST(2023)</a>)</li>
+</ul>
+
+<h3 id="multi-resolution-time-series-modeling">Multi-Resolution Time Series Modeling</h3>
+
+<ul>
+  <li><a href="https://arxiv.org/pdf/2210.02186">TimesNet(2023)</a>에서 adaptive multi-resolution modeling 하긴 함
+    <ul>
+      <li>하지만 input length를 맞춰줘야 해서 flatten해야 하고 longer series 예측 못함</li>
+      <li>channel-mixing embedding이 불가피해서 overfitting</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="3-adaptive-multi-resolution-time-series-modeling-with-transformers">3. Adaptive Multi-Resolution Time Series Modeling with Transformers</h2>
+
+<ul>
+  <li>\(\mathbf{X}_{1 \ldots I}=\left(\mathbf{x}_1, \ldots, \mathbf{x}_I\right) \in \mathbb{R}^{I \times V}\)로 \(\mathbf{X}_{I+1 \ldots I+O}=\left(\mathbf{x}_{I+1}, \ldots, \mathbf{x}_{I+O}\right) \in \mathbb{R}^{O \times V}\)​ 예측</li>
+</ul>
+
+<h3 id="31-multiresformer">3.1. MultiResFormer</h3>
+
+<p><img src="/assets/img/timeseries/MultiResFormer/fig2.png" alt="그림2" /></p>
+
+<ul>
+  <li>The periodicity-aware patching module, detecting salient periodicities (section 3.2.)</li>
+  <li>The Transformer Encoder block, shared across all resolution branches (section 3.3.)</li>
+  <li>aggregate the representations derived within each resolution branch into \(\mathbf{X}^{(l)} \in \mathbf{R}^{I \times V}\)​ (section 3.4.)</li>
+</ul>
+
+<h3 id="32-salient-periodicity-detection">3.2. Salient Periodicity Detection</h3>
+
+<ul>
+  <li>
+    <p>salient periodicites of the input series는 Fast Fourier Transform (FFT)으로 찾음</p>
+
+\[\begin{aligned}
+\mathbf{A} &amp; =\operatorname{Avg}(\operatorname{Amp}(\operatorname{FFT}(\mathbf{X}))) \\
+\left\{f_1, \ldots, f_k\right\} &amp; =\underset{f_* \in\left\{1, \ldots,\left\lfloor\frac{I}{2}\right\rfloor\right\}}{\operatorname{argTopk}}(\mathbf{A}) \\
+\text { Period }_i &amp; =\left\lceil\frac{I}{f_i}\right\rceil
+\end{aligned}\]
+  </li>
+  <li>
+    <p>Gradient-based 방식이 아니라서 미분이 필요없음</p>
+  </li>
+</ul>
+
+<h3 id="33-multi-resolution-modeling-with-a-shared-transformer-block">3.3. Multi-Resolution Modeling with a Shared Transformer Block</h3>
+
+<ul>
+  <li>PatchTST처럼 fixed patch length 사용할 땐 high-dimensional embeddings을 위한 linear transformations가 필요했는데, 이제는 patch embedding layers가 필요없어짐 (efficient)</li>
+  <li>다양한 patch length를 사용한다고 해서 길이를 맞춰주기 위해 padding을 한다고 하더라도, MHA와 FFN에는 masking mechanism이 없기 때문에 모델 성능 저하
+    <ul>
+      <li>그러므로 interpolation으로 original patches의 temporal characteristics 보존</li>
+    </ul>
+  </li>
+  <li>one resolution branch의 Periodi가 주어지면 길이 Periodi의 겹치치 않는 patch로 분할
+    <ul>
+      <li>그 다음 길이 d가 되도록 linearly interpolate</li>
+      <li>shape of the patch-based representation of the input series : \(V \times\left\lceil\frac{I}{\text { Period }_i}\right\rceil \times d\)</li>
+    </ul>
+  </li>
+  <li>각 resolution branch에서 same-sized patches로 연산이 이루어지기 때문에 resolution embedding을 linearly interpolate에 더해줌 (transformer block에게 해상도 알려주기 위해)</li>
+  <li>MHA to capture patch-wise dependencies (interperiod variation modeling)
+    <ul>
+      <li>FFN layers for capturing dependencies within each patch (intraperiod variation modeling)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="34-adaptive-aggregation">3.4. Adaptive Aggregation</h3>
+
+<ul>
+  <li>i 번째 resolution에서 representation의 shape은 \(V \times\left\lceil\frac{I}{\text { Period }_i}\right\rceil \times d\)​</li>
+  <li>interpolation으로 \(I \times V\)로 representation</li>
+  <li>
+    <p>\(I \times V\)으로 표현된 모든 k개의 resolution에서의 representation을 adaptive aggregation:</p>
+
+\[\begin{aligned}
+  &amp; \left\{A_1, \ldots, A_k\right\}=\underset{f_* \in\left\{1, \ldots,\left\lfloor\frac{I}{2}\right\rfloor\right\}}{\operatorname{Topk}}(\mathbf{A}) \\
+  &amp; \left\{w_1, \ldots, w_k\right\}=\operatorname{Softmax}\left(\left\{A_1, \ldots, A_k\right\}\right)
+  \end{aligned}\]
+  </li>
+</ul>
+
+<h2 id="4-experiments">4. Experiments</h2>
+
+<ul>
+  <li>Main Results</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/MultiResFormer/table12.png" alt="그림3" /></p>
+
+<ul>
+  <li>Ablation Study</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/MultiResFormer/table4.png" alt="그림4" /></p>
+
+<ul>
+  <li>Varying Look-back Window Size</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/MultiResFormer/fig3.png" alt="그림5" /></p>
+
+<ul>
+  <li>Representation analysis</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/MultiResFormer/fig4.png" alt="그림6" /></p>
+
+<ul>
+  <li>Efficiency Comparison</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/MultiResFormer/fig5.png" alt="그림7" /></p>
+
+<h2 id="5-conclusion">5. Conclusion</h2>
+
+<ul>
+  <li>각 transformer blocks 내에서 FFT로 데이터의 underlying periodicities를 파악하고 resolution 결정</li>
+  <li>각 transformer blocks 내에서 interpolation 덕분에 resolution끼리 parameter sharing</li>
+  <li>블록 내의 encoder는 interpolation으로 input size와 output representation의 size가 같아서
+    <ul>
+      <li>embedding layer가 필요없고 final linear prediction head layer에서의 parameters 개수가 적음</li>
+    </ul>
+  </li>
+</ul>
+
+  
+</article>
+
+
+
+  <hr class="dingbat related mb6" />
+
+
+
+
+
+
+  
+     
+
+
+  <aside class="about related mt4 mb4" role="complementary">
+    
+    
+
+<div class="author mt4">
+  
+
+  
+    
+
+
+<img
+  
+    src="https://via.placeholder.com/128x128"
+    srcset="/assets/img/me/me.JPG 1x,/assets/img/me/me.JPG 2x"
+    
+  
+  alt="GW Jeong"
+  class="avatar"
+  
+  width="120"
+  height="120"
+  loading="lazy"
+/>
+
+  
+
+  
+  
+  <h2  class="page-title hr-bottom">
+    About
+  </h2>
+
+  <p>Bachelor’s degree in Applied Statistics. Yonsei Univ. (2018~2024) <br />
+DataScienceLab 8th 학회장 (2022~2023) <br />
+Master’s degree in Statitstics. Yonsei Univ. (2024~)</p>
+
+
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+
+  </aside>
+
+
+  
+
+  
+  
+
+  
+    
+
+
+  
+
+  
+  
+
+  
+    
+
+  
+
+
+  
+<footer class="content" role="contentinfo">
+  <hr/>
+  
+    <p><small class="copyright">© Geonwoo Jeong.
+</small></p>
+  
+  
+    <p><small>Powered by <a class="external" href="https://hydejack.com/">Hydejack</a> v<span id="_version">9.1.6</span></small></p>
+  <hr class="sr-only"/>
+</footer>
+
+
+</main>
+
+  <hy-drawer
+  id="_drawer"
+  class=""
+  side="left"
+  threshold="10"
+  noscroll
+  
+>
+  <header id="_sidebar" class="sidebar" role="banner">
+    
+
+
+
+
+<div class="sidebar-bg sidebar-overlay" style="background-color:rgb(230, 217, 195);background-image:url(/assets/img/me/sidebar.jpg)"></div>
+
+    <div class="sidebar-sticky">
+  <div class="sidebar-about">
+    
+      <a class="no-hover" href="/" tabindex="-1">
+        <img src="/assets/img/me/logo.jpg" class="avatar" alt="LpppJ" width="120" height="120" loading="lazy" />
+      </a>
+    
+    <a class="sidebar-title" href="/"><h2 class="h1">LpppJ</h2></a>
+    
+    
+      <p class="">
+        DataScience and AI
+
+      </p>
+    
+  </div>
+
+  <nav class="sidebar-nav heading" role="navigation">
+    <span class="sr-only">Navigation:</span>
+<ul>
+  
+    
+      
+      <li>
+        <a
+          id="_drawer--opened"
+          href="/timeseries/"
+          class="sidebar-nav-item "
+          
+        >
+          TimeSeries
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/pytorch/"
+          class="sidebar-nav-item "
+          
+        >
+          Pytorch
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/stat/"
+          class="sidebar-nav-item "
+          
+        >
+          Statistics
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/project/"
+          class="sidebar-nav-item "
+          
+        >
+          Project
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/presentation/"
+          class="sidebar-nav-item "
+          
+        >
+          Presentation
+        </a>
+      </li>
+    
+  
+</ul>
+
+  </nav>
+
+  
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+  </header>
+</hy-drawer>
+<hr class="sr-only" hidden />
+
+</hy-push-state>
+
+
+  <!--[if gt IE 10]><!---->
+  <script nomodule>!function(){var t,n=document.createElement("script");!("noModule"in n)&&"onbeforeload"in n&&(t=!1,document.addEventListener("beforeload",function(e){if(e.target===n)t=!0;else if(!e.target.hasAttribute("nomodule")||!t)return;e.preventDefault()},!0),n.type="module",n.src=".",document.head.appendChild(n),n.remove())}();
+</script>
+  <script src="/assets/js/hydejack-9.1.6.js" type="module"></script>
+  <script src="/assets/js/LEGACY-hydejack-9.1.6.js" nomodule defer></script>
+  
+
+  
+
+<!--<![endif]-->
+  <!-- <script>
+  document.querySelector('hy-push-state').setAttribute('prefetch', '');
+
+  document.querySelectorAll('.sidebar a[href^="/"]').forEach(function (el) { 
+    el.addEventListener('click', function (e) {
+      if (el.pathname === window.location.pathname) {
+        e.preventDefault();
+        e.stopPropagation();
+        document.querySelector('hy-drawer').close();
+      }
+    });
+  });
+</script> -->
+
+<!--
+Code for integrating CloudFlare's email protection with Hydejack's single page app loading.
+-->
+<script>
+  document.getElementById('_pushState').addEventListener('hy-push-state-after', function (e) {
+    function e(e){
+      (console.error?console.error:console.log).call(console,e)
+    }
+
+    function t(e){
+      return l.innerHTML='<a href="'+e.replace(/"/g,"&quot;")+'"></a>',l.childNodes[0].getAttribute("href")
+    }
+
+    function r(e,t){
+      var r=e.substr(t,2);return parseInt(r,16)
+    }
+
+    function n(e,n){
+      for(var o="",c=r(e,n),a=n+2;a<e.length;a+=2){
+        var l=r(e,a)^c;
+        o+=String.fromCharCode(l)
+      }
+      return t(o)
+    }
+
+    var o="/cdn-cgi/l/email-protection#",
+        c=".__cf_email__",
+        a="data-cfemail",
+        l=document.createElement("div");
+
+    !function(){
+      for(var t=document.getElementsByTagName("a"),r=0;r<t.length;r++)
+        try{
+          var c=t[r],a=c.href.indexOf(o);
+          a>-1&&(c.href="mailto:"+n(c.href,a+o.length))
+        }catch(t){
+          e(t)
+        }
+    }(),
+    function(){
+      for(var t=document.querySelectorAll(c),r=0;r<t.length;r++)
+        try{
+          var o=t[r],l=n(o.getAttribute(a),0),i=document.createTextNode(l);
+          o.parentNode.replaceChild(i,o)
+        }catch(t){
+          e(t)
+        }
+    }()
+  });
+</script>
+
+
+
+
+
+<div hidden>
+  
+  <h2 class="sr-only">Templates (for web app):</h2>
+
+  <template id="_animation-template">
+  <div class="animation-main fixed-top">
+    <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+</ul></nav>
+    <div class="content">
+      <div class="page"></div>
+    </div>
+  </div>
+</template>
+
+  <template id="_loading-template">
+  <div class="loading nav-btn fr">
+    <span class="sr-only">Loading…</span>
+    <span class="icon-cog"></span>
+  </div>
+</template>
+
+  <template id="_error-template">
+  <div class="page">
+    <h1 class="page-title">Error</h1>
+    
+    
+    <p class="lead">
+      Sorry, an error occurred while loading <a class="this-link" href=""></a>.
+
+    </p>
+  </div>
+</template>
+
+  <template id="_permalink-template">
+  <a href="#" class="permalink">
+    <span class="sr-only">Permalink</span>
+    <span class="content-hash"></span>
+  </a>
+</template>
+
+</div>
+
+
+</body>
+</html>

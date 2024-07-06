@@ -50,7 +50,9 @@ permalink: /timeseries/
 \
 [Pathformer: Multi-scale Transformers with Adaptive Pathways for Time Series Forecasting (ICLR 2024)]{:.heading.flip-title}\
 \
-[TimeMixer: Decomposable Multiscale Mixing for Time Series Forecasting (ICLR 2024)]{:.heading.flip-title}
+[TimeMixer: Decomposable Multiscale Mixing for Time Series Forecasting (ICLR 2024)]{:.heading.flip-title}\
+\
+[MultiResFormer: Transformer with Adaptive Multi-Resolution Modeling for General Time Series Forecasting (Arxiv 2023)]{:.heading.flip-title}
 
 
 
@@ -80,3 +82,4 @@ permalink: /timeseries/
 [Corrformer: Interpretable weather forecasting for worldwide stations with a unified deep model (NMI 2023)]: /timeseries/2024-04-29-Corrformer
 [Pathformer: Multi-scale Transformers with Adaptive Pathways for Time Series Forecasting (ICLR 2024)]: /timeseries/2024-05-23-Pathformer
 [TimeMixer: Decomposable Multiscale Mixing for Time Series Forecasting (ICLR 2024)]: /timeseries/2024-05-23-Timemixer
+[MultiResFormer: Transformer with Adaptive Multi-Resolution Modeling for General Time Series Forecasting (Arxiv 2023)]: /timeseries/2024-07-06-MultiResFormer
