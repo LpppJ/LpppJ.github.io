@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en"><!--
+ __  __                __                                     __
+/\ \/\ \              /\ \             __                    /\ \
+\ \ \_\ \   __  __    \_\ \      __   /\_\      __       ___ \ \ \/'\
+ \ \  _  \ /\ \/\ \   /'_` \   /'__`\ \/\ \   /'__`\    /'___\\ \ , <
+  \ \ \ \ \\ \ \_\ \ /\ \L\ \ /\  __/  \ \ \ /\ \L\.\_ /\ \__/ \ \ \\`\
+   \ \_\ \_\\/`____ \\ \___,_\\ \____\ _\ \ \\ \__/.\_\\ \____\ \ \_\ \_\
+    \/_/\/_/ `/___/> \\/__,_ / \/____//\ \_\ \\/__/\/_/ \/____/  \/_/\/_/
+                /\___/                \ \____/
+                \/__/                  \/___/
+
+Powered by Hydejack v9.1.6 <https://hydejack.com/>
+-->
+
+
+
+
+
+
+
+<head>
+  
+
+
+
+
+
+
+  
+    
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>TimesNet: Temporal 2D-Variation Modeling for General Time Series Analysis (ICLR 2023) | LpppJ</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="TimesNet: Temporal 2D-Variation Modeling for General Time Series Analysis (ICLR 2023)" />
+<meta name="author" content="GW Jeong" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="ICLR 2023" />
+<meta property="og:description" content="ICLR 2023" />
+<link rel="canonical" href="http://localhost:4000/timeseries/2024-07-08-TimesNet/" />
+<meta property="og:url" content="http://localhost:4000/timeseries/2024-07-08-TimesNet/" />
+<meta property="og:site_name" content="LpppJ" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-07-08T00:00:00+09:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="TimesNet: Temporal 2D-Variation Modeling for General Time Series Analysis (ICLR 2023)" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-07-08T13:16:35+09:00","datePublished":"2024-07-08T00:00:00+09:00","description":"ICLR 2023","headline":"TimesNet: Temporal 2D-Variation Modeling for General Time Series Analysis (ICLR 2023)","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/timeseries/2024-07-08-TimesNet/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/timeseries/2024-07-08-TimesNet/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  
+
+
+
+  <meta name="theme-color" content="rgb(230, 217, 195)">
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="LpppJ">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<meta name="application-name" content="LpppJ">
+
+<meta name="generator" content="Hydejack v9.1.6" />
+
+
+<link rel="alternate" href="http://localhost:4000/timeseries/2024-07-08-TimesNet/" hreflang="en">
+
+<link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="LpppJ" />
+
+
+<link rel="shortcut icon"    href="/assets/icons/favicon.ico">
+<link rel="apple-touch-icon" href="/assets/icons/icon-192x192.png">
+
+<link rel="manifest" href="/assets/site.webmanifest">
+
+<link rel="dns-prefetch" href="https://fonts.googleapis.com"><link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+
+
+<link rel="preload" href="/assets/img/swipe.svg" as="image" id="_hrefSwipeSVG">
+
+
+
+
+
+
+<script>!function(r,c){"use strict";function a(e,t,n,o){e.addEventListener?e.addEventListener(t,n,o):e.attachEvent?e.attachEvent("on"+t,n):e["on"+t]=n}r.loadJS=function(e,t){var n=c.createElement("script"),e=(n.src=e,t&&a(n,"load",t,{once:!0}),c.scripts[0]);return e.parentNode.insertBefore(n,e),n},r._loaded=!1,r.loadJSDeferred=function(e,t){var n=c.createElement("script");function o(){r._loaded=!0,t&&a(n,"load",t,{once:!0});var e=c.scripts[0];e.parentNode.insertBefore(n,e)}return n.src=e,r._loaded?o():a(r,"load",o,{once:!0}),n},r.setRel=r.setRelStylesheet=function(e){a(c.getElementById(e),"load",function(){this.rel="stylesheet"},{once:!0})}}(window,document);
+!function(a){"use strict";var b=function(b,c,d){function e(a){return h.body?a():void setTimeout(function(){e(a)})}function f(){i.addEventListener&&i.removeEventListener("load",f),i.media=d||"all"}var g,h=a.document,i=h.createElement("link");if(c)g=c;else{var j=(h.body||h.getElementsByTagName("head")[0]).childNodes;g=j[j.length-1]}var k=h.styleSheets;i.rel="stylesheet",i.href=b,i.media="only x",e(function(){g.parentNode.insertBefore(i,c?g:g.nextSibling)});var l=function(a){for(var b=i.href,c=k.length;c--;)if(k[c].href===b)return a();setTimeout(function(){l(a)})};return i.addEventListener&&i.addEventListener("load",f),i.onloadcssdefined=l,l(f),i};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
+!function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(b){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
+!function(w) {
+  w._baseURL = '/';
+  w._publicPath = '/assets/js/';
+  w._noPushState = false;
+  w._noDrawer = false;
+  w._noNavbar = false;
+  w._noToc = false;
+  w._noSearch = false;
+  w._search = {
+    DATA_URL: '/assets/sitedata.json?no-cache',
+    STORAGE_KEY: 'mini-search/',
+    INDEX_KEY: 'index--2024-07-08T13:16:36+09:00',
+  };
+  w._clapButton = true;
+}(window);</script>
+
+
+<script async src="/assets/bower_components/MathJax/es5/tex-mml-chtml.js" id="_MathJax"></script>
+
+
+<!--[if gt IE 8]><!---->
+
+  
+
+
+
+
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css" id="_iconsPreload">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:700%7CNoto+Sans:400,400i,700,700i&display=swap" id="_fontsPreload">
+
+
+
+  <style id="_pageStyle">
+
+html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5);--accent-color-highlight: rgba(94, 97, 94, 0.1);--accent-color-darkened: #4b4e4b;--theme-color: rgb(230, 217, 195)}
+</style>
+
+
+<!--<![endif]-->
+
+
+
+
+</head>
+
+<body class="no-break-layout">
+  
+
+
+<hy-push-state
+  id="_pushState"
+  replace-selector="#_main"
+  link-selector="a[href]:not([href^='/assets/']):not(.external):not(.no-push-state)"
+  script-selector="script"
+  duration="500"
+  hashchange
+>
+  
+  
+  <div id="_navbar" class="navbar fixed-top">
+  <div class="content">
+    <span class="sr-only">Jump to:</span>
+    <div class="nav-btn-bar">
+      <a id="_menu" class="nav-btn no-hover" href="#_drawer--opened">
+        <span class="sr-only">Navigation</span>
+        <span class="icon-menu"></span>
+      </a>
+      <div class="nav-span"></div>
+    </div>
+  </div>
+</div>
+<hr class="sr-only" hidden />
+
+  <main
+  id="_main"
+  class="content layout-post"
+  role="main"
+>
+  <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+    <li><a href="/">home</a></li>
+    
+      <li>
+        
+          <span>/</span>
+          
+          
+          <a href="/timeseries/">timeseries</a>
+        
+      </li>
+    
+      <li>
+        
+          <span>/</span>
+          <span>2024-07-08-TimesNet</span>
+        
+      </li>
+    
+  
+</ul></nav>
+  
+
+
+
+
+
+
+
+
+
+
+<article id="post-timeseries-TimesNet" class="page post mb6" role="article">
+  <header>
+    <h1 class="post-title flip-project-title">
+      
+        TimesNet: Temporal 2D-Variation Modeling for General Time Series Analysis (ICLR 2023)
+      
+    </h1>
+
+    <div class="post-date">
+      
+      <span class="ellipsis mr1">
+        <time datetime="2024-07-08T00:00:00+09:00">08 Jul 2024</time> in <span>Timeseries</span> 
+      </span>
+      
+    </div>
+
+    
+    
+
+    
+
+
+
+  
+    <p class="note-sm" >
+      <a href="https://arxiv.org/pdf/2210.02186">ICLR 2023</a>
+
+    </p>
+  
+
+
+  </header>
+
+  
+    <h2 id="abstract">Abstract</h2>
+
+<ul>
+  <li>Temporal variation modeling을 위해서 multi-periodicity in time series를 파악
+    <ul>
+      <li>complex temporal variations into the multiple intraperiod- and interperiod-variations</li>
+      <li>각각이 2D tensor의 행과 열이 된다.</li>
+    </ul>
+  </li>
+  <li>TimesBlock : task-general backbone for TS analysis</li>
+</ul>
+
+<h2 id="1-introduciton">1. Introduciton</h2>
+
+<ul>
+  <li>다른 타입의 데이터(language, video, …) Time series는 시점마다 하나의 숫자가 기록되고, 연속적으로 기록되기 때문에 충분한 semantic information을 제공하지 않는다.
+    <ul>
+      <li>그래서 더 informative하고 inherent properties(continuity, periodicity, trend, …)를 reflect하는 temporal variations를 파악하고자 함</li>
+      <li>하지만 temporal patterns는 복잡하고 다양한 variations가 mix and overlap 되어있음</li>
+    </ul>
+  </li>
+  <li>복잡한 temporal variations를 파악하기 위해
+    <ul>
+      <li>RNN-based approach는 sequential computation paradigm 때문에 어렵고</li>
+      <li>TCN-based approach는 1d conv의 locality property 때문에 long-term dependencies 파악 어려움</li>
+      <li>Transformer-based approach도 directly find out하기는 어려움
+        <ul>
+          <li>그래서 intricate temporal variations을 찾기 위해 <strong>multi-periodicity</strong>를 활용</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>multiple periods는 overlap and interact with each other. 그래서 intractable
+    <ul>
+      <li>또한 각 periods에서 variation of each time point는 adjacent area뿐만 아니라 adjacent periods의 variation에도 많은 영향을 받음
+        <ul>
+          <li>전자가 intraperiod-variation (short-term temporal patterns within a period),</li>
+          <li>후자가 interperiod-variation (long-term trends of consecutive different periods)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>1d time series에는 두 가지 variations를 동시에 표현하기 어려움 그래서 2d tensor로 만들고
+    <ul>
+      <li>각 columns에는 time points within a period,</li>
+      <li>각 row에는 time points at the same phase among different periods</li>
+    </ul>
+  </li>
+  <li>TimesNet은 learned periods로 multi-periodicity를 발견하고 intraperiod- and interperiod-variations를 capture</li>
+</ul>
+
+<h2 id="2-related-work">2. Related Work</h2>
+
+<ul>
+  <li>Classical methods : ARIMA, Holt-Winter, Prophet
+    <ul>
+      <li>temporal variations가 pre-defined pattern을 따른다고 가정하지만 실제로는 X</li>
+    </ul>
+  </li>
+  <li>MLP-based
+    <ul>
+      <li>adopt the MLP along the temporal dimension</li>
+      <li>encode the temporal dependencies into the <strong>fixed</strong> parameter of MLP layers</li>
+    </ul>
+  </li>
+  <li>TCN-based
+    <ul>
+      <li>convolutional kernels that slide along the temporal dimension</li>
+    </ul>
+  </li>
+  <li>RNN-based
+    <ul>
+      <li>state transitions among time steps</li>
+    </ul>
+  </li>
+  <li>Autoformer
+    <ul>
+      <li>the series-wise temporal dependencies based on the learned periods</li>
+      <li>deep decomposition architecture to obtain the seasonal and trend parts of input series</li>
+    </ul>
+  </li>
+  <li>FEDformer
+    <ul>
+      <li>mixture-of-expert design to enhance the seasonal-trend decomposition</li>
+      <li>sparse attention within the frequency domain</li>
+    </ul>
+  </li>
+  <li><strong>TimesNet : temporal 2D-variations derived by periodicity</strong></li>
+</ul>
+
+<h2 id="3-timesnet">3. TimesNet</h2>
+
+<ul>
+  <li>TimesBlock
+    <ul>
+      <li>transform the 1D time series into 2D space</li>
+      <li>simultaneously model the two types of variations by a parameter-efficient inception block</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="31-transform-1d-variations-into-2d-variations">3.1. Transform 1d-variations into 2d-variations</h3>
+
+<p><img src="/assets/img/timeseries/TimesNet/fig1.png" alt="그림1" /></p>
+
+<ul>
+  <li>
+    <p>Two Temporal variations, simultaneously !</p>
+
+    <ul>
+      <li>
+        <p>with its adjacent area (intraperiod-variations)</p>
+      </li>
+      <li>
+        <p>with the same phase among different periods (interperiod-variations)</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>원래 Time series는 \(\mathbf{X}_{1 \mathrm{D}} \in \mathbb{R}^{T \times C}\)</p>
+  </li>
+  <li>
+    <p>먼저  Fast Fourier Transform (FFT)으로 periods를 찾음</p>
+
+    <ul>
+      <li>
+\[\mathbf{A}=\operatorname{Avg}\left(\operatorname{Amp}\left(\operatorname{FFT}\left(\mathbf{X}_{1 \mathrm{D}}\right)\right)\right),\left\{f_1, \cdots, f_k\right\}=\underset{f_* \in\left\{1, \cdots,\left[\frac{T}{2}\right]\right\}}{\arg \operatorname{Topk}}(\mathbf{A}), p_i=\left\lceil\frac{T}{f_i}\right\rceil, i \in\{1, \cdots, k\}\]
+      </li>
+      <li>\(FFT(\cdot)\)은 Fast Fourier Transform, \(\text{Amp}(\cdot)\)은 amplitude 값 계산</li>
+      <li>\(\mathbf{A} \in \mathbb{R}^T\)는 각 frequency에서 계산된 amplitude (averaged from C dimensions by \(\text{Avg}(\cdot)\))
+        <ul>
+          <li>즉 \(\mathbf{A}_j\)는 intensity of the frequency-j periodic basis function (period length는 \(\left\lceil\frac{T}{j}\right\rceil\))</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>top k개의 amplitude에 해당하는 most significant frequencies \(\left\{f_1, \cdots, f_k\right\}\)만 사용</p>
+
+    <ul>
+      <li>불필요한 high frequencies는 필요 없으니까</li>
+      <li>해당하는 period length는 \(\left\{p_1, \cdots, p_k\right\}\)</li>
+      <li>즉 \(\mathbf{A},\left\{f_1, \cdots, f_k\right\},\left\{p_1, \cdots, p_k\right\}=\operatorname{Period}\left(\mathbf{X}_{1 \mathrm{D}}\right)\)</li>
+    </ul>
+  </li>
+  <li>
+    <p>이제 \(\mathbf{X}_{1 \mathrm{D}} \in \mathbb{R}^{T \times C}\)를 여러 개의 2d-tensors로 바꿈</p>
+
+    <ul>
+      <li>\(\mathbf{X}_{2 \mathrm{D}}^i=\operatorname{Reshape}_{p_i, f_i}\left(\text { Padding }\left(\mathbf{X}_{1 \mathrm{D}}\right)\right), i \in\{1, \cdots, k\}\)​</li>
+      <li>Padding은 \(\operatorname{Reshape}_{p_i, f_i}(\cdot)\)을 위해 수행</li>
+      <li>즉 \(\mathbf{X}_{2 \mathrm{D}}^i \in \mathbb{R}^{p_i \times f_i \times C}\)는 time series based on frequency-\(f_i\)
+        <ul>
+          <li>열은 intraperiod-variation, 행은 interperiod-variation, under the corresponding period length \(p_i\)​</li>
+        </ul>
+      </li>
+      <li>최종적으로는 서로 다른 주기 k개에 대한 2d-tensors \(\left\{\mathbf{X}_{2 \mathrm{D}}^1, \cdots, \mathbf{X}_{2 \mathrm{D}}^k\right\}\)​​를 얻음</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/timeseries/TimesNet/fig2.png" alt="그림2" /></p>
+
+<h3 id="32-timesblock">3.2. TimesBlock</h3>
+
+<p><img src="/assets/img/timeseries/TimesNet/fig3.png" alt="그림3" /></p>
+
+<ul>
+  <li>처음에는 \(\mathbf{X}_{1 \mathrm{D}}^0=\operatorname{Embed}\left(\mathbf{X}_{1 \mathrm{D}}\right)\)하고 \(l=1\)부터는 \(\mathbf{X}_{1 \mathrm{D}}^l=\text { TimesBlock }\left(\mathbf{X}_{1 \mathrm{D}}^{l-1}\right)+\mathbf{X}_{1 \mathrm{D}}^{l-1}\)</li>
+  <li>각 TimesBlock은 two successive parts:
+    <ul>
+      <li>capturing temporal 2D-variations</li>
+      <li>adaptively aggregating representations from different periods</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="capturing-temporal-2d-variations">Capturing temporal 2D-variations</h3>
+
+\[\begin{aligned}
+\mathbf{A}^{l-1},\left\{f_1, \cdots, f_k\right\},\left\{p_1, \cdots, p_k\right\} &amp; =\operatorname{Period}\left(\mathbf{X}_{1 \mathrm{D}}^{l-1}\right) \\
+\mathbf{X}_{2 \mathrm{D}}^{l, i} &amp; =\operatorname{Reshape}_{p_i, f_i}\left(\operatorname{Padding}\left(\mathbf{X}_{1 \mathrm{D}}^{l-1}\right)\right), i \in\{1, \cdots, k\} \\
+\widehat{\mathbf{X}}_{2 \mathrm{D}}^{l, i} &amp; =\operatorname{Inception}\left(\mathbf{X}_{2 \mathrm{D}}^{l, i}\right), i \in\{1, \cdots, k\} \\
+\widehat{\mathbf{X}}_{1 \mathrm{D}}^{l, i} &amp; =\operatorname{Trunc}\left(\operatorname{Reshape}_{1,\left(p_i \times f_i\right)}\left(\widehat{\mathbf{X}}_{2 \mathrm{D}}^{l, i}\right)\right), i \in\{1, \cdots, k\},
+\end{aligned}\]
+
+<ul>
+  <li>\(\mathbf{X}_{2 \mathrm{D}}^{l, i} \in \mathbb{R}^{p_i \times f_i \times d_{\text {model }}}\)은 \(i\)-번째 transformed 2d-tensor</li>
+  <li>그 다음  parameter-efficient inception block \(\text{Inception}(·)\)을 거쳐 \(\widehat{\mathbf{X}}_{2D}^{l, i}\)를 얻고</li>
+  <li>
+    <p>Aggregation을 위해 \(\text{Trunc}(\cdot)\)을 사용하여  \(\widehat{\mathbf{X}}_{\mathrm{1D}}^{l, i} \in \mathbb{R}^{T \times d_{\mathrm{model}}}\)로 되돌린다.</p>
+  </li>
+  <li>intraperiod-variation (columns) : cover adjacent time points</li>
+  <li>interperiod-variation (rows) : cover adjacent periods</li>
+  <li>서로 다른 여러 개의 2d-tensors \(\left\{\mathbf{X}_{2 \mathrm{D}}^{l, 1}, \cdots, \mathbf{X}_{2 \mathrm{D}}^{l, k}\right\}\)에 대해 shared inception block
+    <ul>
+      <li>for parameter efficiency, invariant to the selection of hyper-parameter k</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="adaptive-aggregation">Adaptive Aggregation</h3>
+
+<ul>
+  <li>이제 k개의 서로 다른 1d-representations \(\left\{\widehat{\mathbf{X}}_{1 \mathrm{D}}^{l, 1}, \cdots, \widehat{\mathbf{X}}_{1 \mathrm{D}}^{l, k}\right\}\)를 fuse해서 다음 layer에 전달해야 함
+    <ul>
+      <li>amplitudes \(\mathbf{A}\)는 각 frequencies and periods의 상대적인 중요도라 할 수 있으므로</li>
+      <li>\(\begin{aligned}
+\widehat{\mathbf{A}}_{f_1}^{l-1}, \cdots, \widehat{\mathbf{A}}_{f_k}^{l-1} &amp; =\operatorname{Softmax}\left(\mathbf{A}_{f_1}^{l-1}, \cdots, \mathbf{A}_{f_k}^{l-1}\right) \\
+\mathbf{X}_{1 \mathrm{D}}^l &amp; =\sum_{i=1}^k \widehat{\mathbf{A}}_{f_i}^{l-1} \times \widehat{\mathbf{X}}_{1 \mathrm{D}}^{l, i}
+\end{aligned}\)로 aggregate</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="4-experiments">4. Experiments</h2>
+
+<p><img src="/assets/img/timeseries/TimesNet/table1.png" alt="그림11" /></p>
+
+<p><img src="/assets/img/timeseries/TimesNet/fig4.png" alt="그림4" /></p>
+
+<h3 id="main-results">Main results</h3>
+
+<p><img src="/assets/img/timeseries/TimesNet/table2.png" alt="그림12" /></p>
+
+<h3 id="imputation-task">Imputation task</h3>
+
+<p><img src="/assets/img/timeseries/TimesNet/table4.png" alt="그림14" /></p>
+
+<h3 id="classification-task">Classification task</h3>
+
+<p><img src="/assets/img/timeseries/TimesNet/fig5.png" alt="그림5" /></p>
+
+<h3 id="anomaly-detection-task">Anomaly detection task</h3>
+
+<p><img src="/assets/img/timeseries/TimesNet/table5.png" alt="그림15" /></p>
+
+<h3 id="representation-analysis">Representation analysis</h3>
+
+<p><img src="/assets/img/timeseries/TimesNet/fig6.png" alt="그림6" /></p>
+
+<h2 id="5-conclusion-and-future-work">5. Conclusion and Future Work</h2>
+
+<ul>
+  <li>TimeNet은 multi-periodicity를 기반으로 복잡한 temporal variations를 파악
+    <ul>
+      <li>intraperiod- and interperiod-variations in 2D space by a parameter-efficient inception block.</li>
+    </ul>
+  </li>
+</ul>
+
+  
+</article>
+
+
+
+  <hr class="dingbat related mb6" />
+
+
+
+
+
+
+  
+     
+
+
+  <aside class="about related mt4 mb4" role="complementary">
+    
+    
+
+<div class="author mt4">
+  
+
+  
+    
+
+
+<img
+  
+    src="https://via.placeholder.com/128x128"
+    srcset="/assets/img/me/me.JPG 1x,/assets/img/me/me.JPG 2x"
+    
+  
+  alt="GW Jeong"
+  class="avatar"
+  
+  width="120"
+  height="120"
+  loading="lazy"
+/>
+
+  
+
+  
+  
+  <h2  class="page-title hr-bottom">
+    About
+  </h2>
+
+  <p>Bachelor’s degree in Applied Statistics. Yonsei Univ. (2018~2024) <br />
+DataScienceLab 8th 학회장 (2022~2023) <br />
+Master’s degree in Statitstics. Yonsei Univ. (2024~)</p>
+
+
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+
+  </aside>
+
+
+  
+
+  
+  
+
+  
+    
+
+
+  
+
+  
+  
+
+  
+    
+
+  
+
+
+  
+<footer class="content" role="contentinfo">
+  <hr/>
+  
+    <p><small class="copyright">© Geonwoo Jeong.
+</small></p>
+  
+  
+    <p><small>Powered by <a class="external" href="https://hydejack.com/">Hydejack</a> v<span id="_version">9.1.6</span></small></p>
+  <hr class="sr-only"/>
+</footer>
+
+
+</main>
+
+  <hy-drawer
+  id="_drawer"
+  class=""
+  side="left"
+  threshold="10"
+  noscroll
+  
+>
+  <header id="_sidebar" class="sidebar" role="banner">
+    
+
+
+
+
+<div class="sidebar-bg sidebar-overlay" style="background-color:rgb(230, 217, 195);background-image:url(/assets/img/me/sidebar.jpg)"></div>
+
+    <div class="sidebar-sticky">
+  <div class="sidebar-about">
+    
+      <a class="no-hover" href="/" tabindex="-1">
+        <img src="/assets/img/me/logo.jpg" class="avatar" alt="LpppJ" width="120" height="120" loading="lazy" />
+      </a>
+    
+    <a class="sidebar-title" href="/"><h2 class="h1">LpppJ</h2></a>
+    
+    
+      <p class="">
+        DataScience and AI
+
+      </p>
+    
+  </div>
+
+  <nav class="sidebar-nav heading" role="navigation">
+    <span class="sr-only">Navigation:</span>
+<ul>
+  
+    
+      
+      <li>
+        <a
+          id="_drawer--opened"
+          href="/timeseries/"
+          class="sidebar-nav-item "
+          
+        >
+          TimeSeries
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/pytorch/"
+          class="sidebar-nav-item "
+          
+        >
+          Pytorch
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/stat/"
+          class="sidebar-nav-item "
+          
+        >
+          Statistics
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/project/"
+          class="sidebar-nav-item "
+          
+        >
+          Project
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/presentation/"
+          class="sidebar-nav-item "
+          
+        >
+          Presentation
+        </a>
+      </li>
+    
+  
+</ul>
+
+  </nav>
+
+  
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+  </header>
+</hy-drawer>
+<hr class="sr-only" hidden />
+
+</hy-push-state>
+
+
+  <!--[if gt IE 10]><!---->
+  <script nomodule>!function(){var t,n=document.createElement("script");!("noModule"in n)&&"onbeforeload"in n&&(t=!1,document.addEventListener("beforeload",function(e){if(e.target===n)t=!0;else if(!e.target.hasAttribute("nomodule")||!t)return;e.preventDefault()},!0),n.type="module",n.src=".",document.head.appendChild(n),n.remove())}();
+</script>
+  <script src="/assets/js/hydejack-9.1.6.js" type="module"></script>
+  <script src="/assets/js/LEGACY-hydejack-9.1.6.js" nomodule defer></script>
+  
+
+  
+
+<!--<![endif]-->
+  <!-- <script>
+  document.querySelector('hy-push-state').setAttribute('prefetch', '');
+
+  document.querySelectorAll('.sidebar a[href^="/"]').forEach(function (el) { 
+    el.addEventListener('click', function (e) {
+      if (el.pathname === window.location.pathname) {
+        e.preventDefault();
+        e.stopPropagation();
+        document.querySelector('hy-drawer').close();
+      }
+    });
+  });
+</script> -->
+
+<!--
+Code for integrating CloudFlare's email protection with Hydejack's single page app loading.
+-->
+<script>
+  document.getElementById('_pushState').addEventListener('hy-push-state-after', function (e) {
+    function e(e){
+      (console.error?console.error:console.log).call(console,e)
+    }
+
+    function t(e){
+      return l.innerHTML='<a href="'+e.replace(/"/g,"&quot;")+'"></a>',l.childNodes[0].getAttribute("href")
+    }
+
+    function r(e,t){
+      var r=e.substr(t,2);return parseInt(r,16)
+    }
+
+    function n(e,n){
+      for(var o="",c=r(e,n),a=n+2;a<e.length;a+=2){
+        var l=r(e,a)^c;
+        o+=String.fromCharCode(l)
+      }
+      return t(o)
+    }
+
+    var o="/cdn-cgi/l/email-protection#",
+        c=".__cf_email__",
+        a="data-cfemail",
+        l=document.createElement("div");
+
+    !function(){
+      for(var t=document.getElementsByTagName("a"),r=0;r<t.length;r++)
+        try{
+          var c=t[r],a=c.href.indexOf(o);
+          a>-1&&(c.href="mailto:"+n(c.href,a+o.length))
+        }catch(t){
+          e(t)
+        }
+    }(),
+    function(){
+      for(var t=document.querySelectorAll(c),r=0;r<t.length;r++)
+        try{
+          var o=t[r],l=n(o.getAttribute(a),0),i=document.createTextNode(l);
+          o.parentNode.replaceChild(i,o)
+        }catch(t){
+          e(t)
+        }
+    }()
+  });
+</script>
+
+
+
+
+
+<div hidden>
+  
+  <h2 class="sr-only">Templates (for web app):</h2>
+
+  <template id="_animation-template">
+  <div class="animation-main fixed-top">
+    <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+</ul></nav>
+    <div class="content">
+      <div class="page"></div>
+    </div>
+  </div>
+</template>
+
+  <template id="_loading-template">
+  <div class="loading nav-btn fr">
+    <span class="sr-only">Loading…</span>
+    <span class="icon-cog"></span>
+  </div>
+</template>
+
+  <template id="_error-template">
+  <div class="page">
+    <h1 class="page-title">Error</h1>
+    
+    
+    <p class="lead">
+      Sorry, an error occurred while loading <a class="this-link" href=""></a>.
+
+    </p>
+  </div>
+</template>
+
+  <template id="_permalink-template">
+  <a href="#" class="permalink">
+    <span class="sr-only">Permalink</span>
+    <span class="content-hash"></span>
+  </a>
+</template>
+
+</div>
+
+
+</body>
+</html>
