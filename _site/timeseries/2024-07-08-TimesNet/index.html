@@ -45,7 +45,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="TimesNet: Temporal 2D-Variation Modeling for General Time Series Analysis (ICLR 2023)" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-07-08T13:16:35+09:00","datePublished":"2024-07-08T00:00:00+09:00","description":"ICLR 2023","headline":"TimesNet: Temporal 2D-Variation Modeling for General Time Series Analysis (ICLR 2023)","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/timeseries/2024-07-08-TimesNet/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/timeseries/2024-07-08-TimesNet/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-07-08T13:16:56+09:00","datePublished":"2024-07-08T00:00:00+09:00","description":"ICLR 2023","headline":"TimesNet: Temporal 2D-Variation Modeling for General Time Series Analysis (ICLR 2023)","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/timeseries/2024-07-08-TimesNet/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/timeseries/2024-07-08-TimesNet/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -108,7 +108,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2024-07-08T13:16:36+09:00',
+    INDEX_KEY: 'index--2024-07-09T00:34:15+09:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -368,10 +368,8 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
   <li>
     <p>먼저  Fast Fourier Transform (FFT)으로 periods를 찾음</p>
 
+    <p>\(\mathbf{A}=\operatorname{Avg}\left(\operatorname{Amp}\left(\operatorname{FFT}\left(\mathbf{X}_{1 \mathrm{D}}\right)\right)\right),\left\{f_1, \cdots, f_k\right\}=\underset{f_* \in\left\{1, \cdots,\left[\frac{T}{2}\right]\right\}}{\arg \operatorname{Topk}}(\mathbf{A}), p_i=\left\lceil\frac{T}{f_i}\right\rceil, i \in\{1, \cdots, k\}\)</p>
     <ul>
-      <li>
-\[\mathbf{A}=\operatorname{Avg}\left(\operatorname{Amp}\left(\operatorname{FFT}\left(\mathbf{X}_{1 \mathrm{D}}\right)\right)\right),\left\{f_1, \cdots, f_k\right\}=\underset{f_* \in\left\{1, \cdots,\left[\frac{T}{2}\right]\right\}}{\arg \operatorname{Topk}}(\mathbf{A}), p_i=\left\lceil\frac{T}{f_i}\right\rceil, i \in\{1, \cdots, k\}\]
-      </li>
       <li>\(FFT(\cdot)\)은 Fast Fourier Transform, \(\text{Amp}(\cdot)\)은 amplitude 값 계산</li>
       <li>\(\mathbf{A} \in \mathbb{R}^T\)는 각 frequency에서 계산된 amplitude (averaged from C dimensions by \(\text{Avg}(\cdot)\))
         <ul>

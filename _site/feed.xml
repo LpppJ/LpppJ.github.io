@@ -1,5 +1,106 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-07-08T13:16:36+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">TimesNet: Temporal 2D-Variation Modeling for General Time Series Analysis (ICLR 2023)</title><link href="http://localhost:4000/timeseries/2024-07-08-TimesNet/" rel="alternate" type="text/html" title="TimesNet: Temporal 2D-Variation Modeling for General Time Series Analysis (ICLR 2023)" /><published>2024-07-08T00:00:00+09:00</published><updated>2024-07-08T13:16:35+09:00</updated><id>http://localhost:4000/timeseries/TimesNet</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-08-TimesNet/"><![CDATA[<h2 id="abstract">Abstract</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-07-09T00:34:15+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">Autoregressive Denoising Diffusion Models for Multivariate Probabilistic Time Series Forecasting (ICML 2021)</title><link href="http://localhost:4000/timeseries/2024-07-09-Timegrad/" rel="alternate" type="text/html" title="Autoregressive Denoising Diffusion Models for Multivariate Probabilistic Time Series Forecasting (ICML 2021)" /><published>2024-07-09T00:00:00+09:00</published><updated>2024-07-09T00:34:09+09:00</updated><id>http://localhost:4000/timeseries/Timegrad</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-09-Timegrad/"><![CDATA[<h2 id="abstract">Abstract</h2>
+
+<ul>
+  <li><strong>TimeGrad</strong> : auto-regressive model for multivariate time series forecasting, using diffusion
+    <ul>
+      <li>learns gradients by optimizing a variational bound on the data likelihood</li>
+      <li>inference는 white noise에서 학습한 분포의 sample로 convert (though a Markov chain)</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="1-introduction">1. Introduction</h2>
+
+<p>pass</p>
+
+<h2 id="2-diffusion-probabilistic-model">2. Diffusion Probabilistic Model</h2>
+
+<p>pass</p>
+
+<h2 id="3-timegrad-method">3. TimeGrad Method</h2>
+
+<ul>
+  <li>Multivariate time series \(x_{i, t}^0 \in \mathbb{R}\) for \(i \in\{1, \ldots, D\}\) where \(t\) is the time index
+    <ul>
+      <li>at time \(t\), \(\mathbf{x}_t^0 \in \mathbb{R}^D\)</li>
+      <li>context window \(\left[1, t_0\right)\), prediction interval \(\left[t_0, T\right]\)</li>
+    </ul>
+  </li>
+  <li>TimeGrad 이전까지는 full joint distribution at each time step을 모델링 했어야 함
+    <ul>
+      <li>하지만 full covariance matrix을 모델링 하는 것은 computation cost 측면에서 impractical</li>
+      <li>그래서 Gaussians with low-rank covariance matrices으로 approximate 하기도 함 (Vec-LSTM)</li>
+    </ul>
+  </li>
+  <li>본 논문에서는 과거 데이터를 보고 미래 시점의 conditional distribution을 학습
+    <ul>
+      <li>formula : \(q_{\mathcal{X}}\left(\mathbf{x}_{t_0: T}^0 \mid \mathbf{x}_{1: t_0-1}^0, \mathbf{c}_{1: T}\right)=\Pi_{t=t_0}^T q_{\mathcal{X}}\left(\mathbf{x}_t^0 \mid \mathbf{x}_{1: t-1}^0, \mathbf{c}_{1: T}\right)\)​​</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/timeseries/Timegrad/fig1.png" alt="그림1" /></p>
+
+<h3 id="31-training">3.1. Training</h3>
+
+<ul>
+  <li>이전 시점 데이터 \(\mathbf{x}_{t-1}^0\)과 covariates \(\mathbf{c}_{t-1}\)이 들어오면 hidden state \(\mathbf{h}_{t-2}\)를 \(\mathbf{h}_{t-1}\)​로 업데이트
+    <ul>
+      <li>즉 \(\mathbf{h}_t=\mathrm{RNN}_\theta\left(\operatorname{concat}\left(\mathbf{x}_t^0, \mathbf{c}_t\right), \mathbf{h}_{t-1}\right)\)</li>
+    </ul>
+  </li>
+  <li>그러면 위에 있는 fomula는 \(\Pi_{t=t_0}^T p_\theta\left(\mathbf{x}_t^0 \mid \mathbf{h}_{t-1}\right)\)가 되고
+    <ul>
+      <li>Negative log-likelihood \(\sum_{t=t_0}^T-\log p_\theta\left(\mathbf{x}_t^0 \mid \mathbf{h}_{t-1}\right)\)를 minimize하도록 학습</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="32-inference">3.2. Inference</h3>
+
+<ul>
+  <li>Inference할 때에는 한 시점씩 auto-regressive하게 작동
+    <ul>
+      <li>만약 다음 시점의 sample \(\mathbf{x}_{T+1}^0\)을 얻었다면 위에서 설명한 것처럼 hidden state \(\mathbf{h}_{T+1}\)를 얻고</li>
+      <li>같은 과정을 반복. 얻은 sample로 또 다음 sample을 얻고…</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="33-scaling">3.3. Scaling</h3>
+
+<ul>
+  <li>각 context window를 scale normalizing</li>
+  <li>Residual connection은 사용하지 않음</li>
+</ul>
+
+<h3 id="34-covariates">3.4. Covariates</h3>
+
+<ul>
+  <li>\(\mathbf{c}_t\)는 time-dependent and time- independent embeddings으로 구성되는 embeddings for categorical features</li>
+  <li>All covariates are thus known for the periods we wish to forecast !</li>
+</ul>
+
+<h2 id="4-experiments">4. Experiments</h2>
+
+<ul>
+  <li>사용한 데이터셋</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/Timegrad/table1.png" alt="그림11" /></p>
+
+<ul>
+  <li>Model architecture</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/Timegrad/fig2.png" alt="그림2" /></p>
+
+<ul>
+  <li>Results</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/Timegrad/table2.png" alt="그림12" /></p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2021](https://arxiv.org/pdf/2210.02186)]]></summary></entry><entry><title type="html">TimesNet: Temporal 2D-Variation Modeling for General Time Series Analysis (ICLR 2023)</title><link href="http://localhost:4000/timeseries/2024-07-08-TimesNet/" rel="alternate" type="text/html" title="TimesNet: Temporal 2D-Variation Modeling for General Time Series Analysis (ICLR 2023)" /><published>2024-07-08T00:00:00+09:00</published><updated>2024-07-08T13:16:56+09:00</updated><id>http://localhost:4000/timeseries/TimesNet</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-08-TimesNet/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>Temporal variation modeling을 위해서 multi-periodicity in time series를 파악
@@ -123,10 +224,8 @@
   <li>
     <p>먼저  Fast Fourier Transform (FFT)으로 periods를 찾음</p>
 
+    <p>\(\mathbf{A}=\operatorname{Avg}\left(\operatorname{Amp}\left(\operatorname{FFT}\left(\mathbf{X}_{1 \mathrm{D}}\right)\right)\right),\left\{f_1, \cdots, f_k\right\}=\underset{f_* \in\left\{1, \cdots,\left[\frac{T}{2}\right]\right\}}{\arg \operatorname{Topk}}(\mathbf{A}), p_i=\left\lceil\frac{T}{f_i}\right\rceil, i \in\{1, \cdots, k\}\)</p>
     <ul>
-      <li>
-\[\mathbf{A}=\operatorname{Avg}\left(\operatorname{Amp}\left(\operatorname{FFT}\left(\mathbf{X}_{1 \mathrm{D}}\right)\right)\right),\left\{f_1, \cdots, f_k\right\}=\underset{f_* \in\left\{1, \cdots,\left[\frac{T}{2}\right]\right\}}{\arg \operatorname{Topk}}(\mathbf{A}), p_i=\left\lceil\frac{T}{f_i}\right\rceil, i \in\{1, \cdots, k\}\]
-      </li>
       <li>\(FFT(\cdot)\)은 Fast Fourier Transform, \(\text{Amp}(\cdot)\)은 amplitude 값 계산</li>
       <li>\(\mathbf{A} \in \mathbb{R}^T\)는 각 frequency에서 계산된 amplitude (averaged from C dimensions by \(\text{Avg}(\cdot)\))
         <ul>
@@ -1334,61 +1433,4 @@ estimator는 \(\widehat{r}(x)=\sum_{i=1}^n w_i(x) Y_i\) where \(w_i(x)=\frac{K\l
 
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="nf">network</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</code></pre></div></div>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="pytorch" /><summary type="html"><![CDATA[[Corrformer github](https://github.com/thuml/Corrformer)]]></summary></entry><entry><title type="html">(Corrformer, NMI 2023) Code Review 2 - Data Embedding</title><link href="http://localhost:4000/pytorch/2024-05-04-corrformer2/" rel="alternate" type="text/html" title="(Corrformer, NMI 2023) Code Review 2 - Data Embedding" /><published>2024-05-04T00:00:00+09:00</published><updated>2024-07-02T22:54:50+09:00</updated><id>http://localhost:4000/pytorch/corrformer2</id><content type="html" xml:base="http://localhost:4000/pytorch/2024-05-04-corrformer2/"><![CDATA[<ul>
-  <li>step 0. Initialization and Normalizaiton</li>
-  <li>step 1. Data Embedding Instance</li>
-  <li>step 2. Encoder Instance</li>
-  <li>step 3. Decoder Instance</li>
-  <li>step 0 ~ 3는 embedding, encoder, decoder를 정의한 것이고, forward에서 실행된다.
-    <ul>
-      <li>forward에서 각 step을 지날 때에 step 0 ~ 3을 자세히 보도록 한다.</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="step-4-forward">step 4. forward</h3>
-<p><img src="/assets/img/pytorch/corrformer1/fig6.png" alt="사진6" /></p>
-<ul>
-  <li>step 1. embedding은 <code class="language-plaintext highlighter-rouge">enc_out = self.enc_embedding(x_enc, x_mark_enc)</code> 부분</li>
-  <li>step 2. encoder는 <code class="language-plaintext highlighter-rouge">enc_out = self.encoder(enc_out, attn_mask=enc_self_mask)</code> 부분</li>
-  <li>step 3. decoder는 <code class="language-plaintext highlighter-rouge">seasonal_part, trend_part = self.decoder(dec_out, enc_out, x_mask=dec_self_mask, cross_mask=dec_enc_mask,trend=trend_init)</code> 부분이다.</li>
-</ul>
-
-<h3 id="step-0-initialization-and-normalizaiton">step 0. Initialization and Normalizaiton</h3>
-<p><img src="/assets/img/pytorch/corrformer2/corrformer200.png" alt="사진0" /></p>
-<ul>
-  <li>이전 포스팅에서 봤던 <code class="language-plaintext highlighter-rouge">batch_x</code>가 <code class="language-plaintext highlighter-rouge">x_enc</code>로 들어간다. (<code class="language-plaintext highlighter-rouge">torch.Size([1, 48, 3850])</code>)</li>
-  <li><code class="language-plaintext highlighter-rouge">x_enc</code>를 normalization해주고 RevIN처럼 learnable parameters로 설정한다.</li>
-  <li><code class="language-plaintext highlighter-rouge">self.decomp</code>에서는 seasonal(x - moving average)와 trend(moving average)로 분해한다. (shape은 똑같이 <code class="language-plaintext highlighter-rouge">torch.Size([1, 48, 3850])</code>)</li>
-</ul>
-
-<h3 id="step-1-data-embedding-instance">step 1. Data Embedding Instance</h3>
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">enc_out = self.enc_embedding(x_enc, x_mark_enc)</code>
-<img src="/assets/img/pytorch/corrformer2/corrformer23.png" alt="사진3" /></li>
-  <li><code class="language-plaintext highlighter-rouge">Corrformer.sh</code>에서 B:1 / L:48 / D:3850 / C:4 / node_num:350 이므로</li>
-  <li><code class="language-plaintext highlighter-rouge">x_enc</code>는 <code class="language-plaintext highlighter-rouge">1, 48, 3850</code> –<code class="language-plaintext highlighter-rouge">view</code>–&gt; <code class="language-plaintext highlighter-rouge">(1, 48, 350, 11)</code> –<code class="language-plaintext highlighter-rouge">permute</code>–&gt; <code class="language-plaintext highlighter-rouge">(1, 350, 48, 11)</code> –<code class="language-plaintext highlighter-rouge">view</code>–&gt; <code class="language-plaintext highlighter-rouge">(350, 48, 11)</code>이고</li>
-  <li><code class="language-plaintext highlighter-rouge">x_mark_enc</code>는  <code class="language-plaintext highlighter-rouge">(1, 48, 4)</code> –<code class="language-plaintext highlighter-rouge">unsqueeze</code>–&gt; <code class="language-plaintext highlighter-rouge">(1, 1, 48, 4)</code> –<code class="language-plaintext highlighter-rouge">repeat</code>–&gt; <code class="language-plaintext highlighter-rouge">(1, 350, 48, 4)</code> –<code class="language-plaintext highlighter-rouge">view</code>–&gt; <code class="language-plaintext highlighter-rouge">(350, 48, 4)</code>가 된다.</li>
-  <li><code class="language-plaintext highlighter-rouge">self.enc_embedding</code>의 input이 된다.
-<img src="/assets/img/pytorch/corrformer2/corrformer20.png" alt="사진0" /></li>
-  <li>encoder embedding은 <code class="language-plaintext highlighter-rouge">DataEmbedding</code>으로 정의되는데 (그리고 decoder embedding도) <code class="language-plaintext highlighter-rouge">Embed.py</code>에서 import
-<img src="/assets/img/pytorch/corrformer2/corrformer21.png" alt="사진1" /></li>
-  <li>forward의 x는 <code class="language-plaintext highlighter-rouge">value_embedding(x) + temporal_embedding(x_mark) + national_embedding(national_position)</code></li>
-  <li>논문에서 아래 부분에 해당한다.
-<img src="/assets/img/pytorch/corrformer2/corrformer22.png" alt="사진2" /></li>
-  <li>GeoPositionalEmbedding, TokenEmbedding, TemporalEmbedding의 코드를 첨부하지는 않겠지만 코드를 보면 각각 national, value, temporal을 <code class="language-plaintext highlighter-rouge">d_model=768</code> 차원으로 embedding한다.
-    <ul>
-      <li>GeoPositionalEmbedding은 1개의 linear layer 사용</li>
-      <li>TokenEmbedding은 channel-wise self-attention + conv1d 사용</li>
-      <li>TemporalEmbedding은 sin과 cos를 사용했다.</li>
-      <li><code class="language-plaintext highlighter-rouge">self.enc_embedding(x_enc, x_mark_enc)</code>는 torch.Size([<code class="language-plaintext highlighter-rouge">350, 48, 768</code>])이다. (<code class="language-plaintext highlighter-rouge">d_model=768</code>)
-        <ul>
-          <li>x_enc       –TokenEmbedding–&gt; <code class="language-plaintext highlighter-rouge">(350, 48, 768)</code> <br />
-\(+\) x_mark_enc  –TemporalEmbedding–&gt; <code class="language-plaintext highlighter-rouge">(350, 48, 768)</code> <br />
-\(+\) GeoPositionalEmbedding <code class="language-plaintext highlighter-rouge">(350, 48, 768)</code></li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>step 2부터는 다음 포스팅에서 다루도록 한다.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="pytorch" /><summary type="html"><![CDATA[[Corrformer github](https://github.com/thuml/Corrformer)]]></summary></entry></feed>
+</code></pre></div></div>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="pytorch" /><summary type="html"><![CDATA[[Corrformer github](https://github.com/thuml/Corrformer)]]></summary></entry></feed>

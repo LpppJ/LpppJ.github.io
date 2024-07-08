@@ -55,6 +55,8 @@ permalink: /timeseries/
 [MultiResFormer: Transformer with Adaptive Multi-Resolution Modeling for General Time Series Forecasting (Arxiv 2023)]{:.heading.flip-title}\
 \
 [TimesNet: Temporal 2D-Variation Modeling for General Time Series Analysis (ICLR 2023)]{:.heading.flip-title}\
+\
+[Autoregressive Denoising Diffusion Models for Multivariate Probabilistic Time Series Forecasting (ICML 2021)]{:.heading.flip-title}
 
 
 
@@ -86,3 +88,4 @@ permalink: /timeseries/
 [TimeMixer: Decomposable Multiscale Mixing for Time Series Forecasting (ICLR 2024)]: /timeseries/2024-05-23-Timemixer
 [MultiResFormer: Transformer with Adaptive Multi-Resolution Modeling for General Time Series Forecasting (Arxiv 2023)]: /timeseries/2024-07-06-MultiResFormer
 [TimesNet: Temporal 2D-Variation Modeling for General Time Series Analysis (ICLR 2023)]: /timeseries/2024-07-08-TimesNet
+[Autoregressive Denoising Diffusion Models for Multivariate Probabilistic Time Series Forecasting (ICML 2021)]: /timeseries/2024-07-09-Timegrad
