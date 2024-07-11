@@ -45,7 +45,7 @@ hide_last_modified: true
   - 3) Transformer의 component와 architecture를 모두 수정하여 multivariate의 cross-time and cross-variate dependency를 파악
   - 4) iTransformer는 Transformer의 component는 그대로 가져오지만 inverted하게 가져온다. (architecture만 바뀜)
   
-## 3. ITransformer
+## 3. iTransformer
 -  현실 시나리오에서는 각각의 variate마다 발생 시점과 기록 시점의 delay 정도가 다를 수 있기 때문에 시점 $$t$$에서 모든 variates가 관측되지 않을 수도 있다. 뿐만 아니라 각각의 variate마다 통계적 분포 자체가 다를 수도 있다.
 
 ### 3.1. Structure Overview
@@ -75,7 +75,7 @@ hide_last_modified: true
   ![사진5](/assets/img/timeseries/iTransformer/table1.png)
 - SOTA였던 PatchTST는 변동이 심한 PEM 데이터를 처리하기 어렵고, 명시적으로 multivariate correlation을 파악하는 Crossformer보다 iTransformer의 성능이 뛰어나다.
 
-### 4.2. ITransformer Generality
+### 4.2. iTransformer Generality
 - **Performance promotion**
   ![사진6](/assets/img/timeseries/iTransformer/table2.png)
   - Transformer-based models에 inverted framework를 적용하여 성능을 비교한 결과 일관되게 성능이 향상되었다.
