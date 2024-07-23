@@ -108,7 +108,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2024-07-11T14:33:50+09:00',
+    INDEX_KEY: 'index--2024-07-22T22:33:23+09:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -285,9 +285,9 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 <h3 id="21-definition-of-time-series-data">2.1. Definition of time series data</h3>
 <ul>
-  <li>Univariate TS : \(X=\left(x_0, x_1, x_2, \ldots, x_t\right)\) where \(x_i\) is  the point at timestamp \(i\)​</li>
-  <li>Multivariate TS : \(\mathbf{X}=\left[X_0, X_1, X_2, \ldots, X_p\right]\), where \(p\) is the number of variables</li>
-  <li>Multiple multivariate TS : \(\mathcal{X}=\left\{\mathbf{X}_0, \mathbf{X}_1, \mathbf{X}_2, \ldots, \mathbf{X}_n\right\}\), where \(n\) is the number of multivariate TS</li>
+  <li>Univariate TS : \(X=\left(x_0, x_1, x_2, ..., x_t\right)\) where \(x_i\) is  the point at timestamp \(i\)​</li>
+  <li>Multivariate TS : \(\mathbf{X}=\left[X_0, X_1, X_2, ..., X_p\right]\), where \(p\) is the number of variables</li>
+  <li>Multiple multivariate TS : \(\mathcal{X}=\left\{\mathbf{X}_0, \mathbf{X}_1, \mathbf{X}_2, ..., \mathbf{X}_n\right\}\), where \(n\) is the number of multivariate TS</li>
 </ul>
 
 <h3 id="22-surveys-on-ssl">2.2. Surveys on SSL</h3>
@@ -374,7 +374,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
   <li>Denoising diffusion probabilistic models <a href="https://arxiv.org/pdf/2006.11239.pdf">DDPM</a>,
     <ul>
       <li>\(p_\theta\left(\boldsymbol{x}_{\boldsymbol{t}-\mathbf{1}} \mid \boldsymbol{x}_{\boldsymbol{t}}\right)=$ $\mathcal{N}\left(\boldsymbol{x}_{t-1} ; \mu_\theta\left(\boldsymbol{x}_t, t\right), \sum_\theta\left(\boldsymbol{x}_t, t\right)\right)\) 일 때,</li>
-      <li>Jensen’s inequality에 의해, training loss는 \(\begin{array}{r}\mathbf{K L}\left(q\left(\boldsymbol{x}_1, \boldsymbol{x}_2, \ldots, \boldsymbol{x}_T\right) \| p_\theta\left(\boldsymbol{x}_0, \boldsymbol{x}_1, \ldots, \boldsymbol{x}_T\right)\right) \geq \mathbf{E}\left[-\log p_\theta\left(\boldsymbol{x}_0\right)\right]+\text { const. }\end{array}\)</li>
+      <li>Jensen’s inequality에 의해, training loss는 \(\begin{array}{r}\mathbf{K L}\left(q\left(\boldsymbol{x}_1, \boldsymbol{x}_2, ..., \boldsymbol{x}_T\right) \| p_\theta\left(\boldsymbol{x}_0, \boldsymbol{x}_1, ..., \boldsymbol{x}_T\right)\right) \geq \mathbf{E}\left[-\log p_\theta\left(\boldsymbol{x}_0\right)\right]+\text { const. }\end{array}\)</li>
     </ul>
   </li>
   <li>Score matching diffusion models <a href="https://arxiv.org/pdf/1907.05600.pdf">score matching</a>

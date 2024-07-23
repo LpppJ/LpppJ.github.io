@@ -56,10 +56,11 @@ permalink: /timeseries/
 \
 [TimesNet: Temporal 2D-Variation Modeling for General Time Series Analysis (ICLR 2023)]{:.heading.flip-title}\
 \
-[Timegrad :Autoregressive Denoising Diffusion Models for Multivariate Probabilistic Time Series Forecasting (ICML 2021)]{:.heading.flip-title}
-
-
-
+[Timegrad :Autoregressive Denoising Diffusion Models for Multivariate Probabilistic Time Series Forecasting (ICML 2021)]{:.heading.flip-title}\
+\
+[CSDI: Conditional Score-based Diffusion Models for Probabilistic Time Series Imputation (NeurIPS 2021)]{:.heading.flip-title}\
+\
+[Timediff : Non-autoregressive Conditional Diffusion Models for Time Series Prediction (ICML 2023)]{:.heading.flip-title}
 
 
 
@@ -89,3 +90,5 @@ permalink: /timeseries/
 [MultiResFormer: Transformer with Adaptive Multi-Resolution Modeling for General Time Series Forecasting (Arxiv 2023)]: /timeseries/2024-07-06-MultiResFormer
 [TimesNet: Temporal 2D-Variation Modeling for General Time Series Analysis (ICLR 2023)]: /timeseries/2024-07-08-TimesNet
 [Timegrad :Autoregressive Denoising Diffusion Models for Multivariate Probabilistic Time Series Forecasting (ICML 2021)]: /timeseries/2024-07-09-Timegrad
+[CSDI: Conditional Score-based Diffusion Models for Probabilistic Time Series Imputation (NeurIPS 2021)]: /timeseries/2024-07-15-CSDI
+[Timediff : Non-autoregressive Conditional Diffusion Models for Time Series Prediction (ICML 2023)]: /timeseries/2024-07-15-timediff

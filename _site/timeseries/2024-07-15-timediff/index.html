@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en"><!--
+ __  __                __                                     __
+/\ \/\ \              /\ \             __                    /\ \
+\ \ \_\ \   __  __    \_\ \      __   /\_\      __       ___ \ \ \/'\
+ \ \  _  \ /\ \/\ \   /'_` \   /'__`\ \/\ \   /'__`\    /'___\\ \ , <
+  \ \ \ \ \\ \ \_\ \ /\ \L\ \ /\  __/  \ \ \ /\ \L\.\_ /\ \__/ \ \ \\`\
+   \ \_\ \_\\/`____ \\ \___,_\\ \____\ _\ \ \\ \__/.\_\\ \____\ \ \_\ \_\
+    \/_/\/_/ `/___/> \\/__,_ / \/____//\ \_\ \\/__/\/_/ \/____/  \/_/\/_/
+                /\___/                \ \____/
+                \/__/                  \/___/
+
+Powered by Hydejack v9.1.6 <https://hydejack.com/>
+-->
+
+
+
+
+
+
+
+<head>
+  
+
+
+
+
+
+
+  
+    
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Timediff : Non-autoregressive Conditional Diffusion Models for Time Series Prediction (ICML 2023) | LpppJ</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Timediff : Non-autoregressive Conditional Diffusion Models for Time Series Prediction (ICML 2023)" />
+<meta name="author" content="GW Jeong" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="ICML 2023" />
+<meta property="og:description" content="ICML 2023" />
+<link rel="canonical" href="http://localhost:4000/timeseries/2024-07-15-timediff/" />
+<meta property="og:url" content="http://localhost:4000/timeseries/2024-07-15-timediff/" />
+<meta property="og:site_name" content="LpppJ" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-07-15T00:00:00+09:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Timediff : Non-autoregressive Conditional Diffusion Models for Time Series Prediction (ICML 2023)" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-07-15T23:46:51+09:00","datePublished":"2024-07-15T00:00:00+09:00","description":"ICML 2023","headline":"Timediff : Non-autoregressive Conditional Diffusion Models for Time Series Prediction (ICML 2023)","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/timeseries/2024-07-15-timediff/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/timeseries/2024-07-15-timediff/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  
+
+
+
+  <meta name="theme-color" content="rgb(230, 217, 195)">
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="LpppJ">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<meta name="application-name" content="LpppJ">
+
+<meta name="generator" content="Hydejack v9.1.6" />
+
+
+<link rel="alternate" href="http://localhost:4000/timeseries/2024-07-15-timediff/" hreflang="en">
+
+<link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="LpppJ" />
+
+
+<link rel="shortcut icon"    href="/assets/icons/favicon.ico">
+<link rel="apple-touch-icon" href="/assets/icons/icon-192x192.png">
+
+<link rel="manifest" href="/assets/site.webmanifest">
+
+<link rel="dns-prefetch" href="https://fonts.googleapis.com"><link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+
+
+<link rel="preload" href="/assets/img/swipe.svg" as="image" id="_hrefSwipeSVG">
+
+
+
+
+
+
+<script>!function(r,c){"use strict";function a(e,t,n,o){e.addEventListener?e.addEventListener(t,n,o):e.attachEvent?e.attachEvent("on"+t,n):e["on"+t]=n}r.loadJS=function(e,t){var n=c.createElement("script"),e=(n.src=e,t&&a(n,"load",t,{once:!0}),c.scripts[0]);return e.parentNode.insertBefore(n,e),n},r._loaded=!1,r.loadJSDeferred=function(e,t){var n=c.createElement("script");function o(){r._loaded=!0,t&&a(n,"load",t,{once:!0});var e=c.scripts[0];e.parentNode.insertBefore(n,e)}return n.src=e,r._loaded?o():a(r,"load",o,{once:!0}),n},r.setRel=r.setRelStylesheet=function(e){a(c.getElementById(e),"load",function(){this.rel="stylesheet"},{once:!0})}}(window,document);
+!function(a){"use strict";var b=function(b,c,d){function e(a){return h.body?a():void setTimeout(function(){e(a)})}function f(){i.addEventListener&&i.removeEventListener("load",f),i.media=d||"all"}var g,h=a.document,i=h.createElement("link");if(c)g=c;else{var j=(h.body||h.getElementsByTagName("head")[0]).childNodes;g=j[j.length-1]}var k=h.styleSheets;i.rel="stylesheet",i.href=b,i.media="only x",e(function(){g.parentNode.insertBefore(i,c?g:g.nextSibling)});var l=function(a){for(var b=i.href,c=k.length;c--;)if(k[c].href===b)return a();setTimeout(function(){l(a)})};return i.addEventListener&&i.addEventListener("load",f),i.onloadcssdefined=l,l(f),i};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
+!function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(b){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
+!function(w) {
+  w._baseURL = '/';
+  w._publicPath = '/assets/js/';
+  w._noPushState = false;
+  w._noDrawer = false;
+  w._noNavbar = false;
+  w._noToc = false;
+  w._noSearch = false;
+  w._search = {
+    DATA_URL: '/assets/sitedata.json?no-cache',
+    STORAGE_KEY: 'mini-search/',
+    INDEX_KEY: 'index--2024-07-22T22:33:23+09:00',
+  };
+  w._clapButton = true;
+}(window);</script>
+
+
+<script async src="/assets/bower_components/MathJax/es5/tex-mml-chtml.js" id="_MathJax"></script>
+
+
+<!--[if gt IE 8]><!---->
+
+  
+
+
+
+
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css" id="_iconsPreload">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:700%7CNoto+Sans:400,400i,700,700i&display=swap" id="_fontsPreload">
+
+
+
+  <style id="_pageStyle">
+
+html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5);--accent-color-highlight: rgba(94, 97, 94, 0.1);--accent-color-darkened: #4b4e4b;--theme-color: rgb(230, 217, 195)}
+</style>
+
+
+<!--<![endif]-->
+
+
+
+
+</head>
+
+<body class="no-break-layout">
+  
+
+
+<hy-push-state
+  id="_pushState"
+  replace-selector="#_main"
+  link-selector="a[href]:not([href^='/assets/']):not(.external):not(.no-push-state)"
+  script-selector="script"
+  duration="500"
+  hashchange
+>
+  
+  
+  <div id="_navbar" class="navbar fixed-top">
+  <div class="content">
+    <span class="sr-only">Jump to:</span>
+    <div class="nav-btn-bar">
+      <a id="_menu" class="nav-btn no-hover" href="#_drawer--opened">
+        <span class="sr-only">Navigation</span>
+        <span class="icon-menu"></span>
+      </a>
+      <div class="nav-span"></div>
+    </div>
+  </div>
+</div>
+<hr class="sr-only" hidden />
+
+  <main
+  id="_main"
+  class="content layout-post"
+  role="main"
+>
+  <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+    <li><a href="/">home</a></li>
+    
+      <li>
+        
+          <span>/</span>
+          
+          
+          <a href="/timeseries/">timeseries</a>
+        
+      </li>
+    
+      <li>
+        
+          <span>/</span>
+          <span>2024-07-15-timediff</span>
+        
+      </li>
+    
+  
+</ul></nav>
+  
+
+
+
+
+
+
+
+
+
+
+<article id="post-timeseries-timediff" class="page post mb6" role="article">
+  <header>
+    <h1 class="post-title flip-project-title">
+      
+        Timediff : Non-autoregressive Conditional Diffusion Models for Time Series Prediction (ICML 2023)
+      
+    </h1>
+
+    <div class="post-date">
+      
+      <span class="ellipsis mr1">
+        <time datetime="2024-07-15T00:00:00+09:00">15 Jul 2024</time> in <span>Timeseries</span> 
+      </span>
+      
+    </div>
+
+    
+    
+
+    
+
+
+
+  
+    <p class="note-sm" >
+      <a href="https://arxiv.org/pdf/2306.05043">ICML 2023</a>
+
+    </p>
+  
+
+
+  </header>
+
+  
+    <h2 id="abstract">Abstract</h2>
+
+<ul>
+  <li>TimeDiff : non-autoregressive diffusion model, w/ two novel conditioning mechanisms
+    <ul>
+      <li>future mixup : future prediction의 ground-truth의 일부를 conditioning하는 것을 허용</li>
+      <li>autoregressive initialization : time series의 basic pattern (short term trends 등)을 모델 initialization에 사용</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="1-introduction">1. Introduction</h2>
+
+<ul>
+  <li>Diffusion model (iterative denoising)은 이미지 생성에서 뛰어난 quality
+    <ul>
+      <li>하지만 time series prediction을 위해 어떻게 쓸지에 대한 연구는 아직</li>
+      <li>time series는 <strong>complex dynamics, nonlinear patterns, long-temporal dependencies</strong></li>
+    </ul>
+  </li>
+  <li>기존 diffusion model들은 decoding strategy에 따라 구분됨
+    <ul>
+      <li><strong>Autoregressive</strong> : future prediction이 one by one으로 generated (ex. Timegrad)
+        <ul>
+          <li>하지만 error accumulation 때문에 long range prediction 성능이 떨어지고</li>
+          <li>하나씩 예측하다보니 inference가 느리다는 단점이 있음</li>
+        </ul>
+      </li>
+      <li><strong>Non-autoregressive</strong> : CSDI, SSSD처럼 denoising networks에 intermediate layers를 conditioning으로 넣고 the denoising objective에 inductive bias를 introduce
+        <ul>
+          <li>하지만 long-range prediction performance는 Fedformer, NBeats보다 떨어짐</li>
+          <li>왜냐하면 conditioning 전략이 image, textf를 위한 것이지 time series를 위한 것이 아니기 때문</li>
+          <li>inductive bias를 위해 denoising objective를 사용하는 것만으로는 lookback window에서 유용한 정보를 알아내기 어렵다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>본 논문에서는 long time series prediction을 위한 conditional non-autoregressive diffusion model인 TimeDiff 제안
+    <ul>
+      <li>CSDI, SSSD와 다르게 conditioning module에 time series를 위한 additional inductive bias 도입
+        <ul>
+          <li><strong>future mixup</strong>: randomly reveals parts of the ground-truth future pre- dictions during training</li>
+          <li><strong>autoregressive initialization</strong>: better initializes the model with basic components in the time series</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="2-preliminaries">2. Preliminaries</h2>
+
+<h3 id="21-diffusion-models">2.1. Diffusion Models</h3>
+
+<p>pass</p>
+
+<h3 id="22-conditional-ddpms-for-time-series-prediction">2.2. Conditional DDPMs for Time Series Prediction</h3>
+
+<ul>
+  <li>\(\mathbf{x}_{-L+1: 0}^0 \in \mathbb{R}^{d \times L}\)를 보고 \(\mathbf{x}_{1: H}^0 \in \mathbb{R}^{d \times H}\)를 예측하는 문제</li>
+  <li>\(p_\theta\left(\mathbf{x}_{1: H}^{0: K} \mid \mathbf{c}\right)=p_\theta\left(\mathbf{x}_{1: H}^K\right) \prod_{k=1}^K p_\theta\left(\mathbf{x}_{1: H}^{k-1} \mid \mathbf{x}_{1: H}^k, \mathbf{c}\right)\),
+    <ul>
+      <li>where \(\mathbf{x}_{1: H}^K \sim \mathcal{N}(\mathbf{0}, \mathbf{I}), \mathbf{c}=\mathcal{F}\left(\mathbf{x}_{-L+1: 0}^0\right)\)</li>
+    </ul>
+  </li>
+  <li>아직 efficient denoising network \(\mu_{\theta}\)와 conditioning network \(\mathcal F\) in time series diffusion models를 어떻게 디자인할 것인지 명확하지 않음</li>
+  <li><a href="https://arxiv.org/pdf/2101.12072">TimeGrad (ICML 2021)</a>
+    <ul>
+      <li>autoregressive manner :
+ \(\begin{aligned}
+p_\theta &amp; \left(\mathbf{x}_{1: H}^{0: K} \mid \mathbf{c}=\mathcal{F}\left(\mathbf{x}_{-L+1: 0}^0\right)\right) \\
+&amp; =\prod_{t=1}^H p_\theta\left(\mathbf{x}_t^{0: K} \mid \mathbf{c}=\mathcal{F}\left(\mathbf{x}_{-L+1: t-1}^0\right)\right) \\
+&amp; =\prod^H p_\theta\left(\mathbf{x}_t^K\right) \prod^K p_\theta\left(\mathbf{x}_t^{k-1} \mid \mathbf{x}_t^k, \mathbf{c}=\mathcal{F}\left(\mathbf{x}_{-L+1: t-1}^0\right)\right)
+\end{aligned}\)</li>
+      <li>training objectives : \(\mathcal{L}_\epsilon=\mathbb{E}_{k, \mathbf{x}^0, \epsilon}\left[\left\|\epsilon-\epsilon_\theta\left(\mathbf{x}_t^k, k \mid \mathbf{h}_t\right)\right\|^2\right]\)</li>
+      <li>autoregressive decoding 때문에 error accumulation이 발생하고 inference가 느리고 부정확함</li>
+    </ul>
+  </li>
+  <li><a href="https://arxiv.org/pdf/2107.03502">CSDI(NeurIPS 2021)</a>
+    <ul>
+      <li>time series \(\mathbf{x}_{-L+1: H}^0\) 전체를 한 번에 diffusing and denoising</li>
+      <li>binary mask \(\mathbf{m} \in\{0,1\}^{d \times(L+H)}\)를 사용하여 self-supervised strategy 제안</li>
+      <li>training objectives : \(\mathcal{L}_\epsilon=\mathbb{E}_{k, \mathbf{x}^0, \epsilon}\left[\left\|\epsilon-\epsilon_\theta\left(\mathbf{x}_{\text {target }}^k, k \mid \mathbf{c}=\mathcal{F}\left(\mathbf{x}_{\text {observed }}^k\right)\right)\right\|^2\right]\)</li>
+    </ul>
+  </li>
+  <li>하지만 CSDI의 한계는
+    <ul>
+      <li>Denoising networks가 2개의 transformers를 사용해서 complexity가 높다.</li>
+      <li>conditioning에 사용되는 masking은 vision의 inpainting이랑 비슷한데
+        <ul>
+          <li><a href="https://arxiv.org/abs/2201.09865">(Lugmayr et al., 2022)</a>에서는 이 방식이 masking과 observed사이의 부조화 발생한다고 밝힘</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="https://arxiv.org/pdf/2208.09399">SSSD (TMLR 2022)</a>
+    <ul>
+      <li>Transfermer를 structured state space model로 대체</li>
+      <li>하지만 여전히 non-autoregressive strategy이라서 boundary disharmony가 발생할 수 있음</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="3-proposed-model">3. Proposed Model</h2>
+
+<ul>
+  <li>Conditional Diffusion의 conditioning은 semantic similarities across modalities 파악에 중점</li>
+  <li>하지만 현실에서의 non-stationary time series는 complex temporal dependencies 파악이 중요함</li>
+</ul>
+
+<h3 id="31-forward-diffusion-process">3.1. Forward Diffusion Process</h3>
+
+<ul>
+  <li>Forward process : \(\mathbf{x}_{1: H}^k=\sqrt{\bar{\alpha}_k} \mathbf{x}_{1: H}^0+\sqrt{1-\bar{\alpha}_k} \epsilon\)
+    <ul>
+      <li>where \(\epsilon\) is sampled from \(\mathcal{N}(0, \mathbf{I})\) with the same size as \(\mathbf{x}_{1: H}^0\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="32-conditioning-the-backward-denoising-process">3.2. Conditioning the Backward Denoising Process</h3>
+
+<ul>
+  <li>Illustration</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/timediff/fig1.png" alt="그림1" /></p>
+
+<h4 id="321-future-mixup">3.2.1. FUTURE MIXUP</h4>
+
+<ul>
+  <li>먼저 <em>future mixup</em>으로 \(\mathbf{z}_{\text {mix }}=\mathbf{m}^k \odot \mathcal{F}\left(\mathbf{x}_{-L+1: 0}^0\right)+\left(1-\mathbf{m}^k\right) \odot \mathbf{x}_{1: H}^0\)를 만든다.
+    <ul>
+      <li>past information’s mapping \(\mathcal{F}\left(\mathbf{x}_{-L+1: 0}^0\right)\)과 the future ground-truth \(\mathbf{x}_{1: H}^0\)를 combine</li>
+      <li>training에서 적용되는 것이고, inference에서는 \(\mathbf{z}_{\text {mix }}=\mathcal{F}\left(\mathbf{x}_{-L+1: 0}^0\right)\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="322-autoregressive-model">3.2.2. AUTOREGRESSIVE MODEL</h4>
+
+<ul>
+  <li>Non-autoregressive models는 masked와 observed의 경계에서 disharmony
+    <ul>
+      <li>그래서 linear autoregressive (AR) model \(\mathcal{M}_{a r}\) 사용. \(\mathbf{z}_{a r}=\sum_{i=-L+1}^0 \mathbf{W}_i \odot \mathbf{X}_i^0+\mathbf{B}\)
+        <ul>
+          <li>\(\mathbf{X}_i^0 \in \mathbb{R}^{d \times H}\) is a matrix containing \(H\) copies of \(\mathbf{x}_i^0\),</li>
+          <li>\(\mathbf{W}_i\) s \(\in \mathbb{R}^{d \times H}, \mathbf{B} \in \mathbb{R}^{d \times H}\) are trainable parameters</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>complex nonlinear time series는 approximate 못하는 건 사실이지만
+    <ul>
+      <li>simple patterns (short-term trends) 정도는 잘 잡으니까</li>
+      <li>그리고 one by one으로 하는 것이 아니라 \(\mathbf{z}_{a r}\)의 모든 columns는 동시에 계산됨</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="33-denoising-network">3.3. Denoising Network</h4>
+
+<ul>
+  <li>먼저 the transformer’s sinusoidal position embedding으로 the diffusion-step embedding \(\mathbf{p}^k\in \mathbb{R}^{d^{\prime}}\)​ 얻음
+    <ul>
+      <li>즉 \(\begin{aligned}
+k_{\text {embedding }}= &amp; {\left[\sin \left(10^{\frac{0 \times 4}{w-1}} t\right), \ldots, \sin \left(10^{\frac{w \times 4}{w-1}} t\right),\right.} \\
+&amp; \left.\cos \left(10^{\frac{0 \times 4}{w-1}} t\right), \ldots, \cos \left(10^{\frac{w \times 4}{w-1}} t\right)\right],
+\end{aligned}\)​
+        <ul>
+          <li>where \(w=\frac{d^{\prime}}{2}\)</li>
+        </ul>
+      </li>
+      <li>그리고 \(\mathbf{p}^k=\operatorname{SiLU}\left(\mathrm{FC}\left(\operatorname{SiLU}\left(\mathrm{FC}\left(k_{\text {embedding }}\right)\right)\right)\right) \in \mathbb{R}^{d^{\prime} \times 1}\)</li>
+    </ul>
+  </li>
+  <li>그 다음 \(\mathbf{p}^k\in \mathbb{R}^{d^{\prime}}\)는 diffused input \(\mathbf{x}_{1: H}^k\)의 embedding \(\mathbf{z}_1^k \in \mathbb{R}^{d^{\prime} \times H}\)에 합쳐짐 (\(2 d^{\prime} \times H\)이 됨)
+    <ul>
+      <li>\(\mathbf{z}_1^k\)는 여러 개의 convolution layers로 이루어진 input projection block을 통과시켜 얻음</li>
+    </ul>
+  </li>
+  <li>그 다음 multilayer convolution-based <strong>encoder</strong> 통과하면 \(\mathbf{z}_2^k \in \mathbb{R}^{d^{\prime \prime} \times H}\)로 representation</li>
+  <li>그 다음 \(\mathbf{c}\)와 \(\mathbf{z}_2^k\)를 fuse해서 \(\left(2 d+d^{\prime \prime}\right) \times H\)로 만들고
+    <ul>
+      <li>multiple convolution layers <strong>decoder</strong>에 넣어서 \(\mathbf{x}_\theta\left(\mathbf{x}_{1: H}^k, k \mid \mathbf{c}\right)\in \mathbb{R^{d \times H}}\)로 만듬 (\(\mathbf{x}_{1: H}^k\)와 같은 size)</li>
+    </ul>
+  </li>
+  <li>마지막으로 \(\mu_{\mathbf{x}}\left(\mathbf{x}_\theta\right)=\frac{\sqrt{\alpha_k}\left(1-\bar{\alpha}_{k-1}\right)}{1-\bar{\alpha}_k} \mathbf{x}^k+\frac{\sqrt{\bar{\alpha}_{k-1}} \beta_k}{1-\bar{\alpha}_k} \mathbf{x}_\theta\left(\mathbf{x}^k, k \mid \mathbf{c}\right)\)을 통해 denoised output \(\begin{aligned}
+\hat{\mathbf{x}}_{1: H}^{k-1}= &amp; \frac{\sqrt{\alpha_k}\left(1-\bar{\alpha}_{k-1}\right)}{1-\bar{\alpha}_k} \mathbf{x}_{1: H}^k+\frac{\sqrt{\bar{\alpha}_{k-1}} \beta_k}{1-\bar{\alpha}_k} \mathbf{x}_\theta\left(\mathbf{x}_{1: H}^k, k \mid \mathbf{c}\right) 
++\sigma_k \epsilon
+\end{aligned}\)얻음</li>
+  <li>흔히 아는 Diffusion에서는 noise \(\epsilon_\theta\left(\mathbf{x}_{1: H}^k, k\right)\)를 예측하지만, time series에서는  highly irregular noisy components라서 데이터 \(\mathbf{x}_\theta\left(\mathbf{x}_{1: H}^k, k\right)\)를 예측</li>
+</ul>
+
+<h3 id="34-training">3.4. Training</h3>
+
+<ul>
+  <li>Pesudo code</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/timediff/code.png" alt="그림3" /></p>
+
+<ul>
+  <li>각각의 \(\mathbf{x}_{1: H}^0\)에 대해 batch of diffusion steps \(k\)’s를 sampling하고
+    <ul>
+      <li>conditioned variant of loss를 minimize: \(\min _\theta \mathcal{L}(\theta)=\min _\theta \mathbb{E}_{\mathbf{x}_{1 . H}^0, \epsilon \sim \mathcal{N}(\mathbf{0}, \mathbf{I}), k} \mathcal{L}_k(\theta)\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="35-inference">3.5. Inference</h3>
+
+<ul>
+  <li>Pesudo code</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/timediff/code.png" alt="그림4" /></p>
+
+<ul>
+  <li>먼저 noise vector \(\mathbf{x}_{1 \cdot H}^K \sim \mathcal{N}(\mathbf{0}, \mathbf{I}) \in \mathbb{R}^{d \times H}\)를 생성하고</li>
+  <li>\(\begin{aligned}
+\hat{\mathbf{x}}_{1: H}^{k-1}= &amp; \frac{\sqrt{\alpha_k}\left(1-\bar{\alpha}_{k-1}\right)}{1-\bar{\alpha}_k} \mathbf{x}_{1: H}^k+\frac{\sqrt{\bar{\alpha}_{k-1}} \beta_k}{1-\bar{\alpha}_k} \mathbf{x}_\theta\left(\mathbf{x}_{1: H}^k, k \mid \mathbf{c}\right) 
++\sigma_k \epsilon
+\end{aligned}\)을 반복 (\(k=1\) 까지)
+    <ul>
+      <li>when \(k=1\), \(\epsilon=0\)이므로 \(\hat{\mathbf{x}}_{1: H}^0\)를 final prediction으로 얻을 수 있음</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="4-experiments">4. Experiments</h2>
+
+<p><img src="/assets/img/timeseries/timediff/table2.png" alt="그림12" /></p>
+
+<p><img src="/assets/img/timeseries/timediff/table3.png" alt="그림13" /></p>
+
+<p><img src="/assets/img/timeseries/timediff/fig2.png" alt="그림2" /></p>
+
+<h3 id="43-ablation-study">4.3. Ablation study</h3>
+
+<ul>
+  <li><strong>The Effectiveness of Future mixup</strong></li>
+</ul>
+
+<p><img src="/assets/img/timeseries/timediff/table4.png" alt="그림14" /></p>
+
+<ul>
+  <li>
+    <p>특히 ETTh1 데이터셋에서 future mixup을 안썼을 때 성능이 많이 떨어진다.</p>
+  </li>
+  <li>
+    <p><strong>The Mixup Strategies in Future mixup</strong></p>
+    <ul>
+      <li>Hard mixup : The sampled values in \(\mathbf{m}^k\) are binarized by a threshold \(\tau \in (0,1)\)</li>
+      <li>Segment mixup : The mask  \(\mathbf{m}^k\), Each masked segment has a length following the geometric distribution with a mean of 3. This is then followed by an unmasked segment with mean length \(3(1 − \tau)/\tau\)</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/timeseries/timediff/table5.png" alt="그림15" /></p>
+
+<ul>
+  <li><strong>Predicting \(\mathbf{x}_\theta\) vs Predicting \(\epsilon_\theta\)</strong></li>
+</ul>
+
+<p><img src="/assets/img/timeseries/timediff/table6.png" alt="그림16" /></p>
+
+<h3 id="44-integration-into-existing-diffusion-models">4.4. Integration into Existing Diffusion Models</h3>
+
+<p><img src="/assets/img/timeseries/timediff/table7.png" alt="그림17" /></p>
+
+<h3 id="45-inference-efficiency">4.5. Inference Efficiency</h3>
+
+<p><img src="/assets/img/timeseries/timediff/table8.png" alt="그림18" /></p>
+
+<h2 id="5-conclusion">5. Conclusion</h2>
+
+<ul>
+  <li>Timediff : diffusion model for time series prediction,
+    <ul>
+      <li>1)future mixup과 2)autoregressive initialization이라는 conditioning mechanisms으로</li>
+      <li>conditioning network에 useful inductive bias를 추가</li>
+      <li>한계점으로 변수의 개수가 많을 때 multivariate dependencies를 학습하기 어렵다
+        <ul>
+          <li>graph 사용 ?</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+  
+</article>
+
+
+
+  <hr class="dingbat related mb6" />
+
+
+
+
+
+
+  
+     
+
+
+  <aside class="about related mt4 mb4" role="complementary">
+    
+    
+
+<div class="author mt4">
+  
+
+  
+    
+
+
+<img
+  
+    src="https://via.placeholder.com/128x128"
+    srcset="/assets/img/me/me.JPG 1x,/assets/img/me/me.JPG 2x"
+    
+  
+  alt="GW Jeong"
+  class="avatar"
+  
+  width="120"
+  height="120"
+  loading="lazy"
+/>
+
+  
+
+  
+  
+  <h2  class="page-title hr-bottom">
+    About
+  </h2>
+
+  <p>Bachelor’s degree in Applied Statistics. Yonsei Univ. (2018~2024) <br />
+DataScienceLab 8th 학회장 (2022~2023) <br />
+Master’s degree in Statitstics. Yonsei Univ. (2024~)</p>
+
+
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+
+  </aside>
+
+
+  
+
+  
+  
+
+  
+    
+
+
+  
+
+  
+  
+
+  
+    
+
+  
+
+
+  
+<footer class="content" role="contentinfo">
+  <hr/>
+  
+    <p><small class="copyright">© Geonwoo Jeong.
+</small></p>
+  
+  
+    <p><small>Powered by <a class="external" href="https://hydejack.com/">Hydejack</a> v<span id="_version">9.1.6</span></small></p>
+  <hr class="sr-only"/>
+</footer>
+
+
+</main>
+
+  <hy-drawer
+  id="_drawer"
+  class=""
+  side="left"
+  threshold="10"
+  noscroll
+  
+>
+  <header id="_sidebar" class="sidebar" role="banner">
+    
+
+
+
+
+<div class="sidebar-bg sidebar-overlay" style="background-color:rgb(230, 217, 195);background-image:url(/assets/img/me/sidebar.jpg)"></div>
+
+    <div class="sidebar-sticky">
+  <div class="sidebar-about">
+    
+      <a class="no-hover" href="/" tabindex="-1">
+        <img src="/assets/img/me/logo.jpg" class="avatar" alt="LpppJ" width="120" height="120" loading="lazy" />
+      </a>
+    
+    <a class="sidebar-title" href="/"><h2 class="h1">LpppJ</h2></a>
+    
+    
+      <p class="">
+        DataScience and AI
+
+      </p>
+    
+  </div>
+
+  <nav class="sidebar-nav heading" role="navigation">
+    <span class="sr-only">Navigation:</span>
+<ul>
+  
+    
+      
+      <li>
+        <a
+          id="_drawer--opened"
+          href="/timeseries/"
+          class="sidebar-nav-item "
+          
+        >
+          TimeSeries
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/pytorch/"
+          class="sidebar-nav-item "
+          
+        >
+          Pytorch
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/stat/"
+          class="sidebar-nav-item "
+          
+        >
+          Statistics
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/project/"
+          class="sidebar-nav-item "
+          
+        >
+          Project
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/presentation/"
+          class="sidebar-nav-item "
+          
+        >
+          Presentation
+        </a>
+      </li>
+    
+  
+</ul>
+
+  </nav>
+
+  
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+  </header>
+</hy-drawer>
+<hr class="sr-only" hidden />
+
+</hy-push-state>
+
+
+  <!--[if gt IE 10]><!---->
+  <script nomodule>!function(){var t,n=document.createElement("script");!("noModule"in n)&&"onbeforeload"in n&&(t=!1,document.addEventListener("beforeload",function(e){if(e.target===n)t=!0;else if(!e.target.hasAttribute("nomodule")||!t)return;e.preventDefault()},!0),n.type="module",n.src=".",document.head.appendChild(n),n.remove())}();
+</script>
+  <script src="/assets/js/hydejack-9.1.6.js" type="module"></script>
+  <script src="/assets/js/LEGACY-hydejack-9.1.6.js" nomodule defer></script>
+  
+
+  
+
+<!--<![endif]-->
+  <!-- <script>
+  document.querySelector('hy-push-state').setAttribute('prefetch', '');
+
+  document.querySelectorAll('.sidebar a[href^="/"]').forEach(function (el) { 
+    el.addEventListener('click', function (e) {
+      if (el.pathname === window.location.pathname) {
+        e.preventDefault();
+        e.stopPropagation();
+        document.querySelector('hy-drawer').close();
+      }
+    });
+  });
+</script> -->
+
+<!--
+Code for integrating CloudFlare's email protection with Hydejack's single page app loading.
+-->
+<script>
+  document.getElementById('_pushState').addEventListener('hy-push-state-after', function (e) {
+    function e(e){
+      (console.error?console.error:console.log).call(console,e)
+    }
+
+    function t(e){
+      return l.innerHTML='<a href="'+e.replace(/"/g,"&quot;")+'"></a>',l.childNodes[0].getAttribute("href")
+    }
+
+    function r(e,t){
+      var r=e.substr(t,2);return parseInt(r,16)
+    }
+
+    function n(e,n){
+      for(var o="",c=r(e,n),a=n+2;a<e.length;a+=2){
+        var l=r(e,a)^c;
+        o+=String.fromCharCode(l)
+      }
+      return t(o)
+    }
+
+    var o="/cdn-cgi/l/email-protection#",
+        c=".__cf_email__",
+        a="data-cfemail",
+        l=document.createElement("div");
+
+    !function(){
+      for(var t=document.getElementsByTagName("a"),r=0;r<t.length;r++)
+        try{
+          var c=t[r],a=c.href.indexOf(o);
+          a>-1&&(c.href="mailto:"+n(c.href,a+o.length))
+        }catch(t){
+          e(t)
+        }
+    }(),
+    function(){
+      for(var t=document.querySelectorAll(c),r=0;r<t.length;r++)
+        try{
+          var o=t[r],l=n(o.getAttribute(a),0),i=document.createTextNode(l);
+          o.parentNode.replaceChild(i,o)
+        }catch(t){
+          e(t)
+        }
+    }()
+  });
+</script>
+
+
+
+
+
+<div hidden>
+  
+  <h2 class="sr-only">Templates (for web app):</h2>
+
+  <template id="_animation-template">
+  <div class="animation-main fixed-top">
+    <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+</ul></nav>
+    <div class="content">
+      <div class="page"></div>
+    </div>
+  </div>
+</template>
+
+  <template id="_loading-template">
+  <div class="loading nav-btn fr">
+    <span class="sr-only">Loading…</span>
+    <span class="icon-cog"></span>
+  </div>
+</template>
+
+  <template id="_error-template">
+  <div class="page">
+    <h1 class="page-title">Error</h1>
+    
+    
+    <p class="lead">
+      Sorry, an error occurred while loading <a class="this-link" href=""></a>.
+
+    </p>
+  </div>
+</template>
+
+  <template id="_permalink-template">
+  <a href="#" class="permalink">
+    <span class="sr-only">Permalink</span>
+    <span class="content-hash"></span>
+  </a>
+</template>
+
+</div>
+
+
+</body>
+</html>

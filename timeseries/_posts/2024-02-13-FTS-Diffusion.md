@@ -36,7 +36,7 @@ hide_last_modified: true
 - Diffusion이 속도는 상대적으로 느리지만 높은 퀄리티와 다양성 측면에서 뛰어나 많은 주목 받았고, 본 논문에서도 diffusion을 사용한다.
 
 ## 3. Problem Statement
-- 시계열 $$X=\{x_1,...,x_M\}$$은 $$M$$개의 segments로 이루어지고 $$x_m=\{x_{m,1},...,x_{m,t_m}\}$$ 각 segment의 길이는 $$t_m$$
+- 시계열 $$X={x_1,...,x_M}$$은 $$M$$개의 segments로 이루어지고 $$x_m=\left\{x_{m, 1}, \ldots, x_{m, t_m}\right\}$$ 각 segment의 길이는 $$t_m$$
 - conditional distribution $$f(\cdot\mid p,\alpha,\beta)$$에서 샘플링을 하는 것이고, $$p$$는 패턴, $$\alpha$$는 duration, $$\beta$$는 magnitude이다.
 - tuple $$(p,\alpha,\beta)$$는 하나의 state이고, 패턴끼리의 dynamic across를 모델링하기 위해 Markov chain을 사용한다. 즉 transition probability $$Q(p_j,\alpha_j,\beta_j \mid p_i,\alpha_i,\beta_i)$$를 통해 time series를 생성한다.
 - 이제 FTS-Diffusion의 각 모듈을 다시 살펴보면 아래와 같다.
@@ -60,13 +60,13 @@ hide_last_modified: true
 - 패턴에 gaussian noise를 씌우고 denoising gradient를 학습하는 DDPM의 방식을 사용하여 패턴을 생성하였다.
 - Diffusion으로 생성된 패턴을 (scaling) autoencoder에 통과시켜 원하는 length로 transform한다.
 - Objective를 아래 식으로 사용하여 diffusion 모델과 autoencoder를 같이 학습시킨다.
-  $$\mathcal{L}(\theta)=\mathbb{E}_{\boldsymbol{x}_m}\left[\left\|\boldsymbol{x}_m-\hat{\boldsymbol{x}}_m\right\|_2^2\right]+\mathbb{E}_{\boldsymbol{x}_m^0, i, \epsilon}\left[\left\|\epsilon^i-\epsilon_\theta\left(\boldsymbol{x}_m^{i+1}, i, \boldsymbol{p}\right)\right\|_2^2\right]$$   
+  $$\mathcal{L}(\theta)=\mathbb{E}_{x_m}\left[\left\|x_m-\hat{x_m}\right\|_2^2\right]+\mathbb{E}_{x_m^0, i, \epsilon}\left[\left\|\epsilon^i-\epsilon_\theta\left(x_m^{i+1}, i, p\right)\right\|_2^2\right]$$   
 
 ### (3) Pattern generation
 - Pattern evolution network $$\phi$$는 현재 state가 주어졌을 때 다음 state에 올 패턴들의 확률을 학습한다.
   $$(\hat p_{m+1}, \hat \alpha_{m+1}, \hat \beta_{m+1}) = \phi(p_m, \alpha_m, \beta_m) $$
 - Pattern evolution objective는 아래와 같다.
-  $$\mathcal{L}(\phi)=\mathbb{E}_{\boldsymbol{x}_m}\left[\ell_{C E}\left(p_{m+1}, \hat{p}_{m+1}\right)+\left\|\alpha_{m+1}-\hat{\alpha}_{m+1}\right\|_2^2+\left\|\beta_{m+1}-\hat{\beta}_{m+1}\right\|_2^2\right]$$
+  $$\mathcal{L}(\phi)=\mathbb{E}_{x_m}\left[\ell_{C E}\left(p_{m+1}, \hat{p}_{m+1}\right)+\left\|\alpha_{m+1}-\hat{\alpha}_{m+1}\right\|_2^2+\left\|\beta_{m+1}-\hat{\beta}_{m+1}\right\|_2^2\right]$$
 
 ## 4. Experiments
 - S&P500, GOOG, ZC=F(옥수수 선물) 데이터를 활용하였고, 자산 가격은 non-stationary random walk를 따른다고 알려져있으므로, 통계적 특성을 가지는 수익률(return)을 사용하였다.

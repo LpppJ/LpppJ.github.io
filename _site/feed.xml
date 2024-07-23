@@ -1,5 +1,465 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-07-11T14:33:50+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">Timegrad :Autoregressive Denoising Diffusion Models for Multivariate Probabilistic Time Series Forecasting (ICML 2021)</title><link href="http://localhost:4000/timeseries/2024-07-09-Timegrad/" rel="alternate" type="text/html" title="Timegrad :Autoregressive Denoising Diffusion Models for Multivariate Probabilistic Time Series Forecasting (ICML 2021)" /><published>2024-07-09T00:00:00+09:00</published><updated>2024-07-09T00:34:54+09:00</updated><id>http://localhost:4000/timeseries/Timegrad</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-09-Timegrad/"><![CDATA[<h2 id="abstract">Abstract</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-07-22T22:33:23+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">Timediff : Non-autoregressive Conditional Diffusion Models for Time Series Prediction (ICML 2023)</title><link href="http://localhost:4000/timeseries/2024-07-15-timediff/" rel="alternate" type="text/html" title="Timediff : Non-autoregressive Conditional Diffusion Models for Time Series Prediction (ICML 2023)" /><published>2024-07-15T00:00:00+09:00</published><updated>2024-07-15T23:46:51+09:00</updated><id>http://localhost:4000/timeseries/timediff</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-15-timediff/"><![CDATA[<h2 id="abstract">Abstract</h2>
+
+<ul>
+  <li>TimeDiff : non-autoregressive diffusion model, w/ two novel conditioning mechanisms
+    <ul>
+      <li>future mixup : future prediction의 ground-truth의 일부를 conditioning하는 것을 허용</li>
+      <li>autoregressive initialization : time series의 basic pattern (short term trends 등)을 모델 initialization에 사용</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="1-introduction">1. Introduction</h2>
+
+<ul>
+  <li>Diffusion model (iterative denoising)은 이미지 생성에서 뛰어난 quality
+    <ul>
+      <li>하지만 time series prediction을 위해 어떻게 쓸지에 대한 연구는 아직</li>
+      <li>time series는 <strong>complex dynamics, nonlinear patterns, long-temporal dependencies</strong></li>
+    </ul>
+  </li>
+  <li>기존 diffusion model들은 decoding strategy에 따라 구분됨
+    <ul>
+      <li><strong>Autoregressive</strong> : future prediction이 one by one으로 generated (ex. Timegrad)
+        <ul>
+          <li>하지만 error accumulation 때문에 long range prediction 성능이 떨어지고</li>
+          <li>하나씩 예측하다보니 inference가 느리다는 단점이 있음</li>
+        </ul>
+      </li>
+      <li><strong>Non-autoregressive</strong> : CSDI, SSSD처럼 denoising networks에 intermediate layers를 conditioning으로 넣고 the denoising objective에 inductive bias를 introduce
+        <ul>
+          <li>하지만 long-range prediction performance는 Fedformer, NBeats보다 떨어짐</li>
+          <li>왜냐하면 conditioning 전략이 image, textf를 위한 것이지 time series를 위한 것이 아니기 때문</li>
+          <li>inductive bias를 위해 denoising objective를 사용하는 것만으로는 lookback window에서 유용한 정보를 알아내기 어렵다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>본 논문에서는 long time series prediction을 위한 conditional non-autoregressive diffusion model인 TimeDiff 제안
+    <ul>
+      <li>CSDI, SSSD와 다르게 conditioning module에 time series를 위한 additional inductive bias 도입
+        <ul>
+          <li><strong>future mixup</strong>: randomly reveals parts of the ground-truth future pre- dictions during training</li>
+          <li><strong>autoregressive initialization</strong>: better initializes the model with basic components in the time series</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="2-preliminaries">2. Preliminaries</h2>
+
+<h3 id="21-diffusion-models">2.1. Diffusion Models</h3>
+
+<p>pass</p>
+
+<h3 id="22-conditional-ddpms-for-time-series-prediction">2.2. Conditional DDPMs for Time Series Prediction</h3>
+
+<ul>
+  <li>\(\mathbf{x}_{-L+1: 0}^0 \in \mathbb{R}^{d \times L}\)를 보고 \(\mathbf{x}_{1: H}^0 \in \mathbb{R}^{d \times H}\)를 예측하는 문제</li>
+  <li>\(p_\theta\left(\mathbf{x}_{1: H}^{0: K} \mid \mathbf{c}\right)=p_\theta\left(\mathbf{x}_{1: H}^K\right) \prod_{k=1}^K p_\theta\left(\mathbf{x}_{1: H}^{k-1} \mid \mathbf{x}_{1: H}^k, \mathbf{c}\right)\),
+    <ul>
+      <li>where \(\mathbf{x}_{1: H}^K \sim \mathcal{N}(\mathbf{0}, \mathbf{I}), \mathbf{c}=\mathcal{F}\left(\mathbf{x}_{-L+1: 0}^0\right)\)</li>
+    </ul>
+  </li>
+  <li>아직 efficient denoising network \(\mu_{\theta}\)와 conditioning network \(\mathcal F\) in time series diffusion models를 어떻게 디자인할 것인지 명확하지 않음</li>
+  <li><a href="https://arxiv.org/pdf/2101.12072">TimeGrad (ICML 2021)</a>
+    <ul>
+      <li>autoregressive manner :
+ \(\begin{aligned}
+p_\theta &amp; \left(\mathbf{x}_{1: H}^{0: K} \mid \mathbf{c}=\mathcal{F}\left(\mathbf{x}_{-L+1: 0}^0\right)\right) \\
+&amp; =\prod_{t=1}^H p_\theta\left(\mathbf{x}_t^{0: K} \mid \mathbf{c}=\mathcal{F}\left(\mathbf{x}_{-L+1: t-1}^0\right)\right) \\
+&amp; =\prod^H p_\theta\left(\mathbf{x}_t^K\right) \prod^K p_\theta\left(\mathbf{x}_t^{k-1} \mid \mathbf{x}_t^k, \mathbf{c}=\mathcal{F}\left(\mathbf{x}_{-L+1: t-1}^0\right)\right)
+\end{aligned}\)</li>
+      <li>training objectives : \(\mathcal{L}_\epsilon=\mathbb{E}_{k, \mathbf{x}^0, \epsilon}\left[\left\|\epsilon-\epsilon_\theta\left(\mathbf{x}_t^k, k \mid \mathbf{h}_t\right)\right\|^2\right]\)</li>
+      <li>autoregressive decoding 때문에 error accumulation이 발생하고 inference가 느리고 부정확함</li>
+    </ul>
+  </li>
+  <li><a href="https://arxiv.org/pdf/2107.03502">CSDI(NeurIPS 2021)</a>
+    <ul>
+      <li>time series \(\mathbf{x}_{-L+1: H}^0\) 전체를 한 번에 diffusing and denoising</li>
+      <li>binary mask \(\mathbf{m} \in\{0,1\}^{d \times(L+H)}\)를 사용하여 self-supervised strategy 제안</li>
+      <li>training objectives : \(\mathcal{L}_\epsilon=\mathbb{E}_{k, \mathbf{x}^0, \epsilon}\left[\left\|\epsilon-\epsilon_\theta\left(\mathbf{x}_{\text {target }}^k, k \mid \mathbf{c}=\mathcal{F}\left(\mathbf{x}_{\text {observed }}^k\right)\right)\right\|^2\right]\)</li>
+    </ul>
+  </li>
+  <li>하지만 CSDI의 한계는
+    <ul>
+      <li>Denoising networks가 2개의 transformers를 사용해서 complexity가 높다.</li>
+      <li>conditioning에 사용되는 masking은 vision의 inpainting이랑 비슷한데
+        <ul>
+          <li><a href="https://arxiv.org/abs/2201.09865">(Lugmayr et al., 2022)</a>에서는 이 방식이 masking과 observed사이의 부조화 발생한다고 밝힘</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="https://arxiv.org/pdf/2208.09399">SSSD (TMLR 2022)</a>
+    <ul>
+      <li>Transfermer를 structured state space model로 대체</li>
+      <li>하지만 여전히 non-autoregressive strategy이라서 boundary disharmony가 발생할 수 있음</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="3-proposed-model">3. Proposed Model</h2>
+
+<ul>
+  <li>Conditional Diffusion의 conditioning은 semantic similarities across modalities 파악에 중점</li>
+  <li>하지만 현실에서의 non-stationary time series는 complex temporal dependencies 파악이 중요함</li>
+</ul>
+
+<h3 id="31-forward-diffusion-process">3.1. Forward Diffusion Process</h3>
+
+<ul>
+  <li>Forward process : \(\mathbf{x}_{1: H}^k=\sqrt{\bar{\alpha}_k} \mathbf{x}_{1: H}^0+\sqrt{1-\bar{\alpha}_k} \epsilon\)
+    <ul>
+      <li>where \(\epsilon\) is sampled from \(\mathcal{N}(0, \mathbf{I})\) with the same size as \(\mathbf{x}_{1: H}^0\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="32-conditioning-the-backward-denoising-process">3.2. Conditioning the Backward Denoising Process</h3>
+
+<ul>
+  <li>Illustration</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/timediff/fig1.png" alt="그림1" /></p>
+
+<h4 id="321-future-mixup">3.2.1. FUTURE MIXUP</h4>
+
+<ul>
+  <li>먼저 <em>future mixup</em>으로 \(\mathbf{z}_{\text {mix }}=\mathbf{m}^k \odot \mathcal{F}\left(\mathbf{x}_{-L+1: 0}^0\right)+\left(1-\mathbf{m}^k\right) \odot \mathbf{x}_{1: H}^0\)를 만든다.
+    <ul>
+      <li>past information’s mapping \(\mathcal{F}\left(\mathbf{x}_{-L+1: 0}^0\right)\)과 the future ground-truth \(\mathbf{x}_{1: H}^0\)를 combine</li>
+      <li>training에서 적용되는 것이고, inference에서는 \(\mathbf{z}_{\text {mix }}=\mathcal{F}\left(\mathbf{x}_{-L+1: 0}^0\right)\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="322-autoregressive-model">3.2.2. AUTOREGRESSIVE MODEL</h4>
+
+<ul>
+  <li>Non-autoregressive models는 masked와 observed의 경계에서 disharmony
+    <ul>
+      <li>그래서 linear autoregressive (AR) model \(\mathcal{M}_{a r}\) 사용. \(\mathbf{z}_{a r}=\sum_{i=-L+1}^0 \mathbf{W}_i \odot \mathbf{X}_i^0+\mathbf{B}\)
+        <ul>
+          <li>\(\mathbf{X}_i^0 \in \mathbb{R}^{d \times H}\) is a matrix containing \(H\) copies of \(\mathbf{x}_i^0\),</li>
+          <li>\(\mathbf{W}_i\) s \(\in \mathbb{R}^{d \times H}, \mathbf{B} \in \mathbb{R}^{d \times H}\) are trainable parameters</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>complex nonlinear time series는 approximate 못하는 건 사실이지만
+    <ul>
+      <li>simple patterns (short-term trends) 정도는 잘 잡으니까</li>
+      <li>그리고 one by one으로 하는 것이 아니라 \(\mathbf{z}_{a r}\)의 모든 columns는 동시에 계산됨</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="33-denoising-network">3.3. Denoising Network</h4>
+
+<ul>
+  <li>먼저 the transformer’s sinusoidal position embedding으로 the diffusion-step embedding \(\mathbf{p}^k\in \mathbb{R}^{d^{\prime}}\)​ 얻음
+    <ul>
+      <li>즉 \(\begin{aligned}
+k_{\text {embedding }}= &amp; {\left[\sin \left(10^{\frac{0 \times 4}{w-1}} t\right), \ldots, \sin \left(10^{\frac{w \times 4}{w-1}} t\right),\right.} \\
+&amp; \left.\cos \left(10^{\frac{0 \times 4}{w-1}} t\right), \ldots, \cos \left(10^{\frac{w \times 4}{w-1}} t\right)\right],
+\end{aligned}\)​
+        <ul>
+          <li>where \(w=\frac{d^{\prime}}{2}\)</li>
+        </ul>
+      </li>
+      <li>그리고 \(\mathbf{p}^k=\operatorname{SiLU}\left(\mathrm{FC}\left(\operatorname{SiLU}\left(\mathrm{FC}\left(k_{\text {embedding }}\right)\right)\right)\right) \in \mathbb{R}^{d^{\prime} \times 1}\)</li>
+    </ul>
+  </li>
+  <li>그 다음 \(\mathbf{p}^k\in \mathbb{R}^{d^{\prime}}\)는 diffused input \(\mathbf{x}_{1: H}^k\)의 embedding \(\mathbf{z}_1^k \in \mathbb{R}^{d^{\prime} \times H}\)에 합쳐짐 (\(2 d^{\prime} \times H\)이 됨)
+    <ul>
+      <li>\(\mathbf{z}_1^k\)는 여러 개의 convolution layers로 이루어진 input projection block을 통과시켜 얻음</li>
+    </ul>
+  </li>
+  <li>그 다음 multilayer convolution-based <strong>encoder</strong> 통과하면 \(\mathbf{z}_2^k \in \mathbb{R}^{d^{\prime \prime} \times H}\)로 representation</li>
+  <li>그 다음 \(\mathbf{c}\)와 \(\mathbf{z}_2^k\)를 fuse해서 \(\left(2 d+d^{\prime \prime}\right) \times H\)로 만들고
+    <ul>
+      <li>multiple convolution layers <strong>decoder</strong>에 넣어서 \(\mathbf{x}_\theta\left(\mathbf{x}_{1: H}^k, k \mid \mathbf{c}\right)\in \mathbb{R^{d \times H}}\)로 만듬 (\(\mathbf{x}_{1: H}^k\)와 같은 size)</li>
+    </ul>
+  </li>
+  <li>마지막으로 \(\mu_{\mathbf{x}}\left(\mathbf{x}_\theta\right)=\frac{\sqrt{\alpha_k}\left(1-\bar{\alpha}_{k-1}\right)}{1-\bar{\alpha}_k} \mathbf{x}^k+\frac{\sqrt{\bar{\alpha}_{k-1}} \beta_k}{1-\bar{\alpha}_k} \mathbf{x}_\theta\left(\mathbf{x}^k, k \mid \mathbf{c}\right)\)을 통해 denoised output \(\begin{aligned}
+\hat{\mathbf{x}}_{1: H}^{k-1}= &amp; \frac{\sqrt{\alpha_k}\left(1-\bar{\alpha}_{k-1}\right)}{1-\bar{\alpha}_k} \mathbf{x}_{1: H}^k+\frac{\sqrt{\bar{\alpha}_{k-1}} \beta_k}{1-\bar{\alpha}_k} \mathbf{x}_\theta\left(\mathbf{x}_{1: H}^k, k \mid \mathbf{c}\right) 
++\sigma_k \epsilon
+\end{aligned}\)얻음</li>
+  <li>흔히 아는 Diffusion에서는 noise \(\epsilon_\theta\left(\mathbf{x}_{1: H}^k, k\right)\)를 예측하지만, time series에서는  highly irregular noisy components라서 데이터 \(\mathbf{x}_\theta\left(\mathbf{x}_{1: H}^k, k\right)\)를 예측</li>
+</ul>
+
+<h3 id="34-training">3.4. Training</h3>
+
+<ul>
+  <li>Pesudo code</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/timediff/code.png" alt="그림3" /></p>
+
+<ul>
+  <li>각각의 \(\mathbf{x}_{1: H}^0\)에 대해 batch of diffusion steps \(k\)’s를 sampling하고
+    <ul>
+      <li>conditioned variant of loss를 minimize: \(\min _\theta \mathcal{L}(\theta)=\min _\theta \mathbb{E}_{\mathbf{x}_{1 . H}^0, \epsilon \sim \mathcal{N}(\mathbf{0}, \mathbf{I}), k} \mathcal{L}_k(\theta)\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="35-inference">3.5. Inference</h3>
+
+<ul>
+  <li>Pesudo code</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/timediff/code.png" alt="그림4" /></p>
+
+<ul>
+  <li>먼저 noise vector \(\mathbf{x}_{1 \cdot H}^K \sim \mathcal{N}(\mathbf{0}, \mathbf{I}) \in \mathbb{R}^{d \times H}\)를 생성하고</li>
+  <li>\(\begin{aligned}
+\hat{\mathbf{x}}_{1: H}^{k-1}= &amp; \frac{\sqrt{\alpha_k}\left(1-\bar{\alpha}_{k-1}\right)}{1-\bar{\alpha}_k} \mathbf{x}_{1: H}^k+\frac{\sqrt{\bar{\alpha}_{k-1}} \beta_k}{1-\bar{\alpha}_k} \mathbf{x}_\theta\left(\mathbf{x}_{1: H}^k, k \mid \mathbf{c}\right) 
++\sigma_k \epsilon
+\end{aligned}\)을 반복 (\(k=1\) 까지)
+    <ul>
+      <li>when \(k=1\), \(\epsilon=0\)이므로 \(\hat{\mathbf{x}}_{1: H}^0\)를 final prediction으로 얻을 수 있음</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="4-experiments">4. Experiments</h2>
+
+<p><img src="/assets/img/timeseries/timediff/table2.png" alt="그림12" /></p>
+
+<p><img src="/assets/img/timeseries/timediff/table3.png" alt="그림13" /></p>
+
+<p><img src="/assets/img/timeseries/timediff/fig2.png" alt="그림2" /></p>
+
+<h3 id="43-ablation-study">4.3. Ablation study</h3>
+
+<ul>
+  <li><strong>The Effectiveness of Future mixup</strong></li>
+</ul>
+
+<p><img src="/assets/img/timeseries/timediff/table4.png" alt="그림14" /></p>
+
+<ul>
+  <li>
+    <p>특히 ETTh1 데이터셋에서 future mixup을 안썼을 때 성능이 많이 떨어진다.</p>
+  </li>
+  <li>
+    <p><strong>The Mixup Strategies in Future mixup</strong></p>
+    <ul>
+      <li>Hard mixup : The sampled values in \(\mathbf{m}^k\) are binarized by a threshold \(\tau \in (0,1)\)</li>
+      <li>Segment mixup : The mask  \(\mathbf{m}^k\), Each masked segment has a length following the geometric distribution with a mean of 3. This is then followed by an unmasked segment with mean length \(3(1 − \tau)/\tau\)</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/timeseries/timediff/table5.png" alt="그림15" /></p>
+
+<ul>
+  <li><strong>Predicting \(\mathbf{x}_\theta\) vs Predicting \(\epsilon_\theta\)</strong></li>
+</ul>
+
+<p><img src="/assets/img/timeseries/timediff/table6.png" alt="그림16" /></p>
+
+<h3 id="44-integration-into-existing-diffusion-models">4.4. Integration into Existing Diffusion Models</h3>
+
+<p><img src="/assets/img/timeseries/timediff/table7.png" alt="그림17" /></p>
+
+<h3 id="45-inference-efficiency">4.5. Inference Efficiency</h3>
+
+<p><img src="/assets/img/timeseries/timediff/table8.png" alt="그림18" /></p>
+
+<h2 id="5-conclusion">5. Conclusion</h2>
+
+<ul>
+  <li>Timediff : diffusion model for time series prediction,
+    <ul>
+      <li>1)future mixup과 2)autoregressive initialization이라는 conditioning mechanisms으로</li>
+      <li>conditioning network에 useful inductive bias를 추가</li>
+      <li>한계점으로 변수의 개수가 많을 때 multivariate dependencies를 학습하기 어렵다
+        <ul>
+          <li>graph 사용 ?</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICML 2023](https://arxiv.org/pdf/2306.05043)]]></summary></entry><entry><title type="html">CSDI: Conditional Score-based Diffusion Models for Probabilistic Time Series Imputation</title><link href="http://localhost:4000/timeseries/2024-07-15-CSDI/" rel="alternate" type="text/html" title="CSDI: Conditional Score-based Diffusion Models for Probabilistic Time Series Imputation" /><published>2024-07-15T00:00:00+09:00</published><updated>2024-07-15T10:02:51+09:00</updated><id>http://localhost:4000/timeseries/CSDI</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-15-CSDI/"><![CDATA[<h2 id="abstract">Abstract</h2>
+
+<ul>
+  <li>Imputation에서 autoregressive models보다 score-based diffusion models의 성능이 좋음</li>
+  <li>Conditional Score-based Diffusion models for Imputation (CSDI)
+    <ul>
+      <li>explicitly trained for imputation</li>
+      <li>can exploit correlations between observed values</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="1-introduction">1. Introduction</h2>
+
+<p><img src="/assets/img/timeseries/CSDI/fig1.png" alt="그림1" /></p>
+
+<ul>
+  <li>Conditional diffusion modeld을 위해서 필요한 것들
+    <ul>
+      <li>observed values (i.e., conditional information)</li>
+      <li>ground-truth missing values (i.e., imputation targets)</li>
+      <li>하지만 실제로는 ground-truth missing values를 모르기 때문에</li>
+      <li>masked language modeling처럼 self-supervised training
+        <ul>
+          <li>separates observed values into conditional information and imputation targets</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="2-related-work">2. Related Work</h2>
+
+<ul>
+  <li>RNN \(\to\) GAN and self-training(deterministic) \(\to\) GP-VAE(probabilistic)</li>
+  <li><a href="https://arxiv.org/pdf/2101.12072">TimeGrad(ICML 2021)</a>에서 diffusion probabilistic models 사용하여 SOTA
+    <ul>
+      <li>but 과거를 보는 RNNs을 썼기 때문에 time series imputation으로 활용되기는 어려움</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="3-background">3. Background</h2>
+
+<h3 id="31-multivariate-time-series-imputation">3.1. Multivariate time series imputation</h3>
+
+<ul>
+  <li>\(\mathbf{X}=\left\{x_{1: K, 1: L}\right\} \in \mathbb{R}^{K \times L}\), \(K\)는 the number of features, \(L\)은 length of sequence</li>
+  <li>observation mask : \(\mathbf{M}=\left\{m_{1: K, 1: L}\right\} \in\{0,1\}^{K \times L}\)
+    <ul>
+      <li>\(x_{k, l}\)가 missing이면 \(m_{k, l}=0\), observed이면 \(m_{k, l}=1\)</li>
+    </ul>
+  </li>
+  <li>Timestamps of the time series \(\mathbf{s}=\left\{s_{1: L}\right\} \in \mathbb{R}^L\)</li>
+  <li>즉 각각의 time series는 \(\{\mathbf{X}, \mathbf{M}, \mathbf{s}\}\)로 표현됨</li>
+</ul>
+
+<h3 id="32-denoising-diffusion-probabilistic-models">3.2. Denoising diffusion probabilistic models</h3>
+
+<ul>
+  <li>forward process : \(q\left(\mathbf{x}_{1: T} \mid \mathbf{x}_0\right):=\prod_{t=1}^T q\left(\mathbf{x}_t \mid \mathbf{x}_{t-1}\right) \text { where } q\left(\mathbf{x}_t \mid \mathbf{x}_{t-1}\right):=\mathcal{N}\left(\sqrt{1-\beta_t} \mathbf{x}_{t-1}, \beta_t \mathbf{I}\right)\)</li>
+  <li>reverse process : \(\begin{aligned}
+&amp; p_\theta\left(\mathbf{x}_{0: T}\right):=p\left(\mathbf{x}_T\right) \prod_{t=1}^T p_\theta\left(\mathbf{x}_{t-1} \mid \mathbf{x}_t\right), \quad \mathbf{x}_T \sim \mathcal{N}(\mathbf{0}, \mathbf{I}) \\
+&amp; p_\theta\left(\mathbf{x}_{t-1} \mid \mathbf{x}_t\right):=\mathcal{N}\left(\mathbf{x}_{t-1} ; {\mu}_\theta\left(\mathbf{x}_t, t\right), \sigma_\theta\left(\mathbf{x}_t, t\right) \mathbf{I}\right)
+\end{aligned}\)</li>
+</ul>
+
+<h3 id="33-imputation-with-diffusion-models">3.3 Imputation with diffusion models</h3>
+
+<ul>
+  <li>conditional observation \(\mathbf{x}_0^{\mathrm{co}} \in \mathcal{X}^{\mathrm{co}}\)를 활용해서 Imputation target \(\mathbf{x}_0^{\mathrm{ta}} \in \mathcal{X}^{\mathrm{ta}}\)을 생성</li>
+  <li>Reverse process에 conditional 추가 : modeling \(p_\theta\left(\mathbf{x}_{t-1}^{\mathrm{ta}} \mid \mathbf{x}_t^{\mathrm{ta}}, \mathbf{x}_0^{\mathrm{co}}\right)\)</li>
+</ul>
+
+<h2 id="4-conditional-score-based-diffusion-model-for-imputation-csdi">4. Conditional score-based diffusion model for imputation (CSDI)</h2>
+
+<ul>
+  <li>Reverse process of the conditional diffusion model, and self-supervised training method</li>
+</ul>
+
+<h3 id="41-imputation-with-csdi">4.1. Imputation with CSDI</h3>
+
+<ul>
+  <li>all observed values of \(\mathbf{x}_0\) as conditional observations \(\mathbf{x}_0^{\mathrm{co}}\),
+    <ul>
+      <li>all missing values as imputation targets \(\mathbf{x}_0^{\mathrm{ta}}\)</li>
+    </ul>
+  </li>
+  <li>Parameterization with \({\epsilon}_\theta\): \({\mu}_\theta\left(\mathbf{x}_t^{\mathrm{ta}}, t \mid \mathbf{x}_0^{\mathrm{co}}\right)={\mu}^{\mathrm{DDPM}}\left(\mathbf{x}_t^{\mathrm{ta}}, t, {\epsilon}_\theta\left(\mathbf{x}_t^{\mathrm{ta}}, t \mid \mathbf{x}_0^{\mathrm{co}}\right)\right), \quad \sigma_\theta\left(\mathbf{x}_t^{\mathrm{ta}}, t \mid \mathbf{x}_0^{\mathrm{co}}\right)=\sigma^{\mathrm{DDPM}}\left(\mathbf{x}_t^{\mathrm{ta}}, t\right)\)</li>
+</ul>
+
+<h3 id="42-training-of-csdi">4.2. Training of CSDI</h3>
+
+<p><img src="/assets/img/timeseries/CSDI/fig2.png" alt="그림2" /></p>
+
+<p><img src="/assets/img/timeseries/CSDI/fig6.png" alt="그림6" /></p>
+
+<ul>
+  <li>Train \({\epsilon}_\theta\) by minimizing the loss function : \(\min _\theta \mathcal{L}(\theta):=\min _\theta \mathbb{E}_{\mathbf{x}_0 \sim q\left(\mathbf{x}_0\right), {\epsilon} \sim \mathcal{N}(\mathbf{0}, \mathbf{I}), t}\left\|\left({\epsilon}-{\epsilon}_\theta\left(\mathbf{x}_t^{\mathrm{ta}}, t \mid \mathbf{x}_0^{\mathrm{co}}\right)\right)\right\|_2^2\)</li>
+  <li>fig2는 Masked modeling에서 아이디러를 얻은 CSDI의 self-supervised learning method
+    <ul>
+      <li>흰색은 missing, 파랑색은 observed이다.</li>
+      <li>observed의 일부를 imputation target(빨강색)으로 분리하고 noise를 씌운다.</li>
+      <li>남은 observed와 noisy target을 보고 imputation target을 맞추도록 학습한다.</li>
+      <li>학습 할 때에만 이렇게 하고 실제 sampling(imputation)은 missing(흰색)에 하는 것</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/timeseries/CSDI/table1.png" alt="그림11" /></p>
+
+<h3 id="43-choice-of-imputation-targets-in-self-supervised-learning">4.3. Choice of imputation targets in self-supervised learning</h3>
+
+<ul>
+  <li><em>Random</em> strategy : missing patterns 모를 때 일정 비율만큼 imputation target으로 설정</li>
+  <li><em>Historical</em> strategy : exploits missing patterns in the training dataset. training과 test의 missing pattern이 highly correlated일 때</li>
+  <li><em>Mix</em> strategy : 위 두 가지 방법 mix. Training의 missing pattern에 overfitting되는 것을 방지</li>
+  <li><em>Test</em> pattern strategy : test의 missing pattern 알 때</li>
+</ul>
+
+<h2 id="5-implementation-of-csdi-for-time-series-imputation">5. Implementation of CSDI for time series imputation</h2>
+
+<p><img src="/assets/img/timeseries/CSDI/fig3.png" alt="그림3" /></p>
+
+<ul>
+  <li>\(\mathbf{x}_t^{\mathrm{ta}}\)와 \(\mathbf{x}_0^{\mathrm{co}}\)를 \(\mathbb{R}^{K \times L}\)로 만들어주기 위해 zero-padding
+    <ul>
+      <li>모델의 input에 conditional mask \(\mathbf{m}^{\mathrm{co}} \in\{0,1\}^{K \times L}\)를 추가</li>
+    </ul>
+  </li>
+  <li>The conditional denoising function \({\epsilon}_\theta\left(\mathbf{x}_t^{\mathrm{ta}}, t \mid \mathbf{x}_0^{\mathrm{co}}, \mathbf{m}^{\mathrm{co}}\right)\)은 \({\epsilon}_\theta:\left(\mathbb{R}^{K \times L} \times \mathbb{R} \mid \mathbb{R}^{K \times L} \times\{0,1\}^{K \times L}\right) \rightarrow \mathbb{R}^{K \times L}\)로 표현됨</li>
+</ul>
+
+<h3 id="attention-mechanism">Attention mechanism</h3>
+
+<ul>
+  <li>Multivariate time series의 temporal and feature dependency를 파악하기 위해
+    <ul>
+      <li>two dimensional attention mechanism 활용 (conv 대신)</li>
+      <li>각각을 temporal Transformer layer and a feature Trans- former layer라 함</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="6-experimental-results">6. Experimental results</h2>
+
+<h3 id="61-time-series-imputation">6.1. Time series imputation</h3>
+
+<p><img src="/assets/img/timeseries/CSDI/table2.png" alt="그림12" /></p>
+
+<p><img src="/assets/img/timeseries/CSDI/fig4.png" alt="그림4" /></p>
+
+<p><img src="/assets/img/timeseries/CSDI/table3.png" alt="그림13" /></p>
+
+<h3 id="62-interpolation-of-irregularly-sampled-time-series">6.2. Interpolation of irregularly sampled time series</h3>
+
+<p><img src="/assets/img/timeseries/CSDI/table4.png" alt="그림14" /></p>
+
+<h3 id="63-time-series-forecasting">6.3. Time series Forecasting</h3>
+
+<p><img src="/assets/img/timeseries/CSDI/table5.png" alt="그림15" /></p>
+
+<h2 id="7-conclusion">7. Conclusion</h2>
+
+<ul>
+  <li>CSDI : novel approach to impute multivariate time series with conditional diffusion models</li>
+  <li>Future works
+    <ul>
+      <li>improve the computation efficiency</li>
+      <li>extend CSDI to downstream tasks such as classifications</li>
+    </ul>
+  </li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[NeurIPS 2021](https://arxiv.org/pdf/2107.03502)]]></summary></entry><entry><title type="html">Timegrad :Autoregressive Denoising Diffusion Models for Multivariate Probabilistic Time Series Forecasting (ICML 2021)</title><link href="http://localhost:4000/timeseries/2024-07-09-Timegrad/" rel="alternate" type="text/html" title="Timegrad :Autoregressive Denoising Diffusion Models for Multivariate Probabilistic Time Series Forecasting (ICML 2021)" /><published>2024-07-09T00:00:00+09:00</published><updated>2024-07-11T14:35:37+09:00</updated><id>http://localhost:4000/timeseries/Timegrad</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-09-Timegrad/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li><strong>TimeGrad</strong> : auto-regressive model for multivariate time series forecasting, using diffusion
@@ -100,7 +560,7 @@
   <li>Results</li>
 </ul>
 
-<p><img src="/assets/img/timeseries/Timegrad/table2.png" alt="그림12" /></p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICML 2021](https://arxiv.org/pdf/2210.02186)]]></summary></entry><entry><title type="html">TimesNet: Temporal 2D-Variation Modeling for General Time Series Analysis (ICLR 2023)</title><link href="http://localhost:4000/timeseries/2024-07-08-TimesNet/" rel="alternate" type="text/html" title="TimesNet: Temporal 2D-Variation Modeling for General Time Series Analysis (ICLR 2023)" /><published>2024-07-08T00:00:00+09:00</published><updated>2024-07-09T00:34:54+09:00</updated><id>http://localhost:4000/timeseries/TimesNet</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-08-TimesNet/"><![CDATA[<h2 id="abstract">Abstract</h2>
+<p><img src="/assets/img/timeseries/Timegrad/table2.png" alt="그림12" /></p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICML 2021](https://arxiv.org/pdf/2101.12072)]]></summary></entry><entry><title type="html">TimesNet: Temporal 2D-Variation Modeling for General Time Series Analysis (ICLR 2023)</title><link href="http://localhost:4000/timeseries/2024-07-08-TimesNet/" rel="alternate" type="text/html" title="TimesNet: Temporal 2D-Variation Modeling for General Time Series Analysis (ICLR 2023)" /><published>2024-07-08T00:00:00+09:00</published><updated>2024-07-09T00:34:54+09:00</updated><id>http://localhost:4000/timeseries/TimesNet</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-08-TimesNet/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>Temporal variation modeling을 위해서 multi-periodicity in time series를 파악
@@ -1338,99 +1798,4 @@ estimator는 \(\widehat{r}(x)=\sum_{i=1}^n w_i(x) Y_i\) where \(w_i(x)=\frac{K\l
       <li>adaptive pathways dynamically select and aggregate scale-specific characteristics</li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2024](https://openreview.net/pdf?id=lJkOCMP2aW)]]></summary></entry><entry><title type="html">Chernoff Bound (upper bound on the tail probability)</title><link href="http://localhost:4000/stat/2024-05-23-ChernoffBound/" rel="alternate" type="text/html" title="Chernoff Bound (upper bound on the tail probability)" /><published>2024-05-23T00:00:00+09:00</published><updated>2024-07-02T22:54:50+09:00</updated><id>http://localhost:4000/stat/ChernoffBound</id><content type="html" xml:base="http://localhost:4000/stat/2024-05-23-ChernoffBound/"><![CDATA[<h2 id="prerequirement">Prerequirement</h2>
-<ul>
-  <li>Markov inequality \(\mathrm{P}(X \geq a) \leq \frac{\mathrm{E}(X)}{a}\)</li>
-  <li>Chebyshev inequality \(\operatorname{Pr}(\mid X-\mu\mid \geq k \sigma) \leq \frac{1}{k^2}\)</li>
-</ul>
-
-<h2 id="chernoff-bound">Chernoff Bound</h2>
-<ul>
-  <li>확률변수 X에 대한 tail probability <br />
-\(\begin{aligned}P(X \geqslant a) &amp; =P\left(e^{t X} \geqslant e^{t a}\right) \\ &amp; \leqslant \frac{\mathbb{E}\left[e^{t X}\right]}{e^{t a}} \text { by Markov inequality } . \\ &amp; =M(t) e^{-t a}\end{aligned}\)</li>
-</ul>
-
-<h2 id="example--bernoulli-confidence-sets-vs-hoeffdings-inequality">Example : Bernoulli Confidence sets vs. Hoeffding’s inequality</h2>
-<ul>
-  <li>Under asymptotic normality <br />
-\(\begin{aligned}P_\theta\left(\theta \in C_n\right)&amp;=P_\theta\left(\widehat{\theta}-z_{\alpha / 2} \sqrt{\operatorname{Var}_\theta[\widehat{\theta}]} \leq \theta \leq \widehat{\theta}+z_{\alpha / 2} \sqrt{\operatorname{Var}_\theta[\widehat{\theta}]}\right)\\C_n&amp;=\left(\widehat{p}-z_{\alpha / 2} \sqrt{\frac{\widehat{p}(1-\widehat{p})}{n}}, \widehat{p}+z_{\alpha / 2} \sqrt{\frac{\widehat{p}(1-\widehat{p})}{n}}\right)\end{aligned}\)</li>
-  <li>Hoeffding’s inequality <br />
-\(P(\mid \widehat{p}-p\mid \geq t) \leq 2 e^{-2 n t^2}\)</li>
-  <li><strong>Under asymptotic normality로 얻은 Confidence sets은 항상 Hoeffding’s inequality 보다 tight(short)하다.</strong>
-    <ul>
-      <li><strong>증명</strong> :  \(z_{\alpha / 2} \sqrt{\frac{\widehat{p}(1-\widehat{p})}{n}} \leq \sqrt{\frac{\log (2 / \alpha)}{2 n}}\)에서 \(\widehat{p}(1-\widehat{p}) \le \frac{1}{4}\) 이므로</li>
-      <li>(1) Exponential Markov Inequality<br />
-\(\begin{aligned} P(z \geqslant z) &amp; =P\left(e^{t Z} e^{t z}\right) \\ &amp; \leqslant \frac{\mathbb{E}\left[e^{t Z}\right]}{e^{t z}}=e^{\frac{t^2}{2}-t z} \\ &amp; \leqslant e^{-z^2 / 2} \quad \text{ when }t=z\end{aligned}\)</li>
-      <li>(2) Chernoff Bounds<br />
-\(\begin{aligned}  p(Z \geqslant z) &amp;\leqslant e^{-z^2 / 2} \\ p\left(z \geqslant z_{\frac{\alpha}{2}}\right) &amp;\leqslant e^{-z_{\frac{\alpha}{2}}^2 / 2} \\  \alpha / 2 &amp;\leqslant e^{-z_{\frac{\alpha}{2}}^2 / 2} \\ \log{\frac{\alpha}{2}}&amp;\leqslant-\frac{z_{\frac{\alpha}{2}}^2}{2} \\ z_{\frac{\alpha}{2}}^2 &amp;\leq 2 \log{\frac{\alpha}{2}} \\ \end{aligned}\)</li>
-    </ul>
-  </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[Prerequirement Markov inequality \(\mathrm{P}(X \geq a) \leq \frac{\mathrm{E}(X)}{a}\) Chebyshev inequality \(\operatorname{Pr}(\mid X-\mu\mid \geq k \sigma) \leq \frac{1}{k^2}\)]]></summary></entry><entry><title type="html">(Corrformer, NMI 2023) Code Review 3 - Encoder</title><link href="http://localhost:4000/pytorch/2024-05-05-corrformer3/" rel="alternate" type="text/html" title="(Corrformer, NMI 2023) Code Review 3 - Encoder" /><published>2024-05-05T00:00:00+09:00</published><updated>2024-07-02T22:54:50+09:00</updated><id>http://localhost:4000/pytorch/corrformer3</id><content type="html" xml:base="http://localhost:4000/pytorch/2024-05-05-corrformer3/"><![CDATA[<p><img src="/assets/img/pytorch/corrformer0/corrformer010.jpeg" alt="사진10" /></p>
-<ul>
-  <li>우리는 <code class="language-plaintext highlighter-rouge">exp_main</code>의 <code class="language-plaintext highlighter-rouge">train</code> 메소드를 실행하고 있다.</li>
-  <li><code class="language-plaintext highlighter-rouge">get_data</code>는 이미 살펴보았고 <code class="language-plaintext highlighter-rouge">self.model</code>에 들어가는 Corrformer를 이해하기 위해 <code class="language-plaintext highlighter-rouge">Corrformer.py</code>를 살펴보고 있다.
-    <ul>
-      <li>step 0. Initialization and Normalizaiton</li>
-      <li>step 1. Data Embedding Instance</li>
-      <li>step 2. Encoder Instance</li>
-      <li>step 3. Decoder Instance</li>
-      <li>step 4. forward</li>
-    </ul>
-  </li>
-  <li>forward 전체 코드
-<img src="/assets/img/pytorch/corrformer1/fig6.png" alt="사진6" /></li>
-</ul>
-
-<h3 id="step-2-encoder-instance">step 2. Encoder Instance</h3>
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">enc_out = self.encoder(enc_out, attn_mask=enc_self_mask)</code>
-<img src="/assets/img/pytorch/corrformer2/corrformer23.png" alt="사진3" /></li>
-  <li>지난 포스팅에서 봤던 <code class="language-plaintext highlighter-rouge">enc_out = self.enc_embedding(x_enc, x_mark_enc) #(350, 48, 768)</code>가 <code class="language-plaintext highlighter-rouge">encoder</code>의 input</li>
-  <li>
-    <p><code class="language-plaintext highlighter-rouge">encoder</code>는 `layers’에 있는 Encoder, MultiCorrelation, AutoCorrelation, CrossCorrelation, CausalConv를 import
-<img src="/assets/img/pytorch/corrformer3/corrformer31.png" alt="사진31" /></p>
-  </li>
-  <li><code class="language-plaintext highlighter-rouge">self.encoder</code> instance를 만드는데, parameters를 잠시 지우고 구조만 보면 아래와 같다.</li>
-</ul>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">self</span><span class="p">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="nc">Encoder</span><span class="p">([</span>
-        <span class="nc">EncoderLayer</span><span class="p">(</span>
-            <span class="nc">MultiCorrelation</span><span class="p">(</span>
-                <span class="nc">AutoCorrelationLayer</span><span class="p">(</span><span class="nc">AutoCorrelation</span><span class="p">()),</span>
-                <span class="nc">CrossCorrelationLayer</span><span class="p">(</span><span class="nc">CrossCorrelation</span><span class="p">(</span><span class="nc">CausalConv</span><span class="p">()))</span>
-            <span class="p">))])</span>
-</code></pre></div></div>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">Encoder</code> 안에 <code class="language-plaintext highlighter-rouge">EncoderLayer</code>가 있다. <code class="language-plaintext highlighter-rouge">EncoderLayer</code> 안에는 <code class="language-plaintext highlighter-rouge">MultiCorrelation</code>이 있는데, <code class="language-plaintext highlighter-rouge">MultiCorrelation</code> 안에는 <code class="language-plaintext highlighter-rouge">AutoCorrelationLayer(AutoCorrelation())</code>과 <code class="language-plaintext highlighter-rouge">CrossCorrelationLayer(CrossCorrelation(CausalConv()))</code>이 있다.</li>
-</ul>
-
-<h3 id="causalconv">CausalConv()</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Corrformer.py
-</span><span class="nc">CausalConv</span><span class="p">(</span>
-    <span class="n">num_inputs</span><span class="o">=</span><span class="n">configs</span><span class="p">.</span><span class="n">d_model</span> <span class="o">//</span> <span class="n">configs</span><span class="p">.</span><span class="n">n_heads</span> <span class="o">*</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">label_len</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">pred_len</span><span class="p">),</span>
-    <span class="n">num_channels</span><span class="o">=</span><span class="p">[</span><span class="n">configs</span><span class="p">.</span><span class="n">d_model</span> <span class="o">//</span> <span class="n">configs</span><span class="p">.</span><span class="n">n_heads</span> <span class="o">*</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">label_len</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">pred_len</span><span class="p">)]</span> <span class="o">*</span> <span class="n">configs</span><span class="p">.</span><span class="n">dec_tcn_layers</span><span class="p">,</span>
-    <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-
-<span class="c1"># Corrformer.sh
-# --d_model 768 \ --n_heads 16 \ --label_len 24 \ --pred_len 24 \ --dec_tcn_layers 1 \
-</span>
-<span class="c1"># Causal_Conv.py
-</span><span class="k">class</span> <span class="nc">CausalConv</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">num_inputs</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
-        <span class="nf">super</span><span class="p">(</span><span class="n">CausalConv</span><span class="p">,</span> <span class="n">self</span><span class="p">).</span><span class="nf">__init__</span><span class="p">()</span>
-        <span class="n">layers</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">num_levels</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">num_channels</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">num_levels</span><span class="p">):</span>
-            <span class="n">dilation_size</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">**</span> <span class="n">i</span>
-            <span class="n">in_channels</span> <span class="o">=</span> <span class="n">num_inputs</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">num_channels</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
-            <span class="n">out_channels</span> <span class="o">=</span> <span class="n">num_channels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-            <span class="n">layers</span> <span class="o">+=</span> <span class="p">[</span><span class="nc">CausalBlock</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dilation</span><span class="o">=</span><span class="n">dilation_size</span><span class="p">,</span>
-                                   <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="n">kernel_size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">dilation_size</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="n">dropout</span><span class="p">)]</span>
-
-        <span class="n">self</span><span class="p">.</span><span class="n">network</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Sequential</span><span class="p">(</span><span class="o">*</span><span class="n">layers</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="nf">network</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</code></pre></div></div>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="pytorch" /><summary type="html"><![CDATA[[Corrformer github](https://github.com/thuml/Corrformer)]]></summary></entry></feed>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2024](https://openreview.net/pdf?id=lJkOCMP2aW)]]></summary></entry></feed>
