@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en"><!--
+ __  __                __                                     __
+/\ \/\ \              /\ \             __                    /\ \
+\ \ \_\ \   __  __    \_\ \      __   /\_\      __       ___ \ \ \/'\
+ \ \  _  \ /\ \/\ \   /'_` \   /'__`\ \/\ \   /'__`\    /'___\\ \ , <
+  \ \ \ \ \\ \ \_\ \ /\ \L\ \ /\  __/  \ \ \ /\ \L\.\_ /\ \__/ \ \ \\`\
+   \ \_\ \_\\/`____ \\ \___,_\\ \____\ _\ \ \\ \__/.\_\\ \____\ \ \_\ \_\
+    \/_/\/_/ `/___/> \\/__,_ / \/____//\ \_\ \\/__/\/_/ \/____/  \/_/\/_/
+                /\___/                \ \____/
+                \/__/                  \/___/
+
+Powered by Hydejack v9.1.6 <https://hydejack.com/>
+-->
+
+
+
+
+
+
+
+<head>
+  
+
+
+
+
+
+
+  
+    
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>MG-TSD: Multi-Granularity Time Series Diffusion Models with Guided Learning Process (ICLR 2024) | LpppJ</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="MG-TSD: Multi-Granularity Time Series Diffusion Models with Guided Learning Process (ICLR 2024)" />
+<meta name="author" content="GW Jeong" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="ICLR 2024" />
+<meta property="og:description" content="ICLR 2024" />
+<link rel="canonical" href="http://localhost:4000/timeseries/2024-08-05-MG-TSD/" />
+<meta property="og:url" content="http://localhost:4000/timeseries/2024-08-05-MG-TSD/" />
+<meta property="og:site_name" content="LpppJ" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-08-05T00:00:00+09:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="MG-TSD: Multi-Granularity Time Series Diffusion Models with Guided Learning Process (ICLR 2024)" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-08-05T00:57:30+09:00","datePublished":"2024-08-05T00:00:00+09:00","description":"ICLR 2024","headline":"MG-TSD: Multi-Granularity Time Series Diffusion Models with Guided Learning Process (ICLR 2024)","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/timeseries/2024-08-05-MG-TSD/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/timeseries/2024-08-05-MG-TSD/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  
+
+
+
+  <meta name="theme-color" content="rgb(230, 217, 195)">
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="LpppJ">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<meta name="application-name" content="LpppJ">
+
+<meta name="generator" content="Hydejack v9.1.6" />
+
+
+<link rel="alternate" href="http://localhost:4000/timeseries/2024-08-05-MG-TSD/" hreflang="en">
+
+<link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="LpppJ" />
+
+
+<link rel="shortcut icon"    href="/assets/icons/favicon.ico">
+<link rel="apple-touch-icon" href="/assets/icons/icon-192x192.png">
+
+<link rel="manifest" href="/assets/site.webmanifest">
+
+<link rel="dns-prefetch" href="https://fonts.googleapis.com"><link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+
+
+<link rel="preload" href="/assets/img/swipe.svg" as="image" id="_hrefSwipeSVG">
+
+
+
+
+
+
+<script>!function(r,c){"use strict";function a(e,t,n,o){e.addEventListener?e.addEventListener(t,n,o):e.attachEvent?e.attachEvent("on"+t,n):e["on"+t]=n}r.loadJS=function(e,t){var n=c.createElement("script"),e=(n.src=e,t&&a(n,"load",t,{once:!0}),c.scripts[0]);return e.parentNode.insertBefore(n,e),n},r._loaded=!1,r.loadJSDeferred=function(e,t){var n=c.createElement("script");function o(){r._loaded=!0,t&&a(n,"load",t,{once:!0});var e=c.scripts[0];e.parentNode.insertBefore(n,e)}return n.src=e,r._loaded?o():a(r,"load",o,{once:!0}),n},r.setRel=r.setRelStylesheet=function(e){a(c.getElementById(e),"load",function(){this.rel="stylesheet"},{once:!0})}}(window,document);
+!function(a){"use strict";var b=function(b,c,d){function e(a){return h.body?a():void setTimeout(function(){e(a)})}function f(){i.addEventListener&&i.removeEventListener("load",f),i.media=d||"all"}var g,h=a.document,i=h.createElement("link");if(c)g=c;else{var j=(h.body||h.getElementsByTagName("head")[0]).childNodes;g=j[j.length-1]}var k=h.styleSheets;i.rel="stylesheet",i.href=b,i.media="only x",e(function(){g.parentNode.insertBefore(i,c?g:g.nextSibling)});var l=function(a){for(var b=i.href,c=k.length;c--;)if(k[c].href===b)return a();setTimeout(function(){l(a)})};return i.addEventListener&&i.addEventListener("load",f),i.onloadcssdefined=l,l(f),i};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
+!function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(b){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
+!function(w) {
+  w._baseURL = '/';
+  w._publicPath = '/assets/js/';
+  w._noPushState = false;
+  w._noDrawer = false;
+  w._noNavbar = false;
+  w._noToc = false;
+  w._noSearch = false;
+  w._search = {
+    DATA_URL: '/assets/sitedata.json?no-cache',
+    STORAGE_KEY: 'mini-search/',
+    INDEX_KEY: 'index--2024-08-05T00:57:44+09:00',
+  };
+  w._clapButton = true;
+}(window);</script>
+
+
+<script async src="/assets/bower_components/MathJax/es5/tex-mml-chtml.js" id="_MathJax"></script>
+
+
+<!--[if gt IE 8]><!---->
+
+  
+
+
+
+
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css" id="_iconsPreload">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:700%7CNoto+Sans:400,400i,700,700i&display=swap" id="_fontsPreload">
+
+
+
+  <style id="_pageStyle">
+
+html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5);--accent-color-highlight: rgba(94, 97, 94, 0.1);--accent-color-darkened: #4b4e4b;--theme-color: rgb(230, 217, 195)}
+</style>
+
+
+<!--<![endif]-->
+
+
+
+
+</head>
+
+<body class="no-break-layout">
+  
+
+
+<hy-push-state
+  id="_pushState"
+  replace-selector="#_main"
+  link-selector="a[href]:not([href^='/assets/']):not(.external):not(.no-push-state)"
+  script-selector="script"
+  duration="500"
+  hashchange
+>
+  
+  
+  <div id="_navbar" class="navbar fixed-top">
+  <div class="content">
+    <span class="sr-only">Jump to:</span>
+    <div class="nav-btn-bar">
+      <a id="_menu" class="nav-btn no-hover" href="#_drawer--opened">
+        <span class="sr-only">Navigation</span>
+        <span class="icon-menu"></span>
+      </a>
+      <div class="nav-span"></div>
+    </div>
+  </div>
+</div>
+<hr class="sr-only" hidden />
+
+  <main
+  id="_main"
+  class="content layout-post"
+  role="main"
+>
+  <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+    <li><a href="/">home</a></li>
+    
+      <li>
+        
+          <span>/</span>
+          
+          
+          <a href="/timeseries/">timeseries</a>
+        
+      </li>
+    
+      <li>
+        
+          <span>/</span>
+          <span>2024-08-05-MG-TSD</span>
+        
+      </li>
+    
+  
+</ul></nav>
+  
+
+
+
+
+
+
+
+
+
+
+<article id="post-timeseries-MG-TSD" class="page post mb6" role="article">
+  <header>
+    <h1 class="post-title flip-project-title">
+      
+        MG-TSD: Multi-Granularity Time Series Diffusion Models with Guided Learning Process (ICLR 2024)
+      
+    </h1>
+
+    <div class="post-date">
+      
+      <span class="ellipsis mr1">
+        <time datetime="2024-08-05T00:00:00+09:00">05 Aug 2024</time> in <span>Timeseries</span> 
+      </span>
+      
+    </div>
+
+    
+    
+
+    
+
+
+
+  
+    <p class="note-sm" >
+      <a href="https://openreview.net/pdf?id=CZiY6OLktd">ICLR 2024</a>
+
+    </p>
+  
+
+
+  </header>
+
+  
+    <h2 id="abstract">Abstract</h2>
+
+<ul>
+  <li>어떻게 Diffusion model의 성능을 time series forecasting에 활용할 수 있는가</li>
+  <li><strong>M</strong>ulti-<strong>G</strong>ranularity <strong>T</strong>ime <strong>S</strong>eries <strong>D</strong>iffusion <strong>(MG- TSD)</strong>
+    <ul>
+      <li>leveraging the inherent granularity levels</li>
+      <li>intuition: diffusion step에서 점차 gaussian noise로 만드는 것을 fine \(\to\) coarse로 이해</li>
+      <li>novel multi-granularity guidance diffusion loss function</li>
+      <li>method to effectively utilize coarse-grained data across various granularity levels</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="1-introduciton">1. Introduciton</h2>
+
+<ul>
+  <li>최근에는 Time series predictive 목적으로 conditional generative model을 활용
+    <ul>
+      <li>처음에는 Auto-regressive 방식으로 하다가 CSDI도 했었음</li>
+    </ul>
+  </li>
+  <li>하지만 문제는 Diffusion이 instability하다는 점
+    <ul>
+      <li>Image에서 diffusion은 다양한 이미지를 만들 수 있어서 장점이었는데</li>
+      <li>시계열 예측 관점에서는 그것이 성능 하락의 원인이 될 수 있음</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/timeseries/MG-TSD/fig1.png" alt="그림1" /></p>
+
+<ul>
+  <li>Diffusion step에서 점차 gaussian noise로 만드는 것을 fine \(\to\) coarse로 이해한다면
+    <ul>
+      <li>Diffusion model이 <strong>labels을 the source of guidance</strong>로 필요로 하는 문제에서</li>
+      <li>Time series의 fine feature가 그 labels as the source of guidance 역할을 할 수 있을 것</li>
+    </ul>
+  </li>
+  <li>MG-TSD에서는 coarse-grained data를 denoising process 학습의 guide로 준다.
+    <ul>
+      <li>\(\to\) intermediate latent states에서의 constraints로 작용</li>
+      <li>\(\to\) coarser feature는 더 빠르게 생성할 수 있기 때문에, 그만큼 finer feature recovery도 용이</li>
+      <li>\(\to\) coarse-grained data의 trend와 pattern을 보존하는 sampling을 만듬</li>
+      <li>\(\to\)​ reduces variability and results in high-quality predictions</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="2-background">2. Background</h2>
+
+<ul>
+  <li>TimeGrad Model
+    <ul>
+      <li><a href="https://arxiv.org/pdf/2101.12072">TimeGrad Paper</a> <a href="https://lpppj.github.io/timeseries/2024-07-09-Timegrad">TimeGrad Review</a></li>
+    </ul>
+  </li>
+  <li>\(\boldsymbol{X}^{(1)}=\left[\boldsymbol{x}_1^1, \ldots, \boldsymbol{x}_t^1, \ldots, \boldsymbol{x}_T^1\right]\) is the original observed data, where \(t \in[1, T]\) and \(\boldsymbol{x}_t \in \mathbb{R}^D\)
+    <ul>
+      <li>Mathematical expressions: \(q_{\mathcal{X}}\left(\boldsymbol{x}_{t_0: T}^1 \mid\left\{\boldsymbol{x}_{1: t_0-1}^1\right\}\right)=\prod_{t=t_0}^T q_{\mathcal{X}}\left(\boldsymbol{x}_t^1 \mid\left\{\boldsymbol{x}_{1: t-1}^1\right\}\right)\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="3-method">3. Method</h2>
+
+<h3 id="31-mg-tsd-model-architecture">3.1. MG-TSD Model Architecture</h3>
+
+<p><img src="/assets/img/timeseries/MG-TSD/fig2.png" alt="그림2" /></p>
+
+<h3 id="multi-granularity-data-generator">Multi-granularity Data Generator</h3>
+
+<p>: for generating multi-granularity data from observations</p>
+
+<ul>
+  <li>historical sliding windows with different sizes를 통해 fine \(\to\) coase로 smoothing out</li>
+  <li>즉 \(\boldsymbol{X}^{(g)}=f\left(\boldsymbol{X}^{(1)}, s^g\right)\) with pre-defined sliding window size \(s^g\)</li>
+  <li>이 때 non-overlapping하게 window를 slicing하고, \(\boldsymbol{X}^{(g)}\)는 \(s^g\)번 복제해서 \([1, T]\)로 맞춤</li>
+</ul>
+
+<h3 id="temporal-process-module">Temporal Process Module</h3>
+
+<p>: designed to capture the temporal dynamics of the multi-granularity time series data</p>
+
+<ul>
+  <li>각각의 granularity level \(g\)에서 GRU와 같은 방식으로 timestep \(t\)를 \(\mathbf{h}_t^g\)로 encoding</li>
+</ul>
+
+<h3 id="guided-diffusion-process-module">Guided Diffusion Process Module</h3>
+
+<p>: designed to generate stable time series predictions at each timestep \(t\)</p>
+
+<ul>
+  <li>multi-granularity data를 활용하여 diffusion learning process의 guide로 제공</li>
+</ul>
+
+<h3 id="32-multi-granularity-guided-diffusion">3.2. Multi-Granularity Guided Diffusion</h3>
+
+<p>: Guided Diffusion Process Module에 대한 details</p>
+
+<h3 id="321-coarse-grained-guidance">3.2.1. Coarse-grained Guidance</h3>
+
+<p>: the derivation of a heuristic guidance loss for the two- granularity case</p>
+
+<ul>
+  <li>consider two granularities at a fixed timestep \(t\)
+    <ul>
+      <li>: \(\text { finest-grained data } \boldsymbol{x}_t^{g_1}\left(g_1=1\right) \text { from } \boldsymbol{X}^{\left(g_1\right)}\) &amp; \(\text { coarse-grained data } \boldsymbol{x}_t^g \text { from } \boldsymbol{X}^{(g)}\)​</li>
+    </ul>
+  </li>
+  <li>먼저 coarse-grained targets \(x^g\)를 intermediate diffusion step \(N_*^g \in[1, N-1]\)에 introduce
+    <ul>
+      <li>즉 objective function이 \(\log p_\theta\left(\boldsymbol{x}^g\right)\)</li>
+    </ul>
+  </li>
+  <li>그러면 denoising process에서 recover된 coarser features는 실제 coarse-grained sample의 정보를 많이 가지고 있을테니
+    <ul>
+      <li>fine-grained feature를 recover하기도 쉬워질 것</li>
+    </ul>
+  </li>
+  <li>\(\theta\)-parameterized: \(p_\theta\left(\boldsymbol{x}_{N_*^g}\right)=\int p_\theta\left(\boldsymbol{x}_{N_*^g: N}\right) \mathrm{d} \boldsymbol{x}_{\left(N_*^g+1\right): N}=\int p\left(\boldsymbol{x}_N\right) \prod_{N_*^g+1}^N p_\theta\left(\boldsymbol{x}_{n-1} \mid \boldsymbol{x}_n\right) \mathrm{d} \boldsymbol{x}_{\left(N_*^g+1\right): N}\)​
+    <ul>
+      <li>where \(\boldsymbol{x}_N \sim \mathcal{N}(\mathbf{0}, \boldsymbol{I}), p_\theta\left(\boldsymbol{x}_{n-1} \mid \boldsymbol{x}_n\right)=\mathcal{N}\left(\boldsymbol{x}_{n-1} ; \boldsymbol{\mu}_\theta\left(\boldsymbol{x}_n, n\right), \boldsymbol{\Sigma}_\theta\left(\boldsymbol{x}_n, n\right)\right)\)​</li>
+    </ul>
+  </li>
+  <li>이건 \(N_*^g\)번째 diffusion step에서 \(N\)번째까지 총 \(N-N_*^g\) steps의 forward process이므로
+    <ul>
+      <li>the guidance objective: \(\log p_\theta\left(\boldsymbol{x}^g\right)=\log \int p_\theta\left(\boldsymbol{x}_{N_*^g}^g, \boldsymbol{x}_{N_*^g+1}^g, \ldots, \boldsymbol{x}_N^g\right) \mathrm{d} \boldsymbol{x}_{\left(N_*^g+1\right): N}^g\)​</li>
+    </ul>
+  </li>
+  <li>sample에 대한 loss 대신 noise에 대한 loss 사용
+    <ul>
+      <li>loss: \(\mathbb{E}_{\boldsymbol{\epsilon}, \boldsymbol{x}^g, n}\left[\left\|\boldsymbol{\epsilon}-\boldsymbol{\epsilon}_\theta\left(\boldsymbol{x}_n^g, n\right)\right\|^2\right]\)​</li>
+      <li>where \(\boldsymbol{x}_n^g=\left(\prod_{i=N_{\boldsymbol{z}}^g}^n \alpha_i^1\right) \boldsymbol{x}^g+\sqrt{ } \mathbf{1}-\prod_{i=N^g}^n \alpha_i^1 \boldsymbol{\epsilon} \text { and } \boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0}, \boldsymbol{I})\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="322-multi-granularity-guidance">3.2.2. Multi-granularity Guidance</h3>
+
+<ul>
+  <li>
+    <p>Multi-granularity Data Generator가 G개의 granularity levels마다 data 생성: \(\boldsymbol{X}^{(1)}, \boldsymbol{X}^{(2)}, \ldots, \boldsymbol{X}^{(G)}\)</p>
+  </li>
+  <li>Share ratio: \(r_g:=1-\left(N_*^g-1\right) / N\)
+    <ul>
+      <li>: the shared percentage of variance schedule between the gth granularity data and the finest-grained data</li>
+      <li>ex. finest-grained data에서는 \(N_*^1=1 \text { and } r^1=1\)​
+        <ul>
+          <li>variance schedule for granularity \(g\) is, \(\alpha_n^g\left(N_*^g\right)= \begin{cases}1 &amp; \text { if } n=1, \ldots, N_*^g \\ \alpha_n^1 &amp; \text { if } n=N_*^g+1, \ldots, N\end{cases}\)​</li>
+          <li>and \(\left\{\beta_n^g\right\}_{n=1}^N=\left\{1-\alpha_n^g\right\}_{n=1}^N\)​</li>
+          <li>accordingly, \(a_n^g\left(N_*^g\right)=\prod_{k=1}^n \alpha_k^g \text {, and } b_n^g\left(N_*^g\right)=1-a_n^g\left(N_*^g\right)\)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>이 때 \(N^g_*\)는 : represents the diffusion index for starting sharing the variance schedule across granularity level \(g \in\{1, \ldots, G\}\)</li>
+  <li>이렇게 되면 larger coarser granularity level일수록 \(N^g_*\)가 커진다는 뜻
+    <ul>
+      <li>즉 coarser할수록 fine한 정보는 줄어들테니 이전 diffusion step과 차이가 크지 않을 것</li>
+      <li>그러니까 \(N^g_*\)를 크게 해서 fine-grained feature를 생성할 steps를 많이 줌</li>
+    </ul>
+  </li>
+  <li>Then the guidance loss function \(L^{(g)}(\theta)\) for \(g\)-th granularity \(x^g_{n,t}\) at timestep \(t\) and diffusion step \(n\),
+    <ul>
+      <li>can be expressed as: \(L^{(g)}(\theta)=\mathbb{E}_{\boldsymbol{\epsilon}, \boldsymbol{x}_{0, t}^g, n} \|\left(\boldsymbol{\epsilon}-\boldsymbol{\epsilon}_\theta\left(\sqrt{a_n^g} \boldsymbol{x}_{0, t}^g+\sqrt{b_n^g} \boldsymbol{\epsilon}, n, \mathbf{h}_{t-1}^g\right) \|_2^2\right.\)</li>
+      <li>where \(\mathbf{h}_t^g=\mathrm{RNN}_\theta\left(\boldsymbol{x}_t^g, \mathbf{h}_{t-1}^g\right)\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="training">Training</h3>
+
+<p><img src="/assets/img/timeseries/MG-TSD/algorithm1.png" alt="그림41" /></p>
+
+<ul>
+  <li>최종적인 training objectives는 모든 granularities에서의 Loss의 weighted sum
+    <ul>
+      <li>: \(L^{\text {final }}=\omega^1 L^{(1)}(\theta)+L^{\text {guidance }}(\theta)=\sum_{q=1}^G \omega^g \mathbb{E}_{\boldsymbol{\epsilon}, \boldsymbol{x}_{0, t}^g, t}\left[\left\|\boldsymbol{\epsilon}-\boldsymbol{\epsilon}_\theta\left(\boldsymbol{x}_{n, t}^g, n, \mathbf{h}_{t-1}^g\right)\right\|^2\right]\)</li>
+      <li>where \(\boldsymbol{x}_{n, t}^g=\sqrt{a_n^g} \boldsymbol{x}_{0, t}^g+\sqrt{b_n^g} \boldsymbol{\epsilon} \text { and } \sum_{g=1}^G \omega^g=1\)</li>
+      <li>이 때 denoising network의 parameters는 shared across all granularities</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="inference">Inference</h3>
+
+<p><img src="/assets/img/timeseries/MG-TSD/algorithm2.png" alt="그림42" /></p>
+
+<ul>
+  <li>우리의 목표는 특정한 prediction steps에 대한  finest-grained data에 대한 예측
+    <ul>
+      <li>\(t_0-1\) 시점까지 주어졌다면 아래 algorithm 2를 따라 \(t_0\)시점에 대한 데이터 생성,</li>
+      <li>우리가 원하는 forecast horizon이 될 때까지 반복</li>
+      <li>hidden states에 conditional inputs으로 무엇을 넣는지에 따라서 그에 해당하는 granularity levels로 샘플링</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="selection-of-share-ratio">Selection of share ratio</h3>
+
+<ul>
+  <li>위에서는 share ratio \(r_g:=1-\left(N_*^g-1\right) / N\)를 heuristic하게 \(N^g_*\)에 따라 결정되도록 했음
+    <ul>
+      <li>Diffusion step \(N^g_*\)는 \(q\left(\boldsymbol{x}^g\right) \text { and } p_\theta\left(\boldsymbol{x}_n^{g_1}\right)\)의 거리가 가장 작을 때로 설정 !</li>
+      <li>: \(\to\) \(N_*^g:=\arg \min _n \mathcal{D}\left(q\left(\boldsymbol{x}^g\right), p_\theta\left(\boldsymbol{x}_n^{g_1}\right)\right)\)​
+        <ul>
+          <li>\(\mathcal{D}\)는 두 분포의 거리를 측정하는 metric이 됨 (KL-divergence, …)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="4-experiments">4. Experiments</h2>
+
+<p><img src="/assets/img/timeseries/MG-TSD/table12.png" alt="그림112" /></p>
+
+<p><img src="/assets/img/timeseries/MG-TSD/fig3.png" alt="그림3" /></p>
+
+<p><img src="/assets/img/timeseries/MG-TSD/table3.png" alt="그림13" /></p>
+
+<p><img src="/assets/img/timeseries/MG-TSD/fig4.png" alt="그림4" /></p>
+
+<h2 id="5-conclusion">5. Conclusion</h2>
+
+<ul>
+  <li>Multi-Granularity Time Series Diffusion (MG-TSD)
+    <ul>
+      <li>leverages the inherent granularity levels within the data, as given targets at intermediate diffusion steps to guide the learning process of diffusion models</li>
+      <li>to effectively utilize coarse-grained data across various granularity levels.</li>
+    </ul>
+  </li>
+</ul>
+
+  
+</article>
+
+
+
+  <hr class="dingbat related mb6" />
+
+
+
+
+
+
+  
+     
+
+
+  <aside class="about related mt4 mb4" role="complementary">
+    
+    
+
+<div class="author mt4">
+  
+
+  
+    
+
+
+<img
+  
+    src="https://via.placeholder.com/128x128"
+    srcset="/assets/img/me/me.JPG 1x,/assets/img/me/me.JPG 2x"
+    
+  
+  alt="GW Jeong"
+  class="avatar"
+  
+  width="120"
+  height="120"
+  loading="lazy"
+/>
+
+  
+
+  
+  
+  <h2  class="page-title hr-bottom">
+    About
+  </h2>
+
+  <p>Bachelor’s degree in Applied Statistics. Yonsei Univ. (2018~2024) <br />
+DataScienceLab 8th 학회장 (2022~2023) <br />
+Master’s degree in Statitstics. Yonsei Univ. (2024~)</p>
+
+
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+
+  </aside>
+
+
+  
+
+  
+  
+
+  
+    
+
+
+  
+
+  
+  
+
+  
+    
+
+  
+
+
+  
+<footer class="content" role="contentinfo">
+  <hr/>
+  
+    <p><small class="copyright">© Geonwoo Jeong.
+</small></p>
+  
+  
+    <p><small>Powered by <a class="external" href="https://hydejack.com/">Hydejack</a> v<span id="_version">9.1.6</span></small></p>
+  <hr class="sr-only"/>
+</footer>
+
+
+</main>
+
+  <hy-drawer
+  id="_drawer"
+  class=""
+  side="left"
+  threshold="10"
+  noscroll
+  
+>
+  <header id="_sidebar" class="sidebar" role="banner">
+    
+
+
+
+
+<div class="sidebar-bg sidebar-overlay" style="background-color:rgb(230, 217, 195);background-image:url(/assets/img/me/sidebar.jpg)"></div>
+
+    <div class="sidebar-sticky">
+  <div class="sidebar-about">
+    
+      <a class="no-hover" href="/" tabindex="-1">
+        <img src="/assets/img/me/logo.jpg" class="avatar" alt="LpppJ" width="120" height="120" loading="lazy" />
+      </a>
+    
+    <a class="sidebar-title" href="/"><h2 class="h1">LpppJ</h2></a>
+    
+    
+      <p class="">
+        DataScience and AI
+
+      </p>
+    
+  </div>
+
+  <nav class="sidebar-nav heading" role="navigation">
+    <span class="sr-only">Navigation:</span>
+<ul>
+  
+    
+      
+      <li>
+        <a
+          id="_drawer--opened"
+          href="/timeseries/"
+          class="sidebar-nav-item "
+          
+        >
+          TimeSeries
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/pytorch/"
+          class="sidebar-nav-item "
+          
+        >
+          Pytorch
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/stat/"
+          class="sidebar-nav-item "
+          
+        >
+          Statistics
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/project/"
+          class="sidebar-nav-item "
+          
+        >
+          Project
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/presentation/"
+          class="sidebar-nav-item "
+          
+        >
+          Presentation
+        </a>
+      </li>
+    
+  
+</ul>
+
+  </nav>
+
+  
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+  </header>
+</hy-drawer>
+<hr class="sr-only" hidden />
+
+</hy-push-state>
+
+
+  <!--[if gt IE 10]><!---->
+  <script nomodule>!function(){var t,n=document.createElement("script");!("noModule"in n)&&"onbeforeload"in n&&(t=!1,document.addEventListener("beforeload",function(e){if(e.target===n)t=!0;else if(!e.target.hasAttribute("nomodule")||!t)return;e.preventDefault()},!0),n.type="module",n.src=".",document.head.appendChild(n),n.remove())}();
+</script>
+  <script src="/assets/js/hydejack-9.1.6.js" type="module"></script>
+  <script src="/assets/js/LEGACY-hydejack-9.1.6.js" nomodule defer></script>
+  
+
+  
+
+<!--<![endif]-->
+  <!-- <script>
+  document.querySelector('hy-push-state').setAttribute('prefetch', '');
+
+  document.querySelectorAll('.sidebar a[href^="/"]').forEach(function (el) { 
+    el.addEventListener('click', function (e) {
+      if (el.pathname === window.location.pathname) {
+        e.preventDefault();
+        e.stopPropagation();
+        document.querySelector('hy-drawer').close();
+      }
+    });
+  });
+</script> -->
+
+<!--
+Code for integrating CloudFlare's email protection with Hydejack's single page app loading.
+-->
+<script>
+  document.getElementById('_pushState').addEventListener('hy-push-state-after', function (e) {
+    function e(e){
+      (console.error?console.error:console.log).call(console,e)
+    }
+
+    function t(e){
+      return l.innerHTML='<a href="'+e.replace(/"/g,"&quot;")+'"></a>',l.childNodes[0].getAttribute("href")
+    }
+
+    function r(e,t){
+      var r=e.substr(t,2);return parseInt(r,16)
+    }
+
+    function n(e,n){
+      for(var o="",c=r(e,n),a=n+2;a<e.length;a+=2){
+        var l=r(e,a)^c;
+        o+=String.fromCharCode(l)
+      }
+      return t(o)
+    }
+
+    var o="/cdn-cgi/l/email-protection#",
+        c=".__cf_email__",
+        a="data-cfemail",
+        l=document.createElement("div");
+
+    !function(){
+      for(var t=document.getElementsByTagName("a"),r=0;r<t.length;r++)
+        try{
+          var c=t[r],a=c.href.indexOf(o);
+          a>-1&&(c.href="mailto:"+n(c.href,a+o.length))
+        }catch(t){
+          e(t)
+        }
+    }(),
+    function(){
+      for(var t=document.querySelectorAll(c),r=0;r<t.length;r++)
+        try{
+          var o=t[r],l=n(o.getAttribute(a),0),i=document.createTextNode(l);
+          o.parentNode.replaceChild(i,o)
+        }catch(t){
+          e(t)
+        }
+    }()
+  });
+</script>
+
+
+
+
+
+<div hidden>
+  
+  <h2 class="sr-only">Templates (for web app):</h2>
+
+  <template id="_animation-template">
+  <div class="animation-main fixed-top">
+    <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+</ul></nav>
+    <div class="content">
+      <div class="page"></div>
+    </div>
+  </div>
+</template>
+
+  <template id="_loading-template">
+  <div class="loading nav-btn fr">
+    <span class="sr-only">Loading…</span>
+    <span class="icon-cog"></span>
+  </div>
+</template>
+
+  <template id="_error-template">
+  <div class="page">
+    <h1 class="page-title">Error</h1>
+    
+    
+    <p class="lead">
+      Sorry, an error occurred while loading <a class="this-link" href=""></a>.
+
+    </p>
+  </div>
+</template>
+
+  <template id="_permalink-template">
+  <a href="#" class="permalink">
+    <span class="sr-only">Permalink</span>
+    <span class="content-hash"></span>
+  </a>
+</template>
+
+</div>
+
+
+</body>
+</html>

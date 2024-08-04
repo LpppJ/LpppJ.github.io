@@ -1,5 +1,238 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-08-04T18:52:08+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">Diffusion-TS: Interpretable Diffusion for General Time Series Generation (ICLR 2024)</title><link href="http://localhost:4000/timeseries/2024-08-04-Diffusion-TS/" rel="alternate" type="text/html" title="Diffusion-TS: Interpretable Diffusion for General Time Series Generation (ICLR 2024)" /><published>2024-08-04T00:00:00+09:00</published><updated>2024-08-04T18:52:06+09:00</updated><id>http://localhost:4000/timeseries/Diffusion-TS</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-08-04-Diffusion-TS/"><![CDATA[<h2 id="abstract">Abstract</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-08-05T00:57:44+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">MG-TSD: Multi-Granularity Time Series Diffusion Models with Guided Learning Process (ICLR 2024)</title><link href="http://localhost:4000/timeseries/2024-08-05-MG-TSD/" rel="alternate" type="text/html" title="MG-TSD: Multi-Granularity Time Series Diffusion Models with Guided Learning Process (ICLR 2024)" /><published>2024-08-05T00:00:00+09:00</published><updated>2024-08-05T00:57:30+09:00</updated><id>http://localhost:4000/timeseries/MG-TSD</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-08-05-MG-TSD/"><![CDATA[<h2 id="abstract">Abstract</h2>
+
+<ul>
+  <li>어떻게 Diffusion model의 성능을 time series forecasting에 활용할 수 있는가</li>
+  <li><strong>M</strong>ulti-<strong>G</strong>ranularity <strong>T</strong>ime <strong>S</strong>eries <strong>D</strong>iffusion <strong>(MG- TSD)</strong>
+    <ul>
+      <li>leveraging the inherent granularity levels</li>
+      <li>intuition: diffusion step에서 점차 gaussian noise로 만드는 것을 fine \(\to\) coarse로 이해</li>
+      <li>novel multi-granularity guidance diffusion loss function</li>
+      <li>method to effectively utilize coarse-grained data across various granularity levels</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="1-introduciton">1. Introduciton</h2>
+
+<ul>
+  <li>최근에는 Time series predictive 목적으로 conditional generative model을 활용
+    <ul>
+      <li>처음에는 Auto-regressive 방식으로 하다가 CSDI도 했었음</li>
+    </ul>
+  </li>
+  <li>하지만 문제는 Diffusion이 instability하다는 점
+    <ul>
+      <li>Image에서 diffusion은 다양한 이미지를 만들 수 있어서 장점이었는데</li>
+      <li>시계열 예측 관점에서는 그것이 성능 하락의 원인이 될 수 있음</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/timeseries/MG-TSD/fig1.png" alt="그림1" /></p>
+
+<ul>
+  <li>Diffusion step에서 점차 gaussian noise로 만드는 것을 fine \(\to\) coarse로 이해한다면
+    <ul>
+      <li>Diffusion model이 <strong>labels을 the source of guidance</strong>로 필요로 하는 문제에서</li>
+      <li>Time series의 fine feature가 그 labels as the source of guidance 역할을 할 수 있을 것</li>
+    </ul>
+  </li>
+  <li>MG-TSD에서는 coarse-grained data를 denoising process 학습의 guide로 준다.
+    <ul>
+      <li>\(\to\) intermediate latent states에서의 constraints로 작용</li>
+      <li>\(\to\) coarser feature는 더 빠르게 생성할 수 있기 때문에, 그만큼 finer feature recovery도 용이</li>
+      <li>\(\to\) coarse-grained data의 trend와 pattern을 보존하는 sampling을 만듬</li>
+      <li>\(\to\)​ reduces variability and results in high-quality predictions</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="2-background">2. Background</h2>
+
+<ul>
+  <li>TimeGrad Model
+    <ul>
+      <li><a href="https://arxiv.org/pdf/2101.12072">TimeGrad Paper</a> <a href="https://lpppj.github.io/timeseries/2024-07-09-Timegrad">TimeGrad Review</a></li>
+    </ul>
+  </li>
+  <li>\(\boldsymbol{X}^{(1)}=\left[\boldsymbol{x}_1^1, \ldots, \boldsymbol{x}_t^1, \ldots, \boldsymbol{x}_T^1\right]\) is the original observed data, where \(t \in[1, T]\) and \(\boldsymbol{x}_t \in \mathbb{R}^D\)
+    <ul>
+      <li>Mathematical expressions: \(q_{\mathcal{X}}\left(\boldsymbol{x}_{t_0: T}^1 \mid\left\{\boldsymbol{x}_{1: t_0-1}^1\right\}\right)=\prod_{t=t_0}^T q_{\mathcal{X}}\left(\boldsymbol{x}_t^1 \mid\left\{\boldsymbol{x}_{1: t-1}^1\right\}\right)\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="3-method">3. Method</h2>
+
+<h3 id="31-mg-tsd-model-architecture">3.1. MG-TSD Model Architecture</h3>
+
+<p><img src="/assets/img/timeseries/MG-TSD/fig2.png" alt="그림2" /></p>
+
+<h3 id="multi-granularity-data-generator">Multi-granularity Data Generator</h3>
+
+<p>: for generating multi-granularity data from observations</p>
+
+<ul>
+  <li>historical sliding windows with different sizes를 통해 fine \(\to\) coase로 smoothing out</li>
+  <li>즉 \(\boldsymbol{X}^{(g)}=f\left(\boldsymbol{X}^{(1)}, s^g\right)\) with pre-defined sliding window size \(s^g\)</li>
+  <li>이 때 non-overlapping하게 window를 slicing하고, \(\boldsymbol{X}^{(g)}\)는 \(s^g\)번 복제해서 \([1, T]\)로 맞춤</li>
+</ul>
+
+<h3 id="temporal-process-module">Temporal Process Module</h3>
+
+<p>: designed to capture the temporal dynamics of the multi-granularity time series data</p>
+
+<ul>
+  <li>각각의 granularity level \(g\)에서 GRU와 같은 방식으로 timestep \(t\)를 \(\mathbf{h}_t^g\)로 encoding</li>
+</ul>
+
+<h3 id="guided-diffusion-process-module">Guided Diffusion Process Module</h3>
+
+<p>: designed to generate stable time series predictions at each timestep \(t\)</p>
+
+<ul>
+  <li>multi-granularity data를 활용하여 diffusion learning process의 guide로 제공</li>
+</ul>
+
+<h3 id="32-multi-granularity-guided-diffusion">3.2. Multi-Granularity Guided Diffusion</h3>
+
+<p>: Guided Diffusion Process Module에 대한 details</p>
+
+<h3 id="321-coarse-grained-guidance">3.2.1. Coarse-grained Guidance</h3>
+
+<p>: the derivation of a heuristic guidance loss for the two- granularity case</p>
+
+<ul>
+  <li>consider two granularities at a fixed timestep \(t\)
+    <ul>
+      <li>: \(\text { finest-grained data } \boldsymbol{x}_t^{g_1}\left(g_1=1\right) \text { from } \boldsymbol{X}^{\left(g_1\right)}\) &amp; \(\text { coarse-grained data } \boldsymbol{x}_t^g \text { from } \boldsymbol{X}^{(g)}\)​</li>
+    </ul>
+  </li>
+  <li>먼저 coarse-grained targets \(x^g\)를 intermediate diffusion step \(N_*^g \in[1, N-1]\)에 introduce
+    <ul>
+      <li>즉 objective function이 \(\log p_\theta\left(\boldsymbol{x}^g\right)\)</li>
+    </ul>
+  </li>
+  <li>그러면 denoising process에서 recover된 coarser features는 실제 coarse-grained sample의 정보를 많이 가지고 있을테니
+    <ul>
+      <li>fine-grained feature를 recover하기도 쉬워질 것</li>
+    </ul>
+  </li>
+  <li>\(\theta\)-parameterized: \(p_\theta\left(\boldsymbol{x}_{N_*^g}\right)=\int p_\theta\left(\boldsymbol{x}_{N_*^g: N}\right) \mathrm{d} \boldsymbol{x}_{\left(N_*^g+1\right): N}=\int p\left(\boldsymbol{x}_N\right) \prod_{N_*^g+1}^N p_\theta\left(\boldsymbol{x}_{n-1} \mid \boldsymbol{x}_n\right) \mathrm{d} \boldsymbol{x}_{\left(N_*^g+1\right): N}\)​
+    <ul>
+      <li>where \(\boldsymbol{x}_N \sim \mathcal{N}(\mathbf{0}, \boldsymbol{I}), p_\theta\left(\boldsymbol{x}_{n-1} \mid \boldsymbol{x}_n\right)=\mathcal{N}\left(\boldsymbol{x}_{n-1} ; \boldsymbol{\mu}_\theta\left(\boldsymbol{x}_n, n\right), \boldsymbol{\Sigma}_\theta\left(\boldsymbol{x}_n, n\right)\right)\)​</li>
+    </ul>
+  </li>
+  <li>이건 \(N_*^g\)번째 diffusion step에서 \(N\)번째까지 총 \(N-N_*^g\) steps의 forward process이므로
+    <ul>
+      <li>the guidance objective: \(\log p_\theta\left(\boldsymbol{x}^g\right)=\log \int p_\theta\left(\boldsymbol{x}_{N_*^g}^g, \boldsymbol{x}_{N_*^g+1}^g, \ldots, \boldsymbol{x}_N^g\right) \mathrm{d} \boldsymbol{x}_{\left(N_*^g+1\right): N}^g\)​</li>
+    </ul>
+  </li>
+  <li>sample에 대한 loss 대신 noise에 대한 loss 사용
+    <ul>
+      <li>loss: \(\mathbb{E}_{\boldsymbol{\epsilon}, \boldsymbol{x}^g, n}\left[\left\|\boldsymbol{\epsilon}-\boldsymbol{\epsilon}_\theta\left(\boldsymbol{x}_n^g, n\right)\right\|^2\right]\)​</li>
+      <li>where \(\boldsymbol{x}_n^g=\left(\prod_{i=N_{\boldsymbol{z}}^g}^n \alpha_i^1\right) \boldsymbol{x}^g+\sqrt{ } \mathbf{1}-\prod_{i=N^g}^n \alpha_i^1 \boldsymbol{\epsilon} \text { and } \boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0}, \boldsymbol{I})\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="322-multi-granularity-guidance">3.2.2. Multi-granularity Guidance</h3>
+
+<ul>
+  <li>
+    <p>Multi-granularity Data Generator가 G개의 granularity levels마다 data 생성: \(\boldsymbol{X}^{(1)}, \boldsymbol{X}^{(2)}, \ldots, \boldsymbol{X}^{(G)}\)</p>
+  </li>
+  <li>Share ratio: \(r_g:=1-\left(N_*^g-1\right) / N\)
+    <ul>
+      <li>: the shared percentage of variance schedule between the gth granularity data and the finest-grained data</li>
+      <li>ex. finest-grained data에서는 \(N_*^1=1 \text { and } r^1=1\)​
+        <ul>
+          <li>variance schedule for granularity \(g\) is, \(\alpha_n^g\left(N_*^g\right)= \begin{cases}1 &amp; \text { if } n=1, \ldots, N_*^g \\ \alpha_n^1 &amp; \text { if } n=N_*^g+1, \ldots, N\end{cases}\)​</li>
+          <li>and \(\left\{\beta_n^g\right\}_{n=1}^N=\left\{1-\alpha_n^g\right\}_{n=1}^N\)​</li>
+          <li>accordingly, \(a_n^g\left(N_*^g\right)=\prod_{k=1}^n \alpha_k^g \text {, and } b_n^g\left(N_*^g\right)=1-a_n^g\left(N_*^g\right)\)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>이 때 \(N^g_*\)는 : represents the diffusion index for starting sharing the variance schedule across granularity level \(g \in\{1, \ldots, G\}\)</li>
+  <li>이렇게 되면 larger coarser granularity level일수록 \(N^g_*\)가 커진다는 뜻
+    <ul>
+      <li>즉 coarser할수록 fine한 정보는 줄어들테니 이전 diffusion step과 차이가 크지 않을 것</li>
+      <li>그러니까 \(N^g_*\)를 크게 해서 fine-grained feature를 생성할 steps를 많이 줌</li>
+    </ul>
+  </li>
+  <li>Then the guidance loss function \(L^{(g)}(\theta)\) for \(g\)-th granularity \(x^g_{n,t}\) at timestep \(t\) and diffusion step \(n\),
+    <ul>
+      <li>can be expressed as: \(L^{(g)}(\theta)=\mathbb{E}_{\boldsymbol{\epsilon}, \boldsymbol{x}_{0, t}^g, n} \|\left(\boldsymbol{\epsilon}-\boldsymbol{\epsilon}_\theta\left(\sqrt{a_n^g} \boldsymbol{x}_{0, t}^g+\sqrt{b_n^g} \boldsymbol{\epsilon}, n, \mathbf{h}_{t-1}^g\right) \|_2^2\right.\)</li>
+      <li>where \(\mathbf{h}_t^g=\mathrm{RNN}_\theta\left(\boldsymbol{x}_t^g, \mathbf{h}_{t-1}^g\right)\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="training">Training</h3>
+
+<p><img src="/assets/img/timeseries/MG-TSD/algorithm1.png" alt="그림41" /></p>
+
+<ul>
+  <li>최종적인 training objectives는 모든 granularities에서의 Loss의 weighted sum
+    <ul>
+      <li>: \(L^{\text {final }}=\omega^1 L^{(1)}(\theta)+L^{\text {guidance }}(\theta)=\sum_{q=1}^G \omega^g \mathbb{E}_{\boldsymbol{\epsilon}, \boldsymbol{x}_{0, t}^g, t}\left[\left\|\boldsymbol{\epsilon}-\boldsymbol{\epsilon}_\theta\left(\boldsymbol{x}_{n, t}^g, n, \mathbf{h}_{t-1}^g\right)\right\|^2\right]\)</li>
+      <li>where \(\boldsymbol{x}_{n, t}^g=\sqrt{a_n^g} \boldsymbol{x}_{0, t}^g+\sqrt{b_n^g} \boldsymbol{\epsilon} \text { and } \sum_{g=1}^G \omega^g=1\)</li>
+      <li>이 때 denoising network의 parameters는 shared across all granularities</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="inference">Inference</h3>
+
+<p><img src="/assets/img/timeseries/MG-TSD/algorithm2.png" alt="그림42" /></p>
+
+<ul>
+  <li>우리의 목표는 특정한 prediction steps에 대한  finest-grained data에 대한 예측
+    <ul>
+      <li>\(t_0-1\) 시점까지 주어졌다면 아래 algorithm 2를 따라 \(t_0\)시점에 대한 데이터 생성,</li>
+      <li>우리가 원하는 forecast horizon이 될 때까지 반복</li>
+      <li>hidden states에 conditional inputs으로 무엇을 넣는지에 따라서 그에 해당하는 granularity levels로 샘플링</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="selection-of-share-ratio">Selection of share ratio</h3>
+
+<ul>
+  <li>위에서는 share ratio \(r_g:=1-\left(N_*^g-1\right) / N\)를 heuristic하게 \(N^g_*\)에 따라 결정되도록 했음
+    <ul>
+      <li>Diffusion step \(N^g_*\)는 \(q\left(\boldsymbol{x}^g\right) \text { and } p_\theta\left(\boldsymbol{x}_n^{g_1}\right)\)의 거리가 가장 작을 때로 설정 !</li>
+      <li>: \(\to\) \(N_*^g:=\arg \min _n \mathcal{D}\left(q\left(\boldsymbol{x}^g\right), p_\theta\left(\boldsymbol{x}_n^{g_1}\right)\right)\)​
+        <ul>
+          <li>\(\mathcal{D}\)는 두 분포의 거리를 측정하는 metric이 됨 (KL-divergence, …)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="4-experiments">4. Experiments</h2>
+
+<p><img src="/assets/img/timeseries/MG-TSD/table12.png" alt="그림112" /></p>
+
+<p><img src="/assets/img/timeseries/MG-TSD/fig3.png" alt="그림3" /></p>
+
+<p><img src="/assets/img/timeseries/MG-TSD/table3.png" alt="그림13" /></p>
+
+<p><img src="/assets/img/timeseries/MG-TSD/fig4.png" alt="그림4" /></p>
+
+<h2 id="5-conclusion">5. Conclusion</h2>
+
+<ul>
+  <li>Multi-Granularity Time Series Diffusion (MG-TSD)
+    <ul>
+      <li>leverages the inherent granularity levels within the data, as given targets at intermediate diffusion steps to guide the learning process of diffusion models</li>
+      <li>to effectively utilize coarse-grained data across various granularity levels.</li>
+    </ul>
+  </li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2024](https://openreview.net/pdf?id=CZiY6OLktd)]]></summary></entry><entry><title type="html">Diffusion-TS: Interpretable Diffusion for General Time Series Generation (ICLR 2024)</title><link href="http://localhost:4000/timeseries/2024-08-04-Diffusion-TS/" rel="alternate" type="text/html" title="Diffusion-TS: Interpretable Diffusion for General Time Series Generation (ICLR 2024)" /><published>2024-08-04T00:00:00+09:00</published><updated>2024-08-04T18:52:22+09:00</updated><id>http://localhost:4000/timeseries/Diffusion-TS</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-08-04-Diffusion-TS/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>Diffusion-TS: uses an encoder-decoder transformer with disentangled temporal representations</li>
@@ -239,7 +472,109 @@
       <li>by combining gradients into the sampling !</li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2024](https://arxiv.org/pdf/2403.01742)]]></summary></entry><entry><title type="html">Informer: Beyond Efficient Transformer for Long Sequence Time-Series Forecasting (AAAI 2021)</title><link href="http://localhost:4000/timeseries/2024-07-26-Informer/" rel="alternate" type="text/html" title="Informer: Beyond Efficient Transformer for Long Sequence Time-Series Forecasting (AAAI 2021)" /><published>2024-07-26T00:00:00+09:00</published><updated>2024-08-04T11:22:34+09:00</updated><id>http://localhost:4000/timeseries/Informer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-26-Informer/"><![CDATA[<h2 id="abstract">Abstract</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2024](https://arxiv.org/pdf/2403.01742)]]></summary></entry><entry><title type="html">Pyraformer: Low-Complexity Pyramidal Attention for Long-Range Time Series Modeling and Forecasting (ICLR 2022)</title><link href="http://localhost:4000/timeseries/2024-07-26-pyraformer/" rel="alternate" type="text/html" title="Pyraformer: Low-Complexity Pyramidal Attention for Long-Range Time Series Modeling and Forecasting (ICLR 2022)" /><published>2024-07-26T00:00:00+09:00</published><updated>2024-08-04T11:22:34+09:00</updated><id>http://localhost:4000/timeseries/pyraformer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-26-pyraformer/"><![CDATA[<h2 id="abstract">Abstract</h2>
+
+<ul>
+  <li>Pyraformer: a flexible but parsimonious model that can capture a wide range of temporal dependencies, by exploring the multi-resolution representation of the time series
+    <ul>
+      <li>Pyramidal attention module (PAM)</li>
+      <li>the inter-scale tree structure summarizes features at different resolutions</li>
+      <li>the intra-scale neighboring connections model the temporal dependencies of different ranges</li>
+      <li>the maximum length of the signal traversing path in Pyraformer is a constant with regard to the sequence length L (i.e. \(\mathcal{O}(1)\))</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="1-introduciton">1. Introduciton</h2>
+
+<ul>
+  <li>시계열 예측에서 Challenge는 powerful but parsimonious model</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/pyraformer/fig1.png" alt="그림1" /></p>
+
+<p><img src="/assets/img/timeseries/pyraformer/table1.png" alt="그림11" /></p>
+
+<ul>
+  <li>Pyraformer: to simultaneously capture temporal dependencies of different ranges in a compact multi-resolution fashion</li>
+</ul>
+
+<h2 id="2-related-work">2. Related Work</h2>
+
+<p>pass</p>
+
+<h2 id="3-method">3. Method</h2>
+
+<h3 id="31-pyramidal-attention-module-pam">3.1. Pyramidal Attention Module (PAM)</h3>
+
+<ul>
+  <li>The inter-scale connections form a C-ary tree, in which each parent has C children.
+    <ul>
+      <li>the nodes at coarser scales can be regarded as the daily, weekly, and even monthly features of the time series</li>
+    </ul>
+  </li>
+  <li>\(\to\) The pyramidal graph offers a multi-resolution representation of the original time series !
+    <ul>
+      <li>long-range dependencies 파악이 쉬워짐. 그냥 이웃 노드 연결하기만 하면 되니까 (intra-scale)</li>
+    </ul>
+  </li>
+  <li>Original Attention mechanism
+    <ul>
+      <li>input \(X\), output \(Y\)</li>
+      <li>Query \({Q}={X} {W}_Q\), key \({K}={X} {W}_K\), value \({V}={X} {W}_V\)</li>
+      <li>where \({W}_Q, {W}_K, {W}_V \in \mathbb{R}^{L \times D_K}\)</li>
+      <li>Then, \({y}_i=\sum_{\ell=1}^L \frac{\exp \left({q}_i {k}_{\ell}^T / \sqrt{D_K}\right) {v}_{\ell}}{\sum_{\ell=1}^L \exp \left({q}_i {k}_{\ell}^T / \sqrt{D_K}\right)}\)</li>
+      <li>time and space complexity \(\mathcal{O}(L^2)\)</li>
+    </ul>
+  </li>
+  <li>Pyramidal Attention Module (PAM)</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/pyraformer/fomula2.png" alt="그림21" /></p>
+
+<p><img src="/assets/img/timeseries/pyraformer/myfig1.png" alt="그림31" /></p>
+
+<ul>
+  <li>Then, \({y}_i=\sum_{\ell \in \mathbb{N}_{\ell}^{(s)}} \frac{\exp \left({q}_i {k}_{\ell}^T / \sqrt{d_K}\right) {v}_{\ell}}{\sum_{\ell \in \mathbb{N}_l^{(s)}} \exp \left({q}_i {k}_{\ell}^T / \sqrt{d_K}\right)}\)</li>
+  <li>모든 시점끼리 attention을 하지 않고 conv filter로 nodes를 만들고 이웃 노드끼리 attention !</li>
+</ul>
+
+<h3 id="32-coarser-saleㄴ-construvtion-module-cscm">3.2. Coarser-saleㄴ Construvtion Module (CSCM)</h3>
+
+<p><img src="/assets/img/timeseries/pyraformer/fig3.png" alt="그림3" /></p>
+
+<ul>
+  <li>PAM이 작동할 수 있도록 pyramidal 구조를 initialize하는 역할</li>
+</ul>
+
+<h3 id="33-prediction-module">3.3. Prediction Module</h3>
+
+<ul>
+  <li>input embedding 할 때에 예측하고자 하는 길이만큼 붙여서 CSCM, PAM을 통과하면</li>
+  <li>예측 시점에 대한 representation을 얻을 수 있음</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/pyraformer/myfig3.png" alt="그림33" /></p>
+
+<h2 id="4-experiments">4. Experiments</h2>
+
+<p><img src="/assets/img/timeseries/pyraformer/table2.png" alt="그림12" /></p>
+
+<p><img src="/assets/img/timeseries/pyraformer/table3.png" alt="그림13" /></p>
+
+<p><img src="/assets/img/timeseries/pyraformer/fig4.png" alt="그림14" /></p>
+
+<h2 id="5-conclusion-and-outlook">5. Conclusion and Outlook</h2>
+
+<ul>
+  <li>Pyraformer: a novel model based on pyramidal attention
+    <ul>
+      <li>effectively describe both short and long temporal dependencies with low time and space complexity</li>
+      <li>CSCM to construct a C-ary tree, and then design the PAM to pass messages in both the inter-scale and the intra-scale fashion</li>
+      <li>Pyraformer can achieve the theoretical \(\mathcal{O}(L)\) complexity and \(\mathcal{O}(1)\) maximum signal traversing path length (L: input sequence length)</li>
+    </ul>
+  </li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2022](https://arxiv.org/pdf/2012.07436)]]></summary></entry><entry><title type="html">Informer: Beyond Efficient Transformer for Long Sequence Time-Series Forecasting (AAAI 2021)</title><link href="http://localhost:4000/timeseries/2024-07-26-Informer/" rel="alternate" type="text/html" title="Informer: Beyond Efficient Transformer for Long Sequence Time-Series Forecasting (AAAI 2021)" /><published>2024-07-26T00:00:00+09:00</published><updated>2024-08-04T11:22:34+09:00</updated><id>http://localhost:4000/timeseries/Informer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-26-Informer/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>Transformer: quadratic time complexity, high memory usage, and in- herent limitation of the encoder-decoder architecture</li>
@@ -373,109 +708,7 @@
       <li>generative decoder alleviates : alleviates the limitation of tra- ditional encoder-decoder architecture</li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[AAAI 2021](https://arxiv.org/pdf/2012.07436)]]></summary></entry><entry><title type="html">Pyraformer: Low-Complexity Pyramidal Attention for Long-Range Time Series Modeling and Forecasting (ICLR 2022)</title><link href="http://localhost:4000/timeseries/2024-07-26-pyraformer/" rel="alternate" type="text/html" title="Pyraformer: Low-Complexity Pyramidal Attention for Long-Range Time Series Modeling and Forecasting (ICLR 2022)" /><published>2024-07-26T00:00:00+09:00</published><updated>2024-08-04T11:22:34+09:00</updated><id>http://localhost:4000/timeseries/pyraformer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-26-pyraformer/"><![CDATA[<h2 id="abstract">Abstract</h2>
-
-<ul>
-  <li>Pyraformer: a flexible but parsimonious model that can capture a wide range of temporal dependencies, by exploring the multi-resolution representation of the time series
-    <ul>
-      <li>Pyramidal attention module (PAM)</li>
-      <li>the inter-scale tree structure summarizes features at different resolutions</li>
-      <li>the intra-scale neighboring connections model the temporal dependencies of different ranges</li>
-      <li>the maximum length of the signal traversing path in Pyraformer is a constant with regard to the sequence length L (i.e. \(\mathcal{O}(1)\))</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="1-introduciton">1. Introduciton</h2>
-
-<ul>
-  <li>시계열 예측에서 Challenge는 powerful but parsimonious model</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/pyraformer/fig1.png" alt="그림1" /></p>
-
-<p><img src="/assets/img/timeseries/pyraformer/table1.png" alt="그림11" /></p>
-
-<ul>
-  <li>Pyraformer: to simultaneously capture temporal dependencies of different ranges in a compact multi-resolution fashion</li>
-</ul>
-
-<h2 id="2-related-work">2. Related Work</h2>
-
-<p>pass</p>
-
-<h2 id="3-method">3. Method</h2>
-
-<h3 id="31-pyramidal-attention-module-pam">3.1. Pyramidal Attention Module (PAM)</h3>
-
-<ul>
-  <li>The inter-scale connections form a C-ary tree, in which each parent has C children.
-    <ul>
-      <li>the nodes at coarser scales can be regarded as the daily, weekly, and even monthly features of the time series</li>
-    </ul>
-  </li>
-  <li>\(\to\) The pyramidal graph offers a multi-resolution representation of the original time series !
-    <ul>
-      <li>long-range dependencies 파악이 쉬워짐. 그냥 이웃 노드 연결하기만 하면 되니까 (intra-scale)</li>
-    </ul>
-  </li>
-  <li>Original Attention mechanism
-    <ul>
-      <li>input \(X\), output \(Y\)</li>
-      <li>Query \({Q}={X} {W}_Q\), key \({K}={X} {W}_K\), value \({V}={X} {W}_V\)</li>
-      <li>where \({W}_Q, {W}_K, {W}_V \in \mathbb{R}^{L \times D_K}\)</li>
-      <li>Then, \({y}_i=\sum_{\ell=1}^L \frac{\exp \left({q}_i {k}_{\ell}^T / \sqrt{D_K}\right) {v}_{\ell}}{\sum_{\ell=1}^L \exp \left({q}_i {k}_{\ell}^T / \sqrt{D_K}\right)}\)</li>
-      <li>time and space complexity \(\mathcal{O}(L^2)\)</li>
-    </ul>
-  </li>
-  <li>Pyramidal Attention Module (PAM)</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/pyraformer/fomula2.png" alt="그림21" /></p>
-
-<p><img src="/assets/img/timeseries/pyraformer/myfig1.png" alt="그림31" /></p>
-
-<ul>
-  <li>Then, \({y}_i=\sum_{\ell \in \mathbb{N}_{\ell}^{(s)}} \frac{\exp \left({q}_i {k}_{\ell}^T / \sqrt{d_K}\right) {v}_{\ell}}{\sum_{\ell \in \mathbb{N}_l^{(s)}} \exp \left({q}_i {k}_{\ell}^T / \sqrt{d_K}\right)}\)</li>
-  <li>모든 시점끼리 attention을 하지 않고 conv filter로 nodes를 만들고 이웃 노드끼리 attention !</li>
-</ul>
-
-<h3 id="32-coarser-saleㄴ-construvtion-module-cscm">3.2. Coarser-saleㄴ Construvtion Module (CSCM)</h3>
-
-<p><img src="/assets/img/timeseries/pyraformer/fig3.png" alt="그림3" /></p>
-
-<ul>
-  <li>PAM이 작동할 수 있도록 pyramidal 구조를 initialize하는 역할</li>
-</ul>
-
-<h3 id="33-prediction-module">3.3. Prediction Module</h3>
-
-<ul>
-  <li>input embedding 할 때에 예측하고자 하는 길이만큼 붙여서 CSCM, PAM을 통과하면</li>
-  <li>예측 시점에 대한 representation을 얻을 수 있음</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/pyraformer/myfig3.png" alt="그림33" /></p>
-
-<h2 id="4-experiments">4. Experiments</h2>
-
-<p><img src="/assets/img/timeseries/pyraformer/table2.png" alt="그림12" /></p>
-
-<p><img src="/assets/img/timeseries/pyraformer/table3.png" alt="그림13" /></p>
-
-<p><img src="/assets/img/timeseries/pyraformer/fig4.png" alt="그림14" /></p>
-
-<h2 id="5-conclusion-and-outlook">5. Conclusion and Outlook</h2>
-
-<ul>
-  <li>Pyraformer: a novel model based on pyramidal attention
-    <ul>
-      <li>effectively describe both short and long temporal dependencies with low time and space complexity</li>
-      <li>CSCM to construct a C-ary tree, and then design the PAM to pass messages in both the inter-scale and the intra-scale fashion</li>
-      <li>Pyraformer can achieve the theoretical \(\mathcal{O}(L)\) complexity and \(\mathcal{O}(1)\) maximum signal traversing path length (L: input sequence length)</li>
-    </ul>
-  </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2022](https://arxiv.org/pdf/2012.07436)]]></summary></entry><entry><title type="html">Timediff : Non-autoregressive Conditional Diffusion Models for Time Series Prediction (ICML 2023)</title><link href="http://localhost:4000/timeseries/2024-07-15-timediff/" rel="alternate" type="text/html" title="Timediff : Non-autoregressive Conditional Diffusion Models for Time Series Prediction (ICML 2023)" /><published>2024-07-15T00:00:00+09:00</published><updated>2024-07-23T18:18:28+09:00</updated><id>http://localhost:4000/timeseries/timediff</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-15-timediff/"><![CDATA[<h2 id="abstract">Abstract</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[AAAI 2021](https://arxiv.org/pdf/2012.07436)]]></summary></entry><entry><title type="html">Timediff : Non-autoregressive Conditional Diffusion Models for Time Series Prediction (ICML 2023)</title><link href="http://localhost:4000/timeseries/2024-07-15-timediff/" rel="alternate" type="text/html" title="Timediff : Non-autoregressive Conditional Diffusion Models for Time Series Prediction (ICML 2023)" /><published>2024-07-15T00:00:00+09:00</published><updated>2024-07-23T18:18:28+09:00</updated><id>http://localhost:4000/timeseries/timediff</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-15-timediff/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>TimeDiff : non-autoregressive diffusion model, w/ two novel conditioning mechanisms
@@ -1632,144 +1865,4 @@ k_{\text {embedding }}= &amp; {\left[\sin \left(10^{\frac{0 \times 4}{w-1}} t\ri
   <li>
     <p>위 결과를 통해 the power of the NP test가 the power of any other test보다 크다는 것을 알 수 있다.</p>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[Basics of Hypothesis Testing]]></summary></entry><entry><title type="html">Minimax Estimator and Stein’s Paradox</title><link href="http://localhost:4000/stat/2024-06-27-minimax/" rel="alternate" type="text/html" title="Minimax Estimator and Stein’s Paradox" /><published>2024-06-27T00:00:00+09:00</published><updated>2024-07-02T22:54:50+09:00</updated><id>http://localhost:4000/stat/minimax</id><content type="html" xml:base="http://localhost:4000/stat/2024-06-27-minimax/"><![CDATA[<h2 id="1-minimax-estimator">1. Minimax Estimator</h2>
-
-<ul>
-  <li>Minimax estimator는 최악이 가장 좋은 estimator이다.</li>
-  <li>최악이라는 말은 true parameter \(\theta\)에 대한 estimator의 risk이다.
-    <ul>
-      <li>Risk : \(R(\theta, \widehat{\theta}(X))=\mathbb{E}_{X \sim f_\theta}[(\widehat{\theta}(X) - \theta)^2]\)</li>
-    </ul>
-  </li>
-  <li>즉 Minimax estimator \(\hat \theta\)는 아래를 만족하는 estimator이다.
-    <ul>
-      <li>: \(\sup _{\theta \in \Theta} R(\theta, \widehat{\theta})=\inf _{\widetilde{\theta}} \sup _{\theta \in \Theta} R(\theta, \widetilde{\theta})\)</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="boundig-the-minimax-risk">Boundig the Minimax Risk</h3>
-
-<ul>
-  <li>
-    <p>Minimax Risk의 Upper bound와 Lower bound에 대해서 알아보자</p>
-  </li>
-  <li>
-    <p>Upper bound는 그냥 다른 estimator의 maximum risk를 사용하면 된다.</p>
-  </li>
-  <li>
-    <p>Lower bound를 찾는 방법은 아래와 같다.</p>
-
-    <ul>
-      <li>Bayes estimator의 Bayes risk는 (어떤 prior \(\pi\)를 사용하더라도) minimax risk의 lower bound가 된다.</li>
-      <li>
-        <p>수식으로 표현하면 \(B_\pi\left(\widehat{\theta}_{\text {low }}\right) \leq B_\pi\left(\hat{\theta}_{\text {minimax}}\right) \leq \sup _\theta R\left(\theta, \hat{\theta}_{\text {minimax}}\right)=\inf _{\widetilde{\theta}} \sup _{\theta \in \Theta} R(\theta, \widetilde{\theta})\)</p>
-      </li>
-      <li>직관적인 의미는 minimax risk는 risk의 maximum을 고려하지만, bayes risk는 risk를 prior를 가중치로 한 weighted average이다.</li>
-      <li>평균은 최댓값보다 작다.</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="example--d-dim-gaussian">Example : d-dim Gaussian</h3>
-
-<ul>
-  <li>
-    <p>\(X_1, \ldots, X_n \stackrel{\text { i.i.d. }}{\sim} N\left(\theta, I_d\right)\), then the average \(\widehat{\theta}=\frac{1}{n} \sum_{i=1}^n X_i\)가 minimax estimator of \(\theta\) w.r.t the squared loss임을 보이자.</p>
-  </li>
-  <li>
-    <p>Upper bound</p>
-
-    <ul>
-      <li>\(\widehat{\theta} \sim N\left(\theta, I_d / n\right)\)의 Risk는 \(R(\theta, \widehat{\theta})=\mathbb{E}\left[\sum_{i=1}^d\left(\hat{\theta}_i-\theta_i\right)^2\right]=\mathbb{E}\left[\sum_{i=1}^d Z_i^2\right]=\frac{d}{n}\)이므로</li>
-      <li>\(\inf _{\widetilde{\theta}} \sup _{\theta \in \Theta} R(\theta, \widetilde{\theta}) \leq R(\theta, \widehat{\theta})=\frac{d}{n}\)이다.</li>
-    </ul>
-  </li>
-  <li>
-    <p>Lower bound</p>
-
-    <ul>
-      <li>먼저 Bayes estimator를 구하고 bayes risk를 구할 것이다.</li>
-      <li>\(\theta \in \mathbb R\)이므로 prior는 \(N(0, c^2I)\)를 사용한다. \(c^2\)가 매우 크면 non-informative prior이다.</li>
-      <li>Bayes estimator는 \(\hat \theta_{\text{bayes}}=\frac{c^2}{c^2+\frac{1}{n}}\hat \theta\)이다.</li>
-      <li>
-\[R\left(\theta, \widehat{\theta}_{\text {Bayes }}\right)=\mathbb{E}_{X_1, \ldots, X_X \stackrel{\text { i.i.d. }}{\sim} N\left(\theta, I_d\right)}\left\|\frac{c^2}{c^2+1 / n} \widehat{\theta}-\theta\right\|^2 = \frac{\|\theta\|_2^2}{n^2 \beta^2}+\frac{c^4}{\beta^2} \frac{d}{n}\]
-        <ul>
-          <li>where \(\widehat{\theta}=\theta+W\) and \(W \sim N\left(0, I_d / n\right)\), and \(\beta:=c^2+1 / n\)</li>
-        </ul>
-      </li>
-      <li>이제 Bayes risk는 다음과 같다.
-        <ul>
-          <li>
-\[\begin{aligned}
-B_\pi\left(\frac{c^2}{c^2+1 / n} \widehat{\theta}\right) &amp; =\mathbb{E}_{\theta \sim \pi}\left[R\left(\theta, \widehat{\theta}_{\text {Bayes }}\right)\right] \\
-&amp; =\frac{c^2 d}{n^2 \beta^2}+\frac{c^4}{\beta^2} \frac{d}{n}=\frac{c^2 d}{n \beta}=\frac{d}{n\left(1+1 /\left(n c^2\right)\right)}
-\end{aligned}\]
-          </li>
-        </ul>
-      </li>
-      <li>그러므로 \(\frac{d}{n\left(1+1 /\left(n c^2\right)\right)} \leq R_n \leq \frac{d}{n}\)인데 c는 arbitrary이니까 무한대로 보낼 수 있다.</li>
-      <li>upper bound와 lower bound가 모두 \(\frac{d}{n}\)이므로 \(\hat \theta\)는 minimax estimator이다.</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="2-steins-paradox">2. Stein’s Paradox</h2>
-
-<ul>
-  <li>
-    <p>먼저 admissible의 의미를 이해해야 한다.</p>
-
-    <ul>
-      <li>Estimator가 admissible하다는 것은</li>
-      <li>모든 true parameters에 대해 다른 estimator보다 risk가 작거나 같고,</li>
-      <li>적어도 하나의 true parameters에 대해 다른 estimator보다 risk가 작다는 뜻이다.</li>
-    </ul>
-  </li>
-  <li>
-    <p>모든 Minimax estimator가 admissible한 것은 아니다. 특히 parameter의 dimension이 3 이상일 때 그렇다.</p>
-  </li>
-  <li>
-    <p>예를 들어 \(Y_i \sim N\left(\theta_i, 1\right) \quad \text { for } i \in\{1, \ldots, d\}\) 세팅에서는 minimax estimator는 \(\widehat{\theta}=Y=\left(Y_1, \ldots, Y_d\right)^{\top}\)이다.</p>
-  </li>
-  <li>
-    <p>하지만 James-Stein estimator \(\widehat{\theta}_{\mathrm{JS}}=\left(1-\frac{d-2}{\|Y\|^2}\right) Y\)는 \(\mathbb{E}\left[\left\|\widehat{\theta}_{\mathrm{JS}}-\theta\right\|^2\right]=d-(d-2)^2 \mathbb{E}\left[\frac{1}{\|Y\|^2}\right]&lt;d\)​이다.</p>
-
-    <ul>
-      <li>즉 James-Stein estimator의 risk가 더 작기 때문에 minimax estimator가 admissible하지 않다.</li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>Proof</strong></p>
-
-    <ul>
-      <li>
-        <p>Squared term을 전개하면 \(\mathbb{E}\left[\left\|\widehat{\theta}_{\mathrm{JS}}-\theta\right\|^2\right]=\mathbb{E}\left[\|Y-\theta\|^2\right]+\mathbb{E}\left[\frac{(d-2)^2}{\|Y\|^2}\right]-2(d-2) \sum_{i=1}^d \mathbb{E}\left[\frac{Y_i\left(Y_i-\theta_i\right)}{\|Y\|^2}\right]\)</p>
-      </li>
-      <li>
-        <p>가장 우측에 있는 \(\mathbb{E}\left[\frac{Y_i\left(Y_i-\theta_i\right)}{\|Y\|^2}\right]\)를 보자</p>
-
-        <ul>
-          <li>
-            <p>\(\|Y-\theta\|^2 \sim \chi^2(d)\)이므로 expectation이 d이다.</p>
-          </li>
-          <li>
-            <p>Gaussian setting이므로 \(\mathbb{E}\left[\frac{Y_i\left(Y_i-\theta_i\right)}{\|Y\|^2}\right]=\int \cdots \int \underbrace{\frac{y_i}{\|y\|^2}}_{=g_i(y)} \underbrace{\frac{y_i-\theta}{(2 \pi)^{d / 2}} e^{-\|y-\theta\|^2 / 2}}_{=-\frac{\partial f(y)}{\partial y_i}} d y_1 \cdots d y_d\)이다.</p>
-          </li>
-          <li>
-            <p>아래와 같은 계산 과정을 통해 \(\sum_{i=1}^d \mathbb{E}\left[\frac{Y_i\left(Y_i-\theta_i\right)}{\|Y\|^2}\right]=(d-2) \mathbb{E}\left[\frac{1}{\|Y\|^2}\right]\)이다.</p>
-
-\[\begin{aligned}
-\mathbb{E}\left[\frac{Y_i\left(Y_i-\theta_i\right)}{\|Y\|^2}\right] &amp; =\int \cdots \int \frac{\partial g_i(y)}{\partial y_i} f(y) d y_1 \cdots d y_d \\
-&amp; =\int \cdots \int \frac{\|y\|^2-2 y_i^2}{\|y\|^4} f(y) d y_1 \cdots d y_d \\
-&amp; =\mathbb{E}\left[\frac{1}{\|Y\|^2}\right]-\mathbb{E}\left[\frac{2 Y_i^2}{\|Y\|^4}\right]
-\end{aligned}\]
-          </li>
-          <li>
-            <p>이걸 첫 줄의 식에 대입하면 증명 끝이다.</p>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[1. Minimax Estimator]]></summary></entry></feed>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[Basics of Hypothesis Testing]]></summary></entry></feed>

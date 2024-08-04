@@ -66,7 +66,9 @@ permalink: /timeseries/
 \
 [Pyraformer: Low-Complexity Pyramidal Attention for Long-Range Time Series Modeling and Forecasting (ICLR 2022)]{:.heading.flip-title}\
 \
-[Diffusion-TS: Interpretable Diffusion for General Time Series Generation (ICLR 2024)]{:.heading.flip-title}
+[Diffusion-TS: Interpretable Diffusion for General Time Series Generation (ICLR 2024)]{:.heading.flip-title}\
+\
+[MG-TSD: Multi-Granularity Time Series Diffusion Models with Guided Learning Process (ICLR 2024)]{:.heading.flip-title}
 
 
 
@@ -100,3 +102,4 @@ permalink: /timeseries/
 [Informer: Beyond Efficient Transformer for Long Sequence Time-Series Forecasting (AAAI 2021)]: /timeseries/2024-07-26-Informer
 [Pyraformer: Low-Complexity Pyramidal Attention for Long-Range Time Series Modeling and Forecasting (ICLR 2022)]: /timeseries/2024-07-26-pyraformer
 [Diffusion-TS: Interpretable Diffusion for General Time Series Generation (ICLR 2024)]: /timeseries/2024-08-04-Diffusion-TS
+[MG-TSD: Multi-Granularity Time Series Diffusion Models with Guided Learning Process (ICLR 2024)]: /timeseries/2024-08-05-MG-TSD
