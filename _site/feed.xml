@@ -1,107 +1,245 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-08-04T11:22:05+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">Pyraformer: Low-Complexity Pyramidal Attention for Long-Range Time Series Modeling and Forecasting (ICLR 2022)</title><link href="http://localhost:4000/timeseries/2024-07-26-pyraformer/" rel="alternate" type="text/html" title="Pyraformer: Low-Complexity Pyramidal Attention for Long-Range Time Series Modeling and Forecasting (ICLR 2022)" /><published>2024-07-26T00:00:00+09:00</published><updated>2024-08-04T11:22:03+09:00</updated><id>http://localhost:4000/timeseries/pyraformer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-26-pyraformer/"><![CDATA[<h2 id="abstract">Abstract</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-08-04T18:52:08+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">Diffusion-TS: Interpretable Diffusion for General Time Series Generation (ICLR 2024)</title><link href="http://localhost:4000/timeseries/2024-08-04-Diffusion-TS/" rel="alternate" type="text/html" title="Diffusion-TS: Interpretable Diffusion for General Time Series Generation (ICLR 2024)" /><published>2024-08-04T00:00:00+09:00</published><updated>2024-08-04T18:52:06+09:00</updated><id>http://localhost:4000/timeseries/Diffusion-TS</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-08-04-Diffusion-TS/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
-  <li>Pyraformer: a flexible but parsimonious model that can capture a wide range of temporal dependencies, by exploring the multi-resolution representation of the time series
+  <li>Diffusion-TS: uses an encoder-decoder transformer with disentangled temporal representations</li>
+  <li>train the model to directly reconstruct the <strong>sample</strong> instead of the <strong>noise</strong> in each diffusion step</li>
+</ul>
+
+<h2 id="1-introduction">1. Introduction</h2>
+
+<ul>
+  <li>Synthesizing realistic time series data는 데이터 공유가 개인정보 침해로 이어질 수 있는 사례에서의 솔루션</li>
+  <li>지금까지 Diffusion을 활용한 time series generation은 대부분 task-agnostic generation
     <ul>
-      <li>Pyramidal attention module (PAM)</li>
-      <li>the inter-scale tree structure summarizes features at different resolutions</li>
-      <li>the intra-scale neighboring connections model the temporal dependencies of different ranges</li>
-      <li>the maximum length of the signal traversing path in Pyraformer is a constant with regard to the sequence length L (i.e. \(\mathcal{O}(1)\))</li>
+      <li>첫번째 문제는 RNN-based Autoregressive 방식: limited long-range performance due to error accumulation and slow inference speed</li>
+      <li>두번째 문제는 diffusion process에서 noise를 추가할 때 시계열의 combinations of independent components(trend, seasonal, …)이 망가지는 문제 (특히 주기성이 뚜렷한 경우 interpretability가 부족 <a href="https://openreview.net/pdf?id=rdjeCNUS6TG">Liu et al., (2022)</a>)</li>
+    </ul>
+  </li>
+  <li><strong>본 논문에서는 Transformer를 활용하여 trend와 seasonal을 non-autoregressive하게 생성</strong>
+    <ul>
+      <li>by imposing different forms of constraints on different representations.</li>
+    </ul>
+  </li>
+  <li>For Reconstruct the <strong>samples</strong> rather than the <strong>noises</strong> in each diffusion step, Fourier-based loss 사용</li>
+</ul>
+
+<h2 id="2-problem-statement">2. Problem Statement</h2>
+
+<ul>
+  <li>N개로 이루어진 데이터셋 \(D A=\left\{X_{1: \tau}^i\right\}_{i=1}^N\)​
+    <ul>
+      <li>where \(X_{1: \tau}=\left(x_1, \ldots, x_\tau\right) \in \mathbb{R}^{\tau \times d}\)</li>
+    </ul>
+  </li>
+  <li>목표는 Gaussian vectors \(Z_i=\left(z_1^i, \ldots, z_t^i\right) \in \mathbb{R}^{\tau \times d \times T}\)를 DA와 비슷한 \(\hat{X}_{1: \tau}^i=G\left(Z_i\right)\)로 바꾸는 Generator \(G\)를 학습하는 것</li>
+  <li>Time series model은 trend와 여러 개의 seasonality로 구성 : \(x_j=\zeta_j+\sum_{i=1}^m s_{i, j}+e_j\)
+    <ul>
+      <li>where \(j=0,1, \ldots, \tau-1\)</li>
+      <li>\(x_j\) : observed time series</li>
+      <li>\(\zeta_j\): trend component</li>
+      <li>\(s_{i,j}\): \(i\)-th seasonal component</li>
+      <li>\(e_j\): remainder part (contatins the noise and some outliers at time t)</li>
     </ul>
   </li>
 </ul>
 
-<h2 id="1-introduciton">1. Introduciton</h2>
+<h2 id="3-diffusion-ts-interpretable-diffusion-for-time-series">3. Diffusion-TS: Interpretable Diffusion for Time Series</h2>
 
 <ul>
-  <li>시계열 예측에서 Challenge는 powerful but parsimonious model</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/pyraformer/fig1.png" alt="그림1" /></p>
-
-<p><img src="/assets/img/timeseries/pyraformer/table1.png" alt="그림11" /></p>
-
-<ul>
-  <li>Pyraformer: to simultaneously capture temporal dependencies of different ranges in a compact multi-resolution fashion</li>
-</ul>
-
-<h2 id="2-related-work">2. Related Work</h2>
-
-<p>pass</p>
-
-<h2 id="3-method">3. Method</h2>
-
-<h3 id="31-pyramidal-attention-module-pam">3.1. Pyramidal Attention Module (PAM)</h3>
-
-<ul>
-  <li>The inter-scale connections form a C-ary tree, in which each parent has C children.
+  <li>이러한 interpretable decomposition architecture의 근거는 3가지
     <ul>
-      <li>the nodes at coarser scales can be regarded as the daily, weekly, and even monthly features of the time series</li>
+      <li>첫째, disentangled patterns in the diffusion model은 아직 연구되지 않음</li>
+      <li>둘째, specific designs of architecture and objective 덕분에 interpretable</li>
+      <li>셋째, explainable disentangled representations 덕분에 complex dynamics 파악</li>
     </ul>
   </li>
-  <li>\(\to\) The pyramidal graph offers a multi-resolution representation of the original time series !
+</ul>
+
+<h3 id="31-diffusion-framework">3.1. Diffusion Framework</h3>
+
+<p><img src="/assets/img/timeseries/Diffusion-TS/fig1.png" alt="그림1" /></p>
+
+<ul>
+  <li>Forward process
     <ul>
-      <li>long-range dependencies 파악이 쉬워짐. 그냥 이웃 노드 연결하기만 하면 되니까 (intra-scale)</li>
+      <li>\(x_0 \sim q(x)\)에서 점점 noisy into Gaussian noise \(x_T \sim \mathcal{N}(0, \mathbf{I})\)</li>
+      <li>Parameterization: \(q\left(x_t \mid x_{t-1}\right)=\mathcal{N}\left(x_t ; \sqrt{ } 1-\beta_t x_{t-1}, \beta_t \mathbf{I}\right) \text { with } \beta_t \in(0,1)\)</li>
     </ul>
   </li>
-  <li>Original Attention mechanism
+  <li>
+    <p>Reverse process</p>
+
     <ul>
-      <li>input \(X\), output \(Y\)</li>
-      <li>Query \({Q}={X} {W}_Q\), key \({K}={X} {W}_K\), value \({V}={X} {W}_V\)</li>
-      <li>where \({W}_Q, {W}_K, {W}_V \in \mathbb{R}^{L \times D_K}\)</li>
-      <li>Then, \({y}_i=\sum_{\ell=1}^L \frac{\exp \left({q}_i {k}_{\ell}^T / \sqrt{D_K}\right) {v}_{\ell}}{\sum_{\ell=1}^L \exp \left({q}_i {k}_{\ell}^T / \sqrt{D_K}\right)}\)</li>
-      <li>time and space complexity \(\mathcal{O}(L^2)\)</li>
+      <li>
+        <p>반대로 \(p_\theta\left(x_{t-1} \mid x_t\right)=\mathcal{N}\left(x_{t-1} ; \mu_\theta\left(x_t, t\right), \Sigma_\theta\left(x_t, t\right)\right)\)</p>
+      </li>
+      <li>
+        <p>MSE: \(\mathcal{L}\left(x_0\right)=\sum_{t=1}^T \underset{q\left(x_t \mid x_0\right)}{\mathbb{E}}\left\|\mu\left(x_t, x_0\right)-\mu_\theta\left(x_t, t\right)\right\|^2\)</p>
+        <ul>
+          <li>where \(\mu\left(x_t, x_0\right) \text { is the mean of the posterior } q\left(x_{t-1} \mid x_0, x_t\right)\)</li>
+        </ul>
+      </li>
     </ul>
   </li>
-  <li>Pyramidal Attention Module (PAM)</li>
 </ul>
 
-<p><img src="/assets/img/timeseries/pyraformer/fomula2.png" alt="그림21" /></p>
+<h3 id="32-decomposition-model-architecture">3.2. Decomposition Model Architecture</h3>
 
-<p><img src="/assets/img/timeseries/pyraformer/myfig1.png" alt="그림31" /></p>
-
-<ul>
-  <li>Then, \({y}_i=\sum_{\ell \in \mathbb{N}_{\ell}^{(s)}} \frac{\exp \left({q}_i {k}_{\ell}^T / \sqrt{d_K}\right) {v}_{\ell}}{\sum_{\ell \in \mathbb{N}_l^{(s)}} \exp \left({q}_i {k}_{\ell}^T / \sqrt{d_K}\right)}\)</li>
-  <li>모든 시점끼리 attention을 하지 않고 conv filter로 nodes를 만들고 이웃 노드끼리 attention !</li>
-</ul>
-
-<h3 id="32-coarser-saleㄴ-construvtion-module-cscm">3.2. Coarser-saleㄴ Construvtion Module (CSCM)</h3>
-
-<p><img src="/assets/img/timeseries/pyraformer/fig3.png" alt="그림3" /></p>
+<p><img src="/assets/img/timeseries/Diffusion-TS/fig2.png" alt="그림2" /></p>
 
 <ul>
-  <li>PAM이 작동할 수 있도록 pyramidal 구조를 initialize하는 역할</li>
-</ul>
-
-<h3 id="33-prediction-module">3.3. Prediction Module</h3>
-
-<ul>
-  <li>input embedding 할 때에 예측하고자 하는 길이만큼 붙여서 CSCM, PAM을 통과하면</li>
-  <li>예측 시점에 대한 representation을 얻을 수 있음</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/pyraformer/myfig3.png" alt="그림33" /></p>
-
-<h2 id="4-experiments">4. Experiments</h2>
-
-<p><img src="/assets/img/timeseries/pyraformer/table2.png" alt="그림12" /></p>
-
-<p><img src="/assets/img/timeseries/pyraformer/table3.png" alt="그림13" /></p>
-
-<p><img src="/assets/img/timeseries/pyraformer/fig4.png" alt="그림14" /></p>
-
-<h2 id="5-conclusion-and-outlook">5. Conclusion and Outlook</h2>
-
-<ul>
-  <li>Pyraformer: a novel model based on pyramidal attention
+  <li>Noisy sequence가 encoder 통과해서 decoder로 들어옴 (초록색)</li>
+  <li>Decoder는 multilayer structure, 각 layer에는 <strong>Transformer Block</strong>, <strong>FFN</strong>, <strong>Trend and Fourier synthetic layer</strong>가 포함됨</li>
+  <li>각 layer는 시계열의 각 component를 생성하는 역할
     <ul>
-      <li>effectively describe both short and long temporal dependencies with low time and space complexity</li>
-      <li>CSCM to construct a C-ary tree, and then design the PAM to pass messages in both the inter-scale and the intra-scale fashion</li>
-      <li>Pyraformer can achieve the theoretical \(\mathcal{O}(L)\) complexity and \(\mathcal{O}(1)\) maximum signal traversing path length (L: input sequence length)</li>
+      <li>component에 해당하는 inductive bias를 각 layer에 반영해줌으로써 학습이 쉬워짐</li>
+      <li>Trend representation captures the intrinsic trend which changes gradually and smoothly</li>
+      <li>Seasonality representation illustrates the periodic patterns of the signal</li>
+      <li>Error representation characterizes the remaining parts after removing trend and periodicity</li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2022](https://arxiv.org/pdf/2012.07436)]]></summary></entry><entry><title type="html">Informer: Beyond Efficient Transformer for Long Sequence Time-Series Forecasting (AAAI 2021)</title><link href="http://localhost:4000/timeseries/2024-07-26-Informer/" rel="alternate" type="text/html" title="Informer: Beyond Efficient Transformer for Long Sequence Time-Series Forecasting (AAAI 2021)" /><published>2024-07-26T00:00:00+09:00</published><updated>2024-07-26T15:05:49+09:00</updated><id>http://localhost:4000/timeseries/Informer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-26-Informer/"><![CDATA[<h2 id="abstract">Abstract</h2>
+  <li>\(w_{(\cdot)}^{i, t}\) where \(i \in 1, \ldots, D\)는 \(i\)번째 decoder block에서의 diffusion step \(t\)를 의미</li>
+</ul>
+
+<h3 id="trend-synthesis">Trend Synthesis</h3>
+
+<ul>
+  <li>smooth underlying mean of the data, which aims to model slow-varying behavior</li>
+  <li>그러므로 Trend \(V_{t r}^t\)를 위해 Polynomial regressor 사용
+    <ul>
+      <li>\(V_{t r}^t=\sum_{i=1}^D\left(C \cdot \operatorname{Linear}\left(w_{t r}^{i, t}\right)+\mathcal{X}_{t r}^{i, t}\right)\) where \(C=\left[1, c, \ldots, c^p\right]\)</li>
+      <li>\(\mathcal{X}_{t r}^{i, t}\)는 the mean value of the output of the \(i\)​-th decoder block</li>
+      <li>\(C\)는 slow-varying poly space인데, matrix of powers of vector \(c=[0,1,2, \ldots, \tau-2, \tau-1]^T / \tau\)</li>
+      <li>\(p\)는 small degree (e.g. \(p\)​=3) to model low frequency behavior</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="seasonality--error-synthesis">Seasonality &amp; Error Synthesis</h3>
+
+<ul>
+  <li>이제 Trend, Seasonality, Error 모두 생각해보자.</li>
+  <li><strong>결국 문제는 noisy input \(x_t\)에서 seasonal patterns를 구분해내는 것 !</strong></li>
+  <li>푸리에 시리즈의 trigonometric representation of seasonal components를 기반으로 Fourier bases를 활용한 Fourier synthetic layers에서 seasonal component 파악</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/Diffusion-TS/fomula456.png" alt="그림456" /></p>
+
+<ul>
+  <li>\(A_{i, t}^{(k)}, \Phi_{i, t}^{(k)}\) are the phase, amplitude of the \(k\)-th frequency after the DFT \(\mathcal F\) repectively</li>
+  <li>\(f_k\)는 Fourier frequency of the corresponding index \(k\)</li>
+  <li>결국 the Fourier synthetic layer는 진폭(amplitude)이 큰 frequency를 찾고, 그 frequency들만 IDFT.
+    <ul>
+      <li>그걸 seasonality로 본다. (Pathformer랑 같은 방식)</li>
+    </ul>
+  </li>
+  <li>최종적으로 original signal: \(\hat{x}_0\left(x_t, t, \theta\right)=V_{t r}^t+\sum_{i=1}^D S_{i, t}+R\)​
+    <ul>
+      <li>\(R\): output of the last decoder block, which can be regarded as the sum of residual periodicity and other noise.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="33-fourier-based-traning-objective">3.3 Fourier-based Traning Objective</h3>
+
+<ul>
+  <li>\(\hat{x}_0\left(x_t, t, \theta\right)\)를 directly estimate
+    <ul>
+      <li>Reverse process: \(x_{t-1}=\frac{\sqrt{\bar{\alpha}_{t-1}} \beta_t}{1-\bar{\alpha}_t} \hat{x}_0\left(x_t, t, \theta\right)+\frac{\sqrt{\alpha_t}\left(1-\bar{\alpha}_{t-1}\right)}{1-\bar{\alpha}_t} x_t+\frac{1-\bar{\alpha}_{t-1}}{1-\bar{\alpha}_t} \beta_t z_t\)</li>
+      <li>where \(z_t \sim \mathcal{N}(0, \mathbf{I}), \alpha_t=1-\beta_t \text { and } \bar{\alpha}_t=\prod_{s=1}^t \alpha_s\)​</li>
+    </ul>
+  </li>
+  <li>Reweighting strategy: \(\mathcal{L}_{\text {simple }}=\mathbb{E}_{t, x_0}\left[w_t\left\|x_0-\hat{x}_0\left(x_t, t, \theta\right)\right\|^2\right], \quad w_t=\frac{\lambda \alpha_t\left(1-\bar{\alpha}_t\right)}{\beta_t^2}\)​
+    <ul>
+      <li>where \(\lambda\) is constant (i.e. 0.01)</li>
+      <li>즉 small t에서 down-weighted, 모델이 larger diffusion step에 집중하도록 만듬</li>
+    </ul>
+  </li>
+  <li>Fourier-based loss term이 time serie reconstruction에서는 더 좋다 <a href="https://arxiv.org/pdf/2208.05836">Fons et al. (2022)</a>
+    <ul>
+      <li>: \(\mathcal{L}_\theta=\mathbb{E}_{t, x_0}\left[w_t\left[\lambda_1\left\|x_0-\hat{x}_0\left(x_t, t, \theta\right)\right\|^2+\lambda_2\left\|\mathcal{F} \mathcal{F} \mathcal{T}\left(x_0\right)-\mathcal{F F} \mathcal{T}\left(\hat{x}_0\left(x_t, t, \theta\right)\right)\right\|^2\right]\right]\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="34-conditional-generation-for-time-series-applications">3.4. Conditional Generation for Time Series Applications</h3>
+
+<ul>
+  <li><strong>Conditional extensions of the Diffusion-TS</strong>, in which the modeled \(x_0\) is conditioned on targets \(y\)​</li>
+  <li>목표는 pre-trained diffusion model과 the gradients of a classifier를 활용하여
+    <ul>
+      <li>Posterior \(p\left(x_{0: T} \mid y\right)=\prod_{t=1}^T p\left(x_{t-1} \mid x_t, y\right)\)에서 sampling하는 것</li>
+    </ul>
+  </li>
+  <li>\(p\left(x_{t-1} \mid x_t, y\right) \propto p\left(x_{t-1} \mid x_t\right) p\left(y \mid x_{t-1}, x_t\right)\)이므로 bayse theorem을 통해 gradient update
+    <ul>
+      <li>Score function \(\nabla_{x_{t-1}} \log p\left(x_{t-1} \mid x_t, y\right)=\nabla_{x_{t-1}} \log p\left(x_{t-1} \mid x_t\right)+\nabla_{x_{t-1}} \log p\left(y \mid x_{t-1}\right)\)</li>
+      <li>\(\log p\left(x_{t-1} \mid x_t\right)\)은 diffusion model에서 정의됨.</li>
+      <li>\(\log p\left(y \mid x_{t-1}\right)\)는 classifier에서 parametrize되며, \(\nabla_{x_{t-1}} \log p\left(y \mid x_{0 \mid t-1}\right)\)로 근사됨</li>
+    </ul>
+  </li>
+  <li>즉 classifier가 높은 likelihood를 가진 영역에서 sample이 생성되도록 하는 것
+    <ul>
+      <li>: \(\tilde{x}_0\left(x_t, t, \theta\right)=\hat{x}_0\left(x_t, t, \theta\right)+\eta \nabla_{x_t}\left(\left\|x_a-\hat{x}_a\left(x_t, t, \theta\right)\right\|_2^2+\gamma \log p\left(x_{t-1} \mid x_t\right)\right)\)</li>
+      <li>where Conditional part \(x_a\), generative part \(x_b\)</li>
+      <li>gradient term은 reconstruction-based guidance, \(\eta\)로 강도 조절</li>
+    </ul>
+  </li>
+  <li>각 diffusion step에서 이 gradient update를 여러 번 반복하여 quality 높인다</li>
+  <li>Replacing: \(\tilde{x}_a\left(x_t, t, \theta\right):=\sqrt{\bar{\alpha}_t} x_a+\sqrt{ } 1-\bar{\alpha}_t \epsilon\)을 통해, \(\tilde{x}_0\)를 사용한 sample \(x_{t-1}\)가 생성됨</li>
+</ul>
+
+<h2 id="4-empirical-evaluaiton">4. Empirical Evaluaiton</h2>
+
+<h3 id="42-metrics">4.2. Metrics</h3>
+
+<ul>
+  <li>Discriminative score (Yoon et al., 2019): measures the similarity using a classification model to distinguish between the original and synthetic data as a supervised task;</li>
+  <li>Predictive score (Yoon et al., 2019):  measures the usefulness of the synthesized data by training a post-hoc sequence model to predict next-step temporal vectors using the train-synthesis-and-test-real (TSTR) method;</li>
+  <li>Context-Frechet Inception Distance (Context-FID) score ´ (Paul et al., 2022):  quantifies the quality of the synthetic time series samples by computing the difference between representations of time series that fit into the local context;</li>
+  <li>Correlational score (Ni et al., 2020): uses the absolute error between cross correlation matrices by real data and synthetic data to assess the temporal dependency</li>
+</ul>
+
+<h3 id="43-interpretability-results">4.3. Interpretability Results</h3>
+
+<p><img src="/assets/img/timeseries/Diffusion-TS/fig3.png" alt="그림3" /></p>
+
+<ul>
+  <li>the corrupted samples (shown in (a)) with 50 steps of noise added as input</li>
+  <li>outputs the signals (shown in (c)) that try to restore the ground truth (shown in (b))</li>
+  <li>with the aid of the decomposition of temporal trend (shown in (d)) and season &amp; error (shown in (e)).</li>
+  <li>Result: As would be expected, the trend curve follows the overall shape of the signal, while the season &amp; error oscillates around zero !</li>
+</ul>
+
+<h3 id="44-unconditional-time-series-generation">4.4. Unconditional Time Series Generation</h3>
+
+<p><img src="/assets/img/timeseries/Diffusion-TS/table1.png" alt="그림21" /></p>
+
+<p><img src="/assets/img/timeseries/Diffusion-TS/fig4.png" alt="그림4" /></p>
+
+<h3 id="45-conditional-time-series-generation">4.5. Conditional Time Series Generation</h3>
+
+<p><img src="/assets/img/timeseries/Diffusion-TS/fig6.png" alt="그림6" /></p>
+
+<h3 id="46-ablaction-study">4.6. Ablaction Study</h3>
+
+<p><img src="/assets/img/timeseries/Diffusion-TS/table2.png" alt="그림22" /></p>
+
+<h2 id="5-conclusion">5. Conclusion</h2>
+
+<ul>
+  <li>Diffusion-TS, a DDPM-based method for general time series generation
+    <ul>
+      <li>TS-specific loss design and transformer-based deep decomposition architecture</li>
+    </ul>
+  </li>
+  <li>Unconditional로 훈련된 model이 쉽게 conditional로 확장될 수 있음
+    <ul>
+      <li>by combining gradients into the sampling !</li>
+    </ul>
+  </li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2024](https://arxiv.org/pdf/2403.01742)]]></summary></entry><entry><title type="html">Informer: Beyond Efficient Transformer for Long Sequence Time-Series Forecasting (AAAI 2021)</title><link href="http://localhost:4000/timeseries/2024-07-26-Informer/" rel="alternate" type="text/html" title="Informer: Beyond Efficient Transformer for Long Sequence Time-Series Forecasting (AAAI 2021)" /><published>2024-07-26T00:00:00+09:00</published><updated>2024-08-04T11:22:34+09:00</updated><id>http://localhost:4000/timeseries/Informer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-26-Informer/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>Transformer: quadratic time complexity, high memory usage, and in- herent limitation of the encoder-decoder architecture</li>
@@ -235,7 +373,109 @@
       <li>generative decoder alleviates : alleviates the limitation of tra- ditional encoder-decoder architecture</li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[AAAI 2021](https://arxiv.org/pdf/2012.07436)]]></summary></entry><entry><title type="html">Timediff : Non-autoregressive Conditional Diffusion Models for Time Series Prediction (ICML 2023)</title><link href="http://localhost:4000/timeseries/2024-07-15-timediff/" rel="alternate" type="text/html" title="Timediff : Non-autoregressive Conditional Diffusion Models for Time Series Prediction (ICML 2023)" /><published>2024-07-15T00:00:00+09:00</published><updated>2024-07-23T18:18:28+09:00</updated><id>http://localhost:4000/timeseries/timediff</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-15-timediff/"><![CDATA[<h2 id="abstract">Abstract</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[AAAI 2021](https://arxiv.org/pdf/2012.07436)]]></summary></entry><entry><title type="html">Pyraformer: Low-Complexity Pyramidal Attention for Long-Range Time Series Modeling and Forecasting (ICLR 2022)</title><link href="http://localhost:4000/timeseries/2024-07-26-pyraformer/" rel="alternate" type="text/html" title="Pyraformer: Low-Complexity Pyramidal Attention for Long-Range Time Series Modeling and Forecasting (ICLR 2022)" /><published>2024-07-26T00:00:00+09:00</published><updated>2024-08-04T11:22:34+09:00</updated><id>http://localhost:4000/timeseries/pyraformer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-26-pyraformer/"><![CDATA[<h2 id="abstract">Abstract</h2>
+
+<ul>
+  <li>Pyraformer: a flexible but parsimonious model that can capture a wide range of temporal dependencies, by exploring the multi-resolution representation of the time series
+    <ul>
+      <li>Pyramidal attention module (PAM)</li>
+      <li>the inter-scale tree structure summarizes features at different resolutions</li>
+      <li>the intra-scale neighboring connections model the temporal dependencies of different ranges</li>
+      <li>the maximum length of the signal traversing path in Pyraformer is a constant with regard to the sequence length L (i.e. \(\mathcal{O}(1)\))</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="1-introduciton">1. Introduciton</h2>
+
+<ul>
+  <li>시계열 예측에서 Challenge는 powerful but parsimonious model</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/pyraformer/fig1.png" alt="그림1" /></p>
+
+<p><img src="/assets/img/timeseries/pyraformer/table1.png" alt="그림11" /></p>
+
+<ul>
+  <li>Pyraformer: to simultaneously capture temporal dependencies of different ranges in a compact multi-resolution fashion</li>
+</ul>
+
+<h2 id="2-related-work">2. Related Work</h2>
+
+<p>pass</p>
+
+<h2 id="3-method">3. Method</h2>
+
+<h3 id="31-pyramidal-attention-module-pam">3.1. Pyramidal Attention Module (PAM)</h3>
+
+<ul>
+  <li>The inter-scale connections form a C-ary tree, in which each parent has C children.
+    <ul>
+      <li>the nodes at coarser scales can be regarded as the daily, weekly, and even monthly features of the time series</li>
+    </ul>
+  </li>
+  <li>\(\to\) The pyramidal graph offers a multi-resolution representation of the original time series !
+    <ul>
+      <li>long-range dependencies 파악이 쉬워짐. 그냥 이웃 노드 연결하기만 하면 되니까 (intra-scale)</li>
+    </ul>
+  </li>
+  <li>Original Attention mechanism
+    <ul>
+      <li>input \(X\), output \(Y\)</li>
+      <li>Query \({Q}={X} {W}_Q\), key \({K}={X} {W}_K\), value \({V}={X} {W}_V\)</li>
+      <li>where \({W}_Q, {W}_K, {W}_V \in \mathbb{R}^{L \times D_K}\)</li>
+      <li>Then, \({y}_i=\sum_{\ell=1}^L \frac{\exp \left({q}_i {k}_{\ell}^T / \sqrt{D_K}\right) {v}_{\ell}}{\sum_{\ell=1}^L \exp \left({q}_i {k}_{\ell}^T / \sqrt{D_K}\right)}\)</li>
+      <li>time and space complexity \(\mathcal{O}(L^2)\)</li>
+    </ul>
+  </li>
+  <li>Pyramidal Attention Module (PAM)</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/pyraformer/fomula2.png" alt="그림21" /></p>
+
+<p><img src="/assets/img/timeseries/pyraformer/myfig1.png" alt="그림31" /></p>
+
+<ul>
+  <li>Then, \({y}_i=\sum_{\ell \in \mathbb{N}_{\ell}^{(s)}} \frac{\exp \left({q}_i {k}_{\ell}^T / \sqrt{d_K}\right) {v}_{\ell}}{\sum_{\ell \in \mathbb{N}_l^{(s)}} \exp \left({q}_i {k}_{\ell}^T / \sqrt{d_K}\right)}\)</li>
+  <li>모든 시점끼리 attention을 하지 않고 conv filter로 nodes를 만들고 이웃 노드끼리 attention !</li>
+</ul>
+
+<h3 id="32-coarser-saleㄴ-construvtion-module-cscm">3.2. Coarser-saleㄴ Construvtion Module (CSCM)</h3>
+
+<p><img src="/assets/img/timeseries/pyraformer/fig3.png" alt="그림3" /></p>
+
+<ul>
+  <li>PAM이 작동할 수 있도록 pyramidal 구조를 initialize하는 역할</li>
+</ul>
+
+<h3 id="33-prediction-module">3.3. Prediction Module</h3>
+
+<ul>
+  <li>input embedding 할 때에 예측하고자 하는 길이만큼 붙여서 CSCM, PAM을 통과하면</li>
+  <li>예측 시점에 대한 representation을 얻을 수 있음</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/pyraformer/myfig3.png" alt="그림33" /></p>
+
+<h2 id="4-experiments">4. Experiments</h2>
+
+<p><img src="/assets/img/timeseries/pyraformer/table2.png" alt="그림12" /></p>
+
+<p><img src="/assets/img/timeseries/pyraformer/table3.png" alt="그림13" /></p>
+
+<p><img src="/assets/img/timeseries/pyraformer/fig4.png" alt="그림14" /></p>
+
+<h2 id="5-conclusion-and-outlook">5. Conclusion and Outlook</h2>
+
+<ul>
+  <li>Pyraformer: a novel model based on pyramidal attention
+    <ul>
+      <li>effectively describe both short and long temporal dependencies with low time and space complexity</li>
+      <li>CSCM to construct a C-ary tree, and then design the PAM to pass messages in both the inter-scale and the intra-scale fashion</li>
+      <li>Pyraformer can achieve the theoretical \(\mathcal{O}(L)\) complexity and \(\mathcal{O}(1)\) maximum signal traversing path length (L: input sequence length)</li>
+    </ul>
+  </li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2022](https://arxiv.org/pdf/2012.07436)]]></summary></entry><entry><title type="html">Timediff : Non-autoregressive Conditional Diffusion Models for Time Series Prediction (ICML 2023)</title><link href="http://localhost:4000/timeseries/2024-07-15-timediff/" rel="alternate" type="text/html" title="Timediff : Non-autoregressive Conditional Diffusion Models for Time Series Prediction (ICML 2023)" /><published>2024-07-15T00:00:00+09:00</published><updated>2024-07-23T18:18:28+09:00</updated><id>http://localhost:4000/timeseries/timediff</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-15-timediff/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>TimeDiff : non-autoregressive diffusion model, w/ two novel conditioning mechanisms
@@ -523,7 +763,7 @@ k_{\text {embedding }}= &amp; {\left[\sin \left(10^{\frac{0 \times 4}{w-1}} t\ri
       </li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICML 2023](https://arxiv.org/pdf/2306.05043)]]></summary></entry><entry><title type="html">CSDI: Conditional Score-based Diffusion Models for Probabilistic Time Series Imputation (NeurIPS 2021)</title><link href="http://localhost:4000/timeseries/2024-07-15-CSDI/" rel="alternate" type="text/html" title="CSDI: Conditional Score-based Diffusion Models for Probabilistic Time Series Imputation (NeurIPS 2021)" /><published>2024-07-15T00:00:00+09:00</published><updated>2024-07-23T18:18:28+09:00</updated><id>http://localhost:4000/timeseries/CSDI</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-15-CSDI/"><![CDATA[<h2 id="abstract">Abstract</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICML 2023](https://arxiv.org/pdf/2306.05043)]]></summary></entry><entry><title type="html">CSDI: Conditional Score-based Diffusion Models for Probabilistic Time Series Imputation (NeurIPS 2021)</title><link href="http://localhost:4000/timeseries/2024-07-15-CSDI/" rel="alternate" type="text/html" title="CSDI: Conditional Score-based Diffusion Models for Probabilistic Time Series Imputation (NeurIPS 2021)" /><published>2024-07-15T00:00:00+09:00</published><updated>2024-08-04T11:22:34+09:00</updated><id>http://localhost:4000/timeseries/CSDI</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-15-CSDI/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>Imputation에서 autoregressive models보다 score-based diffusion models의 성능이 좋음</li>
@@ -1532,61 +1772,4 @@ B_\pi\left(\frac{c^2}{c^2+1 / n} \widehat{\theta}\right) &amp; =\mathbb{E}_{\the
       </li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[1. Minimax Estimator]]></summary></entry><entry><title type="html">Analysis of non-parametric kernel regression</title><link href="http://localhost:4000/stat/2024-05-26-kernel_reg/" rel="alternate" type="text/html" title="Analysis of non-parametric kernel regression" /><published>2024-05-26T00:00:00+09:00</published><updated>2024-07-02T22:54:50+09:00</updated><id>http://localhost:4000/stat/kernel_reg</id><content type="html" xml:base="http://localhost:4000/stat/2024-05-26-kernel_reg/"><![CDATA[<ul>
-  <li>일반적인 regression은 response variable Y와 covariate X의 관계를 이해하는 방법 중 하나로 일종의 conditional expectation이다. <br />
-\(r(x)=\mathbb{E}[Y \mid X=x]=\int y f(y \mid x) dy\)</li>
-  <li>non-parametric regession을 하는 기본적인 방법 중 하나는 kernel regression이다. <br />
-estimator는 \(\widehat{r}(x)=\sum_{i=1}^n w_i(x) Y_i\) where \(w_i(x)=\frac{K\left(\frac{x-X_i}{h}\right)}{\sum_{j=1}^n K\left(\frac{x-X_j}{h}\right)}\)
-    <ul>
-      <li>weights는 x 주변에 높은 가중치를 두고, h는 smoothing을 결정하는 bandwidth이다.</li>
-      <li>간단한 kernel의 예시로 Gaussian kernel을 사용한다. \(K(x)=\frac{1}{\sqrt{2 \pi}} \exp \left(-x^2 / 2\right)\)</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="assumptions">Assumptions</h2>
-<ul>
-  <li>증명을 복잡하지 않게 하기 위한 가정 \(y_i=r\left(x_i\right)+\epsilon_i\), where
-    <ul>
-      <li><strong>Design Assumption</strong> : \(x_i\) is one-dimensional, and <strong>equally spaced</strong> on \([0,1]\)
-        <ul>
-          <li>사실 꼭 필요한 가정은 아니지만 특정 x 근처에 다른 x가 존재함을 가정하기 위한 가정이다.</li>
-        </ul>
-      </li>
-      <li><strong>Regression function Assumption</strong> : \(r(x)=\mathbb{E}[Y \mid X=x] \text { is } L \text {-Lipschitz}\) i.e. \(\left\vert\frac{d}{d x} r(x)\right\vert \leq L\)</li>
-      <li><strong>Noise Assumption</strong> : \(\mathbb{E}\left[\epsilon_i\right]=0, \operatorname{Var}\left[\epsilon_i\right]=\sigma^2\) and iid</li>
-      <li><strong>Kernel Assumption</strong> : spherical kernel \(K(x)=\mathbb{1}(-1 \leq x \leq 1)\)</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="kernel-regression">Kernel Regression</h2>
-<ul>
-  <li>Under the <strong>Assumptions</strong> with \(h \ge 1/(n-1)\), <br />
-\(\begin{aligned} R(\widehat{r}, r) &amp; = MSE(\widehat{r}, r) \\ &amp; =\int_0^1\{\widehat{r}(x)-r(x)\}^2 d x \\ &amp; =\int_0^1 \operatorname{bias}^2(x) d x+\int_0^1 \operatorname{Var}(\widehat{r}(x)) d x \leq L^2 h^2+\frac{\sigma^2}{(n-1) h} \end{aligned}\)</li>
-  <li>Proof : 적분 구간이 [0,1]이므로 \(\max _{x \in[0,1]}\left\vert\operatorname{bias}(x)\right\vert \leq L h\), 그리고 \(\max _{x \in[0,1]} \operatorname{Var}(\widehat{r}(x)) \leq \frac{\sigma^2}{(n-1) h}\)를 증명
-    <ul>
-      <li><strong>Bounding the bias</strong> <br />
-\(\begin{aligned} \left\vert \operatorname{bias}(x)\right\vert=\left\vert \mathbb{E} \widehat{r}(x)-r(x)\right\vert &amp; \stackrel{\text { (i) }}{=}\left\vert \mathbb{E}\left[\sum_{i=1}^n\left(w_i(x)\left(Y_i-r(x)\right)\right)\right]\right\vert \\ &amp;  \stackrel{\text { (ii) }}{=} \left\vert\sum_{i=1}^n\left(w_i(x)\left(r\left(X_i\right)-r(x)\right)\right)\right\vert \\ &amp; \stackrel{\text { (iii) }}{\leq} \sum_{i=1}^n w_i(x)\left\vert r\left(X_i\right)-r(x)\right\vert \\ &amp; \stackrel{\text { (iv) }}{\leq} L h \sum_{i=1}^n w_i(x)=L h,\end{aligned}\) <br />
-(i) is holds since \(\sum_{i=1}^n w_i(x)=\frac{\sum_{i=1}^n K\left(\frac{x-X_i}{h}\right)}{\sum_{j=1}^n K\left(\frac{x-X_j}{h}\right)}=1\) <br />
-(ii) follows by \(\mathbb{E}\left[Y_i \mid X_i\right]=r\left(X_i\right)\) <br />
-(iii) uses triangle inequality <br />
-(iv) if \(\left\vert X_i-x\right\vert \leq h,\) then \(\left\vert r\left(X_i\right)-r(x)\right\vert \leq Lh\) by the Lipschitz  and if \(\left\vert X_i-x\right\vert&gt;h,\) then \(w_i(x)=0\)</li>
-      <li><strong>Bounding the variance</strong>
-        <ul>
-          <li>먼저 weights에 대한 bound \(w_i(x)=\frac{K\left(\frac{x-X_i}{h}\right)}{\sum_{j=1}^n K\left(\frac{x-X_j}{h}\right)}=\frac{\mathbb{1}\left(\left\vert x-X_i\right\vert \leq h\right)}{\sum_{j=1}^n \mathbb{1}\left(\left\vert x-X_j\right\Vert \leq h\right)} \leq \frac{1}{(n-1) h}\)를 보인다.</li>
-          <li>즉 \(\sum_{j=1}^n \mathbb{1}\left(\left\vert x-X_j\right\vert \leq h\right) \geq (n-1)h\)를 보인다.
-            <ul>
-              <li>모든 \(h \geq 1 /(n-1)\)에 대해 \(\min _{x \in[0,1]} \sum_{j=1}^n \mathbb{1}\left(\left\vert x-X_j\right\vert \leq h\right)=\sum_{j=1}^n \mathbb{1}\left(\left\vert X_1-X_j\right\vert \leq h\right)\)이므로 (sum is minimized at the boundary)</li>
-              <li>\(h \in\left[\frac{k}{n-1}, \frac{k+1}{n-1}\right)\)의 경우에 대해 <br />
-\(\\ \begin{aligned} \min _{x \in[0,1]} \sum_{j=1}^n \mathbb{1}\left(\left\vert x-X_j\right\vert \leq h\right) &amp; =\sum_{j=1}^n \mathbb{1}\left(\left\vert X_1-X_j\right\vert \leq h\right) \\ &amp; \geq \sum_{j=1}^n \mathbb{1}\left(\left\vert X_1-X_j\right\vert \leq \frac{k}{n-1}\right)=k+1 \\ &amp; \geq(n-1) h \end{aligned}\)</li>
-              <li>그러므로 <br />
-\(\\ \begin{aligned} \operatorname{Var}(\widehat{r}(x)) &amp; =\mathbb{E}\left[(\widehat{r}(x)-\mathbb{E}(\widehat{r}(x)))^2\right]=\mathbb{E}[(\sum_{i=1}^n(w_i(x) \underbrace{\left(Y_i-r\left(X_i\right)\right.}_{=\epsilon_i})))^2] \\ &amp; =\mathbb{E}\left[\left(\sum_{i=1}^n \epsilon_i w_i(x)\right)^2\right] \\ &amp; =\sum_{i=1}^n w_i(x)^2 \mathbb{E}\left(\epsilon_i^2\right)=\sigma^2 \sum_{i=1}^n w_i(x)^2 \\ &amp; \leq \sigma^2 \max _{1 \leq i \leq n} w_i(x) \sum_{i=1}^n w_i(x) \leq \frac{\sigma^2}{(n-1) h} \end{aligned}\)</li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>Proof : 적분 구간이 [0,1]이므로 \(\max _{x \in[0,1]}\left\vert\operatorname{bias}(x)\right\vert \leq L h\), 그리고 \(\max _{x \in[0,1]} \operatorname{Var}(\widehat{r}(x)) \leq \frac{\sigma^2}{(n-1) h}\)이 증명되었다.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[일반적인 regression은 response variable Y와 covariate X의 관계를 이해하는 방법 중 하나로 일종의 conditional expectation이다. \(r(x)=\mathbb{E}[Y \mid X=x]=\int y f(y \mid x) dy\) non-parametric regession을 하는 기본적인 방법 중 하나는 kernel regression이다. estimator는 \(\widehat{r}(x)=\sum_{i=1}^n w_i(x) Y_i\) where \(w_i(x)=\frac{K\left(\frac{x-X_i}{h}\right)}{\sum_{j=1}^n K\left(\frac{x-X_j}{h}\right)}\) weights는 x 주변에 높은 가중치를 두고, h는 smoothing을 결정하는 bandwidth이다. 간단한 kernel의 예시로 Gaussian kernel을 사용한다. \(K(x)=\frac{1}{\sqrt{2 \pi}} \exp \left(-x^2 / 2\right)\)]]></summary></entry></feed>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[1. Minimax Estimator]]></summary></entry></feed>
