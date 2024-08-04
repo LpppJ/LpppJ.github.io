@@ -60,9 +60,11 @@ permalink: /timeseries/
 \
 [CSDI: Conditional Score-based Diffusion Models for Probabilistic Time Series Imputation (NeurIPS 2021)]{:.heading.flip-title}\
 \
-[Timediff : Non-autoregressive Conditional Diffusion Models for Time Series Prediction (ICML 2023)]{:.heading.flip-title}
-
-
+[Timediff : Non-autoregressive Conditional Diffusion Models for Time Series Prediction (ICML 2023)]{:.heading.flip-title}\
+\
+[Informer: Beyond Efficient Transformer for Long Sequence Time-Series Forecasting (AAAI 2021)]{:.heading.flip-title}\
+\
+[Pyraformer: Low-Complexity Pyramidal Attention for Long-Range Time Series Modeling and Forecasting (ICLR 2022)]{:.heading.flip-title}
 
 
 
@@ -92,3 +94,5 @@ permalink: /timeseries/
 [Timegrad :Autoregressive Denoising Diffusion Models for Multivariate Probabilistic Time Series Forecasting (ICML 2021)]: /timeseries/2024-07-09-Timegrad
 [CSDI: Conditional Score-based Diffusion Models for Probabilistic Time Series Imputation (NeurIPS 2021)]: /timeseries/2024-07-15-CSDI
 [Timediff : Non-autoregressive Conditional Diffusion Models for Time Series Prediction (ICML 2023)]: /timeseries/2024-07-15-timediff
+[Informer: Beyond Efficient Transformer for Long Sequence Time-Series Forecasting (AAAI 2021)]: /timeseries/2024-07-26-Informer
+[Pyraformer: Low-Complexity Pyramidal Attention for Long-Range Time Series Modeling and Forecasting (ICLR 2022)]: /timeseries/2024-07-26-pyraformer

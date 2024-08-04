@@ -1,5 +1,241 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-07-22T22:33:23+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">Timediff : Non-autoregressive Conditional Diffusion Models for Time Series Prediction (ICML 2023)</title><link href="http://localhost:4000/timeseries/2024-07-15-timediff/" rel="alternate" type="text/html" title="Timediff : Non-autoregressive Conditional Diffusion Models for Time Series Prediction (ICML 2023)" /><published>2024-07-15T00:00:00+09:00</published><updated>2024-07-15T23:46:51+09:00</updated><id>http://localhost:4000/timeseries/timediff</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-15-timediff/"><![CDATA[<h2 id="abstract">Abstract</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-08-04T11:22:05+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">Pyraformer: Low-Complexity Pyramidal Attention for Long-Range Time Series Modeling and Forecasting (ICLR 2022)</title><link href="http://localhost:4000/timeseries/2024-07-26-pyraformer/" rel="alternate" type="text/html" title="Pyraformer: Low-Complexity Pyramidal Attention for Long-Range Time Series Modeling and Forecasting (ICLR 2022)" /><published>2024-07-26T00:00:00+09:00</published><updated>2024-08-04T11:22:03+09:00</updated><id>http://localhost:4000/timeseries/pyraformer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-26-pyraformer/"><![CDATA[<h2 id="abstract">Abstract</h2>
+
+<ul>
+  <li>Pyraformer: a flexible but parsimonious model that can capture a wide range of temporal dependencies, by exploring the multi-resolution representation of the time series
+    <ul>
+      <li>Pyramidal attention module (PAM)</li>
+      <li>the inter-scale tree structure summarizes features at different resolutions</li>
+      <li>the intra-scale neighboring connections model the temporal dependencies of different ranges</li>
+      <li>the maximum length of the signal traversing path in Pyraformer is a constant with regard to the sequence length L (i.e. \(\mathcal{O}(1)\))</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="1-introduciton">1. Introduciton</h2>
+
+<ul>
+  <li>시계열 예측에서 Challenge는 powerful but parsimonious model</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/pyraformer/fig1.png" alt="그림1" /></p>
+
+<p><img src="/assets/img/timeseries/pyraformer/table1.png" alt="그림11" /></p>
+
+<ul>
+  <li>Pyraformer: to simultaneously capture temporal dependencies of different ranges in a compact multi-resolution fashion</li>
+</ul>
+
+<h2 id="2-related-work">2. Related Work</h2>
+
+<p>pass</p>
+
+<h2 id="3-method">3. Method</h2>
+
+<h3 id="31-pyramidal-attention-module-pam">3.1. Pyramidal Attention Module (PAM)</h3>
+
+<ul>
+  <li>The inter-scale connections form a C-ary tree, in which each parent has C children.
+    <ul>
+      <li>the nodes at coarser scales can be regarded as the daily, weekly, and even monthly features of the time series</li>
+    </ul>
+  </li>
+  <li>\(\to\) The pyramidal graph offers a multi-resolution representation of the original time series !
+    <ul>
+      <li>long-range dependencies 파악이 쉬워짐. 그냥 이웃 노드 연결하기만 하면 되니까 (intra-scale)</li>
+    </ul>
+  </li>
+  <li>Original Attention mechanism
+    <ul>
+      <li>input \(X\), output \(Y\)</li>
+      <li>Query \({Q}={X} {W}_Q\), key \({K}={X} {W}_K\), value \({V}={X} {W}_V\)</li>
+      <li>where \({W}_Q, {W}_K, {W}_V \in \mathbb{R}^{L \times D_K}\)</li>
+      <li>Then, \({y}_i=\sum_{\ell=1}^L \frac{\exp \left({q}_i {k}_{\ell}^T / \sqrt{D_K}\right) {v}_{\ell}}{\sum_{\ell=1}^L \exp \left({q}_i {k}_{\ell}^T / \sqrt{D_K}\right)}\)</li>
+      <li>time and space complexity \(\mathcal{O}(L^2)\)</li>
+    </ul>
+  </li>
+  <li>Pyramidal Attention Module (PAM)</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/pyraformer/fomula2.png" alt="그림21" /></p>
+
+<p><img src="/assets/img/timeseries/pyraformer/myfig1.png" alt="그림31" /></p>
+
+<ul>
+  <li>Then, \({y}_i=\sum_{\ell \in \mathbb{N}_{\ell}^{(s)}} \frac{\exp \left({q}_i {k}_{\ell}^T / \sqrt{d_K}\right) {v}_{\ell}}{\sum_{\ell \in \mathbb{N}_l^{(s)}} \exp \left({q}_i {k}_{\ell}^T / \sqrt{d_K}\right)}\)</li>
+  <li>모든 시점끼리 attention을 하지 않고 conv filter로 nodes를 만들고 이웃 노드끼리 attention !</li>
+</ul>
+
+<h3 id="32-coarser-saleㄴ-construvtion-module-cscm">3.2. Coarser-saleㄴ Construvtion Module (CSCM)</h3>
+
+<p><img src="/assets/img/timeseries/pyraformer/fig3.png" alt="그림3" /></p>
+
+<ul>
+  <li>PAM이 작동할 수 있도록 pyramidal 구조를 initialize하는 역할</li>
+</ul>
+
+<h3 id="33-prediction-module">3.3. Prediction Module</h3>
+
+<ul>
+  <li>input embedding 할 때에 예측하고자 하는 길이만큼 붙여서 CSCM, PAM을 통과하면</li>
+  <li>예측 시점에 대한 representation을 얻을 수 있음</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/pyraformer/myfig3.png" alt="그림33" /></p>
+
+<h2 id="4-experiments">4. Experiments</h2>
+
+<p><img src="/assets/img/timeseries/pyraformer/table2.png" alt="그림12" /></p>
+
+<p><img src="/assets/img/timeseries/pyraformer/table3.png" alt="그림13" /></p>
+
+<p><img src="/assets/img/timeseries/pyraformer/fig4.png" alt="그림14" /></p>
+
+<h2 id="5-conclusion-and-outlook">5. Conclusion and Outlook</h2>
+
+<ul>
+  <li>Pyraformer: a novel model based on pyramidal attention
+    <ul>
+      <li>effectively describe both short and long temporal dependencies with low time and space complexity</li>
+      <li>CSCM to construct a C-ary tree, and then design the PAM to pass messages in both the inter-scale and the intra-scale fashion</li>
+      <li>Pyraformer can achieve the theoretical \(\mathcal{O}(L)\) complexity and \(\mathcal{O}(1)\) maximum signal traversing path length (L: input sequence length)</li>
+    </ul>
+  </li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2022](https://arxiv.org/pdf/2012.07436)]]></summary></entry><entry><title type="html">Informer: Beyond Efficient Transformer for Long Sequence Time-Series Forecasting (AAAI 2021)</title><link href="http://localhost:4000/timeseries/2024-07-26-Informer/" rel="alternate" type="text/html" title="Informer: Beyond Efficient Transformer for Long Sequence Time-Series Forecasting (AAAI 2021)" /><published>2024-07-26T00:00:00+09:00</published><updated>2024-07-26T15:05:49+09:00</updated><id>http://localhost:4000/timeseries/Informer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-26-Informer/"><![CDATA[<h2 id="abstract">Abstract</h2>
+
+<ul>
+  <li>Transformer: quadratic time complexity, high memory usage, and in- herent limitation of the encoder-decoder architecture</li>
+  <li><strong>Informer</strong> : efficient transformer-based model for LSTF !
+    <ul>
+      <li><em>ProbSparse</em> self-attention mechanism
+        <ul>
+          <li>\(\mathcal{O}(L \log L)\) in time complexity and memory usage</li>
+        </ul>
+      </li>
+      <li>The self-attention distilling
+        <ul>
+          <li>highlights dominating attention by halving cascading layer input</li>
+          <li>and efficiently handles extreme long input sequences</li>
+        </ul>
+      </li>
+      <li>The generative style decoder
+        <ul>
+          <li>predicts the long time-series sequences at one forward operation, rather than a step-by-step way</li>
+          <li>improves the inference speed of long-sequence predictions</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="1-introduciton">1. Introduciton</h2>
+
+<ul>
+  <li>The major challenge for LSTF is to enhance the <strong>prediction capacity to meet the increasingly long sequence</strong> demand</li>
+  <li><em>can we improve Transformer models to be computation, memory, and architecture efficient, as well as maintaining higher prediction capacity?</em></li>
+  <li>Vanila Transformer의 limitation 3
+    <ul>
+      <li>The quadratic computation of self-attention \(\mathcal{O}\left(L^2\right)\)</li>
+      <li>The memory bottleneck in stacking layers for long inputs \(\mathcal{O}\left(J \cdot L^2\right)\)</li>
+      <li>The speed plunge in predicting long outputs</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="2-preliminary">2. Preliminary</h2>
+
+<p>pass</p>
+
+<h2 id="3-methodology">3. Methodology</h2>
+
+<p><img src="/assets/img/timeseries/Informer/fig2.png" alt="그림1" /></p>
+
+<h3 id="query-sparsity-measurement">Query Sparsity Measurement</h3>
+
+<ul>
+  <li>Based on KL divergence
+    <ul>
+      <li>: \(K L(q \| p)=\ln \sum_{l=1}^{L_K} e^{\mathbf{q}_i \mathbf{k}_l^{\top} / \sqrt{d}}-\frac{1}{L_K} \sum_{j=1}^{L_K} \mathbf{q}_i \mathbf{k}_j^{\top} / \sqrt{d}-\ln L_K\)​</li>
+    </ul>
+  </li>
+  <li>\(i\)-th query’s sparsity measurement
+    <ul>
+      <li>: \(M\left(\mathbf{q}_i, \mathbf{K}\right)=\ln \sum_{j=1}^{L_K} e^{\frac{\mathbf{q}_i \mathbf{k}_j^{\top}}{\sqrt{d}}}-\frac{1}{L_K} \sum_{j=1}^{L_K} \frac{\mathbf{q}_i \mathbf{k}_j^{\top}}{\sqrt{d}}\)</li>
+      <li>즉 query별로 key들과의 attention이 uniform distribution과 얼마나 다른지를 측정</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="probsparse-self-attention"><em>ProbSparse</em> Self-attention</h3>
+
+<ul>
+  <li>\(\mathcal{A}(\mathbf{Q}, \mathbf{K}, \mathbf{V})=\operatorname{Softmax}\left(\frac{\overline{\mathbf{Q}} \mathbf{K}^{\top}}{\sqrt{d}}\right) \mathbf{V}\), where \(\overline{\mathbf{Q}}\) only contains the Top-u queries under the sparsity measurement \(M(\mathbf{q}, \mathbf{K})\)​</li>
+  <li>Query 중에서 특정 key에 대해서 높은 attention을 가지는 query도 있지만 (Active) 모든 key에 대해서 비슷한 attention을 가지는 query도 있음 (Lazy)
+    <ul>
+      <li>굳이 모든 query를 다 볼 필요는 없다. Active = useful query이고 Lazy = trivial query</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/timeseries/Informer/myfig3.png" alt="그림2" /></p>
+
+<p><img src="/assets/img/timeseries/Informer/myfig4.png" alt="그림4" /></p>
+
+<ul>
+  <li>하지만 모든 query들 중 query가 active한지 알기 위해서는 또 모든 keys와 attention을 계산해봐야 할 것 같지만,
+    <ul>
+      <li>그렇지 않고 keys를 sampling해서 몇 개만 가져와서 모든 query들과 attention을 계산해도 된다. (증명 : lemma1)</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/timeseries/Informer/lemma1.png" alt="그림6" /></p>
+
+<ul>
+  <li>그렇게 찾은 useful query들만 가지고, 이제는 모든 keys와 attention을 계산한다</li>
+</ul>
+
+<h3 id="encoder-allowing-for-processing-longer-sequential-inputs-under-the-memory-usage-limitation">Encoder: Allowing for Processing Longer Sequential Inputs under the Memory Usage Limitation</h3>
+
+<p><img src="/assets/img/timeseries/Informer/fig3.png" alt="그림7" /></p>
+
+<ul>
+  <li>We use the distilling operation to privilege the superior ones with dominating features and make a focused self-attention fea- ture map in the next layer.</li>
+  <li>Distilling procedure : \(\mathbf{X}_{j+1}^t=\operatorname{MaxPool}\left(\operatorname{ELU}\left(\operatorname{Conv1d}\left(\left[\mathbf{X}_j^t\right]_{\mathrm{AB}}\right)\right)\right)\)</li>
+</ul>
+
+<h3 id="decoder-generating-long-sequential-outputs-through-one-forward-procedure">Decoder: Generating Long Sequential Outputs Through One Forward Procedure</h3>
+
+<ul>
+  <li>
+    <p>Transformer의 Masked-attention과 Encoder-Decoder Attention 대신 <strong>generative inference</strong></p>
+
+    <ul>
+      <li>
+        <p>Decoder의 input : \(\mathbf{X}_{\mathrm{de}}^t=\operatorname{Concat}\left(\mathbf{X}_{\text {token }}^t, \mathbf{X}_{\mathbf{0}}^t\right) \in \mathbb{R}^{\left(L_{\text {token }}+L_y\right) \times d_{\text {model }}}\)</p>
+      </li>
+      <li>
+        <p>Start token을 사용하는 대신, Target 직전 시점의 값 몇개를 start token으로 주고, 우리가 원하는 길이의 예측값을 한 번에 decoding</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="4-experiments">4. Experiments</h2>
+
+<p><img src="/assets/img/timeseries/Informer/table1.png" alt="그림9" /></p>
+
+<h2 id="5-conclusion">5. Conclusion</h2>
+
+<ul>
+  <li>Informer
+    <ul>
+      <li><em>ProbSparse</em> self- attention mechanism</li>
+      <li>Distilling operation : to handle the challenges of quadratic time complexity and quadratic mem- ory usage in vanilla Transformer</li>
+      <li>generative decoder alleviates : alleviates the limitation of tra- ditional encoder-decoder architecture</li>
+    </ul>
+  </li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[AAAI 2021](https://arxiv.org/pdf/2012.07436)]]></summary></entry><entry><title type="html">Timediff : Non-autoregressive Conditional Diffusion Models for Time Series Prediction (ICML 2023)</title><link href="http://localhost:4000/timeseries/2024-07-15-timediff/" rel="alternate" type="text/html" title="Timediff : Non-autoregressive Conditional Diffusion Models for Time Series Prediction (ICML 2023)" /><published>2024-07-15T00:00:00+09:00</published><updated>2024-07-23T18:18:28+09:00</updated><id>http://localhost:4000/timeseries/timediff</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-15-timediff/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>TimeDiff : non-autoregressive diffusion model, w/ two novel conditioning mechanisms
@@ -287,7 +523,7 @@ k_{\text {embedding }}= &amp; {\left[\sin \left(10^{\frac{0 \times 4}{w-1}} t\ri
       </li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICML 2023](https://arxiv.org/pdf/2306.05043)]]></summary></entry><entry><title type="html">CSDI: Conditional Score-based Diffusion Models for Probabilistic Time Series Imputation</title><link href="http://localhost:4000/timeseries/2024-07-15-CSDI/" rel="alternate" type="text/html" title="CSDI: Conditional Score-based Diffusion Models for Probabilistic Time Series Imputation" /><published>2024-07-15T00:00:00+09:00</published><updated>2024-07-15T10:02:51+09:00</updated><id>http://localhost:4000/timeseries/CSDI</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-15-CSDI/"><![CDATA[<h2 id="abstract">Abstract</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICML 2023](https://arxiv.org/pdf/2306.05043)]]></summary></entry><entry><title type="html">CSDI: Conditional Score-based Diffusion Models for Probabilistic Time Series Imputation (NeurIPS 2021)</title><link href="http://localhost:4000/timeseries/2024-07-15-CSDI/" rel="alternate" type="text/html" title="CSDI: Conditional Score-based Diffusion Models for Probabilistic Time Series Imputation (NeurIPS 2021)" /><published>2024-07-15T00:00:00+09:00</published><updated>2024-07-23T18:18:28+09:00</updated><id>http://localhost:4000/timeseries/CSDI</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-15-CSDI/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>Imputation에서 autoregressive models보다 score-based diffusion models의 성능이 좋음</li>
@@ -1353,449 +1589,4 @@ estimator는 \(\widehat{r}(x)=\sum_{i=1}^n w_i(x) Y_i\) where \(w_i(x)=\frac{K\l
     </ul>
   </li>
   <li>Proof : 적분 구간이 [0,1]이므로 \(\max _{x \in[0,1]}\left\vert\operatorname{bias}(x)\right\vert \leq L h\), 그리고 \(\max _{x \in[0,1]} \operatorname{Var}(\widehat{r}(x)) \leq \frac{\sigma^2}{(n-1) h}\)이 증명되었다.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[일반적인 regression은 response variable Y와 covariate X의 관계를 이해하는 방법 중 하나로 일종의 conditional expectation이다. \(r(x)=\mathbb{E}[Y \mid X=x]=\int y f(y \mid x) dy\) non-parametric regession을 하는 기본적인 방법 중 하나는 kernel regression이다. estimator는 \(\widehat{r}(x)=\sum_{i=1}^n w_i(x) Y_i\) where \(w_i(x)=\frac{K\left(\frac{x-X_i}{h}\right)}{\sum_{j=1}^n K\left(\frac{x-X_j}{h}\right)}\) weights는 x 주변에 높은 가중치를 두고, h는 smoothing을 결정하는 bandwidth이다. 간단한 kernel의 예시로 Gaussian kernel을 사용한다. \(K(x)=\frac{1}{\sqrt{2 \pi}} \exp \left(-x^2 / 2\right)\)]]></summary></entry><entry><title type="html">TimeMixer: Decomposable Multiscale Mixing for Time Series Forecasting (ICLR 2024)</title><link href="http://localhost:4000/timeseries/2024-05-23-Timemixer/" rel="alternate" type="text/html" title="TimeMixer: Decomposable Multiscale Mixing for Time Series Forecasting (ICLR 2024)" /><published>2024-05-23T00:00:00+09:00</published><updated>2024-07-05T18:29:41+09:00</updated><id>http://localhost:4000/timeseries/Timemixer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-05-23-Timemixer/"><![CDATA[<h2 id="abstract">Abstract</h2>
-
-<ul>
-  <li>Real world에서 time series는 복잡한 temporal variations 때문에 forecasting이 어려움</li>
-  <li>지금까지는 그냥 decomposition하고 multiperiodicity 분석 했는데,</li>
-  <li>본 논문에서는 time series를 다양한 scale로 sampling하면 별개의 patterns가 관찰될 것이라는 intuition에 따라 multiscale-mixing을 제안
-    <ul>
-      <li>microscopic information은 fine scale, macroscopic information은 coarse scales</li>
-    </ul>
-  </li>
-  <li><strong>TimeMixer</strong> : fully MLP-based architecture
-    <ul>
-      <li>with <strong>Past-Decomposable-Mixing</strong> (PDM) for past extraction
-        <ul>
-          <li>applies the decomposition to multiscale series</li>
-          <li>and mixes the decomposed seasonal and trend components
-            <ul>
-              <li>즉 the microscopic seasonal과 macroscopic trend를 통합</li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li>with <strong>Future-Multipredictor-Mixing</strong> (FMM) for future prediction
-        <ul>
-          <li>multiscale observation을 통한 완성도 있는 예측을 위해 multiple predictors를 ensemble</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="introduction">Introduction</h2>
-
-<ul>
-  <li>Time series의 representative models는 temporal variations를 파악
-    <ul>
-      <li>foundation backbone 별로 보면</li>
-      <li>CNN 계열로는 <a href="https://openreview.net/forum?id=zt53IDUR1U">MICN(2023)</a>, <a href="https://arxiv.org/abs/2210.02186">TimesNet(2023)</a>, <a href="https://link.springer.com/article/10.1007/s00500-020-04954-0">TCN(2020)</a>, RNN 계열로는 <a href="https://arxiv.org/abs/1703.07015">LSTNet(2018)</a>, <a href="https://arxiv.org/abs/1704.02971">DA-RNN(2017)</a>, <a href="https://www.sciencedirect.com/science/article/pii/S0169207019301888">DeepAR(2020)</a>이 있고</li>
-      <li>Transformer 계열로는 <a href="https://arxiv.org/abs/2012.07436">Informer(2021)</a>, <a href="https://arxiv.org/abs/2106.13008">Autoformer(2021)</a>, <a href="https://arxiv.org/abs/2201.12740">Fedformer(2022)</a>, <a href="https://arxiv.org/abs/2211.14730">PatchTST(2023)</a>가 있다.</li>
-      <li>그리고 MLP 계열로는 <a href="https://arxiv.org/abs/2205.13504">DLinear(2023)</a>, <a href="https://arxiv.org/abs/2207.01186">LightTS(2022)</a>, <a href="https://arxiv.org/abs/2201.12886">N-hits(2023)</a>가 있다.</li>
-    </ul>
-  </li>
-  <li>지금까지는 그냥 decomposition하고 multiperiodicity 분석
-    <ul>
-      <li>decomposition : predictable component(seasonal, trend)와 complex temporal patterns를 분리</li>
-      <li>multiperiodicity analysis : mixed temporal variations을 주기가 다른 여러 components로 disentangle</li>
-    </ul>
-  </li>
-  <li>본 논문의 intuition : sampling scales가 달라지면 temporal variations도 달라진다.
-    <ul>
-      <li>microscopic information을 담은 fine scale과 macroscopic information을 담고 있는 coarse scales에서의 변동이 joint하게 미래 변동을 결정한다.</li>
-      <li>multiscale mixing을 통해 scale에 따른 변동을 구분하고 그걸 다 고려해서 complementary한 예측을 할 수 있을 것</li>
-    </ul>
-  </li>
-  <li><strong>Past-Decomposable-Mixing</strong> (PDM) : average downsampling을 통해 multiscale observations 생성</li>
-  <li><strong>Future-Multipredictor-Mixing</strong> (FMM) : multiscale에서의 seasonal, trend를 합쳐서 multiple predictors를 ensemble</li>
-</ul>
-
-<h2 id="2-related-work">2. Related Work</h2>
-
-<h3 id="21-temporal-modeling-in-deep-tsf">2.1. Temporal Modeling in Deep TSF</h3>
-
-<ul>
-  <li>Foundation backbones에 따라 4가지 계열로 구분 : CNN, RNN, Transformer, MLP
-    <ul>
-      <li>CNN, RNN-based deep models는 limited receptive field 때문에 long-term forecasting이 어려움</li>
-      <li>Transformer-based models는 long-term temporal depdendencies 파악</li>
-      <li>MLP-based models는 단순한 구조로도 복잡한 모델의 성능만큼 도달할 수 있음을 제시</li>
-    </ul>
-  </li>
-  <li>Temporal multiscale designs models이 있긴 하지만 <a href="https://openreview.net/forum?id=0EXmFzUn5I">Pyraformer(2021)</a>, <a href="https://arxiv.org/abs/2106.09305">SCINet(2022)</a>
-    <ul>
-      <li>예측 과정에서 multiscale information을 동시에 활용하지는 않음</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="22-mixing-networks">2.2. Mixing Networks</h3>
-
-<ul>
-  <li>Computer Vision과 NLP 분야에서 사용되는 mixing <a href="https://arxiv.org/abs/2105.01601">MLP-Mixer(2021)</a>, <a href="https://arxiv.org/abs/2105.03824">FNet(2022)</a></li>
-</ul>
-
-<h2 id="3-timemixer">3. TimeMixer</h2>
-
-<ul>
-  <li>P길이의 과거를 보고 F길이의 미래를 예측</li>
-  <li>disentangled variations(past information extraction) &amp; complementary forecasting(future prediction)</li>
-</ul>
-
-<h3 id="31-multiscale-mixing-architecture">3.1. Multiscale Mixing Architecture</h3>
-
-<p><img src="/assets/img/timeseries/Timemixer/fig1.png" alt="그림1" /></p>
-
-<ul>
-  <li>
-    <p>먼저 complex variations를 disentangle하기 위해 downsampling한다.</p>
-
-    <ul>
-      <li>\(\mathbf{x} \in \mathbb{R}^{P \times C}\)를 M개의 scale로 downsampling하면</li>
-      <li>\(\mathcal{X}=\left\{\mathbf{x}_0, \cdots, \mathbf{x}_M\right\} \text {, where } \mathbf{x}_m \in \mathbb{R}^{\left\lfloor \frac{P}{2^m}\right\rfloor \times C}, m \in\{0, \cdots, M\}\)를 얻는다.</li>
-      <li>\(C\)는 변수 개수</li>
-      <li>즉 \(\mathbf{x}_0\)는 input 원본이고, \(\mathbf{x}_m\)은 m개씩 average pooling한 것이다.</li>
-      <li>그리고 embedding layer 통과하면 \(\mathcal{X}^0=\operatorname{Embed}(\mathcal{X})\)를 얻는다.</li>
-    </ul>
-  </li>
-  <li>
-    <p>이제 <strong>Past-Decomposable-Mixing</strong> (PDM, for mixing past information)</p>
-
-\[x^l=\operatorname{PDM}\left(x^{l-1}\right),\quad l \in\{0, \cdots, L\}, \quad \mathbf{x}_m^l \in \mathbb{R}^{\left\lfloor\frac{P}{2^m}\right\rfloor \times d_{\text {model }}}\]
-
-    <ul>
-      <li>(자세한 건 다음 section 3.2.)</li>
-    </ul>
-  </li>
-  <li>
-    <p>다음으로 <strong>Future-Multipredictor-Mixing</strong> (FMM, for future prediction)</p>
-
-\[\widehat{\mathbf{x}}=\operatorname{FMM}\left(\mathcal{X}^L\right), \quad \widehat{\mathbf{x}} \in \mathbb{R}^{F \times C}\]
-
-    <ul>
-      <li>(자세한 건 다음 section 3.3.)</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="32-past-decomposable-mixing">3.2. Past Decomposable Mixing</h3>
-
-<ul>
-  <li>
-    <p>Seasonal과 trend는 scale에 따라 다르게 나타나므로</p>
-
-    <ul>
-      <li>Seasonal끼리 scale별로 구해서 mixing, trend끼리 scale별로 구해서 mixing</li>
-    </ul>
-  </li>
-  <li>
-    <p>\(l\)-번째 PDM block에서는</p>
-    <ul>
-      <li>ts \(\mathcal{X}_l\)를 seasonal part \(\mathcal{S}^l=\left\{\mathbf{s}_0^l, \cdots, \mathbf{s}_M^l\right\}\)과 trend parts \(\mathcal{T}^l=\left\{\mathbf{t}_0^l, \cdots, \mathbf{t}_M^l\right\}\)로 decompose</li>
-    </ul>
-
-\[\begin{gathered}
-\mathbf{s}_m^l, \mathbf{t}_m^l=\text { SeriesDecomp }\left(\mathbf{x}_m^l\right), m \in\{0, \cdots, M\}, \\
-\mathcal{X}^l=\mathcal{X}^{l-1}+\text { FeedForward }\left(\operatorname{S-Mix}\left(\left\{\mathbf{s}_m^l\right\}_{m=0}^M\right)+\text { T-Mix }\left(\left\{\mathbf{t}_m^l\right\}_{m=0}^M\right)\right)
-\end{gathered}\]
-
-    <ul>
-      <li>\(\text { FeedForward(} \cdot)\) contains two linear layers w/ GELU</li>
-      <li>\(\operatorname{S}-\operatorname{Mix}(\cdot), T-\operatorname{Mix}(\cdot)\)​는 지금부터 설명할 mixing</li>
-    </ul>
-  </li>
-</ul>
-
-<p><img src="/assets/img/timeseries/Timemixer/fig2.png" alt="그림2" /></p>
-
-<ul>
-  <li><strong>Seasonal Mixing</strong>
-    <ul>
-      <li>(Box &amp; Jenkins, 1970)의 seasonality analysis에 따르면
-        <ul>
-          <li>larger periods는 smaller periods의 aggregation</li>
-          <li>그러므로 residual하게 bottom-up approach</li>
-          <li>(coarser scales의 seasonality를 위해 lower-level fine-scale 사용)</li>
-          <li>
-\[\text { for } m: 1 \rightarrow M \text { do: } \quad \mathbf{s}_m^l=\mathbf{s}_m^l+\text { Bottom-Up-Mixing }\left(\mathbf{s}_{m-1}^l\right)\]
-            <ul>
-              <li>\(\text { Bottom-Up-Mixing(} \cdot \text {) }\): input dim \(\left\lfloor\frac{P}{2^{m-1}}\right\rfloor\), output dim \(\left\lfloor\frac{P}{2^{m}}\right\rfloor\)인 two linear layers with GELU</li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li><strong>Trend Mixing</strong>
-    <ul>
-      <li>seasonal parts와 반대로
-        <ul>
-          <li>detailed variations는 noise로 보일 뿐이고 coarser scales가 finer scales를 guide</li>
-          <li>그러므로 residual하게 top-down mixing</li>
-          <li>
-\[\text { for } m:(M-1) \rightarrow 0 \text { do: } \quad \mathbf{t}_m^l=\mathbf{t}_m^l+\text { Top-Down-Mixing }\left(\mathbf{t}_{m+1}^l\right)\]
-            <ul>
-              <li>\(\text { Top-Down-Mixing(} \cdot \text {) }\) : : input dim \(\left\lfloor\frac{P}{2^{m+1}}\right\rfloor\), output dim \(\left\lfloor\frac{P}{2^{m}}\right\rfloor\)인 two linear layers with GELU</li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>결론적으로 seasonality는 from fine to coarse, 반대로 trend는 coarse to fine하게 multiscale mixing in past information extraction</li>
-</ul>
-
-<h3 id="33-future-multipredictor-mixing">3.3. Future MultiPredictor Mixing</h3>
-
-<ul>
-  <li>\(L\)개의 PDM block으로 \(\mathcal{X}^L=\left\{\mathbf{x}_0^L, \cdots, \mathbf{x}_M^L\right\}, \mathbf{x}_m^L \in \mathbb{R}^{\left\lfloor\frac{P}{2^m}\right\rfloor \times d_{\text {model }}}\)를 얻었다.</li>
-  <li>서로 다른 scale인 \(\mathbf{x}_m^L\)들은 서로 다른 variations를 present하고 있기 때문에 모든 scale에서 예측을 하고 각각의 예측을 aggregate한다. (ensemble)</li>
-  <li>
-\[\widehat{\mathbf{x}}_m=\operatorname{Predictor}_m\left(\mathbf{x}_m^L\right), m \in\{0, \cdots, M\}, \widehat{\mathbf{x}}=\sum_{m=0}^M \widehat{\mathbf{x}}_m\]
-    <ul>
-      <li>\(\widehat{\mathbf{x}}_m, \widehat{\mathbf{x}} \in \mathbb{R}^{F \times C}\)​</li>
-    </ul>
-  </li>
-  <li>\(\text { Predictor }_m(\cdot)\)은 one single linear layer인데 \(\left\lfloor\frac{P}{2^m}\right\rfloor\)길이의 과거 정보로부터 F 길이의 future를 regress</li>
-  <li>FMM은 mixed multiscale series로 complementary forecasting하는  ensemble of multiple predictors</li>
-</ul>
-
-<h2 id="4-experiments">4. Experiments</h2>
-
-<ul>
-  <li>Summary</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/Timemixer/table1.png" alt="그림11" /></p>
-
-<ul>
-  <li>Main results</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/Timemixer/table2.png" alt="그림12" /></p>
-
-<ul>
-  <li>Ablations</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/Timemixer/table5.png" alt="그림15" /></p>
-
-<ul>
-  <li>Decomposition과 multiscale의 각 components에 대한 visualization</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/Timemixer/fig3.png" alt="그림3" /></p>
-
-<p><img src="/assets/img/timeseries/Timemixer/fig4.png" alt="그림4" /></p>
-
-<h2 id="5-conclusion">5. Conclusion</h2>
-
-<ul>
-  <li>Empowered by Past-Decomposable-Mixing and Future- Multipredictor-Mixing blocks, TimeMixer took advantage of both disentangled variations and complementary forecasting capabilities.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2024](https://openreview.net/pdf?id=7oLshfEIC2)]]></summary></entry><entry><title type="html">Pathformer: Multi-scale Transformers with Adaptive Pathways for Time Series Forecasting (ICLR 2024)</title><link href="http://localhost:4000/timeseries/2024-05-23-Pathformer/" rel="alternate" type="text/html" title="Pathformer: Multi-scale Transformers with Adaptive Pathways for Time Series Forecasting (ICLR 2024)" /><published>2024-05-23T00:00:00+09:00</published><updated>2024-07-02T22:54:50+09:00</updated><id>http://localhost:4000/timeseries/Pathformer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-05-23-Pathformer/"><![CDATA[<h2 id="abstract">Abstract</h2>
-
-<ul>
-  <li>기존 Transformer for TS 모델들은 limited or fixed scales</li>
-  <li>Pathformer는 temporal resolution과 temporal distance를 합치는 방식
-    <ul>
-      <li>다양한 크기의 patches를 사용해서 서로 다른 temporal resolutions를 만들고</li>
-      <li>dual attention으로 temporal dependencies(global correlation과 local details)</li>
-    </ul>
-  </li>
-  <li>Input의 varying temporal dynamics에 따라 adaptive multi-scale</li>
-</ul>
-
-<h2 id="1-introduction">1. Introduction</h2>
-
-<ul>
-  <li>최근 simpler linear model의 성능이 transformer 보다 잘 나옴 - transformer 디자인 수정 필요</li>
-  <li>Time Series에서는 multiple scales를 고려하는 것이 중요 (일, 월 등…)
-    <ul>
-      <li><strong>Temporal resolution</strong>: patch의 길이 (fine-grained or coarse grained)</li>
-      <li><strong>Temporal distance</strong> : time steps 사이의 거리
-<img src="/assets/img/timeseries/Pathformer/fig1.png" alt="그림1" /></li>
-      <li>그림 왼쪽 위에서 blue patch와 orange patch는 Temporal resolution가 다른 것이고</li>
-      <li>그림 오른쪽에서 black arrows와 colored arrows는 Temporal distance가 다른 것</li>
-    </ul>
-  </li>
-  <li>그래서 Transformer로 multi-scale modeling 하려는데 challenges 2개
-    <ul>
-      <li><strong>incompleteness of multi-scale modeling</strong>
-        <ul>
-          <li>단순히 Temporal resolution (patch 길이) 늘리는 건 다양한 dependency 파악에 도움 안됨</li>
-          <li>차라리 Temporal distance (time steps 간격) 다양하게 하면 좋은데 Temporal distance는 patch size (data division)에 따라 달라짐</li>
-        </ul>
-      </li>
-      <li><strong>fixed multi-scale modeling process</strong>
-        <ul>
-          <li>different series prefer different scales !</li>
-          <li>그림 왼쪽 위 series는 rapid fluctuation, fine-grained, short-term characteriestics</li>
-          <li>그림 왼쪽 아래 series는 coarse-grained and long-term characteriestics</li>
-          <li>모든 데이터에 fixed multi-scale modeling하면 안되는데 매번 optimal scale 찾으려니 오래걸림</li>
-        </ul>
-      </li>
-      <li>그래서 <strong>adaptive multi-scale modeling</strong>이 필요하다.
-        <ul>
-          <li>adaptively models the current data from certain multiple scales</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>기존에는 그냥 다양한 길이의 patch로 자른 뒤에, patch 안에서 temporal dependencies를, patch 끼리 global correlation을 파악하는 dual attention</li>
-  <li>본 논문에서 제시하는 Pathformer는
-    <ul>
-      <li>Multi-scale router가 seasonality와 trend를 보고 적절한 patch size들을 결정</li>
-      <li>그 다음 multi-scale characteristics를 weighted aggregation</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="2-related-work">2. Related Work</h2>
-
-<ul>
-  <li>Time Series forecasting
-    <ul>
-      <li>Statistical modeling, GNN(spatial dependency), RNN(temporal dependency), CNN(sub-series features), TimesNet(1-dim \(\to\) 2-dim), LLM-based…</li>
-    </ul>
-  </li>
-  <li>Transformer
-    <ul>
-      <li>Informer : prob-sparse self-attention to select important keys</li>
-      <li>Triformer :  manages to reduce the complexity</li>
-      <li>Autoformer : auto-correlation mechanisms to replace self- attention</li>
-      <li>FEDformer : the perspective of frequency to model temporal dynamics</li>
-      <li>하지만 simple linear model의 성능이 더 좋은 경우가 많았음</li>
-      <li>PatchTST : patching and channel independence로 transformer의 가능성 제시</li>
-    </ul>
-  </li>
-  <li>Multi-scale Modeling for Time Series
-    <ul>
-      <li>N-HiTs : multi-rate data sampling and hierarchical interpolation for diverse temporal resolutions</li>
-      <li>Pyraformer : pyramid attention to extract features at different temporal resolutions</li>
-      <li>하지만 fixed scale이었고, 본 논문에서는 adaptive multi scale 제안</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="3-methodology">3. Methodology</h2>
-
-<p><img src="/assets/img/timeseries/Pathformer/fig2.png" alt="그림2" /></p>
-
-<ul>
-  <li>Instance Norm - Stacking of <strong>Adaptive Multi-Scale Blocks</strong> - Predictor(FC)로 구성</li>
-  <li>Adaptive Multi-Scale Blocks은 multi-scale Transformer block과 adaptive pathways으로 구성
-    <ul>
-      <li>multi-scale Transformer block
-        <ul>
-          <li>다양한 size의 patch division and dual attention으로 multi-scale temporal resolution and distances 통합</li>
-        </ul>
-      </li>
-      <li>adaptive pathways
-        <ul>
-          <li>multi-scale router가 다양한 patch size르 고르고</li>
-          <li>aggregator에서 mutli-scale characteristics를 weighted aggregation</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="31-multi-scale-transformer-block">3.1. Multi-scale Transformer Block</h3>
-
-<ul>
-  <li><strong>Multi-scale Division</strong>
-    <ul>
-      <li>\(\mathrm{X} \in \mathbb{R}^{H \times d}\)를 P개의 patch \(\left(\mathrm{X}^1, \mathrm{X}^2, \ldots, \mathrm{X}^P\right)\)로 나눔, patch size는 M개 \(\mathcal{S}=\left\{S_1, \ldots, S_M\right\}\) 즉 \(P = H/S\)</li>
-      <li>다양한 크기의 patch size로 다양한 temporal resolutions를 dual attention</li>
-    </ul>
-  </li>
-  <li><strong>Dual attention</strong>
-<img src="/assets/img/timeseries/Pathformer/fig3.png" alt="그림3" />
-    <ul>
-      <li>Intra-patch attention : relationships btw time steps within each patch
-        <ul>
-          <li>먼저 \(X_{\text {intra }}^i \in \mathbb{R}^{S \times d_m}\) patch를 embedding하고 \(\operatorname{Attn}_{\text {intra }}^i=\operatorname{Softmax}\left(Q_{\text {intra }}^i\left(K_{\text {intra }}^i\right)^T / \sqrt{d_m}\right) V_{\text {intra }}^i \in \mathbb{R}^{1 \times d_m}\)</li>
-          <li>모든 patches에 대해 다 합치면 \(\operatorname{Attn}_{\text {intra }}=\operatorname{Concat}\left(\operatorname{Attn}_{\text {intra }}^1, \ldots, \operatorname{Attn}_{\text {intra }}^P\right) \in \mathbb{R}^{P \times d_m}\)​</li>
-          <li>Linear transformation으로 \(\operatorname{Attn}_{\text {intra }} \in \mathbb{R}^{P \times S \times d_m}\)</li>
-        </ul>
-      </li>
-      <li>Inter-patch attention : relationships btw patches to capture global correlations
-        <ul>
-          <li>먼저 feature embedding and rearrange : \(\mathrm{X}_{\text {inter }} \in \mathbb{R}^{P \times d_m^{\prime}} \text {, where } d_m^{\prime}=S \cdot d_m\)</li>
-          <li>아까처럼  linear mapping으로 \(\operatorname{Attn}_{\text {inter }}=\operatorname{Softmax}\left(Q_{\text {inter }}\left(K_{\text {inter }}\right)^T / \sqrt{d_m^{\prime}}\right) V_{\text {inter }} \in \mathbb{R}^{P \times S \times d_m}\)</li>
-        </ul>
-      </li>
-      <li>둘을 더하면 \(\mathrm{Attn}_{\text {intra }} + \mathrm{Attn}_{\text {intra }}=\text { Attn } \in \mathbb{R}^{P \times S \times d_m}\)</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="32-adaptive-pathways">3.2. Adaptive Pathways</h3>
-
-<ul>
-  <li>different series may prefer diverse scales \(\to\) model needs to figure out critical scales based on the input</li>
-  <li><strong>Multi-scale router</strong> selects specific sizes of patch division based on the input data</li>
-  <li>
-    <p><strong>Multi-scale aggregator</strong> combines multi-scale characteristics(weighted aggregation) \(\to\) output of the Transformer block</p>
-  </li>
-  <li><strong>Multi-scale router</strong> : selects the optimal sizes for patch division
-    <ul>
-      <li>by its complex inherent characteristics and dynamic patterns</li>
-      <li>seasonality and trend decomposition \(\to\) extract periodicity and trend patterns</li>
-      <li><strong>Seasonality decomposition</strong>
-        <ul>
-          <li>Discern Fourier Transform (DFT) : X를 푸리에 basis로 decomopose하고 the largest amplitudes 선택 (to keep the sparsity of frequency domain)</li>
-          <li>IDFT로 periodic patterns \(\mathrm{X}_{\text {sea }}=\operatorname{IDFT}\left(\left\{f_1, \ldots, f_{K_f}\right\}, A, \Phi\right)\) 얻음
-            <ul>
-              <li>\(\Phi\), \(A\) :the phase and amplitude of each frequency from \(\operatorname{DFT}(\mathrm{X})\)</li>
-              <li>\(\left\{f_1, \ldots, f_{K_f}\right\}\) : the frequencies with the top \(K_f\) amplitudes</li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li><strong>Trend decomposition</strong>
-        <ul>
-          <li>seasonality를 제외한 부분 \(\mathrm{X}_{\mathrm{rem}}=\mathrm{X}-\mathrm{X}_{\text {sea }}\)에 대해 different kernels of average pooling for moving averages to extract trend patterns</li>
-          <li>정리하면 \(\mathrm{X}_{\text {trend }}=\operatorname{Softmax}\left(L\left(\mathrm{X}_{\mathrm{rem}}\right)\right) \cdot\left(\operatorname{Avgpool}\left(\mathrm{X}_{\mathrm{rem}}\right)_{\text {kernel }_1}, \ldots, \operatorname{Avgpool}\left(\mathrm{X}_{\mathrm{rem}}\right)_{\text {kernel }_N}\right)\)</li>
-        </ul>
-      </li>
-      <li>input \(X\)에 seasonality pattern and trend pattern를 더하고 linear mapping으로 \(\mathrm{X}_{\text {trans }} \in \mathbb{R}^d\)</li>
-      <li>마지막으로 routing function \(R\left(\mathrm{X}_{\text {trans }}\right)=\operatorname{Softmax}\left(\mathrm{X}_{\text {trans }} W_r+\epsilon \cdot \operatorname{Softplus}\left(\mathrm{X}_{\text {trans }} W_{\text {noise }}\right)\right), \epsilon \sim \mathcal{N}(0,1)\) 을 통해 pathway weights \(\in \mathbb{R}^{M}\)을 구한다.
-        <ul>
-          <li>\(W_r \text { and } W_{\text {noise }} \in \mathbb{R}^{d \times M}\)은 leanable parameters, \(d\)는 feature dim, \(M\)은 patch size의 개수</li>
-          <li>noise를 추가한 이유는 patch size가 같은 것만 나오는 것을 방지하기 위함</li>
-          <li>이렇게 만든 M개의 pathway weights 중에서 top K개를 제외하고 0으로 만든 걸 \(\bar{R}\left(\mathrm{X}_{\text {trans }}\right)\)로 표기</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li><strong>Multi-Scale Aggregator</strong>
-    <ul>
-      <li>\(\bar{R}\left(\mathrm{X}_{\text {trans }}\right)_i&gt;0\)이 의미하는 것은 patch size \(S_i\)로 나누고 dual attention을 수행함을 의미</li>
-      <li>그러므로 AMS block의 final output은 \(\mathrm{X}_{\text {out }}=\sum_{i=1}^M \mathcal{I}\left(\bar{R}\left(\mathrm{X}_{\text {trans }}\right)_i&gt;0\right) R\left(\mathrm{X}_{\text {trans }}\right)_i T_i\left(\mathrm{X}_{\text {out }}^i\right)\)
-        <ul>
-          <li>\(\mathrm{X}_{\text {out }}^i\)는 output of the multi-scale Transformer with the patch size \(S_i\)</li>
-          <li>\(T_i\)는 align the temporal dimension from different scales하는 transformation function</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="4-experiments">4. Experiments</h2>
-
-<p><img src="/assets/img/timeseries/Pathformer/table1.png" alt="그림4" /></p>
-
-<p><img src="/assets/img/timeseries/Pathformer/table3.png" alt="그림5" /></p>
-
-<h2 id="5-conclusion">5. Conclusion</h2>
-<ul>
-  <li>Pathformer : Multi-Scale Transformer with Adaptive Pathways for TSF
-    <ul>
-      <li>integrates multi-scale temporal resolutions and temporal distances</li>
-      <li>by patch division with multiple patch sizes and dual attention (modeling multi-scale characteristics)</li>
-      <li>adaptive pathways dynamically select and aggregate scale-specific characteristics</li>
-    </ul>
-  </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2024](https://openreview.net/pdf?id=lJkOCMP2aW)]]></summary></entry></feed>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="stat" /><summary type="html"><![CDATA[일반적인 regression은 response variable Y와 covariate X의 관계를 이해하는 방법 중 하나로 일종의 conditional expectation이다. \(r(x)=\mathbb{E}[Y \mid X=x]=\int y f(y \mid x) dy\) non-parametric regession을 하는 기본적인 방법 중 하나는 kernel regression이다. estimator는 \(\widehat{r}(x)=\sum_{i=1}^n w_i(x) Y_i\) where \(w_i(x)=\frac{K\left(\frac{x-X_i}{h}\right)}{\sum_{j=1}^n K\left(\frac{x-X_j}{h}\right)}\) weights는 x 주변에 높은 가중치를 두고, h는 smoothing을 결정하는 bandwidth이다. 간단한 kernel의 예시로 Gaussian kernel을 사용한다. \(K(x)=\frac{1}{\sqrt{2 \pi}} \exp \left(-x^2 / 2\right)\)]]></summary></entry></feed>
