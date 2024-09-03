@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en"><!--
+ __  __                __                                     __
+/\ \/\ \              /\ \             __                    /\ \
+\ \ \_\ \   __  __    \_\ \      __   /\_\      __       ___ \ \ \/'\
+ \ \  _  \ /\ \/\ \   /'_` \   /'__`\ \/\ \   /'__`\    /'___\\ \ , <
+  \ \ \ \ \\ \ \_\ \ /\ \L\ \ /\  __/  \ \ \ /\ \L\.\_ /\ \__/ \ \ \\`\
+   \ \_\ \_\\/`____ \\ \___,_\\ \____\ _\ \ \\ \__/.\_\\ \____\ \ \_\ \_\
+    \/_/\/_/ `/___/> \\/__,_ / \/____//\ \_\ \\/__/\/_/ \/____/  \/_/\/_/
+                /\___/                \ \____/
+                \/__/                  \/___/
+
+Powered by Hydejack v9.1.6 <https://hydejack.com/>
+-->
+
+
+
+
+
+
+
+<head>
+  
+
+
+
+
+
+
+  
+    
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Pacer and Runner: Cooperative Learning Framework between Single- and Cross-Domain Sequential Recommendation (SIGIR’24 Best Paper) | LpppJ</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Pacer and Runner: Cooperative Learning Framework between Single- and Cross-Domain Sequential Recommendation (SIGIR’24 Best Paper)" />
+<meta name="author" content="GW Jeong" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="SIGIR’24 Best Paper" />
+<meta property="og:description" content="SIGIR’24 Best Paper" />
+<link rel="canonical" href="http://localhost:4000/timeseries/2024-09-03-SyNCRec/" />
+<meta property="og:url" content="http://localhost:4000/timeseries/2024-09-03-SyNCRec/" />
+<meta property="og:site_name" content="LpppJ" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-09-03T00:00:00+09:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Pacer and Runner: Cooperative Learning Framework between Single- and Cross-Domain Sequential Recommendation (SIGIR’24 Best Paper)" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-09-03T15:03:55+09:00","datePublished":"2024-09-03T00:00:00+09:00","description":"SIGIR’24 Best Paper","headline":"Pacer and Runner: Cooperative Learning Framework between Single- and Cross-Domain Sequential Recommendation (SIGIR’24 Best Paper)","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/timeseries/2024-09-03-SyNCRec/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/timeseries/2024-09-03-SyNCRec/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  
+
+
+
+  <meta name="theme-color" content="rgb(230, 217, 195)">
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="LpppJ">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<meta name="application-name" content="LpppJ">
+
+<meta name="generator" content="Hydejack v9.1.6" />
+
+
+<link rel="alternate" href="http://localhost:4000/timeseries/2024-09-03-SyNCRec/" hreflang="en">
+
+<link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="LpppJ" />
+
+
+<link rel="shortcut icon"    href="/assets/icons/favicon.ico">
+<link rel="apple-touch-icon" href="/assets/icons/icon-192x192.png">
+
+<link rel="manifest" href="/assets/site.webmanifest">
+
+<link rel="dns-prefetch" href="https://fonts.googleapis.com"><link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+
+
+<link rel="preload" href="/assets/img/swipe.svg" as="image" id="_hrefSwipeSVG">
+
+
+
+
+
+
+<script>!function(r,c){"use strict";function a(e,t,n,o){e.addEventListener?e.addEventListener(t,n,o):e.attachEvent?e.attachEvent("on"+t,n):e["on"+t]=n}r.loadJS=function(e,t){var n=c.createElement("script"),e=(n.src=e,t&&a(n,"load",t,{once:!0}),c.scripts[0]);return e.parentNode.insertBefore(n,e),n},r._loaded=!1,r.loadJSDeferred=function(e,t){var n=c.createElement("script");function o(){r._loaded=!0,t&&a(n,"load",t,{once:!0});var e=c.scripts[0];e.parentNode.insertBefore(n,e)}return n.src=e,r._loaded?o():a(r,"load",o,{once:!0}),n},r.setRel=r.setRelStylesheet=function(e){a(c.getElementById(e),"load",function(){this.rel="stylesheet"},{once:!0})}}(window,document);
+!function(a){"use strict";var b=function(b,c,d){function e(a){return h.body?a():void setTimeout(function(){e(a)})}function f(){i.addEventListener&&i.removeEventListener("load",f),i.media=d||"all"}var g,h=a.document,i=h.createElement("link");if(c)g=c;else{var j=(h.body||h.getElementsByTagName("head")[0]).childNodes;g=j[j.length-1]}var k=h.styleSheets;i.rel="stylesheet",i.href=b,i.media="only x",e(function(){g.parentNode.insertBefore(i,c?g:g.nextSibling)});var l=function(a){for(var b=i.href,c=k.length;c--;)if(k[c].href===b)return a();setTimeout(function(){l(a)})};return i.addEventListener&&i.addEventListener("load",f),i.onloadcssdefined=l,l(f),i};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
+!function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(b){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
+!function(w) {
+  w._baseURL = '/';
+  w._publicPath = '/assets/js/';
+  w._noPushState = false;
+  w._noDrawer = false;
+  w._noNavbar = false;
+  w._noToc = false;
+  w._noSearch = false;
+  w._search = {
+    DATA_URL: '/assets/sitedata.json?no-cache',
+    STORAGE_KEY: 'mini-search/',
+    INDEX_KEY: 'index--2024-09-03T15:03:55+09:00',
+  };
+  w._clapButton = true;
+}(window);</script>
+
+
+<script async src="/assets/bower_components/MathJax/es5/tex-mml-chtml.js" id="_MathJax"></script>
+
+
+<!--[if gt IE 8]><!---->
+
+  
+
+
+
+
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css" id="_iconsPreload">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:700%7CNoto+Sans:400,400i,700,700i&display=swap" id="_fontsPreload">
+
+
+
+  <style id="_pageStyle">
+
+html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5);--accent-color-highlight: rgba(94, 97, 94, 0.1);--accent-color-darkened: #4b4e4b;--theme-color: rgb(230, 217, 195)}
+</style>
+
+
+<!--<![endif]-->
+
+
+
+
+</head>
+
+<body class="no-break-layout">
+  
+
+
+<hy-push-state
+  id="_pushState"
+  replace-selector="#_main"
+  link-selector="a[href]:not([href^='/assets/']):not(.external):not(.no-push-state)"
+  script-selector="script"
+  duration="500"
+  hashchange
+>
+  
+  
+  <div id="_navbar" class="navbar fixed-top">
+  <div class="content">
+    <span class="sr-only">Jump to:</span>
+    <div class="nav-btn-bar">
+      <a id="_menu" class="nav-btn no-hover" href="#_drawer--opened">
+        <span class="sr-only">Navigation</span>
+        <span class="icon-menu"></span>
+      </a>
+      <div class="nav-span"></div>
+    </div>
+  </div>
+</div>
+<hr class="sr-only" hidden />
+
+  <main
+  id="_main"
+  class="content layout-post"
+  role="main"
+>
+  <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+    <li><a href="/">home</a></li>
+    
+      <li>
+        
+          <span>/</span>
+          
+          
+          <a href="/timeseries/">timeseries</a>
+        
+      </li>
+    
+      <li>
+        
+          <span>/</span>
+          <span>2024-09-03-SyNCRec</span>
+        
+      </li>
+    
+  
+</ul></nav>
+  
+
+
+
+
+
+
+
+
+
+
+<article id="post-timeseries-SyNCRec" class="page post mb6" role="article">
+  <header>
+    <h1 class="post-title flip-project-title">
+      
+        Pacer and Runner: Cooperative Learning Framework between Single- and Cross-Domain Sequential Recommendation (SIGIR’24 Best Paper)
+      
+    </h1>
+
+    <div class="post-date">
+      
+      <span class="ellipsis mr1">
+        <time datetime="2024-09-03T00:00:00+09:00">03 Sep 2024</time> in <span>Timeseries</span> 
+      </span>
+      
+    </div>
+
+    
+    
+
+    
+
+
+
+  
+    <p class="note-sm" >
+      <a href="https://arxiv.org/pdf/2407.11245">SIGIR’24 Best Paper</a>
+
+    </p>
+  
+
+
+  </header>
+
+  
+    <h2 id="abstract">Abstract</h2>
+
+<ul>
+  <li>Cross-Domain Sequential Recommendation (CDSR)은 multiple domain에서의 정보를 활용하여 Single-Domain Sequential Recommendation (SDSR)보다 좋은 성능을 보여주었음</li>
+  <li>하지만 <strong>negative transfer</strong> : lack of relation btw domains은 성능 저하의 원인</li>
+  <li>그래서 본 논문에서는
+    <ol>
+      <li>estimates the degree of <strong>negative transfer</strong> of each domain</li>
+      <li>adaptively assigns it as a <strong>weight factor</strong> to the prediction loss
+        <ul>
+          <li>to control gradient flows through domains with significant negative transfer !</li>
+        </ul>
+      </li>
+      <li>developed <strong>auxiliary loss</strong> that maximizes the mutual information between the representation pairs from both tasks on a per-domain basis</li>
+    </ol>
+  </li>
+  <li>이러한 CDSR과 SDSR의 cooperative learning은 collaborative dynamics between pacers and runners in a marathon와 유사함</li>
+</ul>
+
+<h2 id="1-introduction">1. Introduction</h2>
+
+<ul>
+  <li>Single-Domain Sequential Recommendation (SDSR)
+    <ul>
+      <li>focuses on <strong>recommending the next item</strong> within a <strong>specific</strong> domain using <strong>only</strong> the <strong>single</strong>-domain sequence</li>
+    </ul>
+  </li>
+  <li>Cross-Domain Sequential Recommendation (CDSR)
+    <ul>
+      <li><strong>predicts</strong> the <strong>next item</strong> a user will interact with, by leveraging their historical <strong>interaction</strong> sequences across <strong>multiple</strong> domains</li>
+    </ul>
+  </li>
+  <li>둘의 차이는 결국 다른 domains의 정보를 활용하는지 여부</li>
+  <li>CDSR은 성능 향상을 위해 다른 domains의 정보를 활용하지만 항상 성능이 향상되는 건 아님
+    <ul>
+      <li>만약 그것 때문에 성능이 더 안좋아진다면, 그건 <strong>negative transfer</strong>가 있었기 때문</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/timeseries/SyNCRec/fig1.png" alt="그림1" /></p>
+
+<ul>
+  <li>
+    <p>본 논문에서는 SyNCRec: Asymmetric Cooperative Network for Cross-Domain Sequential Recommendation을 제안</p>
+  </li>
+  <li>
+    <ol>
+      <li>assess the degree of <strong>negative transfer</strong> of each domain
+        <ul>
+          <li>by comparing the performance of CDSR and SDSR</li>
+        </ul>
+      </li>
+      <li>adaptively assign this value as <strong>weight to the prediction loss</strong> corresponding to a specific domain
+        <ul>
+          <li>to reduces its flow in domains with significant negative transfer !</li>
+        </ul>
+      </li>
+      <li>developed an auxiliary loss that maximizes the mutual information between the representation pairs from both tasks on a per-domain basis
+        <ul>
+          <li>to exploit the effective correlation signals inherent in the representation pairs of SDSR and CDSR tasks within a specific domain</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>SDSR은 negative transfer를 줄이기 위한 pacer의 역할을 함
+    <ul>
+      <li>(마라톤에서 runner가 너무 빠르거나 느리게 하지 않게 해주는 pacer)</li>
+    </ul>
+  </li>
+  <li>특히 CDSR이 SDSR보다 성능이 안좋았던 (=negative transfer가 발생한) 도메인에서 성능 향상됨</li>
+  <li>이러한 방법으로 여러 개의 domain-specific models를 만들 필요가 없을 것을 기대함</li>
+</ul>
+
+<h2 id="2-related-work">2. Related Work</h2>
+
+<h3 id="21-single-domain-sequential-recommendation">2.1. Single-Domain Sequential Recommendation</h3>
+
+<ul>
+  <li>SDSR : temporal dynamics in user-item interactions를 디자인
+    <ul>
+      <li>GRU-based models : GRU4Rec, STAMP, NARM</li>
+      <li>Attention-mechanism : SASRec, BERT4Rec, SINE, LightSANs</li>
+      <li>Others : NextItNet(CNN), TransRec(Markov chain), …</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="22-cross-domain-sequential-recommendation">2.2 Cross-Domain Sequential Recommendation</h3>
+
+<ul>
+  <li>CDSR : information from various other domains를 leverage
+    <ul>
+      <li>Matrix factorization : CMF, CLFM, …</li>
+      <li>Multi-task learning : DTCDR, DeepAPF, BiTGCF, CAT-ART</li>
+      <li>\(\pi-Net\) :  introduced gating mechanisms designed to transfer information from a single domain to another paired domain</li>
+      <li>\(C^2DSR\) : employed a self-attention based encoder and graph neural network to model both single- and cross-domain representations</li>
+      <li>\(MIFN\) :  introduced the concept of mixed information flow, which reflects the knowledge flows between multiple domains</li>
+      <li>\(MAN\) : designed group-prototype attention mechanisms to capture domainspecific and cross-domain relationships</li>
+    </ul>
+  </li>
+  <li>However… 결국에는 모두 domain pair 끼리의 관계를 모델링
+    <ul>
+      <li>3개 이상의 domains의 관계를 파악할 때, domains이 엄청 많을 때에는 어려움</li>
+      <li>그래서 CGRec에서 CDSR을 제안하면서 negative transfer 개념을 제안
+        <ul>
+          <li>high negative transfer를 가지는 domain에 panalty를 주는 방식</li>
+          <li>하지만 여전히 SDSR보다 성능이 안좋은 domain이 꽤 있음</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>그러므로 본 논문에서의 목표는 3개 이상의 <strong>모든</strong> 도메인에서 negative transfer를 <strong>효율적</strong>으로 줄이는 것</li>
+</ul>
+
+<h2 id="3-preliminary">3. Preliminary</h2>
+
+<ul>
+  <li>Domains : \(\mathcal{D}=\{A, B, C, \ldots\}\) where \(\mid \mathcal{D}\mid  \geq 3\)
+    <ul>
+      <li>\(d \in \mathcal D\) 는 하나의 특정 도메인을 의미,</li>
+      <li>\(V^d\)는 set of items specific to the domain \(d\), \(V\)는 total item set across all domains</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="definition-1-single--and-cross-domain-sequential-recommendation">Definition 1. Single- and Cross-Domain Sequential Recommendation</h3>
+
+<ul>
+  <li>The single-domain sequences of domain \(d\) : \(X^d=\left[(\mathrm{SOS}), x_1^d, x_2^d, \ldots, x_{\mid X^d\mid -1}^d\right]\)​</li>
+  <li>\(x_t^d\) :  interaction occurring at time \(t\)</li>
+  <li>그러므로 cross-domain sequence는 \(X=\left(X^A, X^B, X^C, \ldots\right)\)로 표현할 수 있음</li>
+  <li>예를 들어, \(X=\left[(\mathrm{SOS}), x_1^A, x_2^B, x_3^A, x_4^B, x_5^A, x_6^C, x_7^C\right]\)은 \(X^A=\left[(\mathrm{SOS}), x_1^A, x_3^A, x_5^A\right], X^B=\left[(\mathrm{SOS}), x_2^B, x_4^B\right], \text { and } X^C=[(\mathrm{SOS})\left., x_6^C, x_7^C\right]\)으로 split 가능</li>
+  <li>SDSR은 하나의 domain 안에서 recommending, CDSR은 전체 도메인에서 recommending</li>
+</ul>
+
+<h3 id="definition-2-negative-transfer-gap-ntg">Definition 2. Negative Transfer Gap (NTG)</h3>
+
+<ul>
+  <li>\(\mathcal{L}_\pi^d\)는 domain \(d\)에서의 model \(\pi\)의 loss를 의미 (SDSR 또는 CDSR)</li>
+  <li>그러므로 Negative transfer는 \(\phi_\pi(d) = \mathcal{L}_\pi^d\left(X^d\right)-\mathcal{L}_\pi^d(X)\)</li>
+</ul>
+
+<h3 id="problem-statement">Problem Statement</h3>
+
+<ul>
+  <li>historical cross-domain sequences \(X_{1:t}\)가 주어졌을 때, 목표는 다음 item \(x_{t+1}^d = \underset{x_{t+1}^d \in V^d}{\operatorname{argmax}} P\left(x_{t+1}^d \mid X_{1: t}\right)\)를 예측하는 것</li>
+  <li>만약 \(\mid \mathcal{D}\mid\)개의 single-domain sequences (for SDSR)과 1개의 sequence (for CDSR)가 있다면
+    <ul>
+      <li>multi-tasking learning manner의 모델 하나는 \(\mid \mathcal{D}\mid +1\)개의 next item prediction tasks를 수행하는 것이다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="4-model">4. Model</h2>
+
+<p><img src="/assets/img/timeseries/SyNCRec/fig2.png" alt="그림1" /></p>
+
+<h3 id="41-shared-embedding-layer">4.1. Shared Embedding Layer</h3>
+
+<ul>
+  <li>여기서는 <strong>initialized representations</strong> of items를 얻는다.
+    <ul>
+      <li>for \(\mid \mathcal{D}\mid\) single-domain sequences \(X^d\), and one cross-domain sequence \(X\)</li>
+    </ul>
+  </li>
+  <li>Item embedding matrix \(M^d \in \mathbb R^{\mid V^d\mid \times r}\)​이고
+    <ul>
+      <li>\(\mid V^d\mid\)는 domain d의 items 개수, r은 embedding dimension</li>
+    </ul>
+  </li>
+  <li>모든 domains에 대해 concat하면 \(M \in \mathbb R^{\mid V\mid \times r}\)
+    <ul>
+      <li>\(\mid V\mid\)는 모든 도메인에서 items 개수</li>
+    </ul>
+  </li>
+  <li>여기서 최근 T개만을 사용 (T개보다 적다면 앞쪽에 padding으로 맞춰줌)
+    <ul>
+      <li>그러면 \(\mathbf{E}^d \in \mathbb{R}^{T \times r} \text { and } \mathbf{E} \in \mathbb{R}^{T \times r}\)를 얻음 (각각 Fig2(c-1), (c-2))</li>
+      <li>\(\mid \mathcal D\mid\)개의 \(\mathbf{E}^d\)를 aggregation한 것이 \(\mathbf{E}^{\text {single }}\) (Fig2(c-1))</li>
+      <li>참고로 \(\mathbf E, \mathbf E^d\)에는 learnable positional embedding 더해져있음</li>
+      <li>\(t\)-th step에서의 \(\mathbf E, \mathbf E^d\)는 각각 \(\mathbf e, \mathbf e^d\)로 정의</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="42-asymmetric-cooperative-network-with-mixture-of-sequential-experts-acmoe">4.2. Asymmetric Cooperative Network with Mixture-of-Sequential Experts (ACMoE)</h3>
+
+<ul>
+  <li>Negative Transfer (NTG)는 <strong>loss of the SDSR</strong>과 <strong>the loss of CDSR</strong>의 차이로 정의
+    <ul>
+      <li>NTG가 작으면 다른 domains의 정보가 도움이 안되는 거고 크면 도움이 되는 것</li>
+    </ul>
+  </li>
+  <li>그러므로 weight for the prediction loss in the domain로 사용할 수 있다
+    <ul>
+      <li>gradient flow를 작게 만들기 위해서다</li>
+    </ul>
+  </li>
+  <li>Multi-gate Mixture of Sequential Experts (MoE) architecture를 사용하여 SDSR과 CDSR를 수행하고
+    <ul>
+      <li><strong>models</strong> relationships between different tasks and <strong>learns</strong> task-specific functionalities</li>
+      <li>enabling it to effectively leverage shared representations</li>
+    </ul>
+  </li>
+  <li>SDSR과 CDSR은 서로 간섭하지 않고, experts로는 Transformer를 사용</li>
+</ul>
+
+<h3 id="421-architecture">4.2.1. Architecture</h3>
+
+<ul>
+  <li>
+    <p><strong>먼저 SDSR을 보자</strong></p>
+  </li>
+  <li>
+    <p>shared embedding layer로부터 initialized representations of single- and cross-domain sequences,</p>
+
+    <ul>
+      <li>즉 \(\mathbf E, \mathbf E^d\)가 주어져있을 때, 각 expert는 many-to-many sequence learning을 수행</li>
+    </ul>
+  </li>
+  <li>
+    <p>domain \(d\)의 output : \(\begin{aligned}
+&amp; \left(\mathbf{Y}^d\right)^{\text {single }}=h^d\left(f^d\left(\mathbf{E}^d\right)\right) \\
+&amp; f^d\left(\mathbf{E}^d\right)=\sum_{k=1}^j g^d\left(\mathbf{E}^d\right)_k \mathrm{SG}\left(f_{\mathrm{TRM}}^k\left(\mathbf{E}^d\right)\right)+\sum_{k=j+1}^K g^d\left(\mathbf{E}^d\right)_k f_{\mathrm{TRM}}^k\left(\mathbf{E}^d\right)
+\end{aligned}\)</p>
+
+    <ul>
+      <li>\(h^d\) : the tower network for domain \(d\)​ (Fig. 2(c-7))
+        <ul>
+          <li>feed-forward network with layer normalization</li>
+        </ul>
+      </li>
+      <li>\(f^d\) : the multi-gated mixture of the sequential experts layer</li>
+      <li>\(SG\)​ :  the stopgradient operation (Fig. 2(c-4))
+        <ul>
+          <li>forward pass에서는 identity function</li>
+          <li>backward pass에서는 SG 안에 있는 것들의 gradient는 drop</li>
+          <li>위 식에서는 \(j+1 \sim K\)번째 experts만 unique sequential pattern of single-domain sequences를 학습</li>
+        </ul>
+      </li>
+      <li>\(f_{\text {TRM }}^k\)​ :  the 𝑘-th transformerbased sequential expert (Fig. 2(c-3))</li>
+      <li>\(g^d\) :  gating network for domain \(d\) (Fig. 2(c-6))
+        <ul>
+          <li>\(g^d\left(\mathbf{E}^d\right)=\operatorname{softmax}\left(W_g^d \mathbf{E}^d\right)\) where \(W_g^d \in \mathbb{R}^{K \times d T}\) is trainable FC</li>
+        </ul>
+      </li>
+      <li>The \(t\)-th element of \(\mathrm{Y}^{\text {single }}\)는 \(\left(y_t^d\right)^{\text {single }}\)</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>다음으로 CDSR을 보자</strong></p>
+  </li>
+  <li>
+    <p>ACMoE module : \(\begin{aligned}
+&amp; \mathbf{Y}^{\text {cross }}=h^{\text {cross }}\left(f^{\text {cross }}(\mathbf{E})\right) \\
+&amp; f^{\text {cross }}(\mathbf{E})=\sum_{k=1}^j g^{\text {cross }}(\mathbf{E})_k f_{\mathrm{TRM}}^k(\mathbf{E})+\sum_{k=j+1}^K g^{\text {cross }}(\mathbf{E})_k \operatorname{SG}\left(f_{\mathrm{TRM}}^k(\mathbf{E})\right)
+\end{aligned}\)</p>
+
+    <ul>
+      <li>\(h^{cross}\) :  the tower network (Fig. 2(c-9))</li>
+      <li>\(f^{\text {cross }}\) : the multi-gated mixture of sequential experts layer for a cross-domain sequence</li>
+      <li>\(SG\)는 \(j+1\sim K\)-th \(f^k_{TRM}\)에만 사용
+        <ul>
+          <li>그러면 \(1\sim j\)​번째 experts가cross-domain sequences에서 the distinct sequential patterns present를 학습</li>
+        </ul>
+      </li>
+      <li>\(g^{\text {cross }}(\mathbf{E})=\operatorname{softmax}\left(W_a^{c r o s s} \mathbf{E}\right)\)​ : gating network for the crossdomain sequence (Fig. 2(c-8))</li>
+    </ul>
+  </li>
+  <li>
+    <p>\(\left(y_t^d\right)^{\text {single }} \text { and }\left(y_t\right)^{\text {cross }}\)는 two representations of different views for the same item</p>
+  </li>
+</ul>
+
+<h3 id="422-transformer-experts">4.2.2. Transformer Experts</h3>
+
+<ul>
+  <li>각각의 Multi-head Self-Attention에 \(Z \in \mathbb{R}^{T \times r}\) 가 linear transformation
+    <ul>
+      <li>\(\to\) \(\text { queries } Q_i \in \mathbb{R}^{T \times r / p} \text {, keys } K_i \in \mathbb{R}^{T \times r / p} \text {, } \text { values } V_i \in \mathbb{R}^{T \times r / p}\)가 됨</li>
+    </ul>
+  </li>
+  <li>
+    <p>\(\begin{aligned}
+&amp; \operatorname{Attn}\left(Q_i, K_i, V_i\right)=\operatorname{softmax}\left(\frac{Q_i K_i^{\top}}{\sqrt{r / p}}\right) V_i, Q_i=Z \mathrm{~W}_i^Q, K_i=Z \mathrm{~W}_i^K, V_i=Z \mathrm{~W}_i^V
+\end{aligned}\) 거쳐 final output은 \(\mathbf{H} \in \mathbb{R}^{T \times r}\)</p>
+  </li>
+  <li>마지막으로 \(\operatorname{FFN}(\mathbf{H})=\left[\mathrm{FC}\left(\mathbf{H}_1\right)\left\\mid \mathrm{FC}\left(\mathbf{H}_2\right)\right\\mid , \ldots, \\mid  \mathrm{FC}\left(\mathbf{H}_T\right)\right]\)
+    <ul>
+      <li>where \(\mathrm{FC}\left(\mathbf{H}_t\right)=\operatorname{GELU}\left(\mathbf{H}_t \mathrm{~W}_1+b_1\right) \mathrm{W}_2+b_2\)</li>
+      <li>\(\mathbf{H}_t\) : 𝑡-th representation of \(\mathbf{H}\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="43-loss-correction-with-negative-transfer-gap-lc-ntg">4.3. Loss Correction with Negative Transfer Gap (LC-NTG)</h3>
+
+<h3 id="431--single-domain-item-prediction">4.3.1.  Single-Domain Item Prediction</h3>
+
+<ul>
+  <li>Fig 2(e-1)</li>
+  <li>single domoin sequence \(X_{1: t}^d\)가 주어졌을 때 다음 아이템 \(x_{t+1}^d\)를 예측하는 것은 pairwise ranking loss를 사용
+    <ul>
+      <li>즉 \(l_t^d=\log \sigma\left(P\left(x_{t+1}^d=x^{d+} \mid X_{1: t}^d\right)-P\left(x_{t+1}^d=x^{d-} \mid X_{1: t}^d\right)\right), \mathcal{L}_{\text {single }}^d=\sum_{t=1}^T l_t^d\)
+        <ul>
+          <li>where \(x^{d+}\) : ground-truth item paired with a negative item \(x^{d-}\) sampled froem Unif</li>
+          <li>\(P\left(x_{t+1}^d=x^d \mid X_{1: t}^d\right)\) = \(\sigma\left(\left(y_t^d\right)^{\text {single }} \cdot M\left(x^d\right)\right)\)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="432-cross-domain-item-prediction">4.3.2. Cross-Domain Item Prediction</h3>
+
+<ul>
+  <li>CDSR \(l_t=\log \sigma\left(P\left(x_{t+1}^d=x^{d+} \mid X_{1: t}\right)-P\left(x_{t+1}^d=x^{d-} \mid X_{1: t}\right)\right), \mathcal{L}_{\text {cross }}=\sum_{t=1}^T l_t\)
+    <ul>
+      <li>where \(P\left(x_{t+1}^d=x^d \mid X_{1: t}\right) \text { is obtained by } \sigma\left(\left(y_t\right)^{\text {cross }} \cdot M\left(x^d\right)\right)\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="433--calculating-the-negative-transfer-gap">4.3.3.  Calculating the Negative Transfer Gap</h3>
+
+<ul>
+  <li>이제 NTG를 구할 수 있다. \(\phi_\pi(d)=\sum_{t=1}^T\left(l_t^d-l_t\right)\)
+    <ul>
+      <li>where \(l_t^d\) and \(l_t\) are losses of the SDSR and CDSR tasks in time step \(t\) for the domain \(d\), respectively, calculated with our model \(\pi\)</li>
+    </ul>
+  </li>
+  <li>\(\lambda=\left(\lambda_1, \lambda_2, \ldots, \lambda_{\mid \mathcal{D}\mid }\right)\)를 각 domain에서의 NTG라고 하면 \(\lambda_d \leftarrow \operatorname{softmax}\left(\alpha * \lambda_d+\beta * \phi_\pi(d) ; \delta\right)\)로 계산
+    <ul>
+      <li>where \(\alpha \text { and } \beta\) are learnable parameters</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="434-loss-correction">4.3.4. Loss Correction</h3>
+
+<ul>
+  <li>NTG는 weight for the cross-domain item prediction loss로 활용됨
+    <ul>
+      <li>loss는 \(l_t=\log \sigma\left(P\left(x_{t+1}^d=x^{d+} \mid X_{1: t}\right)-P\left(x_{t+1}^d=x^{d-} \mid X_{1: t}\right)\right), \mathcal{L}_{\text {cross }}=\sum_{t=1}^T l_t\)</li>
+    </ul>
+  </li>
+  <li>re-aggregate : multiplying the relative NTG for each domain separately
+    <ul>
+      <li>
+\[\mathcal{L}_{\text {cross }}^{l c} = =\sum_{t=1}^T \sum_{d=1}^{\mid \mathcal{D}\mid } \lambda_d \log \sigma\left(P\left(x_{t+1}^d=x^{d+} \mid X_{1: t}\right)-P\left(x_{t+1}^d=x^{d-} \mid X_{1: t}\right)\right)\]
+      </li>
+    </ul>
+  </li>
+  <li>이렇게 하면 NTG가 발생하는 domain에서의 gradient flow를 줄이는 것</li>
+</ul>
+
+<h2 id="44-single-cross-mutual-information-maximization-sc-mim">4.4. Single-Cross Mutual Information Maximization (SC-MIM)</h2>
+
+<ul>
+  <li>SC-MIM: SDSR and CDSR tasks 사이의 정보를 잘 transfer하기 위한 방법
+    <ul>
+      <li>mutual information으로 두 tasks의 correlation signals를 파악</li>
+      <li>mutual information: \(I(X, Y)=D_{K L}(p(X, Y) \\mid  p(X) p(Y))=\mathbb{E}_{p(X, Y)}\left[\log \frac{p(X, Y)}{p(X) p(Y)}\right]\)​</li>
+    </ul>
+  </li>
+  <li>하지만 이 mutual information을 high-dimd에서 구하는 건 어렵기 때문에 lower bound로 InfoNCE를 사용
+    <ul>
+      <li>lower bound : \(I(X, Y) \geq \mathbb{E}_{p(X, Y)}\left[\rho_\theta(x, y)-\mathbb{E}_{q(\hat{Y})}\left(\log \sum_{\hat{y} \in \hat{Y}} \exp \rho_\theta(x, \hat{y})\right)\right]+\log \mid \hat{Y}\mid\)
+        <ul>
+          <li>where \(x, y\)는 같은 input의 서로 다른 view points</li>
+          <li>\(\rho_\theta\) 는 similarity function,</li>
+        </ul>
+      </li>
+      <li>InfoNCE를 maximizing하는 것은 standard cross-entropy loss를 maximizing하는 것과 같음
+        <ul>
+          <li>: \($\mathbb{E}_{p(X, Y)}\left[\rho_\theta(x, y)-\log \sum_{\hat{y} \in Y} \exp \rho_\theta(x, \hat{y})\right]\)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>아무튼 돌아와서 우리는 \($\mathbf{Y}^{\text {single }}$ and $\mathbf{Y}^{\text {cross }}\)의 mutual information을 maximizing하고 싶음
+    <ul>
+      <li>그러므로 cross-domain representation \(\mathbf{Y}^{\text {ross }}\)를 domain별로 split해서 \((\mathbf{Y^d})^{\text {ross }}\) 구하고</li>
+      <li>아래 식처럼 계산
+        <ul>
+          <li>: \(\begin{aligned} &amp; \mathcal{L}_{S C-M I M}^d=\rho\left(\left(\mathbf{Y}^d\right)^{\text {single }},\left(\mathbf{Y}^d\right)^{\text {cross }}\right)-\log \sum_{u-} \exp \left(\rho\left(\left(\mathbf{Y}^d\right)^{\text {single- }},\left(\mathbf{Y}^d\right)^{\text {cross }}\right)\right)\end{aligned}\)</li>
+          <li>where \(u-\)는 other users in a training batch,</li>
+          <li>\(\left(\mathbf{Y}^d\right)^{\text {single- }}\)는 subsequence of domain \(𝑑\) of user \(𝑢−\)​</li>
+          <li>\(\rho(\cdot, \cdot)\)는 \(\rho(U, V)=\sigma\left(U^{\top} \cdot W^H \cdot V\right)\)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="45-model-training-and-evaluation">4.5. Model Training and Evaluation</h3>
+
+<ul>
+  <li>Total training loss : \(\mathcal{L}=\eta\left(\sum_{d=1}^{\mid \mathcal{D}\mid }\left(\mathcal{L}_{\text {single }}^d\right)+\mathcal{L}_{\text {cross }}^{l c}\right)+(1-\eta) \sum_{d=1}^{\mid \mathcal{D}\mid } \mathcal{L}_{S C-M I M}^d\)
+    <ul>
+      <li>where \(\eta\) is the harmonic factor</li>
+      <li>evaluation할 때에는 cross-domain representation만 사용</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="5-experiments">5. Experiments</h2>
+
+<h3 id="51-dataset">5.1. Dataset</h3>
+
+<h3 id="52-experimental-setting">5.2. Experimental Setting</h3>
+
+<ul>
+  <li>먼저 Amazon dataset과 Telco dataset에 대한 성능</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/SyNCRec/table23.png" alt="그림1" /></p>
+
+<ul>
+  <li>
+    <p>Research Questions:</p>
+
+    <ul>
+      <li>
+        <p>(RQ1): Does the performance of our model surpass the current stateof-the-art baselines in practical applications that involve more than three domains?</p>
+      </li>
+      <li>
+        <p>(RQ2): Can our model effectively address the challenge of negative transfer across all domains in the CDSR task?</p>
+      </li>
+      <li>
+        <p>(RQ3): What is the impact of various components of our model on its performance in CDSR tasks?</p>
+      </li>
+      <li>
+        <p>(RQ4): How do variations in hyper-parameter settings influence the performance of our model?</p>
+      </li>
+      <li>
+        <p>(RQ5): How does the model perform when deployed online ?</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="53-performance-evaluation-rq1">5.3. Performance Evaluation (RQ1)</h3>
+
+<ul>
+  <li>First, The effectiveness of our model can be observed.
+    <ul>
+      <li>다른 baseline models보다 성능이 뛰어남</li>
+    </ul>
+  </li>
+  <li>Second, Integrating information from all domains simultaneously in a model can improve performance in each domain compared to modeling a pairwise domain-domain relationship.
+    <ul>
+      <li>본 논문에서 제시하는 방법을 사용할 경우에는 CDSR task에서 domain끼리의 정보를 결합해서 사용하는 것이 더 효율적이다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="54-discussion-of-the-negative-transfer-rq2">5.4. Discussion of the negative transfer (RQ2)</h3>
+
+<ul>
+  <li>기존 baseline models는 SDSR보다 CDSR의 성능이 더 안좋았지만 본 논문에서 제시하는 모델은 그렇지 않다</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/SyNCRec/table4.png" alt="그림1" /></p>
+
+<h3 id="55-discussion-of-model-variants-rq3">5.5 Discussion of Model Variants (RQ3)</h3>
+
+<ul>
+  <li>LC-NTG, SC-MIM, ACMoE 세 가지 components 모두 성능 향상을 위해 필요하다</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/SyNCRec/table5.png" alt="그림1" /></p>
+
+<h3 id="56-hyperparameter-analysis-rq4">5.6. Hyperparameter Analysis (RQ4)</h3>
+
+<p><img src="/assets/img/timeseries/SyNCRec/fig3.png" alt="그림1" /></p>
+
+<h2 id="6-online-ab-test-rq5">6. Online A/B Test (RQ5)</h2>
+
+<p>pass</p>
+
+<h2 id="7-conclusion">7. Conclusion</h2>
+
+<ul>
+  <li>Negative transfer를 다루는 CDSR framework를 제안
+    <ul>
+      <li>Negative transfer를 측정하고 prediction loss의 weight로 활용</li>
+    </ul>
+  </li>
+  <li>SDSR and CDSR tasks의 정보를 교환시키는 Auxiliary loss 제안</li>
+</ul>
+
+  
+</article>
+
+
+
+  <hr class="dingbat related mb6" />
+
+
+
+
+
+
+  
+     
+
+
+  <aside class="about related mt4 mb4" role="complementary">
+    
+    
+
+<div class="author mt4">
+  
+
+  
+    
+
+
+<img
+  
+    src="https://via.placeholder.com/128x128"
+    srcset="/assets/img/me/me.JPG 1x,/assets/img/me/me.JPG 2x"
+    
+  
+  alt="GW Jeong"
+  class="avatar"
+  
+  width="120"
+  height="120"
+  loading="lazy"
+/>
+
+  
+
+  
+  
+  <h2  class="page-title hr-bottom">
+    About
+  </h2>
+
+  <p>Bachelor’s degree in Applied Statistics. Yonsei Univ. (2018~2024) <br />
+DataScienceLab 8th 학회장 (2022~2023) <br />
+Master’s degree in Statitstics. Yonsei Univ. (2024~)</p>
+
+
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+
+  </aside>
+
+
+  
+
+  
+  
+
+  
+    
+
+
+  
+
+  
+  
+
+  
+    
+
+  
+
+
+  
+<footer class="content" role="contentinfo">
+  <hr/>
+  
+    <p><small class="copyright">© Geonwoo Jeong.
+</small></p>
+  
+  
+    <p><small>Powered by <a class="external" href="https://hydejack.com/">Hydejack</a> v<span id="_version">9.1.6</span></small></p>
+  <hr class="sr-only"/>
+</footer>
+
+
+</main>
+
+  <hy-drawer
+  id="_drawer"
+  class=""
+  side="left"
+  threshold="10"
+  noscroll
+  
+>
+  <header id="_sidebar" class="sidebar" role="banner">
+    
+
+
+
+
+<div class="sidebar-bg sidebar-overlay" style="background-color:rgb(230, 217, 195);background-image:url(/assets/img/me/sidebar.jpg)"></div>
+
+    <div class="sidebar-sticky">
+  <div class="sidebar-about">
+    
+      <a class="no-hover" href="/" tabindex="-1">
+        <img src="/assets/img/me/logo.jpg" class="avatar" alt="LpppJ" width="120" height="120" loading="lazy" />
+      </a>
+    
+    <a class="sidebar-title" href="/"><h2 class="h1">LpppJ</h2></a>
+    
+    
+      <p class="">
+        DataScience and AI
+
+      </p>
+    
+  </div>
+
+  <nav class="sidebar-nav heading" role="navigation">
+    <span class="sr-only">Navigation:</span>
+<ul>
+  
+    
+      
+      <li>
+        <a
+          id="_drawer--opened"
+          href="/timeseries/"
+          class="sidebar-nav-item "
+          
+        >
+          TimeSeries
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/pytorch/"
+          class="sidebar-nav-item "
+          
+        >
+          Pytorch
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/stat/"
+          class="sidebar-nav-item "
+          
+        >
+          Statistics
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/project/"
+          class="sidebar-nav-item "
+          
+        >
+          Project
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/presentation/"
+          class="sidebar-nav-item "
+          
+        >
+          Presentation
+        </a>
+      </li>
+    
+  
+</ul>
+
+  </nav>
+
+  
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+  </header>
+</hy-drawer>
+<hr class="sr-only" hidden />
+
+</hy-push-state>
+
+
+  <!--[if gt IE 10]><!---->
+  <script nomodule>!function(){var t,n=document.createElement("script");!("noModule"in n)&&"onbeforeload"in n&&(t=!1,document.addEventListener("beforeload",function(e){if(e.target===n)t=!0;else if(!e.target.hasAttribute("nomodule")||!t)return;e.preventDefault()},!0),n.type="module",n.src=".",document.head.appendChild(n),n.remove())}();
+</script>
+  <script src="/assets/js/hydejack-9.1.6.js" type="module"></script>
+  <script src="/assets/js/LEGACY-hydejack-9.1.6.js" nomodule defer></script>
+  
+
+  
+
+<!--<![endif]-->
+  <!-- <script>
+  document.querySelector('hy-push-state').setAttribute('prefetch', '');
+
+  document.querySelectorAll('.sidebar a[href^="/"]').forEach(function (el) { 
+    el.addEventListener('click', function (e) {
+      if (el.pathname === window.location.pathname) {
+        e.preventDefault();
+        e.stopPropagation();
+        document.querySelector('hy-drawer').close();
+      }
+    });
+  });
+</script> -->
+
+<!--
+Code for integrating CloudFlare's email protection with Hydejack's single page app loading.
+-->
+<script>
+  document.getElementById('_pushState').addEventListener('hy-push-state-after', function (e) {
+    function e(e){
+      (console.error?console.error:console.log).call(console,e)
+    }
+
+    function t(e){
+      return l.innerHTML='<a href="'+e.replace(/"/g,"&quot;")+'"></a>',l.childNodes[0].getAttribute("href")
+    }
+
+    function r(e,t){
+      var r=e.substr(t,2);return parseInt(r,16)
+    }
+
+    function n(e,n){
+      for(var o="",c=r(e,n),a=n+2;a<e.length;a+=2){
+        var l=r(e,a)^c;
+        o+=String.fromCharCode(l)
+      }
+      return t(o)
+    }
+
+    var o="/cdn-cgi/l/email-protection#",
+        c=".__cf_email__",
+        a="data-cfemail",
+        l=document.createElement("div");
+
+    !function(){
+      for(var t=document.getElementsByTagName("a"),r=0;r<t.length;r++)
+        try{
+          var c=t[r],a=c.href.indexOf(o);
+          a>-1&&(c.href="mailto:"+n(c.href,a+o.length))
+        }catch(t){
+          e(t)
+        }
+    }(),
+    function(){
+      for(var t=document.querySelectorAll(c),r=0;r<t.length;r++)
+        try{
+          var o=t[r],l=n(o.getAttribute(a),0),i=document.createTextNode(l);
+          o.parentNode.replaceChild(i,o)
+        }catch(t){
+          e(t)
+        }
+    }()
+  });
+</script>
+
+
+
+
+
+<div hidden>
+  
+  <h2 class="sr-only">Templates (for web app):</h2>
+
+  <template id="_animation-template">
+  <div class="animation-main fixed-top">
+    <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+</ul></nav>
+    <div class="content">
+      <div class="page"></div>
+    </div>
+  </div>
+</template>
+
+  <template id="_loading-template">
+  <div class="loading nav-btn fr">
+    <span class="sr-only">Loading…</span>
+    <span class="icon-cog"></span>
+  </div>
+</template>
+
+  <template id="_error-template">
+  <div class="page">
+    <h1 class="page-title">Error</h1>
+    
+    
+    <p class="lead">
+      Sorry, an error occurred while loading <a class="this-link" href=""></a>.
+
+    </p>
+  </div>
+</template>
+
+  <template id="_permalink-template">
+  <a href="#" class="permalink">
+    <span class="sr-only">Permalink</span>
+    <span class="content-hash"></span>
+  </a>
+</template>
+
+</div>
+
+
+</body>
+</html>

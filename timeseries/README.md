@@ -68,7 +68,9 @@ permalink: /timeseries/
 \
 [Diffusion-TS: Interpretable Diffusion for General Time Series Generation (ICLR 2024)]{:.heading.flip-title}\
 \
-[MG-TSD: Multi-Granularity Time Series Diffusion Models with Guided Learning Process (ICLR 2024)]{:.heading.flip-title}
+[MG-TSD: Multi-Granularity Time Series Diffusion Models with Guided Learning Process (ICLR 2024)]{:.heading.flip-title}\
+\
+[Pacer and Runner: Cooperative Learning Framework between Single- and Cross-Domain Sequential Recommendation (SIGIR'24 Best Paper)]{:.heading.flip-title}
 
 
 
@@ -103,3 +105,4 @@ permalink: /timeseries/
 [Pyraformer: Low-Complexity Pyramidal Attention for Long-Range Time Series Modeling and Forecasting (ICLR 2022)]: /timeseries/2024-07-26-pyraformer
 [Diffusion-TS: Interpretable Diffusion for General Time Series Generation (ICLR 2024)]: /timeseries/2024-08-04-Diffusion-TS
 [MG-TSD: Multi-Granularity Time Series Diffusion Models with Guided Learning Process (ICLR 2024)]: /timeseries/2024-08-05-MG-TSD
+[Pacer and Runner: Cooperative Learning Framework between Single- and Cross-Domain Sequential Recommendation (SIGIR'24 Best Paper)]: \timeseries/2024-09-03-SyNCRec
