@@ -1,5 +1,340 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-09-03T15:03:55+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">Pacer and Runner: Cooperative Learning Framework between Single- and Cross-Domain Sequential Recommendation (SIGIR’24 Best Paper)</title><link href="http://localhost:4000/timeseries/2024-09-03-SyNCRec/" rel="alternate" type="text/html" title="Pacer and Runner: Cooperative Learning Framework between Single- and Cross-Domain Sequential Recommendation (SIGIR’24 Best Paper)" /><published>2024-09-03T00:00:00+09:00</published><updated>2024-09-03T15:03:55+09:00</updated><id>http://localhost:4000/timeseries/SyNCRec</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-09-03-SyNCRec/"><![CDATA[<h2 id="abstract">Abstract</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-09-10T19:09:04+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">(Code Review, ICLR 2024) Pathformer</title><link href="http://localhost:4000/pytorch/2024-09-09-pathformer/" rel="alternate" type="text/html" title="(Code Review, ICLR 2024) Pathformer" /><published>2024-09-09T00:00:00+09:00</published><updated>2024-09-10T18:54:37+09:00</updated><id>http://localhost:4000/pytorch/pathformer</id><content type="html" xml:base="http://localhost:4000/pytorch/2024-09-09-pathformer/"><![CDATA[<p><a href="https://openreview.net/pdf?id=lJkOCMP2aW">(Paper) Pathformer: Multi-scale Transformers with Adaptive Pathways for Time Series Forecasting</a></p>
+
+<p><a href="https://lpppj.github.io/timeseries/2024-05-23-Pathformer">(Paper Review, ICLR 2024) Pathformer</a></p>
+
+<h2 id="1-git-clone">1. Git clone</h2>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig1.png" alt="사진1" /></p>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig2.png" alt="사진1" /></p>
+
+<ul>
+  <li>먼저 터미널에 git clone과 requirements를 입력하여 install 한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">bash scripts/multivariate/ETTm2.sh</code>로 ETTm2 데이터셋을 예측할 수 있다.</li>
+</ul>
+
+<h2 id="2-sh">2. .sh</h2>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig3.png" alt="사진1" /></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">ETTm2.sh</code> 파일에는 <code class="language-plaintext highlighter-rouge">run.py</code>를 실행하도록 되어있다.</li>
+</ul>
+
+<h2 id="3-runpy">3. run.py</h2>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig4.png" alt="사진1" /></p>
+
+<ul>
+  <li>parser를 통해 arguments를 만든다.</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig5.png" alt="사진1" /></p>
+
+<ul>
+  <li>그리고 <code class="language-plaintext highlighter-rouge">Exp_Main</code>에 있는 train에 arguments를 넣어준다.</li>
+</ul>
+
+<h2 id="4-exp_mainpy">4. exp_main.py</h2>
+
+<h3 id="41-train">4.1. train</h3>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig6.png" alt="사진1" /></p>
+
+<ul>
+  <li>model, data, optimizer, criterion을 설정하는 간단한 함수들과, <code class="language-plaintext highlighter-rouge">vali</code>, <code class="language-plaintext highlighter-rouge">train</code>, <code class="language-plaintext highlighter-rouge">test</code>, <code class="language-plaintext highlighter-rouge">predict</code> 함수가 있다.</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig7.png" alt="사진1" /></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Exp_main</code> : <code class="language-plaintext highlighter-rouge">train</code>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">_get_data</code>로 train, valid, test 데이터셋을 load</li>
+      <li><code class="language-plaintext highlighter-rouge">sum(p.numel() for p in self.model.parameters())</code>는 parameters 개수</li>
+      <li>time, early sipping, optimizer, criterion, learning rate scheduler 정의</li>
+      <li><code class="language-plaintext highlighter-rouge">lr_scheduler.OneCycleLR</code>는 learning rate를 빠르게 최대 학습률까지 증가시켰다가 다시 감소시키면서 최적화 과정
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">optimizer</code> : 사용하는 optimizer</li>
+          <li><code class="language-plaintext highlighter-rouge">steps_per_epoch</code> : 1 epoch가 몇 번의 update가 발생하는지 (mini-batch)</li>
+          <li><code class="language-plaintext highlighter-rouge">pct_start</code> : learning rate가 증가하는 구간의 비율 / <code class="language-plaintext highlighter-rouge">epochs</code> : 전체 epoch 수</li>
+          <li><code class="language-plaintext highlighter-rouge">max_lr</code> : 최대 learning rate</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig8.png" alt="사진1" /></p>
+
+<ul>
+  <li>each epoch에서는 train loder에서 batch 단위로 데이터를 받고</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig9.png" alt="사진1" /></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">with torch.cuda.amp.autocast():</code>는 <code class="language-plaintext highlighter-rouge">float16</code>과 <code class="language-plaintext highlighter-rouge">float32</code>를 자동으로 캐스팅</li>
+  <li>모델이 예측한 <code class="language-plaintext highlighter-rouge">outputs</code>와 정답 <code class="language-plaintext highlighter-rouge">batch_y</code>를 비교하여 loss 계산</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig10.png" alt="사진1" /></p>
+
+<ul>
+  <li>epoch에 걸린 시간과 loss를 출력하고 backward로 parameters를 update</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig11.png" alt="사진1" /></p>
+
+<ul>
+  <li>Validation set에 대한 loss로 early stopping 여부를 결정하고 학습이 종료되면 모델 저장</li>
+  <li>vali 함수는 특이 사항 없으므로 pass</li>
+</ul>
+
+<h3 id="42-test">4.2. test</h3>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig12.png" alt="사진1" /></p>
+
+<ul>
+  <li>test dataset과, 학습되어 저장된 model을 load한다.</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig13.png" alt="사진1" /></p>
+
+<ul>
+  <li>train과 비슷하게 batch 단위로 모델에 넣어서 예측값을 얻는다.</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig14.png" alt="사진1" /></p>
+
+<ul>
+  <li>batch 20개마다 묶어서 visualizaiton을 한다.</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig15.png" alt="사진1" /></p>
+
+<ul>
+  <li>최종적인 예측과 loss를 <code class="language-plaintext highlighter-rouge">results.txt</code>에 저장한다.</li>
+</ul>
+
+<h3 id="43-predict">4.3. predict</h3>
+
+<p>pass</p>
+
+<h2 id="5-modelspathformerpy">5. models/Pathformer.py</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">from models import PathFormer</code> 이므로 해당 경로로 가서 pathformer의 archtecture를 보자</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig16.png" alt="사진1" /></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">forward</code>는 normalization \(\to\) <code class="language-plaintext highlighter-rouge">start_fc</code> \(\to\) for <code class="language-plaintext highlighter-rouge">layer</code> in <code class="language-plaintext highlighter-rouge">self.AMS_lists</code> \(\to\) de-normalization로 구성된다.</li>
+  <li><code class="language-plaintext highlighter-rouge">forward</code>에 들어온 x의 shape은 <code class="language-plaintext highlighter-rouge">torch.size([batch_size, seq_len, num_nodes])</code>이다.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">seq_len</code>은 관측하는 과거 시점 수, <code class="language-plaintext highlighter-rouge">num_nodes</code>는 multivariate에서 variates 개수</li>
+    </ul>
+  </li>
+  <li>x가 unsqueeze되어 normalization, <code class="language-plaintext highlighter-rouge">start_fc</code>를 통과하면 <code class="language-plaintext highlighter-rouge">torch.size([batch_size, seq_len, num_nodes, d_model])</code>이 된다. (아래 <code class="language-plaintext highlighter-rouge">__init__</code> 참고)</li>
+  <li>이제 <code class="language-plaintext highlighter-rouge">AMS_list</code>의 <code class="language-plaintext highlighter-rouge">layers</code>를 통과하고 denormalization을 통과한다.</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig17.png" alt="사진1" /></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">__init__</code>을 보면 <code class="language-plaintext highlighter-rouge">self.AMS_lists</code>는 <code class="language-plaintext highlighter-rouge">layers.AMS</code>에서 import한다.</li>
+  <li>AMS layer가 pathformer는 전부이니 살펴보자</li>
+</ul>
+
+<h2 id="6-layersamspy">6. Layers/AMS.py</h2>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig18.png" alt="사진1" /></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">self.seasonality_and_trend_decompose</code></li>
+  <li><code class="language-plaintext highlighter-rouge">self.noisy_top_k_gating</code></li>
+  <li><code class="language-plaintext highlighter-rouge">self.cv_squared</code></li>
+  <li><code class="language-plaintext highlighter-rouge">SparseDispatcher</code>와 <code class="language-plaintext highlighter-rouge">SparseDispatcher.dispatch</code>, <code class="language-plaintext highlighter-rouge">SparseDispatcher.combine</code></li>
+  <li><code class="language-plaintext highlighter-rouge">self.experts</code></li>
+  <li>각각에 대해서 하나씩 살펴보도록 한다.</li>
+</ul>
+
+<h3 id="61-selfseasonality_and_trend_decompose">6.1. self.seasonality_and_trend_decompose</h3>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig19.png" alt="사진1" /></p>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig20.png" alt="사진1" /></p>
+
+<ul>
+  <li>AMS class 안에서 정의된 함수</li>
+  <li><strong>seasonality와 trend를 x에서 각각 계산</strong>하기 때문에 \(seasonal + trend = x\)가 아님
+    <ul>
+      <li>해당 함수의 결과는 x에 seasonality와 trend를 더한 결과이다.</li>
+    </ul>
+  </li>
+  <li>처음에 <code class="language-plaintext highlighter-rouge">x = x[:, :, :, 0]</code>은 <code class="language-plaintext highlighter-rouge">d_model</code> 차원으로 표현된 x에서 첫 번째 dimension만 사용해서 decompose한다는 의미</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig21.png" alt="사진1" /></p>
+
+<ul>
+  <li>seasonality_model은 <code class="language-plaintext highlighter-rouge">FourierLayer</code>
+    <ul>
+      <li>푸리에 변환(fft) 후 amplitude가 높은 frequency \(k\)​​개를 inverse 푸리에 변환(extrapolate)</li>
+    </ul>
+  </li>
+  <li>trend_model은 <code class="language-plaintext highlighter-rouge">series_decomp_multi</code>
+    <ul>
+      <li>다양한 크기의 kernel size로 moving average를 softmax</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="62-selfnoisy_top_k_gating">6.2. self.noisy_top_k_gating</h3>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig22.png" alt="사진1" />
+<img src="/assets/img/timeseries/pathformer_code/fig23.png" alt="사진1" /></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">start_linear.squeeze</code>와 <code class="language-plaintext highlighter-rouge">w_gate</code>로 <code class="language-plaintext highlighter-rouge">torch.Size([batch, seq_len, num_node])</code>가 <code class="language-plaintext highlighter-rouge">torch.Size([batch, num_expert])</code>가 된다.</li>
+  <li>같은 크기 <code class="language-plaintext highlighter-rouge">torch.Size([batch, num_expert])</code>의 <code class="language-plaintext highlighter-rouge">logit</code>을 만들고 \(top-k\) logit을 <code class="language-plaintext highlighter-rouge">gates</code>에 넣는다.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">scatter</code>는 특정 인덱스 위치에 값을 할당하는 함수이다.</li>
+      <li><code class="language-plaintext highlighter-rouge">gate</code>의 shape은 <code class="language-plaintext highlighter-rouge">torch.Size([batch, num_experts])</code>가 되는데, 각 행(batch)에서 k개를 제외하고는 다 0이다.</li>
+      <li>그리고 각 행(batch)마다 그 k개가 어떤 experts인지는 다르다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">load</code>는 각 expert가 배치 전체에서 얼마나 선택되었는지에 대한 비율을 의미한다.
+    <ul>
+      <li>shape은 <code class="language-plaintext highlighter-rouge">torch.Size([num_experts])</code>이다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="63-selfcv_squared">6.3. self.cv_squared</h3>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig18.png" alt="사진1" /></p>
+
+<ul>
+  <li>다시 AMS.forward로 돌아오자</li>
+  <li>각 expert마다 모든 배치에 대해 sum을 해서 <code class="language-plaintext highlighter-rouge">importance</code>를 계산하면 <code class="language-plaintext highlighter-rouge">num_experts</code>개의 숫자가 된다.</li>
+  <li><code class="language-plaintext highlighter-rouge">cv_squared</code>를 통해 <code class="language-plaintext highlighter-rouge">num_experts</code>개의 숫자의 변동계수를 구해서 <code class="language-plaintext highlighter-rouge">balance_loss</code>를 구한다.
+    <ul>
+      <li>변동계수는 \(\frac{\sigma^2}{\mu^2}\)이다.</li>
+      <li>이 값이 크면 특정 experts에 importance가 몰려있음을 의미한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig24.png" alt="사진1" /></p>
+
+<h3 id="64-sparsedispatcher-어려움-주의">6.4. SparseDispatcher (*어려움 주의)</h3>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig25.png" alt="사진1" />
+<img src="/assets/img/timeseries/pathformer_code/fig26.png" alt="사진1" /></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">__init__</code>에서 준비해놓는 것들이 많으니 하나하나 보도록 한다. \(k=2\), <code class="language-plaintext highlighter-rouge">num_experts</code>=4인 경우이다.</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig27.png" alt="사진1" /></p>
+<ul>
+  <li>각 행은 batch를 의미하기 때문에 행의 개수는 batch size (여기선 512)</li>
+  <li>각 행에는 <code class="language-plaintext highlighter-rouge">num_experts</code>개의 숫자가 있고 그 중 \(k\)개만 non-negative, 나머지는 0</li>
+  <li>첫 행에서 2, 3번째 숫자가 양수라는 것은, 첫번째 배치에서 2, 3번째 experts가 선택되었다는 것을 의미</li>
+  <li>바로 아래에 있는 <code class="language-plaintext highlighter-rouge">torch.nonzero(gates)</code>에서도 그 사실을 알 수 있다.
+    <ul>
+      <li>첫 번째 배치에서는 index 1, 2인 experts가, 마지막 배치에서는 index 1, 2인 experts가 선택됨</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig28.png" alt="사진1" /></p>
+<ul>
+  <li>이제 sort를 하는데 첫번째 열은 어차피 index라서 정렬되어있고
+    <ul>
+      <li>(두 번째 열이 정렬되면서 섞이기 때문에 두 번째 열의 숫자가 첫 번째 열의 배치 index와 상관 없게 된다)</li>
+    </ul>
+  </li>
+  <li>그리고 <code class="language-plaintext highlighter-rouge">index_sorted_experts</code>는 정렬된 숫자가 몇 번째 index에 있던 숫자인지를 표시해준다.
+    <ul>
+      <li>(여기서부터 헷갈리기 시작함)</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig29.png" alt="사진1" /></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">self._expert_index</code>는 각 배치에서 선택된 experts의 index를 정렬한 것이다.
+    <ul>
+      <li>각 배치마다 \(k\)개씩 있으니 총 batch_size \(\times k\)개의 숫자겠다.</li>
+    </ul>
+  </li>
+  <li>그리고 그걸 다시 batch index로 되돌릴 수가 있을 것이다.
+    <ul>
+      <li>즉 <code class="language-plaintext highlighter-rouge">self._batch_index</code>가 1, 3, 6,…이라는 것은 expert 0이 선택되었던 batch가 1, 3, …이고</li>
+      <li>그 다음 expert 1이 선택된 batch들이 몇 번째 batch인지 쭉 나열이 된다. (이걸 마지막 expert까지 반복)</li>
+    </ul>
+  </li>
+  <li>마지막으로 <code class="language-plaintext highlighter-rouge">self._part_sizes</code>는 모든 batches 통틀어서 각 expert가 몇 번 선택되었는지를 의미한다.</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig30.png" alt="사진1" /></p>
+<ul>
+  <li>이제 <code class="language-plaintext highlighter-rouge">gates_exp</code>는 expert 0이 선택되었던 batches를 쭉 나열하고, 그 다음에 expert 1이 선택되었던 batches를 쭉 나열하고… 마지막 expert가 선택되었던 batches까지 나열한 것이다.</li>
+  <li>그리고 <code class="language-plaintext highlighter-rouge">self._nonzero_gates</code>는 expert \(i\) (\(i = 1, ...,\) <code class="language-plaintext highlighter-rouge">num_experts</code>)가 선택된 배치에서 expert \(i\)의 gates를 나열한 것이다.</li>
+</ul>
+
+<h3 id="641-sparsedispatcherdispatch">6.4.1. SparseDispatcher.dispatch</h3>
+
+<ul>
+  <li>이제 dispatch에서는 각 expert에 처리해야 할 batches를 할당한다.</li>
+  <li>만약 지금처럼 inp의 크기가 <code class="language-plaintext highlighter-rouge">torch.Size([512, 96, 7, 16])</code>, <code class="language-plaintext highlighter-rouge">self._batch_index</code>의 크기가 <code class="language-plaintext highlighter-rouge">torch.Size([1024])</code>, 그리고 <code class="language-plaintext highlighter-rouge">self._part_sizes</code>가 <code class="language-plaintext highlighter-rouge">[262, 348, 249, 165]</code>라고 가정하면:</li>
+  <li><code class="language-plaintext highlighter-rouge">inp[self._batch_index]</code>에서는 inp 텐서에서 1024개의 샘플을 선택하여, 크기가 <code class="language-plaintext highlighter-rouge">torch.Size([1024, 96, 7, 16])</code>인 새로운 텐서를 생성한다.</li>
+  <li>그리고 첫 번째 차원(batch 차원, 1024개)을 <code class="language-plaintext highlighter-rouge">self._part_sizes</code> = <code class="language-plaintext highlighter-rouge">[262, 348, 249, 165]</code>로 나눈다.</li>
+  <li>결과는 각 expert에게 할당된 batches의 리스트이며, 각 텐서의 크기는:
+    <ul>
+      <li>첫 번째 expert: [262, 96, 7, 16]</li>
+      <li>두 번째 expert: [348, 96, 7, 16]</li>
+      <li>세 번째 expert: [249, 96, 7, 16]</li>
+      <li>네 번째 expert: [165, 96, 7, 16]</li>
+    </ul>
+  </li>
+  <li>이걸 리스트로 return한다.</li>
+</ul>
+
+<h3 id="642-sparsedispatchercombine">6.4.2. SparseDispatcher.combine</h3>
+
+<ul>
+  <li>이제 각각을 해당 expert에 통과시킨다.</li>
+  <li>expert는 <code class="language-plaintext highlighter-rouge">TransformerLayer</code>이다. (Pathformer.py의 __init__참고)</li>
+  <li>그리고 그 결과를 다시 combine한다.
+    <ul>
+      <li>그런데 위에서 combine 함수를 잘 보면 처음에 <code class="language-plaintext highlighter-rouge">.exp()</code>를 하고 다시 <code class="language-plaintext highlighter-rouge">.log()</code>를 해주는데,</li>
+      <li><code class="language-plaintext highlighter-rouge">.exp()</code>에서 NaN이 나올 수가 있으니 주의하자.</li>
+      <li>(벤치마크 데이터셋에서는 해당사항 없지만 내 프로젝트에서 사용하는 데이터에서는 발생했다.)</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig18.png" alt="사진1" /></p>
+
+<ul>
+  <li>이제 residual_connection만 적용해주면 끝난다.</li>
+  <li>여기까지가 하나의 <code class="language-plaintext highlighter-rouge">AMS</code> layer이다.</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/pathformer_code/fig16.png" alt="사진1" /></p>
+
+<ul>
+  <li>여기서 for 안에 있는 layer가 AMS layer이다.</li>
+  <li>
+    <p>마지막으로 de-normalization을 하면 끝이다.</p>
+  </li>
+  <li>나머지는 위에서 이미 소개한 <code class="language-plaintext highlighter-rouge">3. run.py</code>와 <code class="language-plaintext highlighter-rouge">4. exp_main.py</code>가 전부이다.</li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="pytorch" /><summary type="html"><![CDATA[[Pathformer github](https://github.com/decisionintelligence/pathformer)]]></summary></entry><entry><title type="html">Pacer and Runner: Cooperative Learning Framework between Single- and Cross-Domain Sequential Recommendation (SIGIR’24 Best Paper)</title><link href="http://localhost:4000/timeseries/2024-09-03-SyNCRec/" rel="alternate" type="text/html" title="Pacer and Runner: Cooperative Learning Framework between Single- and Cross-Domain Sequential Recommendation (SIGIR’24 Best Paper)" /><published>2024-09-03T00:00:00+09:00</published><updated>2024-09-03T15:04:04+09:00</updated><id>http://localhost:4000/timeseries/SyNCRec</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-09-03-SyNCRec/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>Cross-Domain Sequential Recommendation (CDSR)은 multiple domain에서의 정보를 활용하여 Single-Domain Sequential Recommendation (SDSR)보다 좋은 성능을 보여주었음</li>
@@ -490,7 +825,7 @@
     </ul>
   </li>
   <li>SDSR and CDSR tasks의 정보를 교환시키는 Auxiliary loss 제안</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[SIGIR'24 Best Paper](https://arxiv.org/pdf/2407.11245)]]></summary></entry><entry><title type="html">MG-TSD: Multi-Granularity Time Series Diffusion Models with Guided Learning Process (ICLR 2024)</title><link href="http://localhost:4000/timeseries/2024-08-05-MG-TSD/" rel="alternate" type="text/html" title="MG-TSD: Multi-Granularity Time Series Diffusion Models with Guided Learning Process (ICLR 2024)" /><published>2024-08-05T00:00:00+09:00</published><updated>2024-08-05T00:58:12+09:00</updated><id>http://localhost:4000/timeseries/MG-TSD</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-08-05-MG-TSD/"><![CDATA[<h2 id="abstract">Abstract</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[SIGIR'24 Best Paper](https://arxiv.org/pdf/2407.11245)]]></summary></entry><entry><title type="html">MG-TSD: Multi-Granularity Time Series Diffusion Models with Guided Learning Process (ICLR 2024)</title><link href="http://localhost:4000/timeseries/2024-08-05-MG-TSD/" rel="alternate" type="text/html" title="MG-TSD: Multi-Granularity Time Series Diffusion Models with Guided Learning Process (ICLR 2024)" /><published>2024-08-05T00:00:00+09:00</published><updated>2024-09-03T15:04:04+09:00</updated><id>http://localhost:4000/timeseries/MG-TSD</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-08-05-MG-TSD/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>어떻게 Diffusion model의 성능을 time series forecasting에 활용할 수 있는가</li>
@@ -2007,233 +2342,4 @@ k_{\text {embedding }}= &amp; {\left[\sin \left(10^{\frac{0 \times 4}{w-1}} t\ri
       <li>intraperiod- and interperiod-variations in 2D space by a parameter-efficient inception block.</li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2023](https://arxiv.org/pdf/2210.02186)]]></summary></entry><entry><title type="html">MultiResFormer: Transformer with Adaptive Multi-Resolution Modeling for General Time Series Forecasting (Arxiv 2023)</title><link href="http://localhost:4000/timeseries/2024-07-06-MultiResFormer/" rel="alternate" type="text/html" title="MultiResFormer: Transformer with Adaptive Multi-Resolution Modeling for General Time Series Forecasting (Arxiv 2023)" /><published>2024-07-06T00:00:00+09:00</published><updated>2024-07-06T12:23:19+09:00</updated><id>http://localhost:4000/timeseries/MultiResFormer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-06-MultiResFormer/"><![CDATA[<h2 id="abstract">Abstract</h2>
-
-<ul>
-  <li>Transformer-based models는 TS를 segments로 나눠서 encode (<strong>patches</strong>)
-    <ul>
-      <li>다양한 <strong>scale</strong>(i.e.. <strong>resolutions</strong>)에서의 TS를 모델링</li>
-    </ul>
-  </li>
-  <li>하지만 pre-defined scale(patch의 길이)은…
-    <ul>
-      <li>variety of intricate temporal dependencies를 찾기 어려움</li>
-    </ul>
-  </li>
-  <li>그래서 MultiResFormer는 adaptive time scale.
-    <ul>
-      <li>patch length를 주어진 데이터의 주기성을 보고 찾겠다</li>
-      <li>그 다음 intraperiod and interperiod dependencies 학습</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="1-introduction">1. Introduction</h2>
-
-<ul>
-  <li>TSF를 위한 vanila Transformer의 modification 3:</li>
-  <li>첫째. Efficient attention mechanisms for sub-quadratic attention computation
-    <ul>
-      <li><a href="https://arxiv.org/pdf/1907.00235">LogTrans(2019)</a>, <a href="https://arxiv.org/pdf/2012.07436">Informer(2021)</a>, <a href="https://openreview.net/pdf?id=0EXmFzUn5I">Pyraformer(2022)</a></li>
-    </ul>
-  </li>
-  <li>둘째. Breaking the point-wise nature of dot-product attention for segment or series level dependency modeling
-    <ul>
-      <li><a href="https://arxiv.org/pdf/1907.00235">LogTrans(2019)</a>, <a href="https://arxiv.org/pdf/2106.13008">Autoformer(2021)</a>, <a href="https://arxiv.org/pdf/2201.12740">Fedformer(2022)</a>, <a href="https://arxiv.org/pdf/2211.14730">PatchTST(2023)</a>, <a href="https://openreview.net/pdf?id=vSVLM2j9eie">Crossformer(2023)</a></li>
-    </ul>
-  </li>
-  <li>셋째. Modeling sequences at multiple time scales with hierarchical representation learning
-    <ul>
-      <li><a href="https://arxiv.org/pdf/1907.00235">LogTrans(2019)</a>, <a href="https://arxiv.org/pdf/2204.13767">Triformer(2022)</a>, <a href="https://arxiv.org/pdf/2206.04038">Scaleformer(2023)</a>, <a href="https://openreview.net/pdf?id=lJkOCMP2aW">Pathformer(2024)</a></li>
-    </ul>
-  </li>
-  <li>하지만 세 번째 multi-scale methods의 경우 pre-defined resolution으로 인해 generalization이 안된다.</li>
-  <li>그래서 본 논문에서는 데이터의 underlying periodicities을 파악해서 데이터에 맞게 multi-resolution view</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/MultiResFormer/fig1.png" alt="그림1" /></p>
-
-<ul>
-  <li>본 논문에서는 two core Transformer sublayers를 repurpose:
-    <ul>
-      <li><strong>Multi-headed attention</strong> for “interperiod” variation modeling
-        <ul>
-          <li>MHA는 전역적인 패치 간 의존성을 모델링하는 데 강점을 가지고 있어 interperiod 변동을 모델링하는 데 적합</li>
-        </ul>
-      </li>
-      <li><strong>Position-wise Feed-Forward network</strong> for “intraperiod” variation modeling
-        <ul>
-          <li>FFN은 각 위치 내의 복잡한 의존성을 모델링하는 데 강점을 가지고 있어 intraperiod 변동을 모델링하는 데 적합</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>고려해야 할 사항들
-    <ul>
-      <li>어떻게 different resolution branches끼리 parameter-sharing을 할까 ?
-        <ul>
-          <li>일단 parameter-sharing을 해야 특정 scale에 overfitting되는 걸 방지하는 건 맞음</li>
-          <li>patch length 모르니까 linear projection 못 쓰고, 그냥 padding하는 건 모델 학습을 방해함</li>
-          <li>그래서 각 scale에서의 patches의 길이를 맞추기 위한 <strong>interpolation scheme</strong> 사용</li>
-          <li>그리고 <strong>resolution embedding</strong>으로 scale-awareness</li>
-        </ul>
-      </li>
-      <li>계산 복잡도를 어떻게 줄일까 ?
-        <ul>
-          <li>이미 interpolation scheme으로 patches의 길이를 맞춰줬으니 별도의 embedding 필요 없음
-            <ul>
-              <li>Dlinear model의 성공 사례에서 영감 받음</li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="2-related-work">2. Related Work</h2>
-
-<h3 id="time-series-transformer">Time series Transformer</h3>
-
-<ul>
-  <li>Transformer의 quadratic complexity 때문에 longer series는 모델링하기 어려웠음
-    <ul>
-      <li><a href="https://arxiv.org/pdf/1907.00235">LogTrans(2019)</a> : sparse attention blocks where each token attends to others with an exponential step size</li>
-      <li><a href="https://arxiv.org/pdf/2012.07436">Informer(2021)</a> : entropy-based measurement to filter out uninformative keys for \(O(N)\)</li>
-      <li><a href="https://arxiv.org/pdf/2204.13767">Triformer(2022)</a>, <a href="https://openreview.net/pdf?id=0EXmFzUn5I">Pyraformer(2022)</a> : adopt CNN-like approaches for local attention operations</li>
-      <li><a href="https://arxiv.org/pdf/2211.14730">PatchTST(2023)</a> : patch단위로 attention 연산 하니까 \(O(N^2/S^2)\)</li>
-    </ul>
-  </li>
-  <li>단일 시점의 데이터는 정보가 별로 없음 (<a href="https://arxiv.org/pdf/2211.14730">PatchTST(2023)</a>)
-    <ul>
-      <li>단일 시점을 토큰으로 하는 transformer는 localized patterns을 간과할 수 있음</li>
-    </ul>
-  </li>
-  <li>channel-mixing embedding은 over-fitting 발생시킬 수 있음 (<a href="https://arxiv.org/pdf/2211.14730">PatchTST(2023)</a>)</li>
-</ul>
-
-<h3 id="multi-resolution-time-series-modeling">Multi-Resolution Time Series Modeling</h3>
-
-<ul>
-  <li><a href="https://arxiv.org/pdf/2210.02186">TimesNet(2023)</a>에서 adaptive multi-resolution modeling 하긴 함
-    <ul>
-      <li>하지만 input length를 맞춰줘야 해서 flatten해야 하고 longer series 예측 못함</li>
-      <li>channel-mixing embedding이 불가피해서 overfitting</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="3-adaptive-multi-resolution-time-series-modeling-with-transformers">3. Adaptive Multi-Resolution Time Series Modeling with Transformers</h2>
-
-<ul>
-  <li>\(\mathbf{X}_{1 \ldots I}=\left(\mathbf{x}_1, \ldots, \mathbf{x}_I\right) \in \mathbb{R}^{I \times V}\)로 \(\mathbf{X}_{I+1 \ldots I+O}=\left(\mathbf{x}_{I+1}, \ldots, \mathbf{x}_{I+O}\right) \in \mathbb{R}^{O \times V}\)​ 예측</li>
-</ul>
-
-<h3 id="31-multiresformer">3.1. MultiResFormer</h3>
-
-<p><img src="/assets/img/timeseries/MultiResFormer/fig2.png" alt="그림2" /></p>
-
-<ul>
-  <li>The periodicity-aware patching module, detecting salient periodicities (section 3.2.)</li>
-  <li>The Transformer Encoder block, shared across all resolution branches (section 3.3.)</li>
-  <li>aggregate the representations derived within each resolution branch into \(\mathbf{X}^{(l)} \in \mathbf{R}^{I \times V}\)​ (section 3.4.)</li>
-</ul>
-
-<h3 id="32-salient-periodicity-detection">3.2. Salient Periodicity Detection</h3>
-
-<ul>
-  <li>
-    <p>salient periodicites of the input series는 Fast Fourier Transform (FFT)으로 찾음</p>
-
-\[\begin{aligned}
-\mathbf{A} &amp; =\operatorname{Avg}(\operatorname{Amp}(\operatorname{FFT}(\mathbf{X}))) \\
-\left\{f_1, \ldots, f_k\right\} &amp; =\underset{f_* \in\left\{1, \ldots,\left\lfloor\frac{I}{2}\right\rfloor\right\}}{\operatorname{argTopk}}(\mathbf{A}) \\
-\text { Period }_i &amp; =\left\lceil\frac{I}{f_i}\right\rceil
-\end{aligned}\]
-  </li>
-  <li>
-    <p>Gradient-based 방식이 아니라서 미분이 필요없음</p>
-  </li>
-</ul>
-
-<h3 id="33-multi-resolution-modeling-with-a-shared-transformer-block">3.3. Multi-Resolution Modeling with a Shared Transformer Block</h3>
-
-<ul>
-  <li>PatchTST처럼 fixed patch length 사용할 땐 high-dimensional embeddings을 위한 linear transformations가 필요했는데, 이제는 patch embedding layers가 필요없어짐 (efficient)</li>
-  <li>다양한 patch length를 사용한다고 해서 길이를 맞춰주기 위해 padding을 한다고 하더라도, MHA와 FFN에는 masking mechanism이 없기 때문에 모델 성능 저하
-    <ul>
-      <li>그러므로 interpolation으로 original patches의 temporal characteristics 보존</li>
-    </ul>
-  </li>
-  <li>one resolution branch의 Periodi가 주어지면 길이 Periodi의 겹치치 않는 patch로 분할
-    <ul>
-      <li>그 다음 길이 d가 되도록 linearly interpolate</li>
-      <li>shape of the patch-based representation of the input series : \(V \times\left\lceil\frac{I}{\text { Period }_i}\right\rceil \times d\)</li>
-    </ul>
-  </li>
-  <li>각 resolution branch에서 same-sized patches로 연산이 이루어지기 때문에 resolution embedding을 linearly interpolate에 더해줌 (transformer block에게 해상도 알려주기 위해)</li>
-  <li>MHA to capture patch-wise dependencies (interperiod variation modeling)
-    <ul>
-      <li>FFN layers for capturing dependencies within each patch (intraperiod variation modeling)</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="34-adaptive-aggregation">3.4. Adaptive Aggregation</h3>
-
-<ul>
-  <li>i 번째 resolution에서 representation의 shape은 \(V \times\left\lceil\frac{I}{\text { Period }_i}\right\rceil \times d\)​</li>
-  <li>interpolation으로 \(I \times V\)로 representation</li>
-  <li>
-    <p>\(I \times V\)으로 표현된 모든 k개의 resolution에서의 representation을 adaptive aggregation:</p>
-
-\[\begin{aligned}
-  &amp; \left\{A_1, \ldots, A_k\right\}=\underset{f_* \in\left\{1, \ldots,\left\lfloor\frac{I}{2}\right\rfloor\right\}}{\operatorname{Topk}}(\mathbf{A}) \\
-  &amp; \left\{w_1, \ldots, w_k\right\}=\operatorname{Softmax}\left(\left\{A_1, \ldots, A_k\right\}\right)
-  \end{aligned}\]
-  </li>
-</ul>
-
-<h2 id="4-experiments">4. Experiments</h2>
-
-<ul>
-  <li>Main Results</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/MultiResFormer/table12.png" alt="그림3" /></p>
-
-<ul>
-  <li>Ablation Study</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/MultiResFormer/table4.png" alt="그림4" /></p>
-
-<ul>
-  <li>Varying Look-back Window Size</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/MultiResFormer/fig3.png" alt="그림5" /></p>
-
-<ul>
-  <li>Representation analysis</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/MultiResFormer/fig4.png" alt="그림6" /></p>
-
-<ul>
-  <li>Efficiency Comparison</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/MultiResFormer/fig5.png" alt="그림7" /></p>
-
-<h2 id="5-conclusion">5. Conclusion</h2>
-
-<ul>
-  <li>각 transformer blocks 내에서 FFT로 데이터의 underlying periodicities를 파악하고 resolution 결정</li>
-  <li>각 transformer blocks 내에서 interpolation 덕분에 resolution끼리 parameter sharing</li>
-  <li>블록 내의 encoder는 interpolation으로 input size와 output representation의 size가 같아서
-    <ul>
-      <li>embedding layer가 필요없고 final linear prediction head layer에서의 parameters 개수가 적음</li>
-    </ul>
-  </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Arxiv 2023](https://arxiv.org/pdf/2311.18780)]]></summary></entry></feed>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2023](https://arxiv.org/pdf/2210.02186)]]></summary></entry></feed>
