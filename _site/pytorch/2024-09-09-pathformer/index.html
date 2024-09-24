@@ -45,7 +45,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="(Code Review, ICLR 2024) Pathformer" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-09-10T18:54:37+09:00","datePublished":"2024-09-09T00:00:00+09:00","description":"Pathformer github","headline":"(Code Review, ICLR 2024) Pathformer","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/pytorch/2024-09-09-pathformer/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/pytorch/2024-09-09-pathformer/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-09-10T19:09:25+09:00","datePublished":"2024-09-09T00:00:00+09:00","description":"Pathformer github","headline":"(Code Review, ICLR 2024) Pathformer","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/pytorch/2024-09-09-pathformer/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/pytorch/2024-09-09-pathformer/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -108,7 +108,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2024-09-10T19:09:04+09:00',
+    INDEX_KEY: 'index--2024-09-24T18:29:29+09:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -250,9 +250,9 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 <h2 id="1-git-clone">1. Git clone</h2>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig1.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig1.png" alt="사진1" /></p>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig2.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig2.png" alt="사진1" /></p>
 
 <ul>
   <li>먼저 터미널에 git clone과 requirements를 입력하여 install 한다.</li>
@@ -261,7 +261,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 <h2 id="2-sh">2. .sh</h2>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig3.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig3.png" alt="사진1" /></p>
 
 <ul>
   <li><code class="language-plaintext highlighter-rouge">ETTm2.sh</code> 파일에는 <code class="language-plaintext highlighter-rouge">run.py</code>를 실행하도록 되어있다.</li>
@@ -269,13 +269,13 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 <h2 id="3-runpy">3. run.py</h2>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig4.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig4.png" alt="사진1" /></p>
 
 <ul>
   <li>parser를 통해 arguments를 만든다.</li>
 </ul>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig5.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig5.png" alt="사진1" /></p>
 
 <ul>
   <li>그리고 <code class="language-plaintext highlighter-rouge">Exp_Main</code>에 있는 train에 arguments를 넣어준다.</li>
@@ -285,13 +285,13 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 <h3 id="41-train">4.1. train</h3>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig6.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig6.png" alt="사진1" /></p>
 
 <ul>
   <li>model, data, optimizer, criterion을 설정하는 간단한 함수들과, <code class="language-plaintext highlighter-rouge">vali</code>, <code class="language-plaintext highlighter-rouge">train</code>, <code class="language-plaintext highlighter-rouge">test</code>, <code class="language-plaintext highlighter-rouge">predict</code> 함수가 있다.</li>
 </ul>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig7.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig7.png" alt="사진1" /></p>
 
 <ul>
   <li><code class="language-plaintext highlighter-rouge">Exp_main</code> : <code class="language-plaintext highlighter-rouge">train</code>
@@ -311,26 +311,26 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
   </li>
 </ul>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig8.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig8.png" alt="사진1" /></p>
 
 <ul>
   <li>each epoch에서는 train loder에서 batch 단위로 데이터를 받고</li>
 </ul>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig9.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig9.png" alt="사진1" /></p>
 
 <ul>
   <li><code class="language-plaintext highlighter-rouge">with torch.cuda.amp.autocast():</code>는 <code class="language-plaintext highlighter-rouge">float16</code>과 <code class="language-plaintext highlighter-rouge">float32</code>를 자동으로 캐스팅</li>
   <li>모델이 예측한 <code class="language-plaintext highlighter-rouge">outputs</code>와 정답 <code class="language-plaintext highlighter-rouge">batch_y</code>를 비교하여 loss 계산</li>
 </ul>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig10.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig10.png" alt="사진1" /></p>
 
 <ul>
   <li>epoch에 걸린 시간과 loss를 출력하고 backward로 parameters를 update</li>
 </ul>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig11.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig11.png" alt="사진1" /></p>
 
 <ul>
   <li>Validation set에 대한 loss로 early stopping 여부를 결정하고 학습이 종료되면 모델 저장</li>
@@ -339,25 +339,25 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 <h3 id="42-test">4.2. test</h3>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig12.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig12.png" alt="사진1" /></p>
 
 <ul>
   <li>test dataset과, 학습되어 저장된 model을 load한다.</li>
 </ul>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig13.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig13.png" alt="사진1" /></p>
 
 <ul>
   <li>train과 비슷하게 batch 단위로 모델에 넣어서 예측값을 얻는다.</li>
 </ul>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig14.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig14.png" alt="사진1" /></p>
 
 <ul>
   <li>batch 20개마다 묶어서 visualizaiton을 한다.</li>
 </ul>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig15.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig15.png" alt="사진1" /></p>
 
 <ul>
   <li>최종적인 예측과 loss를 <code class="language-plaintext highlighter-rouge">results.txt</code>에 저장한다.</li>
@@ -373,7 +373,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
   <li><code class="language-plaintext highlighter-rouge">from models import PathFormer</code> 이므로 해당 경로로 가서 pathformer의 archtecture를 보자</li>
 </ul>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig16.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig16.png" alt="사진1" /></p>
 
 <ul>
   <li><code class="language-plaintext highlighter-rouge">forward</code>는 normalization \(\to\) <code class="language-plaintext highlighter-rouge">start_fc</code> \(\to\) for <code class="language-plaintext highlighter-rouge">layer</code> in <code class="language-plaintext highlighter-rouge">self.AMS_lists</code> \(\to\) de-normalization로 구성된다.</li>
@@ -386,7 +386,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
   <li>이제 <code class="language-plaintext highlighter-rouge">AMS_list</code>의 <code class="language-plaintext highlighter-rouge">layers</code>를 통과하고 denormalization을 통과한다.</li>
 </ul>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig17.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig17.png" alt="사진1" /></p>
 
 <ul>
   <li><code class="language-plaintext highlighter-rouge">__init__</code>을 보면 <code class="language-plaintext highlighter-rouge">self.AMS_lists</code>는 <code class="language-plaintext highlighter-rouge">layers.AMS</code>에서 import한다.</li>
@@ -395,7 +395,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 <h2 id="6-layersamspy">6. Layers/AMS.py</h2>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig18.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig18.png" alt="사진1" /></p>
 
 <ul>
   <li><code class="language-plaintext highlighter-rouge">self.seasonality_and_trend_decompose</code></li>
@@ -408,9 +408,9 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 <h3 id="61-selfseasonality_and_trend_decompose">6.1. self.seasonality_and_trend_decompose</h3>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig19.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig19.png" alt="사진1" /></p>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig20.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig20.png" alt="사진1" /></p>
 
 <ul>
   <li>AMS class 안에서 정의된 함수</li>
@@ -422,7 +422,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
   <li>처음에 <code class="language-plaintext highlighter-rouge">x = x[:, :, :, 0]</code>은 <code class="language-plaintext highlighter-rouge">d_model</code> 차원으로 표현된 x에서 첫 번째 dimension만 사용해서 decompose한다는 의미</li>
 </ul>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig21.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig21.png" alt="사진1" /></p>
 
 <ul>
   <li>seasonality_model은 <code class="language-plaintext highlighter-rouge">FourierLayer</code>
@@ -439,8 +439,8 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 <h3 id="62-selfnoisy_top_k_gating">6.2. self.noisy_top_k_gating</h3>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig22.png" alt="사진1" />
-<img src="/assets/img/timeseries/pathformer_code/fig23.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig22.png" alt="사진1" />
+<img src="/assets/img/pytorch/pathformer_code/fig23.png" alt="사진1" /></p>
 
 <ul>
   <li><code class="language-plaintext highlighter-rouge">start_linear.squeeze</code>와 <code class="language-plaintext highlighter-rouge">w_gate</code>로 <code class="language-plaintext highlighter-rouge">torch.Size([batch, seq_len, num_node])</code>가 <code class="language-plaintext highlighter-rouge">torch.Size([batch, num_expert])</code>가 된다.</li>
@@ -460,7 +460,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 <h3 id="63-selfcv_squared">6.3. self.cv_squared</h3>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig18.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig18.png" alt="사진1" /></p>
 
 <ul>
   <li>다시 AMS.forward로 돌아오자</li>
@@ -473,18 +473,18 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
   </li>
 </ul>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig24.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig24.png" alt="사진1" /></p>
 
 <h3 id="64-sparsedispatcher-어려움-주의">6.4. SparseDispatcher (*어려움 주의)</h3>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig25.png" alt="사진1" />
-<img src="/assets/img/timeseries/pathformer_code/fig26.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig25.png" alt="사진1" />
+<img src="/assets/img/pytorch/pathformer_code/fig26.png" alt="사진1" /></p>
 
 <ul>
   <li><code class="language-plaintext highlighter-rouge">__init__</code>에서 준비해놓는 것들이 많으니 하나하나 보도록 한다. \(k=2\), <code class="language-plaintext highlighter-rouge">num_experts</code>=4인 경우이다.</li>
 </ul>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig27.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig27.png" alt="사진1" /></p>
 <ul>
   <li>각 행은 batch를 의미하기 때문에 행의 개수는 batch size (여기선 512)</li>
   <li>각 행에는 <code class="language-plaintext highlighter-rouge">num_experts</code>개의 숫자가 있고 그 중 \(k\)개만 non-negative, 나머지는 0</li>
@@ -496,7 +496,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
   </li>
 </ul>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig28.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig28.png" alt="사진1" /></p>
 <ul>
   <li>이제 sort를 하는데 첫번째 열은 어차피 index라서 정렬되어있고
     <ul>
@@ -510,7 +510,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
   </li>
 </ul>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig29.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig29.png" alt="사진1" /></p>
 <ul>
   <li><code class="language-plaintext highlighter-rouge">self._expert_index</code>는 각 배치에서 선택된 experts의 index를 정렬한 것이다.
     <ul>
@@ -526,7 +526,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
   <li>마지막으로 <code class="language-plaintext highlighter-rouge">self._part_sizes</code>는 모든 batches 통틀어서 각 expert가 몇 번 선택되었는지를 의미한다.</li>
 </ul>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig30.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig30.png" alt="사진1" /></p>
 <ul>
   <li>이제 <code class="language-plaintext highlighter-rouge">gates_exp</code>는 expert 0이 선택되었던 batches를 쭉 나열하고, 그 다음에 expert 1이 선택되었던 batches를 쭉 나열하고… 마지막 expert가 선택되었던 batches까지 나열한 것이다.</li>
   <li>그리고 <code class="language-plaintext highlighter-rouge">self._nonzero_gates</code>는 expert \(i\) (\(i = 1, ...,\) <code class="language-plaintext highlighter-rouge">num_experts</code>)가 선택된 배치에서 expert \(i\)의 gates를 나열한 것이다.</li>
@@ -564,14 +564,14 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
   </li>
 </ul>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig18.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig18.png" alt="사진1" /></p>
 
 <ul>
   <li>이제 residual_connection만 적용해주면 끝난다.</li>
   <li>여기까지가 하나의 <code class="language-plaintext highlighter-rouge">AMS</code> layer이다.</li>
 </ul>
 
-<p><img src="/assets/img/timeseries/pathformer_code/fig16.png" alt="사진1" /></p>
+<p><img src="/assets/img/pytorch/pathformer_code/fig16.png" alt="사진1" /></p>
 
 <ul>
   <li>여기서 for 안에 있는 layer가 AMS layer이다.</li>
