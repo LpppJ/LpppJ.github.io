@@ -70,7 +70,9 @@ permalink: /timeseries/
 \
 [MG-TSD: Multi-Granularity Time Series Diffusion Models with Guided Learning Process (ICLR 2024)]{:.heading.flip-title}\
 \
-[Pacer and Runner: Cooperative Learning Framework between Single- and Cross-Domain Sequential Recommendation (SIGIR'24 Best Paper)]{:.heading.flip-title}
+[Pacer and Runner: Cooperative Learning Framework between Single- and Cross-Domain Sequential Recommendation (SIGIR'24 Best Paper)]{:.heading.flip-title}\
+\
+[Mamba-360: Survey of State Space Models as Transformer Alternative for Long Sequence Modelling: Methods, Applications, and Challenges (Arxiv 2024)]{:.heading.flip-title}
 
 
 
@@ -106,3 +108,4 @@ permalink: /timeseries/
 [Diffusion-TS: Interpretable Diffusion for General Time Series Generation (ICLR 2024)]: /timeseries/2024-08-04-Diffusion-TS
 [MG-TSD: Multi-Granularity Time Series Diffusion Models with Guided Learning Process (ICLR 2024)]: /timeseries/2024-08-05-MG-TSD
 [Pacer and Runner: Cooperative Learning Framework between Single- and Cross-Domain Sequential Recommendation (SIGIR'24 Best Paper)]: \timeseries/2024-09-03-SyNCRec
+[Mamba-360: Survey of State Space Models as Transformer Alternative for Long Sequence Modelling: Methods, Applications, and Challenges (Arxiv 2024)]:\timeseries/2024-10-03-Mamba360

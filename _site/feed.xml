@@ -1,5 +1,418 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-09-24T18:29:29+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">(Code Review, ICLR 2022) Raindrop</title><link href="http://localhost:4000/pytorch/2024-09-24-raindrop/" rel="alternate" type="text/html" title="(Code Review, ICLR 2022) Raindrop" /><published>2024-09-24T00:00:00+09:00</published><updated>2024-09-24T18:29:29+09:00</updated><id>http://localhost:4000/pytorch/raindrop</id><content type="html" xml:base="http://localhost:4000/pytorch/2024-09-24-raindrop/"><![CDATA[<p><a href="https://arxiv.org/abs/2110.05357">(Paper) Graph-Guided Network for Irregularly Sampled Multivariate Time Series</a></p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-10-03T20:00:12+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">Mamba-360: Survey of State Space Models as Transformer Alternative for Long Sequence Modelling: Methods, Applications, and Challenges (Arxiv 2024)</title><link href="http://localhost:4000/timeseries/2024-10-03-Mamba360/" rel="alternate" type="text/html" title="Mamba-360: Survey of State Space Models as Transformer Alternative for Long Sequence Modelling: Methods, Applications, and Challenges (Arxiv 2024)" /><published>2024-10-03T00:00:00+09:00</published><updated>2024-10-03T19:59:53+09:00</updated><id>http://localhost:4000/timeseries/Mamba360</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-10-03-Mamba360/"><![CDATA[<h2 id="abstract">Abstract</h2>
+
+<ul>
+  <li>Sequence modeling에서 RNN, LSTM을 사용했었음</li>
+  <li>Transformer가 훌륭한 성능을 보여주었음
+    <ul>
+      <li>but \(O(N^2)\) complexity,inductive bias handling이 어려움</li>
+    </ul>
+  </li>
+  <li>본 논문에서는 State Space Model (SSM)를 크게 3가지 카테고리로 분류
+    <ul>
+      <li>Gating architectures</li>
+      <li>Structural architectures</li>
+      <li>Recurrent architectures</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="1-introduciton">1. Introduciton</h2>
+
+<ul>
+  <li>RNN
+    <ul>
+      <li>look at only the last state and current input for predicting the next state</li>
+      <li>gradient calculations being limited to the hidden state and current input</li>
+      <li>exploding or vanishing gradient problem</li>
+      <li>lack sufficient memory for long sequences</li>
+    </ul>
+  </li>
+  <li>LSTM
+    <ul>
+      <li>complexity with their gating mechanisms</li>
+      <li>exhibit challenges in transfer learning</li>
+    </ul>
+  </li>
+  <li>Transformer
+    <ul>
+      <li>enable each token to interact with every other token in the input sequence</li>
+      <li>but \(O(N^2)\) complexity</li>
+    </ul>
+  </li>
+  <li>State Space Model (SSM)
+    <ul>
+      <li>Understanding of State Space Models (SSMs) : mathematical fundamentals</li>
+      <li>Categorization and Recent Advances of SSMs : systematic categorization</li>
+      <li>Application of SSMs Across Domains : utility in domains</li>
+      <li>Performance Comparison of SSMs with Transformers : SSM과 Transformer 비교</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="2-basics-of-state-space-model">2. Basics of State Space Model</h2>
+
+<ul>
+  <li>High-order를 first-order derivatives와 vector quantities로 representation</li>
+  <li>Dynamics of  damped mass-spring system : \(m \frac{d^2 y(t)}{d t^2}+c \frac{d y(t)}{d t}+k y(t)=u(t)\)
+    <ul>
+      <li>\(u(t)\) : 질량에 작용하는 외부 힘</li>
+      <li>\(y(t)\) : 수직 위치</li>
+      <li>\(x(t)\) : 이 방정식을 1차 미분과 벡터 양으로 표현하기 위해 도입하는 벡터</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="21-spring-mass-damper-system">2.1. Spring Mass-Damper system</h3>
+
+<ul>
+  <li>State Variables
+    <ul>
+      <li>\(x_1\) : equilibrium으로부터 질량의 위치</li>
+      <li>\(\dot{x_1}\) : 질량의 속도</li>
+    </ul>
+  </li>
+  <li>System Dynamics
+    <ul>
+      <li>뉴턴의 제 2법칙으로 표현하면 \(m \ddot{x}_1=-k x_1-c \dot{x}_1\)</li>
+      <li>\(\ddot{x_1}\)는 질량의 가속도, \(-kx_1\)은 위치에 비례하는 스프링의 힘,</li>
+      <li>\(c\dot{x_1}\)은 속도에 비례하는 damping force (운동 에너지 감쇠시키는 힘)</li>
+    </ul>
+  </li>
+  <li>State-Space Formulation
+    <ul>
+      <li>State vector \(x \in \mathbb R^n\) : 시스템의 내부 상태 변수</li>
+      <li>Input vector \(u\in \mathbb R^m\) : 시스템에 대한 제어 또는 외부 입력</li>
+      <li>Output vector \(y \in \mathbb R^p\) : 관심 있는 측정 가능한 양</li>
+      <li>System dynamics : 일차 미분 방정식으로 표현 \(\dot{\mathbf x}=\mathbf A \mathbf x+\mathbf B \mathbf u\)
+        <ul>
+          <li>\(\mathbf x=\left[x_1, \dot{x}_1\right]^T\)는 state vector, \(\mathbf u\)는 input,</li>
+          <li>\(\mathbf A\in\mathbb R^{n \times n}\)는 dynamic matrix \(\mathbf A=\left[\begin{array}{cc}
+0 &amp; 1 \\
+-\frac{k}{m} &amp; -\frac{c}{m}
+\end{array}\right]\)</li>
+          <li>\(\mathbf B \in \mathbb R^{n \times m}\)은 input matrix \(\mathbf B=\left[\begin{array}{c}
+0 \\
+\frac{1}{m}
+\end{array}\right] \dot{\mathbf x}\)</li>
+          <li>Output equation : \(\mathbf{y}=\mathbf{C x}+\mathbf{D u}\)
+            <ul>
+              <li>\(\mathbf{C} \in \mathbb{R}^{p \times n}\)는 output or sensor matrix</li>
+              <li>\(\mathbf{D} \in \mathbb{R}^{p \times m}\)는 feedthrough matrix</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="22-state-space-model">2.2. State Space Model</h3>
+
+<ul>
+  <li>Definition
+    <ul>
+      <li>Discrete-time dynamical system :
+        <ul>
+          <li>\(x(t+1)=A x(t)+B u(t), \quad y(t)=C x(t)+D u(t), \quad t=0,1,2,\)…</li>
+          <li>\(x(t) \in \mathbb{R}^n\) : t시점에서 state</li>
+          <li>\(u(t) \in\mathbb{R}^p\) : control variables</li>
+          <li>\(y(t) \in\mathbb{R}^k\)​ : specific outputs of interest</li>
+        </ul>
+      </li>
+      <li>Continuous-time model
+        <ul>
+          <li>\(\frac{d}{d t} x(t)=A x(t)+B u(t), \quad y(t)=C x(t)+D u(t), \quad t \geq 0\).</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/timeseries/Mamba360/fig3.png" alt="그림1" /></p>
+
+<ul>
+  <li>Model Formulation
+    <ul>
+      <li>Complexity 때문에 Multi-head self-attention 대신 SSM 사용</li>
+      <li>Continuous-time Latent State space는 linear ordinary differential equation으로 표현
+        <ul>
+          <li>\(\begin{aligned} \dot{x}(t) &amp; =\boldsymbol{A} x(t)+\boldsymbol{B} u(t) \\
+y(t) &amp; =\boldsymbol{C} x(t)+\boldsymbol{D} u(t) \end{aligned}\),</li>
+          <li>evolution parameter \(A \in \mathcal{R}^{N \times N}\)</li>
+          <li>projection parameter \(B \in \mathcal{R}^{N \times 1} \text { and } C \in \mathcal{R}^{N \times 1}\)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Discrete-time SSM
+    <ul>
+      <li>continuous parameters \(A, B, C\) 를 discrete하게 바꾸기 위해 time-scale parameter \(\Delta\) 사용</li>
+      <li>즉 \(\bar{A}=f_A(\Delta, A), \bar{B}=f_B(\Delta, A, B)\)​</li>
+      <li>\(\begin{array}{lll}
+x_k=\overline{\boldsymbol{A}} x_{k-1}+\overline{\boldsymbol{B}} u_k &amp; \overline{\boldsymbol{A}}=(\boldsymbol{I}-\Delta / 2 \cdot \boldsymbol{A})^{-1}(\boldsymbol{I}+\Delta / 2 \cdot \boldsymbol{A}) &amp; \\
+y_k=\overline{\boldsymbol{C}} x_k &amp; \overline{\boldsymbol{B}}=(\boldsymbol{I}-\Delta / 2 \cdot \boldsymbol{A})^{-1} \Delta \boldsymbol{B} &amp; \overline{\boldsymbol{C}}=\boldsymbol{C}\end{array}\)​.</li>
+      <li>원래는 위처럼 생겼음</li>
+    </ul>
+  </li>
+  <li>Convolutional Kernel Representation
+    <ul>
+      <li>하지만 위 식은 sequential nature 때문에 trainable하지 않음</li>
+      <li>그래서 아래처럼 continuous convolution을 사용</li>
+      <li>\(\begin{array}{lll}
+x_0=\overline{\boldsymbol{B}} u_0 &amp; x_1=\overline{\boldsymbol{A} \boldsymbol{B}} u_0+\overline{\boldsymbol{B}} u_1 &amp; x_2=\overline{\boldsymbol{A}}^2 \overline{\boldsymbol{B}} u_0+\overline{\boldsymbol{A} \boldsymbol{B}} u_1+\overline{\boldsymbol{B}} u_2 \\
+y_0=\overline{\boldsymbol{C} B} u_0 &amp; y_1=\overline{\boldsymbol{C} \boldsymbol{A} \boldsymbol{B}} u_0+\overline{\boldsymbol{C} B} u_1 &amp; y_2=\overline{\boldsymbol{C} \boldsymbol{A}}^2 \overline{\boldsymbol{B}} u_0+\overline{\boldsymbol{C} \boldsymbol{A} \boldsymbol{B}} u_1+\overline{\boldsymbol{C} B} u_2
+\end{array}\).</li>
+      <li>vectorize하면 아래와 같음</li>
+      <li>\(\begin{aligned}
+y_k &amp; =\overline{\boldsymbol{C A}}^k \overline{\boldsymbol{B}} u_0+\overline{\boldsymbol{C A}}^{k-1} \overline{\boldsymbol{B}} u_1+\cdots+\overline{\boldsymbol{C} \boldsymbol{A B}} u_{k-1}+\overline{\boldsymbol{C} \boldsymbol{B}} u_k \\
+y &amp; =\overline{\boldsymbol{K}} * u \\
+\overline{\boldsymbol{K}} \in \mathbb{R}^L: &amp; =\mathcal{K}_L(\overline{\boldsymbol{A}}, \overline{\boldsymbol{B}}, \overline{\boldsymbol{C}}):=\left(\overline{\boldsymbol{C}}^i \overline{\boldsymbol{B}}\right)_{i \in[L]}=\left(\overline{\boldsymbol{C B}}, \overline{\boldsymbol{C} \boldsymbol{A B}}, \ldots, \overline{\boldsymbol{C}}^{L-1} \overline{\boldsymbol{B}}\right) .
+\end{aligned}\).</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="3-recent-advances-in-state-space-models">3. Recent Advances in State Space Models</h2>
+
+<ul>
+  <li>Transformer의 limitations :
+    <ul>
+      <li>Computational Complexity</li>
+      <li>Large Memory Requirements : for storing embeddings and intermediate actiavations</li>
+      <li>Fixed Sequence Length : du to positional embeddings</li>
+      <li>Attention Mechanism Scalability : quadratic scaling with input length</li>
+      <li>Lack of Causality in Standard Attention : not inherently capture causality</li>
+    </ul>
+  </li>
+  <li>SSM의 categorization : 어떻게 long sequence를 다룰 것인가
+    <ul>
+      <li>Structured SSMs : based on S4 and variants</li>
+      <li>Recurrent SSMs : based on RNNs and variants</li>
+      <li>Gated SSMs : leveraging gating techniques</li>
+      <li>Miscellaneous SSMs : 기타 다양한 방법들</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="31-structured-ssms">3.1. Structured SSMs</h3>
+
+<ul>
+  <li>
+    <p>S4, HiPPO, H3, Liquid-S4 등…</p>
+  </li>
+  <li>
+    <p>long-range dependency를 효율적으로 파악하기 위해 다음과 같은 방법 사용 :</p>
+
+    <ul>
+      <li>
+        <p>polynomial projection operators</p>
+      </li>
+      <li>
+        <p>multi-input multi-output systems</p>
+      </li>
+      <li>
+        <p>and convolutional kernels</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="311-structured-state-space-sequence-s4">3.1.1. Structured State Space Sequence (S4)</h3>
+
+<ul>
+  <li>Higher-Order Polynomial Project Operator (HiPPO)
+    <ul>
+      <li>State and input transition matrices를 효율적으로 memorize</li>
+    </ul>
+  </li>
+  <li>Diagonal Plus Low-Rank Parametrization</li>
+  <li>SSM matrix (A)의 rank를 낮게 해서 diagonalizability and stability 보장</li>
+  <li>Efficient (convolutional) Kernel Computation
+    <ul>
+      <li>FFT와 iFFT 사용해서 complexity를 \(𝑂(𝑁 log(𝑁))\)로 만듬</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="312-high-order-polynomial-projection-operators-hippo">3.1.2. High-Order Polynomial Projection Operators (HiPPO)</h3>
+
+<ul>
+  <li>S4에 사용된 행렬의 수학적인 해석을 제공</li>
+  <li>4가지의 변형을 사용하는데,
+    <ul>
+      <li>the truncated Fourier basis polynomial (Hippo-FouT)</li>
+      <li>based on Lagurre polynomials(LagT)</li>
+      <li>based on Legendre polynomials(LegT)</li>
+      <li>based on Legendre polynomials with a sliding window(LegS)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="313-hungry-hungry-hippo-h3">3.1.3. Hungry Hungry HiPPO (H3)</h3>
+
+<ul>
+  <li>SSM에서의 2개의 challenges
+    <ul>
+      <li>첫째, difficulty in recalling earlier tokens
+        <ul>
+          <li>시퀀스 내에서 이전 토큰을 기억하는 데 어려움</li>
+        </ul>
+      </li>
+      <li>둘째, difficult in comparing the tokens across different sequences
+        <ul>
+          <li>서로 다른 시퀀스에서 토큰을 비교하는 데 어려움</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>극복하기 위한 새로운 방법의 3가지 핵심 요소
+    <ul>
+      <li>Multiplicative Interactions가 있는 Stacked SSMs
+        <ul>
+          <li>stacking two SSMs with multiplicative interactions between their input and output projections</li>
+        </ul>
+      </li>
+      <li>학습 효율성을 위한 FlashConv
+        <ul>
+          <li>FFT를 사용하여  training efficiency 향상</li>
+        </ul>
+      </li>
+      <li>Scaling을 위한 State-Passing
+        <ul>
+          <li>effectively splits the input into the largest possible chunks that can fit</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="314-global-convolution">3.1.4. Global Convolution</h3>
+
+<ul>
+  <li>원래는 input만큼 긴 conv kernel을 hidden state matrix에 곱했는데 - 불안정함</li>
+  <li>이 conv kernel을 parametrizing하는 방법을 제안</li>
+  <li>일반적으로 conv kernel은 FFT를 사용하는데, 느릴 수가 있어서 IO-aware algorithm 사용</li>
+</ul>
+
+<h3 id="317-ldstack">3.1.7. LDStack</h3>
+
+<ul>
+  <li>RNN이 다중 입력 다중 출력(MIMO)  Linear Dynamical System(LDS)으로 표현될 수 있음</li>
+  <li>이 때 Parallel scan이 사용됨</li>
+  <li>즉  Single Input Multiple Outputs (SIMO) LDS를 합쳐서  MIMO LDS를 approximate
+    <ul>
+      <li>essential characteristics를 유지하면서도 계산은 simple해짐</li>
+    </ul>
+  </li>
+  <li>LDS를 time-varying state space models로 볼 수 있음</li>
+</ul>
+
+<h3 id="318-s5">3.1.8 S5</h3>
+
+<ul>
+  <li>RNN을 다중 입력 다중 출력 선형 동적 시스템(LDS)으로 모델링한 LDStack을 state space models (SSMs)으로 확장</li>
+  <li>LDStack과 달리, S5 계층은 여러 입력 및 출력을 동시에 처리</li>
+</ul>
+
+<h2 id="32-gated-ssms">3.2. Gated SSMs</h2>
+
+<ul>
+  <li>FFT 연산 최적화를 위해 gating units를 사용</li>
+  <li>Toepliz NN은 position-encoded Toeplitz matrix로 token mixing</li>
+  <li>Mamba는 gated MLP로 SSM의 compoutational inefficiency 극복하고자 함</li>
+  <li>(무슨 말 ?) 더 읽어보자</li>
+</ul>
+
+<h3 id="323-toeplitz-neural-network-tnn">3.2.3. Toeplitz Neural Network (TNN)</h3>
+
+<ul>
+  <li>Transformer의 <strong>attention-mechanism</strong>과 <strong>positional embedding</strong>을 개선</li>
+  <li>position-encoded Toeplitz matrix를 사용하여 token-pair 관계 파악
+    <ul>
+      <li>space-time complexity를 \(O(NlogN)\)으로 줄임</li>
+      <li>Relative Position Encoder (RPE)로 상대적 위치를 생성해서 parameters가 input length에 독립적이게 함</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="324-mamba">3.2.4. Mamba</h3>
+
+<ul>
+  <li>Transformer의 quadratic computational and memory complexity에 주목</li>
+  <li>특히 SSM은  addressing tasks (selective copying, induction head)에서 비효율적이었음</li>
+  <li>Mamba가 이 문제를 푸는 방법은 :
+    <ul>
+      <li>novel parametrization approach for SSMs based on input characteristics</li>
+      <li>incorporating a simple selection mechanism</li>
+      <li>efficient hardware-aware algorithm based on selective scan</li>
+      <li>gated technique to reduce the dimensionality of global kernel operations</li>
+      <li>combine gated MLP[93] with the SSM module</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="4-applications-of-state-space-models">4. Applications of State Space Models</h2>
+
+<h3 id="41-language-domain-long-sequence">4.1. Language Domain (long sequence)</h3>
+
+<ul>
+  <li>원래는 Transformer 많이 썼는데 \(O(N^2)\) quadratic complexity \(\to\) long sequence 불가능</li>
+  <li>그래서  State Space Models (SSMs)이 등장
+    <ul>
+      <li>input data를 fixed-size latent state에 표현</li>
+      <li>하지만 그러다보니 capability to retrieve and copy에서 trade-off</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/timeseries/Mamba360/table2.png" alt="그림1" /></p>
+
+<h3 id="42-vision-domain">4.2. Vision domain</h3>
+
+<ul>
+  <li>Vision Mamba나 SiMBA와 같은 Vision-specific Mamba
+    <ul>
+      <li>utilize bidirectional and visual state space models</li>
+    </ul>
+  </li>
+  <li>SiMBA
+    <ul>
+      <li>sequence length and channel dimensions이 꼭 perfect square dimensions이 아니어도 됨</li>
+      <li>pyramid version of the transformer architecture (성능 향상)</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/timeseries/Mamba360/table3.png" alt="그림1" /></p>
+
+<h3 id="47-time-series-domain">4.7. Time Series Domain</h3>
+
+<ul>
+  <li>옛날에는 ARIMA 쓰다가 Transformer 등장하면서 variants가 많이 나옴
+    <ul>
+      <li>Informer, FEDFormer, PatchTST…</li>
+      <li>하지만 여전히 attention complexity 때문에 long-range dependency 못잡음</li>
+    </ul>
+  </li>
+  <li>그래서 SSM 모델인 Timemachine, SiMBA, MambaMix 등장</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/Mamba360/table11.png" alt="그림1" /></p>
+
+<p><img src="/assets/img/timeseries/Mamba360/table14.png" alt="그림1" /></p>
+
+<h2 id="6-conclusion">6. Conclusion</h2>
+
+<ul>
+  <li>SSM은 3가지 범주로 분류 가능 (structured, gated, and recurrent)</li>
+  <li>아직 Transformer가 더 잘하는 영역이 있긴 하지만 (맥락에서 정보를 검색하는 작업 등)
+    <ul>
+      <li>SiMBA는 트랜스포머와 Mamba 아키텍처를 결합해서 Time series에서 SOTA</li>
+    </ul>
+  </li>
+  <li>SSM을 large network로 안정적으로 확하는 것이 아직 해결되지 않은 문제</li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/abs/2404.16112)]]></summary></entry><entry><title type="html">(Code Review, ICLR 2022) Raindrop</title><link href="http://localhost:4000/pytorch/2024-09-24-raindrop/" rel="alternate" type="text/html" title="(Code Review, ICLR 2022) Raindrop" /><published>2024-09-24T00:00:00+09:00</published><updated>2024-09-24T18:34:03+09:00</updated><id>http://localhost:4000/pytorch/raindrop</id><content type="html" xml:base="http://localhost:4000/pytorch/2024-09-24-raindrop/"><![CDATA[<p><a href="https://arxiv.org/abs/2110.05357">(Paper) Graph-Guided Network for Irregularly Sampled Multivariate Time Series</a></p>
 
 <p><a href="https://lpppj.github.io/timeseries/2024-02-09-Raindrop">(Paper Review, ICLR 2022) Raindrop</a></p>
 
@@ -350,7 +763,189 @@
 
 <ul>
   <li>그리고 classification report가 출력된다.</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="pytorch" /><summary type="html"><![CDATA[[Raindrop github](https://github.com/mims-harvard/Raindrop)]]></summary></entry><entry><title type="html">(Code Review, ICLR 2024) Pathformer</title><link href="http://localhost:4000/pytorch/2024-09-09-pathformer/" rel="alternate" type="text/html" title="(Code Review, ICLR 2024) Pathformer" /><published>2024-09-09T00:00:00+09:00</published><updated>2024-09-10T19:09:25+09:00</updated><id>http://localhost:4000/pytorch/pathformer</id><content type="html" xml:base="http://localhost:4000/pytorch/2024-09-09-pathformer/"><![CDATA[<p><a href="https://openreview.net/pdf?id=lJkOCMP2aW">(Paper) Pathformer: Multi-scale Transformers with Adaptive Pathways for Time Series Forecasting</a></p>
+</ul>
+
+<p>끝 !</p>
+
+<ul>
+  <li>참고로 나의 경우에는 <code class="language-plaintext highlighter-rouge">from torch_scatter import gather_csr, scatter, segment_csr</code>가 안되어서 아래와 같이 주석 처리하고
+    <ul>
+      <li>pytorch를 보고 함수를 직접 작성하여 사용하였다.</li>
+      <li><a href="https://github.com/rusty1s/pytorch_scatter/blob/master/torch_scatter/scatter.py">pytorch_scatter 참고</a></li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># from torch_scatter import gather_csr, scatter, segment_csr
+</span><span class="kn">from</span> <span class="n">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="k">def</span> <span class="nf">broadcast</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">dim</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">dim</span> <span class="o">=</span> <span class="n">other</span><span class="p">.</span><span class="nf">dim</span><span class="p">()</span> <span class="o">+</span> <span class="n">dim</span>
+    <span class="k">if</span> <span class="n">src</span><span class="p">.</span><span class="nf">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dim</span><span class="p">):</span>
+            <span class="n">src</span> <span class="o">=</span> <span class="n">src</span><span class="p">.</span><span class="nf">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">src</span><span class="p">.</span><span class="nf">dim</span><span class="p">(),</span> <span class="n">other</span><span class="p">.</span><span class="nf">dim</span><span class="p">()):</span>
+        <span class="n">src</span> <span class="o">=</span> <span class="n">src</span><span class="p">.</span><span class="nf">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">src</span> <span class="o">=</span> <span class="n">src</span><span class="p">.</span><span class="nf">expand</span><span class="p">(</span><span class="n">other</span><span class="p">.</span><span class="nf">size</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">src</span>
+
+<span class="k">def</span> <span class="nf">scatter_sum</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                <span class="n">dim_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">:</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="nf">broadcast</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">src</span><span class="p">.</span><span class="nf">size</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">dim_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">size</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span> <span class="o">=</span> <span class="n">dim_size</span>
+        <span class="k">elif</span> <span class="n">index</span><span class="p">.</span><span class="nf">numel</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">size</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">size</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="n">index</span><span class="p">.</span><span class="nf">max</span><span class="p">())</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">src</span><span class="p">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">src</span><span class="p">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span><span class="p">.</span><span class="nf">scatter_add_</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">src</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">out</span><span class="p">.</span><span class="nf">scatter_add_</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">src</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">scatter_add</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                <span class="n">dim_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">:</span>
+    <span class="k">return</span> <span class="nf">scatter_sum</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">scatter_mul</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                <span class="n">dim_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="p">.</span><span class="n">ops</span><span class="p">.</span><span class="n">torch_scatter</span><span class="p">.</span><span class="nf">scatter_mul</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">scatter_mean</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                 <span class="n">dim_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">:</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="nf">scatter_sum</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)</span>
+    <span class="n">dim_size</span> <span class="o">=</span> <span class="n">out</span><span class="p">.</span><span class="nf">size</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
+
+    <span class="n">index_dim</span> <span class="o">=</span> <span class="n">dim</span>
+    <span class="k">if</span> <span class="n">index_dim</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">index_dim</span> <span class="o">=</span> <span class="n">index_dim</span> <span class="o">+</span> <span class="n">src</span><span class="p">.</span><span class="nf">dim</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">index</span><span class="p">.</span><span class="nf">dim</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="n">index_dim</span><span class="p">:</span>
+        <span class="n">index_dim</span> <span class="o">=</span> <span class="n">index</span><span class="p">.</span><span class="nf">dim</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="n">ones</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">ones</span><span class="p">(</span><span class="n">index</span><span class="p">.</span><span class="nf">size</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">src</span><span class="p">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">src</span><span class="p">.</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="nf">scatter_sum</span><span class="p">(</span><span class="n">ones</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">index_dim</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)</span>
+    <span class="n">count</span><span class="p">[</span><span class="n">count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="nf">broadcast</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">out</span><span class="p">.</span><span class="nf">is_floating_point</span><span class="p">():</span>
+        <span class="n">out</span><span class="p">.</span><span class="nf">true_divide_</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">out</span><span class="p">.</span><span class="nf">div_</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">rounding_mode</span><span class="o">=</span><span class="sh">'</span><span class="s">floor</span><span class="sh">'</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+
+<span class="k">def</span> <span class="nf">scatter_min</span><span class="p">(</span>
+        <span class="n">src</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+        <span class="n">dim_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]:</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="p">.</span><span class="n">ops</span><span class="p">.</span><span class="n">torch_scatter</span><span class="p">.</span><span class="nf">scatter_min</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">scatter_max</span><span class="p">(</span>
+        <span class="n">src</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+        <span class="n">dim_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]:</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="p">.</span><span class="n">ops</span><span class="p">.</span><span class="n">torch_scatter</span><span class="p">.</span><span class="nf">scatter_max</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">scatter</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="nb">reduce</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="sh">"</span><span class="s">sum</span><span class="sh">"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sh">"""</span><span class="s">
+    |
+
+    .. image:: https://raw.githubusercontent.com/rusty1s/pytorch_scatter/
+            master/docs/source/_figures/add.svg?sanitize=true
+        :align: center
+        :width: 400px
+
+    |
+
+    Reduces all values from the :attr:`src` tensor into :attr:`out` at the
+    indices specified in the :attr:`index` tensor along a given axis
+    :attr:`dim`.
+    For each value in :attr:`src`, its output index is specified by its index
+    in :attr:`src` for dimensions outside of :attr:`dim` and by the
+    corresponding value in :attr:`index` for dimension :attr:`dim`.
+    The applied reduction is defined via the :attr:`reduce` argument.
+
+    Formally, if :attr:`src` and :attr:`index` are :math:`n`-dimensional
+    tensors with size :math:`(x_0, ..., x_{i-1}, x_i, x_{i+1}, ..., x_{n-1})`
+    and :attr:`dim` = `i`, then :attr:`out` must be an :math:`n`-dimensional
+    tensor with size :math:`(x_0, ..., x_{i-1}, y, x_{i+1}, ..., x_{n-1})`.
+    Moreover, the values of :attr:`index` must be between :math:`0` and
+    :math:`y - 1`, although no specific ordering of indices is required.
+    The :attr:`index` tensor supports broadcasting in case its dimensions do
+    not match with :attr:`src`.
+
+    For one-dimensional tensors with :obj:`reduce=</span><span class="sh">"</span><span class="s">sum</span><span class="sh">"</span><span class="s">`, the operation
+    computes
+
+    .. math::
+        \mathrm{out}_i = \mathrm{out}_i + \sum_j~\mathrm{src}_j
+
+    where :math:`\sum_j` is over :math:`j` such that
+    :math:`\mathrm{index}_j = i`.
+
+    .. note::
+
+        This operation is implemented via atomic operations on the GPU and is
+        therefore **non-deterministic** since the order of parallel operations
+        to the same value is undetermined.
+        For floating-point variables, this results in a source of variance in
+        the result.
+
+    :param src: The source tensor.
+    :param index: The indices of elements to scatter.
+    :param dim: The axis along which to index. (default: :obj:`-1`)
+    :param out: The destination tensor.
+    :param dim_size: If :attr:`out` is not given, automatically create output
+        with size :attr:`dim_size` at dimension :attr:`dim`.
+        If :attr:`dim_size` is not given, a minimal sized output tensor
+        according to :obj:`index.max() + 1` is returned.
+    :param reduce: The reduce operation (:obj:`</span><span class="sh">"</span><span class="s">sum</span><span class="sh">"</span><span class="s">`, :obj:`</span><span class="sh">"</span><span class="s">mul</span><span class="sh">"</span><span class="s">`,
+        :obj:`</span><span class="sh">"</span><span class="s">mean</span><span class="sh">"</span><span class="s">`, :obj:`</span><span class="sh">"</span><span class="s">min</span><span class="sh">"</span><span class="s">` or :obj:`</span><span class="sh">"</span><span class="s">max</span><span class="sh">"</span><span class="s">`). (default: :obj:`</span><span class="sh">"</span><span class="s">sum</span><span class="sh">"</span><span class="s">`)
+
+    :rtype: :class:`Tensor`
+
+    .. code-block:: python
+
+        from torch_scatter import scatter
+
+        src = torch.randn(10, 6, 64)
+        index = torch.tensor([0, 1, 0, 1, 2, 1])
+
+        # Broadcasting in the first and last dim.
+        out = scatter(src, index, dim=1, reduce=</span><span class="sh">"</span><span class="s">sum</span><span class="sh">"</span><span class="s">)
+
+        print(out.size())
+
+    .. code-block::
+
+        torch.Size([10, 3, 64])
+    </span><span class="sh">"""</span>
+    <span class="k">if</span> <span class="nb">reduce</span> <span class="o">==</span> <span class="sh">'</span><span class="s">sum</span><span class="sh">'</span> <span class="ow">or</span> <span class="nb">reduce</span> <span class="o">==</span> <span class="sh">'</span><span class="s">add</span><span class="sh">'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nf">scatter_sum</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">reduce</span> <span class="o">==</span> <span class="sh">'</span><span class="s">mul</span><span class="sh">'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nf">scatter_mul</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">reduce</span> <span class="o">==</span> <span class="sh">'</span><span class="s">mean</span><span class="sh">'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nf">scatter_mean</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">reduce</span> <span class="o">==</span> <span class="sh">'</span><span class="s">min</span><span class="sh">'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nf">scatter_min</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="nb">reduce</span> <span class="o">==</span> <span class="sh">'</span><span class="s">max</span><span class="sh">'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nf">scatter_max</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="nb">ValueError</span>
+
+</code></pre></div></div>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="pytorch" /><summary type="html"><![CDATA[[Raindrop github](https://github.com/mims-harvard/Raindrop)]]></summary></entry><entry><title type="html">(Code Review, ICLR 2024) Pathformer</title><link href="http://localhost:4000/pytorch/2024-09-09-pathformer/" rel="alternate" type="text/html" title="(Code Review, ICLR 2024) Pathformer" /><published>2024-09-09T00:00:00+09:00</published><updated>2024-09-24T18:29:39+09:00</updated><id>http://localhost:4000/pytorch/pathformer</id><content type="html" xml:base="http://localhost:4000/pytorch/2024-09-09-pathformer/"><![CDATA[<p><a href="https://openreview.net/pdf?id=lJkOCMP2aW">(Paper) Pathformer: Multi-scale Transformers with Adaptive Pathways for Time Series Forecasting</a></p>
 
 <p><a href="https://lpppj.github.io/timeseries/2024-05-23-Pathformer">(Paper Review, ICLR 2024) Pathformer</a></p>
 
@@ -2345,105 +2940,4 @@ k_{\text {embedding }}= &amp; {\left[\sin \left(10^{\frac{0 \times 4}{w-1}} t\ri
       <li>extend CSDI to downstream tasks such as classifications</li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[NeurIPS 2021](https://arxiv.org/pdf/2107.03502)]]></summary></entry><entry><title type="html">Timegrad :Autoregressive Denoising Diffusion Models for Multivariate Probabilistic Time Series Forecasting (ICML 2021)</title><link href="http://localhost:4000/timeseries/2024-07-09-Timegrad/" rel="alternate" type="text/html" title="Timegrad :Autoregressive Denoising Diffusion Models for Multivariate Probabilistic Time Series Forecasting (ICML 2021)" /><published>2024-07-09T00:00:00+09:00</published><updated>2024-07-11T14:35:37+09:00</updated><id>http://localhost:4000/timeseries/Timegrad</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-09-Timegrad/"><![CDATA[<h2 id="abstract">Abstract</h2>
-
-<ul>
-  <li><strong>TimeGrad</strong> : auto-regressive model for multivariate time series forecasting, using diffusion
-    <ul>
-      <li>learns gradients by optimizing a variational bound on the data likelihood</li>
-      <li>inference는 white noise에서 학습한 분포의 sample로 convert (though a Markov chain)</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="1-introduction">1. Introduction</h2>
-
-<p>pass</p>
-
-<h2 id="2-diffusion-probabilistic-model">2. Diffusion Probabilistic Model</h2>
-
-<p>pass</p>
-
-<h2 id="3-timegrad-method">3. TimeGrad Method</h2>
-
-<ul>
-  <li>Multivariate time series \(x_{i, t}^0 \in \mathbb{R}\) for \(i \in\{1, \ldots, D\}\) where \(t\) is the time index
-    <ul>
-      <li>at time \(t\), \(\mathbf{x}_t^0 \in \mathbb{R}^D\)</li>
-      <li>context window \(\left[1, t_0\right)\), prediction interval \(\left[t_0, T\right]\)</li>
-    </ul>
-  </li>
-  <li>TimeGrad 이전까지는 full joint distribution at each time step을 모델링 했어야 함
-    <ul>
-      <li>하지만 full covariance matrix을 모델링 하는 것은 computation cost 측면에서 impractical</li>
-      <li>그래서 Gaussians with low-rank covariance matrices으로 approximate 하기도 함 (Vec-LSTM)</li>
-    </ul>
-  </li>
-  <li>본 논문에서는 과거 데이터를 보고 미래 시점의 conditional distribution을 학습
-    <ul>
-      <li>formula : \(q_{\mathcal{X}}\left(\mathbf{x}_{t_0: T}^0 \mid \mathbf{x}_{1: t_0-1}^0, \mathbf{c}_{1: T}\right)=\Pi_{t=t_0}^T q_{\mathcal{X}}\left(\mathbf{x}_t^0 \mid \mathbf{x}_{1: t-1}^0, \mathbf{c}_{1: T}\right)\)​​</li>
-    </ul>
-  </li>
-</ul>
-
-<p><img src="/assets/img/timeseries/Timegrad/fig1.png" alt="그림1" /></p>
-
-<h3 id="31-training">3.1. Training</h3>
-
-<ul>
-  <li>이전 시점 데이터 \(\mathbf{x}_{t-1}^0\)과 covariates \(\mathbf{c}_{t-1}\)이 들어오면 hidden state \(\mathbf{h}_{t-2}\)를 \(\mathbf{h}_{t-1}\)​로 업데이트
-    <ul>
-      <li>즉 \(\mathbf{h}_t=\mathrm{RNN}_\theta\left(\operatorname{concat}\left(\mathbf{x}_t^0, \mathbf{c}_t\right), \mathbf{h}_{t-1}\right)\)</li>
-    </ul>
-  </li>
-  <li>그러면 위에 있는 fomula는 \(\Pi_{t=t_0}^T p_\theta\left(\mathbf{x}_t^0 \mid \mathbf{h}_{t-1}\right)\)가 되고
-    <ul>
-      <li>Negative log-likelihood \(\sum_{t=t_0}^T-\log p_\theta\left(\mathbf{x}_t^0 \mid \mathbf{h}_{t-1}\right)\)를 minimize하도록 학습</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="32-inference">3.2. Inference</h3>
-
-<ul>
-  <li>Inference할 때에는 한 시점씩 auto-regressive하게 작동
-    <ul>
-      <li>만약 다음 시점의 sample \(\mathbf{x}_{T+1}^0\)을 얻었다면 위에서 설명한 것처럼 hidden state \(\mathbf{h}_{T+1}\)를 얻고</li>
-      <li>같은 과정을 반복. 얻은 sample로 또 다음 sample을 얻고…</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="33-scaling">3.3. Scaling</h3>
-
-<ul>
-  <li>각 context window를 scale normalizing</li>
-  <li>Residual connection은 사용하지 않음</li>
-</ul>
-
-<h3 id="34-covariates">3.4. Covariates</h3>
-
-<ul>
-  <li>\(\mathbf{c}_t\)는 time-dependent and time- independent embeddings으로 구성되는 embeddings for categorical features</li>
-  <li>All covariates are thus known for the periods we wish to forecast !</li>
-</ul>
-
-<h2 id="4-experiments">4. Experiments</h2>
-
-<ul>
-  <li>사용한 데이터셋</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/Timegrad/table1.png" alt="그림11" /></p>
-
-<ul>
-  <li>Model architecture</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/Timegrad/fig2.png" alt="그림2" /></p>
-
-<ul>
-  <li>Results</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/Timegrad/table2.png" alt="그림12" /></p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICML 2021](https://arxiv.org/pdf/2101.12072)]]></summary></entry></feed>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[NeurIPS 2021](https://arxiv.org/pdf/2107.03502)]]></summary></entry></feed>

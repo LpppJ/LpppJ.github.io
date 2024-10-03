@@ -45,7 +45,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="(Code Review, ICLR 2022) Raindrop" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-09-24T18:29:29+09:00","datePublished":"2024-09-24T00:00:00+09:00","description":"Raindrop github","headline":"(Code Review, ICLR 2022) Raindrop","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/pytorch/2024-09-24-raindrop/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/pytorch/2024-09-24-raindrop/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-09-24T18:34:03+09:00","datePublished":"2024-09-24T00:00:00+09:00","description":"Raindrop github","headline":"(Code Review, ICLR 2022) Raindrop","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/pytorch/2024-09-24-raindrop/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/pytorch/2024-09-24-raindrop/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -108,7 +108,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2024-09-24T18:29:29+09:00',
+    INDEX_KEY: 'index--2024-10-03T20:00:12+09:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -596,6 +596,188 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 <ul>
   <li>그리고 classification report가 출력된다.</li>
 </ul>
+
+<p>끝 !</p>
+
+<ul>
+  <li>참고로 나의 경우에는 <code class="language-plaintext highlighter-rouge">from torch_scatter import gather_csr, scatter, segment_csr</code>가 안되어서 아래와 같이 주석 처리하고
+    <ul>
+      <li>pytorch를 보고 함수를 직접 작성하여 사용하였다.</li>
+      <li><a href="https://github.com/rusty1s/pytorch_scatter/blob/master/torch_scatter/scatter.py">pytorch_scatter 참고</a></li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># from torch_scatter import gather_csr, scatter, segment_csr
+</span><span class="kn">from</span> <span class="n">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="k">def</span> <span class="nf">broadcast</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">dim</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">dim</span> <span class="o">=</span> <span class="n">other</span><span class="p">.</span><span class="nf">dim</span><span class="p">()</span> <span class="o">+</span> <span class="n">dim</span>
+    <span class="k">if</span> <span class="n">src</span><span class="p">.</span><span class="nf">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dim</span><span class="p">):</span>
+            <span class="n">src</span> <span class="o">=</span> <span class="n">src</span><span class="p">.</span><span class="nf">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">src</span><span class="p">.</span><span class="nf">dim</span><span class="p">(),</span> <span class="n">other</span><span class="p">.</span><span class="nf">dim</span><span class="p">()):</span>
+        <span class="n">src</span> <span class="o">=</span> <span class="n">src</span><span class="p">.</span><span class="nf">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">src</span> <span class="o">=</span> <span class="n">src</span><span class="p">.</span><span class="nf">expand</span><span class="p">(</span><span class="n">other</span><span class="p">.</span><span class="nf">size</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">src</span>
+
+<span class="k">def</span> <span class="nf">scatter_sum</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                <span class="n">dim_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">:</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="nf">broadcast</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">src</span><span class="p">.</span><span class="nf">size</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">dim_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">size</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span> <span class="o">=</span> <span class="n">dim_size</span>
+        <span class="k">elif</span> <span class="n">index</span><span class="p">.</span><span class="nf">numel</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">size</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">size</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="n">index</span><span class="p">.</span><span class="nf">max</span><span class="p">())</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">src</span><span class="p">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">src</span><span class="p">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span><span class="p">.</span><span class="nf">scatter_add_</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">src</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">out</span><span class="p">.</span><span class="nf">scatter_add_</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">src</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">scatter_add</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                <span class="n">dim_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">:</span>
+    <span class="k">return</span> <span class="nf">scatter_sum</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">scatter_mul</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                <span class="n">dim_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="p">.</span><span class="n">ops</span><span class="p">.</span><span class="n">torch_scatter</span><span class="p">.</span><span class="nf">scatter_mul</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">scatter_mean</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                 <span class="n">dim_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">:</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="nf">scatter_sum</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)</span>
+    <span class="n">dim_size</span> <span class="o">=</span> <span class="n">out</span><span class="p">.</span><span class="nf">size</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
+
+    <span class="n">index_dim</span> <span class="o">=</span> <span class="n">dim</span>
+    <span class="k">if</span> <span class="n">index_dim</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">index_dim</span> <span class="o">=</span> <span class="n">index_dim</span> <span class="o">+</span> <span class="n">src</span><span class="p">.</span><span class="nf">dim</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">index</span><span class="p">.</span><span class="nf">dim</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="n">index_dim</span><span class="p">:</span>
+        <span class="n">index_dim</span> <span class="o">=</span> <span class="n">index</span><span class="p">.</span><span class="nf">dim</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="n">ones</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">ones</span><span class="p">(</span><span class="n">index</span><span class="p">.</span><span class="nf">size</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">src</span><span class="p">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">src</span><span class="p">.</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="nf">scatter_sum</span><span class="p">(</span><span class="n">ones</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">index_dim</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)</span>
+    <span class="n">count</span><span class="p">[</span><span class="n">count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="nf">broadcast</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">out</span><span class="p">.</span><span class="nf">is_floating_point</span><span class="p">():</span>
+        <span class="n">out</span><span class="p">.</span><span class="nf">true_divide_</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">out</span><span class="p">.</span><span class="nf">div_</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">rounding_mode</span><span class="o">=</span><span class="sh">'</span><span class="s">floor</span><span class="sh">'</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+
+<span class="k">def</span> <span class="nf">scatter_min</span><span class="p">(</span>
+        <span class="n">src</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+        <span class="n">dim_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]:</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="p">.</span><span class="n">ops</span><span class="p">.</span><span class="n">torch_scatter</span><span class="p">.</span><span class="nf">scatter_min</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">scatter_max</span><span class="p">(</span>
+        <span class="n">src</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+        <span class="n">dim_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]:</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="p">.</span><span class="n">ops</span><span class="p">.</span><span class="n">torch_scatter</span><span class="p">.</span><span class="nf">scatter_max</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">scatter</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="nb">reduce</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="sh">"</span><span class="s">sum</span><span class="sh">"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sh">"""</span><span class="s">
+    |
+
+    .. image:: https://raw.githubusercontent.com/rusty1s/pytorch_scatter/
+            master/docs/source/_figures/add.svg?sanitize=true
+        :align: center
+        :width: 400px
+
+    |
+
+    Reduces all values from the :attr:`src` tensor into :attr:`out` at the
+    indices specified in the :attr:`index` tensor along a given axis
+    :attr:`dim`.
+    For each value in :attr:`src`, its output index is specified by its index
+    in :attr:`src` for dimensions outside of :attr:`dim` and by the
+    corresponding value in :attr:`index` for dimension :attr:`dim`.
+    The applied reduction is defined via the :attr:`reduce` argument.
+
+    Formally, if :attr:`src` and :attr:`index` are :math:`n`-dimensional
+    tensors with size :math:`(x_0, ..., x_{i-1}, x_i, x_{i+1}, ..., x_{n-1})`
+    and :attr:`dim` = `i`, then :attr:`out` must be an :math:`n`-dimensional
+    tensor with size :math:`(x_0, ..., x_{i-1}, y, x_{i+1}, ..., x_{n-1})`.
+    Moreover, the values of :attr:`index` must be between :math:`0` and
+    :math:`y - 1`, although no specific ordering of indices is required.
+    The :attr:`index` tensor supports broadcasting in case its dimensions do
+    not match with :attr:`src`.
+
+    For one-dimensional tensors with :obj:`reduce=</span><span class="sh">"</span><span class="s">sum</span><span class="sh">"</span><span class="s">`, the operation
+    computes
+
+    .. math::
+        \mathrm{out}_i = \mathrm{out}_i + \sum_j~\mathrm{src}_j
+
+    where :math:`\sum_j` is over :math:`j` such that
+    :math:`\mathrm{index}_j = i`.
+
+    .. note::
+
+        This operation is implemented via atomic operations on the GPU and is
+        therefore **non-deterministic** since the order of parallel operations
+        to the same value is undetermined.
+        For floating-point variables, this results in a source of variance in
+        the result.
+
+    :param src: The source tensor.
+    :param index: The indices of elements to scatter.
+    :param dim: The axis along which to index. (default: :obj:`-1`)
+    :param out: The destination tensor.
+    :param dim_size: If :attr:`out` is not given, automatically create output
+        with size :attr:`dim_size` at dimension :attr:`dim`.
+        If :attr:`dim_size` is not given, a minimal sized output tensor
+        according to :obj:`index.max() + 1` is returned.
+    :param reduce: The reduce operation (:obj:`</span><span class="sh">"</span><span class="s">sum</span><span class="sh">"</span><span class="s">`, :obj:`</span><span class="sh">"</span><span class="s">mul</span><span class="sh">"</span><span class="s">`,
+        :obj:`</span><span class="sh">"</span><span class="s">mean</span><span class="sh">"</span><span class="s">`, :obj:`</span><span class="sh">"</span><span class="s">min</span><span class="sh">"</span><span class="s">` or :obj:`</span><span class="sh">"</span><span class="s">max</span><span class="sh">"</span><span class="s">`). (default: :obj:`</span><span class="sh">"</span><span class="s">sum</span><span class="sh">"</span><span class="s">`)
+
+    :rtype: :class:`Tensor`
+
+    .. code-block:: python
+
+        from torch_scatter import scatter
+
+        src = torch.randn(10, 6, 64)
+        index = torch.tensor([0, 1, 0, 1, 2, 1])
+
+        # Broadcasting in the first and last dim.
+        out = scatter(src, index, dim=1, reduce=</span><span class="sh">"</span><span class="s">sum</span><span class="sh">"</span><span class="s">)
+
+        print(out.size())
+
+    .. code-block::
+
+        torch.Size([10, 3, 64])
+    </span><span class="sh">"""</span>
+    <span class="k">if</span> <span class="nb">reduce</span> <span class="o">==</span> <span class="sh">'</span><span class="s">sum</span><span class="sh">'</span> <span class="ow">or</span> <span class="nb">reduce</span> <span class="o">==</span> <span class="sh">'</span><span class="s">add</span><span class="sh">'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nf">scatter_sum</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">reduce</span> <span class="o">==</span> <span class="sh">'</span><span class="s">mul</span><span class="sh">'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nf">scatter_mul</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">reduce</span> <span class="o">==</span> <span class="sh">'</span><span class="s">mean</span><span class="sh">'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nf">scatter_mean</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">reduce</span> <span class="o">==</span> <span class="sh">'</span><span class="s">min</span><span class="sh">'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nf">scatter_min</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="nb">reduce</span> <span class="o">==</span> <span class="sh">'</span><span class="s">max</span><span class="sh">'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nf">scatter_max</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="nb">ValueError</span>
+
+</code></pre></div></div>
 
   
 </article>
