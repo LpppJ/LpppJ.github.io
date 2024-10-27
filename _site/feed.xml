@@ -1,5 +1,331 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-10-27T11:03:06+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">T-PATCHGNN: Irregular Multivariate Time Series Forecasting: A Transformable Patching Graph Neural Networks Approach (ICML 2024)</title><link href="http://localhost:4000/timeseries/2024-10-27-T-PATCHGNN/" rel="alternate" type="text/html" title="T-PATCHGNN: Irregular Multivariate Time Series Forecasting: A Transformable Patching Graph Neural Networks Approach (ICML 2024)" /><published>2024-10-27T00:00:00+09:00</published><updated>2024-10-27T05:37:21+09:00</updated><id>http://localhost:4000/timeseries/T-PATCHGNN</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-10-27-T-PATCHGNN/"><![CDATA[<h2 id="abstract">Abstract</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-10-28T03:20:11+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">Mamba: Linear-Time Sequence Modeling with Selective State Spaces (Arxiv 2023)</title><link href="http://localhost:4000/timeseries/2024-10-28-mamba/" rel="alternate" type="text/html" title="Mamba: Linear-Time Sequence Modeling with Selective State Spaces (Arxiv 2023)" /><published>2024-10-28T00:00:00+09:00</published><updated>2024-10-28T03:20:09+09:00</updated><id>http://localhost:4000/timeseries/mamba</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-10-28-mamba/"><![CDATA[<h2 id="abstract">Abstract</h2>
+
+<ul>
+  <li>많은 subquadratic-time architectures (linear attention, gated convolution and recurrent models, and structured state space models (SSMs))가 Transformer의 연산 효율성을 해결하기 위해 제안되었지만
+    <ul>
+      <li>content-based reasoning에서는 여전히 약한 모습</li>
+    </ul>
+  </li>
+  <li>그래서 본 논문에서 제시하는 Mamba는
+    <ul>
+      <li><strong>SSM parameters를 input의 함수 형태</strong>로 놓아서 모델이 selectively propagate or forget information 할 수 있도록 함</li>
+      <li>그리고 recurrent 모드로 학습을 진행하게 되면 중간 Hidden State 크기가 매우 커질 수 있기 때문에
+        <ul>
+          <li><strong>hardware-aware parallel algorithm</strong>을 사용하여 hidden State를 메모리에 저장하지 않고 병렬적으로 scan 연산함</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="1-introduction">1. Introduction</h2>
+
+<ul>
+  <li><strong>Selection Mechanism</strong>
+    <ul>
+      <li>parameterizing the SSM parameters based on the input
+        <ul>
+          <li>\(\to\) 필요한 정보만 기억하고 필요없는 정보 filter out</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Hardware-aware Algorithm</strong>
+    <ul>
+      <li>연산 커널을 결합하는 방식(커널 융합)으로 메모리 입출력 과정을 최적화하고 오버헤드를 줄임</li>
+      <li>고속 메모리(SRAM)를 활용해 느린 GPU 메모리(HBM) 의존도를 줄여 연산 속도를 높이겠다는 것</li>
+      <li>backpropagation 할 때에는 hidden state를 저장하지 않고 필요할 때마다 재계산함으로써 메모리 사용량을 최소화</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/timeseries/mamba/fig1.png" alt="그림1" /></p>
+
+<ul>
+  <li><strong>Architecture</strong>
+    <ul>
+      <li>기존 SSM architectures와 Transformer의 MLP blocks을 합쳐서 Mamba를 만듬</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="2-state-space-models">2. State Space Models</h2>
+
+<ul>
+  <li>Structured state space sequence models (S4)
+    <ul>
+      <li>inspired by a particular continuous system :
+        <ul>
+          <li>1-dimensional function or sequence $x(t) \in \mathbb{R} \mapsto y(t) \in \mathbb{R}$ through an implicit latent state $h(t) \in \mathbb{R}^N$.</li>
+          <li>\(\begin{aligned} h^{\prime}(t) &amp; =A h(t)+B x(t) \\ y(t) &amp; =C h(t)\end{aligned}\) (1)</li>
+          <li>4개의 parameters \((\Delta, A, B, C)\)로 정의됨 (아직 input의 함수 형태가 아님)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Discretization</strong>
+    <ul>
+      <li>첫번째 단계는 “continuous parameters” \((\Delta, A, B)\)를 “discrete parameters” \((\bar{A}, \bar{B})\)로 바꾸는 것
+        <ul>
+          <li>fixed formulas \(\overline{A}=f_A(\Delta, A)\) and \(\overline{B}=f_B(\Delta, A, B)\)를 사용</li>
+          <li>\(\left(f_A, f_B\right)\)는 discretization rule</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Computation</strong>
+    <ul>
+      <li>\((\Delta, A, B, C) \mapsto(\bar{A}, \bar{B}, C)\) 변환이 끝났으면 그 다음에는 다음 두 가지 형태의 computation 가능
+        <ul>
+          <li>a linear recurrence :
+            <ul>
+              <li>\(\begin{aligned} h_t &amp; =\overline{A} h_{t-1}+\overline{B} x_t \\ y_t &amp; =C h_t\end{aligned}\) (2) 또는</li>
+            </ul>
+          </li>
+          <li>a global convolution :
+            <ul>
+              <li>\(\begin{aligned} \bar{K} &amp; =\left(C \bar{B}, C \overline{A B}, \ldots, C \bar{A}^k \bar{B}, \ldots\right) \\ y &amp; =x * \bar{K}\end{aligned}\) (3)</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Linear Time Invariance (LTI)</strong>
+    <ul>
+      <li>위 (1) (2) (3) 모델들은 model’s dynamics가 time-invariant</li>
+      <li>하지만 본 논문에서는 이러한 LTI property가 근본적인 한계가 있음을 밝히고
+        <ul>
+          <li>LTI를 제거하면서도 efficiency bottlenecks를 극복함을 제시함</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Structure and Dimensions</strong>
+    <ul>
+      <li>\(A\) matrix를 사용하기 때문에 SSM인거고, 이때 \(A \in \mathbb{R}^{N \times N}, B \in \mathbb{R}^{N \times 1}, C \in \mathbb{R}^{1 \times N}\)</li>
+      <li>total hidden state has dimension은: \(𝐷𝑁\) per input</li>
+      <li>the sequence length requires \(𝑂(𝐵𝐿𝐷𝑁)\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="3-selective-state-space-models">3. Selective State Space Models</h2>
+
+<ul>
+  <li>3.1절에서는 selection mechanism을 소개하고</li>
+  <li>3.2절에서는 어떻게 selection mechanism이 SSM과 같이 쓰일 수 있는지 보고</li>
+  <li>3.3절에서는 hardware-aware algorithm을 알아보고</li>
+  <li>3.4절에서는 simple SSM을 attention이나 MLP없이 알아보고</li>
+  <li>3.5절에서는 additional properties of selection mechanisms를 논의한다</li>
+</ul>
+
+<h3 id="31-motivation-selection-as-a-means-of-compression">3.1. Motivation: Selection as a Means of Compression</h3>
+
+<ul>
+  <li>sequence modeling의 본질적인 문제는 <strong>small state에 context를 압축</strong>하는 것
+    <ul>
+      <li>Trade off : 압축을 안하면 inefficient하고(Transformer) efficient하면 압축을 너무 많이 하고(RNN)</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/timeseries/mamba/fig2.png" alt="그림1" /></p>
+
+<ul>
+  <li>Synthetic task 2가지
+    <ul>
+      <li><strong>Selective Copying</strong>
+        <ul>
+          <li>필요한 tokens와 아닌 것들을 구별하기 위해 content-aware reasoning하는 task</li>
+        </ul>
+      </li>
+      <li><strong>Induction Heads</strong>
+        <ul>
+          <li>다음에 뭐가 올지 추론하기 위해 context-aware reasoning하는 task</li>
+        </ul>
+      </li>
+      <li>이 두 가지는 위에서 소개한 LTI mode로는 하기 어렵다</li>
+    </ul>
+  </li>
+  <li>결국에는 efficient하려면 small state를 가져야 하는데, 그걸 “잘” 하려면 selectivity를 “잘” 해야 함</li>
+</ul>
+
+<h3 id="32--improving-ssms-with-selection">3.2.  Improving SSMs with Selection</h3>
+
+<ul>
+  <li>본 논문에서 소개하는 selection mechanism은 model의 parameters를 input-dependent하게 만드는 것
+    <ul>
+      <li>\(\Delta, B, C\)을 length dimension \(L\)로 만듬 (즉 time-invariant에서 time-varying으로)</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/timeseries/mamba/algorithm12.png" alt="그림1" /></p>
+
+<h3 id="33-efficient-implementation-of-selective-ssms">3.3 Efficient Implementation of Selective SSMs</h3>
+
+<ul>
+  <li>Convolution이나 attention처럼 GPU-friendly하게 Selective SSM을 만들고 싶은 거고</li>
+  <li>즉 시간에 따라 필요한 정보를 선택적으로 처리하겠다는 것. 그러면 더 빠르게 긴 시퀀스를 처리</li>
+</ul>
+
+<p><strong>3.3.1 Motivation of Prior Models</strong></p>
+
+<ul>
+  <li>paying speed and memory costs 없이 maximize hidden state dimension하고 싶음</li>
+  <li>Recurrent mode는 hidden이 input보다 훨씬 커서 메모리 사용량이 많음
+    <ul>
+      <li>그래서 input의 shape (=output의 shape)과 같은 conv를 쓰겠다</li>
+    </ul>
+  </li>
+  <li>기존 LTI는 데이터 특성을 잘 반영 못했지만 Mamba는 순환적 요소와 컨볼루션적 요소를 동시에 사용해 모델의 효율성을 극대화 !</li>
+</ul>
+
+<p><strong>3.3.2 Overview of Selective Scan: Hardware-Aware State Expansion</strong></p>
+
+<ul>
+  <li>LTI의 한계를 극복하는 selection mechanism을 소개:</li>
+  <li>문제는 (1) the sequential nature of recurrence, and (2) the large memory usage
+    <ul>
+      <li>(2) the large memory usage는 kernel fusion으로 해결
+        <ul>
+          <li>scan input \((\bar{A}, \bar{B})\) of size \((B, L, D, N)\)을 HBM에 저장하는 것이 아니라</li>
+          <li>the SSM parameters \((\triangle, A, B, C)\)의 final output \((B, L, D)\)만 저장</li>
+          <li>discretization이랑 recurrence는 SRAM에서 수행</li>
+        </ul>
+      </li>
+      <li>(1) the sequential nature of recurrence는 recomputation으로 해결
+        <ul>
+          <li>intermediate states를 저장하지 않는데 이건 backpropagation에서 필요하니까</li>
+          <li>그냥 다시 계산함 (recomputation)</li>
+          <li>그 결과 FlashAttention과 유사한 memory efficiency</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="34-a-simplified-ssm-architecture">3.4 A Simplified SSM Architecture</h3>
+
+<ul>
+  <li>Mamba는 linear attention과 MLP를 결합해서 gated attention unit(GAP)처럼 만듬</li>
+  <li>model dimension을 D에서 expansion factor E를 사용해서 늘려줌
+    <ul>
+      <li>대부분의 model parameters \(3ED^2\)개 \(2ED^2\)개가 input projection에, \(ED^2\)개가 output projection에 있음</li>
+      <li>반면 SSM 안에는 parameters가 별로 없는데, Mamba는 이걸 반복해서 사용하기 때문에 효율적이다</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="35-properties-of-selection-mechanisms">3.5 Properties of Selection Mechanisms</h3>
+
+<ul>
+  <li>The selection mechanism은 RNN이나 CNN에 쓸 수 있는 broader concept임</li>
+</ul>
+
+<p><strong>3.5.1 Connection to Gating Mechanisms</strong></p>
+
+<ul>
+  <li>SSM의 게이트 역할을 하는 \(\Delta\)가 RNN의 게이트와 유사하게 작동
+    <ul>
+      <li>입력된 정보 중 어떤 것을 유지하고 어떤 것을 버릴지 결정하는 역할인 점도 비슷</li>
+      <li>When $N=1, A=-1, B=1, s_{\Delta}=\operatorname{Linear}(x)$, and $\tau_{\Delta}=$ softplus,</li>
+      <li>\(\begin{aligned} &amp; g_t=\sigma\left(\operatorname{Linear}\left(x_t\right)\right) \\ &amp; h_t=\left(1-g_t\right) h_{t-1}+g_t x_t\end{aligned}\) .</li>
+      <li>이런 식으로 \(g_t\)가 현재 입력 \(x_t\)가 얼마나 중요한지 표현하게 하고
+        <ul>
+          <li>\(g_t\)가 1에 가까울수록 \(x_t\)를 많이 반영, 0에 가까울수록 이전 state \(h_{t-1}\)을 많이 반영</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>3.5.2 Interpretation of Selection Mechanisms</strong></p>
+
+<ul>
+  <li><strong>Variable Spacing</strong>
+    <ul>
+      <li>Selectivity의 역할은 filtering out irrelevant noise tokens that may occur between inputs of interest</li>
+    </ul>
+  </li>
+  <li><strong>Filtering Context</strong>
+    <ul>
+      <li>context가 길어진다고 성능이 좋아지는 것이 아님. 대부분의 모델이 너무 긴 sequence에서 불필요한 정보를 제거하지 못해서 성능 저하가 발생</li>
+      <li>selective model은 state를 언제든 초기화 할 수 있으니 긴 sequence가 들어왔을 때 성능이 더 좋아지도록 작동</li>
+    </ul>
+  </li>
+  <li><strong>Boundary Resetting</strong>
+    <ul>
+      <li>LTI는 sequence의 경계에서 정보가 섞이는 문제가 있었는데, selective SSM은 그런 문제 없음
+        <ul>
+          <li>언제든지 state를 초기화할 수 있으니 그냥 boundaries에서 초기화 하면 됨 (\(g_t=1\))</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Interpretation of \(\Delta\)</strong>
+    <ul>
+      <li>\(\Delta\)가 크면 다 잊고 현재 정보를 위주로 state를 만드는거고, 작으면 이전 state를 유지</li>
+    </ul>
+  </li>
+  <li><strong>Interpretation of A</strong>
+    <ul>
+      <li>사실 \(\bar{A}=\exp (\Delta A)\)도 \(\Delta\)를 통해 만들어지니 크게 건드리지 말고 단순하게 둔다</li>
+    </ul>
+  </li>
+  <li><strong>Interpretation of 𝑩 and 𝑪.</strong>
+    <ul>
+      <li>결국 Selectivity의 역할은 filtering out.</li>
+      <li>B와 C는 입력을 상태로 전달할지, 상태를 출력으로 내보낼지를 결정</li>
+      <li>모델이 state(context)를 더 세밀하게 제어할 수 있음</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="36-additional-model-details">3.6 Additional Model Details</h3>
+
+<p>pass</p>
+
+<h2 id="4-empirical-evaluation">4. Empirical Evaluation</h2>
+
+<h3 id="41-synthetic-tasks">4.1 Synthetic Tasks</h3>
+
+<p><strong>4.1.1 Selective Copying</strong></p>
+
+<p><strong>4.1.2 Induction Heads</strong></p>
+
+<p><img src="/assets/img/timeseries/mamba/table12.png" alt="그림1" /></p>
+
+<h3 id="42-language-modeling">4.2. Language Modeling</h3>
+
+<p><img src="/assets/img/timeseries/mamba/table3.png" alt="그림1" /></p>
+
+<h3 id="45-speed-and-memory-benchmarks">4.5 Speed and Memory Benchmarks</h3>
+
+<p><img src="/assets/img/timeseries/mamba/fig8.png" alt="그림1" /></p>
+
+<h3 id="46-model-ablations">4.6. Model Ablations</h3>
+
+<p><img src="/assets/img/timeseries/mamba/table6.png" alt="그림1" /></p>
+
+<p><img src="/assets/img/timeseries/mamba/table78.png" alt="그림1" /></p>
+
+<h2 id="5-discussion">5. Discussion</h2>
+
+<p>Pass</p>
+
+<h2 id="6-conclusion">6. Conclusion</h2>
+
+<ul>
+  <li>a selection mechanism to structured state space models
+    <ul>
+      <li>to perform context-dependent reasoning</li>
+      <li>Without attention ! (simple attention-free architecture)</li>
+    </ul>
+  </li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Arxiv 2023](https://arxiv.org/pdf/2312.00752)]]></summary></entry><entry><title type="html">T-PATCHGNN: Irregular Multivariate Time Series Forecasting: A Transformable Patching Graph Neural Networks Approach (ICML 2024)</title><link href="http://localhost:4000/timeseries/2024-10-27-T-PATCHGNN/" rel="alternate" type="text/html" title="T-PATCHGNN: Irregular Multivariate Time Series Forecasting: A Transformable Patching Graph Neural Networks Approach (ICML 2024)" /><published>2024-10-27T00:00:00+09:00</published><updated>2024-10-27T11:03:31+09:00</updated><id>http://localhost:4000/timeseries/T-PATCHGNN</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-10-27-T-PATCHGNN/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>Transformable Patching Graph Neural Networks (T-PATCHGNN)
@@ -2868,292 +3194,4 @@ y &amp; =\overline{\boldsymbol{K}} * u \\
       <li>generative decoder alleviates : alleviates the limitation of tra- ditional encoder-decoder architecture</li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[AAAI 2021](https://arxiv.org/pdf/2012.07436)]]></summary></entry><entry><title type="html">Timediff : Non-autoregressive Conditional Diffusion Models for Time Series Prediction (ICML 2023)</title><link href="http://localhost:4000/timeseries/2024-07-15-timediff/" rel="alternate" type="text/html" title="Timediff : Non-autoregressive Conditional Diffusion Models for Time Series Prediction (ICML 2023)" /><published>2024-07-15T00:00:00+09:00</published><updated>2024-07-23T18:18:28+09:00</updated><id>http://localhost:4000/timeseries/timediff</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-15-timediff/"><![CDATA[<h2 id="abstract">Abstract</h2>
-
-<ul>
-  <li>TimeDiff : non-autoregressive diffusion model, w/ two novel conditioning mechanisms
-    <ul>
-      <li>future mixup : future prediction의 ground-truth의 일부를 conditioning하는 것을 허용</li>
-      <li>autoregressive initialization : time series의 basic pattern (short term trends 등)을 모델 initialization에 사용</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="1-introduction">1. Introduction</h2>
-
-<ul>
-  <li>Diffusion model (iterative denoising)은 이미지 생성에서 뛰어난 quality
-    <ul>
-      <li>하지만 time series prediction을 위해 어떻게 쓸지에 대한 연구는 아직</li>
-      <li>time series는 <strong>complex dynamics, nonlinear patterns, long-temporal dependencies</strong></li>
-    </ul>
-  </li>
-  <li>기존 diffusion model들은 decoding strategy에 따라 구분됨
-    <ul>
-      <li><strong>Autoregressive</strong> : future prediction이 one by one으로 generated (ex. Timegrad)
-        <ul>
-          <li>하지만 error accumulation 때문에 long range prediction 성능이 떨어지고</li>
-          <li>하나씩 예측하다보니 inference가 느리다는 단점이 있음</li>
-        </ul>
-      </li>
-      <li><strong>Non-autoregressive</strong> : CSDI, SSSD처럼 denoising networks에 intermediate layers를 conditioning으로 넣고 the denoising objective에 inductive bias를 introduce
-        <ul>
-          <li>하지만 long-range prediction performance는 Fedformer, NBeats보다 떨어짐</li>
-          <li>왜냐하면 conditioning 전략이 image, textf를 위한 것이지 time series를 위한 것이 아니기 때문</li>
-          <li>inductive bias를 위해 denoising objective를 사용하는 것만으로는 lookback window에서 유용한 정보를 알아내기 어렵다.</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>본 논문에서는 long time series prediction을 위한 conditional non-autoregressive diffusion model인 TimeDiff 제안
-    <ul>
-      <li>CSDI, SSSD와 다르게 conditioning module에 time series를 위한 additional inductive bias 도입
-        <ul>
-          <li><strong>future mixup</strong>: randomly reveals parts of the ground-truth future pre- dictions during training</li>
-          <li><strong>autoregressive initialization</strong>: better initializes the model with basic components in the time series</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="2-preliminaries">2. Preliminaries</h2>
-
-<h3 id="21-diffusion-models">2.1. Diffusion Models</h3>
-
-<p>pass</p>
-
-<h3 id="22-conditional-ddpms-for-time-series-prediction">2.2. Conditional DDPMs for Time Series Prediction</h3>
-
-<ul>
-  <li>\(\mathbf{x}_{-L+1: 0}^0 \in \mathbb{R}^{d \times L}\)를 보고 \(\mathbf{x}_{1: H}^0 \in \mathbb{R}^{d \times H}\)를 예측하는 문제</li>
-  <li>\(p_\theta\left(\mathbf{x}_{1: H}^{0: K} \mid \mathbf{c}\right)=p_\theta\left(\mathbf{x}_{1: H}^K\right) \prod_{k=1}^K p_\theta\left(\mathbf{x}_{1: H}^{k-1} \mid \mathbf{x}_{1: H}^k, \mathbf{c}\right)\),
-    <ul>
-      <li>where \(\mathbf{x}_{1: H}^K \sim \mathcal{N}(\mathbf{0}, \mathbf{I}), \mathbf{c}=\mathcal{F}\left(\mathbf{x}_{-L+1: 0}^0\right)\)</li>
-    </ul>
-  </li>
-  <li>아직 efficient denoising network \(\mu_{\theta}\)와 conditioning network \(\mathcal F\) in time series diffusion models를 어떻게 디자인할 것인지 명확하지 않음</li>
-  <li><a href="https://arxiv.org/pdf/2101.12072">TimeGrad (ICML 2021)</a>
-    <ul>
-      <li>autoregressive manner :
- \(\begin{aligned}
-p_\theta &amp; \left(\mathbf{x}_{1: H}^{0: K} \mid \mathbf{c}=\mathcal{F}\left(\mathbf{x}_{-L+1: 0}^0\right)\right) \\
-&amp; =\prod_{t=1}^H p_\theta\left(\mathbf{x}_t^{0: K} \mid \mathbf{c}=\mathcal{F}\left(\mathbf{x}_{-L+1: t-1}^0\right)\right) \\
-&amp; =\prod^H p_\theta\left(\mathbf{x}_t^K\right) \prod^K p_\theta\left(\mathbf{x}_t^{k-1} \mid \mathbf{x}_t^k, \mathbf{c}=\mathcal{F}\left(\mathbf{x}_{-L+1: t-1}^0\right)\right)
-\end{aligned}\)</li>
-      <li>training objectives : \(\mathcal{L}_\epsilon=\mathbb{E}_{k, \mathbf{x}^0, \epsilon}\left[\left\|\epsilon-\epsilon_\theta\left(\mathbf{x}_t^k, k \mid \mathbf{h}_t\right)\right\|^2\right]\)</li>
-      <li>autoregressive decoding 때문에 error accumulation이 발생하고 inference가 느리고 부정확함</li>
-    </ul>
-  </li>
-  <li><a href="https://arxiv.org/pdf/2107.03502">CSDI(NeurIPS 2021)</a>
-    <ul>
-      <li>time series \(\mathbf{x}_{-L+1: H}^0\) 전체를 한 번에 diffusing and denoising</li>
-      <li>binary mask \(\mathbf{m} \in\{0,1\}^{d \times(L+H)}\)를 사용하여 self-supervised strategy 제안</li>
-      <li>training objectives : \(\mathcal{L}_\epsilon=\mathbb{E}_{k, \mathbf{x}^0, \epsilon}\left[\left\|\epsilon-\epsilon_\theta\left(\mathbf{x}_{\text {target }}^k, k \mid \mathbf{c}=\mathcal{F}\left(\mathbf{x}_{\text {observed }}^k\right)\right)\right\|^2\right]\)</li>
-    </ul>
-  </li>
-  <li>하지만 CSDI의 한계는
-    <ul>
-      <li>Denoising networks가 2개의 transformers를 사용해서 complexity가 높다.</li>
-      <li>conditioning에 사용되는 masking은 vision의 inpainting이랑 비슷한데
-        <ul>
-          <li><a href="https://arxiv.org/abs/2201.09865">(Lugmayr et al., 2022)</a>에서는 이 방식이 masking과 observed사이의 부조화 발생한다고 밝힘</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li><a href="https://arxiv.org/pdf/2208.09399">SSSD (TMLR 2022)</a>
-    <ul>
-      <li>Transfermer를 structured state space model로 대체</li>
-      <li>하지만 여전히 non-autoregressive strategy이라서 boundary disharmony가 발생할 수 있음</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="3-proposed-model">3. Proposed Model</h2>
-
-<ul>
-  <li>Conditional Diffusion의 conditioning은 semantic similarities across modalities 파악에 중점</li>
-  <li>하지만 현실에서의 non-stationary time series는 complex temporal dependencies 파악이 중요함</li>
-</ul>
-
-<h3 id="31-forward-diffusion-process">3.1. Forward Diffusion Process</h3>
-
-<ul>
-  <li>Forward process : \(\mathbf{x}_{1: H}^k=\sqrt{\bar{\alpha}_k} \mathbf{x}_{1: H}^0+\sqrt{1-\bar{\alpha}_k} \epsilon\)
-    <ul>
-      <li>where \(\epsilon\) is sampled from \(\mathcal{N}(0, \mathbf{I})\) with the same size as \(\mathbf{x}_{1: H}^0\)</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="32-conditioning-the-backward-denoising-process">3.2. Conditioning the Backward Denoising Process</h3>
-
-<ul>
-  <li>Illustration</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/timediff/fig1.png" alt="그림1" /></p>
-
-<h4 id="321-future-mixup">3.2.1. FUTURE MIXUP</h4>
-
-<ul>
-  <li>먼저 <em>future mixup</em>으로 \(\mathbf{z}_{\text {mix }}=\mathbf{m}^k \odot \mathcal{F}\left(\mathbf{x}_{-L+1: 0}^0\right)+\left(1-\mathbf{m}^k\right) \odot \mathbf{x}_{1: H}^0\)를 만든다.
-    <ul>
-      <li>past information’s mapping \(\mathcal{F}\left(\mathbf{x}_{-L+1: 0}^0\right)\)과 the future ground-truth \(\mathbf{x}_{1: H}^0\)를 combine</li>
-      <li>training에서 적용되는 것이고, inference에서는 \(\mathbf{z}_{\text {mix }}=\mathcal{F}\left(\mathbf{x}_{-L+1: 0}^0\right)\)</li>
-    </ul>
-  </li>
-</ul>
-
-<h4 id="322-autoregressive-model">3.2.2. AUTOREGRESSIVE MODEL</h4>
-
-<ul>
-  <li>Non-autoregressive models는 masked와 observed의 경계에서 disharmony
-    <ul>
-      <li>그래서 linear autoregressive (AR) model \(\mathcal{M}_{a r}\) 사용. \(\mathbf{z}_{a r}=\sum_{i=-L+1}^0 \mathbf{W}_i \odot \mathbf{X}_i^0+\mathbf{B}\)
-        <ul>
-          <li>\(\mathbf{X}_i^0 \in \mathbb{R}^{d \times H}\) is a matrix containing \(H\) copies of \(\mathbf{x}_i^0\),</li>
-          <li>\(\mathbf{W}_i\) s \(\in \mathbb{R}^{d \times H}, \mathbf{B} \in \mathbb{R}^{d \times H}\) are trainable parameters</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>complex nonlinear time series는 approximate 못하는 건 사실이지만
-    <ul>
-      <li>simple patterns (short-term trends) 정도는 잘 잡으니까</li>
-      <li>그리고 one by one으로 하는 것이 아니라 \(\mathbf{z}_{a r}\)의 모든 columns는 동시에 계산됨</li>
-    </ul>
-  </li>
-</ul>
-
-<h4 id="33-denoising-network">3.3. Denoising Network</h4>
-
-<ul>
-  <li>먼저 the transformer’s sinusoidal position embedding으로 the diffusion-step embedding \(\mathbf{p}^k\in \mathbb{R}^{d^{\prime}}\)​ 얻음
-    <ul>
-      <li>즉 \(\begin{aligned}
-k_{\text {embedding }}= &amp; {\left[\sin \left(10^{\frac{0 \times 4}{w-1}} t\right), \ldots, \sin \left(10^{\frac{w \times 4}{w-1}} t\right),\right.} \\
-&amp; \left.\cos \left(10^{\frac{0 \times 4}{w-1}} t\right), \ldots, \cos \left(10^{\frac{w \times 4}{w-1}} t\right)\right],
-\end{aligned}\)​
-        <ul>
-          <li>where \(w=\frac{d^{\prime}}{2}\)</li>
-        </ul>
-      </li>
-      <li>그리고 \(\mathbf{p}^k=\operatorname{SiLU}\left(\mathrm{FC}\left(\operatorname{SiLU}\left(\mathrm{FC}\left(k_{\text {embedding }}\right)\right)\right)\right) \in \mathbb{R}^{d^{\prime} \times 1}\)</li>
-    </ul>
-  </li>
-  <li>그 다음 \(\mathbf{p}^k\in \mathbb{R}^{d^{\prime}}\)는 diffused input \(\mathbf{x}_{1: H}^k\)의 embedding \(\mathbf{z}_1^k \in \mathbb{R}^{d^{\prime} \times H}\)에 합쳐짐 (\(2 d^{\prime} \times H\)이 됨)
-    <ul>
-      <li>\(\mathbf{z}_1^k\)는 여러 개의 convolution layers로 이루어진 input projection block을 통과시켜 얻음</li>
-    </ul>
-  </li>
-  <li>그 다음 multilayer convolution-based <strong>encoder</strong> 통과하면 \(\mathbf{z}_2^k \in \mathbb{R}^{d^{\prime \prime} \times H}\)로 representation</li>
-  <li>그 다음 \(\mathbf{c}\)와 \(\mathbf{z}_2^k\)를 fuse해서 \(\left(2 d+d^{\prime \prime}\right) \times H\)로 만들고
-    <ul>
-      <li>multiple convolution layers <strong>decoder</strong>에 넣어서 \(\mathbf{x}_\theta\left(\mathbf{x}_{1: H}^k, k \mid \mathbf{c}\right)\in \mathbb{R^{d \times H}}\)로 만듬 (\(\mathbf{x}_{1: H}^k\)와 같은 size)</li>
-    </ul>
-  </li>
-  <li>마지막으로 \(\mu_{\mathbf{x}}\left(\mathbf{x}_\theta\right)=\frac{\sqrt{\alpha_k}\left(1-\bar{\alpha}_{k-1}\right)}{1-\bar{\alpha}_k} \mathbf{x}^k+\frac{\sqrt{\bar{\alpha}_{k-1}} \beta_k}{1-\bar{\alpha}_k} \mathbf{x}_\theta\left(\mathbf{x}^k, k \mid \mathbf{c}\right)\)을 통해 denoised output \(\begin{aligned}
-\hat{\mathbf{x}}_{1: H}^{k-1}= &amp; \frac{\sqrt{\alpha_k}\left(1-\bar{\alpha}_{k-1}\right)}{1-\bar{\alpha}_k} \mathbf{x}_{1: H}^k+\frac{\sqrt{\bar{\alpha}_{k-1}} \beta_k}{1-\bar{\alpha}_k} \mathbf{x}_\theta\left(\mathbf{x}_{1: H}^k, k \mid \mathbf{c}\right) 
-+\sigma_k \epsilon
-\end{aligned}\)얻음</li>
-  <li>흔히 아는 Diffusion에서는 noise \(\epsilon_\theta\left(\mathbf{x}_{1: H}^k, k\right)\)를 예측하지만, time series에서는  highly irregular noisy components라서 데이터 \(\mathbf{x}_\theta\left(\mathbf{x}_{1: H}^k, k\right)\)를 예측</li>
-</ul>
-
-<h3 id="34-training">3.4. Training</h3>
-
-<ul>
-  <li>Pesudo code</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/timediff/code.png" alt="그림3" /></p>
-
-<ul>
-  <li>각각의 \(\mathbf{x}_{1: H}^0\)에 대해 batch of diffusion steps \(k\)’s를 sampling하고
-    <ul>
-      <li>conditioned variant of loss를 minimize: \(\min _\theta \mathcal{L}(\theta)=\min _\theta \mathbb{E}_{\mathbf{x}_{1 . H}^0, \epsilon \sim \mathcal{N}(\mathbf{0}, \mathbf{I}), k} \mathcal{L}_k(\theta)\)</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="35-inference">3.5. Inference</h3>
-
-<ul>
-  <li>Pesudo code</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/timediff/code.png" alt="그림4" /></p>
-
-<ul>
-  <li>먼저 noise vector \(\mathbf{x}_{1 \cdot H}^K \sim \mathcal{N}(\mathbf{0}, \mathbf{I}) \in \mathbb{R}^{d \times H}\)를 생성하고</li>
-  <li>\(\begin{aligned}
-\hat{\mathbf{x}}_{1: H}^{k-1}= &amp; \frac{\sqrt{\alpha_k}\left(1-\bar{\alpha}_{k-1}\right)}{1-\bar{\alpha}_k} \mathbf{x}_{1: H}^k+\frac{\sqrt{\bar{\alpha}_{k-1}} \beta_k}{1-\bar{\alpha}_k} \mathbf{x}_\theta\left(\mathbf{x}_{1: H}^k, k \mid \mathbf{c}\right) 
-+\sigma_k \epsilon
-\end{aligned}\)을 반복 (\(k=1\) 까지)
-    <ul>
-      <li>when \(k=1\), \(\epsilon=0\)이므로 \(\hat{\mathbf{x}}_{1: H}^0\)를 final prediction으로 얻을 수 있음</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="4-experiments">4. Experiments</h2>
-
-<p><img src="/assets/img/timeseries/timediff/table2.png" alt="그림12" /></p>
-
-<p><img src="/assets/img/timeseries/timediff/table3.png" alt="그림13" /></p>
-
-<p><img src="/assets/img/timeseries/timediff/fig2.png" alt="그림2" /></p>
-
-<h3 id="43-ablation-study">4.3. Ablation study</h3>
-
-<ul>
-  <li><strong>The Effectiveness of Future mixup</strong></li>
-</ul>
-
-<p><img src="/assets/img/timeseries/timediff/table4.png" alt="그림14" /></p>
-
-<ul>
-  <li>
-    <p>특히 ETTh1 데이터셋에서 future mixup을 안썼을 때 성능이 많이 떨어진다.</p>
-  </li>
-  <li>
-    <p><strong>The Mixup Strategies in Future mixup</strong></p>
-    <ul>
-      <li>Hard mixup : The sampled values in \(\mathbf{m}^k\) are binarized by a threshold \(\tau \in (0,1)\)</li>
-      <li>Segment mixup : The mask  \(\mathbf{m}^k\), Each masked segment has a length following the geometric distribution with a mean of 3. This is then followed by an unmasked segment with mean length \(3(1 − \tau)/\tau\)</li>
-    </ul>
-  </li>
-</ul>
-
-<p><img src="/assets/img/timeseries/timediff/table5.png" alt="그림15" /></p>
-
-<ul>
-  <li><strong>Predicting \(\mathbf{x}_\theta\) vs Predicting \(\epsilon_\theta\)</strong></li>
-</ul>
-
-<p><img src="/assets/img/timeseries/timediff/table6.png" alt="그림16" /></p>
-
-<h3 id="44-integration-into-existing-diffusion-models">4.4. Integration into Existing Diffusion Models</h3>
-
-<p><img src="/assets/img/timeseries/timediff/table7.png" alt="그림17" /></p>
-
-<h3 id="45-inference-efficiency">4.5. Inference Efficiency</h3>
-
-<p><img src="/assets/img/timeseries/timediff/table8.png" alt="그림18" /></p>
-
-<h2 id="5-conclusion">5. Conclusion</h2>
-
-<ul>
-  <li>Timediff : diffusion model for time series prediction,
-    <ul>
-      <li>1)future mixup과 2)autoregressive initialization이라는 conditioning mechanisms으로</li>
-      <li>conditioning network에 useful inductive bias를 추가</li>
-      <li>한계점으로 변수의 개수가 많을 때 multivariate dependencies를 학습하기 어렵다
-        <ul>
-          <li>graph 사용 ?</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICML 2023](https://arxiv.org/pdf/2306.05043)]]></summary></entry></feed>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[AAAI 2021](https://arxiv.org/pdf/2012.07436)]]></summary></entry></feed>

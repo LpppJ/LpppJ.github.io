@@ -74,7 +74,9 @@ permalink: /timeseries/
 \
 [Mamba-360: Survey of State Space Models as Transformer Alternative for Long Sequence Modelling: Methods, Applications, and Challenges (Arxiv 2024)]{:.heading.flip-title}\
 \
-[T-PATCHGNN: Irregular Multivariate Time Series Forecasting: A Transformable Patching Graph Neural Networks Approach (ICML 2024)]{:.heading.flip-title}
+[T-PATCHGNN: Irregular Multivariate Time Series Forecasting: A Transformable Patching Graph Neural Networks Approach (ICML 2024)]{:.heading.flip-title}\
+\
+[Mamba: Linear-Time Sequence Modeling with Selective State Spaces (Arxiv 2023)]{:.heading.flip-title}
 
 
 
@@ -111,3 +113,4 @@ permalink: /timeseries/
 [Pacer and Runner: Cooperative Learning Framework between Single- and Cross-Domain Sequential Recommendation (SIGIR'24 Best Paper)]: \timeseries/2024-09-03-SyNCRec
 [Mamba-360: Survey of State Space Models as Transformer Alternative for Long Sequence Modelling: Methods, Applications, and Challenges (Arxiv 2024)]:\timeseries/2024-10-03-Mamba360
 [T-PATCHGNN: Irregular Multivariate Time Series Forecasting: A Transformable Patching Graph Neural Networks Approach (ICML 2024)]:\timeseries/2024-10-27-T-PATCHGNN
+[Mamba: Linear-Time Sequence Modeling with Selective State Spaces (Arxiv 2023)]:\timeseries/2024-10-28-mamba
