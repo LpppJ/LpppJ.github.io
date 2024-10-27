@@ -110,4 +110,4 @@ permalink: /timeseries/
 [MG-TSD: Multi-Granularity Time Series Diffusion Models with Guided Learning Process (ICLR 2024)]: /timeseries/2024-08-05-MG-TSD
 [Pacer and Runner: Cooperative Learning Framework between Single- and Cross-Domain Sequential Recommendation (SIGIR'24 Best Paper)]: \timeseries/2024-09-03-SyNCRec
 [Mamba-360: Survey of State Space Models as Transformer Alternative for Long Sequence Modelling: Methods, Applications, and Challenges (Arxiv 2024)]:\timeseries/2024-10-03-Mamba360
-[T-PATCHGNN: Irregular Multivariate Time Series Forecasting: A Transformable Patching Graph Neural Networks Approach (ICML 2024)]:\timeseries/2024-10-27-TPatchGNN
+[T-PATCHGNN: Irregular Multivariate Time Series Forecasting: A Transformable Patching Graph Neural Networks Approach (ICML 2024)]:\timeseries/2024-10-27-T-PATCHGNN
