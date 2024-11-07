@@ -78,7 +78,9 @@ permalink: /timeseries/
 \
 [Mamba: Linear-Time Sequence Modeling with Selective State Spaces (Arxiv 2023)]{:.heading.flip-title}\
 \
-[TimeMachine: A Time Series is Worth 4 Mambas for Long-term Forecasting (Arxiv 2024)]{:.heading.flip-title}
+[TimeMachine: A Time Series is Worth 4 Mambas for Long-term Forecasting (ECAI 2024)]{:.heading.flip-title}\
+\
+[Is Mamba Effective for Time Series Forecasting? (Arxiv 2024)]{:.heading.flip-title}
 
 
 
@@ -116,4 +118,5 @@ permalink: /timeseries/
 [Mamba-360: Survey of State Space Models as Transformer Alternative for Long Sequence Modelling: Methods, Applications, and Challenges (Arxiv 2024)]:\timeseries/2024-10-03-Mamba360
 [T-PATCHGNN: Irregular Multivariate Time Series Forecasting: A Transformable Patching Graph Neural Networks Approach (ICML 2024)]:\timeseries/2024-10-27-T-PATCHGNN
 [Mamba: Linear-Time Sequence Modeling with Selective State Spaces (Arxiv 2023)]:\timeseries/2024-10-28-mamba
-[TimeMachine: A Time Series is Worth 4 Mambas for Long-term Forecasting (Arxiv 2024)]:\timeseries/2024-10-29-timemachine
+[TimeMachine: A Time Series is Worth 4 Mambas for Long-term Forecasting (ECAI 2024)]:\timeseries/2024-10-29-timemachine
+[Is Mamba Effective for Time Series Forecasting? (Arxiv 2024)]:\timeseries/2024-11-07-s-mamba

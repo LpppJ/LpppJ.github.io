@@ -1,5 +1,408 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-10-29T21:24:52+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">TimeMachine: A Time Series is Worth 4 Mambas for Long-term Forecasting (Arxiv 2024)</title><link href="http://localhost:4000/timeseries/2024-10-29-timemachine/" rel="alternate" type="text/html" title="TimeMachine: A Time Series is Worth 4 Mambas for Long-term Forecasting (Arxiv 2024)" /><published>2024-10-29T00:00:00+09:00</published><updated>2024-10-29T21:24:52+09:00</updated><id>http://localhost:4000/timeseries/timemachine</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-10-29-timemachine/"><![CDATA[<h2 id="abstract">Abstract</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-11-07T18:09:04+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">Is Mamba Effective for Time Series Forecasting? (Arxiv 2024)</title><link href="http://localhost:4000/timeseries/2024-11-07-s-mamba/" rel="alternate" type="text/html" title="Is Mamba Effective for Time Series Forecasting? (Arxiv 2024)" /><published>2024-11-07T00:00:00+09:00</published><updated>2024-11-07T18:08:15+09:00</updated><id>http://localhost:4000/timeseries/s-mamba</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-11-07-s-mamba/"><![CDATA[<h2 id="abstract">Abstract</h2>
+
+<ul>
+  <li>Time series forecasting (TSF)에서 Transformer는 quadratic complexity</li>
+  <li><strong>Simple-Mamba (S-Mamba)</strong> :
+    <ul>
+      <li>Tokenize the time points of each variate autonomously via a linear layer</li>
+      <li>Bi-directional Mamba layer is utilized to extract inter-variate correlations</li>
+      <li>Feed-Forward Network is set to learn temporal dependencies</li>
+      <li>Generation of forecast outcomes through a linear mapping layer</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="1-introduction">1. Introduction</h2>
+
+<ul>
+  <li>
+    <p>Transformer-based</p>
+
+    <ul>
+      <li>quadratic computational complexity</li>
+      <li>reduce the computational complexity \(\to\)  loss of information \(\to\) performance degradations</li>
+    </ul>
+  </li>
+  <li>
+    <p>Linear model</p>
+
+    <ul>
+      <li>solely on linear numerical calculations \(\to\) do not incorporate in-context information</li>
+    </ul>
+  </li>
+  <li>
+    <p>SSM</p>
+
+    <ul>
+      <li>convolutional calculation to capture sequence information</li>
+      <li>eliminate hidden states (for parallel computing) \(\to\) near-linear complexity</li>
+      <li>But unable to identify and filter content</li>
+    </ul>
+  </li>
+  <li>
+    <p>Mamba</p>
+
+    <ul>
+      <li>selective mechanism into SSM</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Simple-Mamba (S-Mamba)</strong> :</p>
+
+    <ul>
+      <li>
+        <ol>
+          <li>time points of each variate are tokenized by a linear layer</li>
+        </ol>
+      </li>
+      <li>
+        <ol>
+          <li>Mamba VC (Inter-variate Correlation) Encoding layer encodes the VC</li>
+        </ol>
+
+        <ul>
+          <li>by utilizing a bidirectional Mamba</li>
+        </ul>
+      </li>
+      <li>
+        <ol>
+          <li>FeedForward Network (FFN) TD (Temporal Dependency) Encoding Layer extracts the TD</li>
+        </ol>
+      </li>
+      <li>
+        <ol>
+          <li>mapping layer is utilized to output the forecast results</li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="2-related-work">2. Related Work</h2>
+
+<p>pass</p>
+
+<h2 id="3-preliminaries">3. Preliminaries</h2>
+
+<h3 id="31-problem-statement">3.1. Problem Statement</h3>
+
+<ul>
+  <li>\(U_{\text {in }}=\left[u_1, u_2, \ldots, u_L\right] \in \mathbb{R}^{L \times V}\)를 보고 \(U_{\text {out }}=\left[u_{L+1}, u_{L+2}, \ldots, u_{L+T}\right] \in \mathbb{R}^{T \times V}\)를 예측
+    <ul>
+      <li>각각의 \(u_n=\left[p_1, p_2, \ldots, p_V\right]\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="32-state-space-models">3.2. State Space Models</h3>
+
+<ul>
+  <li>The continuous sequence is discretized by a step size \(\Delta\), and the discretized SSM model :
+    <ul>
+      <li>\(\begin{aligned}
+h_t &amp; =\overline{\boldsymbol{A}} h_{t-1}+\overline{\boldsymbol{B}} x_t, \\
+y_t &amp; =\boldsymbol{C} h_t,
+\end{aligned}\)      where
+        <ul>
+          <li>\(\overline{\boldsymbol{A}}=\exp (\Delta \boldsymbol{A}) \text { and } \overline{\boldsymbol{B}}=(\Delta \boldsymbol{A})^{-1}(\exp (\Delta \boldsymbol{A})-I) \cdot \Delta \boldsymbol{B}\).</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="33-mamba-block">3.3. Mamba Block</h3>
+
+<p>: <strong>Data-dependent selection mechanism into the S4</strong> &amp; <strong>Incorporates hardware-aware parallel algorithms</strong></p>
+
+<p><img src="/assets/img/timeseries/s-mamba/alg1.png" alt="그림1" /></p>
+
+<ul>
+  <li>
+    <p>Mamba Layer</p>
+
+    <ul>
+      <li>
+        <p>Input : \(X \in \mathbb{R}^{B \times V \times D}\)</p>
+      </li>
+      <li>
+        <ol>
+          <li>expands the hidden dimension to \(ED\) through linear projection \(\to x, z\)를 얻음</li>
+        </ol>
+      </li>
+      <li>
+        <ol>
+          <li>the projection using convolutional functions and a SiLU \(\to x'\)를 얻음</li>
+        </ol>
+      </li>
+      <li>
+        <ol>
+          <li>generates the state representation \(y\)</li>
+        </ol>
+      </li>
+      <li>
+        <ol>
+          <li>\(y\) is combined with a residual connection from \(z\) after activation,</li>
+        </ol>
+
+        <ul>
+          <li>and the final output $y_t$ at time step $t$ is obtained</li>
+        </ul>
+      </li>
+      <li>
+        <p>with state expansion factor \(N\),</p>
+
+        <ul>
+          <li>a size of convolutional kernel \(k\),</li>
+          <li>and a block expansion factor \(E\)</li>
+        </ul>
+      </li>
+      <li>The final output of the Mamba block is \(Y \in \mathbb{R}^{B \times V \times D}\).</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="4-methodology">4. Methodology</h2>
+
+<ul>
+  <li>1st layer : the Linear Tokenization Layer (tokenizes the time series with a linear layer)</li>
+  <li>2nd layer :  the Mamba intervariate correlation (VC) Encoding layer (using a bidirectional Mamba block)</li>
+  <li>3rd layer : the FFN Temporal Dependencies (TD) Encoding Layer (learns the temporal sequence information)
+    <ul>
+      <li>Feed-Forward Network : generates future series representations</li>
+    </ul>
+  </li>
+  <li>4th layer : Projection Layer, is only mapping for forecasting</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/s-mamba/alg2.png" alt="그림1" /></p>
+
+<h3 id="41-linear-tokenization-layer">4.1. Linear Tokenization Layer</h3>
+
+<ul>
+  <li>\(U=\operatorname{Linear}\left(\operatorname{Batch}\left(U_{\text {in }}\right)\right), \quad\) where \(U\) is the output of this layer</li>
+</ul>
+
+<h3 id="42-mamba-vc-encoding-layer">4.2. Mamba VC Encoding Layer</h3>
+
+<ul>
+  <li>여기서는 유사한 trend를 보이는 변수들을 연결해서 VC를 찾고 싶음</li>
+  <li>Transformer는 그냥 모든 변수들끼리 다 연결하니까 정확하긴 한데 변수 개수 따라 complexity 늘어남</li>
+  <li>Mamba는 complexity는 near-linear이지만
+    <ul>
+      <li><strong>Selection mechanism이 uni-directional해서 앞쪽의 변수만 볼 수 있음</strong></li>
+      <li>그래서 2개의 Mamba를 서로 다른 방향으로 흐르도록 놓음 (Bi-directional Mamba)</li>
+      <li>\(\begin{aligned}&amp;\overrightarrow{\boldsymbol{Y}}=\overrightarrow{\operatorname{Mamba\operatorname {Block}}(\boldsymbol{U}),} \\
+&amp; \overleftarrow{\boldsymbol{Y}}=\overleftarrow{\operatorname{Mamba} \operatorname{Block}}(\boldsymbol{U}) .
+\end{aligned}\)이고 \(\boldsymbol{Y}=\overrightarrow{\boldsymbol{Y}}+\overleftarrow{\boldsymbol{Y}}\)로 Aggregate, with residual : \(\boldsymbol{U}^{\prime}=\boldsymbol{Y}+\boldsymbol{U}\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="43-ffn-td-encoding-layer">4.3. FFN TD Encoding Layer</h3>
+
+<ul>
+  <li>
+    <ol>
+      <li>Normalization layer : enhance convergence and training stability</li>
+    </ol>
+  </li>
+  <li>
+    <ol>
+      <li>FFN layer : encodes observed time series (encodes TD by keeping the sequential relationships)</li>
+    </ol>
+
+    <ul>
+      <li>decodes future series representations (adjust the future series representations)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="44-projection-layer">4.4. Projection Layer</h3>
+
+<ul>
+  <li>FFN TD Encoding layer의 output인 tokenized temporal information이
+    <ul>
+      <li>linear mapping을 통해서 reconstructed for predictive outcome</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="5-experiments">5. Experiments</h2>
+
+<h3 id="51-datasets-and-baselines">5.1. Datasets and Baselines</h3>
+
+<p><img src="/assets/img/timeseries/s-mamba/table1.png" alt="그림1" /></p>
+
+<ul>
+  <li>SOTA와 비교 :
+    <ul>
+      <li>iTransformer: analyzes the time series information of each <strong>individual variate</strong> and then fuses the information of all variates.</li>
+      <li>PatchTST: segments time series into <strong>subseries patches</strong> as input tokens and uses channel-independent shared embeddings and weights</li>
+      <li>Crossformer: cross-attention mechanism that allows the model to <strong>interact with information between different time steps</strong></li>
+      <li>FEDformer: a <strong>frequency-enhanced Transformer</strong> for utilizaing a sparse representation</li>
+      <li>Autoformer: <strong>decomposition architecture</strong> that incorporates an auto-correlation mechanism</li>
+      <li>RLinear: reversible normalization and channel independence into <strong>pure linear structure</strong></li>
+      <li>TiDE: Multi-layer Perceptron (MLP) based encoderdecoder model</li>
+      <li>DLinear: <strong>simple one-layer linear</strong> model with decomposition architecture</li>
+      <li>TimesNet: a task-general backbone, <strong>transforms 1D time series into 2D tensors</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="52-overall-performance">5.2. Overall Performance</h3>
+
+<p><img src="/assets/img/timeseries/s-mamba/table2.png" alt="그림1" /></p>
+
+<p><img src="/assets/img/timeseries/s-mamba/table3.png" alt="그림1" /></p>
+
+<p><img src="/assets/img/timeseries/s-mamba/table4.png" alt="그림1" /></p>
+
+<ul>
+  <li>S-Mamba가 traffic-related, Electricity, and Solar-Energy에서 성능이 좋음
+    <ul>
+      <li>변수들이 periodic한 데이터셋들.</li>
+      <li>즉 period variates are more likely to contain learnable VC.</li>
+      <li>Mamba VC Fusion Layer가 잘 잡은 것</li>
+    </ul>
+  </li>
+  <li>ETT, and Exchange datasets에서는 성능이 매우 좋지는 않았음
+    <ul>
+      <li>변수 개수가 적은 데이터셋들 (predominantly of an aperiodic nature)</li>
+      <li><strong>weak</strong> VCs between these variates 때문에 Mamba VC Encoding layer가 noise를 가져옴</li>
+    </ul>
+  </li>
+  <li>Weather는 변수도 적고 aperiodic한데 왜 성능이 좋나
+    <ul>
+      <li>변수들의 Trend가 동시에 나타나는 도메인이라서 Mamba VC Encoding layer가 잘 작동</li>
+      <li>Trend가 large sections로 나타나기 때문에 FFN이 이런 거 잘 잡음</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/timeseries/s-mamba/fig4.png" alt="그림1" /></p>
+
+<h3 id="53-model-efficiency">5.3. Model Efficiency</h3>
+
+<p><img src="/assets/img/timeseries/s-mamba/fig5.png" alt="그림1" /></p>
+
+<h3 id="54-ablation-study">5.4. Ablation Study</h3>
+
+<p><img src="/assets/img/timeseries/s-mamba/table5.png" alt="그림1" /></p>
+
+<h3 id="55-can-variate-order-affect-the-performance-of-s-mamba">5.5. Can Variate Order Affect the Performance of S-Mamba?</h3>
+
+<ul>
+  <li>S-Mamba는 independent channel이라서 variates order 안중요했음
+    <ul>
+      <li>하지만 Mamba VC Encoding Layer는 variates order에 따라 initial bias 발생할 수 있음</li>
+    </ul>
+  </li>
+  <li>그래서 Fourier transform해서 variates를 periodic and aperiodic groups으로 나누고
+    <ul>
+      <li>periodic variates =  reliable information / aperiodic variates = potential noise으로 가정</li>
+    </ul>
+  </li>
+  <li>그래서 reliable information를 가지고 있는(그럴 것이라고 생각되는) periodic variates를 앞쪽에 배치</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/s-mamba/fig6.png" alt="그림1" /></p>
+
+<h3 id="56-can-mamba-outperform-advanced-transformers">5.6. Can Mamba Outperform Advanced Transformers?</h3>
+
+<ul>
+  <li>Transformer의 Encoder layer를 Mamba로 교체
+    <ul>
+      <li>Autoformer, Flashformer and Flowformer</li>
+      <li>\(\to\)  Auto-M, FlashM and Flow-M 이라고 부르겠음</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/timeseries/s-mamba/fig7.png" alt="그림1" /></p>
+
+<h3 id="57-can-mamba-help-benefit-from-increasing-lookback-length">5.7. Can Mamba Help Benefit from Increasing Lookback Length?</h3>
+
+<ul>
+  <li>Transformer-based model은:
+    <ul>
+      <li>lookback sequence length \(L\)이 늘어나도 성능이 비례해서 좋아지는 건 아님</li>
+      <li><strong>sequential order를 신경쓰지 않아서 그렇다</strong></li>
+    </ul>
+  </li>
+  <li>Mamba는:
+    <ul>
+      <li>certain sequential attributes가 잘 유지되는 편</li>
+      <li>Mamba block을 Transformer-based model의 Encoder와 decoder 사이에 배치하면
+        <ul>
+          <li>Encoder layer의 output에 (decoder layer에 가기 전에)</li>
+          <li>positional encoding처럼 어떤 정보를 추가해주는 역할을 하는 것</li>
+        </ul>
+      </li>
+      <li>그것을 Reformer, Informer, and Transformer와 비교해서
+        <ul>
+          <li>Refor-M, Infor-M, and Trans-M라고 부르고 비교</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/timeseries/s-mamba/fig8.png" alt="그림1" /></p>
+
+<ul>
+  <li>S-Mamba와 iTransformer 둘다 \(L\)이 길어지면 어느 정도 성능이 좋아지긴 함
+    <ul>
+      <li>하지만 이건 두 모델 모두 가지고 있는 FFN TD Encoding Layer 때문으로 보임</li>
+    </ul>
+  </li>
+  <li>S-Mamba가 iTransformer와 비교해서 일관되게 성능이 좋아지는 편인데
+    <ul>
+      <li>이건 Mamba VC Encoding layer와 Transformer의 VC Encoding layer의 차이 !</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="58-is-mamba-generalizable-in-tsf">5.8. Is Mamba Generalizable in TSF?</h3>
+
+<ul>
+  <li>Transformer는 generalization capabilities가 좋은 편이라서
+    <ul>
+      <li>iTransformer의 경우 40%의 변수만을 가지고 나머지 변수들은 masking해도</li>
+      <li>성능이 큰 폭으로 나빠지지는 않음</li>
+    </ul>
+  </li>
+  <li>Mamba의 경우에도 40%의 변수만 보고 나머지 변수들은 masking 했을 때
+    <ul>
+      <li>iTransformer에 크게 뒤쳐지지 않음</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/timeseries/s-mamba/fig9.png" alt="그림1" /></p>
+
+<h2 id="6-conclusion">6. Conclusion</h2>
+
+<ul>
+  <li><strong>Simple-Mamba(S-Mamba)</strong>
+    <ul>
+      <li>inter-variate correlation (VC) encoding은</li>
+      <li>Transformer 대신 <strong>bi-directional</strong> Mamba block으로 하고</li>
+      <li>(더 낮은 overhead로 VC를 파악)</li>
+      <li>Temporal Dependencies (TD)는
+        <ul>
+          <li>Feed-Forward Network로 extract</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Mamba는 advanced-Transformer만큼의 <strong>stability</strong>도 있고
+    <ul>
+      <li><strong>generalization</strong> capabilities도 뛰어난 편</li>
+    </ul>
+  </li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/pdf/2403.11144v3)]]></summary></entry><entry><title type="html">TimeMachine: A Time Series is Worth 4 Mambas for Long-term Forecasting (ECAI 2024)</title><link href="http://localhost:4000/timeseries/2024-10-29-timemachine/" rel="alternate" type="text/html" title="TimeMachine: A Time Series is Worth 4 Mambas for Long-term Forecasting (ECAI 2024)" /><published>2024-10-29T00:00:00+09:00</published><updated>2024-10-29T21:25:07+09:00</updated><id>http://localhost:4000/timeseries/timemachine</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-10-29-timemachine/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>Long-term time-series forecasting(LTSF)에서 우리는 long-term dependencies를 capture하는데
@@ -160,7 +563,7 @@
 
 <ul>
   <li>
-    <p><strong>Integrated Quadruple Mambas</strong> (좀 복잡한데 핵심이라서 fig1 보면서 이해하면 좋음)</p>
+    <p><strong>Integrated Quadruple Mambas</strong> (fig1 보면서 이해하면 좋음)</p>
 
     <ul>
       <li>
@@ -352,7 +755,7 @@
       <li>\(\to\) unifies channel-mixing and channel-independence situations</li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/abs/2403.09898)]]></summary></entry><entry><title type="html">Mamba: Linear-Time Sequence Modeling with Selective State Spaces (Arxiv 2023)</title><link href="http://localhost:4000/timeseries/2024-10-28-mamba/" rel="alternate" type="text/html" title="Mamba: Linear-Time Sequence Modeling with Selective State Spaces (Arxiv 2023)" /><published>2024-10-28T00:00:00+09:00</published><updated>2024-10-28T03:20:20+09:00</updated><id>http://localhost:4000/timeseries/mamba</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-10-28-mamba/"><![CDATA[<h2 id="abstract">Abstract</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ECAI 2024](https://arxiv.org/abs/2403.09898)]]></summary></entry><entry><title type="html">Mamba: Linear-Time Sequence Modeling with Selective State Spaces (Arxiv 2023)</title><link href="http://localhost:4000/timeseries/2024-10-28-mamba/" rel="alternate" type="text/html" title="Mamba: Linear-Time Sequence Modeling with Selective State Spaces (Arxiv 2023)" /><published>2024-10-28T00:00:00+09:00</published><updated>2024-10-28T03:20:20+09:00</updated><id>http://localhost:4000/timeseries/mamba</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-10-28-mamba/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>많은 subquadratic-time architectures (linear attention, gated convolution and recurrent models, and structured state space models (SSMs))가 Transformer의 연산 효율성을 해결하기 위해 제안되었지만
@@ -3311,106 +3714,4 @@ y &amp; =\overline{\boldsymbol{K}} * u \\
       <li>by combining gradients into the sampling !</li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2024](https://arxiv.org/pdf/2403.01742)]]></summary></entry><entry><title type="html">Pyraformer: Low-Complexity Pyramidal Attention for Long-Range Time Series Modeling and Forecasting (ICLR 2022)</title><link href="http://localhost:4000/timeseries/2024-07-26-pyraformer/" rel="alternate" type="text/html" title="Pyraformer: Low-Complexity Pyramidal Attention for Long-Range Time Series Modeling and Forecasting (ICLR 2022)" /><published>2024-07-26T00:00:00+09:00</published><updated>2024-08-04T11:22:34+09:00</updated><id>http://localhost:4000/timeseries/pyraformer</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-07-26-pyraformer/"><![CDATA[<h2 id="abstract">Abstract</h2>
-
-<ul>
-  <li>Pyraformer: a flexible but parsimonious model that can capture a wide range of temporal dependencies, by exploring the multi-resolution representation of the time series
-    <ul>
-      <li>Pyramidal attention module (PAM)</li>
-      <li>the inter-scale tree structure summarizes features at different resolutions</li>
-      <li>the intra-scale neighboring connections model the temporal dependencies of different ranges</li>
-      <li>the maximum length of the signal traversing path in Pyraformer is a constant with regard to the sequence length L (i.e. \(\mathcal{O}(1)\))</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="1-introduciton">1. Introduciton</h2>
-
-<ul>
-  <li>시계열 예측에서 Challenge는 powerful but parsimonious model</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/pyraformer/fig1.png" alt="그림1" /></p>
-
-<p><img src="/assets/img/timeseries/pyraformer/table1.png" alt="그림11" /></p>
-
-<ul>
-  <li>Pyraformer: to simultaneously capture temporal dependencies of different ranges in a compact multi-resolution fashion</li>
-</ul>
-
-<h2 id="2-related-work">2. Related Work</h2>
-
-<p>pass</p>
-
-<h2 id="3-method">3. Method</h2>
-
-<h3 id="31-pyramidal-attention-module-pam">3.1. Pyramidal Attention Module (PAM)</h3>
-
-<ul>
-  <li>The inter-scale connections form a C-ary tree, in which each parent has C children.
-    <ul>
-      <li>the nodes at coarser scales can be regarded as the daily, weekly, and even monthly features of the time series</li>
-    </ul>
-  </li>
-  <li>\(\to\) The pyramidal graph offers a multi-resolution representation of the original time series !
-    <ul>
-      <li>long-range dependencies 파악이 쉬워짐. 그냥 이웃 노드 연결하기만 하면 되니까 (intra-scale)</li>
-    </ul>
-  </li>
-  <li>Original Attention mechanism
-    <ul>
-      <li>input \(X\), output \(Y\)</li>
-      <li>Query \({Q}={X} {W}_Q\), key \({K}={X} {W}_K\), value \({V}={X} {W}_V\)</li>
-      <li>where \({W}_Q, {W}_K, {W}_V \in \mathbb{R}^{L \times D_K}\)</li>
-      <li>Then, \({y}_i=\sum_{\ell=1}^L \frac{\exp \left({q}_i {k}_{\ell}^T / \sqrt{D_K}\right) {v}_{\ell}}{\sum_{\ell=1}^L \exp \left({q}_i {k}_{\ell}^T / \sqrt{D_K}\right)}\)</li>
-      <li>time and space complexity \(\mathcal{O}(L^2)\)</li>
-    </ul>
-  </li>
-  <li>Pyramidal Attention Module (PAM)</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/pyraformer/fomula2.png" alt="그림21" /></p>
-
-<p><img src="/assets/img/timeseries/pyraformer/myfig1.png" alt="그림31" /></p>
-
-<ul>
-  <li>Then, \({y}_i=\sum_{\ell \in \mathbb{N}_{\ell}^{(s)}} \frac{\exp \left({q}_i {k}_{\ell}^T / \sqrt{d_K}\right) {v}_{\ell}}{\sum_{\ell \in \mathbb{N}_l^{(s)}} \exp \left({q}_i {k}_{\ell}^T / \sqrt{d_K}\right)}\)</li>
-  <li>모든 시점끼리 attention을 하지 않고 conv filter로 nodes를 만들고 이웃 노드끼리 attention !</li>
-</ul>
-
-<h3 id="32-coarser-saleㄴ-construvtion-module-cscm">3.2. Coarser-saleㄴ Construvtion Module (CSCM)</h3>
-
-<p><img src="/assets/img/timeseries/pyraformer/fig3.png" alt="그림3" /></p>
-
-<ul>
-  <li>PAM이 작동할 수 있도록 pyramidal 구조를 initialize하는 역할</li>
-</ul>
-
-<h3 id="33-prediction-module">3.3. Prediction Module</h3>
-
-<ul>
-  <li>input embedding 할 때에 예측하고자 하는 길이만큼 붙여서 CSCM, PAM을 통과하면</li>
-  <li>예측 시점에 대한 representation을 얻을 수 있음</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/pyraformer/myfig3.png" alt="그림33" /></p>
-
-<h2 id="4-experiments">4. Experiments</h2>
-
-<p><img src="/assets/img/timeseries/pyraformer/table2.png" alt="그림12" /></p>
-
-<p><img src="/assets/img/timeseries/pyraformer/table3.png" alt="그림13" /></p>
-
-<p><img src="/assets/img/timeseries/pyraformer/fig4.png" alt="그림14" /></p>
-
-<h2 id="5-conclusion-and-outlook">5. Conclusion and Outlook</h2>
-
-<ul>
-  <li>Pyraformer: a novel model based on pyramidal attention
-    <ul>
-      <li>effectively describe both short and long temporal dependencies with low time and space complexity</li>
-      <li>CSCM to construct a C-ary tree, and then design the PAM to pass messages in both the inter-scale and the intra-scale fashion</li>
-      <li>Pyraformer can achieve the theoretical \(\mathcal{O}(L)\) complexity and \(\mathcal{O}(1)\) maximum signal traversing path length (L: input sequence length)</li>
-    </ul>
-  </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2022](https://arxiv.org/pdf/2012.07436)]]></summary></entry></feed>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICLR 2024](https://arxiv.org/pdf/2403.01742)]]></summary></entry></feed>

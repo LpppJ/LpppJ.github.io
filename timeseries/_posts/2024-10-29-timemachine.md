@@ -4,14 +4,14 @@ related_posts:
   _
 title: 
 description: >
-  [Arxiv 2024](https://arxiv.org/abs/2403.09898)
+  [ECAI 2024](https://arxiv.org/abs/2403.09898)
 sitemap:
     changefreq: daily
     priority: 1.0
 hide_last_modified: true
 ---
 
-# TimeMachine: A Time Series is Worth 4 Mambas for Long-term Forecasting (Arxiv 2024)
+# TimeMachine: A Time Series is Worth 4 Mambas for Long-term Forecasting (ECAI 2024)
 
 ## Abstract
 
@@ -95,7 +95,7 @@ hide_last_modified: true
 
 ![그림1](/assets/img/timeseries/timemachine/fig1.png)
 
-- **Integrated Quadruple Mambas** (좀 복잡한데 핵심이라서 fig1 보면서 이해하면 좋음)
+- **Integrated Quadruple Mambas** (fig1 보면서 이해하면 좋음)
 
   - $$E_1, E_2$$ 각각의 embedding level에서 2개의 mamba를 사용
 
