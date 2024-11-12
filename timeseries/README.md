@@ -80,7 +80,9 @@ permalink: /timeseries/
 \
 [TimeMachine: A Time Series is Worth 4 Mambas for Long-term Forecasting (ECAI 2024)]{:.heading.flip-title}\
 \
-[Is Mamba Effective for Time Series Forecasting? (Arxiv 2024)]{:.heading.flip-title}
+[Is Mamba Effective for Time Series Forecasting? (Arxiv 2024)]{:.heading.flip-title}\
+\
+[Bi-Mamba+: Bidirectional Mamba for Time Series Forecasting (Arxiv 2024)]{:.heading.flip-title}
 
 
 
@@ -120,3 +122,4 @@ permalink: /timeseries/
 [Mamba: Linear-Time Sequence Modeling with Selective State Spaces (Arxiv 2023)]:\timeseries/2024-10-28-mamba
 [TimeMachine: A Time Series is Worth 4 Mambas for Long-term Forecasting (ECAI 2024)]:\timeseries/2024-10-29-timemachine
 [Is Mamba Effective for Time Series Forecasting? (Arxiv 2024)]:\timeseries/2024-11-07-s-mamba
+[Bi-Mamba+: Bidirectional Mamba for Time Series Forecasting (Arxiv 2024)]:\timeseries/2024-11-12-BiMamba+
