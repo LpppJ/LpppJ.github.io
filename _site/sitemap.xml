@@ -4,6 +4,38 @@
         xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
     <url>
+        <loc>http://localhost:4000/timeseries/2024-11-25-MoU/</loc>
+        
+        <lastmod>2024-11-25T00:00:00+09:00</lastmod>
+        
+
+        
+        <changefreq>daily</changefreq>
+        
+
+        
+        <priority>1.0</priority>
+        
+
+    </url>
+    
+    <url>
+        <loc>http://localhost:4000/timeseries/2024-11-14-SOR-Mamba/</loc>
+        
+        <lastmod>2024-11-14T00:00:00+09:00</lastmod>
+        
+
+        
+        <changefreq>daily</changefreq>
+        
+
+        
+        <priority>1.0</priority>
+        
+
+    </url>
+    
+    <url>
         <loc>http://localhost:4000/timeseries/2024-11-12-BiMamba+/</loc>
         
         <lastmod>2024-11-12T00:00:00+09:00</lastmod>

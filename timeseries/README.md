@@ -82,7 +82,10 @@ permalink: /timeseries/
 \
 [Is Mamba Effective for Time Series Forecasting? (Arxiv 2024)]{:.heading.flip-title}\
 \
-[Bi-Mamba+: Bidirectional Mamba for Time Series Forecasting (Arxiv 2024)]{:.heading.flip-title}
+[Bi-Mamba+: Bidirectional Mamba for Time Series Forecasting (Arxiv 2024)]{:.heading.flip-title}\
+\
+<!-- [Sequential Order-Robust Mamba for Time Series Forecasting (Arxiv 2024)]{:.heading.flip-title} -->
+[Mamba or Transformer for Time Series Forecasting? Mixture of Universals (MoU) Is All You Need (Arxiv 2024)]{:.heading.flip-title}
 
 
 
@@ -123,3 +126,5 @@ permalink: /timeseries/
 [TimeMachine: A Time Series is Worth 4 Mambas for Long-term Forecasting (ECAI 2024)]:\timeseries/2024-10-29-timemachine
 [Is Mamba Effective for Time Series Forecasting? (Arxiv 2024)]:\timeseries/2024-11-07-s-mamba
 [Bi-Mamba+: Bidirectional Mamba for Time Series Forecasting (Arxiv 2024)]:\timeseries/2024-11-12-BiMamba+
+[Sequential Order-Robust Mamba for Time Series Forecasting (Arxiv 2024)]:\timeseries/2024-11-14-SOR-Mamba
+[Mamba or Transformer for Time Series Forecasting? Mixture of Universals (MoU) Is All You Need (Arxiv 2024)]:\timeseries/2024-11-25-MoU
