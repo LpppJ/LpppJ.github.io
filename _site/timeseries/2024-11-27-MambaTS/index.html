@@ -45,7 +45,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="MambaTS: Improved Selective State Space Models for Long-term Time Series Forecasting (ICLR 2025)" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-11-27T16:56:56+09:00","datePublished":"2024-11-27T00:00:00+09:00","description":"ICLR 2025","headline":"MambaTS: Improved Selective State Space Models for Long-term Time Series Forecasting (ICLR 2025)","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/timeseries/2024-11-27-MambaTS/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/timeseries/2024-11-27-MambaTS/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2024-11-28T03:05:29+09:00","datePublished":"2024-11-27T00:00:00+09:00","description":"ICLR 2025","headline":"MambaTS: Improved Selective State Space Models for Long-term Time Series Forecasting (ICLR 2025)","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/timeseries/2024-11-27-MambaTS/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/timeseries/2024-11-27-MambaTS/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -108,7 +108,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2024-11-27T16:56:58+09:00',
+    INDEX_KEY: 'index--2025-01-08T00:46:45+09:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -339,7 +339,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 <ul>
   <li><strong>Patching and Tokenization</strong>
     <ul>
-      <li>PatchTST처럼 각 변수를 $M=L / s$개의 patches로 나누어 각 patch를 \(D\)차원으로 mapping</li>
+      <li>PatchTST처럼 각 변수를 \(M=L / s\)개의 patches로 나누어 각 patch를 \(D\)차원으로 mapping</li>
     </ul>
   </li>
   <li><strong>Variable Scan along Time</strong>
@@ -411,7 +411,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
     <ul>
       <li>변수 \(K\)개, directed graph adjacency matrix \(P \in \mathbb{R}^{K \times K}\)를 만듬
         <ul>
-          <li>\(p_{i, j}\) : cost from node $i$ to node \(j\)</li>
+          <li>\(p_{i, j}\) : cost from node \(i\) to node \(j\)</li>
           <li>다양한 variable scan order 탐색해서 Loss 계산 할 것</li>
         </ul>
       </li>

@@ -1,5 +1,195 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-11-27T16:56:58+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">MambaTS: Improved Selective State Space Models for Long-term Time Series Forecasting (ICLR 2025)</title><link href="http://localhost:4000/timeseries/2024-11-27-MambaTS/" rel="alternate" type="text/html" title="MambaTS: Improved Selective State Space Models for Long-term Time Series Forecasting (ICLR 2025)" /><published>2024-11-27T00:00:00+09:00</published><updated>2024-11-27T16:56:56+09:00</updated><id>http://localhost:4000/timeseries/MambaTS</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-11-27-MambaTS/"><![CDATA[<h2 id="abstract">Abstract</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-01-08T00:46:45+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">DTMamba : Dual Twin Mamba for Time Series Forecasting (Arxiv 2024)</title><link href="http://localhost:4000/timeseries/2025-01-06-DTMamba/" rel="alternate" type="text/html" title="DTMamba : Dual Twin Mamba for Time Series Forecasting (Arxiv 2024)" /><published>2025-01-06T00:00:00+09:00</published><updated>2025-01-08T00:46:43+09:00</updated><id>http://localhost:4000/timeseries/DTMamba</id><content type="html" xml:base="http://localhost:4000/timeseries/2025-01-06-DTMamba/"><![CDATA[<h2 id="introduction">Introduction</h2>
+
+<ul>
+  <li>RNN-based methods
+    <ul>
+      <li>vanishing gradients</li>
+      <li>cannot be parallelized effectively,</li>
+      <li>leading tolower computational efficiency</li>
+    </ul>
+  </li>
+  <li>TCN-based methods
+    <ul>
+      <li>limited modeling capabilities for long-term dependencies.</li>
+    </ul>
+  </li>
+  <li>Transformers
+    <ul>
+      <li>quadratic complexity</li>
+    </ul>
+  </li>
+  <li>Simple linear models
+    <ul>
+      <li>short in terms of performance.</li>
+    </ul>
+  </li>
+  <li>Mamba
+    <ul>
+      <li>inear timeseries modeling approach using State Space Models
+        <ul>
+          <li>RNN’s sequential processing capability</li>
+          <li>CNN’s global information processing capability</li>
+        </ul>
+      </li>
+      <li>selection mechanism within the SSM framework
+        <ul>
+          <li>focus on essentialinformation while filtering out irrelevant details</li>
+        </ul>
+      </li>
+      <li>incorporates a summary of all preceding information</li>
+    </ul>
+  </li>
+  <li>Dual Twin Mamba(DTMamba)
+    <ul>
+      <li>RevIN - two TMamba blocks(Residual networks) - projection layer - reverse RevIN</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="2-related-work">2. Related Work</h2>
+
+<ul>
+  <li>Traditional methods
+    <ul>
+      <li>poor modeling performance</li>
+    </ul>
+  </li>
+  <li>RNN-based models
+    <ul>
+      <li>vanishing gradients, limited parallelization capabilities,</li>
+    </ul>
+  </li>
+  <li>Transformer-based methods
+    <ul>
+      <li>self-attention : suitable for modelinglong-term time series data</li>
+      <li>quadratic complexity</li>
+    </ul>
+  </li>
+  <li>Linear-based methods
+    <ul>
+      <li>solely rely on pastobserved temporal patterns</li>
+    </ul>
+  </li>
+  <li>TCN-based methods
+    <ul>
+      <li>larger receptivefied</li>
+      <li>but limited modeling capabilities forlong-term dependencies</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="3-proposed-methods">3. Proposed Methods</h2>
+
+<h3 id="31-problem-statement">3.1 Problem Statement</h3>
+
+<ul>
+  <li>\(X=\left\{x_1, \ldots, x_T\right\} \in \mathbb{R}^{T \times N}\)를 보고 \(\hat{X}=\left\{\hat{x}_{T+1}, \ldots, \hat{x}_{T+S}\right\} \in \mathbb{R}^{S \times N}\) 예측</li>
+</ul>
+
+<h3 id="32-normalization">3.2 Normalization</h3>
+
+<ul>
+  <li>\(X \in \mathbb{R}^{T \times N}\)  into \(X^0=\left\{x_1^0, \ldots, x_T^0\right\} \in \mathbb{R}^{T \times N}\), via \(X^0=\operatorname{RevIN}(X)\).</li>
+</ul>
+
+<h3 id="33-channel-independence--reversed-channel-independence">3.3 Channel Independence &amp; Reversed Channel Independence</h3>
+
+<ul>
+  <li>model overfitting 때문에 함</li>
+  <li>\(\text{Batch}\left(X^0\right)\):  (Batch_Size, Lookback length, Dimension) \(= (B, T, N)\) 를 reshape
+    <ul>
+      <li>Batch \(\left(X^{\boldsymbol{I}}\right)= \text{ChannelIndepence}\left(\operatorname{Batch}\left(X^0\right)\right) : (B \times N, 1, T)\)</li>
+    </ul>
+  </li>
+  <li>다시 되돌릴 때에는 $\operatorname{Batch}\left(X^P\right):(B \times N, 1, S)$를 reshape
+    <ul>
+      <li>Batch \((\hat{\boldsymbol{X}})=\text{ ChannelIndepence}^{-1}\left(\operatorname{Batch}\left(X^P\right)\right) : (B, S, N)\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="34-twin-mamba">3.4 Twin Mamba</h3>
+
+<p><img src="/assets/img/timeseries/DTMamba/fig1.png" alt="그림1" /></p>
+
+<p><img src="/assets/img/timeseries/DTMamba/fig2.png" alt="그림1" /></p>
+
+<ul>
+  <li>Embedding layer - residual</li>
+  <li>Dropout layer - twin Mambas</li>
+</ul>
+
+<h3 id="341-embedding-layers">3.4.1. Embedding Layers</h3>
+
+<ul>
+  <li>linear layer as the Embedding layer \(\to\) global feature representation</li>
+  <li>\(X^E = \text{Embedding}(X^I):(B \times N, 1, ni)\).</li>
+  <li>Embedding layer는 TMamba Block 안에 있는데
+    <ul>
+      <li>TMamba Block이 두 개니까 각각의 Embedding layer를 Embedding 1,2라 함</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="342-residual">3.4.2. Residual</h3>
+
+<ul>
+  <li>proposed by ResNet</li>
+  <li>to prevent overfitting, stable training</li>
+</ul>
+
+<h3 id="343-dropout">3.4.3. Dropout</h3>
+
+<ul>
+  <li>To prevent overfitting</li>
+  <li>\(X^E\) into \(X^D:(B \times N, 1, n i)\) (dimension은 그대로)</li>
+</ul>
+
+<h3 id="344-mamba">3.4.4. Mamba</h3>
+
+<ul>
+  <li>S4 learns how to map an input \(x(t)\) to an output \(y(t)\) through an intermediate state \(h(t)\)</li>
+  <li>TMamba Block에서는 2개의 Mamba 사용됨 (multi-level feature learning)
+    <ul>
+      <li>low-level temporal features &amp; high-level temporal patterns</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="35-projection-layer">3.5. Projection Layer</h3>
+
+<p><img src="/assets/img/timeseries/DTMamba/algorithm1.png" alt="그림1" /></p>
+
+<ul>
+  <li>지금까지 2개의 TMamba Block와 residuals \(R^1\), \(R^2\) 더해서 hidden information을 얻음</li>
+  <li>Output의 shape에 맞게 FC layer 태운 뒤
+    <ul>
+      <li>앞서 언급한 것처럼 \(\text{ ChannelIndepence}^{-1}\)와 \(\text{RevIN}^{-1}\)을 수행</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="4-experiment">4. Experiment</h2>
+
+<h3 id="41-settings">4.1. Settings</h3>
+
+<p>pass</p>
+
+<h3 id="42-long-term-forecasting">4.2. Long-term Forecasting</h3>
+
+<p><img src="/assets/img/timeseries/DTMamba/table1.png" alt="그림1" /></p>
+
+<p><img src="/assets/img/timeseries/DTMamba/table2-1.png" alt="그림1" />
+<img src="/assets/img/timeseries/DTMamba/table2-2.png" alt="그림1" /></p>
+
+<p><img src="/assets/img/timeseries/DTMamba/table3.png" alt="그림1" /></p>
+
+<h3 id="43-hyperparameter-sensitivity-analysis-and-ablation-study">4.3. Hyperparameter Sensitivity Analysis and Ablation Study</h3>
+
+<p><img src="/assets/img/timeseries/DTMamba/table4.png" alt="그림1" /></p>
+
+<p><img src="/assets/img/timeseries/DTMamba/table5.png" alt="그림1" /></p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/pdf/2405.07022)]]></summary></entry><entry><title type="html">MambaTS: Improved Selective State Space Models for Long-term Time Series Forecasting (ICLR 2025)</title><link href="http://localhost:4000/timeseries/2024-11-27-MambaTS/" rel="alternate" type="text/html" title="MambaTS: Improved Selective State Space Models for Long-term Time Series Forecasting (ICLR 2025)" /><published>2024-11-27T00:00:00+09:00</published><updated>2024-11-28T03:05:29+09:00</updated><id>http://localhost:4000/timeseries/MambaTS</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-11-27-MambaTS/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>Transformers : quadratic complexity and permutation invariant bias</li>
@@ -94,7 +284,7 @@
 <ul>
   <li><strong>Patching and Tokenization</strong>
     <ul>
-      <li>PatchTST처럼 각 변수를 $M=L / s$개의 patches로 나누어 각 patch를 \(D\)차원으로 mapping</li>
+      <li>PatchTST처럼 각 변수를 \(M=L / s\)개의 patches로 나누어 각 patch를 \(D\)차원으로 mapping</li>
     </ul>
   </li>
   <li><strong>Variable Scan along Time</strong>
@@ -166,7 +356,7 @@
     <ul>
       <li>변수 \(K\)개, directed graph adjacency matrix \(P \in \mathbb{R}^{K \times K}\)를 만듬
         <ul>
-          <li>\(p_{i, j}\) : cost from node $i$ to node \(j\)</li>
+          <li>\(p_{i, j}\) : cost from node \(i\) to node \(j\)</li>
           <li>다양한 variable scan order 탐색해서 Loss 계산 할 것</li>
         </ul>
       </li>
@@ -602,7 +792,7 @@ f_B\left(\Delta_t, A, B_t\right)=\left(\Delta_t A\right)^{-1}\left(\exp \left(\D
       </li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/pdf/2408.15997)]]></summary></entry><entry><title type="html">Sequential Order-Robust Mamba for Time Series Forecasting (Arxiv 2024)</title><link href="http://localhost:4000/timeseries/2024-11-14-SOR-Mamba/" rel="alternate" type="text/html" title="Sequential Order-Robust Mamba for Time Series Forecasting (Arxiv 2024)" /><published>2024-11-14T00:00:00+09:00</published><updated>2024-11-25T17:10:30+09:00</updated><id>http://localhost:4000/timeseries/SOR-Mamba</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-11-14-SOR-Mamba/"><![CDATA[<h2 id="abstract">Abstract</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/pdf/2408.15997)]]></summary></entry><entry><title type="html">SEQUENTIAL ORDER-ROBUST MAMBA FOR TIME SERIES FORECASTING (Arxiv 2024)</title><link href="http://localhost:4000/timeseries/2024-11-14-SOR-Mamba/" rel="alternate" type="text/html" title="SEQUENTIAL ORDER-ROBUST MAMBA FOR TIME SERIES FORECASTING (Arxiv 2024)" /><published>2024-11-14T00:00:00+09:00</published><updated>2024-11-25T17:10:30+09:00</updated><id>http://localhost:4000/timeseries/SOR-Mamba</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-11-14-SOR-Mamba/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>Mamba : near-linear complexity in processing sequential data
@@ -664,11 +854,11 @@ f_B\left(\Delta_t, A, B_t\right)=\left(\Delta_t A\right)^{-1}\left(\exp \left(\D
       <li>TD는 simple multi-layer perceptrons (MLPs)으로 했었음</li>
     </ul>
   </li>
-  <li>Mamba는 <strong>sequential order bias</strong>가 있다보니 <strong>Bidirectional Mamba로는 충분하지 않음</strong> (table1)</li>
+  <li>Mamba는 <strong>sequential order bias</strong>가 있다보니 <strong>Bidirectional Mamba로는 충분하지 않음</strong></li>
   <li>그렇다고 MambaTS처럼 channel을 섞자니 추가적인 작업이 소요됨</li>
 </ul>
 
-<p>table1</p>
+<p><img src="/assets/img/timeseries/SOR-Mamba/fig1.png" alt="그림1" /></p>
 
 <ul>
   <li>그래서 <strong>Sequential Order-Robust Mamba for TS forecasting (SOR-Mamba)</strong>를 제안
@@ -699,7 +889,93 @@ f_B\left(\Delta_t, A, B_t\right)=\left(\Delta_t A\right)^{-1}\left(\exp \left(\D
       <li>Embedding space에서의 correlation (btw channels)의 차이를 줄이도록 학습</li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/pdf/2410.23356)]]></summary></entry><entry><title type="html">Bi-Mamba+: Bidirectional Mamba for Time Series Forecasting (Arxiv 2024)</title><link href="http://localhost:4000/timeseries/2024-11-12-BiMamba+/" rel="alternate" type="text/html" title="Bi-Mamba+: Bidirectional Mamba for Time Series Forecasting (Arxiv 2024)" /><published>2024-11-12T00:00:00+09:00</published><updated>2024-11-14T00:13:05+09:00</updated><id>http://localhost:4000/timeseries/BiMamba+</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-11-12-BiMamba+/"><![CDATA[<h2 id="abstract">Abstract</h2>
+</ul>
+
+<h2 id="3-preliminaries">3. Preliminaries</h2>
+
+<p>pass</p>
+
+<h2 id="4-methodology">4. Methodology</h2>
+
+<p><img src="/assets/img/timeseries/SOR-Mamba/fig2.png" alt="그림1" /></p>
+
+<h3 id="41-architecture-of-sor-mamba">4.1. Architecture of SOR-Mamba</h3>
+
+<ul>
+  <li>Embedding layer: \(\mathbf{x} \in \mathbb{R}^{L \times C}\) into \(\mathbf{Z} \in \mathbb{R}^{C \times D}\) using a single linear layer.</li>
+  <li>Mamba for CD: CD-Mamba block (<em>1D-conv</em> 제거)</li>
+  <li>MLP for TD: (with layer normalization (LN))</li>
+  <li>Prediction head: linear prediction head, resulting in \(\hat{\mathbf{y}} \in \mathbb{R}^{H \times C}\)</li>
+</ul>
+
+<h3 id="42-regularization-with-cd-mamba-block">4.2. Regularization with CD-Mamba Block</h3>
+
+<ul>
+  <li>\(L_{\mathrm{reg}}(\mathbf{z})=d\left(\mathbf{z}_1, \mathbf{z}_2\right)\), 여기서는 \(d\)를 MSE 사용</li>
+  <li>최종적으로 \(L(\mathbf{x}, \mathbf{y})=L_{\mathrm{fcst}}(\mathbf{x}, \mathbf{y})+\lambda \cdot \sum_{i=1}^m L_{\mathrm{reg}}\left(\mathbf{z}^{(i)}\right)\)</li>
+</ul>
+
+<h3 id="43-channel-correlation-modeling">4.3. Channel Correlation modeling</h3>
+
+<ul>
+  <li>Temporal Dependencies보다는 Channel Dependencies를 강조하는 pre-training task</li>
+  <li>CCM: preserve the (Pearson) correlation between channels from the data space to the latent space</li>
+</ul>
+
+<p><img src="/assets/img/timeseries/SOR-Mamba/fig3.png" alt="그림1" /></p>
+
+<ul>
+  <li>input token on the data space에서의 correlation matrices가 있고
+    <ul>
+      <li>output token on the latent space에의 correlation matrices가 있으면</li>
+      <li>loss function for CCM은 distance between these two matrices:
+        <ul>
+          <li>\(L_{\mathrm{CCM}}(\mathbf{x})=d\left(\mathbf{R}_{\mathbf{x}}, \mathbf{R}_{\mathbf{z}}\right)\).</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="5-experiments">5. Experiments</h2>
+
+<h3 id="51-experimental-settings">5.1. Experimental settings</h3>
+
+<p>pass</p>
+
+<h3 id="52-time-series-forecasting">5.2. Time series Forecasting</h3>
+
+<p><img src="/assets/img/timeseries/SOR-Mamba/table2.png" alt="그림1" /></p>
+
+<h3 id="53-transfer-learning">5.3. Transfer Learning</h3>
+
+<p><img src="/assets/img/timeseries/SOR-Mamba/table4.png" alt="그림1" /></p>
+
+<ul>
+  <li>SimMTM에 transfer learning 한 걸 S-Mamba와 비교</li>
+</ul>
+
+<h3 id="54-ablation-study">5.4. Ablation Study</h3>
+
+<p><img src="/assets/img/timeseries/SOR-Mamba/table5.png" alt="그림1" /></p>
+
+<h2 id="6-analysis">6. Analysis</h2>
+
+<h3 id="61-sequential-order-bias">6.1. Sequential order bias</h3>
+
+<p><img src="/assets/img/timeseries/SOR-Mamba/fig4.png" alt="그림1" /></p>
+
+<ul>
+  <li>Channels가 많을수록, correlated 되어있을수록, Sequential order bias 큼</li>
+</ul>
+
+<h3 id="62-effect-of-regularization">6.2. Effect of regularization</h3>
+
+<p><img src="/assets/img/timeseries/SOR-Mamba/table6.png" alt="그림1" /></p>
+
+<h3 id="63-effect-of-1d-conv">6.3. Effect of 1D-conv</h3>
+
+<p><img src="/assets/img/timeseries/SOR-Mamba/table7.png" alt="그림1" /></p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/pdf/2410.23356)]]></summary></entry><entry><title type="html">Bi-Mamba+: Bidirectional Mamba for Time Series Forecasting (Arxiv 2024)</title><link href="http://localhost:4000/timeseries/2024-11-12-BiMamba+/" rel="alternate" type="text/html" title="Bi-Mamba+: Bidirectional Mamba for Time Series Forecasting (Arxiv 2024)" /><published>2024-11-12T00:00:00+09:00</published><updated>2024-11-14T00:13:05+09:00</updated><id>http://localhost:4000/timeseries/BiMamba+</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-11-12-BiMamba+/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>LTSF :  long-term dependencies capturing and <strong>sparse semantic characteristics</strong></li>
@@ -3050,537 +3326,4 @@ y &amp; =\overline{\boldsymbol{K}} * u \\
     </ul>
   </li>
   <li>SSM을 large network로 안정적으로 확하는 것이 아직 해결되지 않은 문제</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/abs/2404.16112)]]></summary></entry><entry><title type="html">(Code Review, ICLR 2022) Raindrop</title><link href="http://localhost:4000/pytorch/2024-09-24-raindrop/" rel="alternate" type="text/html" title="(Code Review, ICLR 2022) Raindrop" /><published>2024-09-24T00:00:00+09:00</published><updated>2024-09-24T18:34:03+09:00</updated><id>http://localhost:4000/pytorch/raindrop</id><content type="html" xml:base="http://localhost:4000/pytorch/2024-09-24-raindrop/"><![CDATA[<p><a href="https://arxiv.org/abs/2110.05357">(Paper) Graph-Guided Network for Irregularly Sampled Multivariate Time Series</a></p>
-
-<p><a href="https://lpppj.github.io/timeseries/2024-02-09-Raindrop">(Paper Review, ICLR 2022) Raindrop</a></p>
-
-<h2 id="1-git-clone">1. Git clone</h2>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig1.png" alt="사진1" /></p>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig2.png" alt="사진1" /></p>
-
-<ul>
-  <li>먼저 터미널에 git clone과 requirements를 입력하여 install 한다.</li>
-  <li><code class="language-plaintext highlighter-rouge">python Raindrop.py</code>로 P19, P12, PAM 데이터셋에 대한 성능을 볼 수 있다.</li>
-</ul>
-
-<h2 id="2-raindroppy">2. Raindrop.py</h2>
-
-<h3 id="21-data-preparing">2.1. Data Preparing</h3>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig3.png" alt="사진1" />
-<img src="/assets/img/pytorch/raindrop_code/fig4.png" alt="사진1" /></p>
-
-<ul>
-  <li>parser를 통해 aurgments를 만들고</li>
-  <li>본 논문에서 제시하는 model은 irregular time series를 다룬다.
-    <ul>
-      <li>그러므로 <code class="language-plaintext highlighter-rouge">missing ratio</code>, 즉 feature를 masking하는 비율을 미리 결정해준다. (option)</li>
-      <li>일단은 0(no missing)으로 두고 코드를 이해해보자</li>
-    </ul>
-  </li>
-</ul>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig5.png" alt="사진1" /></p>
-
-<ul>
-  <li>사전에 정한 <code class="language-plaintext highlighter-rouge">missing ratio</code>를 사용한다.</li>
-  <li>epoch 수와 learning rate도 미리 정한다.</li>
-</ul>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig6.png" alt="사진1" /></p>
-
-<ul>
-  <li>P19 데이터셋을 사용한다.
-    <ul>
-      <li><code class="language-plaintext highlighter-rouge">d_static</code>과 <code class="language-plaintext highlighter-rouge">d_inp</code>는 시간에 따라 변하지 않는(정적) / 변하는(동적) 변수의 개수</li>
-      <li><code class="language-plaintext highlighter-rouge">static_info</code>는 <code class="language-plaintext highlighter-rouge">d_static</code> 변수가 있는지 없는지 (bool)</li>
-      <li><code class="language-plaintext highlighter-rouge">max_len</code>은, batch 내 샘플마다 시계열의 길이가 다른데 최대 길이
-        <ul>
-          <li>만약 <code class="language-plaintext highlighter-rouge">max_len</code>보다 짧다면 그 부분은 다 0으로 기록되어있다.</li>
-        </ul>
-      </li>
-      <li><code class="language-plaintext highlighter-rouge">n_classes</code>는 샘플에 속하는 class의 개수</li>
-    </ul>
-  </li>
-  <li>
-    <p>다른 데이터셋을 사용한다면 위의 변수들은 달라질 수 있다.</p>
-  </li>
-  <li><code class="language-plaintext highlighter-rouge">d_ob</code>는 각 변수를 몇 차원으로 표현할지를 의미한다.</li>
-  <li>그래서 <code class="language-plaintext highlighter-rouge">d_model</code>은 동적 변수의 개수인 <code class="language-plaintext highlighter-rouge">d_inp</code>에 <code class="language-plaintext highlighter-rouge">d_ob</code>를 곱한 값이 된다.</li>
-  <li><code class="language-plaintext highlighter-rouge">nhid</code>는 FFN의 dimension인데 <code class="language-plaintext highlighter-rouge">d_model</code>의 2배를 사용</li>
-  <li><code class="language-plaintext highlighter-rouge">nlayers</code>는 layer의 개수, <code class="language-plaintext highlighter-rouge">nhead</code>는 MHA(multi-head attention)에서 heads 개수이고 모두 2개를 사용</li>
-  <li><code class="language-plaintext highlighter-rouge">dropout</code>은 TransformerEncoderLayer에서 사용하는 dropout ratio</li>
-  <li><code class="language-plaintext highlighter-rouge">aggreg</code>는 나중에 각 배치마다, 각 시점을 vector로 표현할텐데 그걸 모든 시점에 대해 합칠 때 <strong>평균</strong>을 사용</li>
-  <li><code class="language-plaintext highlighter-rouge">MAX</code>는 positional encoder에 들어가는 MAX parameter인데
-    <ul>
-      <li>막상 positional encoder 코드를 보면 <code class="language-plaintext highlighter-rouge">MAX</code>라는 변수를 사용하지 않으니 신경 안써도 된다.</li>
-    </ul>
-  </li>
-</ul>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig7.png" alt="사진1" /></p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">n_run</code>은 데이터셋에 대해 몇 번을 실험해서 기록할지를 의미한다.</li>
-  <li><code class="language-plaintext highlighter-rouge">n_splits</code>는 데이터가 5등분 되어있어서 5를 사용한다.</li>
-  <li>그리고 본 model을 평가하기 위한 성능 지표를 기록할 arrays를 만들어놓는다.</li>
-</ul>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig8.png" alt="사진1" /></p>
-
-<ul>
-  <li>그리고 불러온 데이터셋을 train(0.8) / valid(0.1) / test(0.1)로 나누고 label(y)도 따로 준비한다.</li>
-  <li>P19 데이터셋의 경우 train에는 31042개의 샘플이 있다. (샘플은 한 명의 환자 정도로 생각할 수 있다.)
-    <ul>
-      <li>그리고 각 샘플은 <code class="language-plaintext highlighter-rouge">torch.size([# of timesetps,  # of features])</code>인 tensor이다.</li>
-    </ul>
-  </li>
-</ul>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig9.png" alt="사진1" /></p>
-
-<ul>
-  <li>T는 time steps의 수, F는 (동적) 변수의 개수이고, D는 (정적) 변수의 개수가 된다.
-    <ul>
-      <li>동적 변수는 <code class="language-plaintext highlighter-rouge">Ptrain</code>의 <code class="language-plaintext highlighter-rouge">arr</code>에, 정적 변수는 <code class="language-plaintext highlighter-rouge">Ptrain</code>의 <code class="language-plaintext highlighter-rouge">extended_static</code>에 따로 준비하고 있다.</li>
-    </ul>
-  </li>
-  <li>그리고 normalization을 위해 모든 변수들의 평균과 표준편차를 얻는다.
-    <ul>
-      <li><code class="language-plaintext highlighter-rouge">getStats</code> 함수에는 사용하는데 특이사항 없으므로 skip</li>
-    </ul>
-  </li>
-</ul>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig10.png" alt="사진1" /></p>
-
-<ul>
-  <li>각각의 shape은 아래와 같다.</li>
-  <li><code class="language-plaintext highlighter-rouge">Ptrain</code>의 동적 변수들의 개수가 34개였는데 68이 된 이유는 :
-    <ul>
-      <li>같은 크기의 Mask를 옆에 이어붙였기 때문이다.</li>
-      <li>Mask는 <code class="language-plaintext highlighter-rouge">M = 1*(input_tensor &gt; 0) + 0*(input_tensor &lt;= 0)</code>이다.</li>
-    </ul>
-  </li>
-  <li><code class="language-plaintext highlighter-rouge">Ptrain_time</code>은 31042개의 텐서인데, 각 tensor는 해당 샘플의 길이를 알려준다.
-    <ul>
-      <li>즉 만약 0번째 샘플의 길이가 40이라면, 0번째 tensor는<code class="language-plaintext highlighter-rouge">[1, 2, ..., 40, 0, 0, ...]</code>이다.</li>
-      <li>일단 숫자는 <code class="language-plaintext highlighter-rouge">max_len</code>개인데 해당 샘플의 길이까지만 index를 기록하고 뒷부분은 zero padding</li>
-    </ul>
-  </li>
-  <li><code class="language-plaintext highlighter-rouge">y_train</code>은 각 샘플의 정답 label이다.</li>
-</ul>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig11.png" alt="사진1" /></p>
-
-<ul>
-  <li>이제 <code class="language-plaintext highlighter-rouge">global_structure</code>를 정의하는데, 각각의 동적 변수가 상호작용하는지를 0, 1로 표현
-    <ul>
-      <li>adjacency matrix의 역할을 한다.</li>
-    </ul>
-  </li>
-  <li><code class="language-plaintext highlighter-rouge">missing_ratio</code>가 존재했다면 몇몇 feature를 masking한다.
-    <ul>
-      <li><code class="language-plaintext highlighter-rouge">feature_removal_level</code>이 <code class="language-plaintext highlighter-rouge">sample</code>이면 각 샘플(환자)마다 독립적으로 특성을 무작위 제거</li>
-      <li><code class="language-plaintext highlighter-rouge">feature_removal_level</code>이 <code class="language-plaintext highlighter-rouge">set</code>이면 미리 계산된 density scores를 사용하여 제거할 특성을 결정하고 모든 샘플에서 제거</li>
-    </ul>
-  </li>
-</ul>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig12.png" alt="사진1" /></p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">Ptrain</code>의 shape을 <code class="language-plaintext highlighter-rouge">torch.size([# of timesteps,  batch_size,  # of features(w/masking)])</code>으로,</li>
-  <li><code class="language-plaintext highlighter-rouge">Ptrain_time</code>의 shape을 <code class="language-plaintext highlighter-rouge">torch.size([# of timesteps, batch_size])</code>로 setting</li>
-</ul>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig13.png" alt="사진1" /></p>
-
-<ul>
-  <li>앞서 소개한 parameters를 한 번 출력해보았다.</li>
-  <li>지금은 masking ratio가 0이다.</li>
-</ul>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig14.png" alt="사진1" /></p>
-
-<ul>
-  <li>parameters의 descriptions는 위와 같다.</li>
-</ul>
-
-<h3 id="22-model-setting">2.2. Model setting</h3>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig15.png" alt="사진1" /></p>
-
-<ul>
-  <li>이제 model, criterion, optimiazer, scheduler를 정의한다.</li>
-  <li>model은 2d tensor로 표현된 샘플마다 classification하도록 설계되었으므로 CrossEntropyLoss를 사용</li>
-  <li>아직 input을 model에 넣은 건 아님.
-    <ul>
-      <li>input이 model에 들어가면 어떤 과정을 거치는지는 아래 3. <code class="language-plaintext highlighter-rouge">models_rd.py</code>에서 보도록 한다.</li>
-    </ul>
-  </li>
-</ul>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig16.png" alt="사진1" /></p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">idx_0</code>은 <code class="language-plaintext highlighter-rouge">y</code>가 0인 samples의 index, <code class="language-plaintext highlighter-rouge">idx_1</code>은 반대</li>
-  <li>label이 1인 샘플의 개수가 적은 unbalancing 문제를 해결하기 위해 3배로 늘림 (왜 <strong>3</strong>배인지는 모름)</li>
-  <li>batch_size가 128인데 label이 0과 1인 samples를 절반씩 채울테니
-    <ul>
-      <li>n_batches는 개수가 더 적은 label 기준으로 모든 samples를 한 번씩 다 볼 수 있도록 설정했다.</li>
-      <li>사실 label이 1인 samples를 3배 했으니 label이 1인 샘플을 3번씩 보는 꼴이다.</li>
-    </ul>
-  </li>
-</ul>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig17.png" alt="사진1" /></p>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig18.png" alt="사진1" /></p>
-
-<ul>
-  <li>이제 epoch를 시작하는데, label이 0인 샘플과 1인 샘플에서 무작위로 <code class="language-plaintext highlighter-rouge">batch_size/2</code>개씩 가져온다.</li>
-  <li>사실 label이 1인 samples를 3배 했으니 여기서는 중복된 샘플이 나올 가능성이 있다.</li>
-  <li>model에 들어갈 input tensors의 shape을 미리 확인해두자</li>
-</ul>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig19.png" alt="사진1" /></p>
-
-<ul>
-  <li>이제 model에 들어가고 통상적인 backpropagation을 거친다.</li>
-  <li>model에 들어가면 어떤 일이 일어나는지 알아보자.</li>
-</ul>
-
-<h2 id="3-models_rdpy">3. models_rd.py</h2>
-
-<h3 id="31-init">3.1. <strong>init</strong></h3>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">__init__</code>이 상당히 많지만 지금 다 알 필요는 없다.</li>
-  <li><code class="language-plaintext highlighter-rouge">forward</code>에서 사용할 때 다시 올라와서 보면 될 듯</li>
-</ul>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig20.png" alt="사진1" /></p>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig21.png" alt="사진1" /></p>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig22.png" alt="사진1" /></p>
-
-<h2 id="32-forward">3.2. forward</h2>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig23.png" alt="사진1" /></p>
-
-<ul>
-  <li>P19 데이터셋의 경우 input shape은 주황색 주석과 같다.</li>
-  <li>src로 들어오는 P의 경우 34개의 변수였는데 같은 크기의 Mask를 옆에 이어붙인 것이니 다시 분리
-    <ul>
-      <li>각각을 missing_mask, src라고 부름</li>
-    </ul>
-  </li>
-  <li>그 다음 34개의 변수를 <code class="language-plaintext highlighter-rouge">d_ob</code>(여기선 4)번 반복해서 src의 representation capacity를 키워주고
-    <ul>
-      <li>ReLu를 통과시켜서 non-linearity를 표현할 수 있게 한다.</li>
-      <li>그 다음 dropout을 거친다.</li>
-    </ul>
-  </li>
-  <li>결국 <code class="language-plaintext highlighter-rouge">h</code>는 src를 확장시키고 learnable weights와 ReLu를 곱해 모델이 학습할 수 있는 형태로 만든 것</li>
-</ul>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig24.png" alt="사진1" /></p>
-
-<ul>
-  <li>이제 batch에 있는 각 sample마다 mask를 만든다.</li>
-  <li>sample에 값이 있으면 mask에는 False가 되고 값이 없으면 mask가 True가 된다.</li>
-  <li>mask의 길이는 60으로 고정이지만 sample마다 길이가 다르기 때문에 어디까지 False이고 언제부터 True인지는 sample마다 다르다.</li>
-</ul>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig25.png" alt="사진1" /></p>
-
-<ul>
-  <li>다음으로 <code class="language-plaintext highlighter-rouge">global_structure</code>를 adjacency matrix로 사용한다.
-    <ul>
-      <li>shape은 동적 변수의 개수 <code class="language-plaintext highlighter-rouge">d_inp</code> x <code class="language-plaintext highlighter-rouge">d_inp</code>가 되므로 각 동적 변수를 연결 여부를 (0,1)로 표현한다.</li>
-      <li>epoch가 진행되면서 바뀔 수도 있으니 대각성분은 항상 1로 update해준다.</li>
-    </ul>
-  </li>
-  <li>그 다음 edge_index와 edge_weights를 미리 구해놓는다.
-    <ul>
-      <li>연결된 nodes의 index와 그 weights를 의미함</li>
-    </ul>
-  </li>
-  <li>그 다음 batch에 있는 각 sample마다 (동적) 변수들의 global structure(edge)를 고려한 representation을 저장할 공간 <code class="language-plaintext highlighter-rouge">output</code>을 미리 만들어놓는다.
-    <ul>
-      <li>각 sample마다 <code class="language-plaintext highlighter-rouge">torch([# of time steps,  d_inp x d_ob])</code> shape의 tensor가 들어갈 예정이다.</li>
-    </ul>
-  </li>
-</ul>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig26.png" alt="사진1" /></p>
-
-<ul>
-  <li>이제 아까 만든 <code class="language-plaintext highlighter-rouge">h</code>를 <code class="language-plaintext highlighter-rouge">x</code>로 받아서 (<code class="language-plaintext highlighter-rouge">x=h</code>) 하나의 sample에 대한 <code class="language-plaintext highlighter-rouge">h</code>를 <code class="language-plaintext highlighter-rouge">stepdata</code> 가져온다</li>
-  <li><code class="language-plaintext highlighter-rouge">p_t</code>는 각 timestep을 <code class="language-plaintext highlighter-rouge">d_pe = 16</code>차원 vector로 embedding한 것이다. (init 참고)</li>
-  <li>이제 <code class="language-plaintext highlighter-rouge">stepdata</code>를 <code class="language-plaintext highlighter-rouge">torch([# of features,  (# of time steps)x(d_ob)])</code>로 reshape한다.
-    <ul>
-      <li>왜냐하면 feature끼리 attention을 수행하기 때문에 각 feature를 하나의 vector로 만들 필요가 있기 때문</li>
-    </ul>
-  </li>
-  <li>이제 각 feature를 vector로 만든 걸 <code class="language-plaintext highlighter-rouge">ob_propagation</code>으로 정의된 attention layer에 넣는다.
-    <ul>
-      <li>그러면 같은 shape <code class="language-plaintext highlighter-rouge">torch([# of features,  (# of time steps)x(d_ob)])</code> tensor가 return되지만</li>
-      <li>해당 sample의 각각의 features를 Observation Propagation을 거쳐 representation한 결과이다.</li>
-      <li><code class="language-plaintext highlighter-rouge">Ob_propagation.py</code>에 있고, 코드를 따로 첨부하지는 않겠으나 아래와 같은 과정을 거친다.
-        <ul>
-          <li>1) Message Passing: node 간에 정보를 전달하는 mechanism 구현</li>
-          <li>2) Attention Mechanism: 각 node가 이웃 node로부터 받는 메시지의 중요도를 학습</li>
-          <li>3) Egde weights: graph의 edge에 weight를 적용하여 정보 전달의 강도를 조절</li>
-          <li>4) Edge prune: 중요도가 낮은 edge를 제거하여 computation efficiency 높임</li>
-          <li>5) Feature Transform: linear Transform과 activation ftn으로 node의 feature를 변환</li>
-          <li>6) Aggregation: 이웃 node로부터 받은 메시지를 합침</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig27.png" alt="사진1" /></p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">ob_propagation-layer</code>를 한 번 더 통과시키고 shape을 맞춰서 <code class="language-plaintext highlighter-rouge">output</code>의 sample index 자리에 넣는다.
-    <ul>
-      <li>그리고 alpha_all에는 그 attention weights를 넣는다.
-        <ul>
-          <li>34개의 features끼리의 attention이니 34\(\times\)34\(=\)1156개의 숫자가 된다.</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>모든 samples에 대해서 완료하여 <code class="language-plaintext highlighter-rouge">output</code>이 완성되면 distance를 구한다.</li>
-</ul>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig28.png" alt="사진1" /></p>
-
-<ul>
-  <li>다음으로 time embedding을 concat한다.</li>
-  <li>이러면 shape이 <code class="language-plaintext highlighter-rouge">torch.size([60, 128, 152])</code>가 되는데, 각 sample마다(128), 하나의 시점을 152차원 vector로 표현한 것이다.
-    <ul>
-      <li>이 152는 (동적) 변수 34개를 34\(\times\)4 = 136차원으로 표현하고, time embedding 16차원을 붙인 것</li>
-    </ul>
-  </li>
-</ul>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig29.png" alt="사진1" /></p>
-
-<ul>
-  <li>이걸 transformer encoder에 통과시키고</li>
-</ul>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig30.png" alt="사진1" /></p>
-
-<ul>
-  <li>aggregate 하는데, 이 때 모든 시점에 대해 평균을 내준다. (<code class="language-plaintext highlighter-rouge">aggreg == mean</code>)</li>
-  <li>그러면 각 sample은 모든 시점과 모든 변수를 통합하여 152차원 벡터로 표현된 결과가 나온다.</li>
-</ul>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig31.png" alt="사진1" /></p>
-
-<ul>
-  <li>마지막으로 (정적) 변수를 embedding한 emb를 붙여서 2-layer MLP에 넣으면</li>
-  <li>각 sample에 대한 classification이 완료된다.</li>
-</ul>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig32.png" alt="사진1" /></p>
-
-<ul>
-  <li>Training에 따른 validation set acccuracy가 출력된다.</li>
-</ul>
-
-<p><img src="/assets/img/pytorch/raindrop_code/fig33.png" alt="사진1" /></p>
-
-<ul>
-  <li>그리고 classification report가 출력된다.</li>
-</ul>
-
-<p>끝 !</p>
-
-<ul>
-  <li>참고로 나의 경우에는 <code class="language-plaintext highlighter-rouge">from torch_scatter import gather_csr, scatter, segment_csr</code>가 안되어서 아래와 같이 주석 처리하고
-    <ul>
-      <li>pytorch를 보고 함수를 직접 작성하여 사용하였다.</li>
-      <li><a href="https://github.com/rusty1s/pytorch_scatter/blob/master/torch_scatter/scatter.py">pytorch_scatter 참고</a></li>
-    </ul>
-  </li>
-</ul>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># from torch_scatter import gather_csr, scatter, segment_csr
-</span><span class="kn">from</span> <span class="n">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
-<span class="k">def</span> <span class="nf">broadcast</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">dim</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">dim</span> <span class="o">=</span> <span class="n">other</span><span class="p">.</span><span class="nf">dim</span><span class="p">()</span> <span class="o">+</span> <span class="n">dim</span>
-    <span class="k">if</span> <span class="n">src</span><span class="p">.</span><span class="nf">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dim</span><span class="p">):</span>
-            <span class="n">src</span> <span class="o">=</span> <span class="n">src</span><span class="p">.</span><span class="nf">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">src</span><span class="p">.</span><span class="nf">dim</span><span class="p">(),</span> <span class="n">other</span><span class="p">.</span><span class="nf">dim</span><span class="p">()):</span>
-        <span class="n">src</span> <span class="o">=</span> <span class="n">src</span><span class="p">.</span><span class="nf">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">src</span> <span class="o">=</span> <span class="n">src</span><span class="p">.</span><span class="nf">expand</span><span class="p">(</span><span class="n">other</span><span class="p">.</span><span class="nf">size</span><span class="p">())</span>
-    <span class="k">return</span> <span class="n">src</span>
-
-<span class="k">def</span> <span class="nf">scatter_sum</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
-                <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
-                <span class="n">dim_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">:</span>
-    <span class="n">index</span> <span class="o">=</span> <span class="nf">broadcast</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">size</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">src</span><span class="p">.</span><span class="nf">size</span><span class="p">())</span>
-        <span class="k">if</span> <span class="n">dim_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">size</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span> <span class="o">=</span> <span class="n">dim_size</span>
-        <span class="k">elif</span> <span class="n">index</span><span class="p">.</span><span class="nf">numel</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">size</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">size</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="n">index</span><span class="p">.</span><span class="nf">max</span><span class="p">())</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">src</span><span class="p">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">src</span><span class="p">.</span><span class="n">device</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">out</span><span class="p">.</span><span class="nf">scatter_add_</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">src</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">out</span><span class="p">.</span><span class="nf">scatter_add_</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">src</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">scatter_add</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
-                <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
-                <span class="n">dim_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">:</span>
-    <span class="k">return</span> <span class="nf">scatter_sum</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">scatter_mul</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
-                <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
-                <span class="n">dim_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">:</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="p">.</span><span class="n">ops</span><span class="p">.</span><span class="n">torch_scatter</span><span class="p">.</span><span class="nf">scatter_mul</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">scatter_mean</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
-                 <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
-                 <span class="n">dim_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">:</span>
-    <span class="n">out</span> <span class="o">=</span> <span class="nf">scatter_sum</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)</span>
-    <span class="n">dim_size</span> <span class="o">=</span> <span class="n">out</span><span class="p">.</span><span class="nf">size</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
-
-    <span class="n">index_dim</span> <span class="o">=</span> <span class="n">dim</span>
-    <span class="k">if</span> <span class="n">index_dim</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">index_dim</span> <span class="o">=</span> <span class="n">index_dim</span> <span class="o">+</span> <span class="n">src</span><span class="p">.</span><span class="nf">dim</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">index</span><span class="p">.</span><span class="nf">dim</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="n">index_dim</span><span class="p">:</span>
-        <span class="n">index_dim</span> <span class="o">=</span> <span class="n">index</span><span class="p">.</span><span class="nf">dim</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span>
-
-    <span class="n">ones</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">ones</span><span class="p">(</span><span class="n">index</span><span class="p">.</span><span class="nf">size</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">src</span><span class="p">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">src</span><span class="p">.</span><span class="n">device</span><span class="p">)</span>
-    <span class="n">count</span> <span class="o">=</span> <span class="nf">scatter_sum</span><span class="p">(</span><span class="n">ones</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">index_dim</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)</span>
-    <span class="n">count</span><span class="p">[</span><span class="n">count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">count</span> <span class="o">=</span> <span class="nf">broadcast</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">out</span><span class="p">.</span><span class="nf">is_floating_point</span><span class="p">():</span>
-        <span class="n">out</span><span class="p">.</span><span class="nf">true_divide_</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">out</span><span class="p">.</span><span class="nf">div_</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">rounding_mode</span><span class="o">=</span><span class="sh">'</span><span class="s">floor</span><span class="sh">'</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">out</span>
-
-
-<span class="k">def</span> <span class="nf">scatter_min</span><span class="p">(</span>
-        <span class="n">src</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
-        <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
-        <span class="n">dim_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]:</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="p">.</span><span class="n">ops</span><span class="p">.</span><span class="n">torch_scatter</span><span class="p">.</span><span class="nf">scatter_min</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">scatter_max</span><span class="p">(</span>
-        <span class="n">src</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
-        <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
-        <span class="n">dim_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]:</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="p">.</span><span class="n">ops</span><span class="p">.</span><span class="n">torch_scatter</span><span class="p">.</span><span class="nf">scatter_max</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">scatter</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
-            <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
-            <span class="nb">reduce</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="sh">"</span><span class="s">sum</span><span class="sh">"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">:</span>
-    <span class="sa">r</span><span class="sh">"""</span><span class="s">
-    |
-
-    .. image:: https://raw.githubusercontent.com/rusty1s/pytorch_scatter/
-            master/docs/source/_figures/add.svg?sanitize=true
-        :align: center
-        :width: 400px
-
-    |
-
-    Reduces all values from the :attr:`src` tensor into :attr:`out` at the
-    indices specified in the :attr:`index` tensor along a given axis
-    :attr:`dim`.
-    For each value in :attr:`src`, its output index is specified by its index
-    in :attr:`src` for dimensions outside of :attr:`dim` and by the
-    corresponding value in :attr:`index` for dimension :attr:`dim`.
-    The applied reduction is defined via the :attr:`reduce` argument.
-
-    Formally, if :attr:`src` and :attr:`index` are :math:`n`-dimensional
-    tensors with size :math:`(x_0, ..., x_{i-1}, x_i, x_{i+1}, ..., x_{n-1})`
-    and :attr:`dim` = `i`, then :attr:`out` must be an :math:`n`-dimensional
-    tensor with size :math:`(x_0, ..., x_{i-1}, y, x_{i+1}, ..., x_{n-1})`.
-    Moreover, the values of :attr:`index` must be between :math:`0` and
-    :math:`y - 1`, although no specific ordering of indices is required.
-    The :attr:`index` tensor supports broadcasting in case its dimensions do
-    not match with :attr:`src`.
-
-    For one-dimensional tensors with :obj:`reduce=</span><span class="sh">"</span><span class="s">sum</span><span class="sh">"</span><span class="s">`, the operation
-    computes
-
-    .. math::
-        \mathrm{out}_i = \mathrm{out}_i + \sum_j~\mathrm{src}_j
-
-    where :math:`\sum_j` is over :math:`j` such that
-    :math:`\mathrm{index}_j = i`.
-
-    .. note::
-
-        This operation is implemented via atomic operations on the GPU and is
-        therefore **non-deterministic** since the order of parallel operations
-        to the same value is undetermined.
-        For floating-point variables, this results in a source of variance in
-        the result.
-
-    :param src: The source tensor.
-    :param index: The indices of elements to scatter.
-    :param dim: The axis along which to index. (default: :obj:`-1`)
-    :param out: The destination tensor.
-    :param dim_size: If :attr:`out` is not given, automatically create output
-        with size :attr:`dim_size` at dimension :attr:`dim`.
-        If :attr:`dim_size` is not given, a minimal sized output tensor
-        according to :obj:`index.max() + 1` is returned.
-    :param reduce: The reduce operation (:obj:`</span><span class="sh">"</span><span class="s">sum</span><span class="sh">"</span><span class="s">`, :obj:`</span><span class="sh">"</span><span class="s">mul</span><span class="sh">"</span><span class="s">`,
-        :obj:`</span><span class="sh">"</span><span class="s">mean</span><span class="sh">"</span><span class="s">`, :obj:`</span><span class="sh">"</span><span class="s">min</span><span class="sh">"</span><span class="s">` or :obj:`</span><span class="sh">"</span><span class="s">max</span><span class="sh">"</span><span class="s">`). (default: :obj:`</span><span class="sh">"</span><span class="s">sum</span><span class="sh">"</span><span class="s">`)
-
-    :rtype: :class:`Tensor`
-
-    .. code-block:: python
-
-        from torch_scatter import scatter
-
-        src = torch.randn(10, 6, 64)
-        index = torch.tensor([0, 1, 0, 1, 2, 1])
-
-        # Broadcasting in the first and last dim.
-        out = scatter(src, index, dim=1, reduce=</span><span class="sh">"</span><span class="s">sum</span><span class="sh">"</span><span class="s">)
-
-        print(out.size())
-
-    .. code-block::
-
-        torch.Size([10, 3, 64])
-    </span><span class="sh">"""</span>
-    <span class="k">if</span> <span class="nb">reduce</span> <span class="o">==</span> <span class="sh">'</span><span class="s">sum</span><span class="sh">'</span> <span class="ow">or</span> <span class="nb">reduce</span> <span class="o">==</span> <span class="sh">'</span><span class="s">add</span><span class="sh">'</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nf">scatter_sum</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">reduce</span> <span class="o">==</span> <span class="sh">'</span><span class="s">mul</span><span class="sh">'</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nf">scatter_mul</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">reduce</span> <span class="o">==</span> <span class="sh">'</span><span class="s">mean</span><span class="sh">'</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nf">scatter_mean</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">reduce</span> <span class="o">==</span> <span class="sh">'</span><span class="s">min</span><span class="sh">'</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nf">scatter_min</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">elif</span> <span class="nb">reduce</span> <span class="o">==</span> <span class="sh">'</span><span class="s">max</span><span class="sh">'</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nf">scatter_max</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">dim_size</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="nb">ValueError</span>
-
-</code></pre></div></div>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="pytorch" /><summary type="html"><![CDATA[[Raindrop github](https://github.com/mims-harvard/Raindrop)]]></summary></entry></feed>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/abs/2404.16112)]]></summary></entry></feed>

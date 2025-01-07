@@ -84,10 +84,13 @@ permalink: /timeseries/
 \
 [Bi-Mamba+: Bidirectional Mamba for Time Series Forecasting (Arxiv 2024)]{:.heading.flip-title}\
 \
-<!-- [Sequential Order-Robust Mamba for Time Series Forecasting (Arxiv 2024)]{:.heading.flip-title} -->
+[Sequential Order-Robust Mamba for Time Series Forecasting (Arxiv 2024)]{:.heading.flip-title}\
+\
 [Mamba or Transformer for Time Series Forecasting? Mixture of Universals (MoU) Is All You Need (Arxiv 2024)]{:.heading.flip-title}\
 \
-[MambaTS: Improved Selective State Space Models for Long-term Time Series Forecasting (ICLR 2025)]{:.heading.flip-title}
+[MambaTS: Improved Selective State Space Models for Long-term Time Series Forecasting (ICLR 2025)]{:.heading.flip-title}\
+\
+[DTMamba : Dual Twin Mamba for Time Series Forecasting (Arxiv 2024)]{:.heading.flip-title}
 
 
 
@@ -131,3 +134,4 @@ permalink: /timeseries/
 [Sequential Order-Robust Mamba for Time Series Forecasting (Arxiv 2024)]:\timeseries/2024-11-14-SOR-Mamba
 [Mamba or Transformer for Time Series Forecasting? Mixture of Universals (MoU) Is All You Need (Arxiv 2024)]:\timeseries/2024-11-25-MoU
 [MambaTS: Improved Selective State Space Models for Long-term Time Series Forecasting (ICLR 2025)]:\timeseries/2024-11-27-MambaTS
+[DTMamba : Dual Twin Mamba for Time Series Forecasting (Arxiv 2024)]:\timeseries/2025-01-06-DTMamba
