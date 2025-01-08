@@ -93,7 +93,7 @@ hide_last_modified: true
     - DO는 dropout, (MLP 쓰니까 overfitting 방지)
   - 이렇게 input length에 상관없이 fixed-length tokens로 embedding
 
-![그림1](/assets/img/Mamba/timemachine/fig1.png)
+![그림1](/assets/img/mamba/timemachine/fig1.png)
 
 - **Integrated Quadruple Mambas** (fig1 보면서 이해하면 좋음)
 
@@ -160,13 +160,13 @@ hide_last_modified: true
 
 ### 4.3. Quantitative Results
 
-![그림1](/assets/img/Mamba/timemachine/fig2.png)
+![그림1](/assets/img/mamba/timemachine/fig2.png)
 
-![그림1](/assets/img/Mamba/timemachine/fig3.png)
+![그림1](/assets/img/mamba/timemachine/fig3.png)
 
 ### 4.4. Qualitative Result
 
-![그림1](/assets/img/Mamba/timemachine/table2.png)
+![그림1](/assets/img/mamba/timemachine/table2.png)
 
 ## 5.  Hyperparameter Sensitivity Analysis and Ablation Study
 
@@ -175,7 +175,7 @@ hide_last_modified: true
 - MLP의 size인 $$n_1, n_2$$를 다양하게 해봤는데 별 차이 없음 (fig5)
   - MLP에 heavily dependent하지 않다는 것
 
-![그림1](/assets/img/Mamba/timemachine/fig5.png)
+![그림1](/assets/img/mamba/timemachine/fig5.png)
 
 ### 5.2. Sensitivity of Dropouts
 
@@ -191,7 +191,7 @@ hide_last_modified: true
 
 ### 5.5. Ablation on State Expansion Factor of Mambas
 
-![그림1](/assets/img/Mamba/timemachine/fig6.png)
+![그림1](/assets/img/mamba/timemachine/fig6.png)
 
 -  State Expansion Factor를 8부터 256까지 해봤는데 256이 제일 좋아서 defualt로 설정
 
