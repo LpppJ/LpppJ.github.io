@@ -1,5 +1,160 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-01-08T00:46:45+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">DTMamba : Dual Twin Mamba for Time Series Forecasting (Arxiv 2024)</title><link href="http://localhost:4000/timeseries/2025-01-06-DTMamba/" rel="alternate" type="text/html" title="DTMamba : Dual Twin Mamba for Time Series Forecasting (Arxiv 2024)" /><published>2025-01-06T00:00:00+09:00</published><updated>2025-01-08T00:46:43+09:00</updated><id>http://localhost:4000/timeseries/DTMamba</id><content type="html" xml:base="http://localhost:4000/timeseries/2025-01-06-DTMamba/"><![CDATA[<h2 id="introduction">Introduction</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-01-08T16:43:54+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">MAT: Integration of Mamba and Transformer for Long-Short Range TSF (Arxiv 2024)</title><link href="http://localhost:4000/timeseries/2025-01-08-MAT/" rel="alternate" type="text/html" title="MAT: Integration of Mamba and Transformer for Long-Short Range TSF (Arxiv 2024)" /><published>2025-01-08T00:00:00+09:00</published><updated>2025-01-08T16:43:53+09:00</updated><id>http://localhost:4000/timeseries/MAT</id><content type="html" xml:base="http://localhost:4000/timeseries/2025-01-08-MAT/"><![CDATA[<h2 id="abstract">Abstract</h2>
+
+<ul>
+  <li>Time series는 sparse semantic features를 가짐
+    <ul>
+      <li>Transformer만으로 다루기에는 어려움이 있고</li>
+      <li>Mamba의 selective input and parallel computing 필요</li>
+    </ul>
+  </li>
+  <li>Mamba and Transformer models의 장단점을 이해하고 combined approach 제안</li>
+  <li>the long-range dependency capabilities of <strong>Mamba</strong>
+    <ul>
+      <li>and the short-range characteristics of <strong>Transformers</strong></li>
+      <li>called <strong>MAT</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="1-introduction">1. Introduction</h2>
+
+<ul>
+  <li><strong>Linear</strong> scalability를 가지는 모델들은 성능이 아쉬움
+    <ul>
+      <li>SciNet
+        <ul>
+          <li>relying solely on time points</li>
+          <li>obscure context-based choices and overlook long-range dependencies</li>
+          <li>그러므로 iTransformer처럼 entire window로 다루는 것이 맞음</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Transformer</strong>-based models는 high computational complexity
+    <ul>
+      <li>Informer, FEDformer,and Autoformer
+        <ul>
+          <li>mixed-channel approach (2d matrix defined by the <strong>number of channels and the length of histories</strong>)</li>
+          <li>beneficial when channels exhibit significant correlations,</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>SSM
+    <ul>
+      <li>handle very long sequences with linear complexity</li>
+      <li>context-aware selectivity through hidden attention mechanisms</li>
+    </ul>
+  </li>
+  <li>본 논문에서는
+    <ul>
+      <li>Mamba coupled with attentionmechanisms called Transformer
+        <ul>
+          <li>(with multi-scale contexts)</li>
+        </ul>
+      </li>
+      <li><strong>long</strong>-term forecasting capabilities and <strong>short</strong>-range dependencies in MTS data
+        <ul>
+          <li>while maintaining <strong>linear</strong> scalability and minimal memory usage</li>
+        </ul>
+      </li>
+      <li>bottom-up strategy
+        <ul>
+          <li>generating contextual cues at two distinct scales through linear mapping</li>
+          <li>At each of these levels four MAT modules</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="2-related-work">2. Related Work</h2>
+
+<p>pass</p>
+
+<h2 id="3-methodology">3. Methodology</h2>
+
+<ul>
+  <li>input sequence \(\mathbf{x}=\left[x_1, \ldots, x_L\right]\) 보고 future values \(\left[x_{L+1}, \ldots, x_{L+T}\right]\) 예측</li>
+</ul>
+
+<h3 id="ac-preliminary-transformer-mamba">A~C. Preliminary, Transformer, Mamba</h3>
+
+<p>pass</p>
+
+<h3 id="d-mat">D. MAT</h3>
+
+<p><img src="/assets/img/timeseries/MAT/fig3.png" alt="그림1" /></p>
+
+<ul>
+  <li>Four combined Mambas and Transformer
+    <ul>
+      <li>to extract <strong>long-short</strong> range contextual information
+        <ul>
+          <li><strong>long</strong>-term forecasting capability of <strong>Mamba</strong></li>
+          <li>and <strong>short</strong> range dependency of <strong>Transformer</strong>.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Normalizing</strong>(RevIN)</li>
+  <li><strong>Embedding</strong> : \(\mathbf{x}^{(1)}=E M B_1\left(\mathbf{x}^{(0)}\right), \mathbf{x}^{(2)}=E M B_2\left(\mathbf{x}^{(1)}\right)\).
+    <ul>
+      <li>\(E M B_1: \mathbb{R}^{M \times L} \rightarrow \mathbb{R}^{M \times n_1}\) and \(E M B_2: \mathbb{R}^{M \times n 1} \rightarrow \mathbb{R}^{M \times n_2}\)</li>
+      <li>\(n_1\) and \(n_2\), are chosen from the set \(\{512,256,128,64,32\}\) s.t. \(n_1&gt;n_2\).</li>
+    </ul>
+  </li>
+  <li>사실 <a href="https://lpppj.github.io/timeseries/2024-10-29-timemachine">TimeMachine</a>이랑 비슷한데
+    <ul>
+      <li><strong>not only</strong> the <strong>long</strong>-term prediction capability of the <strong>Mamba</strong>,</li>
+      <li><strong>but also</strong> the <strong>short</strong>-range dependency learned from the <strong>Transformer</strong></li>
+      <li>이 구조가 pivotal component in the modern LLM</li>
+    </ul>
+  </li>
+  <li><strong>Output Prediction</strong> : \(\overline{\mathbf{x}}^{(1)}=\operatorname{Proj}_1\left(\overline{\mathbf{x}}^{\left(F_1\right)}\right), \overline{\mathbf{x}}=\operatorname{Proj}_2\left(\overline{\mathbf{x}}^{(1)} \oplus \hat{\mathbf{x}}^{\left(F_2\right)}\right)\)
+    <ul>
+      <li>\(\text{Proj}_1\):  \(\mathbb{R}^{M \times n_2} \rightarrow \mathbb{R}^{M \times n_1}\) to obtained \(\overline{\mathrm{x}}^1\),</li>
+      <li>\(\mathrm{Proj}_2\):  \(\mathbb{R}^{M \times n_1} \rightarrow \mathbb{R}^{M \times T}\) to yield \(\overline{\mathbf{x}}\).</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="4-experiments">4. Experiments</h2>
+
+<ul>
+  <li>fixed \(L=96\) and \(T=\{96,192,336,720\}\)</li>
+  <li>Default parameters for all Mambas were set as follows:
+    <ul>
+      <li>Dimension factor \(D=\) 256,</li>
+      <li>local convolutional width =2,</li>
+      <li>and state expand factor \(N=\) 1,</li>
+    </ul>
+  </li>
+  <li>For the transformer module,
+    <ul>
+      <li>the multi head number is set \(H=\) 8,</li>
+      <li>the Batch Size in the training process is set as Batch =32.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/timeseries/MAT/table1.png" alt="그림1" /></p>
+
+<h2 id="5-conclusion">5. Conclusion</h2>
+
+<ul>
+  <li>Transformers struggle with long-term dependencies and sparse semantic features,
+    <ul>
+      <li>Mamba excels through selective input handling and parallel computing.</li>
+    </ul>
+  </li>
+  <li>MAT, a combined approach leveraging Mamba’s long-range capabilities
+    <ul>
+      <li>and Transformers’ short-range strengths</li>
+    </ul>
+  </li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/pdf/2409.08530)]]></summary></entry><entry><title type="html">DTMamba : Dual Twin Mamba for Time Series Forecasting (Arxiv 2024)</title><link href="http://localhost:4000/timeseries/2025-01-06-DTMamba/" rel="alternate" type="text/html" title="DTMamba : Dual Twin Mamba for Time Series Forecasting (Arxiv 2024)" /><published>2025-01-06T00:00:00+09:00</published><updated>2025-01-08T00:46:54+09:00</updated><id>http://localhost:4000/timeseries/DTMamba</id><content type="html" xml:base="http://localhost:4000/timeseries/2025-01-06-DTMamba/"><![CDATA[<h2 id="introduction">Introduction</h2>
 
 <ul>
   <li>RNN-based methods
@@ -792,7 +947,7 @@ f_B\left(\Delta_t, A, B_t\right)=\left(\Delta_t A\right)^{-1}\left(\exp \left(\D
       </li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/pdf/2408.15997)]]></summary></entry><entry><title type="html">SEQUENTIAL ORDER-ROBUST MAMBA FOR TIME SERIES FORECASTING (Arxiv 2024)</title><link href="http://localhost:4000/timeseries/2024-11-14-SOR-Mamba/" rel="alternate" type="text/html" title="SEQUENTIAL ORDER-ROBUST MAMBA FOR TIME SERIES FORECASTING (Arxiv 2024)" /><published>2024-11-14T00:00:00+09:00</published><updated>2024-11-25T17:10:30+09:00</updated><id>http://localhost:4000/timeseries/SOR-Mamba</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-11-14-SOR-Mamba/"><![CDATA[<h2 id="abstract">Abstract</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/pdf/2408.15997)]]></summary></entry><entry><title type="html">SEQUENTIAL ORDER-ROBUST MAMBA FOR TIME SERIES FORECASTING (Arxiv 2024)</title><link href="http://localhost:4000/timeseries/2024-11-14-SOR-Mamba/" rel="alternate" type="text/html" title="SEQUENTIAL ORDER-ROBUST MAMBA FOR TIME SERIES FORECASTING (Arxiv 2024)" /><published>2024-11-14T00:00:00+09:00</published><updated>2025-01-08T00:46:54+09:00</updated><id>http://localhost:4000/timeseries/SOR-Mamba</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-11-14-SOR-Mamba/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>Mamba : near-linear complexity in processing sequential data
@@ -2913,417 +3068,4 @@ k=\{1,2\}
       </li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICML 2024](https://openreview.net/pdf?id=UZlMXUGI6e)]]></summary></entry><entry><title type="html">Mamba-360: Survey of State Space Models as Transformer Alternative for Long Sequence Modelling: Methods, Applications, and Challenges (Arxiv 2024)</title><link href="http://localhost:4000/timeseries/2024-10-03-Mamba360/" rel="alternate" type="text/html" title="Mamba-360: Survey of State Space Models as Transformer Alternative for Long Sequence Modelling: Methods, Applications, and Challenges (Arxiv 2024)" /><published>2024-10-03T00:00:00+09:00</published><updated>2024-10-03T20:01:49+09:00</updated><id>http://localhost:4000/timeseries/Mamba360</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-10-03-Mamba360/"><![CDATA[<h2 id="abstract">Abstract</h2>
-
-<ul>
-  <li>Sequence modeling에서 RNN, LSTM을 사용했었음</li>
-  <li>Transformer가 훌륭한 성능을 보여주었음
-    <ul>
-      <li>but \(O(N^2)\) complexity,inductive bias handling이 어려움</li>
-    </ul>
-  </li>
-  <li>본 논문에서는 State Space Model (SSM)를 크게 3가지 카테고리로 분류
-    <ul>
-      <li>Gating architectures</li>
-      <li>Structural architectures</li>
-      <li>Recurrent architectures</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="1-introduciton">1. Introduciton</h2>
-
-<ul>
-  <li>RNN
-    <ul>
-      <li>look at only the last state and current input for predicting the next state</li>
-      <li>gradient calculations being limited to the hidden state and current input</li>
-      <li>exploding or vanishing gradient problem</li>
-      <li>lack sufficient memory for long sequences</li>
-    </ul>
-  </li>
-  <li>LSTM
-    <ul>
-      <li>complexity with their gating mechanisms</li>
-      <li>exhibit challenges in transfer learning</li>
-    </ul>
-  </li>
-  <li>Transformer
-    <ul>
-      <li>enable each token to interact with every other token in the input sequence</li>
-      <li>but \(O(N^2)\) complexity</li>
-    </ul>
-  </li>
-  <li>State Space Model (SSM)
-    <ul>
-      <li>Understanding of State Space Models (SSMs) : mathematical fundamentals</li>
-      <li>Categorization and Recent Advances of SSMs : systematic categorization</li>
-      <li>Application of SSMs Across Domains : utility in domains</li>
-      <li>Performance Comparison of SSMs with Transformers : SSM과 Transformer 비교</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="2-basics-of-state-space-model">2. Basics of State Space Model</h2>
-
-<ul>
-  <li>High-order를 first-order derivatives와 vector quantities로 representation</li>
-  <li>Dynamics of  damped mass-spring system : \(m \frac{d^2 y(t)}{d t^2}+c \frac{d y(t)}{d t}+k y(t)=u(t)\)
-    <ul>
-      <li>\(u(t)\) : 질량에 작용하는 외부 힘</li>
-      <li>\(y(t)\) : 수직 위치</li>
-      <li>\(x(t)\) : 이 방정식을 1차 미분과 벡터 양으로 표현하기 위해 도입하는 벡터</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="21-spring-mass-damper-system">2.1. Spring Mass-Damper system</h3>
-
-<ul>
-  <li>State Variables
-    <ul>
-      <li>\(x_1\) : equilibrium으로부터 질량의 위치</li>
-      <li>\(\dot{x_1}\) : 질량의 속도</li>
-    </ul>
-  </li>
-  <li>System Dynamics
-    <ul>
-      <li>뉴턴의 제 2법칙으로 표현하면 \(m \ddot{x}_1=-k x_1-c \dot{x}_1\)</li>
-      <li>\(\ddot{x_1}\)는 질량의 가속도, \(-kx_1\)은 위치에 비례하는 스프링의 힘,</li>
-      <li>\(c\dot{x_1}\)은 속도에 비례하는 damping force (운동 에너지 감쇠시키는 힘)</li>
-    </ul>
-  </li>
-  <li>State-Space Formulation
-    <ul>
-      <li>State vector \(x \in \mathbb R^n\) : 시스템의 내부 상태 변수</li>
-      <li>Input vector \(u\in \mathbb R^m\) : 시스템에 대한 제어 또는 외부 입력</li>
-      <li>Output vector \(y \in \mathbb R^p\) : 관심 있는 측정 가능한 양</li>
-      <li>System dynamics : 일차 미분 방정식으로 표현 \(\dot{\mathbf x}=\mathbf A \mathbf x+\mathbf B \mathbf u\)
-        <ul>
-          <li>\(\mathbf x=\left[x_1, \dot{x}_1\right]^T\)는 state vector, \(\mathbf u\)는 input,</li>
-          <li>\(\mathbf A\in\mathbb R^{n \times n}\)는 dynamic matrix \(\mathbf A=\left[\begin{array}{cc}
-0 &amp; 1 \\
--\frac{k}{m} &amp; -\frac{c}{m}
-\end{array}\right]\)</li>
-          <li>\(\mathbf B \in \mathbb R^{n \times m}\)은 input matrix \(\mathbf B=\left[\begin{array}{c}
-0 \\
-\frac{1}{m}
-\end{array}\right] \dot{\mathbf x}\)</li>
-          <li>Output equation : \(\mathbf{y}=\mathbf{C x}+\mathbf{D u}\)
-            <ul>
-              <li>\(\mathbf{C} \in \mathbb{R}^{p \times n}\)는 output or sensor matrix</li>
-              <li>\(\mathbf{D} \in \mathbb{R}^{p \times m}\)는 feedthrough matrix</li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="22-state-space-model">2.2. State Space Model</h3>
-
-<ul>
-  <li>Definition
-    <ul>
-      <li>Discrete-time dynamical system :
-        <ul>
-          <li>\(x(t+1)=A x(t)+B u(t), \quad y(t)=C x(t)+D u(t), \quad t=0,1,2,\)…</li>
-          <li>\(x(t) \in \mathbb{R}^n\) : t시점에서 state</li>
-          <li>\(u(t) \in\mathbb{R}^p\) : control variables</li>
-          <li>\(y(t) \in\mathbb{R}^k\)​ : specific outputs of interest</li>
-        </ul>
-      </li>
-      <li>Continuous-time model
-        <ul>
-          <li>\(\frac{d}{d t} x(t)=A x(t)+B u(t), \quad y(t)=C x(t)+D u(t), \quad t \geq 0\).</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<p><img src="/assets/img/timeseries/Mamba360/fig3.png" alt="그림1" /></p>
-
-<ul>
-  <li>Model Formulation
-    <ul>
-      <li>Complexity 때문에 Multi-head self-attention 대신 SSM 사용</li>
-      <li>Continuous-time Latent State space는 linear ordinary differential equation으로 표현
-        <ul>
-          <li>\(\begin{aligned} \dot{x}(t) &amp; =\boldsymbol{A} x(t)+\boldsymbol{B} u(t) \\
-y(t) &amp; =\boldsymbol{C} x(t)+\boldsymbol{D} u(t) \end{aligned}\),</li>
-          <li>evolution parameter \(A \in \mathcal{R}^{N \times N}\)</li>
-          <li>projection parameter \(B \in \mathcal{R}^{N \times 1} \text { and } C \in \mathcal{R}^{N \times 1}\)</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>Discrete-time SSM
-    <ul>
-      <li>continuous parameters \(A, B, C\) 를 discrete하게 바꾸기 위해 time-scale parameter \(\Delta\) 사용</li>
-      <li>즉 \(\bar{A}=f_A(\Delta, A), \bar{B}=f_B(\Delta, A, B)\)​</li>
-      <li>\(\begin{array}{lll}
-x_k=\overline{\boldsymbol{A}} x_{k-1}+\overline{\boldsymbol{B}} u_k &amp; \overline{\boldsymbol{A}}=(\boldsymbol{I}-\Delta / 2 \cdot \boldsymbol{A})^{-1}(\boldsymbol{I}+\Delta / 2 \cdot \boldsymbol{A}) &amp; \\
-y_k=\overline{\boldsymbol{C}} x_k &amp; \overline{\boldsymbol{B}}=(\boldsymbol{I}-\Delta / 2 \cdot \boldsymbol{A})^{-1} \Delta \boldsymbol{B} &amp; \overline{\boldsymbol{C}}=\boldsymbol{C}\end{array}\)​.</li>
-      <li>원래는 위처럼 생겼음</li>
-    </ul>
-  </li>
-  <li>Convolutional Kernel Representation
-    <ul>
-      <li>하지만 위 식은 sequential nature 때문에 trainable하지 않음</li>
-      <li>그래서 아래처럼 continuous convolution을 사용</li>
-      <li>\(\begin{array}{lll}
-x_0=\overline{\boldsymbol{B}} u_0 &amp; x_1=\overline{\boldsymbol{A} \boldsymbol{B}} u_0+\overline{\boldsymbol{B}} u_1 &amp; x_2=\overline{\boldsymbol{A}}^2 \overline{\boldsymbol{B}} u_0+\overline{\boldsymbol{A} \boldsymbol{B}} u_1+\overline{\boldsymbol{B}} u_2 \\
-y_0=\overline{\boldsymbol{C} B} u_0 &amp; y_1=\overline{\boldsymbol{C} \boldsymbol{A} \boldsymbol{B}} u_0+\overline{\boldsymbol{C} B} u_1 &amp; y_2=\overline{\boldsymbol{C} \boldsymbol{A}}^2 \overline{\boldsymbol{B}} u_0+\overline{\boldsymbol{C} \boldsymbol{A} \boldsymbol{B}} u_1+\overline{\boldsymbol{C} B} u_2
-\end{array}\).</li>
-      <li>vectorize하면 아래와 같음</li>
-      <li>\(\begin{aligned}
-y_k &amp; =\overline{\boldsymbol{C A}}^k \overline{\boldsymbol{B}} u_0+\overline{\boldsymbol{C A}}^{k-1} \overline{\boldsymbol{B}} u_1+\cdots+\overline{\boldsymbol{C} \boldsymbol{A B}} u_{k-1}+\overline{\boldsymbol{C} \boldsymbol{B}} u_k \\
-y &amp; =\overline{\boldsymbol{K}} * u \\
-\overline{\boldsymbol{K}} \in \mathbb{R}^L: &amp; =\mathcal{K}_L(\overline{\boldsymbol{A}}, \overline{\boldsymbol{B}}, \overline{\boldsymbol{C}}):=\left(\overline{\boldsymbol{C}}^i \overline{\boldsymbol{B}}\right)_{i \in[L]}=\left(\overline{\boldsymbol{C B}}, \overline{\boldsymbol{C} \boldsymbol{A B}}, \ldots, \overline{\boldsymbol{C}}^{L-1} \overline{\boldsymbol{B}}\right) .
-\end{aligned}\).</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="3-recent-advances-in-state-space-models">3. Recent Advances in State Space Models</h2>
-
-<ul>
-  <li>Transformer의 limitations :
-    <ul>
-      <li>Computational Complexity</li>
-      <li>Large Memory Requirements : for storing embeddings and intermediate actiavations</li>
-      <li>Fixed Sequence Length : du to positional embeddings</li>
-      <li>Attention Mechanism Scalability : quadratic scaling with input length</li>
-      <li>Lack of Causality in Standard Attention : not inherently capture causality</li>
-    </ul>
-  </li>
-  <li>SSM의 categorization : 어떻게 long sequence를 다룰 것인가
-    <ul>
-      <li>Structured SSMs : based on S4 and variants</li>
-      <li>Recurrent SSMs : based on RNNs and variants</li>
-      <li>Gated SSMs : leveraging gating techniques</li>
-      <li>Miscellaneous SSMs : 기타 다양한 방법들</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="31-structured-ssms">3.1. Structured SSMs</h3>
-
-<ul>
-  <li>
-    <p>S4, HiPPO, H3, Liquid-S4 등…</p>
-  </li>
-  <li>
-    <p>long-range dependency를 효율적으로 파악하기 위해 다음과 같은 방법 사용 :</p>
-
-    <ul>
-      <li>
-        <p>polynomial projection operators</p>
-      </li>
-      <li>
-        <p>multi-input multi-output systems</p>
-      </li>
-      <li>
-        <p>and convolutional kernels</p>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="311-structured-state-space-sequence-s4">3.1.1. Structured State Space Sequence (S4)</h3>
-
-<ul>
-  <li>Higher-Order Polynomial Project Operator (HiPPO)
-    <ul>
-      <li>State and input transition matrices를 효율적으로 memorize</li>
-    </ul>
-  </li>
-  <li>Diagonal Plus Low-Rank Parametrization</li>
-  <li>SSM matrix (A)의 rank를 낮게 해서 diagonalizability and stability 보장</li>
-  <li>Efficient (convolutional) Kernel Computation
-    <ul>
-      <li>FFT와 iFFT 사용해서 complexity를 \(𝑂(𝑁 log(𝑁))\)로 만듬</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="312-high-order-polynomial-projection-operators-hippo">3.1.2. High-Order Polynomial Projection Operators (HiPPO)</h3>
-
-<ul>
-  <li>S4에 사용된 행렬의 수학적인 해석을 제공</li>
-  <li>4가지의 변형을 사용하는데,
-    <ul>
-      <li>the truncated Fourier basis polynomial (Hippo-FouT)</li>
-      <li>based on Lagurre polynomials(LagT)</li>
-      <li>based on Legendre polynomials(LegT)</li>
-      <li>based on Legendre polynomials with a sliding window(LegS)</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="313-hungry-hungry-hippo-h3">3.1.3. Hungry Hungry HiPPO (H3)</h3>
-
-<ul>
-  <li>SSM에서의 2개의 challenges
-    <ul>
-      <li>첫째, difficulty in recalling earlier tokens
-        <ul>
-          <li>시퀀스 내에서 이전 토큰을 기억하는 데 어려움</li>
-        </ul>
-      </li>
-      <li>둘째, difficult in comparing the tokens across different sequences
-        <ul>
-          <li>서로 다른 시퀀스에서 토큰을 비교하는 데 어려움</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>극복하기 위한 새로운 방법의 3가지 핵심 요소
-    <ul>
-      <li>Multiplicative Interactions가 있는 Stacked SSMs
-        <ul>
-          <li>stacking two SSMs with multiplicative interactions between their input and output projections</li>
-        </ul>
-      </li>
-      <li>학습 효율성을 위한 FlashConv
-        <ul>
-          <li>FFT를 사용하여  training efficiency 향상</li>
-        </ul>
-      </li>
-      <li>Scaling을 위한 State-Passing
-        <ul>
-          <li>effectively splits the input into the largest possible chunks that can fit</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="314-global-convolution">3.1.4. Global Convolution</h3>
-
-<ul>
-  <li>원래는 input만큼 긴 conv kernel을 hidden state matrix에 곱했는데 - 불안정함</li>
-  <li>이 conv kernel을 parametrizing하는 방법을 제안</li>
-  <li>일반적으로 conv kernel은 FFT를 사용하는데, 느릴 수가 있어서 IO-aware algorithm 사용</li>
-</ul>
-
-<h3 id="317-ldstack">3.1.7. LDStack</h3>
-
-<ul>
-  <li>RNN이 다중 입력 다중 출력(MIMO)  Linear Dynamical System(LDS)으로 표현될 수 있음</li>
-  <li>이 때 Parallel scan이 사용됨</li>
-  <li>즉  Single Input Multiple Outputs (SIMO) LDS를 합쳐서  MIMO LDS를 approximate
-    <ul>
-      <li>essential characteristics를 유지하면서도 계산은 simple해짐</li>
-    </ul>
-  </li>
-  <li>LDS를 time-varying state space models로 볼 수 있음</li>
-</ul>
-
-<h3 id="318-s5">3.1.8 S5</h3>
-
-<ul>
-  <li>RNN을 다중 입력 다중 출력 선형 동적 시스템(LDS)으로 모델링한 LDStack을 state space models (SSMs)으로 확장</li>
-  <li>LDStack과 달리, S5 계층은 여러 입력 및 출력을 동시에 처리</li>
-</ul>
-
-<h2 id="32-gated-ssms">3.2. Gated SSMs</h2>
-
-<ul>
-  <li>FFT 연산 최적화를 위해 gating units를 사용</li>
-  <li>Toepliz NN은 position-encoded Toeplitz matrix로 token mixing</li>
-  <li>Mamba는 gated MLP로 SSM의 compoutational inefficiency 극복하고자 함</li>
-  <li>(무슨 말 ?) 더 읽어보자</li>
-</ul>
-
-<h3 id="323-toeplitz-neural-network-tnn">3.2.3. Toeplitz Neural Network (TNN)</h3>
-
-<ul>
-  <li>Transformer의 <strong>attention-mechanism</strong>과 <strong>positional embedding</strong>을 개선</li>
-  <li>position-encoded Toeplitz matrix를 사용하여 token-pair 관계 파악
-    <ul>
-      <li>space-time complexity를 \(O(NlogN)\)으로 줄임</li>
-      <li>Relative Position Encoder (RPE)로 상대적 위치를 생성해서 parameters가 input length에 독립적이게 함</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="324-mamba">3.2.4. Mamba</h3>
-
-<ul>
-  <li>Transformer의 quadratic computational and memory complexity에 주목</li>
-  <li>특히 SSM은  addressing tasks (selective copying, induction head)에서 비효율적이었음</li>
-  <li>Mamba가 이 문제를 푸는 방법은 :
-    <ul>
-      <li>novel parametrization approach for SSMs based on input characteristics</li>
-      <li>incorporating a simple selection mechanism</li>
-      <li>efficient hardware-aware algorithm based on selective scan</li>
-      <li>gated technique to reduce the dimensionality of global kernel operations</li>
-      <li>combine gated MLP[93] with the SSM module</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="4-applications-of-state-space-models">4. Applications of State Space Models</h2>
-
-<h3 id="41-language-domain-long-sequence">4.1. Language Domain (long sequence)</h3>
-
-<ul>
-  <li>원래는 Transformer 많이 썼는데 \(O(N^2)\) quadratic complexity \(\to\) long sequence 불가능</li>
-  <li>그래서  State Space Models (SSMs)이 등장
-    <ul>
-      <li>input data를 fixed-size latent state에 표현</li>
-      <li>하지만 그러다보니 capability to retrieve and copy에서 trade-off</li>
-    </ul>
-  </li>
-</ul>
-
-<p><img src="/assets/img/timeseries/Mamba360/table2.png" alt="그림1" /></p>
-
-<h3 id="42-vision-domain">4.2. Vision domain</h3>
-
-<ul>
-  <li>Vision Mamba나 SiMBA와 같은 Vision-specific Mamba
-    <ul>
-      <li>utilize bidirectional and visual state space models</li>
-    </ul>
-  </li>
-  <li>SiMBA
-    <ul>
-      <li>sequence length and channel dimensions이 꼭 perfect square dimensions이 아니어도 됨</li>
-      <li>pyramid version of the transformer architecture (성능 향상)</li>
-    </ul>
-  </li>
-</ul>
-
-<p><img src="/assets/img/timeseries/Mamba360/table3.png" alt="그림1" /></p>
-
-<h3 id="47-time-series-domain">4.7. Time Series Domain</h3>
-
-<ul>
-  <li>옛날에는 ARIMA 쓰다가 Transformer 등장하면서 variants가 많이 나옴
-    <ul>
-      <li>Informer, FEDFormer, PatchTST…</li>
-      <li>하지만 여전히 attention complexity 때문에 long-range dependency 못잡음</li>
-    </ul>
-  </li>
-  <li>그래서 SSM 모델인 Timemachine, SiMBA, MambaMix 등장</li>
-</ul>
-
-<p><img src="/assets/img/timeseries/Mamba360/table11.png" alt="그림1" /></p>
-
-<p><img src="/assets/img/timeseries/Mamba360/table14.png" alt="그림1" /></p>
-
-<h2 id="6-conclusion">6. Conclusion</h2>
-
-<ul>
-  <li>SSM은 3가지 범주로 분류 가능 (structured, gated, and recurrent)</li>
-  <li>아직 Transformer가 더 잘하는 영역이 있긴 하지만 (맥락에서 정보를 검색하는 작업 등)
-    <ul>
-      <li>SiMBA는 트랜스포머와 Mamba 아키텍처를 결합해서 Time series에서 SOTA</li>
-    </ul>
-  </li>
-  <li>SSM을 large network로 안정적으로 확하는 것이 아직 해결되지 않은 문제</li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/abs/2404.16112)]]></summary></entry></feed>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="timeseries" /><summary type="html"><![CDATA[[ICML 2024](https://openreview.net/pdf?id=UZlMXUGI6e)]]></summary></entry></feed>

@@ -90,7 +90,9 @@ permalink: /timeseries/
 \
 [MambaTS: Improved Selective State Space Models for Long-term Time Series Forecasting (ICLR 2025)]{:.heading.flip-title}\
 \
-[DTMamba : Dual Twin Mamba for Time Series Forecasting (Arxiv 2024)]{:.heading.flip-title}
+[DTMamba : Dual Twin Mamba for Time Series Forecasting (Arxiv 2024)]{:.heading.flip-title}\
+\
+[MAT: Integration of Mamba and Transformer for Long-Short Range TSF (Arxiv 2024)]{:.heading.flip-title}
 
 
 
@@ -135,3 +137,4 @@ permalink: /timeseries/
 [Mamba or Transformer for Time Series Forecasting? Mixture of Universals (MoU) Is All You Need (Arxiv 2024)]:\timeseries/2024-11-25-MoU
 [MambaTS: Improved Selective State Space Models for Long-term Time Series Forecasting (ICLR 2025)]:\timeseries/2024-11-27-MambaTS
 [DTMamba : Dual Twin Mamba for Time Series Forecasting (Arxiv 2024)]:\timeseries/2025-01-06-DTMamba
+[MAT: Integration of Mamba and Transformer for Long-Short Range TSF (Arxiv 2024)]:\timeseries/2025-01-08-MAT
