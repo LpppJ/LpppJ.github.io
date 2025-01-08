@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-01-08T21:28:02+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">MAT: Integration of Mamba and Transformer for Long-Short Range TSF (Arxiv 2024)</title><link href="http://localhost:4000/mamba/2025-01-08-MAT/" rel="alternate" type="text/html" title="MAT: Integration of Mamba and Transformer for Long-Short Range TSF (Arxiv 2024)" /><published>2025-01-08T00:00:00+09:00</published><updated>2025-01-08T17:58:54+09:00</updated><id>http://localhost:4000/mamba/MAT</id><content type="html" xml:base="http://localhost:4000/mamba/2025-01-08-MAT/"><![CDATA[<h2 id="abstract">Abstract</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-01-08T21:56:01+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">MAT: Integration of Mamba and Transformer for Long-Short Range TSF (Arxiv 2024)</title><link href="http://localhost:4000/mamba/2025-01-08-MAT/" rel="alternate" type="text/html" title="MAT: Integration of Mamba and Transformer for Long-Short Range TSF (Arxiv 2024)" /><published>2025-01-08T00:00:00+09:00</published><updated>2025-01-08T21:50:33+09:00</updated><id>http://localhost:4000/mamba/MAT</id><content type="html" xml:base="http://localhost:4000/mamba/2025-01-08-MAT/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>Time series는 sparse semantic features를 가짐
@@ -84,7 +84,6 @@
 <p>pass</p>
 
 <h3 id="d-mat">D. MAT</h3>
-
 <p><img src="/assets/img/Mamba/MAT/fig3.png" alt="그림1" /></p>
 
 <ul>
@@ -105,7 +104,7 @@
       <li>\(n_1\) and \(n_2\), are chosen from the set \(\{512,256,128,64,32\}\) s.t. \(n_1&gt;n_2\).</li>
     </ul>
   </li>
-  <li>사실 <a href="https://lpppj.github.io/Mamba/2024-10-29-timemachine">TimeMachine</a>이랑 비슷한데
+  <li>사실 <a href="https://lpppj.github.io/mamba/2024-10-29-timemachine">TimeMachine</a>이랑 비슷한데
     <ul>
       <li><strong>not only</strong> the <strong>long</strong>-term prediction capability of the <strong>Mamba</strong>,</li>
       <li><strong>but also</strong> the <strong>short</strong>-range dependency learned from the <strong>Transformer</strong></li>
@@ -154,7 +153,7 @@
       <li>and Transformers’ short-range strengths</li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="Mamba" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/pdf/2409.08530)]]></summary></entry><entry><title type="html">DTMamba : Dual Twin Mamba for Time Series Forecasting (Arxiv 2024)</title><link href="http://localhost:4000/mamba/2025-01-06-DTMamba/" rel="alternate" type="text/html" title="DTMamba : Dual Twin Mamba for Time Series Forecasting (Arxiv 2024)" /><published>2025-01-06T00:00:00+09:00</published><updated>2025-01-08T17:58:54+09:00</updated><id>http://localhost:4000/mamba/DTMamba</id><content type="html" xml:base="http://localhost:4000/mamba/2025-01-06-DTMamba/"><![CDATA[<h2 id="introduction">Introduction</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="mamba" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/pdf/2409.08530)]]></summary></entry><entry><title type="html">DTMamba : Dual Twin Mamba for Time Series Forecasting (Arxiv 2024)</title><link href="http://localhost:4000/mamba/2025-01-06-DTMamba/" rel="alternate" type="text/html" title="DTMamba : Dual Twin Mamba for Time Series Forecasting (Arxiv 2024)" /><published>2025-01-06T00:00:00+09:00</published><updated>2025-01-08T21:50:31+09:00</updated><id>http://localhost:4000/mamba/DTMamba</id><content type="html" xml:base="http://localhost:4000/mamba/2025-01-06-DTMamba/"><![CDATA[<h2 id="introduction">Introduction</h2>
 
 <ul>
   <li>RNN-based methods
@@ -344,7 +343,7 @@
 
 <p><img src="/assets/img/Mamba/DTMamba/table4.png" alt="그림1" /></p>
 
-<p><img src="/assets/img/Mamba/DTMamba/table5.png" alt="그림1" /></p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="Mamba" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/pdf/2405.07022)]]></summary></entry><entry><title type="html">MambaTS: Improved Selective State Space Models for Long-term Time Series Forecasting (ICLR 2025)</title><link href="http://localhost:4000/mamba/2024-11-27-MambaTS/" rel="alternate" type="text/html" title="MambaTS: Improved Selective State Space Models for Long-term Time Series Forecasting (ICLR 2025)" /><published>2024-11-27T00:00:00+09:00</published><updated>2025-01-08T17:58:54+09:00</updated><id>http://localhost:4000/mamba/MambaTS</id><content type="html" xml:base="http://localhost:4000/mamba/2024-11-27-MambaTS/"><![CDATA[<h2 id="abstract">Abstract</h2>
+<p><img src="/assets/img/Mamba/DTMamba/table5.png" alt="그림1" /></p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="mamba" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/pdf/2405.07022)]]></summary></entry><entry><title type="html">MambaTS: Improved Selective State Space Models for Long-term Time Series Forecasting (ICLR 2025)</title><link href="http://localhost:4000/mamba/2024-11-27-MambaTS/" rel="alternate" type="text/html" title="MambaTS: Improved Selective State Space Models for Long-term Time Series Forecasting (ICLR 2025)" /><published>2024-11-27T00:00:00+09:00</published><updated>2025-01-08T21:50:34+09:00</updated><id>http://localhost:4000/mamba/MambaTS</id><content type="html" xml:base="http://localhost:4000/mamba/2024-11-27-MambaTS/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>Transformers : quadratic complexity and permutation invariant bias</li>
@@ -616,7 +615,7 @@
       <li>ATSP solver로 the optimal variable scann order 결정</li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="Mamba" /><summary type="html"><![CDATA[[ICLR 2025](https://arxiv.org/pdf/2405.16440)]]></summary></entry><entry><title type="html">Mamba or Transformer for Time Series Forecasting? Mixture of Universals (MoU) Is All You Need (Arxiv 2024)</title><link href="http://localhost:4000/mamba/2024-11-25-MoU/" rel="alternate" type="text/html" title="Mamba or Transformer for Time Series Forecasting? Mixture of Universals (MoU) Is All You Need (Arxiv 2024)" /><published>2024-11-25T00:00:00+09:00</published><updated>2025-01-08T17:58:54+09:00</updated><id>http://localhost:4000/mamba/MoU</id><content type="html" xml:base="http://localhost:4000/mamba/2024-11-25-MoU/"><![CDATA[<h2 id="abstract">Abstract</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="mamba" /><summary type="html"><![CDATA[[ICLR 2025](https://arxiv.org/pdf/2405.16440)]]></summary></entry><entry><title type="html">Mamba or Transformer for Time Series Forecasting? Mixture of Universals (MoU) Is All You Need (Arxiv 2024)</title><link href="http://localhost:4000/mamba/2024-11-25-MoU/" rel="alternate" type="text/html" title="Mamba or Transformer for Time Series Forecasting? Mixture of Universals (MoU) Is All You Need (Arxiv 2024)" /><published>2024-11-25T00:00:00+09:00</published><updated>2025-01-08T21:50:35+09:00</updated><id>http://localhost:4000/mamba/MoU</id><content type="html" xml:base="http://localhost:4000/mamba/2024-11-25-MoU/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>Transformer는 높은 계산 비용(quadratic computational cost)이 문제,</li>
@@ -947,7 +946,7 @@ f_B\left(\Delta_t, A, B_t\right)=\left(\Delta_t A\right)^{-1}\left(\exp \left(\D
       </li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="Mamba" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/pdf/2408.15997)]]></summary></entry><entry><title type="html">SEQUENTIAL ORDER-ROBUST MAMBA FOR TIME SERIES FORECASTING (Arxiv 2024)</title><link href="http://localhost:4000/mamba/2024-11-14-SOR-Mamba/" rel="alternate" type="text/html" title="SEQUENTIAL ORDER-ROBUST MAMBA FOR TIME SERIES FORECASTING (Arxiv 2024)" /><published>2024-11-14T00:00:00+09:00</published><updated>2025-01-08T17:58:54+09:00</updated><id>http://localhost:4000/mamba/SOR-Mamba</id><content type="html" xml:base="http://localhost:4000/mamba/2024-11-14-SOR-Mamba/"><![CDATA[<h2 id="abstract">Abstract</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="mamba" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/pdf/2408.15997)]]></summary></entry><entry><title type="html">SEQUENTIAL ORDER-ROBUST MAMBA FOR TIME SERIES FORECASTING (Arxiv 2024)</title><link href="http://localhost:4000/mamba/2024-11-14-SOR-Mamba/" rel="alternate" type="text/html" title="SEQUENTIAL ORDER-ROBUST MAMBA FOR TIME SERIES FORECASTING (Arxiv 2024)" /><published>2024-11-14T00:00:00+09:00</published><updated>2025-01-08T21:50:36+09:00</updated><id>http://localhost:4000/mamba/SOR-Mamba</id><content type="html" xml:base="http://localhost:4000/mamba/2024-11-14-SOR-Mamba/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>Mamba : near-linear complexity in processing sequential data
@@ -1130,7 +1129,7 @@ f_B\left(\Delta_t, A, B_t\right)=\left(\Delta_t A\right)^{-1}\left(\exp \left(\D
 
 <h3 id="63-effect-of-1d-conv">6.3. Effect of 1D-conv</h3>
 
-<p><img src="/assets/img/Mamba/SOR-Mamba/table7.png" alt="그림1" /></p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="Mamba" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/pdf/2410.23356)]]></summary></entry><entry><title type="html">Bi-Mamba+: Bidirectional Mamba for Time Series Forecasting (Arxiv 2024)</title><link href="http://localhost:4000/mamba/2024-11-12-BiMamba+/" rel="alternate" type="text/html" title="Bi-Mamba+: Bidirectional Mamba for Time Series Forecasting (Arxiv 2024)" /><published>2024-11-12T00:00:00+09:00</published><updated>2025-01-08T17:58:54+09:00</updated><id>http://localhost:4000/mamba/BiMamba+</id><content type="html" xml:base="http://localhost:4000/mamba/2024-11-12-BiMamba+/"><![CDATA[<h2 id="abstract">Abstract</h2>
+<p><img src="/assets/img/Mamba/SOR-Mamba/table7.png" alt="그림1" /></p>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="mamba" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/pdf/2410.23356)]]></summary></entry><entry><title type="html">Bi-Mamba+: Bidirectional Mamba for Time Series Forecasting (Arxiv 2024)</title><link href="http://localhost:4000/mamba/2024-11-12-BiMamba+/" rel="alternate" type="text/html" title="Bi-Mamba+: Bidirectional Mamba for Time Series Forecasting (Arxiv 2024)" /><published>2024-11-12T00:00:00+09:00</published><updated>2025-01-08T21:54:04+09:00</updated><id>http://localhost:4000/mamba/BiMamba+</id><content type="html" xml:base="http://localhost:4000/mamba/2024-11-12-BiMamba+/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>LTSF :  long-term dependencies capturing and <strong>sparse semantic characteristics</strong></li>
@@ -1598,7 +1597,7 @@ f_B\left(\Delta_t, A, B_t\right)=\left(\Delta_t A\right)^{-1}\left(\exp \left(\D
       <li>for inter-series dependencies at a finer granularity</li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="Mamba" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/pdf/2404.15772)]]></summary></entry><entry><title type="html">S-Mamba: Is Mamba Effective for Time Series Forecasting? (Arxiv 2024)</title><link href="http://localhost:4000/mamba/2024-11-07-s-mamba/" rel="alternate" type="text/html" title="S-Mamba: Is Mamba Effective for Time Series Forecasting? (Arxiv 2024)" /><published>2024-11-07T00:00:00+09:00</published><updated>2025-01-08T17:58:54+09:00</updated><id>http://localhost:4000/mamba/s-mamba</id><content type="html" xml:base="http://localhost:4000/mamba/2024-11-07-s-mamba/"><![CDATA[<h2 id="abstract">Abstract</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="mamba" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/pdf/2404.15772)]]></summary></entry><entry><title type="html">S-Mamba: Is Mamba Effective for Time Series Forecasting? (Arxiv 2024)</title><link href="http://localhost:4000/mamba/2024-11-07-s-mamba/" rel="alternate" type="text/html" title="S-Mamba: Is Mamba Effective for Time Series Forecasting? (Arxiv 2024)" /><published>2024-11-07T00:00:00+09:00</published><updated>2025-01-08T21:56:02+09:00</updated><id>http://localhost:4000/mamba/s-mamba</id><content type="html" xml:base="http://localhost:4000/mamba/2024-11-07-s-mamba/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>Time series forecasting (TSF)에서 Transformer는 quadratic complexity</li>
@@ -1722,36 +1721,16 @@ y_t &amp; =\boldsymbol{C} h_t,
     <p>Mamba Layer</p>
 
     <ul>
-      <li>
-        <p>Input : \(X \in \mathbb{R}^{B \times V \times D}\)</p>
-      </li>
-      <li>
-        <ol>
-          <li>expands the hidden dimension to \(ED\) through linear projection \(\to x, z\)를 얻음</li>
-        </ol>
-      </li>
-      <li>
-        <ol>
-          <li>the projection using convolutional functions and a SiLU \(\to x'\)를 얻음</li>
-        </ol>
-      </li>
-      <li>
-        <ol>
-          <li>generates the state representation \(y\)</li>
-        </ol>
-      </li>
-      <li>
-        <ol>
-          <li>\(y\) is combined with a residual connection from \(z\) after activation,</li>
-        </ol>
-
+      <li>Input : \(X \in \mathbb{R}^{B \times V \times D}\)</li>
+      <li>expands the hidden dimension to \(ED\) through linear projection \(\to x, z\)를 얻음</li>
+      <li>the projection using convolutional functions and a SiLU \(\to x'\)를 얻음</li>
+      <li>generates the state representation \(y\)</li>
+      <li>\(y\) is combined with a residual connection from \(z\) after activation,
         <ul>
           <li>and the final output \(y_t\) at time step $t$ is obtained</li>
         </ul>
       </li>
-      <li>
-        <p>with state expansion factor \(N\),</p>
-
+      <li>with state expansion factor \(N\),
         <ul>
           <li>a size of convolutional kernel \(k\),</li>
           <li>and a block expansion factor \(E\)</li>
@@ -2001,7 +1980,7 @@ y_t &amp; =\boldsymbol{C} h_t,
       <li><strong>generalization</strong> capabilities도 뛰어난 편</li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="Mamba" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/pdf/2403.11144v3)]]></summary></entry><entry><title type="html">TimeMachine: A Time Series is Worth 4 Mambas for Long-term Forecasting (ECAI 2024)</title><link href="http://localhost:4000/mamba/2024-10-29-timemachine/" rel="alternate" type="text/html" title="TimeMachine: A Time Series is Worth 4 Mambas for Long-term Forecasting (ECAI 2024)" /><published>2024-10-29T00:00:00+09:00</published><updated>2025-01-08T17:58:54+09:00</updated><id>http://localhost:4000/mamba/timemachine</id><content type="html" xml:base="http://localhost:4000/mamba/2024-10-29-timemachine/"><![CDATA[<h2 id="abstract">Abstract</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="mamba" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/pdf/2403.11144v3)]]></summary></entry><entry><title type="html">TimeMachine: A Time Series is Worth 4 Mambas for Long-term Forecasting (ECAI 2024)</title><link href="http://localhost:4000/mamba/2024-10-29-timemachine/" rel="alternate" type="text/html" title="TimeMachine: A Time Series is Worth 4 Mambas for Long-term Forecasting (ECAI 2024)" /><published>2024-10-29T00:00:00+09:00</published><updated>2025-01-08T21:50:39+09:00</updated><id>http://localhost:4000/mamba/timemachine</id><content type="html" xml:base="http://localhost:4000/mamba/2024-10-29-timemachine/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>Long-term time-series forecasting(LTSF)에서 우리는 long-term dependencies를 capture하는데
@@ -2354,7 +2333,7 @@ y_t &amp; =\boldsymbol{C} h_t,
       <li>\(\to\) unifies channel-mixing and channel-independence situations</li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="Mamba" /><summary type="html"><![CDATA[[ECAI 2024](https://arxiv.org/abs/2403.09898)]]></summary></entry><entry><title type="html">Mamba: Linear-Time Sequence Modeling with Selective State Spaces (Arxiv 2023)</title><link href="http://localhost:4000/mamba/2024-10-28-mamba/" rel="alternate" type="text/html" title="Mamba: Linear-Time Sequence Modeling with Selective State Spaces (Arxiv 2023)" /><published>2024-10-28T00:00:00+09:00</published><updated>2025-01-08T17:58:54+09:00</updated><id>http://localhost:4000/mamba/mamba</id><content type="html" xml:base="http://localhost:4000/mamba/2024-10-28-mamba/"><![CDATA[<h2 id="abstract">Abstract</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="mamba" /><summary type="html"><![CDATA[[ECAI 2024](https://arxiv.org/abs/2403.09898)]]></summary></entry><entry><title type="html">Mamba: Linear-Time Sequence Modeling with Selective State Spaces (Arxiv 2023)</title><link href="http://localhost:4000/mamba/2024-10-28-mamba/" rel="alternate" type="text/html" title="Mamba: Linear-Time Sequence Modeling with Selective State Spaces (Arxiv 2023)" /><published>2024-10-28T00:00:00+09:00</published><updated>2025-01-08T21:50:39+09:00</updated><id>http://localhost:4000/mamba/mamba</id><content type="html" xml:base="http://localhost:4000/mamba/2024-10-28-mamba/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>많은 subquadratic-time architectures (linear attention, gated convolution and recurrent models, and structured state space models (SSMs))가 Transformer의 연산 효율성을 해결하기 위해 제안되었지만
@@ -2395,7 +2374,7 @@ y_t &amp; =\boldsymbol{C} h_t,
   </li>
 </ul>
 
-<p><img src="/assets/img/Mamba/mamba/fig1.png" alt="그림1" /></p>
+<p><img src="/assets/img/Mamba/mamba_/fig1.png" alt="그림1" /></p>
 
 <ul>
   <li><strong>Architecture</strong>
@@ -2486,7 +2465,7 @@ y_t &amp; =\boldsymbol{C} h_t,
   </li>
 </ul>
 
-<p><img src="/assets/img/Mamba/mamba/fig2.png" alt="그림1" /></p>
+<p><img src="/assets/img/Mamba/mamba_/fig2.png" alt="그림1" /></p>
 
 <ul>
   <li>Synthetic task 2가지
@@ -2517,7 +2496,7 @@ y_t &amp; =\boldsymbol{C} h_t,
   </li>
 </ul>
 
-<p><img src="/assets/img/Mamba/mamba/algorithm12.png" alt="그림1" /></p>
+<p><img src="/assets/img/Mamba/mamba_/algorithm12.png" alt="그림1" /></p>
 
 <h3 id="33-efficient-implementation-of-selective-ssms">3.3 Efficient Implementation of Selective SSMs</h3>
 
@@ -2651,21 +2630,21 @@ y_t &amp; =\boldsymbol{C} h_t,
 
 <p><strong>4.1.2 Induction Heads</strong></p>
 
-<p><img src="/assets/img/Mamba/mamba/table12.png" alt="그림1" /></p>
+<p><img src="/assets/img/Mamba/mamba_/table12.png" alt="그림1" /></p>
 
 <h3 id="42-language-modeling">4.2. Language Modeling</h3>
 
-<p><img src="/assets/img/Mamba/mamba/table3.png" alt="그림1" /></p>
+<p><img src="/assets/img/Mamba/mamba_/table3.png" alt="그림1" /></p>
 
 <h3 id="45-speed-and-memory-benchmarks">4.5 Speed and Memory Benchmarks</h3>
 
-<p><img src="/assets/img/Mamba/mamba/fig8.png" alt="그림1" /></p>
+<p><img src="/assets/img/Mamba/mamba_/fig8.png" alt="그림1" /></p>
 
 <h3 id="46-model-ablations">4.6. Model Ablations</h3>
 
-<p><img src="/assets/img/Mamba/mamba/table6.png" alt="그림1" /></p>
+<p><img src="/assets/img/Mamba/mamba_/table6.png" alt="그림1" /></p>
 
-<p><img src="/assets/img/Mamba/mamba/table78.png" alt="그림1" /></p>
+<p><img src="/assets/img/Mamba/mamba_/table78.png" alt="그림1" /></p>
 
 <h2 id="5-discussion">5. Discussion</h2>
 
@@ -2680,7 +2659,7 @@ y_t &amp; =\boldsymbol{C} h_t,
       <li>Without attention ! (simple attention-free architecture)</li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="Mamba" /><summary type="html"><![CDATA[[Arxiv 2023](https://arxiv.org/pdf/2312.00752)]]></summary></entry><entry><title type="html">T-PATCHGNN: Irregular Multivariate Time Series Forecasting: A Transformable Patching Graph Neural Networks Approach (ICML 2024)</title><link href="http://localhost:4000/timeseries/2024-10-27-T-PATCHGNN/" rel="alternate" type="text/html" title="T-PATCHGNN: Irregular Multivariate Time Series Forecasting: A Transformable Patching Graph Neural Networks Approach (ICML 2024)" /><published>2024-10-27T00:00:00+09:00</published><updated>2024-10-27T11:03:31+09:00</updated><id>http://localhost:4000/timeseries/T-PATCHGNN</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-10-27-T-PATCHGNN/"><![CDATA[<h2 id="abstract">Abstract</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="mamba" /><summary type="html"><![CDATA[[Arxiv 2023](https://arxiv.org/pdf/2312.00752)]]></summary></entry><entry><title type="html">T-PATCHGNN: Irregular Multivariate Time Series Forecasting: A Transformable Patching Graph Neural Networks Approach (ICML 2024)</title><link href="http://localhost:4000/timeseries/2024-10-27-T-PATCHGNN/" rel="alternate" type="text/html" title="T-PATCHGNN: Irregular Multivariate Time Series Forecasting: A Transformable Patching Graph Neural Networks Approach (ICML 2024)" /><published>2024-10-27T00:00:00+09:00</published><updated>2024-10-27T11:03:31+09:00</updated><id>http://localhost:4000/timeseries/T-PATCHGNN</id><content type="html" xml:base="http://localhost:4000/timeseries/2024-10-27-T-PATCHGNN/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>Transformable Patching Graph Neural Networks (T-PATCHGNN)

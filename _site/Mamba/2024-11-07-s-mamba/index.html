@@ -45,7 +45,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="S-Mamba: Is Mamba Effective for Time Series Forecasting? (Arxiv 2024)" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2025-01-08T17:58:54+09:00","datePublished":"2024-11-07T00:00:00+09:00","description":"Arxiv 2024","headline":"S-Mamba: Is Mamba Effective for Time Series Forecasting? (Arxiv 2024)","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/mamba/2024-11-07-s-mamba/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/mamba/2024-11-07-s-mamba/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2025-01-08T21:56:02+09:00","datePublished":"2024-11-07T00:00:00+09:00","description":"Arxiv 2024","headline":"S-Mamba: Is Mamba Effective for Time Series Forecasting? (Arxiv 2024)","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/mamba/2024-11-07-s-mamba/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/mamba/2024-11-07-s-mamba/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -108,7 +108,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2025-01-08T21:28:02+09:00',
+    INDEX_KEY: 'index--2025-01-08T21:56:01+09:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -368,36 +368,16 @@ y_t &amp; =\boldsymbol{C} h_t,
     <p>Mamba Layer</p>
 
     <ul>
-      <li>
-        <p>Input : \(X \in \mathbb{R}^{B \times V \times D}\)</p>
-      </li>
-      <li>
-        <ol>
-          <li>expands the hidden dimension to \(ED\) through linear projection \(\to x, z\)를 얻음</li>
-        </ol>
-      </li>
-      <li>
-        <ol>
-          <li>the projection using convolutional functions and a SiLU \(\to x'\)를 얻음</li>
-        </ol>
-      </li>
-      <li>
-        <ol>
-          <li>generates the state representation \(y\)</li>
-        </ol>
-      </li>
-      <li>
-        <ol>
-          <li>\(y\) is combined with a residual connection from \(z\) after activation,</li>
-        </ol>
-
+      <li>Input : \(X \in \mathbb{R}^{B \times V \times D}\)</li>
+      <li>expands the hidden dimension to \(ED\) through linear projection \(\to x, z\)를 얻음</li>
+      <li>the projection using convolutional functions and a SiLU \(\to x'\)를 얻음</li>
+      <li>generates the state representation \(y\)</li>
+      <li>\(y\) is combined with a residual connection from \(z\) after activation,
         <ul>
           <li>and the final output \(y_t\) at time step $t$ is obtained</li>
         </ul>
       </li>
-      <li>
-        <p>with state expansion factor \(N\),</p>
-
+      <li>with state expansion factor \(N\),
         <ul>
           <li>a size of convolutional kernel \(k\),</li>
           <li>and a block expansion factor \(E\)</li>
