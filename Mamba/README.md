@@ -1,3 +1,15 @@
+---
+layout: page
+title: Mamba
+description: >
+  Here you should be able to find everything you need to know to accomplish the most common tasks when blogging with Hydejack.
+hide_description: true
+sitemap:
+    changefreq: daily
+    priority: 1.0
+permalink: /Mamba/
+---
+
 [Mamba-360: Survey of State Space Models as Transformer Alternative for Long Sequence Modelling: Methods, Applications, and Challenges (Arxiv 2024)]{:.heading.flip-title}\
 \
 [Mamba: Linear-Time Sequence Modeling with Selective State Spaces (Arxiv 2023)]{:.heading.flip-title}\
