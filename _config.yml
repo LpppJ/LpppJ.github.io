@@ -50,6 +50,8 @@ author:
 menu:
   - title:             TimeSeries
     url:               /timeseries/
+  - title:             Mamba
+    url:               /Mamba/
   - title:             Pytorch
     url:               /pytorch/    
   - title:             Statistics
@@ -58,6 +60,7 @@ menu:
     url:               /project/
   - title:             Presentation
     url:               /presentation/
+
   # - title:             Example
   #   url:               /example/ 
   # - title:             Documentation

@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en"><!--
+ __  __                __                                     __
+/\ \/\ \              /\ \             __                    /\ \
+\ \ \_\ \   __  __    \_\ \      __   /\_\      __       ___ \ \ \/'\
+ \ \  _  \ /\ \/\ \   /'_` \   /'__`\ \/\ \   /'__`\    /'___\\ \ , <
+  \ \ \ \ \\ \ \_\ \ /\ \L\ \ /\  __/  \ \ \ /\ \L\.\_ /\ \__/ \ \ \\`\
+   \ \_\ \_\\/`____ \\ \___,_\\ \____\ _\ \ \\ \__/.\_\\ \____\ \ \_\ \_\
+    \/_/\/_/ `/___/> \\/__,_ / \/____//\ \_\ \\/__/\/_/ \/____/  \/_/\/_/
+                /\___/                \ \____/
+                \/__/                  \/___/
+
+Powered by Hydejack v9.1.6 <https://hydejack.com/>
+-->
+
+
+
+
+
+
+
+<head>
+  
+
+
+
+
+
+
+  
+    
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>SEQUENTIAL ORDER-ROBUST MAMBA FOR TIME SERIES FORECASTING (Arxiv 2024) | LpppJ</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="SEQUENTIAL ORDER-ROBUST MAMBA FOR TIME SERIES FORECASTING (Arxiv 2024)" />
+<meta name="author" content="GW Jeong" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Arxiv 2024" />
+<meta property="og:description" content="Arxiv 2024" />
+<link rel="canonical" href="http://localhost:4000/mamba/2024-11-14-SOR-Mamba/" />
+<meta property="og:url" content="http://localhost:4000/mamba/2024-11-14-SOR-Mamba/" />
+<meta property="og:site_name" content="LpppJ" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-11-14T00:00:00+09:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="SEQUENTIAL ORDER-ROBUST MAMBA FOR TIME SERIES FORECASTING (Arxiv 2024)" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2025-01-08T17:52:34+09:00","datePublished":"2024-11-14T00:00:00+09:00","description":"Arxiv 2024","headline":"SEQUENTIAL ORDER-ROBUST MAMBA FOR TIME SERIES FORECASTING (Arxiv 2024)","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/mamba/2024-11-14-SOR-Mamba/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/mamba/2024-11-14-SOR-Mamba/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  
+
+
+
+  <meta name="theme-color" content="rgb(230, 217, 195)">
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="LpppJ">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<meta name="application-name" content="LpppJ">
+
+<meta name="generator" content="Hydejack v9.1.6" />
+
+
+<link rel="alternate" href="http://localhost:4000/mamba/2024-11-14-SOR-Mamba/" hreflang="en">
+
+<link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="LpppJ" />
+
+
+<link rel="shortcut icon"    href="/assets/icons/favicon.ico">
+<link rel="apple-touch-icon" href="/assets/icons/icon-192x192.png">
+
+<link rel="manifest" href="/assets/site.webmanifest">
+
+<link rel="dns-prefetch" href="https://fonts.googleapis.com"><link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+
+
+<link rel="preload" href="/assets/img/swipe.svg" as="image" id="_hrefSwipeSVG">
+
+
+
+
+
+
+<script>!function(r,c){"use strict";function a(e,t,n,o){e.addEventListener?e.addEventListener(t,n,o):e.attachEvent?e.attachEvent("on"+t,n):e["on"+t]=n}r.loadJS=function(e,t){var n=c.createElement("script"),e=(n.src=e,t&&a(n,"load",t,{once:!0}),c.scripts[0]);return e.parentNode.insertBefore(n,e),n},r._loaded=!1,r.loadJSDeferred=function(e,t){var n=c.createElement("script");function o(){r._loaded=!0,t&&a(n,"load",t,{once:!0});var e=c.scripts[0];e.parentNode.insertBefore(n,e)}return n.src=e,r._loaded?o():a(r,"load",o,{once:!0}),n},r.setRel=r.setRelStylesheet=function(e){a(c.getElementById(e),"load",function(){this.rel="stylesheet"},{once:!0})}}(window,document);
+!function(a){"use strict";var b=function(b,c,d){function e(a){return h.body?a():void setTimeout(function(){e(a)})}function f(){i.addEventListener&&i.removeEventListener("load",f),i.media=d||"all"}var g,h=a.document,i=h.createElement("link");if(c)g=c;else{var j=(h.body||h.getElementsByTagName("head")[0]).childNodes;g=j[j.length-1]}var k=h.styleSheets;i.rel="stylesheet",i.href=b,i.media="only x",e(function(){g.parentNode.insertBefore(i,c?g:g.nextSibling)});var l=function(a){for(var b=i.href,c=k.length;c--;)if(k[c].href===b)return a();setTimeout(function(){l(a)})};return i.addEventListener&&i.addEventListener("load",f),i.onloadcssdefined=l,l(f),i};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
+!function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(b){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
+!function(w) {
+  w._baseURL = '/';
+  w._publicPath = '/assets/js/';
+  w._noPushState = false;
+  w._noDrawer = false;
+  w._noNavbar = false;
+  w._noToc = false;
+  w._noSearch = false;
+  w._search = {
+    DATA_URL: '/assets/sitedata.json?no-cache',
+    STORAGE_KEY: 'mini-search/',
+    INDEX_KEY: 'index--2025-01-08T17:58:45+09:00',
+  };
+  w._clapButton = true;
+}(window);</script>
+
+
+<script async src="/assets/bower_components/MathJax/es5/tex-mml-chtml.js" id="_MathJax"></script>
+
+
+<!--[if gt IE 8]><!---->
+
+  
+
+
+
+
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css" id="_iconsPreload">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:700%7CNoto+Sans:400,400i,700,700i&display=swap" id="_fontsPreload">
+
+
+
+  <style id="_pageStyle">
+
+html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5);--accent-color-highlight: rgba(94, 97, 94, 0.1);--accent-color-darkened: #4b4e4b;--theme-color: rgb(230, 217, 195)}
+</style>
+
+
+<!--<![endif]-->
+
+
+
+
+</head>
+
+<body class="no-break-layout">
+  
+
+
+<hy-push-state
+  id="_pushState"
+  replace-selector="#_main"
+  link-selector="a[href]:not([href^='/assets/']):not(.external):not(.no-push-state)"
+  script-selector="script"
+  duration="500"
+  hashchange
+>
+  
+  
+  <div id="_navbar" class="navbar fixed-top">
+  <div class="content">
+    <span class="sr-only">Jump to:</span>
+    <div class="nav-btn-bar">
+      <a id="_menu" class="nav-btn no-hover" href="#_drawer--opened">
+        <span class="sr-only">Navigation</span>
+        <span class="icon-menu"></span>
+      </a>
+      <div class="nav-span"></div>
+    </div>
+  </div>
+</div>
+<hr class="sr-only" hidden />
+
+  <main
+  id="_main"
+  class="content layout-post"
+  role="main"
+>
+  <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+    <li><a href="/">home</a></li>
+    
+      <li>
+        
+          <span>/</span>
+          
+          
+          <a href="/mamba/">mamba</a>
+        
+      </li>
+    
+      <li>
+        
+          <span>/</span>
+          <span>2024-11-14-SOR-Mamba</span>
+        
+      </li>
+    
+  
+</ul></nav>
+  
+
+
+
+
+
+
+
+
+
+
+<article id="post-mamba-SOR-Mamba" class="page post mb6" role="article">
+  <header>
+    <h1 class="post-title flip-project-title">
+      
+        SEQUENTIAL ORDER-ROBUST MAMBA FOR TIME SERIES FORECASTING (Arxiv 2024)
+      
+    </h1>
+
+    <div class="post-date">
+      
+      <span class="ellipsis mr1">
+        <time datetime="2024-11-14T00:00:00+09:00">14 Nov 2024</time> in <span>Mamba</span> 
+      </span>
+      
+    </div>
+
+    
+    
+
+    
+
+
+
+  
+    <p class="note-sm" >
+      <a href="https://arxiv.org/pdf/2410.23356">Arxiv 2024</a>
+
+    </p>
+  
+
+
+  </header>
+
+  
+    <h2 id="abstract">Abstract</h2>
+
+<ul>
+  <li>Mamba : near-linear complexity in processing sequential data
+    <ul>
+      <li><strong>하지만 일반적으로 Time series에서 변수의 순서는 존재하지 않기 때문에</strong></li>
+      <li><strong>Mamba에서 channel dependencies (CD)를 잡다보면 sequential order bias가 발생</strong></li>
+    </ul>
+  </li>
+  <li>그러므로 본 논문에서는 <strong>SOR-Mamba</strong>를 제안
+    <ul>
+      <li><strong>Regularization strategy</strong>
+        <ul>
+          <li>to minimize the discrepancy btw two embedding vectors (reversed channel orders)</li>
+          <li>\(\to\)  robustness to channel order</li>
+        </ul>
+      </li>
+      <li><strong>Eliminates the 1D-convolution</strong>
+        <ul>
+          <li>(originally designed to capture local information in sequential data)</li>
+        </ul>
+      </li>
+      <li><strong>Channel correlation modeling (CCM)</strong>
+        <ul>
+          <li>pretraining task aimed at preserving <strong>correlations between channels</strong>
+            <ul>
+              <li>from the data space to the latent space</li>
+              <li>in order to enhance the ability to capture CD</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="1-introduction">1. Introduction</h2>
+
+<ul>
+  <li>Transformer
+    <ul>
+      <li>ability to capture long-term dependencies but, quadratic computational complexity</li>
+      <li>reduce the complexity 하려다보니 performance degradations</li>
+    </ul>
+  </li>
+  <li><strong>SSM</strong>
+    <ul>
+      <li>employing <strong>convolutional</strong> operations to process sequences with linear complexity</li>
+    </ul>
+  </li>
+  <li><strong>Mamba</strong>
+    <ul>
+      <li>incorporating a <strong>selective</strong> mechanism to prioritize important information</li>
+      <li>balance btw performance and computational efficiency</li>
+    </ul>
+  </li>
+  <li>Temporal dependencies (TD), channel dependencies (CD) 둘 다 잡아야 하는데,
+    <ul>
+      <li>iTransformer에서는 CD는 complex attention mechanisms으로,</li>
+      <li>TD는 simple multi-layer perceptrons (MLPs)으로 했었음</li>
+    </ul>
+  </li>
+  <li>Mamba는 <strong>sequential order bias</strong>가 있다보니 <strong>Bidirectional Mamba로는 충분하지 않음</strong></li>
+  <li>그렇다고 MambaTS처럼 channel을 섞자니 추가적인 작업이 소요됨</li>
+</ul>
+
+<p><img src="/assets/img/Mamba/SOR-Mamba/fig1.png" alt="그림1" /></p>
+
+<ul>
+  <li>그래서 <strong>Sequential Order-Robust Mamba for TS forecasting (SOR-Mamba)</strong>를 제안
+    <ul>
+      <li>(간단한 설명은 abstract에 잘 정리되어 있으므로 pass)</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="2-related-works">2. Related Works</h2>
+
+<ul>
+  <li><strong>CD-Mamba Block</strong>
+    <ul>
+      <li>1D Conv 제거</li>
+      <li>Time series의 channels는 애초에 inherent sequential order가 존재하지 않기 때문</li>
+    </ul>
+  </li>
+  <li><strong>Regulararization with CD-Mamba Block</strong>
+    <ul>
+      <li>Reversed channel order로 발생하는 두 embedding vectors의 차이를 줄이도록 학습</li>
+      <li>\(\to\) Enhancing robustness to channel order !</li>
+    </ul>
+  </li>
+  <li><strong>Channel correlation modeling</strong>
+    <ul>
+      <li>Data space에서의 correlation (btw channels)과</li>
+      <li>Embedding space에서의 correlation (btw channels)의 차이를 줄이도록 학습</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="3-preliminaries">3. Preliminaries</h2>
+
+<p>pass</p>
+
+<h2 id="4-methodology">4. Methodology</h2>
+
+<p><img src="/assets/img/Mamba/SOR-Mamba/fig2.png" alt="그림1" /></p>
+
+<h3 id="41-architecture-of-sor-mamba">4.1. Architecture of SOR-Mamba</h3>
+
+<ul>
+  <li>Embedding layer: \(\mathbf{x} \in \mathbb{R}^{L \times C}\) into \(\mathbf{Z} \in \mathbb{R}^{C \times D}\) using a single linear layer.</li>
+  <li>Mamba for CD: CD-Mamba block (<em>1D-conv</em> 제거)</li>
+  <li>MLP for TD: (with layer normalization (LN))</li>
+  <li>Prediction head: linear prediction head, resulting in \(\hat{\mathbf{y}} \in \mathbb{R}^{H \times C}\)</li>
+</ul>
+
+<h3 id="42-regularization-with-cd-mamba-block">4.2. Regularization with CD-Mamba Block</h3>
+
+<ul>
+  <li>\(L_{\mathrm{reg}}(\mathbf{z})=d\left(\mathbf{z}_1, \mathbf{z}_2\right)\), 여기서는 \(d\)를 MSE 사용</li>
+  <li>최종적으로 \(L(\mathbf{x}, \mathbf{y})=L_{\mathrm{fcst}}(\mathbf{x}, \mathbf{y})+\lambda \cdot \sum_{i=1}^m L_{\mathrm{reg}}\left(\mathbf{z}^{(i)}\right)\)</li>
+</ul>
+
+<h3 id="43-channel-correlation-modeling">4.3. Channel Correlation modeling</h3>
+
+<ul>
+  <li>Temporal Dependencies보다는 Channel Dependencies를 강조하는 pre-training task</li>
+  <li>CCM: preserve the (Pearson) correlation between channels from the data space to the latent space</li>
+</ul>
+
+<p><img src="/assets/img/Mamba/SOR-Mamba/fig3.png" alt="그림1" /></p>
+
+<ul>
+  <li>input token on the data space에서의 correlation matrices가 있고
+    <ul>
+      <li>output token on the latent space에의 correlation matrices가 있으면</li>
+      <li>loss function for CCM은 distance between these two matrices:
+        <ul>
+          <li>\(L_{\mathrm{CCM}}(\mathbf{x})=d\left(\mathbf{R}_{\mathbf{x}}, \mathbf{R}_{\mathbf{z}}\right)\).</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="5-experiments">5. Experiments</h2>
+
+<h3 id="51-experimental-settings">5.1. Experimental settings</h3>
+
+<p>pass</p>
+
+<h3 id="52-time-series-forecasting">5.2. Time series Forecasting</h3>
+
+<p><img src="/assets/img/Mamba/SOR-Mamba/table2.png" alt="그림1" /></p>
+
+<h3 id="53-transfer-learning">5.3. Transfer Learning</h3>
+
+<p><img src="/assets/img/Mamba/SOR-Mamba/table4.png" alt="그림1" /></p>
+
+<ul>
+  <li>SimMTM에 transfer learning 한 걸 S-Mamba와 비교</li>
+</ul>
+
+<h3 id="54-ablation-study">5.4. Ablation Study</h3>
+
+<p><img src="/assets/img/Mamba/SOR-Mamba/table5.png" alt="그림1" /></p>
+
+<h2 id="6-analysis">6. Analysis</h2>
+
+<h3 id="61-sequential-order-bias">6.1. Sequential order bias</h3>
+
+<p><img src="/assets/img/Mamba/SOR-Mamba/fig4.png" alt="그림1" /></p>
+
+<ul>
+  <li>Channels가 많을수록, correlated 되어있을수록, Sequential order bias 큼</li>
+</ul>
+
+<h3 id="62-effect-of-regularization">6.2. Effect of regularization</h3>
+
+<p><img src="/assets/img/Mamba/SOR-Mamba/table6.png" alt="그림1" /></p>
+
+<h3 id="63-effect-of-1d-conv">6.3. Effect of 1D-conv</h3>
+
+<p><img src="/assets/img/Mamba/SOR-Mamba/table7.png" alt="그림1" /></p>
+
+  
+</article>
+
+
+
+  <hr class="dingbat related mb6" />
+
+
+
+
+
+
+  
+     
+
+
+  <aside class="about related mt4 mb4" role="complementary">
+    
+    
+
+<div class="author mt4">
+  
+
+  
+    
+
+
+<img
+  
+    src="https://via.placeholder.com/128x128"
+    srcset="/assets/img/me/me.JPG 1x,/assets/img/me/me.JPG 2x"
+    
+  
+  alt="GW Jeong"
+  class="avatar"
+  
+  width="120"
+  height="120"
+  loading="lazy"
+/>
+
+  
+
+  
+  
+  <h2  class="page-title hr-bottom">
+    About
+  </h2>
+
+  <p>Bachelor’s degree in Applied Statistics. Yonsei Univ. (2018~2024) <br />
+DataScienceLab 8th 학회장 (2022~2023) <br />
+Master’s degree in Statitstics. Yonsei Univ. (2024~)</p>
+
+
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+
+  </aside>
+
+
+  
+
+  
+  
+
+  
+    
+
+
+  
+
+  
+  
+
+  
+    
+
+  
+
+
+  
+<footer class="content" role="contentinfo">
+  <hr/>
+  
+    <p><small class="copyright">© Geonwoo Jeong.
+</small></p>
+  
+  
+    <p><small>Powered by <a class="external" href="https://hydejack.com/">Hydejack</a> v<span id="_version">9.1.6</span></small></p>
+  <hr class="sr-only"/>
+</footer>
+
+
+</main>
+
+  <hy-drawer
+  id="_drawer"
+  class=""
+  side="left"
+  threshold="10"
+  noscroll
+  
+>
+  <header id="_sidebar" class="sidebar" role="banner">
+    
+
+
+
+
+<div class="sidebar-bg sidebar-overlay" style="background-color:rgb(230, 217, 195);background-image:url(/assets/img/me/sidebar.jpg)"></div>
+
+    <div class="sidebar-sticky">
+  <div class="sidebar-about">
+    
+      <a class="no-hover" href="/" tabindex="-1">
+        <img src="/assets/img/me/logo.jpg" class="avatar" alt="LpppJ" width="120" height="120" loading="lazy" />
+      </a>
+    
+    <a class="sidebar-title" href="/"><h2 class="h1">LpppJ</h2></a>
+    
+    
+      <p class="">
+        DataScience and AI
+
+      </p>
+    
+  </div>
+
+  <nav class="sidebar-nav heading" role="navigation">
+    <span class="sr-only">Navigation:</span>
+<ul>
+  
+    
+      
+      <li>
+        <a
+          id="_drawer--opened"
+          href="/timeseries/"
+          class="sidebar-nav-item "
+          
+        >
+          TimeSeries
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/Mamba/"
+          class="sidebar-nav-item "
+          
+        >
+          Mamba
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/pytorch/"
+          class="sidebar-nav-item "
+          
+        >
+          Pytorch
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/stat/"
+          class="sidebar-nav-item "
+          
+        >
+          Statistics
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/project/"
+          class="sidebar-nav-item "
+          
+        >
+          Project
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/presentation/"
+          class="sidebar-nav-item "
+          
+        >
+          Presentation
+        </a>
+      </li>
+    
+  
+</ul>
+
+  </nav>
+
+  
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+  </header>
+</hy-drawer>
+<hr class="sr-only" hidden />
+
+</hy-push-state>
+
+
+  <!--[if gt IE 10]><!---->
+  <script nomodule>!function(){var t,n=document.createElement("script");!("noModule"in n)&&"onbeforeload"in n&&(t=!1,document.addEventListener("beforeload",function(e){if(e.target===n)t=!0;else if(!e.target.hasAttribute("nomodule")||!t)return;e.preventDefault()},!0),n.type="module",n.src=".",document.head.appendChild(n),n.remove())}();
+</script>
+  <script src="/assets/js/hydejack-9.1.6.js" type="module"></script>
+  <script src="/assets/js/LEGACY-hydejack-9.1.6.js" nomodule defer></script>
+  
+
+  
+
+<!--<![endif]-->
+  <!-- <script>
+  document.querySelector('hy-push-state').setAttribute('prefetch', '');
+
+  document.querySelectorAll('.sidebar a[href^="/"]').forEach(function (el) { 
+    el.addEventListener('click', function (e) {
+      if (el.pathname === window.location.pathname) {
+        e.preventDefault();
+        e.stopPropagation();
+        document.querySelector('hy-drawer').close();
+      }
+    });
+  });
+</script> -->
+
+<!--
+Code for integrating CloudFlare's email protection with Hydejack's single page app loading.
+-->
+<script>
+  document.getElementById('_pushState').addEventListener('hy-push-state-after', function (e) {
+    function e(e){
+      (console.error?console.error:console.log).call(console,e)
+    }
+
+    function t(e){
+      return l.innerHTML='<a href="'+e.replace(/"/g,"&quot;")+'"></a>',l.childNodes[0].getAttribute("href")
+    }
+
+    function r(e,t){
+      var r=e.substr(t,2);return parseInt(r,16)
+    }
+
+    function n(e,n){
+      for(var o="",c=r(e,n),a=n+2;a<e.length;a+=2){
+        var l=r(e,a)^c;
+        o+=String.fromCharCode(l)
+      }
+      return t(o)
+    }
+
+    var o="/cdn-cgi/l/email-protection#",
+        c=".__cf_email__",
+        a="data-cfemail",
+        l=document.createElement("div");
+
+    !function(){
+      for(var t=document.getElementsByTagName("a"),r=0;r<t.length;r++)
+        try{
+          var c=t[r],a=c.href.indexOf(o);
+          a>-1&&(c.href="mailto:"+n(c.href,a+o.length))
+        }catch(t){
+          e(t)
+        }
+    }(),
+    function(){
+      for(var t=document.querySelectorAll(c),r=0;r<t.length;r++)
+        try{
+          var o=t[r],l=n(o.getAttribute(a),0),i=document.createTextNode(l);
+          o.parentNode.replaceChild(i,o)
+        }catch(t){
+          e(t)
+        }
+    }()
+  });
+</script>
+
+
+
+
+
+<div hidden>
+  
+  <h2 class="sr-only">Templates (for web app):</h2>
+
+  <template id="_animation-template">
+  <div class="animation-main fixed-top">
+    <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+</ul></nav>
+    <div class="content">
+      <div class="page"></div>
+    </div>
+  </div>
+</template>
+
+  <template id="_loading-template">
+  <div class="loading nav-btn fr">
+    <span class="sr-only">Loading…</span>
+    <span class="icon-cog"></span>
+  </div>
+</template>
+
+  <template id="_error-template">
+  <div class="page">
+    <h1 class="page-title">Error</h1>
+    
+    
+    <p class="lead">
+      Sorry, an error occurred while loading <a class="this-link" href=""></a>.
+
+    </p>
+  </div>
+</template>
+
+  <template id="_permalink-template">
+  <a href="#" class="permalink">
+    <span class="sr-only">Permalink</span>
+    <span class="content-hash"></span>
+  </a>
+</template>
+
+</div>
+
+
+</body>
+</html>

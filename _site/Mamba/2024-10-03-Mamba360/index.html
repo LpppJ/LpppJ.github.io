@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en"><!--
+ __  __                __                                     __
+/\ \/\ \              /\ \             __                    /\ \
+\ \ \_\ \   __  __    \_\ \      __   /\_\      __       ___ \ \ \/'\
+ \ \  _  \ /\ \/\ \   /'_` \   /'__`\ \/\ \   /'__`\    /'___\\ \ , <
+  \ \ \ \ \\ \ \_\ \ /\ \L\ \ /\  __/  \ \ \ /\ \L\.\_ /\ \__/ \ \ \\`\
+   \ \_\ \_\\/`____ \\ \___,_\\ \____\ _\ \ \\ \__/.\_\\ \____\ \ \_\ \_\
+    \/_/\/_/ `/___/> \\/__,_ / \/____//\ \_\ \\/__/\/_/ \/____/  \/_/\/_/
+                /\___/                \ \____/
+                \/__/                  \/___/
+
+Powered by Hydejack v9.1.6 <https://hydejack.com/>
+-->
+
+
+
+
+
+
+
+<head>
+  
+
+
+
+
+
+
+  
+    
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Mamba-360: Survey of State Space Models as Transformer Alternative for Long Sequence Modelling: Methods, Applications, and Challenges (Arxiv 2024) | LpppJ</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Mamba-360: Survey of State Space Models as Transformer Alternative for Long Sequence Modelling: Methods, Applications, and Challenges (Arxiv 2024)" />
+<meta name="author" content="GW Jeong" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Arxiv 2024" />
+<meta property="og:description" content="Arxiv 2024" />
+<link rel="canonical" href="http://localhost:4000/mamba/2024-10-03-Mamba360/" />
+<meta property="og:url" content="http://localhost:4000/mamba/2024-10-03-Mamba360/" />
+<meta property="og:site_name" content="LpppJ" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-10-03T00:00:00+09:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Mamba-360: Survey of State Space Models as Transformer Alternative for Long Sequence Modelling: Methods, Applications, and Challenges (Arxiv 2024)" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2025-01-08T17:53:16+09:00","datePublished":"2024-10-03T00:00:00+09:00","description":"Arxiv 2024","headline":"Mamba-360: Survey of State Space Models as Transformer Alternative for Long Sequence Modelling: Methods, Applications, and Challenges (Arxiv 2024)","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/mamba/2024-10-03-Mamba360/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/mamba/2024-10-03-Mamba360/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  
+
+
+
+  <meta name="theme-color" content="rgb(230, 217, 195)">
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="LpppJ">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<meta name="application-name" content="LpppJ">
+
+<meta name="generator" content="Hydejack v9.1.6" />
+
+
+<link rel="alternate" href="http://localhost:4000/mamba/2024-10-03-Mamba360/" hreflang="en">
+
+<link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="LpppJ" />
+
+
+<link rel="shortcut icon"    href="/assets/icons/favicon.ico">
+<link rel="apple-touch-icon" href="/assets/icons/icon-192x192.png">
+
+<link rel="manifest" href="/assets/site.webmanifest">
+
+<link rel="dns-prefetch" href="https://fonts.googleapis.com"><link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+
+
+<link rel="preload" href="/assets/img/swipe.svg" as="image" id="_hrefSwipeSVG">
+
+
+
+
+
+
+<script>!function(r,c){"use strict";function a(e,t,n,o){e.addEventListener?e.addEventListener(t,n,o):e.attachEvent?e.attachEvent("on"+t,n):e["on"+t]=n}r.loadJS=function(e,t){var n=c.createElement("script"),e=(n.src=e,t&&a(n,"load",t,{once:!0}),c.scripts[0]);return e.parentNode.insertBefore(n,e),n},r._loaded=!1,r.loadJSDeferred=function(e,t){var n=c.createElement("script");function o(){r._loaded=!0,t&&a(n,"load",t,{once:!0});var e=c.scripts[0];e.parentNode.insertBefore(n,e)}return n.src=e,r._loaded?o():a(r,"load",o,{once:!0}),n},r.setRel=r.setRelStylesheet=function(e){a(c.getElementById(e),"load",function(){this.rel="stylesheet"},{once:!0})}}(window,document);
+!function(a){"use strict";var b=function(b,c,d){function e(a){return h.body?a():void setTimeout(function(){e(a)})}function f(){i.addEventListener&&i.removeEventListener("load",f),i.media=d||"all"}var g,h=a.document,i=h.createElement("link");if(c)g=c;else{var j=(h.body||h.getElementsByTagName("head")[0]).childNodes;g=j[j.length-1]}var k=h.styleSheets;i.rel="stylesheet",i.href=b,i.media="only x",e(function(){g.parentNode.insertBefore(i,c?g:g.nextSibling)});var l=function(a){for(var b=i.href,c=k.length;c--;)if(k[c].href===b)return a();setTimeout(function(){l(a)})};return i.addEventListener&&i.addEventListener("load",f),i.onloadcssdefined=l,l(f),i};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
+!function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(b){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
+!function(w) {
+  w._baseURL = '/';
+  w._publicPath = '/assets/js/';
+  w._noPushState = false;
+  w._noDrawer = false;
+  w._noNavbar = false;
+  w._noToc = false;
+  w._noSearch = false;
+  w._search = {
+    DATA_URL: '/assets/sitedata.json?no-cache',
+    STORAGE_KEY: 'mini-search/',
+    INDEX_KEY: 'index--2025-01-08T17:58:45+09:00',
+  };
+  w._clapButton = true;
+}(window);</script>
+
+
+<script async src="/assets/bower_components/MathJax/es5/tex-mml-chtml.js" id="_MathJax"></script>
+
+
+<!--[if gt IE 8]><!---->
+
+  
+
+
+
+
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css" id="_iconsPreload">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:700%7CNoto+Sans:400,400i,700,700i&display=swap" id="_fontsPreload">
+
+
+
+  <style id="_pageStyle">
+
+html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5);--accent-color-highlight: rgba(94, 97, 94, 0.1);--accent-color-darkened: #4b4e4b;--theme-color: rgb(230, 217, 195)}
+</style>
+
+
+<!--<![endif]-->
+
+
+
+
+</head>
+
+<body class="no-break-layout">
+  
+
+
+<hy-push-state
+  id="_pushState"
+  replace-selector="#_main"
+  link-selector="a[href]:not([href^='/assets/']):not(.external):not(.no-push-state)"
+  script-selector="script"
+  duration="500"
+  hashchange
+>
+  
+  
+  <div id="_navbar" class="navbar fixed-top">
+  <div class="content">
+    <span class="sr-only">Jump to:</span>
+    <div class="nav-btn-bar">
+      <a id="_menu" class="nav-btn no-hover" href="#_drawer--opened">
+        <span class="sr-only">Navigation</span>
+        <span class="icon-menu"></span>
+      </a>
+      <div class="nav-span"></div>
+    </div>
+  </div>
+</div>
+<hr class="sr-only" hidden />
+
+  <main
+  id="_main"
+  class="content layout-post"
+  role="main"
+>
+  <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+    <li><a href="/">home</a></li>
+    
+      <li>
+        
+          <span>/</span>
+          
+          
+          <a href="/mamba/">mamba</a>
+        
+      </li>
+    
+      <li>
+        
+          <span>/</span>
+          <span>2024-10-03-Mamba360</span>
+        
+      </li>
+    
+  
+</ul></nav>
+  
+
+
+
+
+
+
+
+
+
+
+<article id="post-mamba-Mamba360" class="page post mb6" role="article">
+  <header>
+    <h1 class="post-title flip-project-title">
+      
+        Mamba-360: Survey of State Space Models as Transformer Alternative for Long Sequence Modelling: Methods, Applications, and Challenges (Arxiv 2024)
+      
+    </h1>
+
+    <div class="post-date">
+      
+      <span class="ellipsis mr1">
+        <time datetime="2024-10-03T00:00:00+09:00">03 Oct 2024</time> in <span>Mamba</span> 
+      </span>
+      
+    </div>
+
+    
+    
+
+    
+
+
+
+  
+    <p class="note-sm" >
+      <a href="https://arxiv.org/abs/2404.16112">Arxiv 2024</a>
+
+    </p>
+  
+
+
+  </header>
+
+  
+    <h2 id="abstract">Abstract</h2>
+
+<ul>
+  <li>Sequence modeling에서 RNN, LSTM을 사용했었음</li>
+  <li>Transformer가 훌륭한 성능을 보여주었음
+    <ul>
+      <li>but \(O(N^2)\) complexity,inductive bias handling이 어려움</li>
+    </ul>
+  </li>
+  <li>본 논문에서는 State Space Model (SSM)를 크게 3가지 카테고리로 분류
+    <ul>
+      <li>Gating architectures</li>
+      <li>Structural architectures</li>
+      <li>Recurrent architectures</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="1-introduciton">1. Introduciton</h2>
+
+<ul>
+  <li>RNN
+    <ul>
+      <li>look at only the last state and current input for predicting the next state</li>
+      <li>gradient calculations being limited to the hidden state and current input</li>
+      <li>exploding or vanishing gradient problem</li>
+      <li>lack sufficient memory for long sequences</li>
+    </ul>
+  </li>
+  <li>LSTM
+    <ul>
+      <li>complexity with their gating mechanisms</li>
+      <li>exhibit challenges in transfer learning</li>
+    </ul>
+  </li>
+  <li>Transformer
+    <ul>
+      <li>enable each token to interact with every other token in the input sequence</li>
+      <li>but \(O(N^2)\) complexity</li>
+    </ul>
+  </li>
+  <li>State Space Model (SSM)
+    <ul>
+      <li>Understanding of State Space Models (SSMs) : mathematical fundamentals</li>
+      <li>Categorization and Recent Advances of SSMs : systematic categorization</li>
+      <li>Application of SSMs Across Domains : utility in domains</li>
+      <li>Performance Comparison of SSMs with Transformers : SSM과 Transformer 비교</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="2-basics-of-state-space-model">2. Basics of State Space Model</h2>
+
+<ul>
+  <li>High-order를 first-order derivatives와 vector quantities로 representation</li>
+  <li>Dynamics of  damped mass-spring system : \(m \frac{d^2 y(t)}{d t^2}+c \frac{d y(t)}{d t}+k y(t)=u(t)\)
+    <ul>
+      <li>\(u(t)\) : 질량에 작용하는 외부 힘</li>
+      <li>\(y(t)\) : 수직 위치</li>
+      <li>\(x(t)\) : 이 방정식을 1차 미분과 벡터 양으로 표현하기 위해 도입하는 벡터</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="21-spring-mass-damper-system">2.1. Spring Mass-Damper system</h3>
+
+<ul>
+  <li>State Variables
+    <ul>
+      <li>\(x_1\) : equilibrium으로부터 질량의 위치</li>
+      <li>\(\dot{x_1}\) : 질량의 속도</li>
+    </ul>
+  </li>
+  <li>System Dynamics
+    <ul>
+      <li>뉴턴의 제 2법칙으로 표현하면 \(m \ddot{x}_1=-k x_1-c \dot{x}_1\)</li>
+      <li>\(\ddot{x_1}\)는 질량의 가속도, \(-kx_1\)은 위치에 비례하는 스프링의 힘,</li>
+      <li>\(c\dot{x_1}\)은 속도에 비례하는 damping force (운동 에너지 감쇠시키는 힘)</li>
+    </ul>
+  </li>
+  <li>State-Space Formulation
+    <ul>
+      <li>State vector \(x \in \mathbb R^n\) : 시스템의 내부 상태 변수</li>
+      <li>Input vector \(u\in \mathbb R^m\) : 시스템에 대한 제어 또는 외부 입력</li>
+      <li>Output vector \(y \in \mathbb R^p\) : 관심 있는 측정 가능한 양</li>
+      <li>System dynamics : 일차 미분 방정식으로 표현 \(\dot{\mathbf x}=\mathbf A \mathbf x+\mathbf B \mathbf u\)
+        <ul>
+          <li>\(\mathbf x=\left[x_1, \dot{x}_1\right]^T\)는 state vector, \(\mathbf u\)는 input,</li>
+          <li>\(\mathbf A\in\mathbb R^{n \times n}\)는 dynamic matrix \(\mathbf A=\left[\begin{array}{cc}
+0 &amp; 1 \\
+-\frac{k}{m} &amp; -\frac{c}{m}
+\end{array}\right]\)</li>
+          <li>\(\mathbf B \in \mathbb R^{n \times m}\)은 input matrix \(\mathbf B=\left[\begin{array}{c}
+0 \\
+\frac{1}{m}
+\end{array}\right] \dot{\mathbf x}\)</li>
+          <li>Output equation : \(\mathbf{y}=\mathbf{C x}+\mathbf{D u}\)
+            <ul>
+              <li>\(\mathbf{C} \in \mathbb{R}^{p \times n}\)는 output or sensor matrix</li>
+              <li>\(\mathbf{D} \in \mathbb{R}^{p \times m}\)는 feedthrough matrix</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="22-state-space-model">2.2. State Space Model</h3>
+
+<ul>
+  <li>Definition
+    <ul>
+      <li>Discrete-time dynamical system :
+        <ul>
+          <li>\(x(t+1)=A x(t)+B u(t), \quad y(t)=C x(t)+D u(t), \quad t=0,1,2,\)…</li>
+          <li>\(x(t) \in \mathbb{R}^n\) : t시점에서 state</li>
+          <li>\(u(t) \in\mathbb{R}^p\) : control variables</li>
+          <li>\(y(t) \in\mathbb{R}^k\)​ : specific outputs of interest</li>
+        </ul>
+      </li>
+      <li>Continuous-time model
+        <ul>
+          <li>\(\frac{d}{d t} x(t)=A x(t)+B u(t), \quad y(t)=C x(t)+D u(t), \quad t \geq 0\).</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/Mamba/Mamba360/fig3.png" alt="그림1" /></p>
+
+<ul>
+  <li>Model Formulation
+    <ul>
+      <li>Complexity 때문에 Multi-head self-attention 대신 SSM 사용</li>
+      <li>Continuous-time Latent State space는 linear ordinary differential equation으로 표현
+        <ul>
+          <li>\(\begin{aligned} \dot{x}(t) &amp; =\boldsymbol{A} x(t)+\boldsymbol{B} u(t) \\
+y(t) &amp; =\boldsymbol{C} x(t)+\boldsymbol{D} u(t) \end{aligned}\),</li>
+          <li>evolution parameter \(A \in \mathcal{R}^{N \times N}\)</li>
+          <li>projection parameter \(B \in \mathcal{R}^{N \times 1} \text { and } C \in \mathcal{R}^{N \times 1}\)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Discrete-time SSM
+    <ul>
+      <li>continuous parameters \(A, B, C\) 를 discrete하게 바꾸기 위해 time-scale parameter \(\Delta\) 사용</li>
+      <li>즉 \(\bar{A}=f_A(\Delta, A), \bar{B}=f_B(\Delta, A, B)\)​</li>
+      <li>\(\begin{array}{lll}
+x_k=\overline{\boldsymbol{A}} x_{k-1}+\overline{\boldsymbol{B}} u_k &amp; \overline{\boldsymbol{A}}=(\boldsymbol{I}-\Delta / 2 \cdot \boldsymbol{A})^{-1}(\boldsymbol{I}+\Delta / 2 \cdot \boldsymbol{A}) &amp; \\
+y_k=\overline{\boldsymbol{C}} x_k &amp; \overline{\boldsymbol{B}}=(\boldsymbol{I}-\Delta / 2 \cdot \boldsymbol{A})^{-1} \Delta \boldsymbol{B} &amp; \overline{\boldsymbol{C}}=\boldsymbol{C}\end{array}\)​.</li>
+      <li>원래는 위처럼 생겼음</li>
+    </ul>
+  </li>
+  <li>Convolutional Kernel Representation
+    <ul>
+      <li>하지만 위 식은 sequential nature 때문에 trainable하지 않음</li>
+      <li>그래서 아래처럼 continuous convolution을 사용</li>
+      <li>\(\begin{array}{lll}
+x_0=\overline{\boldsymbol{B}} u_0 &amp; x_1=\overline{\boldsymbol{A} \boldsymbol{B}} u_0+\overline{\boldsymbol{B}} u_1 &amp; x_2=\overline{\boldsymbol{A}}^2 \overline{\boldsymbol{B}} u_0+\overline{\boldsymbol{A} \boldsymbol{B}} u_1+\overline{\boldsymbol{B}} u_2 \\
+y_0=\overline{\boldsymbol{C} B} u_0 &amp; y_1=\overline{\boldsymbol{C} \boldsymbol{A} \boldsymbol{B}} u_0+\overline{\boldsymbol{C} B} u_1 &amp; y_2=\overline{\boldsymbol{C} \boldsymbol{A}}^2 \overline{\boldsymbol{B}} u_0+\overline{\boldsymbol{C} \boldsymbol{A} \boldsymbol{B}} u_1+\overline{\boldsymbol{C} B} u_2
+\end{array}\).</li>
+      <li>vectorize하면 아래와 같음</li>
+      <li>\(\begin{aligned}
+y_k &amp; =\overline{\boldsymbol{C A}}^k \overline{\boldsymbol{B}} u_0+\overline{\boldsymbol{C A}}^{k-1} \overline{\boldsymbol{B}} u_1+\cdots+\overline{\boldsymbol{C} \boldsymbol{A B}} u_{k-1}+\overline{\boldsymbol{C} \boldsymbol{B}} u_k \\
+y &amp; =\overline{\boldsymbol{K}} * u \\
+\overline{\boldsymbol{K}} \in \mathbb{R}^L: &amp; =\mathcal{K}_L(\overline{\boldsymbol{A}}, \overline{\boldsymbol{B}}, \overline{\boldsymbol{C}}):=\left(\overline{\boldsymbol{C}}^i \overline{\boldsymbol{B}}\right)_{i \in[L]}=\left(\overline{\boldsymbol{C B}}, \overline{\boldsymbol{C} \boldsymbol{A B}}, \ldots, \overline{\boldsymbol{C}}^{L-1} \overline{\boldsymbol{B}}\right) .
+\end{aligned}\).</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="3-recent-advances-in-state-space-models">3. Recent Advances in State Space Models</h2>
+
+<ul>
+  <li>Transformer의 limitations :
+    <ul>
+      <li>Computational Complexity</li>
+      <li>Large Memory Requirements : for storing embeddings and intermediate actiavations</li>
+      <li>Fixed Sequence Length : du to positional embeddings</li>
+      <li>Attention Mechanism Scalability : quadratic scaling with input length</li>
+      <li>Lack of Causality in Standard Attention : not inherently capture causality</li>
+    </ul>
+  </li>
+  <li>SSM의 categorization : 어떻게 long sequence를 다룰 것인가
+    <ul>
+      <li>Structured SSMs : based on S4 and variants</li>
+      <li>Recurrent SSMs : based on RNNs and variants</li>
+      <li>Gated SSMs : leveraging gating techniques</li>
+      <li>Miscellaneous SSMs : 기타 다양한 방법들</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="31-structured-ssms">3.1. Structured SSMs</h3>
+
+<ul>
+  <li>
+    <p>S4, HiPPO, H3, Liquid-S4 등…</p>
+  </li>
+  <li>
+    <p>long-range dependency를 효율적으로 파악하기 위해 다음과 같은 방법 사용 :</p>
+
+    <ul>
+      <li>
+        <p>polynomial projection operators</p>
+      </li>
+      <li>
+        <p>multi-input multi-output systems</p>
+      </li>
+      <li>
+        <p>and convolutional kernels</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="311-structured-state-space-sequence-s4">3.1.1. Structured State Space Sequence (S4)</h3>
+
+<ul>
+  <li>Higher-Order Polynomial Project Operator (HiPPO)
+    <ul>
+      <li>State and input transition matrices를 효율적으로 memorize</li>
+    </ul>
+  </li>
+  <li>Diagonal Plus Low-Rank Parametrization</li>
+  <li>SSM matrix (A)의 rank를 낮게 해서 diagonalizability and stability 보장</li>
+  <li>Efficient (convolutional) Kernel Computation
+    <ul>
+      <li>FFT와 iFFT 사용해서 complexity를 \(𝑂(𝑁 log(𝑁))\)로 만듬</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="312-high-order-polynomial-projection-operators-hippo">3.1.2. High-Order Polynomial Projection Operators (HiPPO)</h3>
+
+<ul>
+  <li>S4에 사용된 행렬의 수학적인 해석을 제공</li>
+  <li>4가지의 변형을 사용하는데,
+    <ul>
+      <li>the truncated Fourier basis polynomial (Hippo-FouT)</li>
+      <li>based on Lagurre polynomials(LagT)</li>
+      <li>based on Legendre polynomials(LegT)</li>
+      <li>based on Legendre polynomials with a sliding window(LegS)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="313-hungry-hungry-hippo-h3">3.1.3. Hungry Hungry HiPPO (H3)</h3>
+
+<ul>
+  <li>SSM에서의 2개의 challenges
+    <ul>
+      <li>첫째, difficulty in recalling earlier tokens
+        <ul>
+          <li>시퀀스 내에서 이전 토큰을 기억하는 데 어려움</li>
+        </ul>
+      </li>
+      <li>둘째, difficult in comparing the tokens across different sequences
+        <ul>
+          <li>서로 다른 시퀀스에서 토큰을 비교하는 데 어려움</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>극복하기 위한 새로운 방법의 3가지 핵심 요소
+    <ul>
+      <li>Multiplicative Interactions가 있는 Stacked SSMs
+        <ul>
+          <li>stacking two SSMs with multiplicative interactions between their input and output projections</li>
+        </ul>
+      </li>
+      <li>학습 효율성을 위한 FlashConv
+        <ul>
+          <li>FFT를 사용하여  training efficiency 향상</li>
+        </ul>
+      </li>
+      <li>Scaling을 위한 State-Passing
+        <ul>
+          <li>effectively splits the input into the largest possible chunks that can fit</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="314-global-convolution">3.1.4. Global Convolution</h3>
+
+<ul>
+  <li>원래는 input만큼 긴 conv kernel을 hidden state matrix에 곱했는데 - 불안정함</li>
+  <li>이 conv kernel을 parametrizing하는 방법을 제안</li>
+  <li>일반적으로 conv kernel은 FFT를 사용하는데, 느릴 수가 있어서 IO-aware algorithm 사용</li>
+</ul>
+
+<h3 id="317-ldstack">3.1.7. LDStack</h3>
+
+<ul>
+  <li>RNN이 다중 입력 다중 출력(MIMO)  Linear Dynamical System(LDS)으로 표현될 수 있음</li>
+  <li>이 때 Parallel scan이 사용됨</li>
+  <li>즉  Single Input Multiple Outputs (SIMO) LDS를 합쳐서  MIMO LDS를 approximate
+    <ul>
+      <li>essential characteristics를 유지하면서도 계산은 simple해짐</li>
+    </ul>
+  </li>
+  <li>LDS를 time-varying state space models로 볼 수 있음</li>
+</ul>
+
+<h3 id="318-s5">3.1.8 S5</h3>
+
+<ul>
+  <li>RNN을 다중 입력 다중 출력 선형 동적 시스템(LDS)으로 모델링한 LDStack을 state space models (SSMs)으로 확장</li>
+  <li>LDStack과 달리, S5 계층은 여러 입력 및 출력을 동시에 처리</li>
+</ul>
+
+<h2 id="32-gated-ssms">3.2. Gated SSMs</h2>
+
+<ul>
+  <li>FFT 연산 최적화를 위해 gating units를 사용</li>
+  <li>Toepliz NN은 position-encoded Toeplitz matrix로 token mixing</li>
+  <li>Mamba는 gated MLP로 SSM의 compoutational inefficiency 극복하고자 함</li>
+  <li>(무슨 말 ?) 더 읽어보자</li>
+</ul>
+
+<h3 id="323-toeplitz-neural-network-tnn">3.2.3. Toeplitz Neural Network (TNN)</h3>
+
+<ul>
+  <li>Transformer의 <strong>attention-mechanism</strong>과 <strong>positional embedding</strong>을 개선</li>
+  <li>position-encoded Toeplitz matrix를 사용하여 token-pair 관계 파악
+    <ul>
+      <li>space-time complexity를 \(O(NlogN)\)으로 줄임</li>
+      <li>Relative Position Encoder (RPE)로 상대적 위치를 생성해서 parameters가 input length에 독립적이게 함</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="324-mamba">3.2.4. Mamba</h3>
+
+<ul>
+  <li>Transformer의 quadratic computational and memory complexity에 주목</li>
+  <li>특히 SSM은  addressing tasks (selective copying, induction head)에서 비효율적이었음</li>
+  <li>Mamba가 이 문제를 푸는 방법은 :
+    <ul>
+      <li>novel parametrization approach for SSMs based on input characteristics</li>
+      <li>incorporating a simple selection mechanism</li>
+      <li>efficient hardware-aware algorithm based on selective scan</li>
+      <li>gated technique to reduce the dimensionality of global kernel operations</li>
+      <li>combine gated MLP[93] with the SSM module</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="4-applications-of-state-space-models">4. Applications of State Space Models</h2>
+
+<h3 id="41-language-domain-long-sequence">4.1. Language Domain (long sequence)</h3>
+
+<ul>
+  <li>원래는 Transformer 많이 썼는데 \(O(N^2)\) quadratic complexity \(\to\) long sequence 불가능</li>
+  <li>그래서  State Space Models (SSMs)이 등장
+    <ul>
+      <li>input data를 fixed-size latent state에 표현</li>
+      <li>하지만 그러다보니 capability to retrieve and copy에서 trade-off</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/Mamba/Mamba360/table2.png" alt="그림1" /></p>
+
+<h3 id="42-vision-domain">4.2. Vision domain</h3>
+
+<ul>
+  <li>Vision Mamba나 SiMBA와 같은 Vision-specific Mamba
+    <ul>
+      <li>utilize bidirectional and visual state space models</li>
+    </ul>
+  </li>
+  <li>SiMBA
+    <ul>
+      <li>sequence length and channel dimensions이 꼭 perfect square dimensions이 아니어도 됨</li>
+      <li>pyramid version of the transformer architecture (성능 향상)</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/Mamba/Mamba360/table3.png" alt="그림1" /></p>
+
+<h3 id="47-time-series-domain">4.7. Time Series Domain</h3>
+
+<ul>
+  <li>옛날에는 ARIMA 쓰다가 Transformer 등장하면서 variants가 많이 나옴
+    <ul>
+      <li>Informer, FEDFormer, PatchTST…</li>
+      <li>하지만 여전히 attention complexity 때문에 long-range dependency 못잡음</li>
+    </ul>
+  </li>
+  <li>그래서 SSM 모델인 Timemachine, SiMBA, MambaMix 등장</li>
+</ul>
+
+<p><img src="/assets/img/Mamba/Mamba360/table11.png" alt="그림1" /></p>
+
+<p><img src="/assets/img/Mamba/Mamba360/table14.png" alt="그림1" /></p>
+
+<h2 id="6-conclusion">6. Conclusion</h2>
+
+<ul>
+  <li>SSM은 3가지 범주로 분류 가능 (structured, gated, and recurrent)</li>
+  <li>아직 Transformer가 더 잘하는 영역이 있긴 하지만 (맥락에서 정보를 검색하는 작업 등)
+    <ul>
+      <li>SiMBA는 트랜스포머와 Mamba 아키텍처를 결합해서 Time series에서 SOTA</li>
+    </ul>
+  </li>
+  <li>SSM을 large network로 안정적으로 확하는 것이 아직 해결되지 않은 문제</li>
+</ul>
+
+  
+</article>
+
+
+
+  <hr class="dingbat related mb6" />
+
+
+
+
+
+
+  
+     
+
+
+  <aside class="about related mt4 mb4" role="complementary">
+    
+    
+
+<div class="author mt4">
+  
+
+  
+    
+
+
+<img
+  
+    src="https://via.placeholder.com/128x128"
+    srcset="/assets/img/me/me.JPG 1x,/assets/img/me/me.JPG 2x"
+    
+  
+  alt="GW Jeong"
+  class="avatar"
+  
+  width="120"
+  height="120"
+  loading="lazy"
+/>
+
+  
+
+  
+  
+  <h2  class="page-title hr-bottom">
+    About
+  </h2>
+
+  <p>Bachelor’s degree in Applied Statistics. Yonsei Univ. (2018~2024) <br />
+DataScienceLab 8th 학회장 (2022~2023) <br />
+Master’s degree in Statitstics. Yonsei Univ. (2024~)</p>
+
+
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+
+  </aside>
+
+
+  
+
+  
+  
+
+  
+    
+
+
+  
+
+  
+  
+
+  
+    
+
+  
+
+
+  
+<footer class="content" role="contentinfo">
+  <hr/>
+  
+    <p><small class="copyright">© Geonwoo Jeong.
+</small></p>
+  
+  
+    <p><small>Powered by <a class="external" href="https://hydejack.com/">Hydejack</a> v<span id="_version">9.1.6</span></small></p>
+  <hr class="sr-only"/>
+</footer>
+
+
+</main>
+
+  <hy-drawer
+  id="_drawer"
+  class=""
+  side="left"
+  threshold="10"
+  noscroll
+  
+>
+  <header id="_sidebar" class="sidebar" role="banner">
+    
+
+
+
+
+<div class="sidebar-bg sidebar-overlay" style="background-color:rgb(230, 217, 195);background-image:url(/assets/img/me/sidebar.jpg)"></div>
+
+    <div class="sidebar-sticky">
+  <div class="sidebar-about">
+    
+      <a class="no-hover" href="/" tabindex="-1">
+        <img src="/assets/img/me/logo.jpg" class="avatar" alt="LpppJ" width="120" height="120" loading="lazy" />
+      </a>
+    
+    <a class="sidebar-title" href="/"><h2 class="h1">LpppJ</h2></a>
+    
+    
+      <p class="">
+        DataScience and AI
+
+      </p>
+    
+  </div>
+
+  <nav class="sidebar-nav heading" role="navigation">
+    <span class="sr-only">Navigation:</span>
+<ul>
+  
+    
+      
+      <li>
+        <a
+          id="_drawer--opened"
+          href="/timeseries/"
+          class="sidebar-nav-item "
+          
+        >
+          TimeSeries
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/Mamba/"
+          class="sidebar-nav-item "
+          
+        >
+          Mamba
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/pytorch/"
+          class="sidebar-nav-item "
+          
+        >
+          Pytorch
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/stat/"
+          class="sidebar-nav-item "
+          
+        >
+          Statistics
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/project/"
+          class="sidebar-nav-item "
+          
+        >
+          Project
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/presentation/"
+          class="sidebar-nav-item "
+          
+        >
+          Presentation
+        </a>
+      </li>
+    
+  
+</ul>
+
+  </nav>
+
+  
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+  </header>
+</hy-drawer>
+<hr class="sr-only" hidden />
+
+</hy-push-state>
+
+
+  <!--[if gt IE 10]><!---->
+  <script nomodule>!function(){var t,n=document.createElement("script");!("noModule"in n)&&"onbeforeload"in n&&(t=!1,document.addEventListener("beforeload",function(e){if(e.target===n)t=!0;else if(!e.target.hasAttribute("nomodule")||!t)return;e.preventDefault()},!0),n.type="module",n.src=".",document.head.appendChild(n),n.remove())}();
+</script>
+  <script src="/assets/js/hydejack-9.1.6.js" type="module"></script>
+  <script src="/assets/js/LEGACY-hydejack-9.1.6.js" nomodule defer></script>
+  
+
+  
+
+<!--<![endif]-->
+  <!-- <script>
+  document.querySelector('hy-push-state').setAttribute('prefetch', '');
+
+  document.querySelectorAll('.sidebar a[href^="/"]').forEach(function (el) { 
+    el.addEventListener('click', function (e) {
+      if (el.pathname === window.location.pathname) {
+        e.preventDefault();
+        e.stopPropagation();
+        document.querySelector('hy-drawer').close();
+      }
+    });
+  });
+</script> -->
+
+<!--
+Code for integrating CloudFlare's email protection with Hydejack's single page app loading.
+-->
+<script>
+  document.getElementById('_pushState').addEventListener('hy-push-state-after', function (e) {
+    function e(e){
+      (console.error?console.error:console.log).call(console,e)
+    }
+
+    function t(e){
+      return l.innerHTML='<a href="'+e.replace(/"/g,"&quot;")+'"></a>',l.childNodes[0].getAttribute("href")
+    }
+
+    function r(e,t){
+      var r=e.substr(t,2);return parseInt(r,16)
+    }
+
+    function n(e,n){
+      for(var o="",c=r(e,n),a=n+2;a<e.length;a+=2){
+        var l=r(e,a)^c;
+        o+=String.fromCharCode(l)
+      }
+      return t(o)
+    }
+
+    var o="/cdn-cgi/l/email-protection#",
+        c=".__cf_email__",
+        a="data-cfemail",
+        l=document.createElement("div");
+
+    !function(){
+      for(var t=document.getElementsByTagName("a"),r=0;r<t.length;r++)
+        try{
+          var c=t[r],a=c.href.indexOf(o);
+          a>-1&&(c.href="mailto:"+n(c.href,a+o.length))
+        }catch(t){
+          e(t)
+        }
+    }(),
+    function(){
+      for(var t=document.querySelectorAll(c),r=0;r<t.length;r++)
+        try{
+          var o=t[r],l=n(o.getAttribute(a),0),i=document.createTextNode(l);
+          o.parentNode.replaceChild(i,o)
+        }catch(t){
+          e(t)
+        }
+    }()
+  });
+</script>
+
+
+
+
+
+<div hidden>
+  
+  <h2 class="sr-only">Templates (for web app):</h2>
+
+  <template id="_animation-template">
+  <div class="animation-main fixed-top">
+    <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+</ul></nav>
+    <div class="content">
+      <div class="page"></div>
+    </div>
+  </div>
+</template>
+
+  <template id="_loading-template">
+  <div class="loading nav-btn fr">
+    <span class="sr-only">Loading…</span>
+    <span class="icon-cog"></span>
+  </div>
+</template>
+
+  <template id="_error-template">
+  <div class="page">
+    <h1 class="page-title">Error</h1>
+    
+    
+    <p class="lead">
+      Sorry, an error occurred while loading <a class="this-link" href=""></a>.
+
+    </p>
+  </div>
+</template>
+
+  <template id="_permalink-template">
+  <a href="#" class="permalink">
+    <span class="sr-only">Permalink</span>
+    <span class="content-hash"></span>
+  </a>
+</template>
+
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en"><!--
+ __  __                __                                     __
+/\ \/\ \              /\ \             __                    /\ \
+\ \ \_\ \   __  __    \_\ \      __   /\_\      __       ___ \ \ \/'\
+ \ \  _  \ /\ \/\ \   /'_` \   /'__`\ \/\ \   /'__`\    /'___\\ \ , <
+  \ \ \ \ \\ \ \_\ \ /\ \L\ \ /\  __/  \ \ \ /\ \L\.\_ /\ \__/ \ \ \\`\
+   \ \_\ \_\\/`____ \\ \___,_\\ \____\ _\ \ \\ \__/.\_\\ \____\ \ \_\ \_\
+    \/_/\/_/ `/___/> \\/__,_ / \/____//\ \_\ \\/__/\/_/ \/____/  \/_/\/_/
+                /\___/                \ \____/
+                \/__/                  \/___/
+
+Powered by Hydejack v9.1.6 <https://hydejack.com/>
+-->
+
+
+
+
+
+
+
+<head>
+  
+
+
+
+
+
+
+  
+    
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>S-Mamba: Is Mamba Effective for Time Series Forecasting? (Arxiv 2024) | LpppJ</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="S-Mamba: Is Mamba Effective for Time Series Forecasting? (Arxiv 2024)" />
+<meta name="author" content="GW Jeong" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Arxiv 2024" />
+<meta property="og:description" content="Arxiv 2024" />
+<link rel="canonical" href="http://localhost:4000/mamba/2024-11-07-s-mamba/" />
+<meta property="og:url" content="http://localhost:4000/mamba/2024-11-07-s-mamba/" />
+<meta property="og:site_name" content="LpppJ" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-11-07T00:00:00+09:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="S-Mamba: Is Mamba Effective for Time Series Forecasting? (Arxiv 2024)" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2025-01-08T17:58:35+09:00","datePublished":"2024-11-07T00:00:00+09:00","description":"Arxiv 2024","headline":"S-Mamba: Is Mamba Effective for Time Series Forecasting? (Arxiv 2024)","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/mamba/2024-11-07-s-mamba/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/mamba/2024-11-07-s-mamba/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  
+
+
+
+  <meta name="theme-color" content="rgb(230, 217, 195)">
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="LpppJ">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<meta name="application-name" content="LpppJ">
+
+<meta name="generator" content="Hydejack v9.1.6" />
+
+
+<link rel="alternate" href="http://localhost:4000/mamba/2024-11-07-s-mamba/" hreflang="en">
+
+<link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="LpppJ" />
+
+
+<link rel="shortcut icon"    href="/assets/icons/favicon.ico">
+<link rel="apple-touch-icon" href="/assets/icons/icon-192x192.png">
+
+<link rel="manifest" href="/assets/site.webmanifest">
+
+<link rel="dns-prefetch" href="https://fonts.googleapis.com"><link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+
+
+<link rel="preload" href="/assets/img/swipe.svg" as="image" id="_hrefSwipeSVG">
+
+
+
+
+
+
+<script>!function(r,c){"use strict";function a(e,t,n,o){e.addEventListener?e.addEventListener(t,n,o):e.attachEvent?e.attachEvent("on"+t,n):e["on"+t]=n}r.loadJS=function(e,t){var n=c.createElement("script"),e=(n.src=e,t&&a(n,"load",t,{once:!0}),c.scripts[0]);return e.parentNode.insertBefore(n,e),n},r._loaded=!1,r.loadJSDeferred=function(e,t){var n=c.createElement("script");function o(){r._loaded=!0,t&&a(n,"load",t,{once:!0});var e=c.scripts[0];e.parentNode.insertBefore(n,e)}return n.src=e,r._loaded?o():a(r,"load",o,{once:!0}),n},r.setRel=r.setRelStylesheet=function(e){a(c.getElementById(e),"load",function(){this.rel="stylesheet"},{once:!0})}}(window,document);
+!function(a){"use strict";var b=function(b,c,d){function e(a){return h.body?a():void setTimeout(function(){e(a)})}function f(){i.addEventListener&&i.removeEventListener("load",f),i.media=d||"all"}var g,h=a.document,i=h.createElement("link");if(c)g=c;else{var j=(h.body||h.getElementsByTagName("head")[0]).childNodes;g=j[j.length-1]}var k=h.styleSheets;i.rel="stylesheet",i.href=b,i.media="only x",e(function(){g.parentNode.insertBefore(i,c?g:g.nextSibling)});var l=function(a){for(var b=i.href,c=k.length;c--;)if(k[c].href===b)return a();setTimeout(function(){l(a)})};return i.addEventListener&&i.addEventListener("load",f),i.onloadcssdefined=l,l(f),i};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
+!function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(b){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
+!function(w) {
+  w._baseURL = '/';
+  w._publicPath = '/assets/js/';
+  w._noPushState = false;
+  w._noDrawer = false;
+  w._noNavbar = false;
+  w._noToc = false;
+  w._noSearch = false;
+  w._search = {
+    DATA_URL: '/assets/sitedata.json?no-cache',
+    STORAGE_KEY: 'mini-search/',
+    INDEX_KEY: 'index--2025-01-08T17:58:45+09:00',
+  };
+  w._clapButton = true;
+}(window);</script>
+
+
+<script async src="/assets/bower_components/MathJax/es5/tex-mml-chtml.js" id="_MathJax"></script>
+
+
+<!--[if gt IE 8]><!---->
+
+  
+
+
+
+
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css" id="_iconsPreload">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:700%7CNoto+Sans:400,400i,700,700i&display=swap" id="_fontsPreload">
+
+
+
+  <style id="_pageStyle">
+
+html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5);--accent-color-highlight: rgba(94, 97, 94, 0.1);--accent-color-darkened: #4b4e4b;--theme-color: rgb(230, 217, 195)}
+</style>
+
+
+<!--<![endif]-->
+
+
+
+
+</head>
+
+<body class="no-break-layout">
+  
+
+
+<hy-push-state
+  id="_pushState"
+  replace-selector="#_main"
+  link-selector="a[href]:not([href^='/assets/']):not(.external):not(.no-push-state)"
+  script-selector="script"
+  duration="500"
+  hashchange
+>
+  
+  
+  <div id="_navbar" class="navbar fixed-top">
+  <div class="content">
+    <span class="sr-only">Jump to:</span>
+    <div class="nav-btn-bar">
+      <a id="_menu" class="nav-btn no-hover" href="#_drawer--opened">
+        <span class="sr-only">Navigation</span>
+        <span class="icon-menu"></span>
+      </a>
+      <div class="nav-span"></div>
+    </div>
+  </div>
+</div>
+<hr class="sr-only" hidden />
+
+  <main
+  id="_main"
+  class="content layout-post"
+  role="main"
+>
+  <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+    <li><a href="/">home</a></li>
+    
+      <li>
+        
+          <span>/</span>
+          
+          
+          <a href="/mamba/">mamba</a>
+        
+      </li>
+    
+      <li>
+        
+          <span>/</span>
+          <span>2024-11-07-s-mamba</span>
+        
+      </li>
+    
+  
+</ul></nav>
+  
+
+
+
+
+
+
+
+
+
+
+<article id="post-mamba-s-mamba" class="page post mb6" role="article">
+  <header>
+    <h1 class="post-title flip-project-title">
+      
+        S-Mamba: Is Mamba Effective for Time Series Forecasting? (Arxiv 2024)
+      
+    </h1>
+
+    <div class="post-date">
+      
+      <span class="ellipsis mr1">
+        <time datetime="2024-11-07T00:00:00+09:00">07 Nov 2024</time> in <span>Mamba</span> 
+      </span>
+      
+    </div>
+
+    
+    
+
+    
+
+
+
+  
+    <p class="note-sm" >
+      <a href="https://arxiv.org/pdf/2403.11144v3">Arxiv 2024</a>
+
+    </p>
+  
+
+
+  </header>
+
+  
+    <h2 id="abstract">Abstract</h2>
+
+<ul>
+  <li>Time series forecasting (TSF)에서 Transformer는 quadratic complexity</li>
+  <li><strong>Simple-Mamba (S-Mamba)</strong> :
+    <ul>
+      <li>Tokenize the time points of each variate autonomously via a linear layer</li>
+      <li>Bi-directional Mamba layer is utilized to extract inter-variate correlations</li>
+      <li>Feed-Forward Network is set to learn temporal dependencies</li>
+      <li>Generation of forecast outcomes through a linear mapping layer</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="1-introduction">1. Introduction</h2>
+
+<ul>
+  <li>
+    <p>Transformer-based</p>
+
+    <ul>
+      <li>quadratic computational complexity</li>
+      <li>reduce the computational complexity \(\to\)  loss of information \(\to\) performance degradations</li>
+    </ul>
+  </li>
+  <li>
+    <p>Linear model</p>
+
+    <ul>
+      <li>solely on linear numerical calculations \(\to\) do not incorporate in-context information</li>
+    </ul>
+  </li>
+  <li>
+    <p>SSM</p>
+
+    <ul>
+      <li>convolutional calculation to capture sequence information</li>
+      <li>eliminate hidden states (for parallel computing) \(\to\) near-linear complexity</li>
+      <li>But unable to identify and filter content</li>
+    </ul>
+  </li>
+  <li>
+    <p>Mamba</p>
+
+    <ul>
+      <li>selective mechanism into SSM</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Simple-Mamba (S-Mamba)</strong> :</p>
+
+    <ul>
+      <li>
+        <ol>
+          <li>time points of each variate are tokenized by a linear layer</li>
+        </ol>
+      </li>
+      <li>
+        <ol>
+          <li>Mamba VC (Inter-variate Correlation) Encoding layer encodes the VC</li>
+        </ol>
+
+        <ul>
+          <li>by utilizing a bidirectional Mamba</li>
+        </ul>
+      </li>
+      <li>
+        <ol>
+          <li>FeedForward Network (FFN) TD (Temporal Dependency) Encoding Layer extracts the TD</li>
+        </ol>
+      </li>
+      <li>
+        <ol>
+          <li>mapping layer is utilized to output the forecast results</li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="2-related-work">2. Related Work</h2>
+
+<p>pass</p>
+
+<h2 id="3-preliminaries">3. Preliminaries</h2>
+
+<h3 id="31-problem-statement">3.1. Problem Statement</h3>
+
+<ul>
+  <li>\(U_{\text {in }}=\left[u_1, u_2, \ldots, u_L\right] \in \mathbb{R}^{L \times V}\)를 보고 \(U_{\text {out }}=\left[u_{L+1}, u_{L+2}, \ldots, u_{L+T}\right] \in \mathbb{R}^{T \times V}\)를 예측
+    <ul>
+      <li>각각의 \(u_n=\left[p_1, p_2, \ldots, p_V\right]\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="32-state-space-models">3.2. State Space Models</h3>
+
+<ul>
+  <li>The continuous sequence is discretized by a step size \(\Delta\), and the discretized SSM model :
+    <ul>
+      <li>\(\begin{aligned}
+h_t &amp; =\overline{\boldsymbol{A}} h_{t-1}+\overline{\boldsymbol{B}} x_t, \\
+y_t &amp; =\boldsymbol{C} h_t,
+\end{aligned}\)      where
+        <ul>
+          <li>\(\overline{\boldsymbol{A}}=\exp (\Delta \boldsymbol{A}) \text { and } \overline{\boldsymbol{B}}=(\Delta \boldsymbol{A})^{-1}(\exp (\Delta \boldsymbol{A})-I) \cdot \Delta \boldsymbol{B}\).</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="33-mamba-block">3.3. Mamba Block</h3>
+
+<p>: <strong>Data-dependent selection mechanism into the S4</strong> &amp; <strong>Incorporates hardware-aware parallel algorithms</strong></p>
+
+<p><img src="/assets/img/Mamba/s-mamba/alg1.png" alt="그림1" /></p>
+
+<ul>
+  <li>
+    <p>Mamba Layer</p>
+
+    <ul>
+      <li>
+        <p>Input : \(X \in \mathbb{R}^{B \times V \times D}\)</p>
+      </li>
+      <li>
+        <ol>
+          <li>expands the hidden dimension to \(ED\) through linear projection \(\to x, z\)를 얻음</li>
+        </ol>
+      </li>
+      <li>
+        <ol>
+          <li>the projection using convolutional functions and a SiLU \(\to x'\)를 얻음</li>
+        </ol>
+      </li>
+      <li>
+        <ol>
+          <li>generates the state representation \(y\)</li>
+        </ol>
+      </li>
+      <li>
+        <ol>
+          <li>\(y\) is combined with a residual connection from \(z\) after activation,</li>
+        </ol>
+
+        <ul>
+          <li>and the final output \(y_t\) at time step $t$ is obtained</li>
+        </ul>
+      </li>
+      <li>
+        <p>with state expansion factor \(N\),</p>
+
+        <ul>
+          <li>a size of convolutional kernel \(k\),</li>
+          <li>and a block expansion factor \(E\)</li>
+        </ul>
+      </li>
+      <li>The final output of the Mamba block is \(Y \in \mathbb{R}^{B \times V \times D}\).</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="4-methodology">4. Methodology</h2>
+
+<ul>
+  <li>1st layer : the Linear Tokenization Layer (tokenizes the time series with a linear layer)</li>
+  <li>2nd layer :  the Mamba intervariate correlation (VC) Encoding layer (using a bidirectional Mamba block)</li>
+  <li>3rd layer : the FFN Temporal Dependencies (TD) Encoding Layer (learns the temporal sequence information)
+    <ul>
+      <li>Feed-Forward Network : generates future series representations</li>
+    </ul>
+  </li>
+  <li>4th layer : Projection Layer, is only mapping for forecasting</li>
+</ul>
+
+<p><img src="/assets/img/Mamba/s-mamba/alg2.png" alt="그림1" /></p>
+
+<h3 id="41-linear-tokenization-layer">4.1. Linear Tokenization Layer</h3>
+
+<ul>
+  <li>\(U=\operatorname{Linear}\left(\operatorname{Batch}\left(U_{\text {in }}\right)\right), \quad\) where \(U\) is the output of this layer</li>
+</ul>
+
+<h3 id="42-mamba-vc-encoding-layer">4.2. Mamba VC Encoding Layer</h3>
+
+<ul>
+  <li>여기서는 유사한 trend를 보이는 변수들을 연결해서 VC를 찾고 싶음</li>
+  <li>Transformer는 그냥 모든 변수들끼리 다 연결하니까 정확하긴 한데 변수 개수 따라 complexity 늘어남</li>
+  <li>Mamba는 complexity는 near-linear이지만
+    <ul>
+      <li><strong>Selection mechanism이 uni-directional해서 앞쪽의 변수만 볼 수 있음</strong></li>
+      <li>그래서 2개의 Mamba를 서로 다른 방향으로 흐르도록 놓음 (Bi-directional Mamba)</li>
+      <li>\(\begin{aligned}&amp;\overrightarrow{\boldsymbol{Y}}=\overrightarrow{\operatorname{Mamba\operatorname {Block}}(\boldsymbol{U}),} \\
+&amp; \overleftarrow{\boldsymbol{Y}}=\overleftarrow{\operatorname{Mamba} \operatorname{Block}}(\boldsymbol{U}) .
+\end{aligned}\)이고 \(\boldsymbol{Y}=\overrightarrow{\boldsymbol{Y}}+\overleftarrow{\boldsymbol{Y}}\)로 Aggregate, with residual : \(\boldsymbol{U}^{\prime}=\boldsymbol{Y}+\boldsymbol{U}\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="43-ffn-td-encoding-layer">4.3. FFN TD Encoding Layer</h3>
+
+<ul>
+  <li>
+    <ol>
+      <li>Normalization layer : enhance convergence and training stability</li>
+    </ol>
+  </li>
+  <li>
+    <ol>
+      <li>FFN layer : encodes observed time series (encodes TD by keeping the sequential relationships)</li>
+    </ol>
+
+    <ul>
+      <li>decodes future series representations (adjust the future series representations)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="44-projection-layer">4.4. Projection Layer</h3>
+
+<ul>
+  <li>FFN TD Encoding layer의 output인 tokenized temporal information이
+    <ul>
+      <li>linear mapping을 통해서 reconstructed for predictive outcome</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="5-experiments">5. Experiments</h2>
+
+<h3 id="51-datasets-and-baselines">5.1. Datasets and Baselines</h3>
+
+<p><img src="/assets/img/Mamba/s-mamba/table1.png" alt="그림1" /></p>
+
+<ul>
+  <li>SOTA와 비교 :
+    <ul>
+      <li>iTransformer: analyzes the time series information of each <strong>individual variate</strong> and then fuses the information of all variates.</li>
+      <li>PatchTST: segments time series into <strong>subseries patches</strong> as input tokens and uses channel-independent shared embeddings and weights</li>
+      <li>Crossformer: cross-attention mechanism that allows the model to <strong>interact with information between different time steps</strong></li>
+      <li>FEDformer: a <strong>frequency-enhanced Transformer</strong> for utilizaing a sparse representation</li>
+      <li>Autoformer: <strong>decomposition architecture</strong> that incorporates an auto-correlation mechanism</li>
+      <li>RLinear: reversible normalization and channel independence into <strong>pure linear structure</strong></li>
+      <li>TiDE: Multi-layer Perceptron (MLP) based encoderdecoder model</li>
+      <li>DLinear: <strong>simple one-layer linear</strong> model with decomposition architecture</li>
+      <li>TimesNet: a task-general backbone, <strong>transforms 1D time series into 2D tensors</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="52-overall-performance">5.2. Overall Performance</h3>
+
+<p><img src="/assets/img/Mamba/s-mamba/table2.png" alt="그림1" /></p>
+
+<p><img src="/assets/img/Mamba/s-mamba/table3.png" alt="그림1" /></p>
+
+<p><img src="/assets/img/Mamba/s-mamba/table4.png" alt="그림1" /></p>
+
+<ul>
+  <li>S-Mamba가 traffic-related, Electricity, and Solar-Energy에서 성능이 좋음
+    <ul>
+      <li>변수들이 periodic한 데이터셋들.</li>
+      <li>즉 period variates are more likely to contain learnable VC.</li>
+      <li>Mamba VC Fusion Layer가 잘 잡은 것</li>
+    </ul>
+  </li>
+  <li>ETT, and Exchange datasets에서는 성능이 매우 좋지는 않았음
+    <ul>
+      <li>변수 개수가 적은 데이터셋들 (predominantly of an aperiodic nature)</li>
+      <li><strong>weak</strong> VCs between these variates 때문에 Mamba VC Encoding layer가 noise를 가져옴</li>
+    </ul>
+  </li>
+  <li>Weather는 변수도 적고 aperiodic한데 왜 성능이 좋나
+    <ul>
+      <li>변수들의 Trend가 동시에 나타나는 도메인이라서 Mamba VC Encoding layer가 잘 작동</li>
+      <li>Trend가 large sections로 나타나기 때문에 FFN이 이런 거 잘 잡음</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/Mamba/s-mamba/fig4.png" alt="그림1" /></p>
+
+<h3 id="53-model-efficiency">5.3. Model Efficiency</h3>
+
+<p><img src="/assets/img/Mamba/s-mamba/fig5.png" alt="그림1" /></p>
+
+<h3 id="54-ablation-study">5.4. Ablation Study</h3>
+
+<p><img src="/assets/img/Mamba/s-mamba/table5.png" alt="그림1" /></p>
+
+<h3 id="55-can-variate-order-affect-the-performance-of-s-mamba">5.5. Can Variate Order Affect the Performance of S-Mamba?</h3>
+
+<ul>
+  <li>S-Mamba는 independent channel이라서 variates order 안중요했음
+    <ul>
+      <li>하지만 Mamba VC Encoding Layer는 variates order에 따라 initial bias 발생할 수 있음</li>
+    </ul>
+  </li>
+  <li>그래서 Fourier transform해서 variates를 periodic and aperiodic groups으로 나누고
+    <ul>
+      <li>periodic variates =  reliable information / aperiodic variates = potential noise으로 가정</li>
+    </ul>
+  </li>
+  <li>그래서 reliable information를 가지고 있는(그럴 것이라고 생각되는) periodic variates를 앞쪽에 배치</li>
+</ul>
+
+<p><img src="/assets/img/Mamba/s-mamba/fig6.png" alt="그림1" /></p>
+
+<h3 id="56-can-mamba-outperform-advanced-transformers">5.6. Can Mamba Outperform Advanced Transformers?</h3>
+
+<ul>
+  <li>Transformer의 Encoder layer를 Mamba로 교체
+    <ul>
+      <li>Autoformer, Flashformer and Flowformer</li>
+      <li>\(\to\)  Auto-M, FlashM and Flow-M 이라고 부르겠음</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/Mamba/s-mamba/fig7.png" alt="그림1" /></p>
+
+<h3 id="57-can-mamba-help-benefit-from-increasing-lookback-length">5.7. Can Mamba Help Benefit from Increasing Lookback Length?</h3>
+
+<ul>
+  <li>Transformer-based model은:
+    <ul>
+      <li>lookback sequence length \(L\)이 늘어나도 성능이 비례해서 좋아지는 건 아님</li>
+      <li><strong>sequential order를 신경쓰지 않아서 그렇다</strong></li>
+    </ul>
+  </li>
+  <li>Mamba는:
+    <ul>
+      <li>certain sequential attributes가 잘 유지되는 편</li>
+      <li>Mamba block을 Transformer-based model의 Encoder와 decoder 사이에 배치하면
+        <ul>
+          <li>Encoder layer의 output에 (decoder layer에 가기 전에)</li>
+          <li>positional encoding처럼 어떤 정보를 추가해주는 역할을 하는 것</li>
+        </ul>
+      </li>
+      <li>그것을 Reformer, Informer, and Transformer와 비교해서
+        <ul>
+          <li>Refor-M, Infor-M, and Trans-M라고 부르고 비교</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/Mamba/s-mamba/fig8.png" alt="그림1" /></p>
+
+<ul>
+  <li>S-Mamba와 iTransformer 둘다 \(L\)이 길어지면 어느 정도 성능이 좋아지긴 함
+    <ul>
+      <li>하지만 이건 두 모델 모두 가지고 있는 FFN TD Encoding Layer 때문으로 보임</li>
+    </ul>
+  </li>
+  <li>S-Mamba가 iTransformer와 비교해서 일관되게 성능이 좋아지는 편인데
+    <ul>
+      <li>이건 Mamba VC Encoding layer와 Transformer의 VC Encoding layer의 차이 !</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="58-is-mamba-generalizable-in-tsf">5.8. Is Mamba Generalizable in TSF?</h3>
+
+<ul>
+  <li>Transformer는 generalization capabilities가 좋은 편이라서
+    <ul>
+      <li>iTransformer의 경우 40%의 변수만을 가지고 나머지 변수들은 masking해도</li>
+      <li>성능이 큰 폭으로 나빠지지는 않음</li>
+    </ul>
+  </li>
+  <li>Mamba의 경우에도 40%의 변수만 보고 나머지 변수들은 masking 했을 때
+    <ul>
+      <li>iTransformer에 크게 뒤쳐지지 않음</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/Mamba/s-mamba/fig9.png" alt="그림1" /></p>
+
+<h2 id="6-conclusion">6. Conclusion</h2>
+
+<ul>
+  <li><strong>Simple-Mamba(S-Mamba)</strong>
+    <ul>
+      <li>inter-variate correlation (VC) encoding은</li>
+      <li>Transformer 대신 <strong>bi-directional</strong> Mamba block으로 하고</li>
+      <li>(더 낮은 overhead로 VC를 파악)</li>
+      <li>Temporal Dependencies (TD)는
+        <ul>
+          <li>Feed-Forward Network로 extract</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Mamba는 advanced-Transformer만큼의 <strong>stability</strong>도 있고
+    <ul>
+      <li><strong>generalization</strong> capabilities도 뛰어난 편</li>
+    </ul>
+  </li>
+</ul>
+
+  
+</article>
+
+
+
+  <hr class="dingbat related mb6" />
+
+
+
+
+
+
+  
+     
+
+
+  <aside class="about related mt4 mb4" role="complementary">
+    
+    
+
+<div class="author mt4">
+  
+
+  
+    
+
+
+<img
+  
+    src="https://via.placeholder.com/128x128"
+    srcset="/assets/img/me/me.JPG 1x,/assets/img/me/me.JPG 2x"
+    
+  
+  alt="GW Jeong"
+  class="avatar"
+  
+  width="120"
+  height="120"
+  loading="lazy"
+/>
+
+  
+
+  
+  
+  <h2  class="page-title hr-bottom">
+    About
+  </h2>
+
+  <p>Bachelor’s degree in Applied Statistics. Yonsei Univ. (2018~2024) <br />
+DataScienceLab 8th 학회장 (2022~2023) <br />
+Master’s degree in Statitstics. Yonsei Univ. (2024~)</p>
+
+
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+
+  </aside>
+
+
+  
+
+  
+  
+
+  
+    
+
+
+  
+
+  
+  
+
+  
+    
+
+  
+
+
+  
+<footer class="content" role="contentinfo">
+  <hr/>
+  
+    <p><small class="copyright">© Geonwoo Jeong.
+</small></p>
+  
+  
+    <p><small>Powered by <a class="external" href="https://hydejack.com/">Hydejack</a> v<span id="_version">9.1.6</span></small></p>
+  <hr class="sr-only"/>
+</footer>
+
+
+</main>
+
+  <hy-drawer
+  id="_drawer"
+  class=""
+  side="left"
+  threshold="10"
+  noscroll
+  
+>
+  <header id="_sidebar" class="sidebar" role="banner">
+    
+
+
+
+
+<div class="sidebar-bg sidebar-overlay" style="background-color:rgb(230, 217, 195);background-image:url(/assets/img/me/sidebar.jpg)"></div>
+
+    <div class="sidebar-sticky">
+  <div class="sidebar-about">
+    
+      <a class="no-hover" href="/" tabindex="-1">
+        <img src="/assets/img/me/logo.jpg" class="avatar" alt="LpppJ" width="120" height="120" loading="lazy" />
+      </a>
+    
+    <a class="sidebar-title" href="/"><h2 class="h1">LpppJ</h2></a>
+    
+    
+      <p class="">
+        DataScience and AI
+
+      </p>
+    
+  </div>
+
+  <nav class="sidebar-nav heading" role="navigation">
+    <span class="sr-only">Navigation:</span>
+<ul>
+  
+    
+      
+      <li>
+        <a
+          id="_drawer--opened"
+          href="/timeseries/"
+          class="sidebar-nav-item "
+          
+        >
+          TimeSeries
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/Mamba/"
+          class="sidebar-nav-item "
+          
+        >
+          Mamba
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/pytorch/"
+          class="sidebar-nav-item "
+          
+        >
+          Pytorch
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/stat/"
+          class="sidebar-nav-item "
+          
+        >
+          Statistics
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/project/"
+          class="sidebar-nav-item "
+          
+        >
+          Project
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/presentation/"
+          class="sidebar-nav-item "
+          
+        >
+          Presentation
+        </a>
+      </li>
+    
+  
+</ul>
+
+  </nav>
+
+  
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+  </header>
+</hy-drawer>
+<hr class="sr-only" hidden />
+
+</hy-push-state>
+
+
+  <!--[if gt IE 10]><!---->
+  <script nomodule>!function(){var t,n=document.createElement("script");!("noModule"in n)&&"onbeforeload"in n&&(t=!1,document.addEventListener("beforeload",function(e){if(e.target===n)t=!0;else if(!e.target.hasAttribute("nomodule")||!t)return;e.preventDefault()},!0),n.type="module",n.src=".",document.head.appendChild(n),n.remove())}();
+</script>
+  <script src="/assets/js/hydejack-9.1.6.js" type="module"></script>
+  <script src="/assets/js/LEGACY-hydejack-9.1.6.js" nomodule defer></script>
+  
+
+  
+
+<!--<![endif]-->
+  <!-- <script>
+  document.querySelector('hy-push-state').setAttribute('prefetch', '');
+
+  document.querySelectorAll('.sidebar a[href^="/"]').forEach(function (el) { 
+    el.addEventListener('click', function (e) {
+      if (el.pathname === window.location.pathname) {
+        e.preventDefault();
+        e.stopPropagation();
+        document.querySelector('hy-drawer').close();
+      }
+    });
+  });
+</script> -->
+
+<!--
+Code for integrating CloudFlare's email protection with Hydejack's single page app loading.
+-->
+<script>
+  document.getElementById('_pushState').addEventListener('hy-push-state-after', function (e) {
+    function e(e){
+      (console.error?console.error:console.log).call(console,e)
+    }
+
+    function t(e){
+      return l.innerHTML='<a href="'+e.replace(/"/g,"&quot;")+'"></a>',l.childNodes[0].getAttribute("href")
+    }
+
+    function r(e,t){
+      var r=e.substr(t,2);return parseInt(r,16)
+    }
+
+    function n(e,n){
+      for(var o="",c=r(e,n),a=n+2;a<e.length;a+=2){
+        var l=r(e,a)^c;
+        o+=String.fromCharCode(l)
+      }
+      return t(o)
+    }
+
+    var o="/cdn-cgi/l/email-protection#",
+        c=".__cf_email__",
+        a="data-cfemail",
+        l=document.createElement("div");
+
+    !function(){
+      for(var t=document.getElementsByTagName("a"),r=0;r<t.length;r++)
+        try{
+          var c=t[r],a=c.href.indexOf(o);
+          a>-1&&(c.href="mailto:"+n(c.href,a+o.length))
+        }catch(t){
+          e(t)
+        }
+    }(),
+    function(){
+      for(var t=document.querySelectorAll(c),r=0;r<t.length;r++)
+        try{
+          var o=t[r],l=n(o.getAttribute(a),0),i=document.createTextNode(l);
+          o.parentNode.replaceChild(i,o)
+        }catch(t){
+          e(t)
+        }
+    }()
+  });
+</script>
+
+
+
+
+
+<div hidden>
+  
+  <h2 class="sr-only">Templates (for web app):</h2>
+
+  <template id="_animation-template">
+  <div class="animation-main fixed-top">
+    <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+</ul></nav>
+    <div class="content">
+      <div class="page"></div>
+    </div>
+  </div>
+</template>
+
+  <template id="_loading-template">
+  <div class="loading nav-btn fr">
+    <span class="sr-only">Loading…</span>
+    <span class="icon-cog"></span>
+  </div>
+</template>
+
+  <template id="_error-template">
+  <div class="page">
+    <h1 class="page-title">Error</h1>
+    
+    
+    <p class="lead">
+      Sorry, an error occurred while loading <a class="this-link" href=""></a>.
+
+    </p>
+  </div>
+</template>
+
+  <template id="_permalink-template">
+  <a href="#" class="permalink">
+    <span class="sr-only">Permalink</span>
+    <span class="content-hash"></span>
+  </a>
+</template>
+
+</div>
+
+
+</body>
+</html>

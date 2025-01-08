@@ -72,27 +72,8 @@ permalink: /timeseries/
 \
 [Pacer and Runner: Cooperative Learning Framework between Single- and Cross-Domain Sequential Recommendation (SIGIR'24 Best Paper)]{:.heading.flip-title}\
 \
-[Mamba-360: Survey of State Space Models as Transformer Alternative for Long Sequence Modelling: Methods, Applications, and Challenges (Arxiv 2024)]{:.heading.flip-title}\
-\
-[T-PATCHGNN: Irregular Multivariate Time Series Forecasting: A Transformable Patching Graph Neural Networks Approach (ICML 2024)]{:.heading.flip-title}\
-\
-[Mamba: Linear-Time Sequence Modeling with Selective State Spaces (Arxiv 2023)]{:.heading.flip-title}\
-\
-[TimeMachine: A Time Series is Worth 4 Mambas for Long-term Forecasting (ECAI 2024)]{:.heading.flip-title}\
-\
-[Is Mamba Effective for Time Series Forecasting? (Arxiv 2024)]{:.heading.flip-title}\
-\
-[Bi-Mamba+: Bidirectional Mamba for Time Series Forecasting (Arxiv 2024)]{:.heading.flip-title}\
-\
-[Sequential Order-Robust Mamba for Time Series Forecasting (Arxiv 2024)]{:.heading.flip-title}\
-\
-[Mamba or Transformer for Time Series Forecasting? Mixture of Universals (MoU) Is All You Need (Arxiv 2024)]{:.heading.flip-title}\
-\
-[MambaTS: Improved Selective State Space Models for Long-term Time Series Forecasting (ICLR 2025)]{:.heading.flip-title}\
-\
-[DTMamba : Dual Twin Mamba for Time Series Forecasting (Arxiv 2024)]{:.heading.flip-title}\
-\
-[MAT: Integration of Mamba and Transformer for Long-Short Range TSF (Arxiv 2024)]{:.heading.flip-title}
+[T-PATCHGNN: Irregular Multivariate Time Series Forecasting: A Transformable Patching Graph Neural Networks Approach (ICML 2024)]{:.heading.flip-title}
+
 
 
 
@@ -127,14 +108,4 @@ permalink: /timeseries/
 [Diffusion-TS: Interpretable Diffusion for General Time Series Generation (ICLR 2024)]: /timeseries/2024-08-04-Diffusion-TS
 [MG-TSD: Multi-Granularity Time Series Diffusion Models with Guided Learning Process (ICLR 2024)]: /timeseries/2024-08-05-MG-TSD
 [Pacer and Runner: Cooperative Learning Framework between Single- and Cross-Domain Sequential Recommendation (SIGIR'24 Best Paper)]: \timeseries/2024-09-03-SyNCRec
-[Mamba-360: Survey of State Space Models as Transformer Alternative for Long Sequence Modelling: Methods, Applications, and Challenges (Arxiv 2024)]:\timeseries/2024-10-03-Mamba360
 [T-PATCHGNN: Irregular Multivariate Time Series Forecasting: A Transformable Patching Graph Neural Networks Approach (ICML 2024)]:\timeseries/2024-10-27-T-PATCHGNN
-[Mamba: Linear-Time Sequence Modeling with Selective State Spaces (Arxiv 2023)]:\timeseries/2024-10-28-mamba
-[TimeMachine: A Time Series is Worth 4 Mambas for Long-term Forecasting (ECAI 2024)]:\timeseries/2024-10-29-timemachine
-[Is Mamba Effective for Time Series Forecasting? (Arxiv 2024)]:\timeseries/2024-11-07-s-mamba
-[Bi-Mamba+: Bidirectional Mamba for Time Series Forecasting (Arxiv 2024)]:\timeseries/2024-11-12-BiMamba+
-[Sequential Order-Robust Mamba for Time Series Forecasting (Arxiv 2024)]:\timeseries/2024-11-14-SOR-Mamba
-[Mamba or Transformer for Time Series Forecasting? Mixture of Universals (MoU) Is All You Need (Arxiv 2024)]:\timeseries/2024-11-25-MoU
-[MambaTS: Improved Selective State Space Models for Long-term Time Series Forecasting (ICLR 2025)]:\timeseries/2024-11-27-MambaTS
-[DTMamba : Dual Twin Mamba for Time Series Forecasting (Arxiv 2024)]:\timeseries/2025-01-06-DTMamba
-[MAT: Integration of Mamba and Transformer for Long-Short Range TSF (Arxiv 2024)]:\timeseries/2025-01-08-MAT
