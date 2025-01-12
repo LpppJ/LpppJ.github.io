@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en"><!--
+ __  __                __                                     __
+/\ \/\ \              /\ \             __                    /\ \
+\ \ \_\ \   __  __    \_\ \      __   /\_\      __       ___ \ \ \/'\
+ \ \  _  \ /\ \/\ \   /'_` \   /'__`\ \/\ \   /'__`\    /'___\\ \ , <
+  \ \ \ \ \\ \ \_\ \ /\ \L\ \ /\  __/  \ \ \ /\ \L\.\_ /\ \__/ \ \ \\`\
+   \ \_\ \_\\/`____ \\ \___,_\\ \____\ _\ \ \\ \__/.\_\\ \____\ \ \_\ \_\
+    \/_/\/_/ `/___/> \\/__,_ / \/____//\ \_\ \\/__/\/_/ \/____/  \/_/\/_/
+                /\___/                \ \____/
+                \/__/                  \/___/
+
+Powered by Hydejack v9.1.6 <https://hydejack.com/>
+-->
+
+
+
+
+
+
+
+<head>
+  
+
+
+
+
+
+
+  
+    
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>SST: Multi-Scale Hybrid Mamba-Transformer Experts for Long-Short Range Time Series Forecasting (Arxiv 2024) | LpppJ</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="SST: Multi-Scale Hybrid Mamba-Transformer Experts for Long-Short Range Time Series Forecasting (Arxiv 2024)" />
+<meta name="author" content="GW Jeong" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Arxiv 2024" />
+<meta property="og:description" content="Arxiv 2024" />
+<link rel="canonical" href="http://localhost:4000/mamba/2025-01-13-SST/" />
+<meta property="og:url" content="http://localhost:4000/mamba/2025-01-13-SST/" />
+<meta property="og:site_name" content="LpppJ" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-01-13T00:00:00+09:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="SST: Multi-Scale Hybrid Mamba-Transformer Experts for Long-Short Range Time Series Forecasting (Arxiv 2024)" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2025-01-13T00:20:55+09:00","datePublished":"2025-01-13T00:00:00+09:00","description":"Arxiv 2024","headline":"SST: Multi-Scale Hybrid Mamba-Transformer Experts for Long-Short Range Time Series Forecasting (Arxiv 2024)","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/mamba/2025-01-13-SST/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/mamba/2025-01-13-SST/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  
+
+
+
+  <meta name="theme-color" content="rgb(230, 217, 195)">
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="LpppJ">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<meta name="application-name" content="LpppJ">
+
+<meta name="generator" content="Hydejack v9.1.6" />
+
+
+<link rel="alternate" href="http://localhost:4000/mamba/2025-01-13-SST/" hreflang="en">
+
+<link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="LpppJ" />
+
+
+<link rel="shortcut icon"    href="/assets/icons/favicon.ico">
+<link rel="apple-touch-icon" href="/assets/icons/icon-192x192.png">
+
+<link rel="manifest" href="/assets/site.webmanifest">
+
+<link rel="dns-prefetch" href="https://fonts.googleapis.com"><link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+
+
+<link rel="preload" href="/assets/img/swipe.svg" as="image" id="_hrefSwipeSVG">
+
+
+
+
+
+
+<script>!function(r,c){"use strict";function a(e,t,n,o){e.addEventListener?e.addEventListener(t,n,o):e.attachEvent?e.attachEvent("on"+t,n):e["on"+t]=n}r.loadJS=function(e,t){var n=c.createElement("script"),e=(n.src=e,t&&a(n,"load",t,{once:!0}),c.scripts[0]);return e.parentNode.insertBefore(n,e),n},r._loaded=!1,r.loadJSDeferred=function(e,t){var n=c.createElement("script");function o(){r._loaded=!0,t&&a(n,"load",t,{once:!0});var e=c.scripts[0];e.parentNode.insertBefore(n,e)}return n.src=e,r._loaded?o():a(r,"load",o,{once:!0}),n},r.setRel=r.setRelStylesheet=function(e){a(c.getElementById(e),"load",function(){this.rel="stylesheet"},{once:!0})}}(window,document);
+!function(a){"use strict";var b=function(b,c,d){function e(a){return h.body?a():void setTimeout(function(){e(a)})}function f(){i.addEventListener&&i.removeEventListener("load",f),i.media=d||"all"}var g,h=a.document,i=h.createElement("link");if(c)g=c;else{var j=(h.body||h.getElementsByTagName("head")[0]).childNodes;g=j[j.length-1]}var k=h.styleSheets;i.rel="stylesheet",i.href=b,i.media="only x",e(function(){g.parentNode.insertBefore(i,c?g:g.nextSibling)});var l=function(a){for(var b=i.href,c=k.length;c--;)if(k[c].href===b)return a();setTimeout(function(){l(a)})};return i.addEventListener&&i.addEventListener("load",f),i.onloadcssdefined=l,l(f),i};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
+!function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(b){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
+!function(w) {
+  w._baseURL = '/';
+  w._publicPath = '/assets/js/';
+  w._noPushState = false;
+  w._noDrawer = false;
+  w._noNavbar = false;
+  w._noToc = false;
+  w._noSearch = false;
+  w._search = {
+    DATA_URL: '/assets/sitedata.json?no-cache',
+    STORAGE_KEY: 'mini-search/',
+    INDEX_KEY: 'index--2025-01-13T00:20:55+09:00',
+  };
+  w._clapButton = true;
+}(window);</script>
+
+
+<script async src="/assets/bower_components/MathJax/es5/tex-mml-chtml.js" id="_MathJax"></script>
+
+
+<!--[if gt IE 8]><!---->
+
+  
+
+
+
+
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css" id="_iconsPreload">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:700%7CNoto+Sans:400,400i,700,700i&display=swap" id="_fontsPreload">
+
+
+
+  <style id="_pageStyle">
+
+html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5);--accent-color-highlight: rgba(94, 97, 94, 0.1);--accent-color-darkened: #4b4e4b;--theme-color: rgb(230, 217, 195)}
+</style>
+
+
+<!--<![endif]-->
+
+
+
+
+</head>
+
+<body class="no-break-layout">
+  
+
+
+<hy-push-state
+  id="_pushState"
+  replace-selector="#_main"
+  link-selector="a[href]:not([href^='/assets/']):not(.external):not(.no-push-state)"
+  script-selector="script"
+  duration="500"
+  hashchange
+>
+  
+  
+  <div id="_navbar" class="navbar fixed-top">
+  <div class="content">
+    <span class="sr-only">Jump to:</span>
+    <div class="nav-btn-bar">
+      <a id="_menu" class="nav-btn no-hover" href="#_drawer--opened">
+        <span class="sr-only">Navigation</span>
+        <span class="icon-menu"></span>
+      </a>
+      <div class="nav-span"></div>
+    </div>
+  </div>
+</div>
+<hr class="sr-only" hidden />
+
+  <main
+  id="_main"
+  class="content layout-post"
+  role="main"
+>
+  <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+    <li><a href="/">home</a></li>
+    
+      <li>
+        
+          <span>/</span>
+          
+          
+          <a href="/mamba/">mamba</a>
+        
+      </li>
+    
+      <li>
+        
+          <span>/</span>
+          <span>2025-01-13-SST</span>
+        
+      </li>
+    
+  
+</ul></nav>
+  
+
+
+
+
+
+
+
+
+
+
+<article id="post-mamba-SST" class="page post mb6" role="article">
+  <header>
+    <h1 class="post-title flip-project-title">
+      
+        SST: Multi-Scale Hybrid Mamba-Transformer Experts for Long-Short Range Time Series Forecasting (Arxiv 2024)
+      
+    </h1>
+
+    <div class="post-date">
+      
+      <span class="ellipsis mr1">
+        <time datetime="2025-01-13T00:00:00+09:00">13 Jan 2025</time> in <span>Mamba</span> 
+      </span>
+      
+    </div>
+
+    
+    
+
+    
+
+
+
+  
+    <p class="note-sm" >
+      <a href="">Arxiv 2024</a>
+
+    </p>
+  
+
+
+  </header>
+
+  
+    <h2 id="abstract">Abstract</h2>
+
+<ul>
+  <li>Time series forecasting에서 <strong>heterogeneity</strong> between long-range and short-range time series를 간과하면 안됨
+    <ul>
+      <li>distinct objectives tailored to different ranges 필요</li>
+      <li>(time series can be decomposed into global patterns and local variations)</li>
+    </ul>
+  </li>
+  <li>본 논문에서 multi-scale hybrid Mamba-Transformer experts model STATE SPACE TRANSFORMER(SST) 제안
+    <ul>
+      <li><strong>Mamba</strong> as an expert to extract <strong>global patterns</strong> in <strong>coarse</strong>-grained long-range time series
+        <ul>
+          <li>selectively retain long-term patterns and filter out fluctuation</li>
+        </ul>
+      </li>
+      <li><strong>Local Window Transformer (LWT)</strong>, the other expert to focus on capturing <strong>local</strong> variations in <strong>fine</strong>-grained short-range time series
+        <ul>
+          <li>locality-awareness capability</li>
+        </ul>
+      </li>
+      <li>각각을 합치는 건 long-short router
+        <ul>
+          <li>dynamically adjusts contributions of the two experts</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/Mamba/SST/fig1.png" alt="그림1" /></p>
+
+<h2 id="1-introduciton">1. Introduciton</h2>
+
+<ul>
+  <li>the lack of distinction btw <strong>long</strong>-range and <strong>short</strong>-range time series
+    <ul>
+      <li>때문에 예측 성능이 방해</li>
+      <li><strong>long</strong>-range time series는 global patterns이 중요
+        <ul>
+          <li>local deviations는 negatively impact forecasting accuracy</li>
+        </ul>
+      </li>
+      <li>반대로 short-range는 local variations가 중요
+        <ul>
+          <li>global patterns는 less evident within limited time frames</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>long</strong>-range vs. <strong>short</strong>-range 구분 자체가 애매모호함 (intertwine)
+    <ul>
+      <li>New metric to measure the difference 필요</li>
+      <li>둘을 integrating하는 것이 non-trivial task.
+        <ul>
+          <li>relative importance between patterns and variations 잘해야 함</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>이를 위해 <strong>multi-resolution</strong> framework 필요
+    <ul>
+      <li><strong>larger patches</strong> and <strong>longer stride</strong> for <strong>long</strong>-range to obtain <strong>low-resolution</strong></li>
+      <li><strong>smaller patches</strong> and <strong>shorter stride</strong> for <strong>short</strong> range lead to <strong>high-resolution</strong></li>
+      <li>지금까지의 Mixture-of-Experts (MoEs)는 experts의 역할이 애매했음 !</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="2-related-work">2. Related Work</h2>
+
+<p>pass</p>
+
+<h2 id="3-preliminaries">3. Preliminaries</h2>
+
+<ul>
+  <li>Look-back window \(\mathcal{L}=\left(\mathrm{x}_1, \mathrm{x}_2, . ., \mathrm{x}_L\right) \in \mathbb{R}^{L \times M}\)
+    <ul>
+      <li>Long-range time series \(\mathcal{L}\) denotes the full range of look-back window \(\mathcal{L}[:]\)</li>
+      <li>shortrange time series \(\mathcal{S} \in \mathbb{R}^{S \times M}\) denotes the partial latest range \(\mathcal{L}[-S:], S&lt;L\).</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/Mamba/SST/fig3.png" alt="그림1" /></p>
+
+<ul>
+  <li>Mamba : retain repeated upand-down patterns in long range</li>
+  <li>Transformer : the missing local inductive bias hinders its ability to further capture local variations</li>
+</ul>
+
+<h2 id="4-methodology">4. Methodology</h2>
+
+<p><img src="/assets/img/Mamba/SST/fig4.png" alt="그림1" /></p>
+
+<ul>
+  <li>4 modules: <strong>multi-scale patcher</strong>, <strong>global patterns expert</strong>, <strong>local variations expert</strong>, and long-short router
+    <ul>
+      <li><strong>Multi-scale patcher</strong>: <strong>transforms input time series (TS) into different resolutions</strong> according to ranges</li>
+      <li><strong>Global pattern expert</strong>: is dedicated to finding <strong>long</strong>-term patterns in a <strong>low</strong>-resolution TS</li>
+      <li><strong>Local variations expert</strong>: aims to capture <strong>short</strong>-term variations in a <strong>high</strong>-resolutionTS</li>
+      <li><strong>Long-short router</strong>: dynamically learns <strong>contributions</strong> of the two experts.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="multi-scale-resolutions">Multi-Scale Resolutions</h3>
+
+<p><img src="/assets/img/Mamba/SST/fig2.png" alt="그림1" /></p>
+
+<ul>
+  <li><strong>Global patterns</strong> emerge when viewed at a <strong>broader</strong>-scale granularity</li>
+  <li><strong>Local variations</strong> become clearer when examined at a <strong>finer</strong>-scale granularity</li>
+  <li>\(\to\) <strong>low</strong> resolution for <strong>long</strong>-rangeTS and <strong>high</strong> resolution for short-<strong>range</strong> TS</li>
+</ul>
+
+<h3 id="resolution">Resolution</h3>
+
+<ul>
+  <li>\(R_{P T S}=N \sqrt{P}=\left(\left\lfloor\frac{L-P}{S t r}\right\rfloor+1\right) \sqrt{P} \approx \frac{\sqrt{P}}{S t r}\).</li>
+</ul>
+
+<h3 id="hybrid-mamba-transformer-experts">Hybrid Mamba-Transformer Experts</h3>
+
+<ul>
+  <li>Inspired by Mixture-of-Experts (MoEs)</li>
+  <li>기존 MoEs와 다르게, assign global patterns and local variations roles to two experts.
+    <ul>
+      <li>extract long-term patterns and filter out small variations in long-range TS</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/Mamba/SST/fig8.png" alt="그림1" /></p>
+
+<ul>
+  <li><strong>Global Patterns Expert</strong>
+    <ul>
+      <li>먼저 encodes long-range PTS \(\mathbf{x}_{p L}^{(i)} \in \mathbb{R}^{N_L \times P_L}\) into high-dimension space \(\mathbf{x}_L^{(i)} \in \mathbb{R}^{N_L \times D}\) in the encoding layer</li>
+      <li>다음으로 Mamba block이 select input-dependent patterns and filter out irrelevant variations</li>
+    </ul>
+  </li>
+  <li><strong>Local Variations Expert</strong>
+    <ul>
+      <li>Transformer는 lack of locality inductive bias and quadratic complexity</li>
+      <li>따라서 local window Transformer(LWT)로 사용</li>
+    </ul>
+  </li>
+  <li><strong>Mixture of Experts</strong>
+    <ul>
+      <li>Long-Short Router
+        <ul>
+          <li>learning the <strong>relative contributions</strong> of the two specialized experts</li>
+        </ul>
+      </li>
+      <li>Formally, the router projects input TS \(\mathcal{L} \in R^{L×M}\) into the D-dim</li>
+      <li>그 다음 transformed by a flatten layer into a vector \(z_R\)</li>
+      <li>그 다음 A linear layer (with a softmax) to output two values \(p_T, p_S \in(0.1)\)</li>
+    </ul>
+  </li>
+  <li><strong>Forecasting Module</strong>
+    <ul>
+      <li>long range embedding \(\mathbf{z}_L^{(i)}\)과short-range embedding \(\mathbf{z}_S^{(i)}\)를 flatten
+        <ul>
+          <li>into a single-row vector</li>
+          <li>and concatenates them with respective weights $p_L$ and $p_S$.</li>
+        </ul>
+      </li>
+      <li>Long-short range fusion representation : \(\mathbf{z}_{L S}^i \in \mathbb{R}^{\left(N_S+N_L\right) L D}\)</li>
+      <li>마지막으로 이걸 linear head에 넣어서 \(\hat{\mathbf{x}}^{(i)}=\left\{\hat{x}_{L+1}, \hat{x}_{L+2}, \ldots, \hat{x}_{L+F}\right\} \in \mathbb{R}^{F \times 1}\) (for individual variate \(i\))를 얻음</li>
+    </ul>
+  </li>
+  <li><strong>Linear Complexity Analysis</strong>
+    <ul>
+      <li>the total complexity of SST is \(O\left(\frac{L}{N_L}+\frac{w S}{N_S}\right)\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="5-experiments">5. Experiments</h2>
+
+<ul>
+  <li>Time Series Forecasting Results</li>
+</ul>
+
+<p><img src="/assets/img/Mamba/SST/table1.png" alt="그림1" /></p>
+
+<ul>
+  <li>Ablation Studies</li>
+</ul>
+
+<p><img src="/assets/img/Mamba/SST/fig6.png" alt="그림1" /></p>
+
+<h2 id="6-conclusion-and-future-work">6. Conclusion and Future Work</h2>
+
+<ul>
+  <li>Global patterns should be extracted from longrange,
+    <ul>
+      <li>while local variations are more effectively captured inshort range.</li>
+    </ul>
+  </li>
+  <li>A multi-scale hybrid Mamba-Transformer framework SST를 제안
+    <ul>
+      <li><strong>Mamba</strong>, serving as a <strong>global</strong> patterns expert, focuses on extracting <strong>long</strong>-term patterns in <strong>low</strong> resolution</li>
+      <li><strong>LWT</strong>, as a <strong>local</strong> variations expert, addresses subtle nuances in <strong>short</strong>-range time series in <strong>high</strong> resolution</li>
+    </ul>
+  </li>
+  <li>with scaling linearly \(O(L)\) with time series length \(L\)</li>
+</ul>
+
+  
+</article>
+
+
+
+  <hr class="dingbat related mb6" />
+
+
+
+
+
+
+  
+     
+
+
+  <aside class="about related mt4 mb4" role="complementary">
+    
+    
+
+<div class="author mt4">
+  
+
+  
+    
+
+
+<img
+  
+    src="https://via.placeholder.com/128x128"
+    srcset="/assets/img/me/me.JPG 1x,/assets/img/me/me.JPG 2x"
+    
+  
+  alt="GW Jeong"
+  class="avatar"
+  
+  width="120"
+  height="120"
+  loading="lazy"
+/>
+
+  
+
+  
+  
+  <h2  class="page-title hr-bottom">
+    About
+  </h2>
+
+  <p>Bachelor’s degree in Applied Statistics. Yonsei Univ. (2018~2024) <br />
+DataScienceLab 8th 학회장 (2022~2023) <br />
+Master’s degree in Statitstics. Yonsei Univ. (2024~)</p>
+
+
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+
+  </aside>
+
+
+  
+
+  
+  
+
+  
+    
+
+
+  
+
+  
+  
+
+  
+    
+
+  
+
+
+  
+<footer class="content" role="contentinfo">
+  <hr/>
+  
+    <p><small class="copyright">© Geonwoo Jeong.
+</small></p>
+  
+  
+    <p><small>Powered by <a class="external" href="https://hydejack.com/">Hydejack</a> v<span id="_version">9.1.6</span></small></p>
+  <hr class="sr-only"/>
+</footer>
+
+
+</main>
+
+  <hy-drawer
+  id="_drawer"
+  class=""
+  side="left"
+  threshold="10"
+  noscroll
+  
+>
+  <header id="_sidebar" class="sidebar" role="banner">
+    
+
+
+
+
+<div class="sidebar-bg sidebar-overlay" style="background-color:rgb(230, 217, 195);background-image:url(/assets/img/me/sidebar.jpg)"></div>
+
+    <div class="sidebar-sticky">
+  <div class="sidebar-about">
+    
+      <a class="no-hover" href="/" tabindex="-1">
+        <img src="/assets/img/me/logo.jpg" class="avatar" alt="LpppJ" width="120" height="120" loading="lazy" />
+      </a>
+    
+    <a class="sidebar-title" href="/"><h2 class="h1">LpppJ</h2></a>
+    
+    
+      <p class="">
+        DataScience and AI
+
+      </p>
+    
+  </div>
+
+  <nav class="sidebar-nav heading" role="navigation">
+    <span class="sr-only">Navigation:</span>
+<ul>
+  
+    
+      
+      <li>
+        <a
+          id="_drawer--opened"
+          href="/timeseries/"
+          class="sidebar-nav-item "
+          
+        >
+          TimeSeries
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/mamba/"
+          class="sidebar-nav-item "
+          
+        >
+          Mamba
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/pytorch/"
+          class="sidebar-nav-item "
+          
+        >
+          Pytorch
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/stat/"
+          class="sidebar-nav-item "
+          
+        >
+          Statistics
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/project/"
+          class="sidebar-nav-item "
+          
+        >
+          Project
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/presentation/"
+          class="sidebar-nav-item "
+          
+        >
+          Presentation
+        </a>
+      </li>
+    
+  
+</ul>
+
+  </nav>
+
+  
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/lpppj" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:wjdrjsdn39@yonsei.ac.kr" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+  </header>
+</hy-drawer>
+<hr class="sr-only" hidden />
+
+</hy-push-state>
+
+
+  <!--[if gt IE 10]><!---->
+  <script nomodule>!function(){var t,n=document.createElement("script");!("noModule"in n)&&"onbeforeload"in n&&(t=!1,document.addEventListener("beforeload",function(e){if(e.target===n)t=!0;else if(!e.target.hasAttribute("nomodule")||!t)return;e.preventDefault()},!0),n.type="module",n.src=".",document.head.appendChild(n),n.remove())}();
+</script>
+  <script src="/assets/js/hydejack-9.1.6.js" type="module"></script>
+  <script src="/assets/js/LEGACY-hydejack-9.1.6.js" nomodule defer></script>
+  
+
+  
+
+<!--<![endif]-->
+  <!-- <script>
+  document.querySelector('hy-push-state').setAttribute('prefetch', '');
+
+  document.querySelectorAll('.sidebar a[href^="/"]').forEach(function (el) { 
+    el.addEventListener('click', function (e) {
+      if (el.pathname === window.location.pathname) {
+        e.preventDefault();
+        e.stopPropagation();
+        document.querySelector('hy-drawer').close();
+      }
+    });
+  });
+</script> -->
+
+<!--
+Code for integrating CloudFlare's email protection with Hydejack's single page app loading.
+-->
+<script>
+  document.getElementById('_pushState').addEventListener('hy-push-state-after', function (e) {
+    function e(e){
+      (console.error?console.error:console.log).call(console,e)
+    }
+
+    function t(e){
+      return l.innerHTML='<a href="'+e.replace(/"/g,"&quot;")+'"></a>',l.childNodes[0].getAttribute("href")
+    }
+
+    function r(e,t){
+      var r=e.substr(t,2);return parseInt(r,16)
+    }
+
+    function n(e,n){
+      for(var o="",c=r(e,n),a=n+2;a<e.length;a+=2){
+        var l=r(e,a)^c;
+        o+=String.fromCharCode(l)
+      }
+      return t(o)
+    }
+
+    var o="/cdn-cgi/l/email-protection#",
+        c=".__cf_email__",
+        a="data-cfemail",
+        l=document.createElement("div");
+
+    !function(){
+      for(var t=document.getElementsByTagName("a"),r=0;r<t.length;r++)
+        try{
+          var c=t[r],a=c.href.indexOf(o);
+          a>-1&&(c.href="mailto:"+n(c.href,a+o.length))
+        }catch(t){
+          e(t)
+        }
+    }(),
+    function(){
+      for(var t=document.querySelectorAll(c),r=0;r<t.length;r++)
+        try{
+          var o=t[r],l=n(o.getAttribute(a),0),i=document.createTextNode(l);
+          o.parentNode.replaceChild(i,o)
+        }catch(t){
+          e(t)
+        }
+    }()
+  });
+</script>
+
+
+
+
+
+<div hidden>
+  
+  <h2 class="sr-only">Templates (for web app):</h2>
+
+  <template id="_animation-template">
+  <div class="animation-main fixed-top">
+    <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+</ul></nav>
+    <div class="content">
+      <div class="page"></div>
+    </div>
+  </div>
+</template>
+
+  <template id="_loading-template">
+  <div class="loading nav-btn fr">
+    <span class="sr-only">Loading…</span>
+    <span class="icon-cog"></span>
+  </div>
+</template>
+
+  <template id="_error-template">
+  <div class="page">
+    <h1 class="page-title">Error</h1>
+    
+    
+    <p class="lead">
+      Sorry, an error occurred while loading <a class="this-link" href=""></a>.
+
+    </p>
+  </div>
+</template>
+
+  <template id="_permalink-template">
+  <a href="#" class="permalink">
+    <span class="sr-only">Permalink</span>
+    <span class="content-hash"></span>
+  </a>
+</template>
+
+</div>
+
+
+</body>
+</html>
