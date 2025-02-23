@@ -53,7 +53,7 @@ menu:
   - title:             Mamba
     url:               /mamba/
   - title:             LLM
-    url:               /LLM/  
+    url:               /llm/  
   - title:             Pytorch
     url:               /pytorch/    
   - title:             Statistics

@@ -12,5 +12,6 @@ permalink: /llm/
 
 [Byte Latent Transformer: Patches Scale Better Than Tokens (Arxiv 2024)]{:.heading.flip-title}
 
+Vision-Language Model
 
 [Byte Latent Transformer: Patches Scale Better Than Tokens (Arxiv 2024)]: /llm/2025-02-22-BLT
