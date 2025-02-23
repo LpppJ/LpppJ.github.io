@@ -7,10 +7,10 @@ hide_description: true
 sitemap:
     changefreq: daily
     priority: 1.0
-permalink: /LLM/
+permalink: /llm/
 ---
 
 [Byte Latent Transformer: Patches Scale Better Than Tokens (Arxiv 2024)]{:.heading.flip-title}
 
 
-[Byte Latent Transformer: Patches Scale Better Than Tokens (Arxiv 2024)]: /LLM/2025-02-22-BLT
+[Byte Latent Transformer: Patches Scale Better Than Tokens (Arxiv 2024)]: /llm/2025-02-22-BLT
