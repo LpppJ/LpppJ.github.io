@@ -52,6 +52,8 @@ menu:
     url:               /timeseries/
   - title:             Mamba
     url:               /mamba/
+  - title:             LLM
+    url:               /llm/
   - title:             Pytorch
     url:               /pytorch/    
   - title:             Statistics
