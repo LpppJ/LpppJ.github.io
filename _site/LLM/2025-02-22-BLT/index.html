@@ -45,7 +45,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Byte Latent Transformer: Patches Scale Better Than Tokens (Arxiv 2024)" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2025-02-23T20:28:58+09:00","datePublished":"2025-02-22T00:00:00+09:00","description":"Arxiv 2024","headline":"Byte Latent Transformer: Patches Scale Better Than Tokens (Arxiv 2024)","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/llm/2025-02-22-BLT/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/llm/2025-02-22-BLT/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GW Jeong"},"dateModified":"2025-02-24T02:08:15+09:00","datePublished":"2025-02-22T00:00:00+09:00","description":"Arxiv 2024","headline":"Byte Latent Transformer: Patches Scale Better Than Tokens (Arxiv 2024)","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/llm/2025-02-22-BLT/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/me/logo.jpg"},"name":"GW Jeong"},"url":"http://localhost:4000/llm/2025-02-22-BLT/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -108,7 +108,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2025-02-23T20:29:01+09:00',
+    INDEX_KEY: 'index--2025-02-26T13:41:07+09:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -323,7 +323,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 <h2 id="2-patching-from-individual-bytes-to-groups-of-bytes">2. Patching: From Individual Bytes to Groups of Bytes</h2>
 
-<p><img src="/assets/img/LLM/BLT/fig3.png" alt="그림1" /></p>
+<p><img src="/assets/img/llm/BLT/fig3.png" alt="그림1" /></p>
 
 <ul>
   <li>Patching : segmenting the sequence of byte \(\boldsymbol{x}=\left\{x_i, \mid i=1, \ldots n\right\}\) into \(p=\left\{p_j \mid j=1, \ldots, m\right\}, m&lt;n\)
@@ -397,8 +397,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
         <ul>
           <li>첫째, entropy가 그냥 threshold보다 높은 지점</li>
           <li>둘째, 갑자기 entropy가 커진 지점</li>
-          <li>i.e., \(\begin{aligned}\text{Global Constraint} \quad H\left(x_t\right)&gt;\theta_g$ \\
-\text{Approx. Monotonic Constraint} \quad H\left(x_t\right)-H\left(x_{t-1}\right)&gt;\theta_r\end{aligned}\)</li>
+          <li>i.e., \(\begin{aligned}\text{Global Constraint} \quad H\left(x_t\right)&gt;\theta_g \\ \text{Approx. Monotonic Constraint} \quad H\left(x_t\right)-H\left(x_{t-1}\right)&gt;\theta_r\end{aligned}\)</li>
         </ul>
       </li>
     </ul>
@@ -418,7 +417,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
   </li>
 </ul>
 
-<p><img src="/assets/img/LLM/BLT/fig4.png" alt="그림1" /></p>
+<p><img src="/assets/img/llm/BLT/fig4.png" alt="그림1" /></p>
 
 <ul>
   <li>BLT는 the trade off between the vocabulary <strong>size</strong> and <strong>compute</strong>를 re-define함
@@ -439,7 +438,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 <h2 id="3-blt-architecture">3. BLT Architecture</h2>
 
-<p><img src="/assets/img/LLM/BLT/fig2.png" alt="그림1" /></p>
+<p><img src="/assets/img/llm/BLT/fig2.png" alt="그림1" /></p>
 
 <ul>
   <li>BLT의 구성은:
@@ -477,7 +476,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 <h3 id="32-local-encoder">3.2. Local Encoder</h3>
 
-<p><img src="/assets/img/LLM/BLT/fig5.png" alt="그림1" /></p>
+<p><img src="/assets/img/llm/BLT/fig5.png" alt="그림1" /></p>
 
 <ul>
   <li>The Local Encoder Model, denoted by \(\mathcal{E}\)
@@ -580,7 +579,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 <h3 id="44-entropy-model-context">4.4. Entropy Model Context</h3>
 
-<p><img src="/assets/img/LLM/BLT/fig9.png" alt="그림1" /></p>
+<p><img src="/assets/img/llm/BLT/fig9.png" alt="그림1" /></p>
 
 <ul>
   <li>entropy patching yields progressively <strong>larger patches</strong> in structured content like multiple choice tasks</li>
@@ -645,7 +644,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 <h3 id="52-beyond-compute-optimal-task-evaluations">5.2. Beyond Compute Optimal Task Evaluations</h3>
 
-<p><img src="/assets/img/LLM/BLT/table1.png" alt="그림1" /></p>
+<p><img src="/assets/img/llm/BLT/table1.png" alt="그림1" /></p>
 
 <ul>
   <li>Evaluations include :<strong>common sense reasoning, world knowledge, and code generation</strong> tasks</li>
@@ -660,7 +659,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 <h3 id="53-patches-scale-better-than-tokens">5.3. Patches Scale Better Than Tokens</h3>
 
-<p><img src="/assets/img/LLM/BLT/table2.png" alt="그림1" /></p>
+<p><img src="/assets/img/llm/BLT/table2.png" alt="그림1" /></p>
 
 <ul>
   <li>모델 크기와 패치 크기를 동시에 증가시키면서도 동일한 학습 및 추론 FLOP 예산을 유지</li>
@@ -670,13 +669,13 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 <h3 id="61-character-level-tasks">6.1. Character-Level Tasks</h3>
 
-<p><img src="/assets/img/LLM/BLT/fig7.png" alt="그림1" /></p>
+<p><img src="/assets/img/llm/BLT/fig7.png" alt="그림1" /></p>
 
 <ul>
   <li>Byte-level models are inherently more robust to <strong>input noise</strong> and better at handling <strong>character-level variations.</strong></li>
 </ul>
 
-<p><img src="/assets/img/LLM/BLT/table3.png" alt="그림1" /></p>
+<p><img src="/assets/img/llm/BLT/table3.png" alt="그림1" /></p>
 
 <h3 id="62-training-blt-from-llama-3">6.2. Training BLT from Llama 3</h3>
 
@@ -685,17 +684,17 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
   <li>BLT from Llama 3.1이 from Llama 3보다 좋음 !</li>
 </ul>
 
-<p><img src="/assets/img/LLM/BLT/table5.png" alt="그림1" /></p>
+<p><img src="/assets/img/llm/BLT/table5.png" alt="그림1" /></p>
 
 <h2 id="7-ablations-and-discussion">7. Ablations and Discussion</h2>
 
-<p><img src="/assets/img/LLM/BLT/fig8.png" alt="그림1" /></p>
+<p><img src="/assets/img/llm/BLT/fig8.png" alt="그림1" /></p>
 
-<p><img src="/assets/img/LLM/BLT/table6.png" alt="그림1" /></p>
+<p><img src="/assets/img/llm/BLT/table6.png" alt="그림1" /></p>
 
-<p><img src="/assets/img/LLM/BLT/table78.png" alt="그림1" /></p>
+<p><img src="/assets/img/llm/BLT/table78.png" alt="그림1" /></p>
 
-<p><img src="/assets/img/LLM/BLT/table9.png" alt="그림1" /></p>
+<p><img src="/assets/img/llm/BLT/table9.png" alt="그림1" /></p>
 
 <h2 id="8-related-work">8. Related Work</h2>
 
@@ -942,7 +941,7 @@ Master’s degree in Statitstics. Yonsei Univ. (2024~)</p>
       <li>
         <a
           
-          href="/LLM/"
+          href="/llm/"
           class="sidebar-nav-item "
           
         >

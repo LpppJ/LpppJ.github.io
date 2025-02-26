@@ -109,7 +109,7 @@ Powered by Hydejack v9.1.6 <https://hydejack.com/>
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2025-02-23T20:29:01+09:00',
+    INDEX_KEY: 'index--2025-02-26T13:41:07+09:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -223,7 +223,7 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
       <li>
         <a
           
-          href="/LLM/"
+          href="/llm/"
           class="sidebar-nav-item "
           
         >
@@ -384,6 +384,61 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
 
 
   
+
+  
+
+
+
+
+
+<article id="post-timeseries-crossformer" class="page post mb6" role="article">
+  <header>
+    <h1 class="post-title flip-project-title">
+      <a href="/timeseries/2024-03-19-crossformer/" class="flip-title">
+        Crossformer: Transformer Utilizing Cross-Dimension Dependency for Multivariate Time Series Forecasting (ICLR 2023)
+      </a>
+    </h1>
+
+    <div class="post-date">
+      
+      <span class="ellipsis mr1">
+        <time datetime="2024-03-19T00:00:00+09:00">19 Mar 2024</time> in <span>Timeseries</span> 
+      </span>
+      
+    </div>
+
+    
+    
+
+    
+
+
+
+  
+    <p class="note-sm" >
+      <a href="https://openreview.net/forum?id=vSVLM2j9eie">ICLR 2023</a>
+
+    </p>
+  
+
+
+  </header>
+
+  
+    <h2 id="abstract">Abstract</h2>
+
+
+    
+    
+    <footer>
+      <p class="read-more">
+        Continue reading <a class="heading flip-title" href="/timeseries/2024-03-19-crossformer/">Crossformer: Transformer Utilizing Cross-Dimension Dependency for Multivariate Time Series Forecasting (ICLR 2023)</a>
+
+      </p>
+    </footer>
+  
+</article>
+
 
   
 
@@ -953,68 +1008,6 @@ html{--accent-color: rgb(94, 97, 94);--accent-color-faded: rgba(94, 97, 94, 0.5)
     <footer>
       <p class="read-more">
         Continue reading <a class="heading flip-title" href="/timeseries/2024-03-01-GAFormer/">GAFormer: Enhancing Timeseries Transformers Through Group-Aware Embeddings (ICLR 2024)</a>
-
-      </p>
-    </footer>
-  
-</article>
-
-
-  
-
-
-
-
-
-<article id="post-timeseries-iTransformer" class="page post mb6" role="article">
-  <header>
-    <h1 class="post-title flip-project-title">
-      <a href="/timeseries/2024-02-23-iTransformer/" class="flip-title">
-        iTransformer: Inverted Transformers are Effective for Time Series Forecasting (ICLR 2024)
-      </a>
-    </h1>
-
-    <div class="post-date">
-      
-      <span class="ellipsis mr1">
-        <time datetime="2024-02-23T00:00:00+09:00">23 Feb 2024</time> in <span>Timeseries</span> 
-      </span>
-      
-    </div>
-
-    
-    
-
-    
-
-
-
-  
-    <p class="note-sm" >
-      <a href="https://arxiv.org/abs/2310.06625">ICLR 2024</a>
-
-    </p>
-  
-
-
-  </header>
-
-  
-    <h2 id="abstract">Abstract</h2>
-<ul>
-  <li>Transformer-based TS : larger lookback \(\to\) performance degradation &amp; computation explosion.</li>
-  <li>iTransformer : attention과 feed-forward network(FFN)를 inverted dimension에서 적용
-<img src="/assets/img/timeseries/iTransformer/fig2'.jpeg" alt="사진1" class="lead" width="00" height="100" /></li>
-  <li>각 time point가 token이 되는 것이 아니라 각 series(variate)가 token이 된다.</li>
-  <li>Inverted dimension만 다르고 이외의 Transformer의 components는 수정 없이 그대로 사용한다.</li>
-</ul>
-
-
-    
-    
-    <footer>
-      <p class="read-more">
-        Continue reading <a class="heading flip-title" href="/timeseries/2024-02-23-iTransformer/">iTransformer: Inverted Transformers are Effective for Time Series Forecasting (ICLR 2024)</a>
 
       </p>
     </footer>

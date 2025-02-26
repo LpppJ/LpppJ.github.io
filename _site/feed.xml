@@ -1,5 +1,365 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-02-23T20:29:01+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
-</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">Byte Latent Transformer: Patches Scale Better Than Tokens (Arxiv 2024)</title><link href="http://localhost:4000/llm/2025-02-22-BLT/" rel="alternate" type="text/html" title="Byte Latent Transformer: Patches Scale Better Than Tokens (Arxiv 2024)" /><published>2025-02-22T00:00:00+09:00</published><updated>2025-02-23T20:28:58+09:00</updated><id>http://localhost:4000/llm/BLT</id><content type="html" xml:base="http://localhost:4000/llm/2025-02-22-BLT/"><![CDATA[<h2 id="abstract">Abstract</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-02-26T13:41:07+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">LpppJ</title><subtitle>This is blog about machine learning, deep learning, artificial intelligence.
+</subtitle><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><entry><title type="html">BLIP: Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation (PMLR 2022)</title><link href="http://localhost:4000/llm/2025-02-26-BLIP/" rel="alternate" type="text/html" title="BLIP: Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation (PMLR 2022)" /><published>2025-02-26T00:00:00+09:00</published><updated>2025-02-26T13:41:07+09:00</updated><id>http://localhost:4000/llm/BLIP</id><content type="html" xml:base="http://localhost:4000/llm/2025-02-26-BLIP/"><![CDATA[<h2 id="abstract">Abstract</h2>
+
+<ul>
+  <li>대부분의 Vision-Language Pre-training (VLP)는
+    <ul>
+      <li>either <strong>understanding-based</strong> tasks or generation-based tasks</li>
+      <li>scaling up the dataset with <strong>noisy</strong> image-textpairs collected from the web (sub-optimal)</li>
+    </ul>
+  </li>
+  <li>본 논문에서는 BLIP 제안
+    <ul>
+      <li>transfers flexibly to both vision-language <strong>understanding</strong> and <strong>generation</strong> tasks</li>
+      <li>the noisy web data 활용 by bootstrapping the captions
+        <ul>
+          <li>generates syntheticcaptions and a filter removes the noisy ones.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="1-introduction">1. Introduction</h2>
+
+<ul>
+  <li>Existing methods have 2 major <strong>limitations</strong>:
+    <ul>
+      <li><strong>Model</strong> perspective:
+        <ul>
+          <li>encoder-based models는 less straightforward to directly transfer to text generation tasks</li>
+          <li>encoder-decoder models는 have not beensuccess fully adopted for image-text retrieval tasks</li>
+        </ul>
+      </li>
+      <li><strong>Data</strong> perspective:
+        <ul>
+          <li>SOTA(CLIP, ALBEF, SimVLM) 다 noisy web text 쓰다보니 suboptimal</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>본 논문에서 제시하는 BLIP의 2 <strong>contribution</strong>:
+    <ul>
+      <li>Multimodal mixture of Encoder-Decoder (<strong>MED</strong>):
+        <ul>
+          <li>unimodal encoder도 되고 image-grounded text encoder/decoder 다 됨</li>
+          <li>jointly pre-train
+            <ul>
+              <li><strong>image-text contrastive learning</strong>,</li>
+              <li><strong>image-text matching</strong>,</li>
+              <li><strong>image-conditioned language modeling</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Captioning and Filtering (<strong>CapFilt</strong>):
+        <ul>
+          <li>a <strong>captioner</strong>: to produce synthetic captions given web images</li>
+          <li>a <strong>filter</strong>: to remove noisy captions from both the original web texts and the synthetic texts</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/llm/BLIP/fig1.png" alt="그림1" /></p>
+
+<h2 id="2-related-work">2. Related Work</h2>
+
+<h3 id="21-vision-language-pre-training">2.1. Vision-language Pre-training</h3>
+
+<ul>
+  <li>Vision-language pre-training (VLP)들은 data crawled from the web 쓰다보니 suboptimal
+    <ul>
+      <li>그러므로 web datasets를 잘 활용하는 <strong>CapFilt</strong>를 제안하겠음</li>
+    </ul>
+  </li>
+  <li>문제는 <strong>understanding-based</strong> tasks (e.g. image-text retrieval)and generation-based tasks (e.g. image captioning) 둘다 잘해야 한다는 건데
+    <ul>
+      <li>기존 encoder-based, encoder-decoder 다 잘 못해서</li>
+      <li>본 논문에서 <strong>multimodal mixture ofencoder-decoder model</strong>을 제안하겠음</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="22-knowledge-distillation">2.2. Knowledge Distillation</h3>
+
+<ul>
+  <li>Self-distillation: teacher and student have <strong>equal sizes</strong></li>
+  <li>기존 KD: simply enforce the student to have the <strong>same</strong> class predictions as the teacher,</li>
+  <li>CapFilt: the <strong>captioner</strong> distills its knowledge through semantically-rich synthetic captions
+    <ul>
+      <li>the <strong>filter</strong> distills its knowledge by removing noisy captions</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="23-data-augmentation">2.3. Data Augmentation</h3>
+
+<ul>
+  <li>synthesize examples for various NLP tasks
+    <ul>
+      <li>기존: the low-resourcelanguage-only tasks</li>
+      <li>BLIP: the advantage of synthetic captions in large-scale vision-language pre-training</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="3-method">3. Method</h2>
+
+<ul>
+  <li>기본적으로 noisy image-text pairs에서 학습. MED와 CapFilt를 알아보자</li>
+</ul>
+
+<p><img src="/assets/img/llm/BLIP/fig2.png" alt="그림1" /></p>
+
+<h3 id="31-model-architecture">3.1. Model Architecture</h3>
+
+<ul>
+  <li>Multimodal mixture of encoder-decoder (MED)는 다음 3가지 가능한 multi-task model
+    <ul>
+      <li>(1) <strong>Unimodal Encoder</strong>: separately encodes imageand text (ViT, BERT)</li>
+      <li>(2) <strong>Image-grounded text encoder</strong>: text encoder인데 visual 정보 삽입
+        <ul>
+          <li>how? Self-attention과 FFN 사이에 cross-attention 하나 추가</li>
+        </ul>
+      </li>
+      <li>(3) <strong>Image-grounded text decoder</strong>: (2)에서 bi-directional self-attention을 causal self-attention으로 대체</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="32-pre-training-objectives">3.2. Pre-training Objectives</h3>
+
+<ul>
+  <li>2 <strong>understanding</strong>-based objectives &amp; 1 <strong>generation</strong>-based objective</li>
+  <li>Each image-text pair는 <strong>one</strong> forward pass <strong>visual</strong> transformer &amp; <strong>three</strong> forward passes <strong>text</strong> transformer</li>
+</ul>
+
+<h3 id="image-text-contrastive-loss-itc">Image-Text Contrastive Loss (ITC)</h3>
+
+<ul>
+  <li>unimodal encoder를 activate
+    <ul>
+      <li><strong>visual</strong> transformer and the <strong>text</strong> transformer의 feature space를 align</li>
+      <li><strong>positive</strong> image-text pairs가 similar representations 갖도록 (negative는 반대)
+        <ul>
+          <li>momentum encoder가 features와 soft labels만들고 pairs로 학습</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="image-text-matching-loss-itm">Image-Text Matching Loss (ITM)</h3>
+
+<ul>
+  <li>image grounded text encoder를 activate</li>
+  <li>image-text multi-modal representation을 통해 vision-language align
+    <ul>
+      <li>predict whether an image-text pair is positive, given their multi-modal feature</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="language-modeling-loss-lm">Language Modeling Loss (LM)</h3>
+
+<ul>
+  <li>image grounded text decoder를 activate</li>
+  <li>generate textual descriptions given an image
+    <ul>
+      <li>optimizes a cross entropy loss, to maximize the likelihood of the text, in an autoregressive manner.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="33-capfilt">3.3. CapFilt</h3>
+
+<p><img src="/assets/img/llm/BLIP/fig3.png" alt="그림1" /></p>
+
+<ul>
+  <li><strong>captioner</strong>: to generate captions given web images
+    <ul>
+      <li>image-grounded text <strong>de</strong>coder</li>
+      <li>finetuned with the LM objective to <strong>decode texts given images</strong></li>
+      <li>web images \(I_w\)보고 synthetic captions \(T_s\) 생성</li>
+    </ul>
+  </li>
+  <li><strong>filter</strong>: to remove noisy image-text pairs
+    <ul>
+      <li>image-grounded text <strong>en</strong>coder</li>
+      <li>finetune with the ITC and ITM objectives to learn <strong>whether a text matches an image</strong></li>
+      <li>removes noisy texts in both the original web texts \(T_w\) and the synthetic texts \(T_s\)</li>
+    </ul>
+  </li>
+  <li>both are initialized from the same pre-trained MED, finetuned individually on the COCO dataset</li>
+</ul>
+
+<h2 id="4-experiments-and-discussions">4. Experiments and Discussions</h2>
+
+<h3 id="41-pre-training-details">4.1. Pre-training Details</h3>
+
+<ul>
+  <li>image transformer is initialized from ViT pre-trained on ImageNet</li>
+  <li>the text transformer is initialized from BERT-base</li>
+</ul>
+
+<h3 id="42-effect-of-capfilt">4.2. Effect of CapFilt</h3>
+
+<p><img src="/assets/img/llm/BLIP/table1.png" alt="그림1" /></p>
+
+<ul>
+  <li>captioner와 filter 둘 중 하나만 써도 성능 개선, 둘 다 쓰면 더더욱 개선</li>
+</ul>
+
+<p><img src="/assets/img/llm/BLIP/fig4.png" alt="그림1" /></p>
+
+<ul>
+  <li>example captions and their corresponding images
+    <ul>
+      <li>the captioner to generate new textual descriptions</li>
+      <li>the filter to remove noisy captions from both the originalweb texts and the synthetic texts</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="43-diversity-is-key-for-synthetic-captions">4.3. Diversity is Key for Synthetic Captions</h3>
+
+<p><img src="/assets/img/llm/BLIP/table2.png" alt="그림1" /></p>
+
+<ul>
+  <li>Nucleus sampling is astochastic decoding method
+    <ul>
+      <li>each token is sampled from a set of tokens whose cumulative probability mass exceeds a threshold \(p\) (\(p=0.9\))</li>
+      <li>beam search, a deterministic decoding method와 비교했을 때 더 뛰어남</li>
+    </ul>
+  </li>
+  <li>nucleus sampling generates more <strong>diverse</strong> and surprising captions</li>
+  <li>beam search tends to generate <strong>safe</strong> captions that are common inthe dataset</li>
+</ul>
+
+<h3 id="44-parameter-sharing-and-decoupling">4.4. Parameter Sharing and Decoupling</h3>
+
+<p><img src="/assets/img/llm/BLIP/table3.png" alt="그림1" /></p>
+
+<ul>
+  <li>Pre-training에서 the text encoder and decoder share all parameters</li>
+  <li>except for the SA(self-attention) layers</li>
+  <li>만약 SA layer도 공유했으면 encoding과 decoding이 충돌해서 성능 안좋아짐</li>
+</ul>
+
+<p><img src="/assets/img/llm/BLIP/table4.png" alt="그림1" /></p>
+
+<ul>
+  <li>if the captioner and filter share parameters in the same way as pre-training,
+    <ul>
+      <li><strong>confirmatio-bias</strong>: parameter sharing 때문에 captioner가 만든 noisy captions가 filter out이 잘 안됨</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="5-comparison-with-state-of-the-arts">5. Comparison with State-of-the-arts</h2>
+
+<h3 id="51-image-text-retrieval">5.1. Image-Text Retrieval</h3>
+
+<ul>
+  <li>image-to-text retrieval (TR) &amp; text-to-image retrieval (IR)
+    <ul>
+      <li>finetune the pre-trained modelusing ITC and ITM losses</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/llm/BLIP/table5.png" alt="그림1" /></p>
+
+<h3 id="52-image-captioning">5.2. Image Captioning</h3>
+
+<p><img src="/assets/img/llm/BLIP/table7.png" alt="그림1" /></p>
+
+<ul>
+  <li>14M 데이터로 pre-train 해도 성능이 준수하고 129M로 pre-train하면 LEMON의 200M 만큼의 성능</li>
+</ul>
+
+<h3 id="53-visual-question-answering-vqa">5.3. Visual Question Answering (VQA)</h3>
+
+<p><img src="/assets/img/llm/BLIP/fig5.png" alt="그림1" /></p>
+
+<ul>
+  <li>During finetuning, pre-trained model을 re-arrange (그림 5 (a))
+    <ul>
+      <li>image-question is first encoded into multi modal embeddings</li>
+      <li>그 다음 given to an answer decoder</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="54-natural-language-visual-reasoning-nlvr">5.4. Natural Language Visual Reasoning (NLVR)</h3>
+
+<ul>
+  <li>NLVR: 한 문장이 두 그림 중 어떤 걸 설명하는지 맞추는 것</li>
+  <li>사진이 2장이다보니 two cross-attention layers가 있고 (그림 5 (b))
+    <ul>
+      <li>2 CA layers are intialized from the same pre-trained weights</li>
+      <li>각각의 outputs는 merged &amp; fed to the FFN</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/llm/BLIP/table8.png" alt="그림1" /></p>
+
+<h3 id="55-visual-dialog-visdial">5.5. Visual Dialog (VisDial)</h3>
+
+<ul>
+  <li>VisDial: VQA의 확장. image-question pair뿐만 아니라 대화 기록, captions보고 예측</li>
+  <li>concatenate image and caption embeddings해서 cross-attention 통해 dialog encoder에게 전달</li>
+  <li>그러면 ITM loss로 학습된 dialog encoder가 discriminate whether the answer is true or false for a question</li>
+</ul>
+
+<h3 id="56-zero-shot-transfer-to-video-language-tasks">5.6. Zero-shot Transfer to Video-Language Tasks</h3>
+
+<ul>
+  <li>Strong generalization abilityto video-language tasks
+    <ul>
+      <li>zero-shot transfer to text-to-video retrieval and video question answering</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/llm/BLIP/table10.png" alt="그림1" /></p>
+
+<p><img src="/assets/img/llm/BLIP/table11.png" alt="그림1" /></p>
+
+<h2 id="6-additional-ablation-study">6. Additional Ablation Study</h2>
+
+<p><img src="/assets/img/llm/BLIP/table12.png" alt="그림1" /></p>
+
+<ul>
+  <li>Improvement with CapFilt is not due to longer training</li>
+</ul>
+
+<p><img src="/assets/img/llm/BLIP/table13.png" alt="그림1" /></p>
+
+<ul>
+  <li>A new model should be trained on the bootstrapped dataset</li>
+</ul>
+
+<h2 id="7-conclusion">7. Conclusion</h2>
+
+<ul>
+  <li>BLIP pre-trains a multimodal mixture of encoder-decoder model
+    <ul>
+      <li>using a dataset bootstrapped from large-scale noisy image-text pairs</li>
+      <li>by injecting diversesynthetic captions and removing noisy captions</li>
+    </ul>
+  </li>
+  <li>Potential directions that can further enhancethe performance of BLIP:
+    <ul>
+      <li>Multiple rounds of dataset bootstrapping</li>
+      <li>Generate multiple synthetic captions per image to further enlarge the pre-training corpus</li>
+      <li>Model ensemble by training multiple different captioners and filter and combining their forces in CapFilt</li>
+    </ul>
+  </li>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="llm" /><summary type="html"><![CDATA[[Arxiv 2024]()]]></summary></entry><entry><title type="html">Byte Latent Transformer: Patches Scale Better Than Tokens (Arxiv 2024)</title><link href="http://localhost:4000/llm/2025-02-22-BLT/" rel="alternate" type="text/html" title="Byte Latent Transformer: Patches Scale Better Than Tokens (Arxiv 2024)" /><published>2025-02-22T00:00:00+09:00</published><updated>2025-02-24T02:08:15+09:00</updated><id>http://localhost:4000/llm/BLT</id><content type="html" xml:base="http://localhost:4000/llm/2025-02-22-BLT/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>Byte Latent Transformer (BLT)
@@ -78,7 +438,7 @@
 
 <h2 id="2-patching-from-individual-bytes-to-groups-of-bytes">2. Patching: From Individual Bytes to Groups of Bytes</h2>
 
-<p><img src="/assets/img/LLM/BLT/fig3.png" alt="그림1" /></p>
+<p><img src="/assets/img/llm/BLT/fig3.png" alt="그림1" /></p>
 
 <ul>
   <li>Patching : segmenting the sequence of byte \(\boldsymbol{x}=\left\{x_i, \mid i=1, \ldots n\right\}\) into \(p=\left\{p_j \mid j=1, \ldots, m\right\}, m&lt;n\)
@@ -152,8 +512,7 @@
         <ul>
           <li>첫째, entropy가 그냥 threshold보다 높은 지점</li>
           <li>둘째, 갑자기 entropy가 커진 지점</li>
-          <li>i.e., \(\begin{aligned}\text{Global Constraint} \quad H\left(x_t\right)&gt;\theta_g$ \\
-\text{Approx. Monotonic Constraint} \quad H\left(x_t\right)-H\left(x_{t-1}\right)&gt;\theta_r\end{aligned}\)</li>
+          <li>i.e., \(\begin{aligned}\text{Global Constraint} \quad H\left(x_t\right)&gt;\theta_g \\ \text{Approx. Monotonic Constraint} \quad H\left(x_t\right)-H\left(x_{t-1}\right)&gt;\theta_r\end{aligned}\)</li>
         </ul>
       </li>
     </ul>
@@ -173,7 +532,7 @@
   </li>
 </ul>
 
-<p><img src="/assets/img/LLM/BLT/fig4.png" alt="그림1" /></p>
+<p><img src="/assets/img/llm/BLT/fig4.png" alt="그림1" /></p>
 
 <ul>
   <li>BLT는 the trade off between the vocabulary <strong>size</strong> and <strong>compute</strong>를 re-define함
@@ -194,7 +553,7 @@
 
 <h2 id="3-blt-architecture">3. BLT Architecture</h2>
 
-<p><img src="/assets/img/LLM/BLT/fig2.png" alt="그림1" /></p>
+<p><img src="/assets/img/llm/BLT/fig2.png" alt="그림1" /></p>
 
 <ul>
   <li>BLT의 구성은:
@@ -232,7 +591,7 @@
 
 <h3 id="32-local-encoder">3.2. Local Encoder</h3>
 
-<p><img src="/assets/img/LLM/BLT/fig5.png" alt="그림1" /></p>
+<p><img src="/assets/img/llm/BLT/fig5.png" alt="그림1" /></p>
 
 <ul>
   <li>The Local Encoder Model, denoted by \(\mathcal{E}\)
@@ -335,7 +694,7 @@
 
 <h3 id="44-entropy-model-context">4.4. Entropy Model Context</h3>
 
-<p><img src="/assets/img/LLM/BLT/fig9.png" alt="그림1" /></p>
+<p><img src="/assets/img/llm/BLT/fig9.png" alt="그림1" /></p>
 
 <ul>
   <li>entropy patching yields progressively <strong>larger patches</strong> in structured content like multiple choice tasks</li>
@@ -400,7 +759,7 @@
 
 <h3 id="52-beyond-compute-optimal-task-evaluations">5.2. Beyond Compute Optimal Task Evaluations</h3>
 
-<p><img src="/assets/img/LLM/BLT/table1.png" alt="그림1" /></p>
+<p><img src="/assets/img/llm/BLT/table1.png" alt="그림1" /></p>
 
 <ul>
   <li>Evaluations include :<strong>common sense reasoning, world knowledge, and code generation</strong> tasks</li>
@@ -415,7 +774,7 @@
 
 <h3 id="53-patches-scale-better-than-tokens">5.3. Patches Scale Better Than Tokens</h3>
 
-<p><img src="/assets/img/LLM/BLT/table2.png" alt="그림1" /></p>
+<p><img src="/assets/img/llm/BLT/table2.png" alt="그림1" /></p>
 
 <ul>
   <li>모델 크기와 패치 크기를 동시에 증가시키면서도 동일한 학습 및 추론 FLOP 예산을 유지</li>
@@ -425,13 +784,13 @@
 
 <h3 id="61-character-level-tasks">6.1. Character-Level Tasks</h3>
 
-<p><img src="/assets/img/LLM/BLT/fig7.png" alt="그림1" /></p>
+<p><img src="/assets/img/llm/BLT/fig7.png" alt="그림1" /></p>
 
 <ul>
   <li>Byte-level models are inherently more robust to <strong>input noise</strong> and better at handling <strong>character-level variations.</strong></li>
 </ul>
 
-<p><img src="/assets/img/LLM/BLT/table3.png" alt="그림1" /></p>
+<p><img src="/assets/img/llm/BLT/table3.png" alt="그림1" /></p>
 
 <h3 id="62-training-blt-from-llama-3">6.2. Training BLT from Llama 3</h3>
 
@@ -440,17 +799,17 @@
   <li>BLT from Llama 3.1이 from Llama 3보다 좋음 !</li>
 </ul>
 
-<p><img src="/assets/img/LLM/BLT/table5.png" alt="그림1" /></p>
+<p><img src="/assets/img/llm/BLT/table5.png" alt="그림1" /></p>
 
 <h2 id="7-ablations-and-discussion">7. Ablations and Discussion</h2>
 
-<p><img src="/assets/img/LLM/BLT/fig8.png" alt="그림1" /></p>
+<p><img src="/assets/img/llm/BLT/fig8.png" alt="그림1" /></p>
 
-<p><img src="/assets/img/LLM/BLT/table6.png" alt="그림1" /></p>
+<p><img src="/assets/img/llm/BLT/table6.png" alt="그림1" /></p>
 
-<p><img src="/assets/img/LLM/BLT/table78.png" alt="그림1" /></p>
+<p><img src="/assets/img/llm/BLT/table78.png" alt="그림1" /></p>
 
-<p><img src="/assets/img/LLM/BLT/table9.png" alt="그림1" /></p>
+<p><img src="/assets/img/llm/BLT/table9.png" alt="그림1" /></p>
 
 <h2 id="8-related-work">8. Related Work</h2>
 
@@ -478,7 +837,7 @@
       <li>BLT는 동일한 inference FLOP 내에서 model size와 patch size를 동시에 확장할 수 있음</li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="LLM" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/pdf/2412.09871)]]></summary></entry><entry><title type="html">ComRes: Semi-Supervised Time Series Forecasting Utilizing Consensus Promotion of Multi-Resolution (ICLR 2025)</title><link href="http://localhost:4000/timeseries/2025-02-17-ComRes/" rel="alternate" type="text/html" title="ComRes: Semi-Supervised Time Series Forecasting Utilizing Consensus Promotion of Multi-Resolution (ICLR 2025)" /><published>2025-02-17T00:00:00+09:00</published><updated>2025-02-18T14:34:41+09:00</updated><id>http://localhost:4000/timeseries/ComRes</id><content type="html" xml:base="http://localhost:4000/timeseries/2025-02-17-ComRes/"><![CDATA[<h2 id="abstract">Abstract</h2>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="llm" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/pdf/2412.09871)]]></summary></entry><entry><title type="html">ComRes: Semi-Supervised Time Series Forecasting Utilizing Consensus Promotion of Multi-Resolution (ICLR 2025)</title><link href="http://localhost:4000/timeseries/2025-02-17-ComRes/" rel="alternate" type="text/html" title="ComRes: Semi-Supervised Time Series Forecasting Utilizing Consensus Promotion of Multi-Resolution (ICLR 2025)" /><published>2025-02-17T00:00:00+09:00</published><updated>2025-02-23T20:29:55+09:00</updated><id>http://localhost:4000/timeseries/ComRes</id><content type="html" xml:base="http://localhost:4000/timeseries/2025-02-17-ComRes/"><![CDATA[<h2 id="abstract">Abstract</h2>
 
 <ul>
   <li>기존의 supervised learning approaches:
@@ -2582,387 +2941,4 @@ f_B\left(\Delta_t, A, B_t\right)=\left(\Delta_t A\right)^{-1}\left(\exp \left(\D
       <li>for inter-series dependencies at a finer granularity</li>
     </ul>
   </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="mamba" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/pdf/2404.15772)]]></summary></entry><entry><title type="html">S-Mamba: Is Mamba Effective for Time Series Forecasting? (Arxiv 2024)</title><link href="http://localhost:4000/mamba/2024-11-07-s-mamba/" rel="alternate" type="text/html" title="S-Mamba: Is Mamba Effective for Time Series Forecasting? (Arxiv 2024)" /><published>2024-11-07T00:00:00+09:00</published><updated>2025-01-08T22:02:58+09:00</updated><id>http://localhost:4000/mamba/s-mamba</id><content type="html" xml:base="http://localhost:4000/mamba/2024-11-07-s-mamba/"><![CDATA[<h2 id="abstract">Abstract</h2>
-
-<ul>
-  <li>Time series forecasting (TSF)에서 Transformer는 quadratic complexity</li>
-  <li><strong>Simple-Mamba (S-Mamba)</strong> :
-    <ul>
-      <li>Tokenize the time points of each variate autonomously via a linear layer</li>
-      <li>Bi-directional Mamba layer is utilized to extract inter-variate correlations</li>
-      <li>Feed-Forward Network is set to learn temporal dependencies</li>
-      <li>Generation of forecast outcomes through a linear mapping layer</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="1-introduction">1. Introduction</h2>
-
-<ul>
-  <li>
-    <p>Transformer-based</p>
-
-    <ul>
-      <li>quadratic computational complexity</li>
-      <li>reduce the computational complexity \(\to\)  loss of information \(\to\) performance degradations</li>
-    </ul>
-  </li>
-  <li>
-    <p>Linear model</p>
-
-    <ul>
-      <li>solely on linear numerical calculations \(\to\) do not incorporate in-context information</li>
-    </ul>
-  </li>
-  <li>
-    <p>SSM</p>
-
-    <ul>
-      <li>convolutional calculation to capture sequence information</li>
-      <li>eliminate hidden states (for parallel computing) \(\to\) near-linear complexity</li>
-      <li>But unable to identify and filter content</li>
-    </ul>
-  </li>
-  <li>
-    <p>Mamba</p>
-
-    <ul>
-      <li>selective mechanism into SSM</li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>Simple-Mamba (S-Mamba)</strong> :</p>
-
-    <ul>
-      <li>
-        <ol>
-          <li>time points of each variate are tokenized by a linear layer</li>
-        </ol>
-      </li>
-      <li>
-        <ol>
-          <li>Mamba VC (Inter-variate Correlation) Encoding layer encodes the VC</li>
-        </ol>
-
-        <ul>
-          <li>by utilizing a bidirectional Mamba</li>
-        </ul>
-      </li>
-      <li>
-        <ol>
-          <li>FeedForward Network (FFN) TD (Temporal Dependency) Encoding Layer extracts the TD</li>
-        </ol>
-      </li>
-      <li>
-        <ol>
-          <li>mapping layer is utilized to output the forecast results</li>
-        </ol>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="2-related-work">2. Related Work</h2>
-
-<p>pass</p>
-
-<h2 id="3-preliminaries">3. Preliminaries</h2>
-
-<h3 id="31-problem-statement">3.1. Problem Statement</h3>
-
-<ul>
-  <li>\(U_{\text {in }}=\left[u_1, u_2, \ldots, u_L\right] \in \mathbb{R}^{L \times V}\)를 보고 \(U_{\text {out }}=\left[u_{L+1}, u_{L+2}, \ldots, u_{L+T}\right] \in \mathbb{R}^{T \times V}\)를 예측
-    <ul>
-      <li>각각의 \(u_n=\left[p_1, p_2, \ldots, p_V\right]\)</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="32-state-space-models">3.2. State Space Models</h3>
-
-<ul>
-  <li>The continuous sequence is discretized by a step size \(\Delta\), and the discretized SSM model :
-    <ul>
-      <li>\(\begin{aligned}
-h_t &amp; =\overline{\boldsymbol{A}} h_{t-1}+\overline{\boldsymbol{B}} x_t, \\
-y_t &amp; =\boldsymbol{C} h_t,
-\end{aligned}\)      where
-        <ul>
-          <li>\(\overline{\boldsymbol{A}}=\exp (\Delta \boldsymbol{A}) \text { and } \overline{\boldsymbol{B}}=(\Delta \boldsymbol{A})^{-1}(\exp (\Delta \boldsymbol{A})-I) \cdot \Delta \boldsymbol{B}\).</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="33-mamba-block">3.3. Mamba Block</h3>
-
-<p>: <strong>Data-dependent selection mechanism into the S4</strong> &amp; <strong>Incorporates hardware-aware parallel algorithms</strong></p>
-
-<p><img src="/assets/img/Mamba/s-mamba/alg1.png" alt="그림1" /></p>
-
-<ul>
-  <li>
-    <p>Mamba Layer</p>
-
-    <ul>
-      <li>Input : \(X \in \mathbb{R}^{B \times V \times D}\)</li>
-      <li>expands the hidden dimension to \(ED\) through linear projection \(\to x, z\)를 얻음</li>
-      <li>the projection using convolutional functions and a SiLU \(\to x'\)를 얻음</li>
-      <li>generates the state representation \(y\)</li>
-      <li>\(y\) is combined with a residual connection from \(z\) after activation,
-        <ul>
-          <li>and the final output \(y_t\) at time step $t$ is obtained</li>
-        </ul>
-      </li>
-      <li>with state expansion factor \(N\),
-        <ul>
-          <li>a size of convolutional kernel \(k\),</li>
-          <li>and a block expansion factor \(E\)</li>
-        </ul>
-      </li>
-      <li>The final output of the Mamba block is \(Y \in \mathbb{R}^{B \times V \times D}\).</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="4-methodology">4. Methodology</h2>
-
-<ul>
-  <li>1st layer : the Linear Tokenization Layer (tokenizes the time series with a linear layer)</li>
-  <li>2nd layer :  the Mamba intervariate correlation (VC) Encoding layer (using a bidirectional Mamba block)</li>
-  <li>3rd layer : the FFN Temporal Dependencies (TD) Encoding Layer (learns the temporal sequence information)
-    <ul>
-      <li>Feed-Forward Network : generates future series representations</li>
-    </ul>
-  </li>
-  <li>4th layer : Projection Layer, is only mapping for forecasting</li>
-</ul>
-
-<p><img src="/assets/img/Mamba/s-mamba/alg2.png" alt="그림1" /></p>
-
-<h3 id="41-linear-tokenization-layer">4.1. Linear Tokenization Layer</h3>
-
-<ul>
-  <li>\(U=\operatorname{Linear}\left(\operatorname{Batch}\left(U_{\text {in }}\right)\right), \quad\) where \(U\) is the output of this layer</li>
-</ul>
-
-<h3 id="42-mamba-vc-encoding-layer">4.2. Mamba VC Encoding Layer</h3>
-
-<ul>
-  <li>여기서는 유사한 trend를 보이는 변수들을 연결해서 VC를 찾고 싶음</li>
-  <li>Transformer는 그냥 모든 변수들끼리 다 연결하니까 정확하긴 한데 변수 개수 따라 complexity 늘어남</li>
-  <li>Mamba는 complexity는 near-linear이지만
-    <ul>
-      <li><strong>Selection mechanism이 uni-directional해서 앞쪽의 변수만 볼 수 있음</strong></li>
-      <li>그래서 2개의 Mamba를 서로 다른 방향으로 흐르도록 놓음 (Bi-directional Mamba)</li>
-      <li>\(\begin{aligned}&amp;\overrightarrow{\boldsymbol{Y}}=\overrightarrow{\operatorname{Mamba\operatorname {Block}}(\boldsymbol{U}),} \\
-&amp; \overleftarrow{\boldsymbol{Y}}=\overleftarrow{\operatorname{Mamba} \operatorname{Block}}(\boldsymbol{U}) .
-\end{aligned}\)이고 \(\boldsymbol{Y}=\overrightarrow{\boldsymbol{Y}}+\overleftarrow{\boldsymbol{Y}}\)로 Aggregate, with residual : \(\boldsymbol{U}^{\prime}=\boldsymbol{Y}+\boldsymbol{U}\)</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="43-ffn-td-encoding-layer">4.3. FFN TD Encoding Layer</h3>
-
-<ul>
-  <li>
-    <ol>
-      <li>Normalization layer : enhance convergence and training stability</li>
-    </ol>
-  </li>
-  <li>
-    <ol>
-      <li>FFN layer : encodes observed time series (encodes TD by keeping the sequential relationships)</li>
-    </ol>
-
-    <ul>
-      <li>decodes future series representations (adjust the future series representations)</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="44-projection-layer">4.4. Projection Layer</h3>
-
-<ul>
-  <li>FFN TD Encoding layer의 output인 tokenized temporal information이
-    <ul>
-      <li>linear mapping을 통해서 reconstructed for predictive outcome</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="5-experiments">5. Experiments</h2>
-
-<h3 id="51-datasets-and-baselines">5.1. Datasets and Baselines</h3>
-
-<p><img src="/assets/img/Mamba/s-mamba/table1.png" alt="그림1" /></p>
-
-<ul>
-  <li>SOTA와 비교 :
-    <ul>
-      <li>iTransformer: analyzes the time series information of each <strong>individual variate</strong> and then fuses the information of all variates.</li>
-      <li>PatchTST: segments time series into <strong>subseries patches</strong> as input tokens and uses channel-independent shared embeddings and weights</li>
-      <li>Crossformer: cross-attention mechanism that allows the model to <strong>interact with information between different time steps</strong></li>
-      <li>FEDformer: a <strong>frequency-enhanced Transformer</strong> for utilizaing a sparse representation</li>
-      <li>Autoformer: <strong>decomposition architecture</strong> that incorporates an auto-correlation mechanism</li>
-      <li>RLinear: reversible normalization and channel independence into <strong>pure linear structure</strong></li>
-      <li>TiDE: Multi-layer Perceptron (MLP) based encoderdecoder model</li>
-      <li>DLinear: <strong>simple one-layer linear</strong> model with decomposition architecture</li>
-      <li>TimesNet: a task-general backbone, <strong>transforms 1D time series into 2D tensors</strong></li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="52-overall-performance">5.2. Overall Performance</h3>
-
-<p><img src="/assets/img/Mamba/s-mamba/table2.png" alt="그림1" /></p>
-
-<p><img src="/assets/img/Mamba/s-mamba/table3.png" alt="그림1" /></p>
-
-<p><img src="/assets/img/Mamba/s-mamba/table4.png" alt="그림1" /></p>
-
-<ul>
-  <li>S-Mamba가 traffic-related, Electricity, and Solar-Energy에서 성능이 좋음
-    <ul>
-      <li>변수들이 periodic한 데이터셋들.</li>
-      <li>즉 period variates are more likely to contain learnable VC.</li>
-      <li>Mamba VC Fusion Layer가 잘 잡은 것</li>
-    </ul>
-  </li>
-  <li>ETT, and Exchange datasets에서는 성능이 매우 좋지는 않았음
-    <ul>
-      <li>변수 개수가 적은 데이터셋들 (predominantly of an aperiodic nature)</li>
-      <li><strong>weak</strong> VCs between these variates 때문에 Mamba VC Encoding layer가 noise를 가져옴</li>
-    </ul>
-  </li>
-  <li>Weather는 변수도 적고 aperiodic한데 왜 성능이 좋나
-    <ul>
-      <li>변수들의 Trend가 동시에 나타나는 도메인이라서 Mamba VC Encoding layer가 잘 작동</li>
-      <li>Trend가 large sections로 나타나기 때문에 FFN이 이런 거 잘 잡음</li>
-    </ul>
-  </li>
-</ul>
-
-<p><img src="/assets/img/Mamba/s-mamba/fig4.png" alt="그림1" /></p>
-
-<h3 id="53-model-efficiency">5.3. Model Efficiency</h3>
-
-<p><img src="/assets/img/Mamba/s-mamba/fig5.png" alt="그림1" /></p>
-
-<h3 id="54-ablation-study">5.4. Ablation Study</h3>
-
-<p><img src="/assets/img/Mamba/s-mamba/table5.png" alt="그림1" /></p>
-
-<h3 id="55-can-variate-order-affect-the-performance-of-s-mamba">5.5. Can Variate Order Affect the Performance of S-Mamba?</h3>
-
-<ul>
-  <li>S-Mamba는 independent channel이라서 variates order 안중요했음
-    <ul>
-      <li>하지만 Mamba VC Encoding Layer는 variates order에 따라 initial bias 발생할 수 있음</li>
-    </ul>
-  </li>
-  <li>그래서 Fourier transform해서 variates를 periodic and aperiodic groups으로 나누고
-    <ul>
-      <li>periodic variates =  reliable information / aperiodic variates = potential noise으로 가정</li>
-    </ul>
-  </li>
-  <li>그래서 reliable information를 가지고 있는(그럴 것이라고 생각되는) periodic variates를 앞쪽에 배치</li>
-</ul>
-
-<p><img src="/assets/img/Mamba/s-mamba/fig6.png" alt="그림1" /></p>
-
-<h3 id="56-can-mamba-outperform-advanced-transformers">5.6. Can Mamba Outperform Advanced Transformers?</h3>
-
-<ul>
-  <li>Transformer의 Encoder layer를 Mamba로 교체
-    <ul>
-      <li>Autoformer, Flashformer and Flowformer</li>
-      <li>\(\to\)  Auto-M, FlashM and Flow-M 이라고 부르겠음</li>
-    </ul>
-  </li>
-</ul>
-
-<p><img src="/assets/img/Mamba/s-mamba/fig7.png" alt="그림1" /></p>
-
-<h3 id="57-can-mamba-help-benefit-from-increasing-lookback-length">5.7. Can Mamba Help Benefit from Increasing Lookback Length?</h3>
-
-<ul>
-  <li>Transformer-based model은:
-    <ul>
-      <li>lookback sequence length \(L\)이 늘어나도 성능이 비례해서 좋아지는 건 아님</li>
-      <li><strong>sequential order를 신경쓰지 않아서 그렇다</strong></li>
-    </ul>
-  </li>
-  <li>Mamba는:
-    <ul>
-      <li>certain sequential attributes가 잘 유지되는 편</li>
-      <li>Mamba block을 Transformer-based model의 Encoder와 decoder 사이에 배치하면
-        <ul>
-          <li>Encoder layer의 output에 (decoder layer에 가기 전에)</li>
-          <li>positional encoding처럼 어떤 정보를 추가해주는 역할을 하는 것</li>
-        </ul>
-      </li>
-      <li>그것을 Reformer, Informer, and Transformer와 비교해서
-        <ul>
-          <li>Refor-M, Infor-M, and Trans-M라고 부르고 비교</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<p><img src="/assets/img/Mamba/s-mamba/fig8.png" alt="그림1" /></p>
-
-<ul>
-  <li>S-Mamba와 iTransformer 둘다 \(L\)이 길어지면 어느 정도 성능이 좋아지긴 함
-    <ul>
-      <li>하지만 이건 두 모델 모두 가지고 있는 FFN TD Encoding Layer 때문으로 보임</li>
-    </ul>
-  </li>
-  <li>S-Mamba가 iTransformer와 비교해서 일관되게 성능이 좋아지는 편인데
-    <ul>
-      <li>이건 Mamba VC Encoding layer와 Transformer의 VC Encoding layer의 차이 !</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="58-is-mamba-generalizable-in-tsf">5.8. Is Mamba Generalizable in TSF?</h3>
-
-<ul>
-  <li>Transformer는 generalization capabilities가 좋은 편이라서
-    <ul>
-      <li>iTransformer의 경우 40%의 변수만을 가지고 나머지 변수들은 masking해도</li>
-      <li>성능이 큰 폭으로 나빠지지는 않음</li>
-    </ul>
-  </li>
-  <li>Mamba의 경우에도 40%의 변수만 보고 나머지 변수들은 masking 했을 때
-    <ul>
-      <li>iTransformer에 크게 뒤쳐지지 않음</li>
-    </ul>
-  </li>
-</ul>
-
-<p><img src="/assets/img/Mamba/s-mamba/fig9.png" alt="그림1" /></p>
-
-<h2 id="6-conclusion">6. Conclusion</h2>
-
-<ul>
-  <li><strong>Simple-Mamba(S-Mamba)</strong>
-    <ul>
-      <li>inter-variate correlation (VC) encoding은</li>
-      <li>Transformer 대신 <strong>bi-directional</strong> Mamba block으로 하고</li>
-      <li>(더 낮은 overhead로 VC를 파악)</li>
-      <li>Temporal Dependencies (TD)는
-        <ul>
-          <li>Feed-Forward Network로 extract</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>Mamba는 advanced-Transformer만큼의 <strong>stability</strong>도 있고
-    <ul>
-      <li><strong>generalization</strong> capabilities도 뛰어난 편</li>
-    </ul>
-  </li>
-</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="mamba" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/pdf/2403.11144v3)]]></summary></entry></feed>
+</ul>]]></content><author><name>GW Jeong</name><email>wjdrjsdn39@yonsei.ac.kr</email></author><category term="mamba" /><summary type="html"><![CDATA[[Arxiv 2024](https://arxiv.org/pdf/2404.15772)]]></summary></entry></feed>
